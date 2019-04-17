@@ -1,0 +1,17 @@
+<div class="header-margin">
+  <div class="header">
+    <div class="phone-btn"> <a href="tel:{dede:global.cfg_tel/}"> <i class="iconfont">&#xe600;</i> 咨询热线 </a> </div>
+    <div class="logo fl"><a href="index.php"><img src="/m/skin/images/logo.png" alt="{dede:global.cfg_webname/}"></a></div>
+    <div class="menu-btn"> <a href="javascript:;"> <span></span> </a> </div>
+  </div>
+  <div class="waterfall">
+    <ul>
+      <li><a href="index.php" {dede:field name=typeid runphp="yes"}(@me=="")? @me=" class='nav-link  active' ":@me="";{/dede:field}>首页</a><span></span></li>
+      {dede:channel type='top' row='8' currentstyle="
+      <li><a href='list.php?tid=~id~' ~rel~ class='nav-link active'>~typename~</a><span></span> </li>
+      "}
+      <li><a href="list.php?tid=[field:id/]" class="nav-link ">[field:typename/]</a><span></span></li>
+      {/dede:channel}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="author" content="order by dede58.com/" />
+<title>搜索页_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+<link rel="stylesheet" type="text/css" href="/skin/css/style.css" />
+<script type="text/javascript" src="/skin/js/jquery.js"></script>
+<script type="text/javascript" src="/skin/js/index.js"></script>
+<script>
+    var root="";
+</script>
+<script type="text/javascript" src="/skin/js/public.js"></script>
+<script type="text/javascript" src="/skin/js/layer.js"></script>
+</head>
+
+<body class="bg">
+{dede:include filename="head.htm"/}
+<div class="content">
+  <div class="notice-content">
+    <div class="notice">
+      <div class="notice-bar"> 搜索 <strong style="color:#F00">{dede:global name='keyword' function='RemoveXSS(@me)'/}</strong> 的结果 </div>
+      <div class="notice-list">
+        <ul>
+          {dede:list pagesize ='6'}
+          <li>
+            <div class="notice-img fl"> <a href="[field:arcurl/]"> <img class="lazy" src="[field:picname/]" data-echo="[field:picname/]" width="298" height="198" alt="[field:title/]" /> </a> </div>
+            <div class="notice-info fr">
+              <div class="notice-ti">
+                <h3><a href="[field:arcurl/]">[field:title/]</a></h3>
+                <p>[field:pubdate function="MyDate('Y-m-d',@me)"/]</p>
+              </div>
+              <div class="notice-word">
+                <p>[field:description function="cn_substr(@me,320)"/]...</p>
+              </div>
+            </div>
+          </li>
+          {/dede:list}
+        </ul>
+      </div>
+      <div class="page">
+        <div class="pageList">
+          <ul class="r">
+            {dede:pagelist listitem="pre,next,pageno" listsize="5"/}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="show-more">
+                <a href="#">查看更多</a>
+            </div> --> 
+  </div>
+</div>
+</div>
+{dede:include filename="footer.htm"/} 
+<!-- 代码 结束 --> 
+
+<!-- 返回顶部 开始 --> 
+<script>
+       $(function() {
+            $(".btn_top").hide();
+            $(".btn_top").live("click",function(){
+                $('html, body').animate({scrollTop: 0},300);return false;
+            })
+            $(window).bind('scroll resize',function(){
+                if($(window).scrollTop()<=300){
+                    $(".btn_top").hide();
+                }else{
+                    $(".btn_top").show();
+                }
+            })
+       })
+    </script> 
+<!-- 返回顶部 结束 -->
+</body>
+</html>

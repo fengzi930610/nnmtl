@@ -1,0 +1,165 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>团队成员编辑</title>
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+
+
+</head>
+<body>
+<article class="cl pd-20">
+	<form class="form form-horizontal" id="form-admin-add" method="post" enctype="multipart/form-data">
+		<input type="text" class="input-text" hidden="hidden" placeholder="请输入团队成员姓名" name="Id" value="<?php echo $re['Id']?>" />
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>团队成员姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="请输入团队成员姓名" name="name" value="<?php echo $re['name']?>"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>团队成员号码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text"  name="phone" class="input-text" placeholder="请输入团队成员号码" value="<?php echo $re['phone']?>"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="radio-box">
+					<input name="sex" type="radio" <?php if($re['sex']==1) echo "checked='checked'"?>  value="1" />
+					<label for="sex-1">男</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" name="sex" value="0" <?php if($re['sex']==0) echo "checked='checked'"?>>
+					<label for="sex-2">女</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>团队成员职位：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text"  name="position" class="input-text" placeholder="请输入团队成员职位" value="<?php echo $re['position']?>"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>团队人员图片：</label>
+			<div style=" display: inline-block;">
+				<img src="<?php echo $re['imgsrc']; ?>" style="width: 200px;"/>
+				<a href="javascript:void(0)">删除</a>
+				<input type="file" id="file" name="imgsrc" hidden="hidden" style="border: none;" />
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius"  type="button" id="submit" value="提交" />
+				<input class="btn btn-primary radius"  type="button" value="取消" onclick="history.back(-1)" />
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php include('app/admin/view/public/footer.html'); ?>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
+<script type="text/javascript">
+$(function(){
+//		$('#img').hide();
+	$('#submit').click(function(){
+//		alert(123)
+//		return false;
+		var fd = new FormData;
+		var file = document.getElementById('file')
+		var name = $("input[name='name']").val()
+		var phone = $("input[name='phone']").val()
+		var position = $("input[name='position']").val()
+		var sex = $("input[name='sex']:checked").val()
+//		alert(sex)
+//		return false;
+		fd.append("file",file.files[0])
+		fd.append("phone",phone)
+		fd.append("name",name)
+		fd.append("position",position)
+		fd.append("sex",sex)
+//			alert(fd)
+//			return false;
+		$.ajax({
+			type:"post",//默认为get
+			url:"index.php?m=admin&c=team&a=add",
+			data:fd,
+			
+			processData:false,
+            contentType:false,
+
+			dataType:'json',
+			success:function(msg){
+//					alert(msg);
+//					return false;
+				//msg为执行成功返回的内容，可自定义
+				if (msg===1) {
+					alert("请输入团队成员姓名")
+					return false;
+				} else if(msg==2){
+					alert("请输入团队成员号码")
+					return false;
+				}else if(msg==3){
+					alert("请输入团队成员职位");
+					return false;
+				}else if(msg==4){
+					alert("修改成功")
+					location = "index.php?m=admin&c=team&a=list"
+				}else if(msg==5){
+					alert("修改失败");
+					return false;
+				}
+				else if(msg==6){
+					alert("数据未修改");
+					location = "index.php?m=admin&c=team&a=list"
+					return false;
+				}
+			}
+//			return false
+		});
+		return false
+	})
+
+	function getObjectURL(file) {
+//  	
+        var url = null ;
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    }
+	
+    $('#file').change(function() {
+        var eImg = $('<img />');
+        eImg.attr('src', getObjectURL($(this)[0].files[0])); // 或 this.files[0] this->input
+        $(this).before(eImg)
+        
+        
+    });
+	$("a:contains('删除')").click(function(){
+//			alert(123)
+		$(this).siblings('img').hide()
+		$(this).hide()
+		$(this).siblings('input').show()
+	})
+})
+</script>

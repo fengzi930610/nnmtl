@@ -1,0 +1,171 @@
+apache
+启动
+systemctl start httpd
+停止
+systemctl stop httpd
+重启
+systemctl restart httpd
+或者
+
+service httpd stop
+
+service httpd start
+
+service httpd?restart
+
+
+mysql
+启动
+systemctl start mysqld
+停止
+systemctl stop mysqld
+重启
+systemctl restart mysqld
+状态
+systemctl status mysqld
+
+或者
+
+service mysqld stop
+
+service mysqld start
+
+service mysqld?restart
+
+
+
+php-fpm
+启动
+systemctl start php-fpm
+停止
+systemctl stop php-fpm
+重启
+systemctl restart php-fpm
+
+
+nginx
+启动
+systemctl start nginx
+停止
+systemctl stop nginx
+重启
+systemctl restart nginx
+
+或者
+
+service nginx stop
+service nginx start
+service nginx restart
+开机自启
+
+chkconfig httpd on
+
+chkconfig mysqld on
+?
+
+?
+
+一、MySQL启动方式
+
+1
+2
+3
+4
+5
+1、使用 service 启动：service mysqld start
+?
+2、使用 mysqld 脚本启动：/etc/init.d/mysqld start
+?
+3、使用 safe_mysqld 启动：safe_mysqld&
+二、MySQL停止
+
+1
+2
+3
+4
+5
+1、使用 service 启动：?? service mysqld stop
+?
+2、使用 mysqld 脚本启动：/etc/init.d/mysqld stop
+?
+3、mysqladmin shutdown
+三、MySQL重启
+
+1
+2
+3
+1、使用 service 启动：service mysqld restart
+?
+2、使用 mysqld 脚本启动：/etc/init.d/mysqld restart
+四、强制关闭
+
+以上方法都无效的时候，可以通过强行命令：“killall mysql”来关闭MySQL，但是不建议用这样的方式，因为这种野蛮的方法会强行终止MySQL数据库服务，有可能导致表损坏……所以自己掂量着用。
+
+Windows下重启MySQL服务,对于没装mysql图形管理端的用户来说启动和停止mysql服务：
+…\…\bin>net stop mysql
+…\…\bin>net start mysql
+
+?
+
+?
+
+卸载PHP
+
+yum remove php
+yum remove php*
+yum remove php-*
+yum remove php7
+yum remove php70
+yum remove php7.0
+yum remove php-common
+这才是苦大仇深卸载个干干净净= w
+
+?
+
+?
+
+Centos下Yum安装PHP5.5,5.6,7.0
+
+默认的版本太低了，手动安装有一些麻烦，想采用Yum安装的可以使用下面的方案：
+
+1.检查当前安装的PHP包
+
+yum?list?installed?|?grep?php
+
+如果有安装的PHP包，先删除他们
+
+?yum?remove?php.x86_64?php-cli.x86_64?php-common.x86_64?php-gd.x86_64?php-ldap.x86_64?php-mbstring.x86_64?php-mcrypt.x86_64?php-mysql.x86_64?php-pdo.x86_64
+
+2.Centos 5.X
+
+? rpm?-Uvh?http://mirror.webtatic.com/yum/el5/latest.rpm
+??CentOs?6.x
+??rpm?-Uvh?http://mirror.webtatic.com/yum/el6/latest.rpm
+??CentOs?7.X
+rpm?-Uvh?https://mirror.webtatic.com/yum/el7/epel-release.rpm
+rpm?-Uvh?https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+如果想删除上面安装的包，重新安装
+rpm -qa | grep webstatic
+rpm -e ?上面搜索到的包即可
+
+3.运行yum install
+
+??yum?install?php55w.x86_64?php55w-cli.x86_64?php55w-common.x86_64?php55w-gd.x86_64?php55w-ldap.x86_64?php55w-mbstring.x86_64?php55w-mcrypt.x86_64?php55w-mysql.x86_64?php55w-pdo.x86_64
+?
+
+yum install php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64
+
+
+注：如果想升级到5.6把上面的55w换成56w就可以了。
+
+yum install php70w.x86_64 php70w-cli.x86_64 php70w-common.x86_64 php70w-gd.x86_64 php70w-ldap.x86_64 php70w-mbstring.x86_64 php70w-mcrypt.x86_64 php70w-mysql.x86_64 php70w-pdo.x86_64
+4.安装PHP FPM
+
+yum install php55w-fpm?
+yum install php56w-fpm?
+yum install php70w-fpm
+注：如果想升级到5.6把上面的55w换成56w就可以了。
+
+nginx重启不了
+service nginx start

@@ -1,0 +1,324 @@
+平台管理系统菜单：
+	一、系统
+		1、权限管理
+			（1）角色管理
+				1.system\admin\controllers\admin目录下role.ctl.php控制器查询表格 admin_role  方式K::M('admin/role')->fetch_all()获取数据；K::M('admin/role')为models/admin目录下的role模型
+				2.fetch_all()为system\models\admin目录下role.mdl.php的index（）模型的方法，
+				3.控制器system\admin\controllers\admin目录下role.ctl.php加载视图，方法$this->tmpl = 'admin:admin/role/index.html'
+				4.视图对应为system\admin\view\admin\role目录下index.html文件
+				5.system\admin\controllers\admin目录下role.ctl.php控制器对应角色的增删查改方法
+				1.表格jh_system_module为角色的对应权限 方式K::M('module/view')->tree()获取数据；
+				2.tree()为system\models\'module目录下view.mdl.php模型的方法，
+				3.控制器system\admin\controllers\admin目录下role.ctl.php的create()加载视图，方法$this->tmpl = 'admin:admin/role/detail.html'加载视图
+				4.视图对应为system\admin\view\admin\role目录下detail.html文件
+				5.数据提交到role.ctl.php的save()方法
+			（1）管理员管理
+				后台接收前台数据方式：$this->GP('名称')；
+				1.管理员创建页面：system\admin\controllers\admin目录下admin.ctl.php控制器create()方法，对应url=?admin/admin-create.html；$this->tmpl = 'admin:admin/admin/detail.html'加载视图;
+				2.列表url=?admin/admin-index.html；system\admin\controllers\admin目录下admin.ctl.php控制器index()方法；$this->tmpl = 'admin:admin/admin/index.html'加载视图;
+				3.新增url=?admin/admin-save.html；system\admin\controllers\admin目录下admin.ctl.php控制器save()方法
+				4.删除url=?admin/admin-delete.html；system\admin\controllers\admin目录下admin.ctl.php控制器delete()方法
+				5.编辑url=?admin/admin-edit.html；system\admin\controllers\admin目录下admin.ctl.php控制器edit()方法；$this->tmpl = 'admin:admin/admin/detail.html'加载视图;
+				6.保存方法save();K::M('admin/handler')->update($ID, $data)数据更新；K::M('admin/handler')->create($data)数据添加；
+		2、模块管理
+	二、设置
+		1、网站设置
+			对应表为	system_config
+			（1）基本设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为site;
+				2.视图url=?system/config-site.html；system\admin\view\config目录下site.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=site
+			（2）附件设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为attach;
+				2.视图url=?system/config-attach.html；system\admin\view\config目录下attach.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=attach
+			（3）微信设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为wechat;
+				2.视图url=?system/config-wechat.html；system\admin\view\config目录下wechat.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=wechat;
+			（4）访问设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为access;
+				2.视图url=?system/config-access.html；system\admin\view\config目录下access.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=access;
+			（5）模板消息
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为wxtmpl;
+				2.视图url=?system/config-wxtmpl.html；system\admin\view\config目录下wxtmpl.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=wxtmpl;
+			（6）好友邀请
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为invite;
+				2.视图url=?system/config-invite.html；system\admin\view\config目录下invite.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=invite;
+			（7）积分设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为jifen;
+				2.视图url=?system/config-jifen.html；system\admin\view\config目录下jifen.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=jifen;
+			（8）app版本
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为app_download;
+				2.视图url=?system/config-app_download.html；system\admin\view\config目录下app_download.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=app_download;
+			（9）充值设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为moneypack;
+				2.视图url=?system/config-moneypack.html；system\admin\view\config目录下moneypack.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=moneypack;
+			（10）云打印设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为print;
+				2.视图url=?system/config-print.html；system\admin\view\config目录下print.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=print;
+			（11）下单分享红包设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为hongbao;
+				2.视图url=?system/config-hongbao.html；system\admin\view\config目录下hongbao.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=hongbao;
+			（12）计划任务
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为automatic;
+				2.视图url=?system/config-automatic.html；system\admin\view\config目录下automatic.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=automatic;
+			（13）提现设置
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为tixian;
+				2.视图url=?system/config-tixian.html；system\admin\view\config目录下tixian.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=tixian;
+			（14）跑腿计划任务
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为paotuimatic;
+				2.视图url=?system/config-paotuimatic.html；system\admin\view\config目录下paotuimatic.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=paotuimatic;
+			（15）天降红包
+				1.system\admin\controllers\system目录下config.ctl.php控制器index()方法调用$this->setting($k)；$this->tmpl = "admin:config/{$k}.html"加载视图$k为tjhongbao;
+				2.视图url=?system/config-tjhongbao.html；system\admin\view\config目录下tjhongbao.html;
+				3.$cfg = $this->system->config->get($k)方法获取配置信息为引用system\models\system目录下config.mdl.php模板的get()方法；$K=tjhongbao;
+		2、数据设置
+			（1）省份管理
+				后台接收前台数据方式：$this->GP('名称')；data_province 数据表
+				1创建url：system\admin\controllers\data目录下province.ctl.php控制器create()方法，对应url=?data/province-create.html；$this->tmpl = 'admin:data/province/create.html  加载视图;
+				2.列表url=?data/province-index.html；system\admin\controllers\data目录下province.ctl.php控制器index()方法；$this->tmpl = 'admin:data/province/index.html'加载视图;K::M('data/province')->items(）实现分页查询展示；
+				3.新增url=?data/province-save.html；system\admin\controllers\data目录下province.ctl.php控制器save()方法
+				4.删除url=?data/province-delete.html；system\admin\controllers\data目录下province.ctl.php控制器delete()方法
+				5.编辑url=?data/province-edit.html；system\admin\controllers\data目录下province.ctl.php控制器edit()方法；$this->tmpl = 'admin:data/province/edit.html'加载视图;
+				6.保存方法save();K::M('data/province')->update($ID, $data)数据更新；K::M('data/province')->create($data)数据添加；此为模型方法
+			（2）城市管理
+				后台接收前台数据方式：$this->GP('名称')；data_city 数据表
+				1.创建url：system\admin\controllers\data目录下city.ctl.php控制器create()方法，对应url=?data/city-create.html；$this->tmpl = 'admin:data/city/create.html  加载视图;
+				2.列表url=?data/city-index.html；system\admin\controllers\data目录下city.ctl.php控制器index()方法；$this->tmpl = 'admin:data/city/index.html'加载视图;K::M('data/city')->items(）实现分页查询展示；
+				3.新增url=?data/city-save.html；system\admin\controllers\data目录下city.ctl.php控制器save()方法
+				4.删除url=?data/city-delete.html；system\admin\controllers\data目录下city.ctl.php控制器delete()方法
+				5.编辑url=?data/city-edit.html；system\admin\controllers\data目录下city.ctl.php控制器edit()方法；$this->tmpl = 'admin:data/city/edit.html'加载视图;
+				6.保存方法save();K::M('data/city')->update($ID, $data)数据更新；K::M('data/city')->create($data)数据添加；此为模型方法
+				7.admin:data/city/so.html方法与视图
+			（3）县区管理
+				后台接收前台数据方式：$this->GP('名称')；data_area 数据表
+				1.创建url：system\admin\controllers\data目录下area.ctl.php控制器create()方法，对应url=?data/area-create.html；$this->tmpl = 'admin:data/area/create.html  加载视图;
+				2.列表url=?data/area-index.html；system\admin\controllers\data目录下area.ctl.php控制器index()方法；$this->tmpl = 'admin:data/area/index.html'加载视图;K::M('data/area')->items(）实现分页查询展示；
+				3.新增url=?data/area-save.html；system\admin\controllers\data目录下area.ctl.php控制器save()方法
+				4.删除url=?data/area-delete.html；system\admin\controllers\data目录下area.ctl.php控制器delete()方法
+				5.编辑url=?data/area-edit.html；system\admin\controllers\data目录下area.ctl.php控制器edit()方法；$this->tmpl = 'admin:data/area/edit.html'加载视图;
+				6.保存方法save();K::M('data/area')->update($ID, $data)数据更新；K::M('data/area')->create($data)数据添加；此为模型方法
+				7.admin:data/area/so.html方法与视图
+		3、支付配置
+			（1）支付接口
+				后台接收前台数据方式：$this->GP('名称')；payment 数据表
+				1.创建url：system\admin\controllers\payment目录下payment.ctl.php控制器install()方法，对应url=?payment/payment-install.html；$this->tmpl = 'admin:payment/install.html'  加载视图;
+				2.列表url=?payment/payment-index.html；system\admin\controllers\payment目录下payment.ctl.php控制器index()方法； $this->tmpl = 'admin:payment/items.html  加载视图;K::M('payment/payment')->items(）实现分页查询展示；
+				3.编辑url=?payment/payment-config.html；system\admin\controllers\payment目录下payment.ctl.php控制器config()方法；$this->tmpl = 'admin:data/payment/edit.html'加载视图;
+				4.删除?payment/payment-uninstall-$payment_id.html($payment_id为ID)；system\admin\controllers\payment目录下payment.ctl.php控制器uninstall()方法
+			（2）支付流水
+				后台接收前台数据方式：$this->GP('名称')；payment_log 数据表
+				
+				数据：
+				1.列表url=?payment/log-index.html；system\admin\controllers\payment目录下log.ctl.php控制器index()方法； $this->tmpl = 'admin:payment/logs/items.html'  加载视图; K::M('payment/log')->items(）实现分页查询展示；
+				2.搜索url=?payment/log-so.html$this->tmpl = 'admin:payment/logs/so.html'; so()方法与视图
+
+				统计：
+				1.1.列表url=?payment/log-highchat.html；system\admin\controllers\payment目录下log.ctl.php控制器highchat()方法； $this->tmpl  = "admin:payment/logs/highchat.html"  加载视图;
+				2.异步请求system\admin\controllers\payment目录下log.ctl.php控制器 get_payment_log_data()方法; 模型处理数据并返回K::M('payment/log')->group_by_data();
+				
+		4、模板设置
+			（1）模板管理
+				后台接收前台数据方式：$this->GP('名称')；themes 数据表
+				#1.创建url=?data/theme-install.html；system\admin\controllers\system目录下theme.ctl.php控制器install()方法；$this->tmpl = 'admin:data/theme/install.html  加载视图;
+				2.列表url=?data/theme-index.html；system\admin\controllers\data目录下theme.ctl.php控制器index()方法；$this->tmpl = 'admin:data/theme/index.html'加载视图;K::M('data/theme')->items(）实现分页查询展示；
+				3.新增url=?data/theme-save.html；system\admin\controllers\data目录下theme.ctl.php控制器save()方法
+				4.删除url=?data/theme-uninstall.html；system\admin\controllers\data目录下theme.ctl.php控制器uninstall()方法
+				5.编辑url=?data/theme-config.html；system\admin\controllers\data目录下theme.ctl.php控制器config()方法；$this->tmpl = 'admin:data/theme/config.html'加载视图;
+				6.保存方法save();K::M('data/theme')->update($ID, $data)数据更新；K::M('data/theme')->install($data)数据添加；此为模型方法
+				7.设置为默认setdefault()方法；
+
+	三、外卖
+		1、商家管理
+			（1）商家列表
+				1.增url=?waimai/waimai-create.html；system\admin\controllers\waimai目录下waimai.ctl.php控制器的create()方法；$this->tmpl = 'admin:waimai/waimai/create.html'加载视图;视图目录system\admin\view\waimai\waimai\create.html;
+				2.删url=?waimai/waimai-delete-99.html(99为对应id参数);system\admin\controllers\waimai目录下waimai.ctl.php控制器的delete($shop_id=null)方法；
+				3.列表system\admin\controllers\waimai目录下waimai.ctl.php控制器的index()方法；$this->tmpl = 'admin:waimai/waimai/items.html' 加载视图；视图目录system\admin\view\waimai\waimai\items.html;
+				4.编辑
+					1).店铺信息url=?waimai/shop-one-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的one()方法；$this->tmpl = 'admin:waimai/shop/one.html'加载视图;试图目录system\admin\view\waimai\shop\one.html;数据表‘shop’；
+					2).营业信息url=?waimai/shop-setbusiness-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的setbusiness()方法；$this->tmpl = "admin:waimai/shop/setbusiness.html"加载视图;试图目录system\admin\view\waimai\shop\setbusiness.html;数据表‘waimai’；
+					3).资质信息url=?waimai/shop-two-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的two()方法；$this->tmpl = 'admin:waimai/shop/two.html'加载视图;试图目录system\admin\view\waimai\shop\two.html;数据表‘waimai_verify’；
+					4).配送设置url=?waimai/shop-three-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的three()方法；$this->tmpl = 'admin:waimai/shop/three.html'加载视图;试图目录system\admin\view\waimai\shop\three.html;
+					5).结算信息url=?waimai/shop-four-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的four()方法；$this->tmpl = 'admin:waimai/shop/four.html'加载视图;试图目录system\admin\view\waimai\shop\four.html;
+					6).打印机设置url=?waimai/shop-set_print-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的set_print()方法；$this->tmpl = 'admin:waimai/shop/set_print.html'加载视图;试图目录system\admin\view\waimai\shop\set_print.html;
+					7).打印机设置url=?waimai/shop-import-99.html(99为对应id参数);system\admin\controllers\waimai目录下shop.ctl.php控制器的import()方法；$this->tmpl = 'admin:waimai/shop/import.html'加载视图;试图目录system\admin\view\waimai\shop\import.html;
+			（2）商家分类
+				1.控制器：system\admin\controllers\waimai\cate.ctl.php;模型：system\models\waimai\cate.mdl.php;视图目录system\admin\view\waimai\cate下；
+			（3）商家评价
+				1.控制器：system\admin\controllers\waimai\comment.ctl.php;模型：system\models\waimai\comment.mdl.php;视图目录system\admin\view\waimai\comment下；
+			（4）商家回收站
+				1.控制器：system\admin\controllers\waimai\recycle.ctl.php;模型：system\models\waimai\recycle.mdl.php;视图目录system\admin\view\waimai\recycle
+			（5）商家投诉
+				1.控制器：system\admin\controllers\waimai\complaint.ctl.php;模型：system\models\waimai\complaint.mdl.php;视图目录system\admin\view\waimai\complaint
+			（6）系统费用计算参数
+				1.控制器：system\admin\controllers\waimai\waimai.ctl.php;模型：system\models\waimai\waimai.mdl.php;视图目录system\admin\view\waimai\waimai
+		2、订单管理
+			*.控制器：system\admin\controllers\waimai\order.ctl.php;模型：system\models\waimai\order.mdl.php;视图目录system\admin\view\waimai\order；以下均适用：
+			（1）订单列表
+			（2）待接订单
+			（3）待配送订单
+			（4）配送中订单
+			（5）维权订单
+			（6）通知服务订单
+		3、商家审核
+			（1）入驻审核
+				1.控制器：system\admin\controllers\waimai\apply.ctl.php;模型 ;视图目录system\admin\view\waimai\apply			
+			（2）活动审核
+				1.控制器：system\admin\controllers\waimai\huodong.ctl.php;视图目录system\admin\view\waimai\huodong
+		4、外卖管理
+			（1）派单管理
+				1.控制器：system\admin\controllers\waimai\order.ctl.php;模型：system\models\order\order.mdl.php;视图目录system\admin\view\waimai\order
+			（2）外卖热搜
+				1.控制器：system\admin\controllers\system\config.ctl.php;模型：system\models\order\order.mdl.php;视图目录system\admin\view\waimai\order
+			（3）外卖配置
+			（4）打印机管理
+			（5）单位设置
+		5、外卖活动
+			（1）活动管理
+				1.控制器：system\admin\controllers\activity\activity.ctl.php;模型：system\models\activity\activity.mdl.php;视图目录system\admin\view\activity\items
+		6、三方管理
+			（1）配送站管理
+				1.控制器：system\admin\controllers\group\group.ctl.php;模型：;视图目录system\admin\view\group
+			（2）骑手管理
+				1.控制器：system\admin\controllers\group\staff.ctl.php;模型：视图目录system\admin\view\group
+			（3）骑手回收站
+				1.控制器：system\admin\controllers\group\staff.ctl.php;模型：视图目录system\admin\view\group
+			（4）骑手认证
+				1.控制器：system\admin\controllers\staff\verify.ctl.php;模型：视图目录system\admin\view\staff\verify
+			（5）骑手提现
+				1.控制器：system\admin\controllers\group\tixian.ctl.php;模型：视图目录system\admin\view\group\tixian
+			（6）配送站区域
+				1.控制器：system\admin\controllers\group\group.ctl.php;模型：视图目录system\admin\view\group
+			（7）配送员投诉
+				1.控制器：system\admin\controllers\group\staff.ctl.php;模型：视图目录system\admin\view\group\staff
+			（8）配送员超时订单
+				1.控制器：system\admin\controllers\group\timeout.ctl.php;模型：视图目录system\admin\view\group\timeout
+			（9）骑手异常订单
+				1.控制器：system\admin\controllers\group\refund.ctl.php;模型：视图目录system\admin\view\group\refund
+			（10）配送员考核
+				1.控制器：system\admin\controllers\group\assessment.ctl.php;模型：视图目录system\admin\view\group\assessment
+			（11）配送员等级
+				1.控制器：system\admin\controllers\group\stafflevel.ctl.php;模型：视图目录system\admin\view\group\stafflevel
+			（12）骑手弃单记录
+				1.控制器：system\admin\controllers\group\staff.ctl.php;模型：视图目录system\admin\view\group\staff
+			（13）强制送达记录
+				1.控制器：system\admin\controllers\group\staff.ctl.php;模型：视图目录system\admin\view\group\staff
+		7、天降红包
+			（1）天降红包
+				1.控制器：system\admin\controllers\hongbao\huodong.ctl.php;模型：视图目录system\admin\view\hongbao\huodong
+		8、跑腿管理
+			（1）订单列表
+			三方管理
+				1.控制器：system\admin\controllers\other\order.ctl.php;模型：视图目录system\admin\view\other\order
+		9、地推管理
+		10、配送中心
+		11、配送会员卡
+			（1）会员卡管理
+			（2）会员卡用户
+			（3）使用记录
+	四、用户
+		1、会员管理
+			（1）会员列表
+				1.控制器：system\admin\controllers\member\member.ctl.php;模型：视图目录system\admin\view\member\member
+			（2）会员回收站
+				1.控制器：system\admin\controllers\member\member.ctl.php;模型recycle()方法：视图目录system\admin\view\member\member
+			（3）余额日志
+				1.控制器：system\admin\controllers\member\log.ctl.php;模型index()方法：视图目录system\admin\view\member\log
+			（4）红包管理
+				1.控制器：system\admin\controllers\hongbao\hongbao.ctl.php;模型index()方法：视图目录system\admin\view\hongbao\hongbao
+			（5）收货地址
+				1.控制器：system\admin\controllers\member\addr.ctl.php;模型index()方法：视图目录system\admin\view\member\addr
+			（6）会员返利
+				1.控制器：system\admin\controllers\member\invite.ctl.php;模型index()方法：视图目录system\admin\view\member\invite
+			（7）会员提现
+				1.控制器：system\admin\controllers\member\tixian.ctl.php;模型index()方法：视图目录system\admin\view\member\tixian
+		2、通知设置
+			（1）短信设置
+			（2）短信日志
+			（3）消息列表
+				1.控制器：system\admin\controllers\member\message.ctl.php;模型index()方法：视图目录system\admin\view\member\message
+	五、财务
+		1、订单对账
+			（1）外卖商户对账
+				1.控制器：system\admin\controllers\fanance\waimai.ctl.php;模型bills()方法：视图目录system\admin\view\fanance\waimai
+			（2）骑手配送对账
+				1.控制器：system\admin\controllers\staff\bills.ctl.php;模型index()方法：视图目录system\admin\view\staff\bills
+			（3）后台充值对账
+				1.控制器：system\admin\controllers\fanance\chong.ctl.php;模型index()方法：视图目录system\admin\view\fanance\chong
+			（4）代收款对账
+				1.控制器：system\admin\controllers\fanance\cash.ctl.php;模型index()方法：视图目录system\admin\view\fanance\cash
+			（5）商家余额日志
+				1.控制器：system\admin\controllers\waimai\log.ctl.php;模型index()方法：视图目录system\admin\view\waimai\log
+		2、商家提现
+			（1）商家提现
+				1.控制器：system\admin\controllers\finance\account.ctl.php;模型index()方法：视图目录system\admin\view\finance\account
+			（2）待转账列表
+				1.控制器：system\admin\controllers\finance\account.ctl.php;模型wait()方法：视图目录system\admin\view\finance\account
+			（3）转账记录
+				1.控制器：system\admin\controllers\finance\account.ctl.php;模型logs()方法：视图目录system\admin\view\finance\account
+			（4）商户余额
+				1.控制器：system\admin\controllers\finance\account.ctl.php;模型money()方法：视图目录system\admin\view\finance\account
+		3、数据统计
+			（1）营业统计
+				1.控制器：system\admin\controllers\tongji\tongji.ctl.php;模型money()方法：视图目录system\admin\view\tongji\tongji
+			（2）资金入账
+				1.控制器：system\admin\controllers\tongji\money.ctl.php;模型money()方法：视图目录system\admin\view\tongji\money
+			（3）补贴统计
+				1.控制器：system\admin\controllers\subsidy\staff.ctl.php;模型items()方法：视图目录system\admin\view\subsidy\staff
+	六、运营
+		1、积分商城
+		2、文章管理
+			（1）帮助中心
+				1.控制器：system\admin\controllers\article\help.ctl.php;模型index()方法：视图目录system\admin\view\article\help
+			（2）关于我们
+				1.控制器：system\admin\controllers\article\about.ctl.php;模型index()方法：视图目录system\admin\view\article\about
+			（3）单页管理
+				1.控制器：system\admin\controllers\article\page.ctl.php;模型index()方法：视图目录system\admin\view\article\page
+		3、页面设置
+			（1）页面设置
+				1.控制器：system\admin\controllers\adv\start.ctl.php;模型index()方法：视图目录system\admin\view\adv\start
+			（2）首页风格
+				1.控制器：system\admin\controllers\adv\themes.ctl.php;模型index()方法：视图目录system\admin\view\adv\themes
+		4、我的图片
+			（1）图片管理
+				1.控制器：system\admin\controllers\upload\photo.ctl.php;模型index()方法：视图目录system\admin\view\upload\photo
+		5、推送管理
+			（1）推送配置
+				1.控制器：system\admin\controllers\system\config.ctl.php;模型apppush()方法：视图目录system\admin\view\system\config
+			（2）安装设备
+				1.控制器：system\admin\controllers\push\divice.ctl.php;模型index()方法：视图目录system\admin\view\push\divice
+			（3）推送信息
+				1.控制器：system\admin\controllers\jpush\divice.ctl.php;模型push()方法：视图目录system\admin\view\jpush\divice
+			（4）推送日志
+				1.控制器：system\admin\controllers\jpush\log.ctl.php;模型index()方法：视图目录system\admin\view\jpush\log
+		6、友情链接
+			（1）链接列表
+				1.控制器：system\admin\controllers\link\links.ctl.php;模型index()方法：视图目录system\admin\view\link\links
+		7、抢购管理
+	七、工具
+		1、数据库管理
+			（1）数据库管理
+				1.控制器：system\admin\controllers\tools\database.ctl.php;模型index()方法：视图目录system\admin\view\tools\database
+		2、站长工具
+			（1）清空缓存
+				1.控制器：system\admin\controllers\tools\cache.ctl.php;模型clean()方法：视图目录system\admin\view\tools\cache
+
+
+
+
+
+
+基本方法；
+1.基类统计：$orders=K::M('order/order')->count($filter)；范围查询为$filter = array('order_status'=>"0~4");"0~4"表示在0和4之间；

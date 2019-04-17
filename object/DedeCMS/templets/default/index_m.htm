@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="blue">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{dede:global.cfg_webname/}移动版</title>
+<meta name="description" content="{dede:global.cfg_description/}" />
+<meta name="author" content="order by dede58.com" />
+<link rel="stylesheet" type="text/css" href="/m/skin/css/style.css" />
+<script type="text/javascript" src="/m/skin/js/jquery.js"></script>
+<script type="text/javascript" src="/m/skin/js/index.js"></script>
+<script>
+    var root="";
+</script>
+<!-- 
+<script type="text/javascript" src="/m/skin/js/public.js"></script> -->
+<script type="text/javascript" src="/m/skin/js/layer.js"></script>
+</head>
+<body>
+{dede:include filename="header_m.htm"/}
+  
+<div class="banner">
+  <div class="swiper-container banner-slide">
+    <div class="swiper-wrapper"> {dede:arclist typeid='10' row='4' titlelen='50' orderby='pubdate'}
+      <div class="swiper-slide"> <img src="[field:picname/]" alt="[field:title/]" > </div>
+      {/dede:arclist} </div>
+    <div class="swiper-pagination banner-pagi"></div>
+  </div>
+</div>
+  
+<div class="guide">
+  <div class="guide-ti"> <img src="/m/skin/images/guide-ti.png" alt="{dede:global.cfg_webname/}"> </div>
+  <ul>
+    {dede:channel type='son' row='4' typeid='51'}
+    <li> <a href="list.php?tid=[field:id/]"> <img class="lazy"  src="[field:typeimg/]" alt="[field:typename/]" style="height:118px;"> </a> </li>
+    {/dede:channel}
+  </ul>
+</div>
+<div class="case-con">
+  <div class="case">
+    <div class="index-ti"> {dede:type typeid='3'}
+      <h3>[field:typename/]</h3>
+      {/dede:type} </div>
+    <div class="swiper-container case-slide">
+      <div class="swiper-wrapper"> {dede:arclist typeid='3' row='12' titlelen='50' orderby='pubdate' addfields='anmj,zj' channelid='2'}
+        <div class="swiper-slide">
+          <div class="case-box"> <a href="view.php?aid=[field:id/]">
+            <div class="case-img"> <img src="[field:picname/]" alt="[field:title/]"> </div>
+            <div class="case-info">
+              <h3>[field:title/]</h3>
+              <p>面积：[field:anmj/]㎡    造价：[field:zj/]万</p>
+            </div>
+            </a> </div>
+        </div>
+        {/dede:arclist} </div>
+    </div>
+    {dede:type typeid='3'} <a href="list.php?tid=[field:id/]" class="more-btn">查看更多</a>{/dede:type} </div>
+</div>
+  
+<div class="designer">
+  <div class="index-ti"> {dede:type typeid='16'}
+    <h3>[field:typename/]</h3>
+    {/dede:type} </div>
+  <div class="designer-con">
+    <div class="designer-box">
+      <div class="swiper-container designer-slide">
+        <div class="swiper-wrapper"> {dede:arclist typeid='16' row='12' titlelen='50' orderby='pubdate'}
+          <div class="swiper-slide">
+            <div class="designer-img"> <a href="view.php?aid=[field:id/]"> <img src="[field:picname/]" alt="[field:title/]"> <span></span> </a> </div>
+            <div class="designer-info">
+              <h3>[field:title/]<span>[field:shorttitle/]</span></h3>
+            </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+    </div>
+  </div>
+  {dede:type typeid='3'}<a href="list.php?tid=[field:id/]" class="more-btn" style="background: #f7f7f7;">查看更多</a>{/dede:type} </div>
+<div class="sign">
+  <form action="/plus/diy.php" class="sign-box" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="action" value="post" />
+    <input type="hidden" name="diyid" value="2" />
+    <input type="hidden" name="do" value="2" />
+    <div class="sign-box-in">
+      <div class="sign-box-ti"> <img src="/m/skin/images/sign-ti.png" alt="获取报价"> </div>
+      <ul>
+        <li>
+          <input type="text" placeholder="您的称呼" name="ch" id="ch">
+        </li>
+        <li>
+          <input type="text" placeholder="手机号码" name="hm" id="hm">
+        </li>
+        <li>
+          <input type="text" placeholder="小区名称" name="mc" id="mc">
+        </li>
+        <li>
+          <input type="text" placeholder="面积/㎡" class="sign-miles" name="mj" id="mj">
+          <select name="fg" id="fg">
+            <option value="现代简约">现代简约</option>
+            <option value="欧美风格">欧美风格</option>
+            <option value="田园风格">田园风格</option>
+            <option value="地中海风格">地中海风格</option>
+            <option value="中式风格">中式风格</option>
+            <option value="其他风格">其他风格</option>
+          </select>
+        </li>
+        <input type="hidden" name="dede_fields" value="ch,text;hm,text;mc,text;mj,text;fg,select" />
+        <input type="hidden" name="dede_fieldshash" value="b328cf12aea7ddbfcb8a45c90ab19b50" />
+        <li>
+          <input type="submit" name="submit" value="免费获取报价" class="price_btn">
+        </li>
+      </ul>
+    </div>
+  </form>
+</div>
+<div class="building">
+  <div class="index-ti"> {dede:type typeid='5'}
+    <h3>[field:typename/]</h3>
+    {/dede:type} </div>
+  <ul>
+    {dede:arclist typeid='5' row='5' titlelen='50' orderby='pubdate' addfields='house_info,total_price,c_sjs' channelid='18'}
+    <li>
+      <div class="building-img fl"> <a href="view.php?aid=[field:id/]"> <img class="lazy" src="/m/skin/images/blank.gif" data-echo="[field:picname/]" alt="[field:title/]"> </a> </div>
+      <div class="building-info fl">
+        <div class="building-ti"> <a href="view.php?aid=[field:id/]">[field:title/]</a> </div>
+        <div class="building-step"> <em></em>
+          <div class="building-step-box">
+            <div class="building-step-bar" style="width: 100%;"> <span>[field:c_sjs/]</span> </div>
+          </div>
+          <em></em> </div>
+        <p>房屋信息：[field:house_info/]</p>
+        <p>总价：[field:total_price/]</p>
+      </div>
+    </li>
+    {/dede:arclist}
+  </ul>
+  {dede:type typeid='5'} <a href="list.php?tid=[field:id/]" class="more-btn" style="background: #f7f7f7;">查看更多</a>{/dede:type} </div>
+<div class="area">
+  <div class="index-ti"> {dede:type typeid='8'}
+    <h3>[field:typename/]</h3>
+    {/dede:type} </div>
+  <ul>
+    {dede:arclist typeid='8' row='6' titlelen='50' orderby='pubdate'}
+    <li>
+      <div class="area-img"> <a href="view.php?aid=[field:id/]"> <img class="lazy" src="/m/skin/images/blank.gif" data-echo="[field:picname/]" alt="[field:title/]"> <span>[field:title/]</span> </a> </div>
+    </li>
+    {/dede:arclist}
+  </ul>
+  {dede:type typeid='8'} <a href="list.php?tid=[field:id/]" class="more-btn">查看更多</a>{/dede:type} </div>
+<div class="zone">
+  <div class="zone-logo"> <img src="/m/skin/images/zone-logo1.png" alt=""> </div>
+  <div class="swiper-container zone-slide">
+    <div class="swiper-wrapper"> {dede:arclist typeid='1' row='12' titlelen='50' orderby='pubdate'}
+      <div class="swiper-slide">
+        <div class="zone-img"> <a href="javascript:;"> <img src="[field:picname/]" alt="[field:title/]"> </a> </div>
+      </div>
+      {/dede:arclist} </div>
+  </div>
+  <div class="zone-logo"> <img src="/m/skin/images/zone-logo2.png" alt="{dede:global.cfg_webname/}"> </div>
+</div>
+<script>
+    $(function(){
+        $('.guide li').addClass('move');
+    });
+</script> 
+
+<!-- 滚动 加载文件 -->
+<link rel="stylesheet" href="/m/skin/css/swiper.min.css">
+<script src="/m/skin/js/swiper.min.js"></script> 
+<script>
+var mySwiper = new Swiper('.banner-slide',{
+    pagination: '.banner-pagi',
+    loop:true,
+    grabCursor: true,
+    paginationClickable: true
+});
+var mySwiper = new Swiper('.case-slide',{
+    
+    centeredSlides: true,
+    slidesPerView: 1.5,
+});
+var mySwiper = new Swiper('.designer-slide',{
+    loop:true,
+    effect : 'coverflow',
+    centeredSlides: true,
+    slidesPerView: 2,
+    coverflow: {
+        rotate: 0,
+        stretch: 10,
+        depth: 50,
+        modifier: 3,
+        slideShadows : false
+    }
+});
+var mySwiper = new Swiper('.zone-slide',{
+    spaceBetween: 10,
+    slidesPerView: 2.7,
+});
+</script> 
+<!-- end --> 
+{dede:include filename="footer_m.htm"/}
+</body>
+</html>

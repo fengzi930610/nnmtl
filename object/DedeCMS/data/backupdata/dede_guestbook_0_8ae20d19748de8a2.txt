@@ -1,0 +1,7 @@
+INSERT INTO `dede_guestbook` VALUES('5','无标题','0','0','0','Beatris','beatriscaro@gmail.com','j.mp/1JQi0S2','','04','192.3.195.117','1451913167','1','I adore this website - its so usefull and helpfull.');
+INSERT INTO `dede_guestbook` VALUES('6','无标题','0','0','0','Patsy','patsyfrankland@freenet.de','tinyurl.com/oc6fb3u','','15','23.94.154.145','1451969395','1','Truly, this is a important online site.');
+INSERT INTO `dede_guestbook` VALUES('7','无标题','0','0','0','Lauri','lauribeam@zoho.com','tinyurl.com/hjq9kvb','','03','172.245.253.49','1452228408','1','I appreciate the info on your web sites. Regards.');
+INSERT INTO `dede_guestbook` VALUES('8','无标题','0','0','0','Roxanne','roxannebeaudry@freenet.de','plaza.rakuten.co.jp/lisabenton/diary/201507020000','','04','117.177.250.149','1455095860','1','Wonderful webpage you\'ve got there.');
+INSERT INTO `dede_guestbook` VALUES('9','无标题','0','0','0','Nannie','nannie.alderson@gmail.com','teishabrundermana.exteen.com','','14','23.96.246.153','1456892810','1','Thanks for giving these types of very good subject material.');
+INSERT INTO `dede_guestbook` VALUES('10','无标题','0','0','0','Jerold','jeroldseabolt@aol.com','shannatruner.blogas.lt/hammer-toes-definition-15.h','','15','114.37.243.158','1458150717','1','Love the site-- really user friendly and whole lots to see!');
+INSERT INTO `dede_guestbook` VALUES('11','无标题','0','0','0','Bell','bellremer@gmail.com','pamellabocchini.weebly.com/blog/natural-treatment-','','17','114.37.243.158','1458165108','1','Terrific web page you\'ve got here.');

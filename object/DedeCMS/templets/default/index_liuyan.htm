@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="author" content="order by dede58.com/" />
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<meta name="keywords" content="{dede:field name='keywords'/}" />
+<meta name="description" content="{dede:field name='description' function='html2text(@me)'/}" />
+<link rel="stylesheet" type="text/css" href="/skin/css/style.css" />
+<script type="text/javascript" src="/skin/js/jquery.js"></script>
+<script type="text/javascript" src="/skin/js/index.js"></script>
+<script>
+    var root="";
+</script>
+<script type="text/javascript" src="/skin/js/public.js"></script>
+<script type="text/javascript" src="/skin/js/layer.js"></script>
+</head>
+
+<body class="bg">
+{dede:include filename="head.htm"/}
+<div class="content"> 
+  
+  <!-- 计算器 -->
+  <form action="/plus/diy.php" enctype="multipart/form-data" method="post" class="calculator2" id="form5">
+    <input type="hidden" name="action" value="post" />
+    <input type="hidden" name="diyid" value="1" />
+    <input type="hidden" name="do" value="2" />
+    <div class="calculator2-list fl">
+      <div class="calculator2-ti"> <span>装修计算器</span> <em>点击提交获取您的精准装修报价</em> </div>
+      <ul>
+        <li> <span>您的姓名：<em>*</em></span>
+          <input type="text" placeholder="输入您的姓名" class="cal-i" name="ch"  id="ch5" />
+        </li>
+        <li> <span>房屋面积：<em>*</em></span>
+          <input type="text" placeholder="输入您的房屋面积" class="cal-i" name="mj" id="mj5" />
+        </li>
+        <li> <span>房屋户型：<em>*</em></span>
+          <input type="text" placeholder="输入您的房屋户型" class="cal-i" name="hx" id="hx5" />
+        </li>
+        <li> <span>小区名称：<em>*</em></span>
+          <input type="text" placeholder="输入您的小区名称" class="cal-i" name="xq" id="xq5" />
+        </li>
+        <li> <span>装修风格：<em>*</em></span>
+          <select name="fg" id="fenggeselect">
+            <option value="现代">现代</option>
+            <option value="美式">美式</option>
+            <option value="简欧">简欧</option>
+            <option value="中式">中式</option>
+            <option value="欧式">欧式</option>
+            <option value="田园">田园</option>
+            <option value="新古典">新古典</option>
+            <option value="地中海">地中海</option>
+            <option value="北欧">北欧</option>
+            <option value="后现代">后现代</option>
+            <option value="日式">日式</option>
+            <option value="复古">复古</option>
+            <option value="混搭">混搭</option>
+          </select>
+        </li>
+        <li> <span>手机号码：<em>*</em></span>
+          <input type="text" placeholder="报价结果将发送到您的手机" name="tel"  id="tel5" />
+        </li>
+        <input type="hidden" name="dede_fields" value="hx,text;mj,text;xq,text;ch,text;tel,text;fg,select" />
+        <input type="hidden" name="dede_fieldshash" value="fe2f763c04647b9a7ab7a0ac331a0711" />
+      </ul>
+    </div>
+    <div class="cal-btn2 fl"> <span></span>
+      <input type="submit" class='coolbg' value=""/>
+    </div>
+    <div class="calculator2-done fr">
+      <div class="calculator2-done-ti"> <span>报价结果将发送到您的手机</span> </div>
+      <div class="calculator2-tips">
+        <p>*本价格为毛坯房半包估算价格，旧房价格由实际工程量决定。</p>
+        <p>*以上价格将会根据您填写的信息进行计算，影响预算的因素有：<em>面积、户型</em>，所以请您详细填写。</p>
+      </div>
+    </div>
+    <script>
+                    $(document).ready(function () {
+
+                        $("#form5").submit(function () {
+                            if ($("#ch5").val() == '') {
+                                alert('请添加姓名');
+                                $("#ch5").focus();
+                                return false;
+                            }
+                            if ($("#tel5").val() == '') {
+                                alert('请添加电话');
+                                $("#tel5").focus();
+                                return false;
+                            }
+                        })
+                    })
+                </script>
+  </form>
+</div>
+<div class="ad-zhi"></div>
+{dede:include filename="footer.htm"/} 
+<!-- 代码 结束 --> 
+
+<!-- 返回顶部 开始 --> 
+<script>
+       $(function() {
+            $(".btn_top").hide();
+            $(".btn_top").live("click",function(){
+                $('html, body').animate({scrollTop: 0},300);return false;
+            })
+            $(window).bind('scroll resize',function(){
+                if($(window).scrollTop()<=300){
+                    $(".btn_top").hide();
+                }else{
+                    $(".btn_top").show();
+                }
+            })
+       })
+    </script> 
+<!-- 返回顶部 结束 -->
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>菜单添加</title>
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+
+
+</head>
+<body>
+<article class="cl pd-20">
+	<form class="form form-horizontal" id="form-admin-add" method="post">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>父级菜单选择：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select name="fId">
+					<option value="0" >--顶级菜单--</option>
+					<?php foreach($arr as $k=>$v){?>
+					<option value='<?php echo $v["Id"]; ?>' ><?php echo $v["name"]; ?></option>
+					<?php }?>
+						
+				</select>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>菜单名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="请输入菜单名称" name="name" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>模块：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="请输入模块名称" name="module" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>控制器：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="请输入控制器名称" name="controller" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>方法：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" placeholder="请输入操作方法" name="action" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>显示状态：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="radio" name="state" value="1" />显示
+				<input type="radio" name="state" value="0"/>不显示
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius"  type="submit" id="submit" value="提交" />
+				<input class="btn btn-primary radius"  type="button" value="取消" onclick="history.back(-1)" />
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php include('app/admin/view/public/footer.html'); ?>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
+
+<!--<script type="text/javascript">
+	$(function(){
+		
+		$('#submit').click(function(){
+			var name = $("input[name='name']").val()
+			
+			var fId = $("select[name='fId']").val()
+			$.ajax({
+				type:"post",//默认为get
+				url:"index.php?m=admin&c=level&a=add",
+				data:{
+					name:name,
+					fId:fId,
+				},
+				success:function(msg){
+					//msg为执行成功返回的内容，可自定义
+					if (msg==1) {
+						alert("分类名称不能为空")
+					} else if(msg==2){
+						alert("分类名已存在")
+					}else if(msg==3){
+						alert('新增成功');
+						location="index.php?m=admin&c=level&a=list";
+					}else if(msg==4){
+						alert('新增失败');
+					}
+					else if(msg==5){
+						alert('分类不能大于二级');
+					}
+//					
+				}
+			})
+//			
+			
+			return false
+		})
+		
+		
+		
+	})
+</script>-->

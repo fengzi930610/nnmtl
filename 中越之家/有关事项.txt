@@ -1,0 +1,95 @@
+php_bz2
+php_curl
+php_fileinfo
+php_gd2
+php_gmp
+php_mbstring
+php_exif
+php_mysql
+php_mysqli
+php_openssl
+php_pdo_mysql
+php_pdo_sqlite
+php_shmop
+php_snmp
+php_soap
+php_tidy
+php_xmlrpc
+php_xsl
+php_igbinary
+php_redis
+
+
+扩展搞好了
+
+
+你本地建个站点，这个站点只要输出success就可以。
+
+
+然后修改host，把www.ijh.cc这个域名解释到这个本地站点中。
+
+
+然后以后开发的项目最好都是使用独立站点运行的方式，在本地做个host的域名就可以，比如说像我的这样： 
+
+
+svn://129.204.65.126/waimai
+
+这是SVN地址和帐号，你拉取一下代码。
+会用SVN吧？
+
+sql是数据库的。
+
+那会用SVN吗？
+
+
+嗯，那你拉取一下代码，创建一下本地的开发环境。有什么问题可以和我说一下。
+
+好的  我先安装svn先
+
+ 
+
+解压到站点根目录
+
+ 
+你配置好可以运行后，先大致的熟悉一下这个系统的代码结构，主要是知道控制器在哪，相应的模型在哪，相应的视图模板是哪个。有什么问题可以和我说一下。
+这个系统的总后台地址是：
+http://host/admin
+总管理员admin，密码admin
+
+商户后台可以在总后台进。
+
+前台直接输入域名即可，会自己跳转。
+
+
+文件：waimai/system/config.php是配置文件，如果以后要提交SVN，不要提交这个文件，以免覆盖SVN仓库中的版本。
+这个文件需要根据你本地的环境进行一些修改：
+ 
+ 
+ 
+地图部分如果有就不用修改了，如果没有就需要添加上去。
+最后一个设置为DEV表示开发环境，开发环境下前台要使用用户的手机和密码登录，而不是微信授权自动登录。
+用户在数据表jh_member中，你自己改下其中一个的手机号和密码（MD5加密）就可以了。
+
+//地图相关配置
+define("MAP_KEY","AIzaSyBs_cng6qHCdg7cYRyTVzplJQ5_e6WdluQ");//地图秘钥 --使用谷歌地图所使用的key
+define("MAP_SERVER_KEY","AIzaSyBs_cng6qHCdg7cYRyTVzplJQ5_e6WdluQ");//谷歌地图 --服务端接口所使用的key
+define("MAP_DEFAULT_CENTER","105.834888, 21.020805");    //谷歌地图默认中心坐标
+//地图相关配置结束
+
+这个是商户后台的入口文件，SVN上也没有，放到根目录就可以了。
+
+总后台也要配置一下：
+
+ 
+
+路由规则发给我下
+
+我只有nginx的哦。apache的话可能需要参照一下进行修改。
+rewrite ^/(admin|waimai)/(images|script|style|ui)/(.*)$ /$1/$2/$3 last;
+rewrite ^/(admin|wmbiz)(.*)$ /$1/index.php$2 last;
+rewrite ^/(attachs|static|themes)/(.*)$ /$1/$2 last;
+rewrite ^/(.*)$ /index.php/$1 last;
+
+define("MERBER_LOGIN_EVN", "DEV");    //是否启用顾客通用登录功能，如果值为“DEV”，则统一使用微信登录，否则不使用
+
+ALTER TABLE `jh_member` ADD COLUMN `subscribe`  tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '用户是否已关注公众号，0未关注，1已关注' AFTER `register_from`;

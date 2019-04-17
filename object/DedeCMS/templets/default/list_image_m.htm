@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="blue">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<link rel="stylesheet" type="text/css" href="/m/skin/css/style.css" />
+<script type="text/javascript" src="/m/skin/js/jquery.js"></script>
+<script type="text/javascript" src="/m/skin/js/index.js"></script>
+<script src="/m/skin/js/jquery-1.11.3.min.js"></script>
+<script>
+    var root="";
+</script>
+<!-- 
+<script type="text/javascript" src="/m/skin/js/public.js"></script> -->
+<script type="text/javascript" src="/m/skin/js/layer.js"></script>
+</head>
+
+<body class="bg">
+{dede:include filename="header_m.htm"/}
+<form class="search-inside" role="search" action="{dede:global.cfg_cmsurl/}/plus/search.php">
+  <input type="hidden" name="mobile" value="1" />
+  <input type="hidden" name="kwtype" value="0" />
+  <div class="search-inside-box">
+    <input name="q" type="text" placeholder="输入搜索关键字" name="title">
+    <input type="submit" value="搜索">
+  </div>
+</form>
+<div class="classify-bar" style="width: 100%;">
+  <div class="classify-box" style="width: 33.3%;"> <a href="javascript:;" class="classify-box-btn">{dede:field name='typeid' function="GetTopTypename(@me)"/}<i class="iconfont">&#xe611;</i></a>
+    <div class="classify-drop"> {dede:channel type='son' row='10' currentstyle="<a href='list.php?tid=~id~' ~rel~ class='active'><span>~typename~</span></a>"} <a href="list.php?tid=[field:id/]">[field:typename/]</a> {/dede:channel} </div>
+  </div>
+</div>
+<div class="case-list">
+  <ul>
+    {dede:list pagesize ='8'}
+    <li>
+      <div class="case-list-img"> <a href="view.php?aid=[field:id/]"> <span>[field:fg/] · [field:hx/] · [field:anmj/]㎡</span> <img class="lazy" src="/m/skin/images/blank.gif" data-echo="[field:picname/]" alt="[field:title/]"> </a> </div>
+      <div class="case-list-info"> <a href="view.php?aid=[field:id/]">[field:title/]</a> </div>
+      <div class="case-list-pic"> <a href="view.php?aid=[field:id/]"> <img src="[field:writer/]" alt="[field:sjs/]"> </a> </div>
+    </li>
+    {/dede:list}
+  </ul>
+  <div class="pagination-wrapper">
+    <div class="pagination"> {dede:pagelist listsize='1' listitem='index,end,pre,next,pageno'/} </div>
+  </div>
+</div>
+<div style="display:none" id="mysjs"> {dede:arclist typeid='16' row='30'}
+  <li id="sjs_[field:id/]" value="[field:title/]">[field:litpic/]</li>
+  {/dede:arclist} </div>
+<script>
+function replaceall(string){
+	var newname="";
+	$("#mysjs li").each(function(){
+	
+	var sjsname=$(this).attr("value");	
+	var imgurltwo=$(this).text();
+	if(string==sjsname){
+		
+		newname=imgurltwo;
+		
+		}
+		
+		});	
+return newname;
+	}
+	
+$(".case-list-pic img").each(function(){
+	
+	var imgurl=$(this).attr("src");
+	var newimg="";
+	newimg=replaceall(imgurl) ;
+	$(this).attr("src",newimg);
+			
+  });
+
+
+
+</script> 
+<script>
+
+ $("#mysjs li").each(function(){
+    var sjsname=$(this).attr("value");
+	
+	var imgurl=$(this).text();
+	
+	replaceAll(sjsname,imgurl); 
+	
+	
+	  
+		
+  });
+  
+function replaceAll(str,img)
+
+{
+
+if(str!=null)
+
+str = str.replace(str/g,img);
+
+return str;
+
+}
+</script> 
+<script src="/m/skin/js/datalazyload.min.js" type="text/javascript"></script> 
+<script type="text/javascript" charset="utf-8">
+
+
+ $.extend({
+    getUrlVars: function(){
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++){
+       
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    },
+    getUrlVar: function(name){
+        return $.getUrlVars()[name];
+    }
+});
+
+$(function() {
+    var title=decodeURI($.getUrlVar('title'));
+    var taocan=$.getUrlVar('taocan');
+    var huxing=$.getUrlVar('huxing');
+    var price=$.getUrlVar('price');
+    var flag=1;
+    var p = 2;
+    var catid=23
+
+    $(".case-list ul").DataLazyLoad({load : function(page, unLocked) {
+   
+      
+        if(flag==0){
+            return false;
+        }
+        flag = 0;
+        
+        var url2={page:p,catid:catid,title:title,huxing:huxing,taocan:taocan,price:price};
+        
+        $.post(root+"",url2,function(data){
+        
+            setTimeout(function(){
+                if (data.status==1&&data.data!=null&&data.data!='undefined'){
+                
+                    
+                    var html = '';
+                    for (var i=0;i<data.data.length;i++) {
+
+                        var item=data.data[i];
+
+                        if(item['huxing']=='undefined' || item['huxing']==null){
+                            
+                            var onwe=item['fengge']+'· '+item['mianji']+'㎡';
+                        }else{
+                            var onwe=item['fengge']+'· '+item['huxing']+' · '+item['mianji']+'㎡';
+                        }
+
+                        html+='<li>';
+                        html+='<div class="case-list-img">';
+                        html+='<a href="'+item['url']+'">';
+                        html+='<span>'+onwe+'</span>';
+                        html+='<img class="lazy" src="'+item['thumb']+'" alt="'+item['title']+'">';
+                        html+='</a>';
+                        html+='</div>';
+                        html+='<div class="case-list-info">';
+                        html+='<a href="'+item['url']+'">'+item['title']+'</a>';
+                        html+='</div>';
+                        html+='<div class="case-list-pic">';
+                        html+='<a href="/'+item['curl']+item['murl']+'">';
+                        html+='<img src="'+item['designer_thumb']+'" alt="'+item['mingcheng']+'">';
+                        html+='</a>';
+                        html+='</div>';
+                        html+='</li>';
+
+                    }
+                    p++;
+                    flag = 1;
+                    $(".case-list ul").append(html);
+                }else{
+                    
+                    flag = 0;
+                }
+                unLocked(page);
+
+            },1000);
+            
+        },'json');
+
+    }});
+});
+</script> 
+{dede:include filename="footer_m.htm"/}
+</body>
+</html>

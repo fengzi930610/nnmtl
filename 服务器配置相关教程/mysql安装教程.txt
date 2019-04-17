@@ -1,0 +1,66 @@
+1 删除Mysql
+   yum remove  mysql mysql-server mysql-libs mysql-server;
+    find / -name mysql 将找到的相关东西delete掉(rm -rf /var/lib/mysql)；
+    rpm -qa|grep mysql(查询出来的东东yum remove掉)
+    rm /etc/my.cnf
+
+查看是否还有mysql软件：
+rpm -qa|grep mysql
+
+如果存在的话，继续删除即可。
+
+rpm方式安装的mysql
+
+a）查看系统中是否以rpm包安装的mysql：
+
+[root@localhost opt]# rpm -qa | grep -i mysql
+MySQL-server-5.6.17-1.el6.i686
+MySQL-client-5.6.17-1.el6.i686
+
+ 
+
+b)卸载mysql
+
+[root@localhost local]# rpm -e MySQL-server-5.6.17-1.el6.i686
+[root@localhost local]# rpm -e MySQL-client-5.6.17-1.el6.i686
+
+c)删除mysql服务
+
+[root@localhost local]# chkconfig --list | grep -i mysql
+[root@localhost local]# chkconfig --del mysql
+
+d)删除分散mysql文件夹
+
+[root@localhost local]# whereis mysql 或者 find / -name mysql
+
+ 
+
+mysql: /usr/lib/mysql /usr/share/mysql
+
+清空相关mysql的所有目录以及文件
+rm -rf /usr/lib/mysql
+rm -rf /usr/share/mysql
+
+rm -rf /usr/my.cnf
+
+2.安装mysql
+	a)下载yum： wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+	b)yum install  -y  mysql-community-server
+	service mysqld start   service mysqld status   systemctl status mysqld.service 
+	
+	修改密码
+	grep 'temporary password' /var/log/mysqld.log  查看临时密码
+
+	登录并修改密码
+
+	ALTER USER 'root'@'localhost' IDENTIFIED BY ‘新的密码'; 
+
+	密码修改配置参数：
+	mysql> set global validate_password_policy=0; set global validate_password_length=1;ALTER USER 'root'@'localhost' IDENTIFIED BY 'root123';
+
+	授权外部登录：
+	GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
+ 
+	FLUSH  PRIVILEGES;
+
+over！！！！

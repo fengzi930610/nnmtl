@@ -1,0 +1,104 @@
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		商品管理
+		<span class="c-gray en">&gt;</span>
+		商品列表
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="text-c">
+				<span class="select-box inline">
+				<select name="" class="select">
+					<option value="0">全部商品</option>
+					<option value="1">商品一</option>
+					<option value="2">商品二</option>
+				</select>
+				</span>
+				
+				
+				<input type="text" name="" id="" placeholder=" 商品名称" style="width:250px" class="input-text">
+				<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜商品</button>
+			</div>
+			<form action="{:url('admin/Product/productDelete')}" method="post">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="l">
+				<input type="submit" value="批量删除" class="btn btn-danger radius" />
+				<a class="btn btn-primary radius" data-title="添加商品" href="{:url('admin/product/productAdd')}" ><i class="Hui-iconfont">&#xe600;</i> 添加商品</a>
+				</span>
+				<!--<span class="r">共有数据：<strong>54</strong> 条</span>-->
+			</div>
+			<div class="mt-20">
+				
+					<table class="table table-border table-bordered table-bg table-hover table-sort">
+					<thead>
+						<tr class="text-c">
+							<td width="25">
+								<input type="checkbox" name="" value="" id="selectAll">
+							</td>
+							<th width="30">ID</th>
+							<th width="80">商品名称</th>
+							<th>商品简介</th>
+							<th>所属品牌</th>
+							<th>所属分类</th>
+							<th>商品货号</th>
+							<th>市场价格</th>
+							<th>销售价格</th>
+							<th>商品库存</th>
+							<th width="150">创建时间</th>
+							<th width="150">更新时间</th>
+							<td width="80">操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name='list' id='product'}
+							<tr class="text-c">
+								<td>
+									<input type="checkbox" value="{$product.Id}" name="Id[]" id="check">
+								</td>
+								<th>{$product.Id}</th>
+								<th>{$product.name}</th>
+								<th>{$product.introduction}</th>
+								<th>{$product.brandName}</th>
+								<th>{$product.categoryName}</th>
+								<th>{$product.number}</th>
+								<th>{$product.market}</th>
+								<th>{$product.price}</th>
+								<th>{$product.num}</th>
+								<th>{$product.ctime|date="Y-m-d H:i:s",###}</th>
+								<th>{$product.utime|date="Y-m-d H:i:s",###}</th>
+								<td class="f-14 td-manage"><a style="text-decoration:none" onClick="article_stop(this,'10001')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
+									<a style="text-decoration:none" class="ml-5" href="{:url('admin/product/productUpdate',['Id'=>$product['Id']])}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
+									<a style="text-decoration:none" class="ml-5" href="{:url('admin/product/productDelete',['Id'=>$product['Id']])}" title="删除" onclick="return confirm('是否删除小泽玛利亚？')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+								</td>
+							</tr>
+						{/volist}
+					</tbody>
+					
+				</table>
+				
+			</div>
+			</form>
+			<div style="text-align: center; widows: 100%;">{$list->render()}</div>
+		</article>
+	</div>
+	<style type="text/css">
+		.pagination{ margin-top: 20px;display: inline-table; text-align: center;}
+		.pagination>li{float:left; text-align: center;padding: 0 5px; border: solid 1px black; margin: 5px;}
+	</style>
+<script type="text/javascript" src="__PUBLIC__lib/jquery/1.9.1/jquery.min.js"></script>
+<script>
+	$(function(){
+//		alert(123)
+		
+		$('#selectAll').click(function(){
+//			alert(123)
+//$('input#check').prop("checked",ture)
+			var bool = $('#selectAll').is(':checked')
+//			alert(bool)
+			$('input#check').each(function(){
+				$('input#check').prop("checked",bool)
+			})
+		})
+	})
+</script>

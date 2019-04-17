@@ -1,0 +1,139 @@
+/*头部*/
+html,body{
+	position: relative;
+}
+#middle{
+	padding-top: 0.87rem;
+	padding-bottom: 0.98rem;
+}
+#header{
+	width: 100%;
+	height: 0.87rem;
+	background: #a3a6a8;
+	position: fixed;
+	top: 0;
+	z-index: 1;
+}
+#header .nav_btn{
+	width: 0.6rem;
+	height: 0.55rem;
+	overflow: hidden;
+	float: left;
+	margin: 0.16rem 0 0 0.16rem;
+}
+#header .nav_btn span{
+	display:block;
+	width: 100%;
+	height: 0.04rem;
+	background: #ffffff;
+	margin-bottom: 0.13rem;
+}
+#header .search{
+	width: 6.4rem;
+	height: 0.6rem;
+	overflow: hidden;
+	float: left;
+	margin: 0.14rem 0 0 0.15rem;
+	background: #FFFFFF;
+	border-radius: 3px;
+	padding: 0;
+	
+}
+#header .search button{
+	height: 100%;
+	width: 81%;
+	border: none;
+	line-height: 0.6rem;
+	text-align: left;
+	font-size: 0.3rem;
+	float: left;
+	margin-left: 0.35rem;
+	outline: none;
+	color: #999999;
+	background: none;
+}
+#header .search img{
+	width: 0.48rem;
+	height: 0.48rem;
+	margin-right: 0.2rem;
+	margin-top: 0.05rem;
+	float: right;
+	
+}
+#header .nav_list{
+	position: absolute;
+	width: 30%;
+	background: #a3a6a8;
+	top: 0.87rem;
+	display: none;
+}
+#header .nav_list ul{
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+#header .nav_list ul li{
+	width: 100%;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	
+}
+#header .nav_list ul li a{
+	font-size: 0.24rem;
+	text-align: center;
+	color: #00D0F6;
+	float: left;
+	display: block;
+	width: 100%;
+}
+
+/*头部 end*/
+
+/*底部*/
+#bottom{
+	width: 100%;
+	height: 0.98rem;
+	background: #a29d95;
+	position: fixed;
+	z-index: 1;
+	bottom: 0;
+}
+#bottom ul{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+#bottom ul li {
+	width: 25%;
+	float: left;
+	list-style-type: none;
+	height: 100%;
+}
+#bottom ul li.on{
+	background: #658888;
+}
+#bottom ul li img:nth-child(1){
+	margin-top: 0.13rem;
+}
+#bottom ul li a img{
+	display: block;
+	margin: 0 auto;
+	width: 0.5rem;
+	height: 0.42rem;
+	margin-bottom: 0.05rem;
+}
+#bottom ul li a img:nth-child(1){
+	margin-top: 0.10rem;
+}
+#bottom ul li a{
+	width: 100%;
+	height: 100%;
+	font-size: 0.2rem;
+	text-align: center;
+	text-decoration: none;
+	display: block;
+	margin: 0 auto;
+	color: #fdfbfb;
+}
+/*底部 end*/

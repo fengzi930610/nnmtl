@@ -1,0 +1,13 @@
+1、yum install httpd
+2、进入配置界面 vim /etc/httpd/conf/httpd.conf
+	把里面的 AllowOverride None 全部修改为 AllowOverride All
+	顺便在 DirectoryIndex index.html 后面加上 index.htm index.php index.shtml
+	这个是配置默认首页的
+	:wq 保存退出
+3、重启服务器
+	systemctl start httpd.service #启动
+	systemctl stop httpd.service #停止
+	systemctl restart httpd.service #重启
+	systemctl enable httpd.service #设置apache开机启动
+
+项目目录：/var/www/html

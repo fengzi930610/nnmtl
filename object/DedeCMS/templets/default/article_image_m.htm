@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="blue">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<link rel="stylesheet" type="text/css" href="/m/skin/css/style.css" />
+<script type="text/javascript" src="/m/skin/js/jquery.js"></script>
+<script type="text/javascript" src="/m/skin/js/index.js"></script>
+<script src="/m/skin/js/jquery-1.11.3.min.js"></script>
+<script>
+    var root="";
+</script>
+<!-- 
+<script type="text/javascript" src="/m/skin/js/public.js"></script> -->
+<script type="text/javascript" src="/m/skin/js/layer.js"></script>
+</head>
+
+<body class="bg">
+{dede:include filename="header_m.htm"/}
+<div class="case-detail">
+  <div class="case-detail-ti"> <span>{dede:field.title/}</span> </div>
+  <div class="case-detail-info">
+    <p>装修风格：<em>{dede:field.fg/}</em></p>
+    <p>装修面积：<em>{dede:field.anmj/}㎡</em></p>
+    <p>房屋户型：<em>{dede:field.hx/}</em></p>
+  </div>
+  <div class="case-detail-con">
+    <div class="case-detail-img"> <a><img class="lazy" src="{dede:field.writer/}"></a> </div>
+    <a href="javascript:;" class="date-btn">预约TA设计</a>
+    <p>本案设计师：</p>
+    <span>{dede:field.writer/}</span> </div>
+</div>
+
+<!-- 概览 -->
+<div class="case-detail-slide">
+  <div class="swiper-container gallery-top gallery-big-1">
+    <div class="case-detail-ti"> <span>案例图片展示</span> </div>
+    <div class="swiper-wrapper"> {dede:productimagelist}
+      <div class="swiper-slide">
+        <div class="detail-big"> <img src="[field:imgsrc/]" alt="[field:text/]"> </div>
+      </div>
+      {/dede:productimagelist} </div>
+  </div>
+  <div class="swiper-container gallery-thumbs gallery-small-1">
+    <div class="swiper-wrapper"> {dede:productimagelist}
+      <div class="swiper-slide">
+        <div class="detail-small"> <img src="[field:imgsrc/]" alt="[field:text/]"> </div>
+      </div>
+      {/dede:productimagelist} </div>
+  </div>
+</div>
+<div class="case-detail-slide">
+  <div class="swiper-container gallery-top gallery-big-5">
+    <div class="case-detail-ti"> <span>案例描述</span> </div>
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"> {dede:field.body/} </div>
+    </div>
+  </div>
+</div>
+<div style="display:none" id="mysjs"> {dede:arclist typeid='16' row='30'}
+  <li id="sjs_[field:id/]" value="[field:title/]">[field:litpic/]</li>
+  {/dede:arclist} </div>
+<script>
+function replaceall(string){
+	var newname="";
+	$("#mysjs li").each(function(){
+	
+	var sjsname=$(this).attr("value");	
+	var imgurltwo=$(this).text();
+	if(string==sjsname){
+		
+		newname=imgurltwo;
+		
+		}
+		
+		});	
+return newname;
+	}
+	
+$(".case-detail-img img").each(function(){
+	
+	var imgurl=$(this).attr("src");
+	var newimg="";
+	newimg=replaceall(imgurl) ;
+	$(this).attr("src",newimg);
+			
+  });
+
+
+
+</script> 
+<script>
+
+ $("#mysjs li").each(function(){
+    var sjsname=$(this).attr("value");
+	
+	var imgurl=$(this).text();
+	
+	replaceAll(sjsname,imgurl); 
+	
+	
+	  
+		
+  });
+  
+function replaceAll(str,img)
+
+{
+
+if(str!=null)
+
+str = str.replace(str/g,img);
+
+return str;
+
+}
+</script> 
+<!-- 其他4 --> 
+
+<!-- 滚动加载文件 -->
+<link rel="stylesheet" href="/m/skin/css/swiper.min.css">
+<script src="/m/skin/js/swiper.min.js"></script> 
+
+<!-- Initialize Swiper --> 
+<script>
+    var galleryTop = new Swiper('.gallery-big-1', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs = new Swiper('.gallery-small-1', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop.params.control = galleryThumbs;
+    galleryThumbs.params.control = galleryTop;
+
+
+
+    var galleryTop2 = new Swiper('.gallery-big-2', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs2 = new Swiper('.gallery-small-2', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop2.params.control = galleryThumbs2;
+    galleryThumbs2.params.control = galleryTop2;
+
+
+     var galleryTop3 = new Swiper('.gallery-big-3', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs3 = new Swiper('.gallery-small-3', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop3.params.control = galleryThumbs3;
+    galleryThumbs3.params.control = galleryTop3;
+
+
+
+
+     var galleryTop4 = new Swiper('.gallery-big-4', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs4 = new Swiper('.gallery-small-4', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop4.params.control = galleryThumbs4;
+    galleryThumbs4.params.control = galleryTop4;
+
+
+
+     var galleryTop5 = new Swiper('.gallery-big-5', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs5 = new Swiper('.gallery-small-5', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop5.params.control = galleryThumbs5;
+    galleryThumbs5.params.control = galleryTop5;
+
+
+
+
+
+     var galleryTop6 = new Swiper('.gallery-big-6', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs6 = new Swiper('.gallery-small-6', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop6.params.control = galleryThumbs6;
+    galleryThumbs6.params.control = galleryTop6;
+
+
+     var galleryTop7 = new Swiper('.gallery-big-7', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs7 = new Swiper('.gallery-small-7', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop7.params.control = galleryThumbs7;
+    galleryThumbs7.params.control = galleryTop7;
+
+
+
+
+
+    var galleryTop8 = new Swiper('.gallery-big-8', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs8 = new Swiper('.gallery-small-8', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop8.params.control = galleryThumbs8;
+    galleryThumbs8.params.control = galleryTop8;
+
+
+
+
+    var galleryTop9 = new Swiper('.gallery-big-9', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs9 = new Swiper('.gallery-small-9', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop9.params.control = galleryThumbs9;
+    galleryThumbs9.params.control = galleryTop9;
+
+
+
+     var galleryTop10 = new Swiper('.gallery-big-10', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs10 = new Swiper('.gallery-small-10', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop10.params.control = galleryThumbs10;
+    galleryThumbs10.params.control = galleryTop10;
+
+
+
+
+     var galleryTop11 = new Swiper('.gallery-big-11', {
+        spaceBetween: 10,
+    });
+    var galleryThumbs11 = new Swiper('.gallery-small-11', {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true
+    });
+    galleryTop11.params.control = galleryThumbs11;
+    galleryThumbs11.params.control = galleryTop11;
+    
+    </script> 
+
+<!-- 设计师弹出 -->
+<div class="mask2"></div>
+<form action="/plus/diy.php" class="free2" enctype="multipart/form-data" method="post">
+  <input type="hidden" name="action" value="post" />
+  <input type="hidden" name="diyid" value="3" />
+  <input type="hidden" name="do" value="2" />
+  <a href="javascript:;" class="free-close2"></a>
+  <div class="free-ti2"> <span>预约设计师</span> </div>
+  <ul>
+    <li>
+      <label for="youName"> <span>您的姓名</span>
+        <input type="text" name="mz" id="mz">
+      </label>
+    </li>
+    <li>
+      <label for="youPhone"> <span>手机号码</span>
+        <input type="text"  name="sjhm" id="sjhm">
+      </label>
+    </li>
+    <li>
+      <label for="youName"> <span>楼盘</span>
+        <input type="text" name="lp" id="lp">
+      </label>
+    </li>
+    <li>
+      <label for="youPhone"> <span>面积</span>
+        <input type="text" name="mmjj" id="mmjj">
+      </label>
+    </li>
+    <input type="hidden" name="dede_fields" value="mz,text;sjhm,text;lp,text;mmjj,text" />
+    <input type="hidden" name="dede_fieldshash" value="279f5a54ff092e76fce40ed05d821d71" />
+  </ul>
+  <div class="free-btn2">
+    <input type="submit" name="submit" value="提交信息">
+  </div>
+</form>
+<!-- 弹出END --> 
+
+{dede:include filename="footer_m.htm"/}
+</body>
+</html>

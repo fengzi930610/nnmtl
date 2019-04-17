@@ -1,0 +1,178 @@
+.conter{
+width: 1200px;
+margin: 0 auto;
+overflow: hidden;
+clear: both;
+}
+.conter h2,.conter h2 a{
+font-family: "微软雅黑";
+font-size: 14px;
+color: #666666;
+margin-top: 30px;
+
+}
+.conter h2 a:hover{
+	color: #8fc31f;
+}
+.conter .top{
+margin-top: 20px;
+}
+.conter .top ul{
+margin: 0 auto;
+width: 488px;
+height: 82px;
+background: url(../images/confirm_order-top.png);
+}
+.conter .top ul li{
+float: left;
+font-family: "微软雅黑";
+font-size: 12px;
+color: #FFFFFF;
+padding: 20px 15px;
+}
+.conter .top .default{
+	color: #ffe400;
+}
+.conter .top ul li:nth-child(1){
+margin-right: 115px;
+}
+
+.conter .top ul li:nth-child(2){
+margin-right: 124px;
+}
+/****************** produce ************************/
+.produce{
+	width: 1198px;
+	height: 198px;
+	border: 1px solid #c3c3c3;
+	margin-bottom: 55px;
+	margin-top: 25px;
+}
+.produce .left{
+	float: left;
+}
+.produce .left img{
+	margin-top: 43px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+.produce .right{
+	margin-top: 35px;
+	float: left;
+}
+.produce .right p{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #0c0c0c;
+	padding-bottom: 30px;
+}
+.produce .right span{
+	color: #ff6a01;
+}
+.produce .right span:before{
+	content: "￥";
+}
+.mode h3,.pay-mode h4{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #0c0c0c;
+	margin-bottom: 6px;
+}
+.pay-mode h4{
+	border-bottom: 1px solid #afaba3;
+	margin:0 20px;
+	padding: 10px 2px;
+}
+.pay-mode{
+	overflow: hidden;
+	display: block;
+	width: 1198px;
+	border: 1px solid #c3c3c3;
+	margin-bottom: 20px;
+}
+.bank,.platform{
+	overflow: hidden;
+	margin-top: 25px;
+}
+.bank ul li,.platform ul li{
+	width: 176px;
+	display: inline-block;
+	float: left;
+	border: 1px solid #c3c3c3;
+	margin: 0 40px;
+	padding: 10px 0 10px 15px;
+	margin-bottom: 35px;
+	position: relative;
+}
+
+input[type="radio"] {
+  visibility: hidden;
+  }
+.bank ul li label input,.platform ul li label input{
+	width: 20px;
+}
+
+.bank ul li label img,.platform ul li label img{
+	position: absolute;
+	left: 35px;
+	top: 0;
+}
+.bank ul li label,.platform ul li label{
+	background: url(../images/pay-singular.png)no-repeat left center;
+	cursor: pointer;
+	
+}
+.bank ul li label.on,.platform ul li label.on{
+	background: url(../images/pay-singula-on.png)no-repeat left center;
+}
+
+
+/***************** password ******************/
+.password{
+	margin-left: 20px;
+	width: 280px;
+	display: inline-block;
+	margin-bottom: 30px;
+}
+.password span{
+	float: left;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #0c0c0c;
+}
+.password dl{
+	float: left;
+}
+.password dl dd{
+	float: left;
+}
+.password dl a{
+	float: left;
+	margin-left: 7px;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #ff4e00;
+	cursor: pointer;
+}
+.password dl dd input{
+	width: 19px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+	border: 1px solid #c3c3c3;
+	margin-left: -1px;
+	outline: none;
+}
+.password button{
+	cursor: pointer;
+	width: 148px;
+	height: 48px;
+	line-height: 48px;
+	text-align: center;
+	background: #ff3c00;
+	color: #FFFFFF;
+	font-size: 24px;
+	border: none;
+	margin-top: 30px;
+	margin-left: 30px;
+}

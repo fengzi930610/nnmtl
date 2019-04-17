@@ -1,0 +1,171 @@
+.conter{
+	width: 1200px;
+	margin: 25px auto 40px;
+}
+.conter .middle{
+	border: 55px solid transparent;
+	-moz-border-image:url(../images/comments-back.png) 55 60 round;	/* Old Firefox */
+	-webkit-border-image:url(../images/comments-back.png) 55 60 round;	/* Safari and Chrome */
+	-o-border-image:url(../images/comments-back.png) 55 60 round;		/* Opera */
+	border-image:url(../images/comments-back.png) 55 60 round;
+}
+.conter .middle .mid-top{
+	padding: 45px 90px 0 90px;
+	clear: both;
+	overflow: hidden;
+	
+}
+
+.conter .middle .mid-top h3,.mid-con h3,.conter .middle .mid-bot h3{
+	font-family: "微软雅黑";
+	font-size: 24px;
+	color: #333333;
+	font-weight: normal;
+	padding-bottom: 35px;
+}
+.conter .middle .mid-top .left{
+	float: left;
+	height: 140px;
+	width: 460px;
+}
+.conter .middle .mid-top .left img{
+	float: left;
+}
+.conter .middle .mid-top .left p{
+	font-family: "微软雅黑";
+	font-size: 20px;
+	color: #333333;
+	padding: 15px 30px;
+	float: left;
+}
+.conter .middle .mid-top .right{
+	float: right;
+}
+.conter .middle .mid-top .right li{
+	font-family: "微软雅黑";
+	font-size: 20px;
+	color: #333333;
+}
+input[type="checkbox"] {
+  visibility: hidden;
+  }
+ .conter .middle .mid-top .right label input{
+  	width: 30px;
+	height: 28px;	
+  }
+.conter .middle .mid-top .right img{
+	padding: 15px 10px 0px 10px;
+	margin-bottom: -5px;
+	cursor: pointer;
+}
+
+.conter .middle .mid-con{
+	padding: 80px 90px 0 90px;
+	clear: both;
+	overflow: hidden;
+	
+}
+.conter .middle .mid-con .left{
+	float: left;
+}
+.conter .middle .mid-con .right{
+	position: relative;
+	width: 700px;
+	height: 360px;
+	float: right;
+}
+.conter .middle .mid-con textarea{
+	outline: none;
+	width: 550px;
+	height: 130px;
+	border: 1px solid #e3e3e3;
+	border-radius: 8px;
+	padding: 15px 17px;
+	color: #b6b6b6;
+	resize: none;
+}
+.bask button{
+	outline: none;
+	position: absolute;
+	padding: 7px 21px;
+	background: #8fc31f;
+	color: #FFFFFF;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	border: none;
+	border-radius: 6px;
+	left: 0;
+	bottom: 100px;
+}
+.promptly button{
+	outline: none;
+	padding: 7px 14px;
+	position: absolute;
+	right: 120px;
+	bottom: 60px;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #FFFFFF;
+	background: #8fc31f;
+	border: none;
+	border-radius: 6px;
+}
+.Choice{
+	position: absolute;
+	right:205px;
+	bottom: 110px;
+}
+
+input[type="radio"] {
+  visibility: hidden;
+  }
+.Choice label{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #333333;
+	background: url(../images/Choice.png)no-repeat left center;
+	cursor: pointer;
+}
+.Choice label.om{
+	background: url(../images/Choice-on.png)no-repeat left center;
+}
+/*****************mid-bot****************************/
+.conter .middle .mid-bot{
+	margin: 0 auto;
+	width: 881px;
+	clear: both;
+	overflow: hidden;
+	margin-bottom: 50px;
+}
+
+.mid-bot ul{
+	overflow: hidden;
+	clear: both;
+	margin-right: -25px;
+}
+.mid-bot ul li{
+	float: left;
+	position: relative;
+	width: 124px;
+	height: 148px;
+	margin-right: 25px;
+	border: 1px solid #FFFFFF;
+}
+.mid-bot ul li img{
+	width: 124px;
+	height: 148px;
+}
+.mid-bot ul li:hover span{
+	width: 124px;
+	position: absolute;
+	left: 0;
+	bottom: 0px;
+	background: url(../images/mid-bot-back.png);
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #FFFFFF;
+	text-align: center;
+}
+.mid-bot ul li:hover{
+	border: 1px solid #9f9f9f;
+}

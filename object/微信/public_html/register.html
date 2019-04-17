@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>注册</title>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/register.js" ></script>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/register.css" />
+	</head>
+	<body>
+		<!--头部-->
+		<div id="header">
+			<a href="javascript:viod(0)" class="prev"><img src="images/prev_back.png" alt="images/prev_back.png" /></a>
+			注册
+		</div>
+		<!--头部 end-->
+		<!--中部-->
+		<div id="middle">
+			<form  method="post">
+				<div class="user">
+					<label for="user">用户名</label><input type="text" name="user" id="user" placeholder="请输入3-12位字符"/>
+					<div class="userTip">
+						请填写正确的用户名;格式为：不能以数字开头，长度为3到15个字符
+					</div>
+				</div>
+				<div class="password">
+					<label for="password">密码</label><input type="password" name="password" id="password" placeholder="请输入6位以上字符"/>
+					<div class="passTip">
+						密码不符合格式;格式为：不能以特殊符号开头，长度为6到18位字符
+					</div>
+				</div>
+				<div class="upass">
+					<label for="upass">确认密码</label><input type="password" name="upass" id="upass"/>
+					<label for="password">密码</label><input type="password" name="password" id="password" placeholder="请输入6位以上字符"/>
+					<div class="upassTip1">
+						你输入的密码不一致，请重新输入
+					</div>
+					
+				</div>
+				<div class="email">
+					<label for="email">邮箱号</label><input type="email" name="email" id="email"/>
+					<div class="emailTip">
+						请填写正确的邮箱
+					</div>
+				</div>
+				<div class="code">
+					<input type="text" id="code" placeholder="验证码" />
+					<input type="button" id="getcode" value="获取验证码"></input>
+					<div class="codeTip">
+						请填写正确的验证码；格式为4位字符
+					</div>
+				</div>
+				<a href="login.html">登录</a>
+				<input type="submit"  value="立即注册" id="btn_reg" />
+			</form>
+			
+			
+		</div>
+		<!--中部 end-->
+		
+		
+	</body>
+</html>

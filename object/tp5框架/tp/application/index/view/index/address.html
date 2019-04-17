@@ -1,0 +1,206 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/address.css" />
+<div class="conter">
+	<h2><a href="{:url('index')}">首页</a><a href="{:url('user')}">>会员中心</a>>地址管理</h2>
+	<div class="conter-left">
+		<ul>
+			<li>
+				<h1>订单中心</h1>
+				<a href="{:url('Cart/orders')}">我的订单</a>
+				<a href="#">我的回购订单</a>
+				<a href="#">我的意外保单</a>
+			</li>
+			<li>
+				<h1>个人中心</h1>
+				<a href="address.html" class="on">地址管理</a>
+				<a href="#">我的收藏</a>
+				<a href="#">消息提醒</a>
+				<a href="#">建议反馈</a>
+			</li>
+			<li>
+				<h1>个人中心</h1>
+				<a href="#">我的优惠券</a>
+				<a href="#">我的红包</a>
+				<a href="#">我的回购券</a>
+			</li>
+			<li>
+				<h1>服务中心</h1>
+				<a href="#">退款跟踪</a>
+				<a href="#">补办意外保</a>
+				<a href="#">以旧换新</a>
+			</li>
+		</ul>
+	</div>
+	<div class="conter-right">
+		<div class="mid-top">
+			<h3>新增收货地址<i>（您目前有地址1个，还可以再增加9个）</i></h3>
+			<label class="name">
+				<a><i>收货人姓名</i><input type="text" id="shname" placeholder="长度不超过12个字"></a>
+				<a><i>收货人手机号</i><input type="text" id="phone" placeholder="输入11位手机号"></a>	
+			</label>
+			<label class="site">
+				<i>收货人地址</i>
+				<input type="text" id="province" placeholder="省/直辖市"/>
+				<input type="text" id="city" placeholder="城市"/>
+				<input type="text" id="county" placeholder="区/县"/>
+				<input type="text" id="village" placeholder="乡镇/街道"/>
+			</label>
+			<label class="detail-site">
+				<i>详细地址</i>
+				<input type="text" id="site" placeholder="请输入不超过50个字的详细地址" />
+			</label>
+			<div class="default">
+				<label>
+					<input type="checkbox"/>
+					<span>设为默认</span>
+				</label>	
+			</div>
+			<button id="hold">保存</button>
+		</div>
+		<script>
+		$(function(){
+		
+			
+			$(".mid-top .default label").click(function(){
+				if($(this).find("input").is(":checked")){
+					$(this).find("input").removeAttr("checked")
+					$(this).removeClass("on")
+				}else{
+					$(this).find("input").prop("checked","checked")
+					$(this).addClass("on")
+				}
+			})
+		})
+			
+		</script>
+		<div class="mid-bottom">
+			<h3>已有地址</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>收货人姓名</th>
+						<th>收货人手机号</th>
+						<th>收货人地址</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="td-name">王红</td>
+						<td class="td-phone">13345998622</td>
+						<td class="td-hold">浙江省无锡市东街256号</td>
+						<td class="td-handle">
+							<span class="delete">删除</span>
+							<span class="alter">修改</span>
+							<label><i id="mo">设为</i>默认</label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--mid-bottom-->
+	</div>
+</div>
+		<script>
+//				$(function(){
+//						var Address = [];
+//						var tbody = document.getElementsByTagName("tbody");
+//							
+//						$("#hold").click(function(){
+//							var name = $("input#shname").val(),
+//								phone = $("input#phone").val(),
+//								province = $("input#province").val(),
+//								city = $("input#city").val(),
+//								county = $("input#county").val(),
+//								village = $("input#village").val(),
+//								site = $("input#site").val();
+//							local(name,phone,province,city,county,village,site)
+//						
+//						})
+//						
+//						var storage = window.localStorage;
+//						function local(name,phone,province,city,county,village,site){
+//							var data = {
+//							name:name,
+//							phone:phone,
+//							province:province,
+//							city:city,
+//							county:county,
+//							village:village,
+//							site:site
+//							}
+//							Address.push(data)
+//						 	storage.setItem("Address",JSON.stringify(Address))
+//						}
+//						
+//						var addlocal = storage.getItem("Address")
+//						var	addjon = JSON.parse(addlocal);
+//						
+//						
+//						if(addjon != null){
+//							for(var i=0;i<addjon.length;i++){
+//								Address.push(addjon[i])
+//							}
+//						}
+//						
+//						var dzoj = localStorage.getItem("proList");
+//						if(dzoj!=null){
+//							var Address = JSON.parse(dzoj);
+//							for(var i=0;i<Address.length;i++){	
+//								var tbody = document.getElementById("tbody");
+//								var tr = document.createElement("tr");						
+//								tbody.appendChild(tr);
+//								
+//								var td1 = document.createElement("td");
+//								td1.setAttribute("class","td-name");
+//								td1.innerHTML = Address[i].name;
+//								tr.appendChild(td1);
+//								
+//								var td2 = document.createElement("td");
+//								td2.setAttribute("class","td-phone");
+//								td2.innerHTML = Address[i].phone;
+//								tr.appendChild(td2);
+//								
+//								var td3 = document.createElement("td");
+//								td3.setAttribute("class","td-hold");
+//								td3.innerHTML = Address[i].province+Address[i].city+Address[i].county+Address[i].village+Address[i].site;
+//								tr.appendChild(td3);
+//								
+//								var td4 = document.createElement("td");
+//								td4.setAttribute("class","td-handle");
+//								tr.appendChild(td4);
+//								
+//								var span4_1 = document.createElement("span");
+//								span4_1.setAttribute("class","delete")
+//								span4_1.innerHTML = "删除";
+//								td4.appendChild(span4_1);
+//								
+//								var span4_2 = document.createElement("span");
+//								span4_2.setAttribute("class","alter")
+//								span4_2.innerHTML = "修改";
+//								td4.appendChild(span4_2);
+//								
+//								var lable4 = document.createElement("label");
+//								lable4.innerHTML = "默认";
+//								td4.appendChild(lable4);
+//								
+//								var i4 = document.createElement("i");
+//								i4.setAttribute("id","mo");
+//								i4.innerHTML = "设为";
+//								lable4.appendChild(i4)
+//							}
+//						}
+//				})
+//					
+			
+			/*********************************************/
+			//删除
+			$(".mid-bottom .delete").click(function(){
+				$(this).parents().parent("tr").remove()
+			})
+			
+			
+			$(".mid-bottom tbody>tr>td label").click(function(){
+				$(this).children("i").css("display","none")
+				$(this).parent().parent().siblings("tr").find("label").children("i").css("display","block")
+			})
+		</script>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="blue">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{dede:field.title/}_{dede:global.cfg_webname/}</title>
+<link rel="stylesheet" type="text/css" href="/m/skin/css/style.css" />
+<script type="text/javascript" src="/m/skin/js/jquery.js"></script>
+<script type="text/javascript" src="/m/skin/js/index.js"></script>
+<script>
+    var root="";
+</script>
+<!-- 
+<script type="text/javascript" src="/m/skin/js/public.js"></script> -->
+<script type="text/javascript" src="/m/skin/js/layer.js"></script>
+</head>
+
+<body class="bg">
+{dede:include filename="header_m.htm"/}
+<div class="sub-nav"> {dede:channel type='son' row='6' currentstyle="<a href='list.php?tid=~id~' ~rel~ class='active'><span>~typename~</span></a>"} <a href="list.php?tid=[field:id/]">[field:typename/]</a> {/dede:channel} </div>
+<div class="case-detail">
+  <div class="case-detail-ti"> <span>{dede:field.title/}</span> </div>
+  <div class="case-detail-info">
+    <p style="width: 50%;">所属小区：<em>{dede:field.community/}</em></p>
+    <p style="width: 50%;">房屋信息：<em>{dede:field.house_info/}</em></p>
+  </div>
+  <div class="case-detail-info">
+    <p>施工监管：<em>{dede:field.c_jg/}</em></p>
+    <p>项目经理：<em>{dede:field.c_jl/}</em></p>
+    <p>总    价：<em>{dede:field.total_price/}</em></p>
+  </div>
+</div>
+{dede:include filename="footer_m.htm"/}
+</body>
+</html>

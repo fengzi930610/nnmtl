@@ -1,0 +1,1 @@
+<li><a><img src="[field:picname/]" alt="[field:title/]"/></a></li>

@@ -1,0 +1,391 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<div class="conter">
+	<h3>当前位置：<a href="index.html">首页</a>商品详情</h3>
+	<div class="top">
+		<div class="left">
+			<div class="left-top">
+				<div class="small_box"></div>
+				<ul>
+					<li><img src="{$detail.picture|substr=###,1}" id="glass" class="img"/></li>
+				</ul>
+				<a class="thweek"><img src="__PUBLIC__images/pro_details-thweek.png"></a>
+				<a class="magnify"><img src="__PUBLIC__images/magnify.png"></a>
+			</div>
+			<!--left-top-->			<div class="magni_fier"></div>			<div class="pro-bot">
+				<div class="left-bot">
+					<ul id="pro-pic">						<li class="active"><img src="{$detail.picture|substr=###,1}" class="img"></li>						<li><img src="__PUBLIC__images/pro_details_02.jpg" class="img"></li>						<li><img src="__PUBLIC__images/pro_details_01.jpg" class="img"></li>						<li><img src="__PUBLIC__images/pro_details_02.jpg" class="img"></li>						<li><img src="__PUBLIC__images/pro_details_03.jpg" class="img"></li>					</ul>	
+				</div>
+				<!--left-bot-->	
+				<a href="javascript:0" class="prev"><img src="__PUBLIC__images/pro_details-prev.png"/></a>
+				<a href="javascript:0" class="next"><img src="__PUBLIC__images/pro_details-next.png" /></a>
+				<span>
+					<a href="#">分享</a><a href="#">收藏宝贝</a>
+				</span>
+			</div>
+			<!--pro-bot-->
+		</div>
+		<!--left-->
+		<div class="right">			<form action="">
+				<div class="pro-text">
+					<h2>{$detail.name}</h2>	
+					<a class="guarantee">全新正品  &nbsp; 全国连锁 &nbsp;  质量保证  &nbsp;更多优惠活动咨询客服了解详情</a>	
+					<a class="hot">热卖价：￥<i>{$detail.price}</i></a>	
+					<span>运费：
+						<a>深圳 至 </a> 
+					    <select id="cmbProvince" name="cmbProvince"></select>  
+						<select id="cmbCity" name="cmbCity"></select>  
+						<select id="cmbArea" name="cmbArea"></select> 
+						<i>快递由卖家承担</i>
+					</span>	
+					<div class="statistics">
+						<a class="sales">月销量：8056件</a>	
+						<a class="estimate">累计评价：15063条</a>	
+						<a class="integration">送积分90分</a>
+					</div>	
+					<div class="color">
+						<i>颜色分类：</i>
+						<a class="color-active"><img src="__PUBLIC__images/pro_details_color01.jpg"></a>
+						<a><img src="__PUBLIC__images/pro_details_color02.jpg"></a>
+					</div>
+					<div class="stature">
+						<i>参考身高：</i>
+						<ul>
+							<li class="on">52cm（建议0-1个月）</li>
+							<li>59cm（建议1-3个月）</li>
+							<li>66cm（建议3-6个月）</li>
+							<li>52cm（建议0-1个月）</li>
+							<li>52cm（建议0-1个月）</li>
+						</ul>
+					</div>
+					<div class="num">
+						<i class="numder">数量：</i>
+						<!--商品购买数量-->
+						<input type="text" class="prd_num" id="prd_num" value="1" />
+						<!--商品对应的Id-->
+						<input type="text" id="productId" hidden="hidden" value="{$detail.Id}" />
+						<div class="btn">
+							<button type="button" class="prd_addNum" id="reduceb"><i>∧</i></button>
+							<button type="button" class="prd_subNum" id="addb" ><i>∨</i></button>
+						</div>
+						<a>件</a>
+						<span>
+							库存{$detail.num}件
+						</span>
+					</div>	
+					<div class="right-bot">
+						<a class="default">立即购买</a>	
+						<a class="add-cart" id="addcart">加入购物车</a>
+					</div>
+				</div>
+			</form>
+			<!--pro-text-->
+		</div>
+		<!--right-->
+		
+	</div>
+	<!--top-->
+	<div class="bottom">
+		<div class="left">
+			<div class="repeatedly">
+				<h4>看了又看</h4>
+				<ul>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/repeatedly01.jpg"></a>
+						<a href="pro_details.html">
+							<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+							<span>特价：￥158.00</span>	
+						</a>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/repeatedly02.jpg"></a>
+						<a href="pro_details.html">
+							<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+							<span>特价：￥158.00</span>	
+						</a>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/repeatedly03.jpg"></a>
+						<a href="pro_details.html">
+							<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+							<span>特价：￥158.00</span>	
+						</a>
+					</li>
+				</ul>
+			</div>	
+			<div class="enshrine">
+				<a href="#"><img src="__PUBLIC__images/enshrine.png"></a>
+			</div>
+			<div class="service">
+				<div class="service-left">
+					<a href="#">客服小熊</a>
+					<a href="#">客服小猴</a>
+					<a href="#">客服小兔</a>
+					<a href="#">客服小猫</a>
+				</div>
+				<a href="#" class="service-right">随时为您服务</a>
+			</div>
+		</div>
+		
+		<div class="box">
+			<div class="box-top">
+				<ul>
+					<li class="present">商品详情</li>
+					<li>累计评价（15063）</li>
+					<li>成交记录（20330）</li>
+				</ul>
+			</div>
+			<div class="box-bottom">
+				<ul class="first">
+					<li>
+						<p>商品名称：Hallmark</p>
+						<p>产品参数：</p>
+						<div class="texture">
+							<span>材质成分：其他100%</span>
+							<span>适用性别&nbsp;: 中性  </span>
+							<span> 颜色分类&nbsp;: 浅黄色</span>
+							<span>货号&nbsp;: H33E0101BUMY</span>
+							<span>模特实拍&nbsp;: 实拍无模特</span>
+							<span>面料&nbsp;: 纯棉(含量100%)</span>
+						</div>
+						<div class="reference">
+							<span>参考身高&nbsp;:</span>
+							<a class="reference-right">
+								<i>0-3个月(1-5个工作天发货) </i>
+								<i>3-6个月(1-5个工作天发货)</i>
+								<i>6-12个月(1-5个工作天发货)</i>
+								<i>12-18个月(1-5个工作天发货)</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a class="merit"><img src="__PUBLIC__images/pro_details-merit.png"></a>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/pro_details-pic01.jpg"></a>
+						<a href="pro_details.html"><img src="__PUBLIC__images/pro_details-pic02.jpg"></a>
+						<a href="pro_details.html"><img src="__PUBLIC__images/pro_details-pic03.jpg"></a>
+						<a href="pro_details.html"><img src="__PUBLIC__images/pro_details-pic04.jpg"></a>
+						<a href="pro_details.html"><img src="__PUBLIC__images/pro_details-pic05.jpg"></a>
+						<a href="pro_details.html"><img src="__PUBLIC__images/pro_details-pic06.jpg"></a>
+					</li>
+					<li>
+						<a class="feature"><img src="__PUBLIC__images/feature.png"></a>
+					</li>
+					<li>
+						<a class="material"><img src="__PUBLIC__images/material.png"></a>
+					</li>
+				</ul>
+				<ul class="last"  style="display: none;">
+					<li>
+						<label class="on"><input type="radio" id="" value="" /><i>全部</i></label>
+						<label><input type="radio" id="" value="" /><i>追评</i></label>
+						<label><input type="radio" id="" value="" /><i>图片</i></label>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<p>老顾客了，衣服设计实用方便，面料柔软，质量好，   </p>
+						<a class="time"> 11.08   </a>
+						<span>
+							<a>颜色分类：深卡其布色</a>
+							<a>参考身高：12-18个月(3-5个工作天发货)</a>
+							<a> 冬***苏（匿名）</a>
+						</span>
+					</li>
+					<li>
+						<button>下一页>> </button>
+						<input type="text" value="1" disabled="disabled"/>
+						<button><<上一页</button>	
+					</li>
+				</ul>
+				<ul style="display: none;">
+					<li>成交记录页面</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="__PUBLIC__js/jquery-2.1.1.js" ></script>
+<script type="text/javascript" src="__PUBLIC__js/jquery-1.11.2.min.js" ></script><script type="text/javascript" src="__PUBLIC__js/pro_details.js" ></script>
+<script type="text/javascript" src="__PUBLIC__js/jsAddress.js" ></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/pro_details.css" />
+<script type="text/javascript">  
+//	alert(123)
+	addressInit('cmbProvince', 'cmbCity', 'cmbArea');
+</script>
+<script type="text/javascript">  
+	//添加购物车
+	$(function(){
+		$('#addcart').click(function(){
+//			alert(123)
+			var productId = $('#productId').val()
+			var num = $('#prd_num').val()
+//			alert(num)
+			$.post("{:url('index/Cart/cartAdd')}",{productId:productId,num:num},function(data){
+//				alert(data)
+//				return false;
+				if(data.code==400){
+					alert(data.msg)
+					location = "{:url('index/login')}"
+				}else if(data.code==500){
+					alert(data.msg)
+				}else if(data.code==401){
+					alert(data.msg)
+				}
+			})
+			
+		})
+	})
+
+</script>

@@ -1,0 +1,43 @@
+@charset "utf-8";
+/* CSS Document */
+*{padding:0; margin:0}
+ol,ul,li,b{list-style:none}
+a{text-decoration:none}
+input,button,textarea{ outline:none}
+
+.max{width:100%; position:relative}
+.contact_us{width:1920px; height:900px; margin:auto; background:url(../images/contact_us_map_bg.jpg)  no-repeat;}
+
+
+.contact_us .content{ width:1920px; height:710px}
+.contact_us .content .left{ width:213px; height:inherit; margin-left:124px; background-color:rgba(53,53,53,0.5); float:left}
+.contact_us .content .left .sidebar{width:inherit; height:430px; padding-top:105px}
+.contact_us .content .left .sidebar li{width:inherit; margin-bottom:36px; text-align:center}
+.contact_us .content .left .sidebar li.current{background-image:url(../images/sidebar_bg.png)}
+.contact_us .content .left .sidebar li a{width:inherit; height:50px; line-height:50px; font-family:"微软雅黑"; font-size:24px; color:#FFF; cursor:pointer}
+.contact_us .content .right{ width:1516px; height:710px; position:absolute; margin-left:404px; overflow:hidden}
+.contact_us .content .right>div{ width:1516px; height:710px}
+.contact_us .content .right>div .side{ width:356px; height:106px; margin-left:1100px; line-height:106px;font-family:"微软雅黑"; font-size:12px; color:#FFF}
+.contact_us .content .right>div .side>a{font-family:"微软雅黑"; font-size:12px; color:#FFF}
+.contact_us .content .right>div .side>b>a{font-family:"微软雅黑"; font-size:12px; color:#bc9696; font-weight:normal}
+.contact_us .content .right>div .bottom{ width:1290px; height:604px; position:absolute}
+.contact_us .content .right>div .bottom>h1{ font-size:50px; color:#F00; text-align:center}
+.contact_us .content .right>div .bottom .return{ width:48px; height:20px; background-color:#7e7e7e; position:absolute; margin-left:80px; margin-top:18px;font-family:微软雅黑; font-size:12px; color:#fff ; text-align:center; line-height:20px; border-radius:6px}
+.contact_us .content .right>div .bottom .prev{ display:block; height:30px; width:130px;margin-left:60px; background-color: rgba(27,27,27,0.5); line-height:30px;font-size:14px; color:#b4b3b3; position:absolute;top:500px; cursor:pointer}
+.contact_us .content .right>div .bottom .prev a{color:#FFF }
+.contact_us .content .right>div .bottom .next{ display:block; height:30px; width:250px; font-size:14px; color:#b4b3b3; position:absolute;top:500px; right:55px; background-color: rgba(27,27,27,0.5); line-height:30px; cursor:pointer}
+.contact_us .content .right>div .bottom .next a{color:#FFF }
+.contact_us .content .right>div .bottom .container{width:1070px; height:484px; background-color:rgba(27,27,27,0.4); margin-left:60px; position:absolute}
+.contact_us .content .right>div .bottom .container iframe{ display:block; width:813px; height:448px; float:left; margin-top:15px; margin-left:35px}
+.contact_us .content .right>div .bottom .container .text{ width:148px; height:340px; background-color:rgba(17,17,17,0.5); float:right; margin-right:25px; margin-top:75px; padding-left:30px}
+.contact_us .content .right>div .bottom .container .text p{ font-family:"微软雅黑"; font-size:14px; color:#fff}
+.contact_us .content .right>div .bottom .information{ width:671px; height:434px; background-color:rgba(27,27,27,0.4);margin-left:210px; position:absolute; padding:50px 0px 0px 85px; font-family:"微软雅黑"; font-size:18px; color:#fff}
+.contact_us .content .right>div .bottom .information input[type=text]{ background-color:rgba(51,51,51,0); width:177px; height:33px; border:1px dashed #FFF;margin-bottom:20px; margin-right:80px; color:#e34949}
+.contact_us .content .right>div .bottom .information input.last{ margin-right:0px}
+.contact_us .content .right>div .bottom .information textarea{background-color:rgba(51,51,51,0); width: 495px; height:142px; resize:none; border:1px dashed #FFF; margin-bottom:10px}
+.contact_us .content .right>div .bottom .information img{ display:inline; border:none; vertical-align:middle}
+.contact_us .content .right>div .bottom .information input[type=submit]{ width:75px; height:39px; color:#000; background-color:#e5e5e5; cursor:pointer}
+.contact_us .content .right>div .bottom .information input[type=reset]{ width:75px; height:39px;color:#000; background-color:#e5e5e5;cursor:pointer}
+.contact_us .content .right>div .bottom .information input[type=submit]:hover{ width:75px; height:39px; color:#fff; background-color:#fb7272}
+.contact_us .content .right>div .bottom .information input[type=reset]:hover{ width:75px; height:39px; color:#fff; background-color:#fb7272}
+

@@ -1,0 +1,4 @@
+INSERT INTO `dede_taglist` VALUES('1','40','0','24','园丁鸟装饰');
+INSERT INTO `dede_taglist` VALUES('2','40','0','24','家装案例');
+INSERT INTO `dede_taglist` VALUES('3','40','0','24','止泊园');
+INSERT INTO `dede_taglist` VALUES('4','273','0','24','自建房120平');

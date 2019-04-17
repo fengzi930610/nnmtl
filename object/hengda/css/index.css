@@ -1,0 +1,246 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{padding:0; margin:0}
+ol,ul,li,b,i{list-style:none}
+a{text-decoration:none}
+input,button,textarea{ outline:none}
+img,input{border:0} 
+
+.max{ width:1920px; position:relative; margin:auto}
+
+.max .title{width:1920px; height:110px; margin:auto}
+.max .title .logo{ display:block; float:left; width:220px; left:120px; height:167px; position:absolute; z-index:1}
+.max .title .logo img{display:block}
+.max .title .menu{ width:760px;height:inherit; float:left; margin-left:960px; position:absolute; z-index:1}
+.max .title .menu li{ width:118px; height:58px; border:1px solid rgba(255,255,255,0); border-radius:57px; float:left; 
+					 margin-right:30px; margin-top:38px}
+.max .title .menu li:last-child{margin-right:0px}
+.max .title .menu li.current{border:1px solid rgba(255,255,255,1)}
+.max .title .menu li:hover{border:1px solid rgba(255,255,255,1)}
+.max .title .menu li a{display:block; width:inherit; height:inherit; text-align:center; line-height:58px; color:#FFF;font-family:"微软雅黑"; font-size:18px; color:#FFF}
+.max .title span{display:block; height:60px; width:64px; margin-top:50px; position:absolute; left:1739px;cursor:pointer; border-top-right-radius:6px;border-top-left-radius:6px; z-index:5}
+.max .title span img{ display:block; position:absolute; border-radius:21px; margin-left:9px; margin-top:10px}
+.max .title>div{width:560px; height:315px; border-radius:7px; border-top-right-radius:0px; background-color:rgba(15,15,15,0.8); position:absolute; margin-top:110px;left:1243px; display:none; z-index:1}
+.max .title>div ul{ height:295px; width:25%; background-color:rgba(0,0,0,0.8); float:left}
+.max .title>div ul li{ width:117px; height:39px; border: dashed 1px rgba(255,255,255,0); margin-top:20px; margin-left:10px; text-align:center; line-height:39px;font-family:"微软雅黑"; font-size:16px; color:#FFF; cursor:pointer }
+.max .title>div ul li.current{border: dashed 1px rgba(255,255,255,1)}
+.max .title>div ul li:hover{border: dashed 1px rgba(255,255,255,1)}
+.max .title>div div{height:inherit; width:75%; float:left; overflow:hidden}
+.max .title>div div ol{ height:inherit; width:100%}
+.max .title>div div ol li{ width:136px; height:inherit;background-color:rgba(55,55,55,0.5); margin-left:6px; text-align:center; line-height:315px; float:left}
+.max .title>div div ol li a{display:block; width:inherit; height:inherit;font-family:"微软雅黑"; font-size:16px; color:#FFF;}
+.max .title>div div ol li:first-child{margin-left:0px}
+
+
+.max .center{ width:1920px; height:710px;margin:auto}
+.max .center .page{width:300px; height:530px; position:absolute; margin-top:110px; left:120px; z-index:1}
+.max .center .page li{width:inherit; height:88px; margin-bottom:20px; cursor:pointer;border-left:3px solid rgba(0,0,0,0)}
+.max .center .page>li div{ position:absolute}
+.max .center .page>li div>span{display:block; width:16px; height:16px; border-top:3px solid #FFF; border-left:3px solid #FFF;border-top-left-radius:9px}
+.max .center .page>li div>h3{font-family:"宋体"; font-size:24px; color:#FFF; margin-left:20px;}
+.max .center .page>li h1{font-family:"时尚中黑"; font-size:59px; color:#FFF; margin:auto; text-align: center; line-height:59px; display:none}
+.max .center .page>li h2{font-family:"微软雅黑"; font-size:30px; color:#FFF;margin:auto; text-align:center; line-height:30px; display:none}
+.max .center .page>li:hover div{display:none;}
+.max .center .page>li:hover h1{ display:block}
+.max .center .page>li:hover h2{ display:block}
+.max .center .page>li:hover{border-left:3px solid #FFF}
+.max .center .page>li.current{border-left:3px solid #FFF;}
+.max .center .page>li.current div{display:none}
+.max .center .page>li.current>h1{display:block}
+.max .center .page>li.current>h2{display:block}
+
+
+
+.max .content{ width:100%; height:900px; position:absolute; top:0px; overflow:hidden}
+
+
+.max .content .index{ width:1920px; height:900px; margin:auto}
+.max .content .index .banner{ max-width:1920px; min-width:1200px; height:900px; position:absolute; left:50%; margin-left:-960px; overflow:hidden}
+.max .content .index .banner ul{ height:900px}
+.max .content .index .banner ul li{ width:1920px; height:900px; float:left}
+.max .content .index .banner ul li a{ display:block; width:1920px; height:900px}
+.max .content .index .banner ul li a img{ display:block}
+.max .content .index .banner ol{ width:800px; height:6px; position:absolute; left:42%; bottom:10%; cursor:pointer}
+.max .content .index .banner ol li{width:80px; height:6px; border:2px solid #951e1e; border-radius:3px; float:left; margin-right:50px;}
+.max .content .index .banner ol li.current{ background:#eb2626;}
+.max .content .index p{ display:inline-block; height:30px; position:absolute; background-color:#0f0f0f; font-family:"宋体"; font-size:12px; color:#FFF; margin-left:310px; margin-top:840px; line-height:30px; border-bottom-right-radius:5px; border-top-right-radius:5px}
+.max .content .index .bg{ width:142px; height:30px;left:163px; margin-top:840px; position:absolute; background-color:#161616; border-bottom-left-radius:5px; border-top-left-radius:5px}
+
+
+.max .content .about{ width:1920px; height:780px; margin:auto; padding-top:120px; background-image:url(../images/index_about_bg.jpg)}
+.max .content .about>a{ display:block; width:92px; height:36px; border:1px solid #fff; position:absolute; left:960px; margin-top:710px; font-family:"微软雅黑"; font-size:18px; color:#FFF; text-align:center; border-radius:10px; line-height:36px}
+.max .content .about>a:hover{ color:#f56969}
+.max .content .about .side{ width:290px; height:115px; padding-left:1630px; padding-top:35px; margin:auto }
+.max .content .about .side h1{ display:inline-block;font-family:"微软雅黑"; font-size:30px; color:#FFF; margin-bottom:15px}
+.max .content .about .side span{ display:inline-block; width:167px; height:1px; background-color:#fff; vertical-align:middle}
+.max .content .about .side h2{ display:inline-block; font-family:"微软雅黑"; font-size:24px; color:#FFF; margin-top:15px}
+.max .content .about .container{ width:985px; height:540px; margin-left:510px}
+.max .content .about .container .guide{width:226px; height:inherit; float:left; position:relative}
+.max .content .about .container .guide .line_1{ width:125px; height:2px; background-color:#515151; position:absolute; margin-top:110px; margin-left:53px; transform:rotate(135deg);-webkit-transform:rotate(135deg)}
+.max .content .about .container .guide .line_2{ width:125px; height:2px; background-color:#515151; position:absolute; margin-top:250px; margin-left:53px; transform:rotate(45deg);-webkit-transform:rotate(45deg)}
+.max .content .about .container .guide .line_3{ width:140px; height:2px; background-color:#515151; position:absolute; margin-top:407px; margin-left:42px; transform:rotate(130deg);-webkit-transform:rotate(135deg)}
+.max .content .about .container .guide>span{ cursor:pointer}
+.max .content .about .container .guide .one{display:block; width:88px; height:88px; background-color:#515151; margin-left:138px;
+											 margin-bottom:40px; border-radius:50%; position:absolute}
+.max .content .about .container .guide .two{display:block; width:88px; height:88px; background-color:#515151; margin-top:130px; 
+											margin-bottom:60px;border-radius:50%; position:absolute;} 
+.max .content .about .container .guide .three{display:block; width:88px; height:88px; background-color:#515151; margin-left:138px;
+				   								margin-top:280px;margin-bottom:80px; border-radius:50%;position:absolute}
+.max .content .about .container .guide .four{display:block; width:88px; height:88px; background-color:#515151; border-radius:50%;
+											 margin-top:450px;position:absolute}
+.max .content .about .container .guide>span>.circular_white{display:block; width:39px; height:39px; background-color:#fff; margin-left:24.5px; border-radius:50%;position:absolute; margin-top:24.5px;}
+.max .content .about .container .guide>.current>span:first-child{ width:59px; height:59px;margin-left:14.5px; border-radius:50%; position:absolute; margin-top:14.5px;background-color:#eb2626}
+.max .content .about .container .text{ width:635px; height:525px; float:right; padding-top:15px; overflow:hidden}
+.max .content .about .container .text h1{ display:inline-block; font-family:"微软雅黑"; font-size:24px; color:#FFF; margin-bottom:55px}
+.max .content .about .container .text span{ display:inline-block; width:30px; height:2px; background-color:#fff; vertical-align:middle}
+.max .content .about .container .text span.left{ margin-left:35%;}
+.max .content .about .container .text p{font-family:微软雅黑; font-size:16px; color:#FFF; text-indent:2em}
+.max .content .about .container .text>div{ height:525px; width:635px}
+
+
+
+
+.max .content .news{ width:1920px; height:780px; margin:auto; padding-top:120px; background-image:url(../images/index_news_bg.jpg)}
+.max .content .news>a{ display:block; width:92px; height:36px; border:1px solid #fff; position:absolute; left:960px; margin-top:710px; font-family:"微软雅黑"; font-size:18px; color:#FFF; text-align:center; border-radius:10px; line-height:36px}
+.max .content .news>a:hover{ color:#f56969}
+.max .content .news .side{ width:290px; height:115px; padding-left:1630px; padding-top:35px; position:absolute;}
+.max .content .news .side h1{ display:inline-block;font-family:"微软雅黑"; font-size:30px; color:#FFF; margin-bottom:15px}
+.max .content .news .side span{  display:inline-block; width:167px; height:1px; background-color:#fff; vertical-align:middle}
+.max .content .news .side h2{ display:inline-block; font-family:"微软雅黑"; font-size:24px; color:#FFF; margin-top:15px}
+.max .content .news .container{ width:1090px; height:550px; position:absolute; margin-top:80px; margin-left:450px}
+.max .content .news .container .top{ width:inherit; height:60px; line-height:60px}
+.max .content .news .container .top ul{ width:70px; height:30px; float:right; margin-top:15px}
+.max .content .news .container .top ul li{width:30px; height:inherit; float:left; background-color:#515151; line-height:30px;font-family:"微软雅黑"; font-size:24px; color:#FFF; text-align:center; margin-left:5px; cursor:pointer}
+.max .content .news .container .top .menu{ width:590px; height:59px; border-bottom:1px solid #FFF; float:left}
+.max .content .news .container .top .menu li{ width:108px; height:59px; float:left; margin-right:44px; }
+.max .content .news .container .top .menu li a{ display:block; height:inherit; width:inherit;text-align:center;font-family:"微软雅黑"; font-size:24px; color:#FFF; cursor:pointer}
+.max .content .news .container .top .menu li:last-child{margin-right:0px }
+.max .content .news .container .top .menu li a:hover{ color:#ff6c6c}
+.max .content .news .container .top .menu li.current a{color:#ff6c6c}
+.max .content .news .container .top .menu li a b{ font-weight:normal; padding-bottom:13.5px; border-bottom:1px #fff solid}
+.max .content .news .container .top .menu li a:hover b{ border-bottom:1px #ff5353 solid; color:#ff6c6c}
+.max .content .news .container .top .menu li.current a b{ border-bottom:1px #ff5353 solid; color:#ff6c6c}
+.max .content .news .container .bottom{ width:1090px; height:445px; padding-top:45px; position:relative; overflow:hidden}
+.max .content .news .container .bottom>div{width:1090px; height:445px}
+.max .content .news .container .bottom>div>p{ color:#6F0; text-align:center; font-size:36px}
+.max .content .news .container .bottom>div .text{ width:457px; padding-right:123px; height:445px; position:absolute}
+.max .content .news .container .bottom>div .text h1{ display:inline-block}
+.max .content .news .container .bottom>div .text h1:hover{background-color:#7f7f7f}
+.max .content .news .container .bottom>div .text p{ display:inline-block; font-family:微软雅黑; font-size:14px; color:#b4b3b3; line-height:30px}
+.max .content .news .container .bottom>div .text time{ display:block; font-family:微软雅黑; font-size:14px; color:#FFF; opacity:0; line-height:30px; text-align:right}
+.max .content .news .container .bottom>div .text time.show{opacity:1}
+.max .content .news .container .bottom>div .text>span{ display:inline-block; height:2px; width:457px; background-color:rgba(255,255,255,0)}
+.max .content .news .container .bottom>div .text span.line{ background-color:rgba(255,255,255,1)}
+.max .content .news .container .bottom>div .text a{font-family:微软雅黑; font-size:24px; color:#FFF; }
+
+.max .content .news .container .bottom>div .pic{ width:508px; height:445px; margin-left:567px; float:right}
+.max .content .news .container .bottom>div .pic img{ display:block}
+
+
+
+
+
+.max .content .product{  width:1920px; height:780px; margin:auto; padding-top:120px; background-image:url(../images/index_product_bg.jpg)}
+.max .content .product>a{ display:block; width:92px; height:36px; border:1px solid #fff; position:absolute; left:960px; margin-top:710px; font-family:"微软雅黑"; font-size:18px; color:#FFF; text-align:center; border-radius:10px; line-height:36px}
+.max .content .product>a:hover{ color:#f56969}
+.max .content .product .side{ width:290px; height:115px; padding-left:1630px; padding-top:35px; position:absolute;}
+.max .content .product .side h1{ display:inline-block;font-family:"微软雅黑"; font-size:30px; color:#FFF; margin-bottom:15px}
+.max .content .product .side span{  display:inline-block; width:167px; height:1px; background-color:#fff; vertical-align:middle}
+.max .content .product .side h2{ display:inline-block;font-family:"微软雅黑"; font-size:24px; color:#FFF; margin-top:15px}
+.max .content .product .container{ width:1090px; height:550px; position:absolute; margin-top:80px; margin-left:450px}
+.max .content .product .container .top{ width:inherit; height:60px; line-height:60px}
+.max .content .product .container .top>ul{ width:70px; height:30px; float:right; margin-top:15px}
+.max .content .product .container .top>ul>li{width:30px; height:inherit; float:left; background-color:#515151; line-height:30px;font-family:"微软雅黑"; font-size:24px; color:#FFF; text-align:center; margin-left:5px; cursor:pointer}
+.max .content .product .container .top .menu{ width:590px; height:59px; border-bottom:1px solid #FFF; float:left}
+.max .content .product .container .top .menu li{ width:108px; height:59px; float:left; margin-right:44px}
+.max .content .product .container .top .menu li a{ display:block; height:inherit; width:inherit;text-align:center;font-family:"微软雅黑"; font-size:24px; color:#FFF; cursor:pointer}
+.max .content .product .container .top .menu li:last-child{margin-right:0px }
+.max .content .product .container .top .menu li a:hover{ color:#ff6c6c}
+.max .content .product .container .top .menu li.current a{color:#ff6c6c}
+.max .content .product .container .top .menu li a b{ font-weight:normal; padding-bottom:13.5px; border-bottom:1px #fff solid}
+.max .content .product .container .top .menu li a:hover b{ border-bottom:1px #ff5353 solid; color:#ff6c6c}
+.max .content .product .container .top .menu li.current a b{ border-bottom:1px #ff5353 solid; color:#ff6c6c}
+.max .content .product .container .bottom{ width:1090px; height:520px; padding-top:25px; position:relative; overflow:hidden}
+.max .content .product .container .bottom>div{ width:1090px; height:520px}
+.max .content .product .container .bottom>div>ol{width:inherit; height:inherit; /*overflow:hidden;*/ margin-top:30px; position:relative }
+.max .content .product .container .bottom>div>ol>li{float:left;margin-left:15px; position:relative }
+.max .content .product .container .bottom>div>ol>li:first-child{width:305px; height:509px}
+.max .content .product .container .bottom>div>ol>li #pic_01{ display:block;width:305px; height:509px; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_01>img{ display:block; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_01>div{ display:none; width:305px; height:509px; position:absolute; background-color:rgba(27,27,27,0.8)}
+.max .content .product .container .bottom>div>ol>li #pic_01:hover div{display:table}
+.max .content .product .container .bottom>div>ol>li #pic_01>div .lt{ display:block; position:absolute; width:34px; height:31px; border-top:1px solid #FFF;border-left:1px solid #FFF; border-top-left-radius:9px;top:22px; left:15px}
+.max .content .product .container .bottom>div>ol>li #pic_01>div .rt{ display:block; position:absolute; width:30px; height:31px; border-bottom:1px solid #FFF;border-right:1px solid #FFF; border-bottom-right-radius:9px; bottom:38px; right:19px}
+.max .content .product .container .bottom>div>ol>li #pic_01>div p{ display:table-cell;font-family:"微软雅黑"; font-size:18px;color:#FFF; width:inherit; height:inherit; text-align:center; vertical-align:middle}
+.max .content .product .container .bottom>div>ol>li#two{width:299px; height:509px;}
+.max .content .product .container .bottom>div>ol>li #pic_02{ display:block;width:299px; height:248px; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_02>img{ display:block; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_02>div{ display:none; width:299px; height:248px; position:absolute; background-color:rgba(27,27,27,0.8)}
+.max .content .product .container .bottom>div>ol>li #pic_02:hover div{display:table}
+.max .content .product .container .bottom>div>ol>li #pic_02>div .lt{ display:block; position:absolute; width:34px; height:31px; border-top:1px solid #FFF;border-left:1px solid #FFF; border-top-left-radius:9px;top:22px; left:15px}
+.max .content .product .container .bottom>div>ol>li #pic_02>div .rt{ display:block; position:absolute; width:30px; height:31px; border-bottom:1px solid #FFF;border-right:1px solid #FFF; border-bottom-right-radius:9px; bottom:19px; right:19px}
+.max .content .product .container .bottom>div>ol>li #pic_02>div p{display:table-cell;font-family:"微软雅黑"; font-size:18px;color:#FFF; width:inherit; height:inherit; text-align:center; vertical-align:middle}
+.max .content .product .container .bottom>div>ol>li #pic_03{ display:block;width:299px; height:247px; position:absolute; bottom:0px}
+.max .content .product .container .bottom>div>ol>li #pic_03>img{ display:block; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_03>div{ display:none; width:299px; height:247px; position:absolute; background-color:rgba(27,27,27,0.8)}
+.max .content .product .container .bottom>div>ol>li #pic_03:hover div{display:table}
+.max .content .product .container .bottom>div>ol>li #pic_03>div .lt{ display:block; position:absolute; width:34px; height:31px; border-top:1px solid #FFF;border-left:1px solid #FFF; border-top-left-radius:9px;top:22px; left:15px}
+.max .content .product .container .bottom>div>ol>li #pic_03>div .rt{ display:block; position:absolute; width:30px; height:31px; border-bottom:1px solid #FFF;border-right:1px solid #FFF; border-bottom-right-radius:9px; bottom:38px; right:19px}
+.max .content .product .container .bottom>div>ol>li #pic_03>div p{display:table-cell;font-family:"微软雅黑"; font-size:18px;color:#FFF; width:inherit; height:inherit; text-align:center; vertical-align:middle}
+.max .content .product .container .bottom>div>ol>li:last-child{width:438px; height:509px}
+.max .content .product .container .bottom>div>ol>li #pic_04{ display:block;width:438px; height:248px; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_04>img{ display:block; position:absolute}
+.max .content .product .container .bottom>div>ol>li #pic_04>div{ display:none; width:438px; height:248px; position:absolute; background-color:rgba(27,27,27,0.8); }
+.max .content .product .container .bottom>div>ol>li #pic_04:hover div{display:table}
+.max .content .product .container .bottom>div>ol>li #pic_04>div .lt{ display:block; position:absolute; width:34px; height:31px; border-top:1px solid #FFF;border-left:1px solid #FFF; border-top-left-radius:9px;top:22px; left:15px}
+.max .content .product .container .bottom>div>ol>li #pic_04>div .rt{ display:block; position:absolute; width:30px; height:31px; border-bottom:1px solid #FFF;border-right:1px solid #FFF; border-bottom-right-radius:9px; bottom:19px; right:19px}
+.max .content .product .container .bottom>div>ol>li #pic_04>div p{display:table-cell;font-family:"微软雅黑"; font-size:18px;color:#FFF; width:inherit; height:inherit; text-align:center; vertical-align:middle}
+.max .content .product .container .bottom>div>ol>li:last-child>ul{width:438px; height:509px }
+.max .content .product .container .bottom>div>ol>li:last-child>ul>li{ width:438px; height:248px}
+.max .content .product .container .bottom>div>ol>li:last-child>ul>li{margin-bottom:15px}
+.max .content .product .container .bottom>div>ol>li ul li #pic_05{ display:block;width:209px; height:245px; position:absolute}
+.max .content .product .container .bottom>div>ol>li ul li #pic_05>img{ display:block; position:absolute}
+.max .content .product .container .bottom>div>ol>li ul li #pic_05>div{ display:none; width:209px; height:245px; position:absolute; background-color:rgba(27,27,27,0.8); }
+.max .content .product .container .bottom>div>ol>li ul li #pic_05:hover div{display:table}
+.max .content .product .container .bottom>div>ol>li ul li #pic_05>div .lt{ display:block; position:absolute; width:34px; height:31px; border-top:1px solid #FFF;border-left:1px solid #FFF; border-top-left-radius:9px;top:22px; left:15px}
+.max .content .product .container .bottom>div>ol>li ul li #pic_05>div .rt{ display:block; position:absolute; width:30px; height:31px; border-bottom:1px solid #FFF;border-right:1px solid #FFF; border-bottom-right-radius:9px; bottom:38px; right:19px}
+.max .content .product .container .bottom>div>ol>li ul li #pic_05>div p{display:table-cell;font-family:"微软雅黑"; font-size:18px;color:#FFF; width:inherit; height:inherit; text-align:center; vertical-align:middle}
+.max .content .product .container .bottom>div>ol>li ul li #pic_06{ display:block;width:209px; height:245px; position:absolute; right:0}
+.max .content .product .container .bottom>div>ol>li ul li #pic_06>img{ display:block; position:absolute}
+.max .content .product .container .bottom>div>ol>li ul li #pic_06>div{ display:none; width:209px; height:245px; position:absolute; background-color:rgba(27,27,27,0.8); }
+.max .content .product .container .bottom>div>ol>li ul li #pic_06:hover div{display:table}
+.max .content .product .container .bottom>div>ol>li ul li #pic_06>div .lt{ display:block; position:absolute; width:34px; height:31px; border-top:1px solid #FFF;border-left:1px solid #FFF; border-top-left-radius:9px;top:22px; left:15px}
+.max .content .product .container .bottom>div>ol>li ul li #pic_06>div .rt{ display:block; position:absolute; width:30px; height:31px; border-bottom:1px solid #FFF;border-right:1px solid #FFF; border-bottom-right-radius:9px; bottom:38px; right:19px}
+.max .content .product .container .bottom>div>ol>li ul li #pic_06>div p{display:table-cell;font-family:"微软雅黑"; font-size:18px;color:#FFF; width:inherit; height:inherit; text-align:center; vertical-align:middle}
+
+
+
+.max .content .contact{  width:1920px; height:780px; margin:auto; padding-top:120px; background:url(../images/index_contact_bg.jpg)}
+.max .content .contact>a{ display:block; width:92px; height:36px; border:1px solid #fff; position:absolute; left:960px; margin-top:710px; font-family:"微软雅黑"; font-size:18px; color:#FFF; text-align:center; border-radius:10px; line-height:36px}
+.max .content .contact>a:hover{ color:#f56969}
+.max .content .contact .side{ width:290px; height:115px; padding-left:1630px; padding-top:35px; position:absolute;}
+.max .content .contact .side h1{ display:inline-block;font-family:"微软雅黑"; font-size:30px; color:#FFF; margin-bottom:15px}
+.max .content .contact .side span{  display:inline-block; width:167px; height:1px; background-color:#fff; vertical-align:middle}
+.max .content .contact .side h2{ display:inline-block; font-family:"微软雅黑"; font-size:24px; color:#FFF; margin-top:15px}
+.max .content .contact .container{ width:1150px; position:absolute; margin-top:100px; margin-left:465px} 
+.max .content .contact .container li{ float:left;height:274px; width:453px; margin-right:110px; margin-top:20px; background-color:#0F0}
+.max .content .contact .container li>img{display:block; position:absolute}
+.max .content .contact .container li>a{ display:block; width:172px; height:60px; border:#FFF solid 1px; text-align:center; margin-left:145px; line-height:60px; font-family:微软雅黑; font-size:23.5px; color:#FFF; position:absolute; z-index:1; margin-top:100px}
+.max .content .contact .container li:hover{background-color:rgba(0,0,0,0.1); cursor:pointer}
+.max .content .contact .container li:hover a{ border-color:#f56969; color:#f56969}
+.max .content .contact .container li span{ display:block; position:absolute;height:274px; width:453px; background-color:rgba(0,0,0,0.8)}
+.max .content .contact .container li:hover span{background-color:rgba(0,0,0,0.2)}
+
+
+
+
+
+.max .foot{width:1920px; height:80px; margin:auto}
+.max .foot .copyright{ width:142px; height:30px; left:160px; position:absolute; bottom:30px; cursor:pointer}
+.max .foot .ct_us{ height:40px; right:115px; position:absolute; bottom:20px; z-index:1}
+.max .foot .ct_us li{ width:45px; height:40px; margin-left:36px; float:left; cursor:pointer}
+.max .foot .ct_us li img{  display:block; margin:auto; line-height:40px; margin-top:5.5px}
+.max .foot>p{ display:block;font-family:"宋体"; font-size:18px; color:#FFF; position:absolute;left:12%; margin-top:28px}
+.max .foot #chatpic{ width:110px; height:99.5px; position:absolute; margin-left:1565px; margin-top:-90.5px; padding-top:10.5px; background-color:#181818; display:none}
+.max .foot #chatpic img{ display:block; margin:auto}

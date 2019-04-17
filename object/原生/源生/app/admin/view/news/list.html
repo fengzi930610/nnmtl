@@ -1,0 +1,149 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>新闻列表</title>
+<!--_meta 作为公共模版分离出去-->
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<?php include('app/admin/view/public/header.html'); ?>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<?php include('app/admin/view/public/menu.html'); ?>
+<!--/_menu 作为公共模版分离出去-->
+
+<section class="Hui-article-box" style="background-image:url(public/img/bg.jpg);">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>
+		<span class="c-gray en">&gt;</span>
+		新闻管理
+		<span class="c-gray en">&gt;</span>
+		新闻列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a> </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="l"> 
+					<a href="" class="btn btn-danger radius">
+						<i class="Hui-iconfont">&#xe6e2;</i> 批量删除
+					</a> 					
+				</span>
+				<span class="r">
+					共有数据：<strong><?php echo count($arr);?></strong>条
+				</span>
+			</div>
+			<table class="table table-border table-bordered table-bg">
+				<thead>
+					<tr class="text-c">
+						<th width="10"><input type="checkbox" name="" value=""></th>
+						<th width="20" name="Id">ID</th>
+						<th width="400" name="title">标题</th>
+						<th width="90"name="type">类型</th>
+						<th width="45" name="author">作者</th>
+						<th width="60" name="state">发布状态</th>
+						<th width="150" name="rtime">发布时间</th>
+						<th width="150" name="ctime">录入时间</th>
+						<th width="150" name="utime">上次修改时间</th>
+						<th width="50"name="access">访问量</th>
+						<th width="60">操作</th>
+					</tr>
+				</thead>
+				<tbody class="tbody">
+					<?php foreach($arr as $k=>$v){?>
+						<tr class="text-c">
+							<td style="text-align: left;"><input type="checkbox" value="1" name=""></td>
+							<td style="text-align: left;"><?php echo $v['Id']; ?></td>
+							<td style="text-align: left;"><?php echo $v['title']; ?></td>
+							<td style="text-align: left;"><?php echo $v['type']; ?></td>
+							<td style="text-align: left;"><?php echo $v['author']; ?></td>
+							<td style="text-align: left;"><?php echo $v['state']; ?></td>
+							<td style="text-align: left;"><?php echo $v['rtime']; ?></td>
+							<td style="text-align: left;"><?php echo $v['ctime']; ?></td>
+							<td style="text-align: left;"><?php echo $v['utime']; ?></td>
+							<td style="text-align: left;"><?php echo $v['access']; ?></td>
+							<td class="td-manage" style="text-align: left;">
+								<a title="编辑" href="index.php?m=admin&c=news&a=update&Id=<?php echo $v['Id']; ?>"  class="ml-5" style="text-decoration:none">
+									<i class="Hui-iconfont">&#xe6df;</i>
+								</a> 
+								<a title="删除" href="index.php?m=admin&c=news&a=delete&Id=<?php echo $v['Id']; ?>" onclick="return confirm('是否删除小泽玛利亚？')" class="ml-5" style="text-decoration:none">
+									<i class="Hui-iconfont">&#xe6e2;</i>
+								</a>
+							</td>
+						</tr>
+					<?php }?>
+				</tbody>
+				
+			</table>
+			<!--分页代码模块-->
+			<div style="margin-top: 30px; text-align:center;" class="page" > 
+				<?php echo $pageNum?>
+			</div>
+			<!--分页代码模块-->
+		</article>
+	</div>
+	
+</section>
+
+<!--_footer 作为公共模版分离出去-->
+
+<?php include('app/admin/view/public/footer.html'); ?>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+</body>
+</html>
+<script type="text/javascript">
+	$(function(){
+	
+		$(document).on('click','.page a',function(){
+			
+			var href = $(this).attr('href')
+			$.ajax({
+				type:"get",
+				url:href,
+				dataType:'json',
+				success:function(data){
+//					alert(data);
+//					return false;
+					var arr = data.arr
+					var length = arr.length
+//					alert(arr)
+//					return false;
+					var html = ''
+					for(var i=0;i<length;i++){
+						html += '<tr>'
+						html += '<td><input type="checkbox" value="1" name=""></td>'
+						html += '<td>'+arr[i].Id+'</td>'
+						html += "<td>"+arr[i].title+"</td>"
+						html += "<td>"+arr[i].type+"</td>"
+						html += "<td>"+arr[i].author+"</td>"
+						html += "<td>"+arr[i].state+"</td>"
+						html += "<td>"+arr[i].rtime+"</td>"
+						html += "<td>"+arr[i].ctime+'</td>'
+						html += "<td>"+arr[i].utime+"</td>"
+						html += "<td>"+arr[i].access+"</td>"
+						html += "<td>"+'<a href="index.php?m=admin&c=manager&a=update&Id='+arr[i].Id+'"'+' class="ml-5" style="text-decoration:none">'+'<i class="Hui-iconfont">&#xe6df;</i>'+'</a>'+'&nbsp'
+						+'<a title="删除" href="index.php?m=admin&c=manager&a=delete&Id='+arr[i].Id+'"'+' class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>'
+						+"</td>"
+						html += '<tr>'
+					}
+//					alert(html)
+//					return false;
+					$('.tbody').html(html)
+					$('.page').html(data.pageNum)
+//					$('.tbody').html(html)
+//					alert(html)
+//					$()
+				}
+				
+			});
+			
+			return false;
+		})
+	
+	
+	
+	})
+</script>

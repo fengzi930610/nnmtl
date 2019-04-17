@@ -1,0 +1,59 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>留言编辑 </title>
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+</head>
+<body>
+<article class="cl pd-20">
+	<form action="" class="form form-horizontal" method="post">
+		<input type="text" name="Id" hidden="hidden" value="<?php echo $re['Id'];?>" >
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" id="user-name" name="username" class="input-text" value="<?php echo $re['username'];?>" >
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机号码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" id="phone" name="phone" class="input-text" value="<?php echo $re['phone'];?>" >
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>留言内容：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea id="msg" name="content" class="input-text" style="height: 100px;" placeholder=""><?php echo $re['content']?></textarea>
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>留言时间：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span><?php echo date('Y年m月d日 H:i:s',$re['time'])?></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius"  type="submit" value="提交" id="btn" /> 
+				<input class="btn btn-primary radius"  type="button" value="取消" onclick="history.back(-1)" />
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php include('app/admin/view/public/footer.html'); ?>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

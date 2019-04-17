@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{$title}</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__css/commen.css" />
+		
+		<script type="text/javascript" src="__PUBLIC__js/jquery-2.1.1.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__js/jquery-1.11.2.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__js/jquery-1.11.0.js" ></script>		
+		<script type="text/javascript" src="__PUBLIC__js/index.js" ></script>	
+		<script type="text/javascript" src="__PUBLIC__js/login_user.js" ></script>	
+<!--		<script type="text/javascript" src="__PUBLIC__js/menu.js" ></script>-->
+	</head>
+	<body>
+		<!--头部-->
+		<div class="header">
+			<div class="header-top">
+				<div class="navigation">
+					<ul>
+						<li><a href="#">网站导航</a></li>
+						<li><a href="#">客户服务</a></li>
+						{if condition='!empty($Think.session.username)'}
+						<li><a href="{:url('index/Index/user')}">会员中心</a></li>
+						{/if}
+						{if condition='empty($Think.session.username)'}
+						<li><a href="{:url('index/Index/login')}" onclick="alert('请先登录')">会员中心</a></li>
+						{/if}
+						{if condition='!empty($Think.session.username)'}
+						<li><a href="{:url('Cart/cartList')}">购物车</a></li>
+						{/if}
+						{if condition='empty($Think.session.username)'}
+						<li><a href="{:url('index/Index/login')}" onclick="alert('请先登录')">购物车</a></li>
+						{/if}
+						<li><a href="#">我的收藏</a></li>
+						<li><a href="#">我的贺曼</a></li>
+						{if condition="empty($Think.session.username)"}
+						<li><a href="{:url('index/Index/register')}">注册</a></li>
+						<li><a href="{:url('index/Index/login')}">登录</a></li>
+						{/if}
+						{if condition="!empty($Think.session.username)"}
+						<li><a href="{:url('index/Index/logout')}" onclick="return confirm('是否退出岛国后花园？')">退出</a></li>
+						<li><a href="{:url('index/Index/user')}">用户：{$Think.session.username}</a></li>
+						
+						{/if}
+					</ul>
+				</div>
+			</div>
+			<div class="header-conter">
+				<a href="index.html" class="left"><img src="__PUBLIC__images/logo.jpg"></a>
+				<div class="middle">
+					<div class="search">
+						<input type="text" class="btn" />
+						<span>搜索</span>
+					</div>
+					<i>大家都在搜：<a href="pro_details.html">连衣裙</a>  <a href="pro_details.html">连体衣 </a> <a href="pro_details.html">儿童毯</a>  <a href="pro_details.html">帽子</a></i>
+				</div>
+				<a class="right"><img src="__PUBLIC__images/index01.jpg"></a>
+			</div>
+			<div class="header-bottom">
+				<div class="menu" id="menu_index">
+					<ul>
+						<li><a href="{:url('index/Index/index')}" <?php if(!isset($nav)){echo 'class="on"';}; ?>  >首页</a></li>
+						{volist name='navlist' id='v' key}
+						<li><a href="{:url('index/Index/shoplist',['nav'=>$v.Id])}" <?php if(isset($nav)){if($nav ==1 && $key==0){echo 'class="on"';}else if($nav ==2 && $key==1){echo 'class="on"';}else if($nav ==3 && $key==2){echo 'class="on"';}else if($nav ==4 && $key==3){echo 'class="on"';};}; ?>>{$v.name}</a></li>
+						{/volist}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="nav">
+			<div class="sub-nav">
+				<div class="pro-classify">
+					<h2>全部产品分类</h2>
+					<ul>
+						{volist name='categorylist' id='v' key}
+						{if condition="$v.fId eq 0"}
+						<li class='a{$key+1}'>
+							<a class="tx">
+								{$v.name}>
+							</a>
+							<div class="pro">
+								
+								<dl>									
+									<dd>
+										{volist name='categorylist' id='vv' key}
+										{if condition="$vv.fId eq $v.Id "}
+										<a>{$vv.name}</a>
+										{/if}
+										{/volist}
+									</dd>
+								</dl>
+							</div>
+						</li>
+						{/if}
+						{/volist}
+					</ul>
+
+				</div>
+
+				<!--pro-classify-->
+
+			</div>	
+		</div>
+		<!--nav-->
+{__CONTENT__}
+		<!--footer-->
+		<div class="footer">
+			<div class="footer-top">
+
+				<a class="code-left"><img src="__PUBLIC__images/code01.jpg"><span>官方微信</span></a>
+
+				<a class="code-right"><img src="__PUBLIC__images/code02.jpg"><span>官方微博</span></a>
+				<ul>
+
+					<li>
+
+						<i>7</i>
+
+						<span>七天无理由退货</span>
+
+					</li>
+
+					<li>
+
+						<i>优</i>
+
+						<span>品质保证</span>
+
+					</li>
+
+					<li>
+
+						<i>特</i>
+
+						<span>特色服务体验</span>
+
+					</li>
+
+					<li>
+
+						<i>？</i>
+
+						<span>帮助中心</span>
+
+					</li>
+
+				</ul>
+			</div>
+
+			
+
+			<!--footer-top-->
+
+			<div class="footer-bottom">
+				<p>
+					<a href="about.html"><i>关于我们 </i></a>
+
+					<a href="#"><i>购物袋 </i></a>
+
+					<a href="#"><i>我的账户</i></a>
+
+					<a href="#"><i>顾客查询</i></a>
+
+					<a href="#"><i>产品优点</i></a>
+
+					<a href="#"><i>零售网络</i></a>
+
+					<a href="#"><i>联络我们</i></a>
+
+					<a href="#">Hallmark Babies 官方网站 Officia</a>
+
+					<a href="#">Website</a>
+				</p>
+
+				<p><a class="left">Copyright © 2009-2016 MYBABYKID.COM 版权所有 </a><a href="#" class="right">使用条款 | 隐私及安全条例</a></p>
+
+				<p> © Hallmark Cards, Inc.</p>
+
+				<div class="attention">
+
+					<p>立即关注</p>
+
+					<p>最新产品</p>
+
+					<p>优惠信息发布</p>
+
+				</div>
+			</div>
+		</div>
+
+	
+
+	</body>
+
+</html>
+<script>
+	$(function(){
+		$(document).ready(function(){
+
+			var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+			var n = 4, s = "";
+
+			for(var i = 0; i < n; i++){
+
+			    var rand = Math.floor(Math.random() * str.length);
+
+			    s += str.charAt(rand);
+
+			}
+
+			
+
+		})
+
+		$(".verification button").click(function(){
+
+			var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+			var n = 4, s = "";
+
+			for(var i = 0; i < n; i++){
+
+			    var rand = Math.floor(Math.random() * str.length);
+
+			    s += str.charAt(rand);
+
+			}
+
+			$(".verification button").text(s);
+
+		})
+
+		
+
+		$(".verification input").change(function(){
+
+			var val = $(this).val()
+
+			var p_text = $(".verification button").text();
+
+			if(val.toLowerCase() == p_text.toLowerCase()){
+
+				$(".verification b").text("√");
+
+				$(".verification b").css("color","green");
+
+				$(".verification b").css("display","block");
+
+			}else{
+
+				$(".verification b").text("×，请重新输入！");
+
+				$(".verification b").css("color","red");
+
+				$(".verification b").css("display","block");
+
+				
+
+											
+
+				
+
+			}
+
+		})
+
+		$(".verification input").blur(function(){
+
+			var val = $(this).val()
+
+			if(val == ""){
+
+				$(".verification b").css("display","none");
+
+			}
+
+		})
+
+		
+
+		
+
+		
+
+	})
+
+</script>

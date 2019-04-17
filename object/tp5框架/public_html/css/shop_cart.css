@@ -1,0 +1,295 @@
+.conter{
+	position: relative;
+	background: url(../images/shop_cart-back.jpg)no-repeat center;
+	overflow: hidden;
+}
+
+.conter .middle{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+	background: url(../images/shop_cart-back.jpg)no-repeat center;
+}
+
+
+/*********************************/
+.mid-contre{
+width: 1150px;
+padding: 0 25px;
+/*position: absolute;*/
+top: 0;
+overflow: hidden;
+clear: both;
+background: url(../images/login-mid-back.png)no-repeat center;
+}
+.mid-contre h2,.mid-contre h2 a{
+font-family: "微软雅黑";
+font-size: 14px;
+color: #666666;
+margin-top: 30px;
+
+}
+.mid-contre h2 a:hover{
+	color: #8fc31f;
+}
+.mid-contre .top{
+margin-top: 20px;
+}
+.mid-contre .top ul{
+margin: 0 auto;
+width: 488px;
+height: 82px;
+background: url(../images/confirm_order-top.png);
+}
+.mid-contre .top ul li{
+float: left;
+font-family: "微软雅黑";
+font-size: 12px;
+color: #FFFFFF;
+padding: 20px 15px;
+}
+.mid-contre .top .default{
+	color: #ffe400;
+}
+.mid-contre .top ul li:nth-child(1){
+margin-right: 115px;
+}
+
+.mid-contre .top ul li:nth-child(2){
+margin-right: 124px;
+}
+/**********************************************/
+.shop_cart{
+	margin-top: 25px;
+	overflow: hidden;
+	clear: both;
+	margin-bottom: 40px;
+}
+.shop-title{
+	position: relative;
+	margin-bottom: 40px;
+}
+.shop-title .left{
+	float: left;
+	margin-left: 15px;
+}
+.shop-title .right{
+	position: absolute;
+	right: 0;
+}
+.shop-title .right label{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #666666;
+}
+.shop-title .right select{
+	background: #eeeeee;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #8fc31f;
+	border: none;
+	border-radius: 4px;
+	padding: 2px 40px 2px 10px;
+	cursor: pointer;
+	outline: none;
+}
+.shop-title .left ul li{
+	float: left;
+	width: 68px;
+	margin-right: 10px;
+	text-align: center;
+	cursor: pointer;
+}
+.shop-title .left ul li{
+	font-size: 14px;
+	font-family: "微软雅黑";
+	color: #666666;
+}
+.shop-title .left .on{
+	border-bottom: 4px solid #8fc31f;
+}
+td,th{
+	display: block;
+	float: left;
+	text-align: center;
+}
+th{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #666666;
+	font-weight: normal;
+	padding-bottom: 50px;
+}
+td span{
+	display: block;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #2e2e2e;
+	padding-top: 10px;
+}
+.shop_title span a{
+	display: block;
+	color: #2e2e2e;
+}
+.shop_img,th:nth-child(1){
+	position: relative;
+	width: 90px;
+	margin-right: 50px;
+}
+.shop_title,th:nth-child(2){
+	width: 130px;
+	margin-right: 80px;
+}
+.shop_color,th:nth-child(3){
+	width: 115px;
+	margin-right: 95px;
+}
+.univalence,th:nth-child(4){
+	width: 75px;
+	margin-right: 60px;
+}
+.shop_num,th:nth-child(5){
+	width: 55px;
+	margin-right: 100px;
+}
+.shop_price,th:nth-child(6){
+	width: 70px;
+	margin-right: 100px;
+}
+.shop_handle,th:nth-child(7){
+	text-align: left;
+	width: 60px;
+}
+td label{
+	position: absolute;
+	top:25px;
+	left: 0;
+	right: 75px;
+	cursor: pointer;	
+}
+.shop_img img{
+	width: 56px;
+	height: 67px;
+	border: 1px solid #94c62b;
+	margin-left: 25px;
+}
+.univalence button{
+	padding: 5px 8px;
+	color: #FFFFFF;
+	background: #EB6100;
+	border-radius: 3px;
+	border: none;
+	outline: none;
+}
+.shop_price span{
+	padding-top: 20px;
+}
+.shop_handle span{
+	cursor: pointer;
+}
+.prd_num{
+	width: 15px;
+	height: 19px;
+	float: left;
+	text-align: center;
+	font-size: 12px;
+	font-family: "微软雅黑";
+	color: #333333;
+	border: none;
+	border-top: 1px solid #B4B4B4;
+	border-bottom: 1px solid #B4B4B4;
+	outline: none;
+}
+.num{
+display: table;
+margin: auto;
+line-height:19px;
+width: 55px;
+padding-top: 20px;
+
+}
+.prd_subNum{
+	width: 18px;
+	height: 21px;
+	text-align: center;
+	float: left;
+	background: #FFFFFF;
+	border: 1px solid #b4b4b4;
+	cursor: pointer;
+	outline: none;
+}
+.prd_addNum{
+	width: 18px;
+	height: 21px;
+	text-align: center;
+	float: left;
+	background: #FFFFFF;
+	border: 1px solid #b4b4b4;
+	cursor: pointer;
+	outline: none;
+}
+input[type="checkbox"] {
+  visibility: hidden;
+  }
+th label,td label,.shop-bot ul li label{
+	background: url(../images/checkbox.png)no-repeat left center;
+	cursor: pointer;
+}
+th label.on,td label.on,.shop-bot ul li label.on{
+	background: url(../images/checkbox-on.png)no-repeat left center;
+}
+tbody tr{
+	display: inline-block;
+	margin-bottom: 80px;
+}
+/************* shop-bot  **********************/
+.shop-bot ul li{
+	float: left;
+}
+.shop-bot ul li span,.shop-bot ul li label{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #666666;
+}
+
+.shop-bot ul li i,.shop-bot ul li a{
+	color: #ff4800;
+}
+.shop-bot ul li:nth-child(1){
+	margin-right: 40px;
+}
+.shop-bot ul li:nth-child(2),.shop-bot ul li:nth-child(3){
+	margin-right: 60px;
+}
+.shop-bot ul li:nth-child(4){
+	margin-right: 320px;
+}
+.shop-bot ul li:nth-child(5){
+	margin-right: 20px;
+}
+.shop-bot ul li:nth-child(6){
+	width: 100px;
+	margin-right: 35px;
+}
+.shop-bot ul li button{
+	cursor: pointer;
+	padding: 33px 30px 26px 26px;
+	font-family: "微软雅黑";
+	font-size: 24px;
+	color: #FFFFFF;
+	background: url(../images/shop_cart-but.png);
+	border: none;
+	margin-top: -15px;
+	outline: none;
+}
+.shop-bot .delete,.shop-bot .attention,.shop-bot .eliminate{
+	cursor: pointer;
+}
+/**************** shop_box  **********************/
+.shop_box ul .like a{
+	display: block;
+	font-family: "微软雅黑";
+	font-size: 30px;
+	color: #333333;
+	margin: 100px;
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>购物车</title>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/shop_cart.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/shop_cart.css"/>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	</head>
+	<body onload="loadCar(),totalall()">
+		<!--头部-->
+		<div id="header">
+			<a href="javascript:viod(0)" class="prev"><img src="images/prev.png" alt="images/prev.png" /></a>
+			购物车
+		</div>
+		<!--头部 end-->
+		<!--中部-->
+		<div id="middle">
+			<div class="page">
+				购买列表
+			</div>
+			<div class="pro_list active">
+				<ul id="cart_product">
+					<!--<li>
+						<h4><span class="time">2017.5.24</span> <span>已完成</span></h4>
+						<div class="img">
+			 				<a href="###"><img src="images/comfirm_order_01.jpg" alt="images/comfirm_order_01.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p>爱度A3可翻转头戴式蓝牙耳机</p>
+			 				<div class="pri_num">
+			 					<span class="price">&yen;118.00</span>
+			 					<p class="num">数量：
+			 						<a href="javascript:void(0)" class="minus">-</a>
+			 						<span>1</span>
+			 						<a href="javascript:void(0)" class="add">+</a>
+			 					</p>
+			 				</div>
+			 				<div class="check">
+			 					<input type="hidden"  value="1" />
+			 					<img src="images/shop_cart-checked.png" alt="images/shop_cart-checked.png"/>
+			 				</div>
+			 			</div>
+			 			
+					</li>-->
+				</ul>
+			</div>
+			
+			
+		</div>
+		<!--中部 end-->
+		<!--底部-->
+		<div id="bottom">
+			<div class="checkall">
+				<input type="hidden" value="1" />
+				<img src="images/shop_cart-checked.png" alt="images/shop_cart-checked.png" onclick="allcheck(this),totalall()"/>
+				<span onclick="allcheck(this),totalall()">全选</span>
+			</div>
+			<div class="total">
+				<p>小计：<span>￥0</span></p>
+				<p>未含快递费：￥20</p>
+			</div>
+			<div class="gotal">
+				<a href="javascript:goorder()">去结算(<span>0</span>)</a>
+			</div>
+		</div>
+		<!--底部 end-->
+	</body>
+</html>

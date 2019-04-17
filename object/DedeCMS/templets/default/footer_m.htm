@@ -1,0 +1,61 @@
+<div class="footer">
+  <div class="footer-box">
+    <div class="footer-nav"> 
+    <a href="/m">网站首页</a>
+    {dede:channel type='top' row='8' }
+     <a href="list.php?tid=[field:id/]">[field:typename/]</a> {/dede:channel} </div>
+    <div class="qr"> <img class="lazy" src="/m/skin/images/blank.gif" data-echo="/m/skin/images/erweima.png" alt="{dede:global.cfg_webname/}">
+      <p>关注某某装饰微信公众号</p>
+    </div>
+  </div>
+  <div class="hot-line">
+    <h3>咨询热线：{dede:global.cfg_tel/}&nbsp;&nbsp;&nbsp;{dede:global.cfg_phone/}</h3>
+  </div>
+  <div class="copyright">
+    <p>{dede:global.cfg_powerby/}</p>
+    <p>技术支持：<a href="http://www.dede58.com/" target="_blank">织梦58</a></p>
+  </div>
+</div>
+<div class="cal-margin"></div>
+<div class="cal-bar"> <a href="javascript:;"> <img src="/m/skin/images/cal.png" alt="{dede:global.cfg_webname/}"> <span>装修要多少钱？</span> <em>10秒获取装修报价</em> </a> </div>
+
+<!-- 弹出 -->
+<div class="mask"></div>
+<form action="/plus/diy.php" class="free" enctype="multipart/form-data" method="post">
+  <input type="hidden" name="action" value="post" />
+  <input type="hidden" name="diyid" value="2" />
+  <input type="hidden" name="do" value="2" />
+  <a href="javascript:;" class="free-close"></a>
+  <div class="free-ti"> <span>免费获取装修报价</span> </div>
+  <ul>
+    <li>
+      <label for="youName"> <span>您的姓名</span>
+        <input type="text" name="ch" id="ch">
+      </label>
+    </li>
+    <li>
+      <label for="youPhone"> <span>手机号码</span>
+        <input type="text" name="hm" id="hm">
+      </label>
+    </li>
+    <input type="hidden" name="dede_fields" value="ch,text;hm,text;mc,text;mj,text;fg,select" />
+    <input type="hidden" name="dede_fieldshash" value="b328cf12aea7ddbfcb8a45c90ab19b50" />
+  </ul>
+  <div class="free-btn">
+    <input type="submit" name="submit" value="提交信息">
+  </div>
+</form>
+<!-- 弹出END --> 
+
+<!-- 懒加载 --> 
+<script src="/m/skin/js/echo.js"></script> 
+<script>
+		echo.init({
+			offset: 100,
+			throttle: 250,
+			// unload: false,
+			// callback: function (element, op) {
+			  
+			// }
+		});
+	</script> 

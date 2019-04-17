@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻详情</title>
+	<link rel="stylesheet" href="public/css/common.css">
+	<link rel="stylesheet" href="public/css/news.css">
+</head>
+<body>
+<!-- 头部开始 -->
+	<?php include("app/home/view/index/header.html")?>
+<!-- 头部结束 -->
+<!-- 中间部分开始 -->
+	<div class="main">
+		<div class="banner"><img src="<?php echo $banner['imgsrc']?>" alt="翔隆服饰"></div>
+		<div class="location"><div>所在位置&nbsp;:<a href="index.html">祥隆首页</a>&gt;<i>新闻中心</i></div></div>
+		<div class="news">
+			<div class="left-box">
+				<div class="title">
+					<img src="public/img/images/logo2.png" alt="翔隆服饰">
+						<h3>新闻中心<i></i></h3>
+						<span>News Center</span>
+				</div>
+				<ul class="navi">
+					<?php foreach($list as $k=>$v) {?>
+						<li><a href="index.php?m=home&c=news&a=index&type=<?php echo $v['Id']?>" <?php if($type==$v['Id']){echo 'class="current"';}; ?> ><?php echo $v['name']; ?></a></li>
+					<?php }?>
+				</ul>
+			</div>
+			<div class="news-detail">
+				<h4><span class="news-details-icon"></span><i>新闻中心</i></h4>
+				<div class="news-text">
+					<h2><?php echo $re['title']; ?></h2>
+					<div><i class="info">来源**网</i><i>[微博]发布期：<?php echo date('Y-m-d',$re['rtime']); ?></i><i>阅读:<?php echo $re['access']; ?>次</i></div>
+					<p><?php echo $re['content']; ?></p>
+					<a href="index.php?m=home&c=news_details&a=index&Id=<?php echo empty($prev['Id'])?'':$prev['Id'];?>" class="prov-news" <?php if(empty($prev['Id'])){echo "style='display:none'";}; ?>>上一篇：<?php echo empty($prev['title'])?'':$prev['title'];?></a>
+					<a href="index.php?m=home&c=news_details&a=index&Id=<?php echo empty($next['Id'])?'':$next['Id'];?>" class="next-news" <?php if(empty($next['Id'])){echo "style='display:none'";}; ?>>下一篇：<?php echo empty($next['title'])?'':$next['title'];?></a>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- 中间部分结束 -->
+<!-- 版权开始 -->
+	<?php include("app/home/view/index/footer.html")?>
+<!-- 版权结束 -->
+</body>
+</html>

@@ -1,0 +1,1 @@
+<li> <a href="javascript:;"> <img src="[field:picname/]" alt="[field:title/]" class="lazy" /> </a> </li>

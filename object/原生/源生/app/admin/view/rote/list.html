@@ -1,0 +1,103 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>角色列表</title>
+<!--_meta 作为公共模版分离出去-->
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<?php include('app/admin/view/public/header.html'); ?>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<?php include('app/admin/view/public/menu.html'); ?>
+<!--/_menu 作为公共模版分离出去-->
+
+<section class="Hui-article-box" style="background-image:url(public/img/bg.jpg);">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>
+		<span class="c-gray en">&gt;</span>
+		权限管理
+		<span class="c-gray en">&gt;</span>
+		角色列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a> </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="l"> 
+					<a href="" class="btn btn-danger radius">
+						<i class="Hui-iconfont">&#xe6e2;</i> 批量删除
+					</a> 					
+				</span>
+				<span class="r">
+					共有数据：<strong><?php echo count($arr);?></strong>条
+				</span>
+			</div>
+			<table class="table table-border table-bordered table-bg">
+				<thead>
+					<tr class="text-c">
+						<th width="10"><input type="checkbox" name="" value=""></th>
+						<th width="30" name="Id">ID</th>
+						<th width="60" name="name">角色名</th>
+						<th width="250" name="rote[]">权限</th>
+						<th width="50">操作</th>
+					</tr>
+				</thead>
+				<tbody class="tbody">
+					<?php foreach($arr as $k=>$v){?>
+						<tr class="text-c">
+							<td style="text-align: left;"><input type="checkbox" value="1" name=""></td>
+							<td style="text-align: left;"><?php echo $v['Id']; ?></td>
+							<td style="text-align: left;"><?php echo $v['name']; ?></td>
+							<td style="text-align: left;"><?php echo $v['rote']; ?></td>
+							<td class="td-manage" style="text-align: left;">
+								<a title="编辑" href="index.php?m=admin&c=rote&a=update&Id=<?php echo $v['Id']; ?>"  class="ml-5" style="text-decoration:none">
+									<i class="Hui-iconfont">&#xe6df;</i>
+								</a> 
+								<a title="删除" href="index.php?m=admin&c=rote&a=delete&Id=<?php echo $v['Id']; ?>" onclick="return confirm('是否删除小泽玛利亚？')" class="ml-5" style="text-decoration:none">
+									<i class="Hui-iconfont">&#xe6e2;</i>
+								</a>
+							</td>
+						</tr>
+					<?php }?>
+				</tbody>
+				
+			</table>
+			<!--分页代码模块-->
+			<div style="margin-top: 30px; text-align:center;" class="page" > 
+				<!--<?php echo $pageNum?>-->
+			</div>
+			<!--分页代码模块-->
+		</article>
+	</div>
+	
+</section>
+
+<!--_footer 作为公共模版分离出去-->
+
+<?php include('app/admin/view/public/footer.html'); ?>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+
+<!--此乃百度统计代码，请自行删除-->
+<!--<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>-->
+<!--/此乃百度统计代码，请自行删除-->
+</body>
+</html>
+
+
+

@@ -1,0 +1,115 @@
+.conter{
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+	clear: both;
+	position: relative;
+	margin-bottom: -3px;
+}
+
+
+.conter .login-back img{
+	width: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+	z-index: -10;
+	height: 860px;
+}
+.conter .middle{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+	clear: both;
+}
+.conter .middle .back img{
+	position: absolute;
+	bottom: 0;
+	top: 0;
+}
+.mid-con{
+	top: 220px;
+	position: absolute;
+	left: 31%;
+	overflow: hidden;
+	clear: both;
+}
+
+.mid-con .username{
+	margin-bottom: 50px;
+}
+
+.mid-con .password{
+	margin-bottom: 30px;
+}
+
+.mid-con .remember{
+	display: inline-block;
+	margin-left: 115px;
+	font-size: 14px;
+	color: #958c01;
+}
+input[type="checkbox"] {
+  visibility: hidden;
+  }
+.mid-con .remember label{
+	background: url(../images/checkbox.png)no-repeat left center;
+	float: left;
+	cursor: pointer;
+}
+.mid-con .remember label.on{
+	background: url(../images/checkbox-on.png)no-repeat left center;
+}
+.mid-con .remember input{
+	margin-right: 8px;
+}
+.mid-con .remember a{
+	display:block ;
+	float: left;
+	margin-left: 300px;
+	font-size: 14px;
+	color: #958c01;
+}
+.mid-con .username input,.mid-con .password input{
+	outline: none;
+	width: 410px;
+	border: 1px solid #918c01;
+	border-radius: 5px;
+	font-size: 18px;
+	font-family: "宋体";
+	color: #c2c2c2;
+	padding: 11px 12px;
+	background: transparent;
+}
+.mid-con span{
+	font-family: "微软雅黑";
+	font-size: 26px;
+	color: #958c01;
+}
+.mid-con .password span{
+	margin-left: 27px;
+}
+.mid-con button{
+	display: block;
+	margin-left: 165px;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 14px 36px;
+	font-family: "微软雅黑";
+	font-size: 24px;
+	color: #FFFFFF;
+	border: 1px solid #cdc987;
+	background: #958c01;
+	border-radius: 4px;
+	cursor: pointer;
+	outline: none;
+}
+.mid-con .select h4{
+	font-size: 18px;
+	color: #958c01;
+	font-family: "微软雅黑";
+	font-weight: normal;
+	margin-bottom: 20px;
+}
+.mid-con .select img{
+	margin: 0 20px;
+}

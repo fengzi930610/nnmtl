@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>联系我们</title>
+	<link rel="stylesheet" href="public/css/common.css">
+	<link rel="stylesheet" href="public/css/contact.css">
+	<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=1.1&services=true"></script>
+	<script src="public/js/map.js"></script>
+	<script src="public/js/jquery.js"></script>
+	<script src="public/js/contact.js"></script>
+</head>
+<body>
+<!-- 头部开始 -->
+	<?php include("app/home/view/index/header.html")?>
+<!-- 头部结束 -->
+<!-- 中间部分开始 -->
+	<div class="main">
+		<div class="banner"><img src="<?php echo $banner['imgsrc']?>" alt="翔隆服饰"></div>
+		<div class="location"><div>所在位置&nbsp;:<a href="index.html">祥隆首页</a>&gt;<i>联系我们</i></div></div>
+		<div class="con-us">
+			<h2>我想听到您的声音</h2>
+			<h4><b>CONTACT US</b></h4>
+			<ul class="con-list">
+				<li><span></span><p>服务理念</p><p>以全新的科技品牌方式</p><p>演绎现代生活服饰的红利品牌</p></li>
+				<li><span class="icon"></span><p>加盟中心</p><p>选择就在现在</p><p>加入翔隆共创未来</p></li>
+				<li><span class="icon2"></span><p>投诉及建议</p><p>用心去倾听并持续改进产品</p><p>您的意见就是我们前进的勇气</p></li>
+				<li><span class="icon3"></span><p>联系我们</p><p>随时为您联络</p><p>找到我们的联系方式</p></li>
+			</ul>
+		</div>
+		<div class="contact">
+			<div class="con-left">
+				<ul>
+					<li><span></span><?php echo $contact['companyTel']; ?></li>
+					<li><span class="nameicon"></span><?php echo $contact['linkman']; ?></li>
+					<li><span class="emailicon"></span><?php echo $contact['companyEmail']; ?></li>
+					<li><span class="telicon"></span><?php echo $contact['companyFax']; ?></li>
+					<li><span class="addicon"></span><?php echo $contact['companyAddress']; ?></li>
+				</ul>
+				<form action="" class="form-list">
+					<input type="text" placeholder="请输入你的名字" id="user-name" name="username">
+					<input type="tel" placeholder="请输入你的手机号码" id="tel" name="phone">
+					<div>
+						<textarea id="msg" name="content" placeholder="请输入你的留言"></textarea>
+					</div>
+					<p>
+						<lebel>
+						<img src="index.php?m=admin&c=admin&a=code&" alt="Verification Code" class="code" style="width: 140px;">
+
+						</lebel>
+					</p>
+					<input type="text" placeholder="请输入验证码" class="lastinput" id="test-code" name="code">
+					<button>提交</button>
+				</form>
+			</div>
+			<div class="con-right">
+				<div style="width:633px;height:459px;border:#ccc solid 1px;" id="dituContent"></div>
+			</div>
+		</div>
+	</div>
+<!-- 中间部分结束 -->
+<!-- 版权开始 -->
+	<?php include("app/home/view/index/footer.html")?>
+<!-- 版权结束 -->
+<script>
+	$(function(){
+//		alert(123)
+		$('.code').click(function(){
+		var urls = $(this).attr('src');
+		$(this).attr('src',urls+'+')
+		})
+	})
+</script>
+</body>
+</html>
+<script>
+	$(function(){
+		$('button').click(function(){
+//			alert(123)
+			var username = $("input[name ='username']").val();
+			var phone = $("input[name ='phone']").val();
+			var code = $("input[name = 'code']").val();
+			var content = $("textarea[name = 'content']").val();
+			var urls = $('.code').attr('src');
+//			alert(username)
+//			return false;
+			if(code==''){
+				alert('请输入验证码')
+				$('.code').attr('src',urls+'+')
+				return false;
+			}
+			if(phone==''){
+				alert('请输入手机号码')
+				$('.code').attr('src',urls+'+')
+				return false;
+			}
+			if(username==''){
+				alert('请输入姓名')
+				$('.code').attr('src',urls+'+')
+				return false;
+			}
+			if(content==''){
+				alert('请输入你的留言')
+				$('.code').attr('src',urls+'+')
+				return false;
+			}
+			
+			$.ajax({
+				type:"post",
+				url:"index.php?m=admin&c=suggestion&a=add",
+				data:{
+					username:username,
+					phone:phone,
+					code:code,
+					content:content,
+				},
+				success:function(msg){
+//					alert(msg);
+//					return false;
+					if (msg==1) {
+						alert('验证码错误')
+						$("input[name ='code']").val('')
+						$('.code').attr('src',urls+'+')
+						
+					}else if(msg==2){
+						
+						alert('留言成功')
+						location="index.php?m=home&c=index&a=index"
+					}else if(msg==3){
+						alert('留言失败')
+						$('.code').attr('src',urls+'+')
+					}else if(msg==3){
+						alert('手机号码格式有误')
+						history.back(-1)
+					}
+				}
+			},'json')
+			return false;
+		})
+		
+	})
+	
+</script>

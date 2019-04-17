@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+*{padding:0; margin:0}
+ol,ul,li,b{list-style:none}
+a{text-decoration:none}
+input,button,textarea{ outline:none}
+
+.max{width:100%; position:relative}
+.news_center{width:1920px; height:900px; margin:auto;background:url(../images/news_center_bg.jpg)  no-repeat;}
+
+
+.news_center .content{ width:1920px; height:710px; background-color:rgba(255,255,255,0.3)}
+.news_center .content .left{ width:213px; height:inherit; margin-left:124px; background-color:rgba(53,53,53,0.5); float:left}
+.news_center .content .left .sidebar{width:inherit; height:430px; padding-top:105px}
+.news_center .content .left .sidebar li{width:inherit; margin-bottom:36px; text-align:center}
+.news_center .content .left .sidebar li.current{background-image:url(../images/sidebar_bg.png)}
+.news_center .content .left .sidebar li a{height:50px;width:inherit; line-height:50px; font-family:"微软雅黑"; font-size:24px; color:#FFF; cursor:pointer}
+.news_center .content .right{ width:1516px; height:710px; position:absolute; margin-left:404px; overflow:hidden}
+.news_center .content .right>div{ width:1516px; height:710px}
+.news_center .content .right>div .side{ width:356px; height:106px; margin-left:1100px; line-height:106px; font-family:"微软雅黑"; font-size:12px; color:#FFF}
+.news_center .content .right>div .side>a{font-family:"微软雅黑"; font-size:12px; color:#FFF}
+.news_center .content .right>div .side>b>a{font-family:"微软雅黑"; font-size:12px; color:#bc9696; font-weight:normal}
+.news_center .content .right>div .bottom{ width:1290px; height:604px; position:absolute}
+.news_center .content .right>div .bottom .prev{ display:block; height:40px; width:24px; font-weight:bolder; font-size:40px; color:#FFF; position:absolute;top:35%; cursor:pointer}
+.news_center .content .right>div .bottom .next{ display:block; height:40px; width:24px; font-weight:bolder; font-size:40px; color:#FFF; position:absolute;top:35%; right:0%; cursor:pointer}
+.news_center .content .right>div .bottom .sub{ width:1176px; height:484px; margin-left:60px; position:absolute; overflow:hidden}
+.news_center .content .right>div .bottom .sub>div{ width:1176px; height:484px; position:relative; background-color:rgba(27,27,27,0.6)}
+.news_center .content .right>div .bottom .sub>div .text{width:463px; height:484px; padding-left:45px; padding-right:115px; position:absolute}
+.news_center .content .right>div .bottom .sub>div .text p{ display:inline-block;font-family:微软雅黑; font-size:14px; color:#b4b3b3; line-height:30px}
+.news_center .content .right>div .bottom .sub>div .text h1{ display:inline-block}
+.news_center .content .right>div .bottom .sub>div .text h1:hover{background-color:#7f7f7f}
+
+.news_center .content .right>div .bottom .sub>div .text time{ display:block; font-family:微软雅黑; font-size:14px; color:#FFF; opacity:0; line-height:30px; text-align:right}
+.news_center .content .right>div .bottom .sub>div .text time.show{opacity:1}
+.news_center .content .right>div .bottom .sub>div .text span{display:inline-block; height:2px; width:457px; background-color:rgba(255,255,255,0)}
+.news_center .content .right>div .bottom .sub>div .text span.line{ background-color:rgba(255,255,255,1)}
+.news_center .content .right>div .bottom .sub>div .text a{font-family:微软雅黑; font-size:24px; color:#FFF; }
+.news_center .content .right>div .bottom .sub>div .pic{ width:554px; height:484px; margin-left:623px; position:absolute}
+.news_center .content .right>div .bottom .sub>div .pic img{ display:block; margin-top:30px}
+
+.news_center .content .right>div .bottom ol{ width:255px; height:35px; margin-left:500px; margin-top:504px; position:absolute}
+.news_center .content .right>div .bottom ol li{float:left; height:inherit; width:25px; background-color:rgba(27,27,27,0.8);font-family:"微软雅黑"; font-size:16px; color:#FFF; text-align:center; line-height:35px; cursor:pointer}
+.news_center .content .right>div .bottom ol li:first-child{width:55px; margin-right:10px}
+.news_center .content .right>div .bottom ol li:last-child{ width:55px; margin-left:10px}
+.news_center .content .right>div .bottom ol li.current{ color:#ff6c6c}
+

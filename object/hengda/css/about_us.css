@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* CSS Document */
+*{padding:0; margin:0}
+ol,ul,li,b{list-style:none}
+a{text-decoration:none}
+input,button,textarea{ outline:none}
+
+.about_us{width:1920px; height:900px; background:url(../images/about_us_bg.jpg) no-repeat;}
+
+
+
+.about_us .content{ width:1920px; height:710px; margin:auto}
+.about_us .content .left{ width:213px; height:inherit; margin-left:124px; background-color:rgba(53,53,53,0.5); float:left}
+.about_us .content .left .sidebar{width:inherit; height:430px; padding-top:105px}
+.about_us .content .left .sidebar li{width:inherit; margin-bottom:36px; text-align:center }
+.about_us .content .left .sidebar li.current{background-image:url(../images/sidebar_bg.png)}
+.about_us .content .left .sidebar li a{ height:50px;line-height:50px; font-family:"微软雅黑"; font-size:24px; color:#FFF; cursor:pointer}
+.about_us .content .right{ width:1516px; height:710px; position:absolute; margin-left:404px; overflow:hidden}
+.about_us .content .right .side{ width:356px; height:106px; margin-left:1100px; line-height:106px; font-family:"微软雅黑"; font-size:12px; color:#FFF}
+.about_us .content .right .side>a{ font-family:"微软雅黑"; font-size:12px; color:#FFF}
+.about_us .content .right .side>b>a{ font-family:"微软雅黑"; font-size:12px; color:#bc9696; font-weight:normal}
+.about_us .content .right>div{ width:1516px; height:710px}
+.about_us .content .right>div .text{ width:825px; height:604px; position:absolute}
+.about_us .content .right>div .text .prev{ display:block; height:40px; width:24px; font-weight:bolder; font-size:40px; color:#FFF; position:absolute;top:35%; cursor:pointer}
+.about_us .content .right>div .text .next{ display:block; height:40px; width:24px; font-weight:bolder; font-size:40px; color:#FFF; position:absolute;top:35%; right:0%; cursor:pointer}
+.about_us .content .right>div .text .container{ width:682px; height:450px; background-color:rgba(27,27,27,0.8); position:absolute; left:65px; overflow:hidden}
+.about_us .content .right>div .text .container>div{ width:612px; height:400px; padding:0px 35px}
+.about_us .content .right>div .text .container>div h1{ display:inline-block; font-family:"微软雅黑"; font-size:24px; color:#FFF; margin:70px 0px }
+.about_us .content .right>div .text .container>div p{ display:inline-block;font-family:"微软雅黑"; font-size:16px; color:#FFF}
+.about_us .content .right>div .pic{ position:absolute; left:850px}
+.about_us .content .right>div .pic img{ display:block}
+
+

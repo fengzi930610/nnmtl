@@ -1,0 +1,138 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>系统设置</title>
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+</head>
+<body>
+<article class="cl pd-20">
+	<form action="" class="form form-horizontal" method="post" enctype="multipart/form-data">
+		
+		<div class="row cl" style="display: none;">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>Id：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo $re['Id'];?>"  name="Id" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['companyName'])?'':$re['companyName']?>" name="companyName" />
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司电话：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['companyTel'])?'':$re['companyTel']?>" name="companyTel">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司联系人：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['linkman'])?'':$re['linkman']?>" name="linkman">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司地址：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['companyAddress'])?'':$re['companyAddress']?>" name="companyAddress"/>
+			</div>
+		</div>	
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>关键词：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['keywords'])?'':$re['keywords']?>" name="keywords"/>
+			</div>
+		</div>	
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司传真：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['companyFax'])?'':$re['companyFax']?>" name="companyFax"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司邮箱：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['companyEmail'])?'':$re['companyEmail']?>" name="companyEmail"/>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>logo：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<img src="<?php echo empty($re['logo'])?'':$re['logo']?>" alt="" class="logo" />
+				<a href="javascript:void(0)">删除</a>
+				<input type="file" hidden="hidden" id="file" name="img" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>公司简介：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<?php echo empty($re['description'])?'':substr($re['description'],0,120)?>"  name="description" />
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius"  type="submit" value="提交"/>
+				<input class="btn btn-primary radius"  type="button" value="取消" onclick="history.back(-10)" />
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php include('app/admin/view/public/footer.html'); ?>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
+<script>
+	$(function(){
+		$("a:contains('删除')").click(function(){
+//			alert(123)
+			$(this).siblings('img').hide()
+			$(this).hide()
+			$(this).siblings('input').show()
+		})
+		
+		
+		
+	})
+</script>
+<script type="text/javascript">
+	$(function(){
+		
+		function getObjectURL(file) {
+//  	
+	        var url = null ;
+	        if (window.createObjectURL!=undefined) { // basic
+	            url = window.createObjectURL(file) ;
+	        } else if (window.URL!=undefined) { // mozilla(firefox)
+	            url = window.URL.createObjectURL(file) ;
+	        } else if (window.webkitURL!=undefined) { // webkit or chrome
+	            url = window.webkitURL.createObjectURL(file) ;
+	        }
+	        return url ;
+	    }
+		
+	    $('#file').change(function() {
+	        var eImg = $('<img />');
+	        eImg.attr('src', getObjectURL($(this)[0].files[0])); // 或 this.files[0] this->input
+	        $(this).before(eImg)
+	        
+	    });
+    
+		
+		
+		
+	})
+</script>

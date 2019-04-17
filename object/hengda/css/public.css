@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+*{padding:0; margin:0}
+ol,ul,li{list-style:none}
+a{text-decoration:none}
+input,button,textarea{ outline:none}
+img{ border:none}
+
+.max{width:100%;}
+
+
+.title{width:1920px; height:110px; background-color:#111;margin:auto; position:relative}
+.title .logo{ display:block; float:left; width:220px; margin-left:120px; height:167px; background-color:#111; border-bottom-left-radius:54px; border-bottom-right-radius:54px; position:absolute; z-index:10}
+.title .logo img{display:block}
+.title .menu{ width:760px;height:inherit; float:left; margin-left:960px; position:absolute}
+.title .menu li{ width:118px; height:58px; border:1px solid rgba(255,255,255,0); border-radius:57px; float:left; margin-right:30px; margin-top:38px}
+.title .menu li:last-child{margin-right:0px}
+.title .menu li.current{border:1px solid rgba(255,255,255,1)}
+.title .menu li:hover{border:1px solid rgba(255,255,255,1)}
+.title .menu li a{display:block; width:inherit; height:inherit; text-align:center; line-height:58px; color:#FFF;font-family:"微软雅黑"; font-size:18px; color:#FFF; }
+.title #btn{display:block; height:60px; width:64px; margin-top:50px; position:absolute; left:1739px; cursor:pointer; border-top-right-radius:6px; border-top-left-radius:6px; z-index:1}
+.title #btn #pic{ display:block; position:absolute; border-radius:21px; margin-left:9px; margin-top:10px}
+.title #menu_click{width:560px; height:315px; border-radius:7px; border-top-right-radius:0px; background-color:rgba(15,15,15,0.8); position:absolute; margin-top:110px;left:1243px; display:none; z-index:1}
+.title #menu_click ul{ height:295px; width:25%; background-color:rgba(0,0,0,0.8); float:left}
+.title #menu_click ul li{ width:117px; height:39px; border: dashed 1px rgba(255,255,255,0); margin-top:20px; margin-left:10px; text-align:center; line-height:39px;font-family:"微软雅黑"; font-size:16px; color:#FFF; cursor:pointer }
+.title #menu_click ul li.current{border: dashed 1px rgba(255,255,255,1)}
+.title #menu_click ul li:hover{border: dashed 1px rgba(255,255,255,1)}
+.title #menu_click .lv_2{height:inherit; width:75%; float:left; overflow:hidden}
+.title #menu_click .lv_2 ol{ height:inherit; width:100%;}
+.title #menu_click .lv_2 ol li{ width:136px; height:inherit;background-color:rgba(55,55,55,0.5); margin-left:6px; text-align:center; line-height:315px; float:left}
+.title #menu_click .lv_2 ol li a{display:block; width:inherit; height:inherit;font-family:"微软雅黑"; font-size:16px; color:#FFF;}
+.title #menu_click .lv_2 ol li:first-child{margin-left:0px}
+
+
+.foot{width:1920px; height:80px; background-color:#111; margin:auto; position:relative}
+.foot .copyright{ width:142px; height:30px; left:160px; position:absolute; bottom:30px; cursor:pointer}
+.foot .ct_us{ height:40px; right:115px; position:absolute; bottom:20px; z-index:1}
+.foot .ct_us li{ width:45px; height:40px; margin-left:36px; float:left; cursor:pointer}
+.foot .ct_us li img{ display:block; margin:auto; line-height:40px; margin-top:5.5px}
+.foot #chatpic{ width:110px; height:99.5px; position:absolute; margin-left:1565px; margin-top:-90.5px; padding-top:10.5px; background-color:#181818; display:none; z-index:20}
+.foot #chatpic img{ display:block; margin:auto}

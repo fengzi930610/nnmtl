@@ -1,0 +1,76 @@
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		权限管理
+		<span class="c-gray en">&gt;</span>
+		权限列表
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="text-c">
+				<span class="select-box inline">
+				<select name="" class="select">
+					<option value="0">全部分类</option>
+					<option value="1">分类一</option>
+					<option value="2">分类二</option>
+				</select>
+				</span>
+				日期范围：
+				<input type="text" onfocus="" id="logmin" class="input-text Wdate" style="width:120px;">
+				-
+				<input type="text" onfocus="" id="logmax" class="input-text Wdate" style="width:120px;">
+				<input type="text" name="" id="" placeholder=" 资讯名称" style="width:250px" class="input-text">
+				<button name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜权限</button>
+			</div>
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="l">
+				<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+				<a class="btn btn-primary radius" data-title="添加品牌" href="{:url('admin/level/levelAdd')}" ><i class="Hui-iconfont">&#xe600;</i> 权限添加</a>
+				</span>
+				<!--<span class="r">共有数据：<strong>54</strong> 条</span>-->
+			</div>
+			<div class="mt-20">
+				<table class="table table-border table-bordered table-bg table-hover table-sort">
+					<thead>
+						<tr class="text-c">
+							<th width="25"><input type="checkbox" name="" value=""></th>
+							<th width="80">ID</th>
+							<th width="80">分类名称</th>
+							<th>父级Id</th>
+							<th>模块</th>
+							<th>控制器</th>
+							<th>方法</th>
+							<th>显示状态</th>
+							<th width="120">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name='list' id='level'}
+							<tr class="text-c">
+								<td><input type="checkbox" value="" name=""></td>
+								<td>{$level.Id}</td>
+								<td>{$level.name}</td>
+								<td>{$level.fId}</td>
+								<td>{$level.model}</td>
+								<td>{$level.controller}</td>
+								<td>{$level.action}</td>
+								<td>{if condition="$level.state==1"}显示{/if}{if condition="$level.state==0"}不显示{/if}</td>
+								<td class="f-14 td-manage">
+									<a style="text-decoration:none" onClick="article_stop(this,'10001')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
+									<a style="text-decoration:none" class="ml-5" href="{:url('admin/level/levelUpdate',['Id'=>$level['Id']])}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a>
+									<a style="text-decoration:none" class="ml-5" href="{:url('admin/level/levelDelete',['Id'=>$level['Id']])}" title="删除" onclick="return confirm('是否删除小泽玛利亚？')"><i class="Hui-iconfont">&#xe6e2;</i></a>
+								</td>
+							</tr>
+						{/volist}
+					</tbody>
+					
+				</table>
+				
+			</div>
+			<!--<div style="text-align: center; widows: 100%;"></div>-->
+		</article>
+	</div>
+	<style type="text/css">
+		.pagination{ margin-top: 20px;display: inline-table}
+		.pagination>li{float:left; text-align: center;padding: 0 5px; border: solid 1px black; margin: 5px;}
+	</style>

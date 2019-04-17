@@ -1,0 +1,107 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/user.css" />
+		<!--头部 end-->
+		<div class="user">
+			<div class="back">
+				<img src="__PUBLIC__images/user-back.jpg" />
+			</div>
+			<div class="user-conter">
+				<div class="conter">
+					<h2><a href="{:url('index')}">首页</a>>我的订单</h2>
+					<div class="conter-left">
+						<ul>
+							<li>
+								<h1>订单中心</h1>
+								<a href="order.html" class="on">我的订单</a>
+								<a href="#">我的回购订单</a>
+								<a href="#">我的意外保单</a>
+							</li>
+							<li>
+								<h1>个人中心</h1>
+								<a href="{:url('address')}">地址管理</a>
+								<a href="#">我的收藏</a>
+								<a href="#">消息提醒</a>
+								<a href="#">建议反馈</a>
+							</li>
+							<li>
+								<h1>个人中心</h1>
+								<a href="#">我的优惠券</a>
+								<a href="#">我的红包</a>
+								<a href="#">我的回购券</a>
+							</li>
+							<li>
+								<h1>服务中心</h1>
+								<a href="#">退款跟踪</a>
+								<a href="#">补办意外保</a>
+								<a href="#">以旧换新</a>
+							</li>
+						</ul>
+					</div>
+					<div class="conter-right">
+						<div class="top">
+							<a href="pro_details.html" class="left"><img src="__PUBLIC__images/portrait.jpg"></a>
+							<div class="right" id="divuser">
+								<p class="welcon">您好！<span class="usename">{if condition="!empty($Think.session.username)"}{$Think.session.username}{/if}</span> , 欢迎来到会员中心</p>
+								<p><i>待付款（<a class="payment">0</a>）</i>    <i>待收货（<a class="delivery">0</a>）</i>   <i>待评价（<a class="evaluate">0</a>）  </i></p>
+								<p><a href="{:url('address')}">收货地址管理</a></p>
+								<p><i>我的积分（<a class="integral">0</a>）</i>   <i> 我的优惠券（<a class="coupon">0</a>）</i>  </p>
+							</div>
+						</div>
+						
+						<div class="bottom">
+							<h3>订单详情（已买到的宝贝）</h3>
+							<div class="pro">
+								<ul>
+									<li>
+										<a href="pro_details.html"><img src="__PUBLIC__images/order_00.jpg"></a>
+									</li>
+									<li><a href="pro_details.html">女婴2016秋冬纯棉长袖爬服夹棉连身衣</a></li>
+									<li><a>368.00</a></li>
+									<li>
+										<a href="#">申请售后</a>
+										<a href="#">投诉卖家</a>
+									</li>
+									<li>
+										<a>交易成功</a>
+										<a href="#">查看物流</a>
+									</li>
+									<li><a href="comments.html">评价</a></li>
+								</ul>
+								<ul>
+									<li>
+										<a href="pro_details.html"><img src="__PUBLIC__images/order_00.jpg"></a>
+									</li>
+									<li><a href="pro_details.html">女婴2016秋冬纯棉长袖爬服夹棉连身衣</a></li>
+									<li><a>368.00</a></li>
+									<li>
+										<a href="#">申请售后</a>
+										<a href="#">投诉卖家</a>
+									</li>
+									<li>
+										<a>交易成功</a>
+										<a href="#">查看物流</a>
+									</li>
+									<li><a href="comments.html">评价</a></li>
+								</ul>
+								<ul>
+									<li>
+										<a href="pro_details.html"><img src="__PUBLIC__images/order_00.jpg"></a>
+									</li>
+									<li><a href="pro_details.html">女婴2016秋冬纯棉长袖爬服夹棉连身衣</a></li>
+									<li><a>368.00</a></li>
+									<li>
+										<a href="#">申请售后</a>
+										<a href="#">投诉卖家</a>
+									</li>
+									<li>
+										<a>交易成功</a>
+										<a href="#">查看物流</a>
+									</li>
+									<li><a href="comments.html">评价</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>		
+			</div>
+			
+		</div>

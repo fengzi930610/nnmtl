@@ -1,0 +1,41 @@
+<?php
+$z[0]=Array("field","",309,328);
+$z[0][4]=array();
+$z[0][4]['name']="title";
+$z[1]=Array("global","",329,355);
+$z[1][4]=array();
+$z[1][4]['name']="cfg_webname";
+$z[2]=Array("field","",396,425);
+$z[2][4]=array();
+$z[2][4]['name']="keywords";
+$z[3]=Array("field","",465,523);
+$z[3][4]=array();
+$z[3][4]['name']="description";
+$z[3][4]['function']="html2text(@me)";
+$z[4]=Array("include","",989,1024);
+$z[4][4]=array();
+$z[4][4]['filename']="head.htm";
+$z[5]=Array("php"," AddFilter(2,1,'jz');",1212,1254);
+$z[5][4]=array();
+$z[6]=Array("php"," AddFilter(2,1,'fg');",1303,1345);
+$z[6][4]=array();
+$z[7]=Array("php"," AddFilter(2,1,'hx');",1393,1435);
+$z[7][4]=array();
+$z[8]=Array("php"," AddFilter(2,1,'mj');",1484,1526);
+$z[8][4]=array();
+$z[9]=Array("list","\r\n      <li>\r\n        <div class=\"show-img\"> <a href=\"[field:arcurl/]\"> <img class=\"lazy\" src=\"[field:picname/]\" width=\"380\" height=\"245\" alt=\"[field:title/]\" /> </a>\r\n          <div class=\"show-tips\">\r\n            <p>户型：[field:hx/]</p>\r\n            <p>面积：[field:anmj/]</p>\r\n            <p>预算：[field:zj/]</p>\r\n            <p><span>[field:fg/]</span></p>\r\n          </div>\r\n        </div>\r\n        <div class=\"show-info\">\r\n          <h4 class=\"alb-title\"><a href=\"[field:arcurl/]\">[field:title/]</a></h4>\r\n          <div class=\"alb-bt\" ><span class=\"fl\"><img src=\"[field:writer/]\" alt=\"[field:writer/]\" />\r\n            <p>[field:sjs/]</p>\r\n            </span> <a class=\"fr\" href=\"http://wpa.qq.com/msgrd?v=3&site=[field:global.cfg_webname/]&menu=yes&uin=[field:global.cfg_kfqq/]\" title=\"[field:sjs/]\" yuyue='' >预约设计</a> </div>\r\n        </div>\r\n      </li>\r\n      ",1645,2570);
+$z[9][4]=array();
+$z[9][4]['pagesize']="12";
+$z[10]=Array("arclist","\r\n      <li id=\"sjs_[field:id/]\" value=\"[field:title/]\">[field:litpic/]</li>\r\n      ",2625,2759);
+$z[10][4]=array();
+$z[10][4]['typeid']="16";
+$z[10][4]['row']="50";
+$z[11]=Array("pagelist","",3599,3655);
+$z[11][4]=array();
+$z[11][4]['listitem']="pre,next,pageno";
+$z[11][4]['listsize']="5";
+$z[12]=Array("include","",3729,3766);
+$z[12][4]=array();
+$z[12][4]['filename']="footer.htm";
+
+?>

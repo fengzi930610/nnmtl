@@ -1,0 +1,2 @@
+<div class="house-con-[field:global name=autoindex/] dn " [field:global runphp='yes' name=autoindex]$a="style='display: block;'"; $b="";if (@me==1) @me=$a; else @me=$b;[/field:global]>
+            <img src="[field:imgsrc/]" alt="[field:text/]" /> </div>

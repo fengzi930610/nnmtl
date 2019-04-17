@@ -1,0 +1,155 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>管理员添加</title>
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+
+
+</head>
+<body>
+<article class="cl pd-20">
+	<form class="form form-horizontal" id="form-admin-add" method="post">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色选择：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<select name="roteId">
+					<option value="0" >--请选择角色--</option>
+					<?php foreach($rotearr as $k=>$v){?>
+						<option value="<?php echo $v['Id']; ?>" ><?php echo $v["name"]; ?></option>
+					<?php }?>
+				</select>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入管理员名称" name="username" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>设置密码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="password" class="input-text" value="" placeholder="请输入密码" name="password" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="password" class="input-text" placeholder="请输入确认密码" name="password_2" />
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>昵称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="" class="input-text" placeholder="请输入昵称" id="tname" name="tname" />
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="radio-box">
+					<input name="sex" type="radio" id="sex-1" checked value="1" />
+					<label for="sex-1">男</label>
+				</div>
+				<div class="radio-box">
+					<input type="radio" id="sex-2" name="sex" value="0">
+					<label for="sex-2">女</label>
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="tel" class="input-text" value="" placeholder="请输入手机号码" id="phone" name="phone">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="email" class="input-text" placeholder="请输入正确的Email" name="Email" id="Email"/>
+			</div>
+		</div>		
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius"  type="submit" id="submit" value="提交" /> 
+				<input class="btn btn-primary radius"  type="button" value="取消" onclick="history.back(-1)" />
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php include('app/admin/view/public/footer.html'); ?>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
+
+<script type="text/javascript">
+	$(function(){
+		
+		$('#submit').click(function(){
+			var username = $("input[name='username']").val()
+			var password = $("input[name='password']").val()
+			var password_2 = $("input[name='password_2']").val()
+			var tname = $("input[name='tname']").val()
+			var sex = $("input[name='sex']").val()
+			var phone = $("input[name='phone']").val()
+			var Email = $("input[name='Email']").val()
+			var roteId = $("select[name='roteId']").val()
+			
+			
+			$.ajax({
+				type:"post",//默认为get
+				url:"index.php?m=admin&c=manager&a=add",
+				
+				data:{
+					username:username,
+					password:password,
+					password_2:password_2,
+					tname:tname,
+					sex:sex,
+					phone:phone,
+					Email:Email,
+					roteId:roteId,
+				},
+				success:function(msg){
+					//msg为执行成功返回的内容，可自定义
+					if (msg==1) {
+						alert("账号密码不能为空")
+					} else if(msg==2){
+						alert("两次密码不一致")
+					}else if(msg==3){
+						alert("用户名已存在")
+					}else if(msg==6){
+						alert("用户昵称已存在")
+					}else if(msg==4){
+						alert("新增成功");
+						location="index.php?m=admin&c=manager&a=list"
+					}else if(msg==5){
+						alert('新增失败')
+						location='index.php?m=admin&c=manager&a=add'
+					
+					}
+				}
+			});
+//			
+			
+			return false
+		})
+		
+		
+		
+	})
+</script>

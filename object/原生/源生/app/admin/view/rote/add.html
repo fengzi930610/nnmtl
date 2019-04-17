@@ -1,0 +1,91 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>角色添加</title>
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+
+
+</head>
+<body>
+<article class="cl pd-20">
+	<form class="form form-horizontal" id="form-admin-add" method="post">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="请输入角色名称" name="name" />
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<?php 
+					$onearr = selectAll('level','*','fId=0');
+					$list = [];
+					foreach($onearr as $k=>$v){
+						$list[] = $v;
+						$fId = $v['Id']; 
+						$twoarr = selectAll('level','*','fId='.$fId);
+						$list[$k]['child'] = $twoarr;
+					}
+				foreach($list as $k=>$v) {?>
+					<div style="margin-bottom: 10px; border: solid 1px aquamarine;">
+						<div>
+							<lable><input type="checkbox" name="rote[]" value="<?php echo $v['name']?>" /> <?php echo $v['name']?> </lable>
+						</div>
+					
+						<?php 
+						foreach($v['child'] as $kk=>$vv) {?>
+							<lable><input type="checkbox" name="rote[]" value="<?php echo $vv['name']?>" /> <?php echo $vv['name']?> </lable>
+						<?php }?>
+					</div>
+				<?php }?>
+					<input type="button" value="全选" id="all" />
+					<input type="button" value="取消全选" id="noall" />
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<input class="btn btn-primary radius"  type="submit" value="提交" />
+				<input class="btn btn-primary radius"  type="button" value="取消" onclick="history.back(-1)" />
+			</div>
+		</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去-->
+<?php include('app/admin/view/public/footer.html'); ?>
+
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="public/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
+
+<script type="text/javascript">
+	$(function(){
+		$('#all').click(function(){
+			 $('input[name="rote[]"]').each(function(){  
+                    //此处如果用attr，会出现第三次失效的情况  
+                    $(this).prop("checked",'checked')
+                })
+		})
+		$('#noall').click(function(){
+			 $('input[name="rote[]"]').each(function(){  
+                    //此处如果用attr，会出现第三次失效的情况  
+                    $(this).prop("checked",'')
+                })
+		})
+		
+		
+		
+	})
+</script>

@@ -1,0 +1,38 @@
+#middle  ul{
+	padding: 0;
+	margin: 0;
+	width: 7.2rem;
+	margin: 0.4rem auto 3.8rem;
+	 border-collapse:collapse;
+}
+#middle  ul li{
+	padding: 0;
+	margin: 0;
+}
+#middle  ul li{
+	float: left;
+	margin: 0;
+}
+#middle  ul li a{
+	width: 2.37rem;
+	height: 2.38rem;
+	display: block;
+	border: 1px solid #999999;
+	margin: 0 0 -1px -1px;
+}
+#middle  ul li a img{
+	display: block;
+	width: 1.3rem;
+	height: 1.08rem;
+	margin: 0 auto;
+	margin-top:0.4rem;
+	margin-bottom: 0.35rem;
+	
+}
+#middle  ul li a span{
+	display: block;
+	width: 100%;
+	text-align: center;
+	font-size: 0.3rem;
+	color:#333333 ;
+}

@@ -1,0 +1,385 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/commen.css" /><link rel="stylesheet" type="text/css" href="__PUBLIC__css/shop_list.css" /><script type="text/javascript" src="__PUBLIC__js/jquery-1.11.0.js" ></script>
+<div class="conter">
+	<h3>所有分类></h3>
+	<div class="top">
+		<ul>
+			<li>
+				<dl>
+					<dt>分类:</dt>
+					<dd>
+						<a href="shop_list.html">连身衣 </a>
+						<a href="shop_list.html"> 爬爬服</a>
+						<a href="shop_list.html">连衣裙</a>
+						<a href="shop_list.html">套装 </a>
+						<a href="shop_list.html">裤子 </a>
+						<a href="shop_list.html">上衣</a>
+						<a href="shop_list.html">外套</a>	
+					</dd>
+					<dd style="display: none;">
+						<a href="shop_list.html">连身衣 </a>
+						<a href="shop_list.html"> 爬爬服</a>
+						<a href="shop_list.html">连衣裙</a>
+						<a href="shop_list.html">套装 </a>
+						<a href="shop_list.html">裤子 </a>
+						<a href="shop_list.html">上衣</a>
+						<a href="shop_list.html">外套</a>	
+					</dd>
+					<a class="off" style="display: none;">取消</a>
+				</dl>
+				<a class="more">更多</a>
+			</li>
+			
+			<li>
+				<dl>
+					<dt>适用性别：</dt>
+					<dd>
+						<a href="shop_list.html">男 </a>
+						<a href="shop_list.html">女 </a>
+						<a href="shop_list.html">中性</a>
+						<a href="shop_list.html">通用</a>	
+					</dd>
+					
+				</dl>
+			</li>
+			
+			<li>
+				<dl>
+					<dt>适用年龄：</dt>
+					<dd>
+						<a><label><i><input type="checkbox" /></i>连身衣</label></a>
+						<a><label><i><input type="checkbox" /></i>爬爬服</label></a>
+						<a><label><i><input type="checkbox" /></i>连衣裙</label></a>
+						<a><label><i><input type="checkbox" /></i>套装</label> </a>
+						<a><label><i><input type="checkbox" /></i>裤子</label> </a>
+						<a><label><i><input type="checkbox" /></i>上衣</label></a>
+						<a><label><i><input type="checkbox" /></i>外套</label></a>	
+					</dd>
+					<a class="dxoff">取消</a>
+					<a class="affirm">确认</a>
+				</dl>
+				<a class="multiple">+多选</a>
+			</li>
+			<li>
+				<dl>
+					<dt>选购热点：</dt>
+					<dd>
+						
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>纯棉加厚</label></a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>卡通</label> </a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>背带</label></a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>条纹</label></a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>假两件</label></a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>糖果色</label> </a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>心形</label> </a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>套头衫 </label></a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>动物</label> </a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>纹理</label></a>	
+					</dd>
+					<a class="dxoff">取消</a>
+					<a class="affirm">确认</a>
+				</dl>
+				<a class="multiple">+多选</a>
+			</li>
+			<li>
+				<dl>
+					<dt>适用季节：</dt>
+					<dd>
+						<a href="shop_list.html">春 </a>
+						<a href="shop_list.html">夏</a>
+						<a href="shop_list.html">秋</a>
+						<a href="shop_list.html">冬</a>
+					</dd>
+					<a class="dxoff">取消</a>
+					<a class="affirm">确认</a>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt>厚薄：</dt>
+					<dd>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>常规</label>  </a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>加厚</label> </a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>薄款</label></a>
+						<a href="shop_list.html"><label><i><input type="checkbox" /></i>加绒</label>  </a>
+					</dd>
+					<a class="dxoff">取消</a>
+					<a class="affirm">确认</a>
+				</dl>
+				<a class="multiple">+多选</a>
+			</li>
+		</ul>
+	</div>
+			<script>
+			
+				
+				$(".conter .top ul li dl dd a label").click(function(){
+					if($(this).find("input").is(":checked")){
+						$(this).find("i").removeClass("do")
+						$(this).find("input").removeAttr("checked")
+					}else{
+						$(this).find("input").prop("checked","checked")
+						$(this).find("i").addClass("do")
+					}
+				})
+				//多选
+				$("a.multiple").click(function(){
+					$(this).css("display","none")
+					$(this).siblings("dl").children("a").css("display","block")
+					$(this).siblings("dl").find("lable").css("display","block")
+					$(this).siblings("dl").find("i").css("display","block")
+					
+				})
+				$(".conter .top ul li a.dxoff").click(function(){
+					$(this).css("display","none")
+					$(this).siblings("a").css("display","none")
+					$(this).siblings("dd").find("i").css("display","none")
+					$(this).parent("dl").siblings("a.multiple").css("display","block")
+				})
+				$(".conter .top ul li a.affirm").click(function(){
+					window.setTimeout("window.location='shop_list.html'");
+				})
+				
+				$(".conter .top ul li dl dd a").dblclick(function(){
+					
+				})
+				
+				//更多
+				$("a.more").click(function(){
+					$(this).siblings("dl").children("dd").css("display","block")
+					$(this).siblings("dl").children("a.off").css("display","block")
+					$(this).css("display","none")
+					console.log(888)
+				})
+				$("a.off").click(function(){
+					$(this).css("display","none")
+					$(this).prev("dd").css("display","none")
+					$(this).parent("dl").siblings("a.more").css("display","block")
+				})
+			</script>
+	<div class="middle">
+		<div class="mid-top">
+			<div class="filtrate">
+				<button><i class="on">综合</i></button>
+				<button><i>热销</i></button>
+				<button><i>销量</i></button>
+				<button><i>新品</i></button>
+				<button><i>价格</i></button>
+			</div>
+			<div class="price">
+				<input type="text" id="" placeholder="￥请输入" />
+				<span>~</span>
+				<input type="text" placeholder="￥请输入" />
+			</div>
+			<div class="skip">
+				<a>1/50</a>
+				<button><</button>
+				<button>></button>
+			</div>
+		</div>
+		<!--mid-top-->
+		<div class="mid-contre">
+			<ul>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_01.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_02.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_03.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_04.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_05.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_06.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_07.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_08.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_09.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_10.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_11.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_12.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_13.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_14.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_15.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_16.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_17.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_18.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_19.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/shop_list_20.jpg"></a>
+					<div class="pro-bot">
+						<a class="price">RMB:336.0</a>
+						<button>加入购物车<img src="__PUBLIC__images/cart.png"></button>
+						<p>女婴2016秋冬纯棉长袖爬服夹棉连身衣</p>
+						<span><i>月成交：1100笔</i><i>评价：1190条</i></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<!--mid-contre-->
+		<div class="mid-bot">
+			<ul>
+				<li><a class="#">首页</a></li>
+				<li><a class="#">1</a></li>
+				<li><a class="#">2</a></li>
+				<li><a class="#">3</a></li>
+				<li><a class="#">4</a></li>
+				<li><a class="#">5</a></li>
+				<li><a class="#">6</a></li>
+				<li><a class="#">7</a></li>
+				<li><a class="#">8</a></li>
+				<li><a class="#">下一页</a></li>
+				<li><a class="#">末页</a></li>
+				<li><span>共48页</span></li>
+				<li><label>第<input type="text" value=""/>页</label></li>
+				<li><a>确定</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--middle-->
+</div>

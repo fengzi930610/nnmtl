@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="public/css/common.css">
+	<link rel="stylesheet" href="public/css/inde.css">
+	<script src="public/js/jquery.js"></script>
+	<script src="public/js/index.js"></script>
+</head>
+<body>
+<!-- 头部开始 -->
+<?php include("app/home/view/index/header.html")?>
+<!-- 头部结束 -->
+
+<!-- 中间部分开始 -->
+	<div class="middle">
+		<div class="slider">
+			<ul class="sliderlist">
+				<?php foreach($banner as $k=>$v) {?>
+				<li><a href="javascript:;"><img src="<?php echo $v['imgsrc']?>" alt="翔隆服饰有限公司"></a></li>
+				<?php }?>
+			</ul>
+			<ul class="dotList">
+				<li class="currentDot dot-1"></li>
+				<li class="dot-2"></li>
+				<li class="dot-3"></li>
+			</ul>
+		</div>
+		<div class="about">
+			<div class="title">
+				<h2>ABOUT US</h2>
+				<h5>关于我们</h5>
+			</div>
+			<div class="about-box">
+				<div class="about-left">
+					<h3>公司简介</h3>
+					<p><?php echo $jianjie['jianjie']; ?></p>
+					<a href="index.php?m=home&c=about&a=index">查看更多&gt;&gt;</a>
+				</div>
+				<ul class="about-right">
+						<li>
+							<a href="index.php?m=home&c=about&a=index" class="bgc"></a>
+							<img src="public/img/images/about.jpg" alt="翔隆服饰">
+						</li>
+						<li>
+							<a href="index.php?m=home&c=about&a=index" class="bgc"></a>
+							<img src="public/img/images/about2.jpg" alt="翔隆服饰">
+						</li>
+						<li>
+							<a href="index.php?m=home&c=about&a=index" class="bgc"></a>
+							<img src="public/img/images/about3.jpg" alt="翔隆服饰">
+						</li>
+						<li>
+							<a href="index.php?m=home&c=about&a=index" class="bgc"></a>
+							<img src="public/img/images/about4.jpg" alt="翔隆服饰">
+						</li>
+				</ul>
+			</div>
+		</div>
+		<div class="news">
+			<div class="news-left">
+				<div class="news-bg"><img src="public/img/images/news.jpg" alt="翔隆服饰"></div>
+				<div class="news-title">
+					<h2>NEWS</h2>
+					<h5>新闻动态</h5>
+					<a href="index.php?m=home&c=news&a=index"></a>
+				</div>
+			</div>
+			<div class="news-right">
+				<ul>					
+					<li>
+						<div class="news-date">
+							<b><?php echo date('m',$list1['rtime'])?></b><b><?php echo date('Y',$list1['rtime'])?></b>
+						</div>
+						<a href="index.php?m=home&c=news&a=index&type=3">新闻动态</a>
+						<p><?php echo $list1['title']?></p>							
+					</li>					
+					<li>
+						<div class="news-date">
+							<b><?php echo date('m',$list2['rtime'])?></b><b><?php echo date('Y',$list2['rtime'])?></b>
+						</div>
+						<a href="index.php?m=home&c=news&a=index&type=4">新闻资讯</a>
+						<p><?php echo $list2['title']?></p>
+					</li>
+					<li>
+						<div class="news-date">
+							<b><?php echo date('m',$list3['rtime'])?></b><b><?php echo date('Y',$list3['rtime'])?></b>
+						</div>
+						<a href="index.php?m=home&c=news&a=index&type=10">热点评论</a>
+						<p><?php echo $list3['title']?></p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="product">
+			<div class="title">
+				<h2>PRODUCT DISPLAY</h2>
+				<h5>产品介绍</h5>
+			</div>
+		<div id="wrapper">
+        <div id="slider">    
+        	<a href="javascript:;" class="scrollButtons left" ></a>
+			<div style="overflow: hidden;" class="scroll">
+				<div class="scrollContainer">
+					<?php foreach($micailist as $k=>$v) {?>
+	                <div class="panel" id="panel_<?php echo $k+1; ?>">
+						<div class="inside">
+							<a href="index.php?m=home&c=pro_details&a=index&Id=<?php echo $v['Id']?>">
+								<img src="<?php echo $v['imgsrc']?>" alt="迷彩服" />
+								<p><?php echo date('Y')?>新款迷彩服</p>
+							</a>
+						</div>
+					</div>
+	                <?php }?>
+                </div>
+            </div>
+			<a href="javascript:;" class="scrollButtons right"></a> 
+        </div>
+    </div>
+		</div>
+		<div class="display">
+			<div class="title"><h2>服饰定制专区</h2></div>
+			<ul class="dis-list">
+				<li>
+					<h3>01</h3>
+					<p>保安服系列</p>
+					<img src="<?php echo $display1['imgsrc']?>" alt="保安服系列" style="width: 267px;height: 267px;">
+					<a class="check" href="index.php?m=home&c=product&a=index&type=2"></a>	
+				</li>
+				<li>
+					<h3>02</h3>
+					<p>工作服系列</p>
+					<img src="<?php echo $display2['imgsrc']?>" alt="工作服系列" style="width: 267px;height: 267px;">
+					<a href="index.php?m=home&c=product&a=index&type=11" class="check"></a>
+				</li>
+				<li>
+					<h3>03</h3>
+					<p>迷彩服系列</p>
+					<img src="<?php echo $display3['imgsrc']?>" alt="迷彩服系列" style="width: 267px;height: 267px;">
+					<a href="index.php?m=home&c=product&a=index&type=13" class="check"></a>
+				</li>
+				<li>
+					<h3>04</h3>
+					<p>职业服系列</p>
+					<img src="<?php echo $display4['imgsrc']?>" alt="职业服系列" style="width: 267px;height: 267px;">
+					<a href="index.php?m=home&c=product&a=index&type=14" class="check"></a>
+				</li>
+			</ul>
+		</div>
+		<div class="contact">
+			<div class="title">
+				<h2>CONTACT US</h2>
+				<h5>联系我们</h5>
+			</div>
+			<ul class="con-list">
+				<li><span></span><p>公司地址</p><p>湖南省长沙市芙蓉路某区某路111号</p><p>邮编：610000</p></li>
+				<li><span class="icon-phone"></span><p>联系电话</p><p>电话：0735-002-220</p><p>传真：400-200-300</p></li>
+				<li><span class="icon-wc"></span><p>关注微信</p><img src="public/img/images/WeChat.jpg" alt="翔隆服饰"></li>
+			</ul>
+		</div>
+	</div>
+<!-- 中间部分结束 -->
+<!-- 版权开始 -->
+	<?php include("app/home/view/index/footer.html")?>
+<!-- 版权结束 -->
+</body>
+</html>

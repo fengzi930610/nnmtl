@@ -1,0 +1,338 @@
+.conter{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.conter h3{
+	margin-top: 30PX;
+	font-family: "微软雅黑";
+	font-size: 18px;
+	color: #0c0c0c;
+}
+.conter .top{
+	border: 1px solid #9b9b9b;
+	padding-top: 5PX;
+	padding-bottom: 15PX;
+	margin: 25PX 0;
+}
+.conter .top ul li dl dd a,.conter .top ul li dl dt{
+	float: left;
+}
+.conter .top ul li dl dd a label{
+	cursor: pointer;
+}
+.conter .top ul li dl dd a{
+	width: 85px;
+	font-family: "黑体";
+	font-size: 16px;
+	color: #666666;
+	/*margin-right: 25PX;*/
+	cursor: pointer;
+	padding: 5px 0;
+	border-radius: 3px;
+}
+.conter .top ul li dl dd a label i{
+	float: left;
+	display: none;
+	padding: 3px 5px;
+	width: 10px;
+	height: 10px;
+	background: url(../images/checkbox.png)no-repeat left center;
+	cursor: pointer;
+	/*position: relative;*/
+}
+.conter .top ul li dl dd a label i.do{
+	background: url(../images/checkbox-on.png)no-repeat left center;
+}
+input[type="checkbox"] {
+  visibility: hidden;
+  }
+.conter .top ul li dl dd a label input{
+	/*display: none;*/
+	/*float: left;*/
+	/*margin: 4px;*/
+}
+
+
+
+.conter .top ul li dl dt{
+	font-family: "黑体";
+	font-size: 18px;
+	color: #333333;
+	cursor: pointer;
+	padding: 5px;
+}
+.conter .top ul li a.multiple,.conter .top ul li a.more{
+	float: right;
+	display: block;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	color: #666666;
+	cursor: pointer;
+	margin-right: 150PX;
+	width: 54px;
+	line-height: 25px;
+	text-align: center;
+}
+.conter .top ul li a.multiple:hover,.conter .top ul li a.more:hover{
+	background: #918C01;
+	color: #FFFFFF;
+	border-radius: 4px;
+}
+.conter .top ul li a.off,.conter .top ul li a.dxoff,.conter .top ul li a.affirm{
+	float: right;
+	display: none;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	color: #FFFFFF;
+	cursor: pointer;
+	background: #ff5400;
+	padding: 2px 10px;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+.conter .top ul li dl dd{
+	display: inline-block;
+	width: 850px;
+}
+.conter .top ul li dl{
+	display: inline-block;
+	padding: 0 20PX;
+}
+.conter .top ul li{
+	padding-top: 11px;
+	padding-bottom: 0px;
+	background: url(../images/shop_list-border.png)repeat-x;
+}
+.conter .top ul li:nth-child(1){
+	background: #FFFFFF;
+}
+.middle .mid-top{
+	width: 100%;
+	overflow: hidden;
+	display: inline-block;
+	padding-bottom: 35px;
+}
+.mid-top .filtrate{
+	float: left;
+}
+.mid-top .price{
+	float: left;
+}
+.mid-top .skip{
+	display: block;
+	float: right;
+	margin-right: 70px;
+}
+.mid-top .filtrate button{
+	width: 66px;
+	height: 34px;
+	/*padding-left: 7px;*/
+	/*padding-right: 17px;*/
+	border: 1px solid #7e7e7e;
+	background: #FFFFFF;
+	margin-left: -9px;
+	position: relative;
+	cursor: pointer;
+}
+.mid-top .filtrate button i{
+	font-family: "微软雅黑";
+	font-size: 16px;
+	color: #000000;
+	line-height: 34px;
+}
+.mid-top .filtrate button i:after{
+	content: "";
+	width: 0;
+	height: 0;
+	border: 6px solid;
+	border-color: #707070 transparent transparent transparent; 
+	position: absolute;
+	top: 18px;
+}
+.mid-top .filtrate button i:before{
+	content: "";
+	width: 5px;
+	height: 5px;
+	background: #707070;
+	position: absolute;
+	top: 13px;
+	right: 7px;
+}
+.mid-top .filtrate button .on,
+.mid-top .filtrate button:hover i{
+	color: #FFFFFF;
+}
+.mid-top .filtrate button .on:after,
+.mid-top .filtrate button:hover i:after{
+	border-color: #FFFFFF transparent transparent transparent;
+}
+.mid-top .filtrate button .on:before,
+.mid-top .filtrate button:hover i:before{
+	background: #FFFFFF;
+}
+.mid-top .filtrate button:hover i{
+	color: #FFFFFF;
+}
+.mid-top .filtrate button:hover{
+	border-color: #918c01;
+	background: #918c01;
+}
+.mid-top .filtrate button:nth-child(1){
+	margin: 0;
+	border-color: #918c01;
+	background: #918c01;
+}
+.mid-top .price{
+	width: 205px;
+	margin-left: 25px;
+}
+.mid-top .price input{
+	width: 60px;
+	padding: 0 12px;
+	height: 32px;
+	line-height: 32px;
+	border: 1px solid #707070;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #cecece;
+	float: left;
+}
+.mid-top .price span{
+	float: left;
+	display: block;
+	width: 30px;
+	height: 32px;
+	line-height: 32px;
+	font-family: "微软雅黑";
+	font-size: 20px;
+	border-top: 1px solid #707070;
+	border-bottom: 1px solid #707070 ;
+	background: #cecece;
+	text-align: center;
+	color: #1a1a1a;
+}
+.skip a{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #333333;
+}
+.skip button{
+	padding: 1px 3px;
+	color: #333333;
+	border: 1px solid #9A9A9A;
+	background: #FFFFFF;
+	cursor: pointer;
+}
+.skip button:hover{
+	background: #918c01;
+	color: #FFFFFF;
+}
+/**************  mid-contre ***********************/
+.mid-contre{
+	
+}
+.mid-contre ul li{
+	float: left;
+	margin-bottom: 37px;
+	margin-right: 18px;
+}
+.mid-contre ul li a img{
+	width: 268px;
+	height: 320px;
+	margin: 0 7px 13px 7px;
+}
+.mid-contre ul li .pro-bot{
+	width: 255px;
+	border: 13px solid transparent;
+	padding: 4px 0 9px 0;
+	-moz-border-image:url(../images/shop_list-back.png) 14 16 round;	/* Old Firefox */
+	-webkit-border-image:url(../images/shop_list-back.png) 14 16 round;	/* Safari and Chrome */
+	-o-border-image:url(../images/shop_list-back.png) 14 16 round;		/* Opera */
+	border-image:url(../images/shop_list-back.png) 14 16 round;
+}
+.mid-contre ul li .pro-bot .price{
+	width: 100px;
+	font-size: 18px;
+	font-family: "微软雅黑";
+	color: #FFFFFF;
+	background: #ff5400;
+	border: 1px solid #b3633c;
+	border-radius: 4px;
+	padding: 6px;
+	margin-top: 4px;
+	margin-left: 9px;
+	display: block;
+	float: left;
+}
+.mid-contre ul li .pro-bot button{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #ff2a00;
+	background: #FFFFFF;
+	border: none;
+	float: right;
+	margin: 3px;
+	outline: none;
+	cursor: pointer;
+}
+.mid-contre ul li .pro-bot p{
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #2e2e2e;
+	display: inline-block;
+	margin: 5px 0;
+}
+.mid-contre ul li .pro-bot span{
+	background: #918C01;
+	border: 1px solid #bebb7b;
+	border-radius: 5px;
+	padding: 4px 10px;
+	margin: 0 9px;
+	display: inline-block;
+}
+.mid-contre ul li .pro-bot span i{
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #FFFFFF;
+}
+.mid-bot{
+	display: inline-block;
+	overflow: hidden;
+	margin: 0 200px 65px;
+}
+
+.mid-bot ul li{
+	
+	float: left;
+	margin: 0 8px;
+}
+.mid-bot ul li a{
+	cursor: pointer;
+	display: block;
+	border: 1px solid #c3c3c3;
+	font-family: "微软雅黑";
+	font-size: 14px;
+	color: #000000;
+	padding: 5px 10px;
+}
+.mid-bot ul li a:hover{
+	background: #918C01;
+	border: 1px solid #bebb7b;
+	color: #FFFFFF;
+}
+.mid-bot ul li input{
+	width: 22px;
+	height: 28px;
+	padding: 0 5px;
+	border: 1px solid #c3c3c3;
+	margin: 0 8px;
+}
+.mid-bot ul li span,.mid-bot ul li label{
+	display: block;
+	font-size: 14px;
+	color: #000000;
+}
+.mid-bot ul li span{
+	margin-top: 5px;
+}

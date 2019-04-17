@@ -1,0 +1,272 @@
+.conter{
+width: 1200px;
+margin: 0 auto;
+overflow: hidden;
+clear: both;
+}
+.conter h2,.conter h2 a{
+font-family: "微软雅黑";
+font-size: 14px;
+color: #666666;
+margin-top: 30px;
+
+}
+.conter h2 a:hover{
+	color: #8fc31f;
+}
+.conter .top{
+margin-top: 20px;
+}
+.conter .top ul{
+margin: 0 auto;
+width: 488px;
+height: 82px;
+background: url(../images/confirm_order-top.png);
+}
+.conter .top ul li{
+float: left;
+font-family: "微软雅黑";
+font-size: 12px;
+color: #FFFFFF;
+padding: 20px 15px;
+}
+.conter .top .default{
+	color: #ffe400;
+}
+.conter .top ul li:nth-child(1){
+margin-right: 115px;
+}
+
+.conter .top ul li:nth-child(2){
+margin-right: 124px;
+}
+.conter .order-title{
+width: 149px;
+height: 65px;
+margin-top: 20px;
+margin-bottom: 30px;
+background: url(../images/confirm_order-title.png);
+}
+.conter .order-title p{
+font-size: 14px;
+color: #FFFFFF;
+font-family: "微软雅黑";
+padding: 25px;
+}
+.conter .middle{
+padding-left: 75px;
+padding-top: 75px;
+margin-bottom: 30px;
+overflow: hidden;
+width: 1100px;
+border: 9px solid transparent;
+-moz-border-image:url(../images/confirm_order-border.png) 12 12 round;	/* Old Firefox */
+-webkit-border-image:url(../images/confirm_order-border.png) 12 12 round;	/* Safari and Chrome */
+-o-border-image:url(../images/confirm_order-border.png) 12 12 round;		/* Opera */
+border-image:url(../images/confirm_order-border.png) 12 12 round;
+}
+.conter .middle .th ul li,.conter .middle .td ul li{
+float: left;
+}
+.conter .middle .th ul li{
+font-family: "微软雅黑";
+font-size: 14px;
+color: #2E2E2E;
+}
+.conter .middle .th,.conter .middle .td{
+width: 100%;
+display: inline-block;
+overflow: hidden;
+clear: both;
+margin-bottom: 75px;
+}
+.conter .middle .th{
+margin-bottom: 45px;}
+.conter .middle .th ul li{
+text-align: center;
+}
+
+.conter .middle .td ul li .pro img{
+float: left;
+border: 1px solid #95c62b;
+margin-right: 5px;
+}
+.conter .middle .td ul li .text p{
+display: block;
+font-family: "微软雅黑";
+font-size: 14px;
+color: #2e2e2e;
+padding-top: 15px;
+}
+.conter .middle .td ul li span{
+font-family: "微软雅黑";
+font-size: 14px;
+color: #2e2e2e;
+text-align: center;
+display: block;
+margin-top: 15px;
+}
+.conter .middle .td ul li button{
+padding: 5px 8px;
+font-family: "微软雅黑";
+font-size: 14px;
+color: #FFFFFF;
+background: #eb6100;
+border: none;
+border-radius: 4px;
+outline: none;
+}
+.conter .middle .td ul li:nth-child(1){
+width: 190px;
+}
+.conter .middle .th ul li:nth-child(1){
+width: 57px;
+margin-right: 240px;
+}
+.conter .middle .th ul li:nth-child(2),.conter .middle .td ul li:nth-child(2){
+width: 112px;
+margin-right: 140px;
+}
+.conter .middle .th ul li:nth-child(3),.conter .middle .td ul li:nth-child(3){
+width: 75px;
+margin-right: 155px;
+}
+.conter .middle .th ul li:nth-child(4),.conter .middle .td ul li:nth-child(4){
+width: 30px;
+margin-right: 150px;
+}
+.conter .middle .th ul li:nth-child(5),.conter .middle .td ul li:nth-child(5){
+width: 50px;
+}
+.conter .middle .td ul li:nth-child(1){
+margin-right: 110px;
+}
+/***************** bottom  **************************************/
+.conter .bottom{
+padding-left: 25px;
+padding-top: 35px;
+padding-bottom: 50px;
+margin-bottom: 30px;
+overflow: hidden;
+width: 1157px;
+border: 9px solid transparent;
+-moz-border-image:url(../images/confirm_order-border.png) 12 12 round;	/* Old Firefox */
+-webkit-border-image:url(../images/confirm_order-border.png) 12 12 round;	/* Safari and Chrome */
+-o-border-image:url(../images/confirm_order-border.png) 12 12 round;		/* Opera */
+border-image:url(../images/confirm_order-border.png) 12 12 round;
+}
+.conter .bottom ul li button{
+font-family: "微软雅黑";
+font-size: 14px;
+color: #000000;
+background: #FFFFFF;
+padding: 15px 38px 15px 35px;
+border-radius: 4px;
+border: 1px dashed #918c01;
+margin-bottom: 2px;
+outline: none;
+cursor: pointer;
+}
+.conter .bottom ul li button i{
+margin-left: 60px;
+}
+.conter .bottom ul li span{
+display: block;
+width: 242px;
+height: 180px;
+padding-top: 40px;
+border-radius: 4px;
+border: 1px dashed #918c01;
+}
+.conter .bottom ul li button.on,.conter .bottom ul li button:hover{
+background: #918c01;
+color: #FFFFFF;
+border: 1px solid #918c01;
+}
+.conter .bottom ul li span p{
+padding-left: 15px;
+padding-right: 55px;
+padding-bottom: 12px;
+font-family: "微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+.conter .bottom ul li a{
+	cursor: pointer;
+display: block;
+padding-left: 15px;
+padding-right: 20px;
+font-family: "微软雅黑";
+font-size: 14px;
+color: #000000;
+}
+.conter .bottom ul li .left{
+float: left;
+}
+.conter .bottom ul li .right{
+float: right;
+}
+.conter .bottom ul{
+margin-left: -45px;
+}
+.conter .bottom ul li{
+margin-left: 45px;
+float: left;
+}
+.delivery{
+padding: 10px 13px;
+width: 225px;
+height: 20px;
+border-radius: 7px;
+border: 2px dashed #c1be70;
+margin-bottom: 30px;
+margin-left: 289px;
+}
+.submit{
+height: 435px;
+position: relative;
+display: block;
+overflow: hidden;
+float: right;
+margin-bottom: 50px;
+}
+.delivery label,.delivery select{
+font-family: "微软雅黑";
+font-size: 16px;
+color: #666666;
+border: none;
+cursor: pointer;
+}
+.delivery select:focus{
+	outline: none;
+}
+.submit textarea{
+float: right;
+width: 510px;
+height: 120px;
+padding: 15px;
+resize:none;
+border-radius: 7px;
+border: 2px dashed #c1be70;
+font-family: "微软雅黑";
+font-size: 17px;
+color: #666666;
+margin-bottom: 40px;
+outline: none;
+}
+.submit .submit-bot{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: block;
+	width: 180px;
+	height: 108px;
+	background: url(../images/confirm_order-bot-back.png);
+}
+.submit .submit-bot a{
+	display: block;
+	color: #FFFFFF;
+	font-family: "微软雅黑";
+	font-size: 26px;
+	padding: 42px 38px;
+}

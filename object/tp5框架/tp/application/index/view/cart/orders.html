@@ -1,0 +1,107 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/confirm_order.css" />
+<div class="conter">
+	<h2>当前位置：<a href="index.html">首页</a>><a href="shop_car.html">我的购物车</a>>确认订单</h2>
+	<div class="top">
+		<ul>
+			<li>我的购物车</li>
+			<li class="default">确认订单</li>
+			<li>提交订单</li>
+		</ul>
+	</div>
+	<div class="order-title">
+		<p>请确认订单信息</p>
+	</div>
+	<div class="middle">
+		<div class="th">
+			<ul>
+				<li>商品</li>
+				<li>商品属性</li>
+				<li>单价</li>
+				<li>数量</li>
+				<li>小计</li>
+			</ul>
+		</div>		{volist name='cartList' id='list' }
+		<div class="td">
+			<ul>
+				<li>
+					<a href="{:url('Index/productDetail',['Id'=>$list.Id])}" class="pro"><img src="{$list.thumb|substr=###,1}"></a>
+					<a href="{:url('Index/productDetail',['Id'=>$list.Id])}" class="text"><p>{$list.name}</p></a>
+				</li>
+				<li><span>【绿色】纯棉长袖</span></li>
+				<li>
+					<span>{$list.price}</span>
+					<button>特价产品</button>
+				</li>
+				<li>
+					<span>{$list.num}</span>
+				</li>
+				<li>
+					<span>{$list.price*$list.num}</span>
+				</li>
+			</ul>
+		</div>		{/volist}				</div>	<div class="order-title">
+		<p>请确认收货地址</p>
+	</div>
+	<div class="bottom">
+		<ul>
+			<li>
+				<button class="on">张天虹（收）<i>浙江</i></button>
+				<span>
+					<p>地址：浙江省无锡市南海东街78号</p>
+					<p>电话：13365205818</p>
+					<a class="left">修改</a><a class="right">默认地址</a>
+				</span>
+			</li>
+			<li>
+				<button>张天虹（收）<i>浙江</i></button>
+				<span>
+					<p>地址：浙江省无锡市南海东街78号</p>
+					<p>电话：13365205818</p>
+					<a class="left">修改</a><a class="right">默认地址</a>
+				</span>
+			</li>
+			<li>
+				<button>张天虹（收）<i>浙江</i></button>
+				<span>
+					<p>地址：浙江省无锡市南海东街78号</p>
+					<p>电话：13365205818</p>
+					<a class="left">修改</a><a class="right">默认地址</a>
+				</span>
+			</li>
+			<li>
+				<button>张天虹（收）<i>浙江</i></button>
+				<span>
+					<p>地址：浙江省无锡市南海东街78号</p>
+					<p>电话：13365205818</p>
+					<a class="left">修改</a><a class="right">默认地址</a>
+				</span>
+			</li>
+		</ul>
+	</div>
+	<script>
+		$(".conter .bottom ul li button").click(function(){
+			$(this).addClass("on")
+			$(this).parents().siblings("li").find("button").removeClass("on")
+		})
+	</script>
+	<div class="submit">
+		<div class="delivery">
+			<label>配送方式：</label>
+			<select>
+				<option>卖家承担</option>
+				<option>买家承担</option>
+			</select>
+		</div>
+		<div class="delivery">
+			<label>使用优惠券：</label>
+			<select>
+				<option>请选择优惠券</option>
+				<option>买家承担</option>
+			</select>
+		</div>
+		<textarea placeholder="订单留言："></textarea>
+		<div class="submit-bot">
+			<a href="pay.html">提交订单</a>
+		</div>
+	</div>
+</div>

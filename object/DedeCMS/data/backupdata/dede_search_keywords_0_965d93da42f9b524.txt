@@ -1,0 +1,14 @@
+INSERT INTO `dede_search_keywords` VALUES('13','园丁','园丁','1','1','1505716485','0','0');
+INSERT INTO `dede_search_keywords` VALUES('2','装修','装修','25','10','1509503184','0','0');
+INSERT INTO `dede_search_keywords` VALUES('14','园丁鸟装饰','园丁鸟装饰 园丁 装饰','1','1','1505716512','0','0');
+INSERT INTO `dede_search_keywords` VALUES('15','汪先生','汪先生 先生 汪先生','1','0','1505716575','0','0');
+INSERT INTO `dede_search_keywords` VALUES('16','最','最','4','1','1505717354','0','0');
+INSERT INTO `dede_search_keywords` VALUES('17','第一','第一','1','0','1505716874','0','0');
+INSERT INTO `dede_search_keywords` VALUES('18','工艺','工艺','1','1','1507741826','0','0');
+INSERT INTO `dede_search_keywords` VALUES('19','质量','质量','2','0','1507741844','0','0');
+INSERT INTO `dede_search_keywords` VALUES('20','22','22','3','0','1507773162','0','0');
+INSERT INTO `dede_search_keywords` VALUES('21','啊实打实','啊实打实 实打实','1','0','1508734225','0','0');
+INSERT INTO `dede_search_keywords` VALUES('22','名称','名称','1','0','1509086853','0','0');
+INSERT INTO `dede_search_keywords` VALUES('23','门','门','1','2','1509326702','0','0');
+INSERT INTO `dede_search_keywords` VALUES('24','对双方都','对双方都 双方','1','0','1509501148','0','0');
+INSERT INTO `dede_search_keywords` VALUES('25','盛天领域团装专场','盛天领域团装专场 专场 团装 盛天 领域','1','0','1509502960','0','0');

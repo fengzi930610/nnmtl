@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>支付页</title>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/pay.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="css/pay.css"/>
+	</head>
+	<body>
+		<!--头部-->
+		<div id="header">
+			<a href="javascript:viod(0)" class="prev"><img src="images/prev.png" alt="images/prev.png" /></a>
+			支付订单
+		</div>
+		<!--头部 end-->
+		<!--中部-->
+		<div id="middle">
+			<div class="top">
+				支付时间还剩：<span>29</span>:<span>49</span>
+			</div>
+			<p>订单编号：168436128465</p>
+			<p>订单金额：￥249.00</p>
+			<h4>支付方式：</h4>
+			<div class="pay">
+				<ul>
+					<li>
+						<img src="images/pay_money.png" alt="images/pay_money.png"/>
+						<span>银行卡支付</span>
+						<img src="images/pay_radius_c.png"/>
+					</li>
+					<li>
+						<img src="images/pay_weixin.png" alt="images/pay_weixin.png"/>
+						<span>微信支付</span>
+						<img src="images/pay_radius.png"/>
+					</li>
+					<li>
+						<img src="images/pay_zhifubao.png" alt="images/pay_zhifubao.png"/>
+						<span>微信支付</span>
+						<img src="images/pay_radius.png"/>
+					</li>
+				</ul>
+			</div>
+			<button onclick="paycon()">确认支付</button>
+		</div>
+		<!--中部 end-->
+		
+		<!--底部-->
+		<div id="bottom">
+			
+		</div>
+		<!--底部 end-->
+	</body>
+</html>

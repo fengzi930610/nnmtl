@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="author" content="order by dede58.com/" />
+<title>{dede:global.cfg_webname/}</title>
+<meta name="description" content="{dede:global.cfg_description/}" />
+<meta name="keywords" content="{dede:global.cfg_keywords/}" />
+<link rel="stylesheet" type="text/css" href="./skin/css/style.css" />
+<script type="text/javascript" src="./skin/js/jquery.js"></script>
+<script type="text/javascript" src="./skin/js/index.js"></script>
+<meta http-equiv="mobile-agent" content="format=xhtml;url={dede:global.cfg_mobileurl/}/index.php">
+<script type="text/javascript">if(window.location.toString().indexOf('pref=padindex') != -1){}else{if(/AppleWebKit.*Mobile/i.test(navigator.userAgent) || (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))){if(window.location.href.indexOf("?mobile")<0){try{if(/Android|Windows Phone|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)){window.location.href="{dede:global.cfg_mobileurl/}/index.php";}else if(/iPad/i.test(navigator.userAgent)){}else{}}catch(e){}}}}</script>
+<script>
+    var root="";
+</script>
+<script type="text/javascript" src="./skin/js/public.js"></script>
+<script type="text/javascript" src="./skin/js/layer.js"></script>
+</head>
+
+<body >
+{dede:include filename="head.htm"/}
+<div class="banner"> <a href="javascript:;" class="prev b-left b-arrow"></a> <a href="javascript:;" class="next b-right b-arrow"></a>
+  <div class="bd">
+    <ul>
+      {dede:arclist titlelen=80 orderby ='pubdate' row='4' typeid='10'}
+      <li><a><img src=".[field:picname/]" alt="[field:title/]"/></a></li>
+      {/dede:arclist}
+    </ul>
+  </div>
+  <div class="hd">
+    <ul>
+    </ul>
+  </div>
+</div>
+{dede:channelartlist typeid='51,0'}
+<div class="diamond">
+  <div class="diamond-box">
+    <div class="diamond-ti">
+      <h3>{dede:field name='typename'/}</h3>
+    </div>
+    <div class="diamond-list">
+      <ul>
+        {dede:channel type='son' row='3'}
+        <li> <a href="[field:typeurl/]"> <img src=".[field:typeimg/]"> </a> </li>
+        {/dede:channel}
+      </ul>
+    </div>
+  </div>
+</div>
+{/dede:channelartlist}
+  
+<div class="fwlc">
+  <div class="diamond-box">
+    <div class="diamond-ti">
+      <h3>服务流程</h3>
+    </div>
+    <div class="fwlc_box">
+      <ul>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services01.png" alt=""></p>
+            <p class="fwlc_t">在线预约</p>
+            <p class="fwlc_p">登记联系方式</p>
+        </li>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services02.png" alt=""></p>
+            <p class="fwlc_t">量房沟通</p>
+            <p class="fwlc_p">3家装修公司免费量房设计</p>
+        </li>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services03.png" alt=""></p>
+            <p class="fwlc_t">对比方案</p>
+            <p class="fwlc_p">对比装修公司方案</p>
+        </li>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services04.png" alt=""></p>
+            <p class="fwlc_t">签订合同</p>
+            <p class="fwlc_p">签订合同及托管装修款</p>
+        </li>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services05.png" alt=""></p>
+            <p class="fwlc_t">装修施工</p>
+            <p class="fwlc_p">工人按排期施工交付</p>
+        </li>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services06.png" alt=""></p>
+            <p class="fwlc_t">竣工验收</p>
+            <p class="fwlc_p">验收通过全屋装修指标</p>
+        </li>
+        <li class="fwlc_list">
+            <p class="fwlc_img"><img src="./skin/img/services07.png" alt=""></p>
+            <p class="fwlc_t">享受保障</p>
+            <p class="fwlc_p">享受合同约定质保</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+  
+<div class="case box-slide">
+  <div class="index-ti">
+    <h3>案例展示</h3>
+  </div>
+  <div class="case-box">
+    <div class="itb most" style="display:block;">
+      <div class="itb-lt fl"> {dede:arclist typeid='3' channelid='2' addfields='fg,hx,lpmc,zj,anmj' limit='0,1'}
+        <div class="itbl most"><span class="act"><img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" zdy0="[field:title/]" zdy1="[field:fg/]/[field:hx/]/[field:anmj/]" zdy2="预算：[field:zj/]㎡" zdy3="[field:arcurl/]" alt="[field:title/]">
+          <p></p>
+          </span></div>
+        {/dede:arclist}
+        {dede:arclist typeid='3' channelid='2' addfields='fg,hx,lpmc,zj,anmj' limit='1,2'}
+        <div class="itbl most"><span><img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" zdy0="[field:title/]" zdy1="[field:fg/]/[field:hx/]/[field:anmj/]" zdy2="预算：[field:zj/]㎡" zdy3="[field:arcurl/]" alt="[field:title/]">
+          <p></p>
+          </span></div>
+        {/dede:arclist} </div>
+      {dede:arclist typeid='3' channelid='2' addfields='fg,hx,lpmc,zj,anmj' row='1'}
+      <div class="itb-ct fl"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" alt="[field:title/]">
+        <p> <span>[field:title/]</span> <em>[field:fg/]/[field:hx/]/[field:anmj/]㎡<i>预算：[field:zj/]</i></em> </p>
+        </a> </div>
+      {/dede:arclist}
+      <div class="itb-lt fl"> {dede:arclist typeid='3' channelid='2' addfields='fg,hx,lpmc,zj,anmj' limit='3,3'}
+        <div class="itbl most"><span><img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" zdy0="[field:title/]" zdy1="[field:fg/]/[field:hx/]/[field:anmj/]" zdy2="预算：[field:zj/]㎡" zdy3="[field:arcurl/]" alt="[field:title/]">
+          <p></p>
+          </span></div>
+        {/dede:arclist} </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" charset="utf-8" src="./skin/js/easyscroll.js"></script> 
+<script type="text/javascript">$(function(){$('.container4 .div_scroll').scroll_absolute({arrows:false})});</script> 
+{dede:channelartlist typeid='16,0'}
+<div class="designer-index">
+  <div class="designer-con">
+    <div class="designer-con-1">
+      <div class="design-content">
+        <div class="team clearfix"> {dede:arclist limit='0,1' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-star team-box fl" style="margin:0;">
+            <div class="team-img fl pick-down"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-star-info fl">
+              <h3>[field:title/]<em>[field:d_zw/]</em></h3>
+              <span></span>
+              <p>设计理念：[field:description/]</p>
+            </div>
+          </div>
+          {/dede:arclist}
+          {dede:arclist limit='1,2' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl" >
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"> <b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+      <div class="design-content">
+        <div class="team clearfix"> {dede:arclist limit='3,1' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl" style="margin:0;">
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist}
+          {dede:arclist limit='4,3' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl" >
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+    </div>
+    <div class="designer-con-2 dn">
+      <div class="design-content">
+        <div class="team clearfix"> {dede:arclist limit='7,1' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"   style="margin:0;">
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist}  
+          {dede:arclist limit='8,3' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"  >
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+      <div class="design-content">
+        <div class="team clearfix"> {dede:arclist limit='11,1' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"   style="margin:0;">
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist}
+          {dede:arclist limit='12,3' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"  >
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+    </div>
+    <div class="designer-con-3 dn">
+      <div class="design-content">
+        <div class="team clearfix"> {dede:arclist limit='15,1' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"   style="margin:0;">
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist}
+          {dede:arclist limit='16,3' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"  >
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+      <div class="design-content">
+        <div class="team clearfix"> {dede:arclist limit='19,1' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"   style="margin:0;">
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist}
+          {dede:arclist limit='20,3' orderby ='pubdate' channelid='17' addfields='d_zw'  }
+          <div class="team-box fl"  >
+            <div class="team-img"> <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" width="285" height="350" alt="[field:title/]" /> </a> </div>
+            <div class="team-info"><b>[field:title/]</b> <em>[field:d_zw/]</em> </div>
+          </div>
+          {/dede:arclist} </div>
+      </div>
+    </div>
+  </div>
+  <div class="designer-pick">
+    <ul>
+      <li aa="1" class="active"></li>
+      <li aa="2"></li>
+      <li aa="3"></li>
+    </ul>
+  </div>
+</div>
+{/dede:channelartlist}
+<div class="sign box-slide">
+  <div class="sign-content">
+    <div class="index-ti">
+      <h3 style="font-size: 22px;">最新申请装修服务</h3>
+    </div>
+    <div class="sign-left fl clearfix">
+      <div class="sign-banner fl"> <img src="./skin/img/sign-img.jpg" alt="{dede:global.cfg_webname/}" /> </div>
+      <div class="sign-name fl">
+        <div class="sign-name-ti"> <span class="sn-1">姓名</span> <span class="sn-2">小区名称</span> <span class="sn-3">面积/㎡</span> <span class="sn-4">装修风格</span> <span class="sn-5">房屋户型</span> </div>
+        <div class="bd">
+          <ul>
+            {dede:loop table='dede_diyform1' sort='id' row='30' ifcheck='1'}
+            <li> <span class="sn-1">[field:ch/]</span> <span class="sn-2">[field:xq/]</span> <span class="sn-3">[field:mj/]</span> <span class="sn-4">[field:fg/]</span> <span class="sn-5">[field:hx/]</span> </li>
+            {/dede:loop}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <form action="/plus/diy.php" enctype="multipart/form-data" method="post" class="sign-right fr" id="form1">
+      <input type="hidden" name="action" value="post" />
+      <input type="hidden" name="diyid" value="1" />
+      <input type="hidden" name="do" value="2" />
+      <div class="price">
+        <ul>
+          <li> <span>姓名</span>
+            <input type="text" placeholder="您的姓名" name="ch" value="" id="ch" />
+          </li>
+          <li> <span>手机号码</span>
+            <input type="text" placeholder="您的手机号码" name="tel" value="" id="tel" />
+          </li>
+          <li> <span>小区名称</span>
+            <input type="text" placeholder="楼盘名称" name="xq" value=""  id="xq" />
+          </li>
+        </ul>
+        <div class="price-bar">
+          <input type="text" placeholder="面积/㎡"  name="mj" id="mj" />
+          <select name="fg" id="fenggeselect">
+            <option value="现代">现代</option>
+            <option value="美式">美式</option>
+            <option value="简欧">简欧</option>
+            <option value="中式">中式</option>
+            <option value="欧式">欧式</option>
+            <option value="田园">田园</option>
+            <option value="新古典">新古典</option>
+            <option value="地中海">地中海</option>
+            <option value="北欧">北欧</option>
+            <option value="后现代">后现代</option>
+            <option value="日式">日式</option>
+            <option value="复古">复古</option>
+            <option value="混搭">混搭</option>
+          </select>
+        </div>
+        <input type="hidden" name="dede_fields" value="hx,text;mj,text;xq,text;ch,text;tel,text;fg,select" />
+        <input type="hidden" name="dede_fieldshash" value="fe2f763c04647b9a7ab7a0ac331a0711" />
+        <div class="price-btn">
+          <input type="submit" name="submit" value="立即申请" />
+        </div>
+      </div>
+    </form>
+    <script>
+                    $(document).ready(function () {
+
+                        $("#form1").submit(function () {
+                            if ($("#ch").val() == '') {
+                                alert('请添加姓名');
+                                $("#ch").focus();
+                                return false;
+                            }
+                            if ($("#tel").val() == '') {
+                                alert('请添加电话');
+                                $("#tel").focus();
+                                return false;
+                            }
+                        })
+                    })
+                </script> 
+  </div>
+</div>
+<div class="building box-slide">
+  <div class="building-content">
+    <div class="index-ti">
+      <h3>在建工地</h3>
+    </div>
+    <div class="building-list">
+      <ul class="clearfix">
+        {dede:arclist typeid='5' row='4' channelid='18' addfields='c_content,house_info,total_price'  }
+        <li>
+          <div class="building-img fl"> <a href="[field:arcurl/]"> <img class="lazy"   src="[field:picname/]"  data-echo="[field:picname/]" alt="[field:title/]" /> </a> </div>
+          <div class="building-info fl">
+            <div class="building-ti"> <a href="[field:arcurl/]">[field:title/]</a> </div>
+            <div class="building-con">
+              <p>工程进度：[field:c_content/]</p>
+              <p>房屋信息：[field:house_info/]</p>
+              <p>工程造价：[field:total_price/]</p>
+            </div>
+            <a href="[field:arcurl/]" class="building-btn">查看详情</a> </div>
+        </li>
+        {/dede:arclist}
+      </ul>
+    </div>
+  </div>
+</div>
+{dede:channelartlist typeid='1,0'}
+<div class="area box-slide">
+  <div class="area-content">
+    <div class="index-ti">
+      <h3>{dede:field name='typename'/}</h3>
+    </div>
+    <ul class="ifs-bt mo">
+      {dede:arclist titlelen=80 orderby ='pubdate' row='7'}
+      <li [field:global runphp='yes' name=autoindex]
+            $a="class='mro'";
+            $b="";
+            if ((@me%4)==0 && @me!=30) @me=$a;
+            else  @me=$b;
+            [/field:global]>
+      <a href="[field:arcurl/]"> <img src=".[field:picname/]" class="lazy" data-echo="[field:picname/]" alt="[field:title/]">
+      <div class="ifsb-show">[field:title/]</div>
+      <div class="ifsb-hide" style="top: 351px;">
+        <p>[field:title/]</p>
+        <b></b> <span>[field:click/]人已浏览</span> <i>立即查看</i> </div>
+      </a>
+      </li>
+      {/dede:arclist}
+      <form action="/plus/diy.php" enctype="multipart/form-data" method="post" class="area-sign" id="form2">
+        <input type="hidden" name="action" value="post" />
+        <input type="hidden" name="diyid" value="1" />
+        <input type="hidden" name="do" value="2" />
+        <h4>报名到店即送属于您家的设计方案一套</h4>
+        <ul>
+          <li>
+            <input type="text" placeholder="请输入您的称呼" name="ch"  value="" id="ch2" />
+          </li>
+          <li>
+            <input type="text" placeholder="请输入您的联系方式" name="tel"  value="" id="tel2" />
+          </li>
+          <li>
+            <input type="text" placeholder="请输入您的小区名称" name="xq"  value="" id="xq2" />
+          </li>
+          <li>
+            <label for="mj">
+              <input type="text" placeholder="请输入您的房屋面积"  name="mj"  value="" id="mj2" />
+              <span>㎡</span> </label>
+          </li>
+        </ul>
+        <input type="hidden" name="dede_fields" value="hx,text;mj,text;xq,text;ch,text;tel,text;fg,select" />
+        <input type="hidden" name="dede_fieldshash" value="fe2f763c04647b9a7ab7a0ac331a0711" />
+        <div class="area-sign-btn">
+          <input type="submit" name="submit" value="提交" id="form2"/>
+        </div>
+      </form>
+      <script>
+                    $(document).ready(function () {
+
+                        $("#form2").submit(function () {
+                            if ($("#ch2").val() == '') {
+                                alert('请添加姓名');
+                                $("#ch2").focus();
+                                return false;
+                            }
+                            if ($("#tel2").val() == '') {
+                                alert('请添加电话');
+                                $("#tel2").focus();
+                                return false;
+                            }
+                        })
+                    })
+                </script>
+    </ul>
+  </div>
+</div>
+{/dede:channelartlist} 
+{dede:channelartlist typeid='38,0'}
+<div class="news box-slide">
+  <div class="news-content">
+    <div class="index-ti">
+      <h3>{dede:field name='typename'/}</h3>
+    </div>
+    <div class="news-list">
+      <ul class="clearfix">
+        {dede:arclist titlelen=80 orderby ='pubdate' row='3'}
+        <li>
+          <div class="news-time"> <em>[field:pubdate function="MyDate('m-d',@me)"/]</em> <span>[field:pubdate function="MyDate('Y',@me)"/]</span> </div>
+          <div class="news-ti"> <a href="[field:arcurl/]">[field:title/]</a> </div>
+          <div class="news-con">
+            <p>[field:description function="cn_substr(@me,120)"/]...</p>
+          </div>
+        </li>
+        {/dede:arclist}
+      </ul>
+    </div>
+    <div class="news-btn"> <a href="{dede:field name='typeurl'/}">more</a> </div>
+  </div>
+</div>
+{/dede:channelartlist}
+<div class="done box-slide">
+  <div class="done-content">
+    <div class="done-ti"> </div>
+    <div class="done-slide">
+      <div class="done-list"> <a href="javascript:;" class="prev d-left d-arrow"></a> <a href="javascript:;" class="next d-right d-arrow"></a>
+        <div class="bd">
+          <ul>
+            {dede:arclist titlelen=80 orderby ='pubdate' typeid='23'}
+            <li> <a href="javascript:;"> <img src=".[field:picname/]" alt="[field:title/]" class="lazy" /> </a> </li>
+            {/dede:arclist}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="done-tips"> </div>
+  </div>
+</div>
+<script type="text/javascript" src="./skin/js/jquery.superslide.2.1.1.js"></script> 
+<script>
+        jQuery(".banner").slide({ 
+            trigger:"click",
+            switchLoad:"_src",
+            delayTime:0,
+            titCell:".hd ul",
+            mainCell:".bd ul",
+            autoPage:true,
+            effect:"fade",
+            autoPlay:true,
+        });
+
+        // jQuery(".team-list").slide({ 
+        //     trigger:"click",
+        //     titCell:".hd ul",
+        //     mainCell:".bd ul",
+        //     autoPage:true,
+        //     effect:"fade",
+        //     autoPlay:false,
+        // });
+
+        jQuery(".sign-name").slide({
+            mainCell:".bd ul",
+            autoPlay:true,
+            effect:"topMarquee",
+            vis:7,
+            interTime:50,
+            trigger:"click",
+        });
+
+
+
+        jQuery(".done-list").slide({
+            titCell:".hd ul",
+            mainCell:".bd ul",
+            autoPage:true,
+            effect:"left",
+            autoPlay:false,
+            vis:4,
+            trigger:"click",
+        });
+    </script>
+<div class="inpo-yy"></div>
+{dede:include filename="footer.htm"/} 
+<!-- 代码 结束 --> 
+<!-- 返回顶部 开始 --> 
+<script>
+       $(function() {
+            $(".btn_top").hide();
+            $(".btn_top").live("click",function(){
+                $('html, body').animate({scrollTop: 0},300);return false;
+            })
+            $(window).bind('scroll resize',function(){
+                if($(window).scrollTop()<=300){
+                    $(".btn_top").hide();
+                }else{
+                    $(".btn_top").show();
+                }
+            })
+       })
+    </script> 
+<!-- 返回顶部 结束 -->
+</body>
+</html>

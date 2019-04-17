@@ -1,0 +1,40 @@
+<aside class="Hui-aside">
+	
+	<div class="menu_dropdown bk_2">
+		<?php 
+			$onearr = selectAll('level','*','fId=0');
+			$list = [];
+			foreach($onearr as $k=>$v){
+				$list[] = $v;
+				$fId = $v['Id']; 
+				$twoarr = selectAll('level','*','fId='.$fId);
+				$list[$k]['child'] = $twoarr;
+			}
+			
+			foreach($list as $key=>$value){
+				if(in_array($value['name'],$_SESSION['level']) || $_SESSION['userinfo']['username']=='admin'){
+					
+				if($value['state']==1){
+			
+		{?>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62d;</i> <?php echo $value['name']?><i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<?php
+						foreach($value['child'] as $kk=>$vv){
+						if(in_array($value['name'],$_SESSION['level']) || $_SESSION['userinfo']['username']=='admin'){
+							
+						
+						if($vv['state']==1){
+					?>
+					<li><a href="index.php?m=<?php echo $vv['module']?>&c=<?php echo $vv['controller']?>&a=<?php echo $vv['action']?>" title="<?php echo $vv['name']?>"><?php echo $vv['name']?></a></li>
+					<?php }}} }?>
+				</ul>
+			</dd>
+		</dl>
+		<?php }}}?>
+		
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>

@@ -1,0 +1,468 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/index.css" />
+<script type="text/javascript" src="__PUBLIC__js/banner.js" ></script>
+	<!--banner-->
+<div class="index_banner">
+	<div class="bd">
+		<ul>
+			<li><a href="javascript:;"><img src="__PUBLIC__images/banner01.jpg"></a></li>
+			<li><a href="javascript:;"><img src="__PUBLIC__images/banner02.jpg"></a></li>
+			<li><a href="javascript:;"><img src="__PUBLIC__images/banner03.jpg"></a></li>
+		</ul>
+	</div>
+</div>
+<div class="conter">
+	<a class="back-top-left"><img src="__PUBLIC__images/index-top-left.png"></a>
+	<a class="back-top-right"><img src="__PUBLIC__images/index-top-right.png"></a>
+	<div class="service">
+		<img src="__PUBLIC__images/service.png"/>
+		<div class="service-left">
+			<p>客服小熊</p>
+			<p>客服小猴</p>
+			<p>客服小兔</p>
+			<p>客服小猫</p>
+		</div>
+		<div class="service-right">
+			<p>随时为您服务</p>
+		</div>
+	</div>
+	<div class="new">
+		<div class="top">
+			<div class="top-left">
+				<a class="pug"><img src="__PUBLIC__images/pug.png"></a>
+				<span>新品上市</span>
+				<a class="pollex"><img src="__PUBLIC__images/pollex.png"></a>
+			</div>
+			<div class="top-right">
+				<ul>
+					{volist name='categorylist' id='v' key}
+					{if condition="$v.fId eq 0"}
+					<li {if condition="isset($type) && isset($c)"}<?php if($type=='1' && $c==$v['Id']){echo 'class="on"';};?>{/if} {if condition="!isset($type) && !isset($c) || $type!='1'"}<?php if($key=='0'){echo 'class="on"';};?>{/if}><a href="{:url('index/Index/index',['type'=>'1','c'=>$v.Id])}">{$v.name}</a></li>
+					{/if}
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		<div class="middle">
+			{if condition='!empty($newArrivalOne)'}
+			<div class="mid-left">
+				
+				<a href="{:url('productDetail',['Id'=>$newArrivalOne.Id])}"><img src="{$newArrivalOne.picture|substr=###,1}" style="width: 481px; height: 578px;" /></a>
+				<a class="newpro-big"><img src="__PUBLIC__images/newpro-big.png"></a>
+				<div class="mid-left-bot">
+					<span>
+						<a href="{:url('productDetail')}">
+							<p>{$newArrivalOne.name}</p>
+							<i>RMB:{$newArrivalOne.price}</i>
+						</a>	
+					</span>	
+					<a href="{:url('productDetail')}"><button class="btn">立即购买</button></a>
+				</div>
+			</div>
+			{/if}
+			<div class="mid-right">
+				<ul>
+					{volist name='newArrivalTwo' id='list'}
+					<li>
+						<a href="{:url('productDetail',['Id'=>$list.Id])}" class="newimg"><img src="{$list.picture|substr=###,1}" style="width: 227px; height: 267px;" /></a>
+						<a class="newpro-min"><img src="__PUBLIC__images/newpro-min.png"></a>
+						<div class="mid-right-bot">
+							<span>
+								<a href="{:url('productDetail',['Id'=>$list.Id])}">
+									<p>{$list.name}</p>
+									<i>RMB:{$list.price}</i>
+								</a>	
+							</span>	
+							<a href="{:url('productDetail',['Id'=>$list.Id])}"><button class="btn">立即购买</button></a>
+						</div>
+					</li>
+					{/volist}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--new-->
+	<div class="hot">
+		<div class="top">
+			<div class="top-left">
+				<a class="pug"><img src="__PUBLIC__images/pug.png"></a>
+				<span>热门推荐</span>
+			</div>
+			<div class="top-right">
+				<ul>
+					{volist name='categorylist' id='v' key}
+					{if condition="$v.fId eq 0"}
+					<li {if condition="isset($type) && isset($c)"}<?php if($type=='2' && $c==$v['Id']){echo 'class="on"';};?>{/if} {if condition="!isset($type) && !isset($c) || $type!='2'"}<?php if($key=='0'){echo 'class="on"';};?>{/if}><a href="{:url('index/Index/index',['type'=>'2','c'=>$v.Id])}">{$v.name}</a></li>
+					{/if}
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		<!--top-->
+			<a href="javascript:;" class="prev"></a>
+			<a href="javascript:;" class="next"></a>
+		<div class="hot-left">
+			<div class="switchover">
+				<ul>					{volist name='$hotTwo' id='list'}
+					<li>
+						<a href="{:url('productDetail',['Id'=>$list.Id])}"><img src="{$list.picture|substr=###,1}" style="width: 195px;height: 210px;"></a>
+						
+					</li>
+					{/volist}
+				</ul>	
+			</div>
+			
+		</div>		{if condition='!empty($hotOne)'}
+		<div class="hot-right">
+			<a href="{:url('productDetail',['Id'=>$hotOne.Id])}" class="hot-img"><img src="{$hotOne.picture|substr=###,1}" style="width: 825px;height: 932px;"></a>
+			<div class="cover">
+				<a href="{:url('productDetail',['Id'=>$hotOne.Id])}" class="hot-buy"><img src="__PUBLIC__images/hot-buy.png"></a>
+				<a href="{:url('productDetail',['Id'=>$hotOne.Id])}" class="surface"><img src="__PUBLIC__images/hot-right-surface.png"></a>
+				<p>{$hotOne.name}</p>
+				<a href="{:url('productDetail',['Id'=>$hotOne.Id])}"><button>点击购买</button></a>
+			</div>
+		</div>
+		{/if}
+	</div>
+	<!--hot-->	<div class="back-conter">
+
+		<img src="__PUBLIC__images/index-middle.png" />	
+
+	</div><!--爆款-->
+	<div class="explode">
+		<a class="joy"><img src="__PUBLIC__images/joy.png"></a>
+		<div class="top">
+			<div class="top-left">
+				<a class="pug"><img src="__PUBLIC__images/pug.png"></a>
+				<span>爆款产品</span>
+			</div>
+			<div class="top-right">
+				<ul>
+					{volist name='categorylist' id='v' key}
+					{if condition="$v.fId eq 0"}
+					<li {if condition="isset($type) && isset($c)"}<?php if($type=='3' && $c==$v['Id']){echo 'class="on"';};?>{/if} {if condition="!isset($type) && !isset($c) || $type!='3'"}<?php if($key=='0'){echo 'class="on"';};?>{/if}>
+						<a href="{:url('index/Index/index',['type'=>'3','c'=>$v.Id])}">{$v.name}</a>
+					</li>
+					{/if}
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		<!--top-->
+		<div class="middle">
+			<div class="mid-left">
+				<a href="pro_details.html"><img src="__PUBLIC__images/explode-left.jpg"></a>
+				<a class="thweek"><img src="__PUBLIC__images/thweek.png"></a>
+				<div class="pro-text">
+					<a href="pro_details.html">
+						<p>男婴儿2016小熊无袖背心爬服</p>
+						<i class="text-left"><a>原价：640.0</a></i>
+						<i class="text-center">抢购价:356.0</i>
+						<a href="pro_details.html"><button>马上抢</button></a>
+					</a>
+				</div>
+			</div>
+			<div class="mid-right">
+				<ul>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-right01.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-right02.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-right03.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-right04.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-right05.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-right06.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+		
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-bot01.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-bot02.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-bot03.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-bot04.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					<li>
+						<a href="pro_details.html"><img src="__PUBLIC__images/explode-bot05.jpg"></a>
+						<a href="pro_details.html"><button>马上抢</button></a>
+						<div class="pro-text">
+							<a href="pro_details.html">
+								<p>男婴儿2016小熊无袖背心爬服</p>
+								<i class="text-left"><a>原价：640.0</a></i>
+								<i class="text-center">抢购价:356.0</i>
+							</a>
+						</div>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--<div class="back-conter">
+		<img src="__PUBLIC__images/index-middle.png" />	
+	</div>-->
+	<div class="ticket">
+		<a href="#" class="discount"><img src="__PUBLIC__images/discount.png"/></a>
+		<a href="#" class="vouchers"><img src="__PUBLIC__images/vouchers.png"></a>
+	</div>
+	<div class="ballute">
+		<img src="__PUBLIC__images/ballute.png">
+			
+	</div><!--热门产品-->
+	<div class="popular">
+		<div class="top">
+			<div class="top-left">
+				<a class="pug"><img src="__PUBLIC__images/pug.png"></a>
+				<span>热门产品</span>
+			</div>
+			<div class="top-right">
+				<ul>
+					{volist name='categorylist' id='v' key}
+					{if condition="$v.fId eq 0"}
+					<li {if condition="isset($type) && isset($c)"}<?php if($type=='4' && $c==$v['Id']){echo 'class="on"';};?>{/if} {if condition="!isset($type) && !isset($c) || $type!='4'"}<?php if($key=='0'){echo 'class="on"';};?>{/if} >
+						<a href="{:url('index/Index/index',['type'=>'4','c'=>$v.Id])}">{$v.name}</a>
+					</li>
+					{/if}
+					{/volist}
+				</ul>
+			</div>
+		</div>
+		<div class="middle">
+			<ul>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular01.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular02.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular03.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular04.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular05.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular06.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular07.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular08.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular09.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular10.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular11.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular12.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular13.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular14.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+				<li>
+					<a href="pro_details.html"><img src="__PUBLIC__images/popular15.jpg"></a>
+					<span>
+						<a href="pro_details.html">
+							<p>女婴春夏纯棉波点短袖连衣裙</p>
+							<button>热门价：384.0</button>
+						</a>
+					</span>
+				</li>
+			</ul>	
+		</div>
+		<!--middle-->
+	</div>
+	<!--popular end-->
+	<div class="back-bottom">
+		<img src="__PUBLIC__images/index-bottom.png" />
+	</div>
+</div>
+

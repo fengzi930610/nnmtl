@@ -1,0 +1,22 @@
+xuanxuuan：
+http://pms.nnmtl.com   
+账号: lanjiafeng  
+密码: lanjiafeng201903
+
+
+企业邮箱：
+地址：lanjiafeng@nnmtl.com
+密码：PPLljf610127
+
+SVN
+地址：svn://129.204.65.126/waimai
+lanjiafeng
+lanjiafeng201903
+
+svn://129.204.65.126/waimai/branches/jhwm_ljf  你重新用svn拉一下这个分支，这个分支专门给你做开发用
+
+
+GitLab：
+地址：129.204.65.126:8801
+账号：lanjiafeng@nnmtl.com
+密码：PPLljf610127

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>订单页</title>
+		<script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/order.js" ></script>
+		<link rel="stylesheet" type="text/css" href="css/order.css"/>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	</head>
+	<body>
+		<!--头部-->
+		<div id="header">
+			<a href="javascript:viod(0)" class="prev"><img src="images/prev.png" alt="images/prev.png" /></a>
+			我的订单
+		</div>
+		<!--头部 end-->
+		<!--中部-->
+		<div id="middle">
+			<div class="page">
+				<ul>
+					<li class="on">全部</li>
+					<li>待付款</li>
+					<li>待发货</li>
+					<li>待收货</li>
+					<li>待评价</li>
+				</ul>
+			</div>
+			<div class="pro_list active">
+				<ul>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>已完成</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_01.jpg" alt="images/comfirm_order_01.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度A3可翻转头戴式蓝牙耳机</a></p>
+			 				<p><span class="price">&yen;118.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>已完成</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_02.jpg" alt="images/comfirm_order_02.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度奇声MAV-2326回音壁</a></p>
+			 				<p><span class="price">&yen;348.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>已完成</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_03.jpg" alt="images/comfirm_order_03.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;434.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="pro_list">
+				<ul>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待付款</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_01.jpg" alt="images/comfirm_order_01.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;118.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待付款</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_02.jpg" alt="images/comfirm_order_02.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;348.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待付款</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_03.jpg" alt="images/comfirm_order_03.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;434.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="pro_details.html" class="delete">删除订单</a>
+					</li>
+				</ul>
+			</div>
+			<div class="pro_list">
+				<ul>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待发货</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_01.jpg" alt="images/comfirm_order_01.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度奇声MAV-2326回音壁</a></p>
+			 				<p><span class="price">&yen;118.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待发货</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_02.jpg" alt="images/comfirm_order_02.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度奇声MAV-2326回音壁</a></p>
+			 				<p><span class="price">&yen;348.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待发货</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_03.jpg" alt="images/comfirm_order_03.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;434.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+				</ul>
+			</div>
+			<div class="pro_list">
+				<ul>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待收货</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_01.jpg" alt="images/comfirm_order_01.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;118.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待收货</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_02.jpg" alt="images/comfirm_order_02.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;348.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待收货</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_03.jpg" alt="images/comfirm_order_03.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;434.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+				</ul>
+			</div>
+			<div class="pro_list">
+				<ul>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待评价</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_01.jpg" alt="images/comfirm_order_01.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;118.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待评价</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_02.jpg" alt="images/comfirm_order_02.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;348.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="###" class="delete">删除订单</a>
+					</li>
+					<li>
+						<h4><span class="time">2017.5.24</span> <span>待评价</span></h4>
+						<div class="img">
+			 				<a href="pro_details.html"><img src="images/comfirm_order_03.jpg" alt="images/comfirm_order_03.jpg" /></a>
+			 			</div>
+			 			<div class="text">
+			 				<p><a href="pro_details.html">爱度雅兰仕Q5音箱</a></p>
+			 				<p><span class="price">&yen;434.00</span> <span class="num">数量：1</span></p>
+			 			</div>
+			 			<a href="pro_details.html" class="delete">删除订单</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--中部 end-->
+		<!--底部-->
+		<div id="bottom">
+			<ul>
+				<li>
+					<a href="index.html"><img src="images/index_icon.png" alt="images/index_icon.png"/>首页</a>
+				</li>
+				<li>
+					<a href="category.html"><img src="images/page_icon.png" alt="images/page_icon.png"/>分类</a>
+				</li>
+				<li>
+					<a href="shop_cart.html"><img src="images/shopcar_icon.png" alt="images/shopcar_icon.png"/>购物车</a>
+				</li>
+				<li class="on">
+					<a href="user.html"><img src="images/user_icon.png" alt="images/user_icon.png"/>我的</a>
+				</li>
+				
+			</ul>
+		</div>
+		<!--底部 end-->
+	</body>
+</html>

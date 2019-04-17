@@ -1,0 +1,113 @@
+/*
+* @Author: Administrator
+* @Date:   2017-12-27 14:19:54
+* @Last Modified by:   Administrator
+* @Last Modified time: 2018-01-19 09:40:17
+*/
+/* company左盒子样式开始 */
+.company{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+/* company左盒子样式结束 */
+/* company右盒子样式开始 */
+
+.com-right{
+	width: 702px;
+	float: left;
+	position: relative;
+	margin-bottom: 100px;
+}
+.com-right h3{
+	text-align: center;
+	margin-top: 30px;
+	font-family: "Arial";
+	font-size: 24px;
+}
+.com-Box{
+	overflow: hidden;
+	width: 692px;
+	
+}
+.com-list{
+	margin-top: 47px;
+	height: 222px;
+	overflow: hidden;
+	width: 9999px;
+	
+}
+.com-list li{
+	float: left;
+	margin-right:33px;
+	text-align: center;
+	position: relative;
+}
+.com-list .search{
+	width: 29px;
+	height: 27px;
+	display: block;
+	margin-left: 57px;
+	margin-top: 7px;
+	background: url("../images/sprite.png") no-repeat 0 -346px;
+}
+.com-list .bg{
+	background:url(../images/bg.png);
+	display: block;
+	width: 143px;
+	height: 103px;
+	position: absolute;
+	top: 119px;
+	left:0; 
+	display: none;
+}
+.com-list .bg p{
+	font-size: 14px; 
+	margin-top:5px;
+}
+.com-list li:hover .bg{
+	display: block;
+}
+
+.dotList{
+	position:relative;
+	left:50%;
+	margin-left: -36px;
+	top:20px;
+	z-index: 100;
+}
+.dotList li{
+	width: 14px;
+	height: 14px;
+	background: #c9c9c9;
+	float: left;
+	margin-right:9px;
+	border-radius:7px;
+	behavior: url(PIE.htc);
+}
+.dotList li:hover{
+	cursor: pointer;
+	background: #e54133;
+}
+.dotList .currentDot{
+	background: #e54133;
+}
+.com-text{
+	margin-top: 70px;
+}
+.com-text img{
+	width: 311px;
+	height: 317px;
+	float: left;
+	margin-right: 30px;
+}
+.com-text h4{
+	color: #e54133;
+}
+.com-text p{
+	line-height: 25px;
+	text-indent: 2em;
+	margin-top: 24px;
+	font-size: 14px;
+}
+/* company右盒子样式结束 */

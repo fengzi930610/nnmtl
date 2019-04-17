@@ -1,0 +1,1 @@
+<a href="list.php?tid=[field:id/]" class="more-btn" style="background: #f7f7f7;">查看更多</a>

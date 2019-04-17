@@ -1,0 +1,285 @@
+/*
+* @Author: Administrator
+* @Date:   2017-12-28 15:58:29
+* @Last Modified by:   Administrator
+* @Last Modified time: 2018-01-23 09:29:12
+*/
+/*product左盒子样式开始 */
+.product{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+/* product左盒子样式结束 */
+/* product右盒子样式开始 */
+.pro-right{
+	width: 707px;
+	float: left;
+	margin-top: 16px;
+}
+.pro-list{
+	width: 707px;
+}
+.pro-list li{
+	width: 201px;
+	height: 242px;
+	float: left;
+	margin-right: 32px;
+	margin-bottom: 31px;
+	position: relative;
+}
+.pro-list li a:after{
+	content:"";
+	width: 201px;
+	height: 200px;
+	position: absolute;
+	left: 0;
+	top:-200px;
+	border: 0;
+	background:url("../images/bg4.png");
+	display: none;
+	z-index: 9999;
+}
+.pro-list li:hover a:after{
+	display: block;	
+}
+.pro-list li a:before{
+	content: "";
+	display: block;
+	width: 47px;
+	height: 42px;
+	background: url("../images/sprite.png") no-repeat -30px -453px;
+	position: absolute;
+	top: -103px;
+	left: 50%;
+	margin-left: -24px;
+	z-index:99999;
+	display: none;
+}
+.pro-list li:hover a:before{
+	display: block;	
+}
+.pro-list li a{
+	width: 201px;
+	height: 42px;
+	line-height: 42px;
+	display: block;
+	background:url(../images/bg4.png);
+	text-align: center;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: 0;
+	color: #fff;
+}
+/* product右盒子样式结束 */
+
+/* pro_details右盒子样式开始 */
+.pro-detail{
+	width: 695px;
+	float: left;
+}
+.top-box-left{
+	width: 338px;
+	float: left;
+	position: relative;
+	margin-top:16px;
+	margin-bottom: 35px;
+}
+.top-box-left .bg{
+	width: 333px;
+	height: 102px;
+	display: block;
+	background:url(../images/bg.png);
+	position: absolute;
+	top:181px;
+	left: 0;
+}
+.top-box-left p:first-child{
+	margin-top: 28px;
+}
+.top-box-left p{
+	margin-top: 12px;
+	display: block;
+	margin-left: 15px;
+}
+ .pro-info{
+	margin-left: 64px;
+	float: left;
+	margin-top:40px;
+	font-size: 14px;
+	margin-bottom: 50px;
+}
+.pro-info li{
+	width: 290px;
+	height: 25px;
+	line-height: 25px;
+}
+.pro-info .info-le{
+	width: 31%;
+	color: #9b9998;
+	display: block;
+	float: left;
+}
+.pro-info .info-ri{
+	width:56%;
+	margin-left: 30px;
+	color: #fff;
+	float: left;
+	display: block;
+}
+.pro-detail hr{
+	width: 695px;
+	height: 1px;
+	background: #d84133;
+	border: 0;
+}
+.pro-detail .pro-title{
+	width: 695px;
+	line-height: 30px;
+	margin-top: 34px;
+	padding-top: 34px;
+	overflow: hidden;
+	border-top: 1px solid #d84133;
+}
+.pro-detail .pro-title h2{
+	margin-left: 5px;
+	font-size: 27px;
+	color: #d84133;
+	float: left;
+}
+.pro-detail .pro-title span{
+	margin-left: 33px;
+	font-size: 17px;
+	color: #878381;
+}
+.pro-detail .pro-title span:last-child{
+	margin-left: 147px;
+}
+.pro-detail .color-list{
+	margin-top: 32px;
+	width: 462px;
+	margin-left: 117px;
+}
+.pro-detail .color-list li{
+	float: left;
+	margin-right: 12px;
+	text-align: center;
+	margin-bottom: 30px;
+}
+.color-list p{
+	margin-top: 12px;
+}
+.color-list .col{
+	color:#2c6673;
+}
+.color-list .col2{
+	color:  #060404;
+}
+.color-list .col3{
+	color:#a41e30;
+}
+.info-list{
+	width: 360px;
+	float: left;
+	margin-top: 50px;
+	margin-bottom: 115px;
+}
+.info-list li{
+	height: 55px;
+	line-height: 55px;
+	border-bottom: 1px dashed #b1b0b1;
+	font-size: 18px;
+}
+.info-list li span{
+	width: 20px;
+	height: 20px;
+	display: block;
+	background: #d84133;
+	margin-top: 19px;
+	margin-right: 12px;
+	float: left;
+}
+.info-list li i{
+	color: #d84133;
+	margin-right: 80px;
+	float: left;
+}
+.info-list li b{
+	font-weight: normal;
+}
+.info-list li p{
+	width: 24px;
+	height: 18px;
+	float:left;
+	margin-right:18px;
+	margin-top: 19px;
+	background: url("../images/sprite.png") no-repeat 0 -392px;
+}
+.info-list li .icon{
+	width: 22px;
+	height: 21px;
+	background-position: 0 -410px;
+}
+.info-list li .icon2{
+	width: 27px;
+	height:19px;
+	background-position: 0 -431px;
+}
+.info-list li .icon3{
+	width: 28px;
+	height: 17px;
+	margin-top:22px;
+	background-position: 0 -451px;
+}
+.info-list2{
+	width: 239px;
+	float: left;
+	margin-left: 88px;
+	margin-top:61px;
+}
+.info-list2 dt{
+	position: relative;
+	margin-top: 35px;
+}
+.info-list2 dt:first-child{
+	margin-top: 0;
+}
+.info-list2 dt h6{
+	font-size: 12px;
+	height: 19px;
+	color: #d84133;
+	border-bottom: 3px solid  #a8a5a8;
+}
+.info-list2 dt h6 span{
+	width: 12px;
+	height: 12px;
+	display: block;
+	background: #d84133;
+	margin-top: 3px;
+	margin-right: 3px;
+	float: left;
+}
+.info-list2 dd{
+	float: left;
+	font-size: 12px;
+	margin-top: 7px;
+	margin-right:18px;
+	margin-left: 15px;
+} 
+.info-list2 dt i{
+	width: 30px;
+	height: 8px;
+	background: url("../images/sprite.png") no-repeat -30px -444px;
+	display: block;
+	position: absolute;
+	top: 19px;
+	left:68px;
+}
+.info-list2 dt .icon-info{
+	left:11px;
+}
+.info-list2 dt .icon-info2{
+	left:27px;
+}
+/* pro_details右盒子样式结束 */

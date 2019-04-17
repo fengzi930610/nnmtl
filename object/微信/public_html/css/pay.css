@@ -1,0 +1,99 @@
+body{
+	background: #f5f5f5;
+}
+#header{
+	height: 0.7rem;
+	width: 100%;
+	background: #a3a6a8;
+	text-align: center;
+	line-height: 0.7rem;
+	color: #fdfafa;
+	font-size: 0.36rem;
+	position: relative;
+}
+#header a{
+	position: absolute;
+	width: 0.16rem;
+	height: 0.34rem;
+	top: 50%;
+	margin-top: -0.17rem;
+	left: 0.3rem;
+	padding: 0;
+}
+#header a img{
+	height: 100%;
+	width: 100%;
+	float: left;
+}
+
+#middle .top{
+	height: 0.88rem;
+	width: 100%;
+	color: #fbf9f9;
+	background: #c6c9cb;
+	text-align: center;
+	line-height: 0.88rem;
+	font-size: 0.24rem;
+}
+#middle p{
+	color: #333333;
+	font-size: 0.24rem;
+	margin: 0.3rem 0;
+	margin-left: 0.3rem;
+	
+}
+#middle h4{
+	color: #333333;
+	font-size: 0.24rem;
+	font-weight: normal;
+	margin: 0.6rem 0;
+	margin-left: 0.3rem;
+}
+#middle .pay{
+	width: 7.2rem;
+	margin: 0 auto;
+	margin-bottom: 3rem;
+}
+#middle .pay ul{
+	padding: 0;
+	margin: 0;
+}
+#middle .pay ul li{
+	width: 100%;
+	height: 0.9rem;
+	display: block;
+	
+}
+#middle .pay ul li img:first-child{
+	width: 0.76rem;
+	height: 0.76rem;
+	float: left;
+	margin-left: 0.18rem;
+}
+#middle .pay ul li img:last-child{
+	width: 0.3rem;
+	display: inline-block;
+	height: 0.3rem;
+	float: right;
+	margin-top: 0.15rem;
+	
+}
+#middle .pay ul li span{
+	font-size: 0.24rem;
+	color: #333333;
+	float: left;
+	line-height: 0.9rem;
+	margin-left: 0.5rem;
+}
+#middle button{
+	width: 6.6rem;
+	height: 0.7rem;
+	border: none;
+	background: #FF0000;
+	border-radius: 0.03rem;
+	display: block;
+	margin: 0 auto;
+	color: #FFFFFF;
+	font-size: 0.3rem;
+	margin-bottom: 1.53rem;
+}

@@ -1,0 +1,300 @@
+/*
+* @Author: Administrator
+* @Date:   2017-12-26 14:15:03
+* @Last Modified by:   Administrator
+* @Last Modified time: 2018-01-23 09:23:11
+*/
+*{
+	margin: 0;
+	padding: 0;
+}
+a{
+	text-decoration: none;
+
+}
+img{
+	border: 0;
+}
+a:focus{
+	outline:none;
+}
+input:focus {
+	outline: none;
+}
+textarea:focus {
+	outline: none;
+}
+button:focus{
+	outline: none;
+}
+ul:focus,li:focus{
+	outline: none;
+}
+li{
+	list-style: none;
+}
+body{
+	font-family: "微软雅黑";
+	color: #fff;
+}
+i{
+	font-style: normal;
+}
+input,textarea,button{
+	font-family: "微软雅黑";
+}
+
+/* 头部样式开始 */
+.header{
+	width: 100%;
+	background: #1a1a1a;
+}
+.head{
+	width: 1200px;
+	height: 60px;
+	margin: 0 auto;
+}
+.logo{
+	width: 329px;
+	padding-top:12px;
+	float: left;
+	text-align: center;
+}
+.nav li{
+	width: 124px;
+	margin-left: 17px;
+	float: left;
+	text-align: center;
+	list-style: none;
+}	
+.nav a{
+	display: block;
+	width: 124px;
+	height: 60px;
+	line-height: 60px;
+	text-decoration: none;
+	color: #fff;
+}
+.nav li:hover a{
+	background: #bb3b30;
+}
+.nav .current{
+	background: #bb3b30;
+}
+/* 头部样式结束 */
+
+/* 版权样式开始 */
+.footer{
+	width: 100%;
+	background: #1a1a1a;
+}
+.footer p{
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	color: #fff;
+	font-size: 12px;
+}
+/* 版权样式结束 */
+
+/* 标题样式开始 */
+.title h2{
+	text-align: center;
+	margin-top: 60px;
+	font-family: "Arial";
+	font-size: 30px;
+}
+.title h5{
+	margin-top: 15px;
+	text-align: center;
+	font-size:14px;
+	margin-bottom: 38px;
+}
+/* 标题样式结束 */
+
+/* 中间样式开始 */
+.main{
+	width: 100%;
+	height: auto;
+	background: #252525;
+}
+.banner img{
+	width: 100%;
+	height: auto;
+}
+/* 中间样式结束 */
+/* 面包屑样式开始 */
+.location{
+	width: 1050px;
+	margin: 0 auto;
+	margin-top: 22px;
+	overflow: hidden;
+}
+.location div{
+	display: block;
+	width: 204px;
+	font-size: 14px;
+	float: right;
+}
+.location a{
+	color: #fff;
+	margin-right: 4px;
+	margin-left: 4px;
+}
+.location a:hover{
+	color: #d84133;
+}
+.location i{
+	font-style: normal;
+	color: #d84133;
+	margin-left: 4px;
+}
+/* 面包屑样式结束 */
+
+/* about news product news_details product_details 左盒子样式开始 */
+.left-box{
+	width: 240px;
+	margin-left: 102px;
+	margin-right: 55px;
+	margin-top: 16px;
+	float: left;
+} 
+.left-box .title{
+	width: 240px;
+	height: 98px;
+	text-align: center;
+	background: url("../images/sprite.png") no-repeat -29px -346px;
+	position: relative;
+}
+.left-box .title img{
+	width: 51px;
+	height: 23px;
+	text-align: center;
+	margin-top: 6px;
+}
+.left-box .title i{
+	width: 16px;
+	position: absolute;
+	right: 57px;
+	top:43px;
+	height: 12px;
+	display: block;
+	float: right;
+	background: url("../images/sprite.png") no-repeat -269px -346px ;
+}
+.left-box .navi{
+	width:240px;
+	margin-top: -17px;
+}
+.left-box .navi li{
+	width: 238px;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	font-size: 14px;
+	border-bottom: 1px solid #525252;
+	border-left: 1px solid #525252;
+	border-right: 1px solid #525252;
+	cursor: pointer;
+}
+.left-box .navi li a{
+	width: 238px;
+	height: 80px;
+	line-height: 80px;
+	text-align: center;
+	font-size: 14px;
+	display: block;
+	color: #fff;
+}
+.left-box .navi li:hover a{
+	color: #e54133;
+}
+.left-box .navi .current{
+	color: #e54133;
+}
+/* about news product news_details product_details 左盒子样式结束 */
+
+/* 翻页器样式开始 */
+.page-turner{
+	width: 785px;
+	height: 35px;
+	margin-top: 88px;
+	margin-left: -74px;
+}
+.page-turner .prev,.page-turner .next{
+	width: 95px;
+	height: 35px;
+	line-height: 33px;
+	background: #d84133;
+	text-align: center;
+	margin-right: 20px;
+	display: block;
+	float: left;
+	color: #fff;
+	margin-top: 70px;
+	margin-bottom: 78px;
+}
+.page-turner .next{
+	margin-left: 20px;
+}
+.page-turner li{
+	float: left;
+	height: 35px;
+	line-height: 35px;
+	margin-top: 70px;
+	margin-bottom: 78px;
+}
+.page-turner li a{
+	display: block;
+	width: 44px;
+	height: 26px;
+	color: #fff;
+	line-height: 26px;
+	text-align: center;
+	border: 1px solid #d84133;
+	margin-top: 3px;
+	margin-left:3.5px;
+	margin-right: 3.5px;
+}
+.page-turner li a:hover{
+	color:#d84133; 
+}
+.page-turner form{
+	margin-top: 70px;
+	margin-left: -10px;
+	float: left;
+}
+.page-turner .page-txt{
+	margin-left:3px;
+	margin-right: 4px;
+	width: 38px;
+	height: 24px;
+	line-height: 22px;
+	color: #fff;
+	padding: 4px;
+	border: 1px solid #d84133;
+	background: #252525;
+}
+
+.page-turner .sure{
+	width: 51px;
+	height: 29px;
+	line-height: 29px;
+	text-align: center;
+	background: #d84133;
+	margin-left: 15px;
+	margin-top: 3px;
+	border: 0;
+	color: #fff;
+	cursor: pointer;
+}
+.page-turner .on{
+	color:  #d84133;
+}
+.page-turner .txtdot{
+	width: 43px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}
+/* 翻页器样式结束 */

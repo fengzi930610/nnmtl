@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>产品详情</title>
+	<link rel="stylesheet" href="public/css/common.css">
+	<link rel="stylesheet" href="public/css/product.css">
+</head>
+<body>
+<!-- 头部开始 -->
+	<?php include("app/home/view/index/header.html")?>
+<!-- 头部结束 -->
+	<!-- 中间部分开始 -->
+	<div class="main">
+		<div class="banner"><img src="<?php echo $banner['imgsrc']?>" alt="翔隆服饰"></div>
+		<div class="location"><div>所在位置&nbsp;:<a href="index.html">祥隆首页</a>&gt;<i>产品中心</i></div></div>
+		<div class="product">
+			<div class="left-box">
+				<div class="title">
+					<img src="public/img/images/logo2.png" alt="翔隆服饰">
+						<h3>产品中心<i></i></h3>
+						<span>Product center</span>
+				</div>
+				<ul class="navi">
+					<?php foreach($list as $k=>$v) {?>
+						<li><a href="index.php?m=home&c=product&a=index&type=<?php echo $v['Id']?>" <?php if($type==$v['Id']){echo 'class="current"';}; ?> ><?php echo $v['name']; ?></a></li>
+					<?php }?>
+					
+				</ul>
+			</div>
+			<div class="pro-detail">
+					<div class="top-box-left">
+						<img src="<?php echo $re['imgsrc'];?>" alt="翔隆服饰" >
+					</div>
+					<ul class="pro-info">
+							<li>
+								<span class="info-le">上市年份季节</span>
+								<span class="info-ri"><?php echo date('Y',$re['ctime']);?>年秋季</span>
+							</li>
+							<li>
+								<span class="info-le">材质成分</span>
+								<span class="info-ri">新型聚酯纤维60% 棉40%</span>
+							</li>
+							<li>
+								<span class="info-le">销售渠道类型</span>
+								<span class="info-ri">纯电商(只在线上销售)</span>
+							</li>
+							<li>
+								<span class="info-le">品牌</span>
+								<span class="info-ri">邦依莲</span>
+							</li>
+							<li>
+								<span class="info-le">货号</span>
+								<span class="info-ri">B0814</span>
+							</li>
+							<li>
+								<span class="info-le">其他</span>
+								<span class="info-ri">&nbsp;</span>
+							</li>
+							<li>
+								<span class="info-le">工种</span>
+								<span class="info-ri"><?php echo $re['name']?></span>
+							</li>
+							<li>
+								<span class="info-le">适用行业</span>
+								<span class="info-ri">酒店宾馆</span>
+							</li>
+							<li>
+								<span class="info-le">适用场景</span>
+								<span class="info-ri">上班</span>
+							</li>
+							<li>
+								<span class="info-le">适用对象</span>
+								<span class="info-ri">中年</span>
+							</li>
+					</ul>
+					<div class="pro-title"><h2>颜色演示</h2><span>BABYINFORMAION</span><span>OLANCI BEAUTYCLOTHING</span></div>
+					<ul class="color-list">
+						<li><img src="public/img/images/product-details2.jpg" alt="翔隆服饰"><p>颜色：<i class="col">绿色</i></p></li>
+						<li><img src="public/img/images/product-details3.jpg" alt="翔隆服饰"><p>颜色：<i class="col2">黑色</i></p></li>
+						<li><img src="public/img/images/product-details4.jpg" alt="翔隆服饰"><p>颜色：<i class="col3">红色</i></p></li>
+					</ul>
+					<div class="pro-title"><h2>产品信息</h2><span>BABYINFORMAION</span><span>OLANCI BEAUTYCLOTHING</span></div>
+					<ul class="info-list">
+						<li><span></span><i>商品名称</i><b>时尚工作服</b></li>
+						<li><span></span><i>商品产地</i><b>中国北京</b></li>
+						<li><span></span><i>商品说明</i><p></p><p class="icon"></p><p class="icon2"></p><p class="icon3"></p></li>
+					</ul>
+					<dl class="info-list2">
+						<dt><h6><span></span>商品版型</h6><i></i></dt>
+							<dd>紧身</dd>
+							<dd>适中</dd>
+							<dd>修身</dd>
+							<dd>宽松</dd>
+						<dt><h6><span></span>柔软指数</h6><i class="icon-info"></i></dt>
+							<dd>柔软</dd>
+							<dd>中</dd>
+							<dd>适中</dd>
+							<dd>偏硬</dd>
+						<dt><h6><span></span>厚薄指数</h6><i class="icon-info"></i></dt>
+							<dd>薄</dd>
+							<dd>适中</dd>
+							<dd>厚</dd>
+							<dd>加厚</dd>
+						
+					</dl>
+			</div>
+		</div>
+	</div>
+<!-- 中间部分结束 -->
+<!-- 版权开始 -->
+	<?php include("app/home/view/index/footer.html")?>
+<!-- 版权结束 -->
+</body>
+</html>

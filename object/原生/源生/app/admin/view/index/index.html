@@ -1,0 +1,52 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>后台首页</title>
+<!--_meta 作为公共模版分离出去-->
+<?php include('app/admin/view/public/meta.html'); ?>
+<!--/meta 作为公共模版分离出去-->
+
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<?php include('app/admin/view/public/header.html'); ?>
+<!--/_header 作为公共模版分离出去-->
+
+<!--_menu 作为公共模版分离出去-->
+<?php include('app/admin/view/public/menu.html'); ?>
+<!--/_menu 作为公共模版分离出去-->
+
+<section class="Hui-article-box" style="background-image:url(public/img/bg.jpg);">
+	<nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="" class="maincolor">首页</a> 
+		<span class="c-999 en">&gt;</span>
+		<span class="c-666">我的桌面</span> 
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<div class="Hui-article" >
+	</div>
+</section>
+
+<!--_footer 作为公共模版分离出去-->
+
+<?php include('app/admin/view/public/footer.html'); ?>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+
+<!--此乃百度统计代码，请自行删除-->
+<!--<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?080836300300be57b7f34f4b3e97d911";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>-->
+<!--/此乃百度统计代码，请自行删除-->
+</body>
+</html>

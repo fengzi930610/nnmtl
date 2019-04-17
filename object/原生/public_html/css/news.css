@@ -1,0 +1,168 @@
+/*
+* @Author: Administrator
+* @Date:   2017-12-28 14:10:26
+* @Last Modified by:   Administrator
+* @Last Modified time: 2018-01-23 09:21:36
+*/
+/*news左盒子样式开始 */
+.location{
+	width: 1100px;
+}
+.news{
+	width: 1200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+/* news左盒子样式结束 */
+/* news右盒子样式开始 */
+.news-right{
+	width: 707px;
+	float: left;
+}
+.news-right h4{
+	width: 706px;
+	margin-top:12px;
+	margin-bottom: 35px;
+}
+.news-right h4 i{
+	font-size: 20px;
+	font-style: normal;
+	margin-left: 8px;
+}
+.news-right h4 .icon-news{
+	display: block;
+	width: 4px;
+	height: 20px;
+	margin-top: 5px;
+	float: left;
+	background: url("../images/sprite.png") no-repeat 0 -373px;
+}
+.news-list li{
+	width: 790px;
+	height: 135px;
+	margin-bottom: 50px;
+}
+.news-list li>a img{
+	float: left;
+	width: 216px;
+	position: relative;
+	height: 133px;
+	border: 1px solid #787575;
+	border-radius: 12px;
+	behavior: url(PIE.htc);
+}
+.news-list li .news-txt{
+	width: 520px;
+	height: 135px;
+	float: left;
+	margin-left: 11px;
+}
+.news-list li:hover .news-txt{
+	width: 520px;
+	height: 135px;
+	background: url(../images/bg3.png) no-repeat;
+ 
+}
+.news-list li .news-txt h5{
+	margin-bottom: 15px;
+	height: 15px;
+	color: #dddad9;
+	margin-left: 5px;
+	margin-top: 6px;
+}
+.news-list li .news-txt a{
+	float: left;
+	display: block;
+	font-style: normal;
+	font-size: 14px;
+	color: #dddad9; 
+}
+.news-list li:hover .news-txt a{
+	color: #c55846;
+}
+.news-list li .news-txt span{
+	float: right;
+	display: block;
+	font-size: 14px;
+	margin-right: 6px;
+}
+.news-list li .news-txt p{
+	width: 500px;
+	font-size:12px;
+	color: #dddad9;
+	margin-left: 10px;
+	line-height: 22px;
+}
+/* news右盒子样式结束 */
+
+/* news_details右盒子样式开始 */
+.news-detail{
+	width: 707px;
+	float: left;
+}
+.news-detail h4{
+	width: 706px;
+	height: 20px;
+	margin-top:12px;
+	margin-bottom:17px;
+}
+.news-detail h4 i{
+	font-size: 20px;
+	font-style: normal;
+	margin-left: 8px;
+}
+.news-detail h4 .news-details-icon{
+	display: block;
+	width: 4px;
+	height: 19px;
+	margin-top: 5px;
+	float: left;
+	background: url("../images/sprite.png") no-repeat 0 -373px;
+}
+.news-text{
+	width: 707px;
+}
+.news-text h2{
+	font-size: 24px;
+	text-align: center;
+	margin-bottom: 17px;
+}
+.news-text i{
+	width: auto;
+	height: 13px;
+	margin-left: 90px;
+	line-height: 13px;
+	text-align: center;
+	font-style: normal;
+	font-size: 12px;
+	color: #c9c9c9;
+}
+.news-text .info{
+	margin-left: 10px;
+}
+.news-text p{
+	margin-top: 18px;
+	text-indent: 2em;
+	font-size: 12px;
+	line-height: 24px;
+}
+.news-text div{
+	text-align: center;
+	margin-top: 19px;
+}
+.news-text a{
+	font-size: 12px;
+	margin-top: 11px;
+	display: block;	
+	color: #c9c9c9;
+}
+.news-text .next-news{
+	margin-bottom: 86px;
+}
+.news-text a:hover{
+	color:  #d84133;
+}
+.news-text .prov-news{
+	margin-top: 57px;
+}
+/* news_details右盒子样式结束 */

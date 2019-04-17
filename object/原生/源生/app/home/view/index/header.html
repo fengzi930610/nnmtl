@@ -1,0 +1,12 @@
+<div class="header">
+	<div class="head">
+		<div class="logo"><a href="index.php?m=home&c=index&a=index"><img src="public/img/images/logo.png"  alt=">翔隆服饰有限公司"></a></div>
+		<ul class="nav">
+			<?php foreach($navarr as $k=>$v) {?>
+				<li <?php if($navarr[$k]['c']==$_GET['c']){echo 'class="current"';}else if(empty($_GET['c']) && $k==0){echo 'class="current"';}else if($_GET['c']=='news_details' && $k==2){echo 'class="current"';}else if($_GET['c']=='pro_details' && $k==3){echo 'class="current"';} ?> >
+					<a href="index.php?m=home&c=<?php echo $v['c']; ?>&a=index"><?php echo $v['name'];?></a>
+				</li>
+			<?php }?>
+		</ul>
+	</div>
+</div>

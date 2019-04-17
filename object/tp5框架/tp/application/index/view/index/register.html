@@ -1,0 +1,123 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__css/register.css" />
+<script type="text/javascript" src="__PUBLIC__js/register.js" ></script>
+		<div class="conter">
+			<div class="login-back">
+				<img src="__PUBLIC__images/login-bigback.png" />
+			</div>
+			<div class="middle">
+				<a class="back"><img src="__PUBLIC__images/login-mid-back.png" /></a>
+				<div class="mid-con">
+					<form action="" method="post">
+						<div class="box">
+							<label>用户名：</label>
+							<input type="text" style="color: #000000;" id="username" name="username" placeholder="用户名/邮箱/手机号/会员卡号" />
+						</div>
+						<div class="box">
+							<label>设置密码：</label>
+							<input type="password" style="color: #000000;" id="password" name="password" placeholder="请输入密码" />
+						</div>
+						<div class="box">
+							<label>确认密码：</label>
+							<input type="password" style="color: #000000;" name="password_confirm" placeholder="请输入确认密码" />
+						</div>
+						<div class="box">
+							<label>手机号：</label>
+							<input type="text" style="color: #000000;" id="shouji" placeholder="请输入手机号" name="phone" />
+						</div>
+						<!--<div class="verification">
+							<label>验证码：</label>
+							<input type="text" id="verification" placeholder="请输入验证码" />
+							<button>获取验证码</button>
+							<b id="yzmcuo">验证码错误</b>
+	
+						</div>-->	
+						<div class="box" style="margin-left: 25px;">	
+							<label>E-mail：</label>	
+							<input type="text" style="color: #000000;" name="email" placeholder="请输入注册邮箱" />
+						</div>
+						<div class="treaty">
+							<label>
+								<input type="checkbox" value=""/>
+								我已阅读并接受《贺曼在线服务协议》
+							</label>
+						</div>	
+						<div class="box">	
+							<button id="register" type="submit" style="margin-left:150px; display: inline-block;">立即注册</button>							<button id="register" type="reset" style="margin-left:50px; display: inline-block;">重置</button>
+						</div>					</form>
+				</div>
+			</div>
+		</div>
+		 <!--<script>
+
+			$(function(){
+				$(document).ready(function(){
+					var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+					var n = 4, s = "";
+					for(var i = 0; i < n; i++){
+					    var rand = Math.floor(Math.random() * str.length);
+					    s += str.charAt(rand);
+					}
+					
+				})
+				$(".verification button").click(function(){
+
+					var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+					var n = 4, s = "";
+
+					for(var i = 0; i < n; i++){
+
+					    var rand = Math.floor(Math.random() * str.length);
+
+					    s += str.charAt(rand);
+
+					}
+
+					$(".verification button").text(s);
+
+				})
+
+				
+
+				$(".verification input").change(function(){
+
+					var val = $(this).val()
+
+					var p_text = $(".verification button").text();
+
+					if(val.toLowerCase() == p_text.toLowerCase()){
+
+						$(".verification b").text("√");
+
+						$(".verification b").css("color","green");
+
+						$(".verification b").css("display","block");
+
+					}else{
+
+						$(".verification b").text("×，请重新输入！");
+
+						$(".verification b").css("color","red");
+
+						$(".verification b").css("display","block");
+
+						
+					}
+
+				})
+
+				$(".verification input").blur(function(){
+
+					var val = $(this).val()
+
+					if(val == ""){
+
+						$(".verification b").css("display","none");
+
+					}
+
+				})
+
+			})
+
+		</script>-->
