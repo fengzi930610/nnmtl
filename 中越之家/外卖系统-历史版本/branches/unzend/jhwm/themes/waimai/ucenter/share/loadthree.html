@@ -1,0 +1,17 @@
+<{foreach $items as $k=>$item}>
+<li class="pub_list">
+    <div class="mr10 img"><img src="<{$pager.img}>/<{$members[$item.invite_uid].face}>" /></div>
+    <div class="pub_list_bd name"><{$members[$item.invite_uid].nickname}>(<{$members[$item.invite_uid].mobile}>)</div>
+    <div class="black9"><{$item.dateline|format:'Y-m-d H:i'}></div>
+</li>
+<!-- <li class="pub_list">
+    <div class="mr10 img"><img src="" /></div>
+    <div class="pub_list_bd name">匿名(138****7788)</div>
+    <div class="black9">2018-4-20 15:36</div>
+</li>
+<li class="pub_list">
+    <div class="mr10 img"><img src="" /></div>
+    <div class="pub_list_bd name">匿名(138****7788)</div>
+    <div class="black9">2018-4-20 15:36</div>
+</li> -->
+<{/foreach}>

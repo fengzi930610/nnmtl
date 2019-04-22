@@ -1,0 +1,13 @@
+<{foreach $items as $item}>
+    <div class="mb10 hongbao-one pub_list">
+        <div class="img-bian"><img src="%THEME%/static/img/my/red_box@2x_hui1.png"></div>
+        <div class="the-zuo hui">￥<big><{$item['amount']}></big></div>
+        <div class="pub_list_bd the-you">
+            <p class="biaoti mb5 overflow_clear hui">普通红包</p>
+            <p class="hui">使用限制：满<{$item.min_amount}>元可用</p>
+            <p class="hui">有效期至：<{$item.ltime|format:'Y-m-d'}></p>
+            <div class="<{if $item.order_id >0}>have-used<{/if}> <{if $item.ltime<$curr_time}>have-past<{/if}>"></div> 
+        </div>
+    </div>
+
+<{/foreach}>

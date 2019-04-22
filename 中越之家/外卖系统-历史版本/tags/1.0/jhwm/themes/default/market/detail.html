@@ -1,0 +1,19 @@
+<{assign var='tpl_title' value=L("活动说明")}>
+<{include file="block/header.html"}>
+
+    <{if !$is_app}>
+    <header>
+        <i class="left"><a href="javascript:history.back(-1);" class="ico headerIco headerIco_3"></a></i>
+        <div class="title">
+        	活动说明
+        </div>
+        <i class="right"><a href="#" class=""></a></i>
+    </header>
+    <{/if}>
+    <section class="page_center_box">
+        <div class="userProtcl">
+        	<h1><{$inviteCfg.share_title}></h1>
+            <{$inviteCfg.intro}>
+        </div>
+    </section>
+<{include file="block/footer.html"}>

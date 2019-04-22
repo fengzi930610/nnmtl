@@ -1,0 +1,139 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/waimai/product:index'}>" class="on">商品管理</a>
+        <a href="<{link ctl='biz/waimai/product:skunotice'}>">库存报警</a>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/waimai/product:create'}>" class="btn btn-success">添加商品</a></span>
+</div>
+<{if $shop.have_waimai == 1}>
+<div class="ucenter_c page-data">
+    <form id="items-form">
+        <table cellspacing="0" cellpadding="0" class="table-data table">
+            <tr><th class="w-80">ID</th>
+                <th class="w-100">分类</th>
+                <th>标题</th>
+                <th class="w-50">价格</th>
+                <th class="w-50">打包费</th>
+                <th class="w-50">库存</th>
+                <th class="w-50">销量</th>
+                <th class="w-50">排序</th>
+                <th class="w-240">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr<{if $item.sale_sku < 15 && $item.is_onsale}> style="background:yellow"<{/if}>>
+                <td><label><input type="checkbox" value="<{$item.product_id}>" id="product_id" class="product_id" name="product_id[]" CK="PRI"/><{$item.product_id}><label></td>
+                <td><{$cates[$item.cate_id].title}></td>
+                <td><{$item.title}></td>
+                <td><{$item.price}></td>
+                <td><{$item.package_price}></td>
+                <td><{$item.sale_sku}></td>
+                <td><{$item.sales}></td>
+                <td><{$item.orderby}></td>
+                <td>
+                    <a href="<{link ctl='biz/waimai/product:open' args=$item.product_id}>" mini-act="onsale" class="btn btn-<{if $item.is_onsale == 1}>success<{else}>warning<{/if}>">
+                        <{if $item.is_onsale == 1}>下架<{else}>上架<{/if}>
+                    </a>&nbsp;
+                    <a href="<{link ctl='biz/waimai/product:specs' args=$item.product_id}>" class="btn btn-success">规格</a>&nbsp;
+                    <a href="<{link ctl='biz/waimai/product:edit' args=$item.product_id}>" class="btn btn-success">修改</a>&nbsp;
+                    <a href="<{link ctl='biz/waimai/product:delete' args=$item.product_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-success">删除</a>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+            <{/foreach}>
+            <tr>
+        </table>
+
+        <table cellspacing="0" cellpadding="0" class="table-data table">
+            <tr><th class="w-80">
+
+                <label><input type="checkbox" cka="PRI">&nbsp;&nbsp;全选</label>
+                <br />
+                <button type="button" class="btn btn-primary" id="add_stock">增加选中项库存</button>
+                <button action="/biz/waimai/product/onsale_close" mini-submit="#items-form"  type="button" class="btn btn-primary" id="add_stock">批量上架</button>
+                <button action="/biz/waimai/product/onsale_open" mini-submit="#items-form"  type="button" class="btn btn-primary" id="add_stock">批量下架</button>
+            </th></tr>
+        </table>
+        <input  id="stock_num" type="hidden" name="stock_num" value="0" />
+        <button id="submit_stock"  action="/biz/waimai/product/stock_add" type="hidden" mini-submit="#items-form"  priv="hide" value="增加库存" class="bt-big" >增加库存</button>
+
+    </form>
+
+    <div class="page">
+
+        <{$pager.pagebar}></div>
+</div>
+<{else}>
+<tr>
+    <td colspan="20">
+        <div class="alert alert-info">
+            <h3>您当前还未开通外卖功能，请移步店铺设置查看外卖功能开通状态<a href="<{link ctl='biz/waimai/shop:have'}>" class="btn btn-success" style="float:right;">申请开通</a></h3>
+        </div>
+    </td>
+</tr>
+<{/if}>
+<style>
+    .layui-layer-content{margin:20px 15px; font-size:13px;}
+    #submit_stock{visibility: hidden}
+</style>
+<script>
+
+    // 全选  
+    $("#allChk").click(function() {  
+        $("input[name='product_id[]']").prop("checked",this.checked);  
+    });  
+      
+    // 单选  
+    var subChk = $("input[name='product_id[]']")  
+    subChk.click(function() {  
+        $("#allChk").prop("checked", subChk.length == subChk.filter(":checked").length ? true:false);  
+    });  
+    function stock_submit()
+    {
+        $("#stock_num").val($("#stock").val());
+        $("#submit_stock").trigger("click");
+    }
+
+    function check_select()
+    {
+        is_have = 0;
+        mydd = $(".product_id");
+        loop = mydd.each(function(i){
+            if(true == $(this).is(':checked'))
+            {
+                is_have = 1;
+            }
+
+        });
+        return is_have;
+    }
+
+    $(function(){
+        $("#add_stock").click(function(){
+            status  = check_select();
+            if(0 == status)
+            {
+                layer.msg('请选择产品');
+                return false;
+            }
+            //页面层
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['280px', '180px'], //宽高
+                title: '批量增加库存',
+                content: "勾选的产品, 批量增加库存. <br />" +
+                "<br />数目: <input name='stock' id='stock' class='input w-50' value='0' /> " +
+                '<button   type="button" id="click_stock" onclick="stock_submit()"  class="  btn btn-primary"   >增加库存</button>'
+            });
+        });
+
+
+
+
+    })
+
+
+</script>
+<{include file="biz/block/footer.html"}>

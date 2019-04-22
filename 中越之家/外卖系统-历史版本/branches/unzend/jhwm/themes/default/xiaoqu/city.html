@@ -1,0 +1,110 @@
+<{assign var='tpl_title' value=L("城市选择")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav">
+
+    <a href="<{link ctl='xiaoqu/index'}>" class="pull-left headerIco"></a>
+
+    <h1 class="title">城市选择</h1>
+
+</header>
+
+<!--头部结束-->
+
+<div class="content"> 
+
+    <div class="city-choose">
+
+        <div class="pad10 font_size14 black9">当前定位城市</div>
+
+        <div class="pad10 bgcolor_white maincl dingwei-city"><i class="dingwei-icon"></i><span class="city_name">还没有定位</span></div>
+
+        <div class="abc-fix">
+
+            <ul>
+
+                <{foreach $city_list as $k => $v}>
+
+                <li><a href="#a<{$k}>" class="zimu external"><{$k}></a></li>
+
+                <{/foreach}>
+
+            </ul>
+
+        </div>
+
+        <div class="city-box" style="overflow:auto">
+
+
+
+            <{foreach $city_list as $k => $v}>
+
+            <div class="city-one" id="a<{$k}>">
+
+                <div class="pad10 black9 font_size14"><{$k}></div>
+
+                <{foreach $v as $kk => $vv}>
+
+                <div class="pad10 black3 border_b bgcolor_white a-city">
+
+                    <a class="city" href="javascript:void(0);" val='<{$vv.city_name}>' cityid='<{$vv.city_id}>'><{$vv.city_name}></a>
+
+                </div>
+
+                <{/foreach}>
+
+            </div>
+
+            <{/foreach}>
+
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('.city').click(function () {
+
+            //如果是提交小区选择城市，单独处理
+
+            var from = "<{$from}>";
+
+                var cityname = $(this).attr('val');
+
+                var cityid = $(this).attr('cityid');
+
+                localStorage['UxCity'] = cityname;
+
+                localStorage['UxCityId'] = cityid;
+
+                Cookie.set("UxCity", cityname, 86400 * 30);
+
+                Cookie.set("UxCityId", cityid, 86400 * 30);
+
+            if (from) {
+
+                location.href = "<{link ctl='xiaoqu/index/"+from+"'}>";
+
+            } else {
+
+                location.href = "<{link ctl='xiaoqu/index/items'}>";
+
+            }
+
+        })
+
+    })
+
+</script>
+
+
+
+<{include file="block/xiaoqu_footer.html"}>

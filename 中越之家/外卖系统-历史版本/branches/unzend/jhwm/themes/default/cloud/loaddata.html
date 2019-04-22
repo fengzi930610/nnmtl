@@ -1,0 +1,14 @@
+<{foreach $items as $item}>
+<li class="mb5">
+    <div class="fl img"><img width="70" height="70" src="<{$pager.img}>/<{$item.user.face|default:'member_face.png'}>"/></div>
+    <div class="wz ">
+        <div class="fl  mt10 pad_t10">
+            <div class="maincl"><{$item.user.nickname|default:'匿名'}></div>
+            <div class="black6 font_size14">参与<{$item.num}>次</div>
+        </div>
+        <div class="fr mt5 right black6 font_size14"><{$item.dateline|format:'Y-m-d H:i:s'}></div>
+        <div class="cl"></div>
+    </div>
+    <div class="cl"></div>
+</li>
+<{/foreach}>

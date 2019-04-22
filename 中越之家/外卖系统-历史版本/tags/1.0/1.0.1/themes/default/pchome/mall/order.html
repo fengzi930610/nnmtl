@@ -1,0 +1,162 @@
+<{assign var="page_title" value="下单"}>
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+
+<div class="headerTop_one ">
+    <div class="pagewd shangcheng-headerTop">
+        <div class="logo fl">
+            <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo2}>"></a>
+        </div>
+        <div class="shangcheng-submit fr">
+            <ul>
+                <li class="active">1.提交订单</li>
+                <li>2.选择支付方式</li>
+                <li>3.购买成功</li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<div class="shangcheng-submit-content">
+    <div class="information black3">
+        <div class="tit">
+            <span class="fl">收获人信息</span>
+            <span class="fr new"><a href="javascript:void(0);" class='create_addr'>新增收获地址</a></span>
+        </div>
+        <div class="clear"></div>
+        <div class="address" style="max-height:200px;overflow-y:scroll;overflow-x:hidden;">
+            <{foreach $my_addr as $k => $v}>
+            <div class="box <{if $v.is_default == 1}>active<{/if}>" addr_id="<{$v.addr_id}>">
+                <span class="fl">寄送至：</span><label><p><i><input type="radio" name="addresss" value="address"></i><{$v.contact}>，<{$v.mobile}>，<{$v.addr}>，<{$v.house}></p></label>
+                <span class="fr"><a href="javascript:void(0);" val='<{$v.addr_id}>' class="maincl edit">编辑</a></span>
+            </div>
+            <{/foreach}>
+        </div>
+    </div>
+    <div class="xinxi">
+        <div class="tit">
+            确认订单信息
+        </div>
+        <div class="detail"  style='max-height:500px;overflow-y:scroll;'>
+            <div class="nav">
+                <span class="shop">商品</span> 
+                <span class="num">数量</span> 
+                <span class="jifen">积分</span> 
+                <span class="price">金额</span> 
+            </div>
+
+            <{if $mallcart}>
+            <{foreach $mallcart as $k=>$v}>
+            <{if $v.check == 1}>
+            <div class="xiangxi">
+                <a href="#"><img src="<{$pager.img}>/<{$products[$k].photo}>"></a>
+                <div class="txt" class="black6">
+                    <h5 class="black6"><{$products[$k].title}></h5>
+                    <p><span>￥<{$products[$k].price}></span><{$products[$k].jifen}>积分</p>
+                    <p class="black9 kucun">剩余数量：<{$products[$k].sku}></p>
+                </div>
+                <p class="num black3"><{$v.num}></p>
+                <p class="jifen black6"><{$products[$k].jifen*$v.num}></p>
+                <p class="price black6"><{$products[$k].price*$v.num}></p>
+            </div>
+            <{/if}>
+            <{/foreach}>
+            <{/if}>
+
+        </div>
+        <div class="shangcheng-btn">
+            <p class="num">已选<span><{$total.checked_count}></span>件</p>
+            <p class="price">合计：<span>￥<span><{$total.checked_price+$checked_freight}></span></span>(含运费：<{$freight}>)</p>
+            <p class="jifen"><span><{$total.checked_jifen}></span>积分</p>
+            <a href="javascript:void(0);" class="btn sub_btn">提交订单</a>
+        </div>
+    </div>
+</div>
+
+<{include file="pchome/block/footer.html"}>
+
+<!-- js -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.edit').click(function () {
+            var addr_id = $(this).attr('val');
+            var link = "<{link ctl='ucenter/addr:edit' arg0=__addr_id}>";
+            link = link.replace('__addr_id', addr_id);
+            //跳回地址写入COOKIE
+            var l = location;
+            Cookie.set("addr_backurl", l, 86400);
+            window.location.href = link;
+        })
+        $('.create_addr').click(function () {
+            var link = "<{link ctl='ucenter/addr:create'}>";
+            //跳回地址写入COOKIE
+            var l = location;
+            Cookie.set("addr_backurl", l, 86400);
+            window.location.href = link;
+        })
+        
+        //购物车商品
+        var total = "<{$total.count}>";
+        var checked_count = "<{$total.checked_count}>";
+        if (!total) {
+            layer.msg('购物车没有商品');
+            setTimeout(function () {
+                window.location.href = "<{link ctl='mall'}>";
+            }, 2000);
+        }
+        if(!checked_count){
+            layer.msg('没有选择商品');
+            setTimeout(function () {
+                window.location.href = "<{link ctl='mall/cart'}>";
+            }, 2000);
+        }
+        
+
+        //提交订单
+        $('.sub_btn').click(function () {
+            var addr_id = $('.address .active').attr('addr_id');
+            var link = "<{link ctl='mall/create'}>";
+            $.post(link, {addr_id: addr_id}, function (ret) {
+                if (ret.error == 0) {
+                    var order_id = parseInt(ret.data.order_id);
+                    var pay_status = parseInt(ret.data.pay_status);
+                    var link = "<{link ctl='payment/pay' arg0=__order_id}>";
+                    var link2 = "<{link ctl='ucenter/mall:detail' arg0=__order_id}>";
+                    localStorage['payment_backurl'] = "<{link ctl='ucenter/order:detail-" + order_id + "'}>";
+                    setTimeout(function () {
+                        if (1 == pay_status) {
+                            window.location.href = link2.replace('__order_id', order_id);
+                        } else
+                        {
+                            window.location.href = link.replace('__order_id', order_id);
+                        }
+                    }, 1500);
+                } else {
+                    if (ret.forward) {
+                        setTimeout(function () {
+                            window.location.href = ret.forward;
+                        }, 1500);
+                    }
+                    if (ret.error == 101) { 
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='passport/login'}>";
+                        }, 1500);
+                    }
+                    layer.msg(ret.message);
+                }
+            }, 'json');
+        })
+    })
+    $('.shangcheng-submit-content .information .address .box').click(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+    })
+</script>
+<style>
+    .shangcheng-submit-content .shangcheng-btn .num{right:460px;}
+    .shangcheng-submit-content .information .address .box{width:98%;}
+</style>
+
+</body>
+</html>

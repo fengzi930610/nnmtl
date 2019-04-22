@@ -1,0 +1,287 @@
+<{include file="block/header.html"}>
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+<!-- <div class="wrapper-content_box">
+    <div class="wrapper wrapper-content" style="padding: 0;">
+        <div class="GoodsList_bd">
+            
+            <div class="GoodsList_bd_r ">
+                <!--表格-->
+                <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none; border-bottom: solid 1px #ccc;">
+                    <{foreach $items as $item}>
+                        <tr>
+                            <td>
+                                <label><input type="checkbox" value="<{$item.product_id}>"  class="product_id" CK="PRI" <{if $item.is_discount}>disabled<{else}>name="product_id"<{/if}>/><{$item.product_id}></label>
+                            </td>
+                            <td width="120"><{$item.title}></td>
+                            <!-- <td width="60"><{$cates[$item['cate_id']]['title']}></td> -->
+                            <td width="100"><span class="img_box"><img src="<{$pager.img}>/<{$item.photo}>" ></span></td>
+                            <{if $item.is_spec == 1}>
+                            <td>
+                                <{foreach $item.spec_list as $list}>
+                                    <p><{$list.spec_name}></p>
+                                <{/foreach}>
+                            </td>
+                            <td>
+                                <{foreach $item.spec_list as $list}>
+                                    <p><{$list.price}>/<{$item.unit}></p>
+                                <{/foreach}>
+                            </td>
+                            <td>
+                                <{foreach $item.spec_list as $list}>
+                                    <p><{$list.package_price}></p>
+                                <{/foreach}>
+                            </td>
+                            <td>
+                                <{foreach $item.spec_list as $list}>
+                                    <!-- <p><{if $list.sale_type == 0}>不限<{else}><{$list.sale_sku}><{/if}></p> -->
+                                    <{if $list.sale_type == 0}>
+                                    <p>不限</p>
+                                    <{else}>
+                                    <p <{if $list.sale_sku <= $waimai_shop.warn_sku}>class="text-warning"<{/if}>><{$list.sale_sku}></p>
+                                    <{/if}>
+                                <{/foreach}>
+                            </td>
+                            <{else}>
+                            <td>
+                                <{if $item.is_discount}>
+                                    <a href="javascript:;" class="add_guige" style="border:1px solid #ccc; color:#ccc">＋</a>
+                                <{else}>
+                                    <a href="javascript:;" class="add_guige tab_btn_spec" rel="<{$item.product_id}>" >＋</a>
+                                <{/if}>
+                            </td>
+                            <td>
+                                <p><{$item.price}>/<{$item.unit}></p>
+                            </td>
+                            <td>
+                                <p><{$item.package_price}></p>
+                            </td>
+                            <td>
+                                <!-- <p><{if $item.sale_type == 0}>不限<{else}><{$item.sale_sku}><{/if}></p> -->
+                                <{if $item.sale_type == 0}>
+                                    <p>不限</p>
+                                    <{else}>
+                                    <p <{if $item.sale_sku <= $waimai_shop.warn_sku}>class="text-warning"<{/if}>><{$item.sale_sku}></p>
+                                <{/if}>
+                            </td>
+                            <{/if}>
+                            <td>
+                                <{if $item.is_onsale == 1}><p class="maincl">售卖中</p><{else}><p class="pointcl">已下架</p><{/if}>
+                            </td>
+                            <td>
+                                <{if $item.is_hot == 1}><p class="maincl">热销</p><{elseif $item.is_must}><p class="maincl">必点</p><{elseif $item.is_discount}><p class="maincl">优惠</p><{else}><p class="pointcl">正常</p><{/if}>
+                            </td>
+                            <td><input type="text" class="w50 sort_order_<{$item.product_id}>" name="orderby[<{$item.product_id}>]" value="<{$item.orderby}>" style="text-align:center" <{if $item.is_discount}>readonly<{/if}>/></td>
+                            <td width="370">
+                                <{if $item.is_discount}>                                    
+                                    <button type="button" class="btn btn-default btn-outline btn-sm" disabled="disabled"><{if $item.is_onsale == 1}>下架<{else}>上架<{/if}></button> 
+                                    <button type="button" class="btn btn-default btn-outline btn-sm" disabled="disabled">编辑</button> 
+                                    <button type="button" class="btn btn-default btn-outline btn-sm" disabled="disabled">规格</button> 
+                                    <button type="button" class="btn btn-default btn-outline btn-sm" disabled="disabled">删除</button> 
+                                    <button type="button" class="btn btn-default btn-outline btn-sm" disabled="disabled"><{if $item.is_hot == 1}>取消热销<{else}>设为热销<{/if}></button>  
+                                    <button type="button" class="btn btn-default btn-outline btn-sm" disabled="disabled"><{if $item.is_must == 1}>取消必点<{else}>设为必点<{/if}></button> 
+                                    
+                                <{else}>
+
+                                    <{if $item.is_onsale == 1}>
+                                        <a mini-act="" href="<{link ctl='product/product/onsale_close' arg0=$item.product_id}>" class="btn btn-danger btn-outline btn-sm">下架</a>
+                                    <{else}>
+                                        <a mini-act="" href="<{link ctl='product/product/onsale_open' arg0=$item.product_id}>" class="btn btn-primary btn-outline btn-sm">上架</a>
+                                    <{/if}>
+                                    <a href="<{link ctl='product/product/edit' arg0=$item.product_id}>" class="btn <{if $item.is_discount}>btn-default<{else}>btn-primary <{/if}> btn-outline btn-sm" target="_parent" <{if $item.is_discount}>style="disabled:disabled;pointer-events: none;"<{/if}>>编辑</a>
+                                    <a href="javascript:;" class="btn btn-primary btn-outline btn-sm tab_btn_spec" rel="<{$item.product_id}>">规格</a>
+                                    <a href="<{link ctl='product/product/delete' arg0=$item.product_id}>" mini-act="del" mini-confirm="确定要删除吗？" class="btn btn-default btn-outline btn-sm">删除</a>
+                                    <{if $item.is_hot == 1}>
+                                        <a mini-act="" href="<{link ctl='product/product/set_hot' arg0=$item.product_id arg1=0}>" class="btn btn-danger btn-outline btn-sm">取消热销</a>
+                                    <{else}>
+                                        <a mini-act="" href="<{link ctl='product/product/set_hot' arg0=$item.product_id arg1=1}>" class="btn btn-primary btn-outline btn-sm">设为热销</a>
+                                    <{/if}>
+                                    <{if $item.is_must == 1}>
+                                        <a mini-act="" href="<{link ctl='product/product/set_must' arg0=$item.product_id arg1=0}>" class="btn btn-danger btn-outline btn-sm">取消必点</a>
+                                    <{else}>
+                                        <a mini-act="" href="<{link ctl='product/product/set_must' arg0=$item.product_id arg1=1}>" class="btn btn-primary btn-outline btn-sm">设为必点</a>
+                                    <{/if}>
+
+                                    <{if $item.is_tuijian == 1}>
+                                        <a mini-act="" href="<{link ctl='product/product/set_tuijian' arg0=$item.product_id arg1=0}>" class="btn btn-danger btn-outline btn-sm">取消推荐</a>
+                                    <{else}>
+                                        <a mini-act="" href="<{link ctl='product/product/set_tuijian' arg0=$item.product_id arg1=1}>" class="btn btn-primary btn-outline btn-sm">设为推荐</a>
+                                    <{/if}>
+
+                                <{/if}>
+                            </td>
+                        </tr>
+                    <{/foreach}>
+                </table>
+                <!--表格end-->
+                <!--页码-->
+                <div class="paging">
+                    <{$pager.pagebar}>
+                </div>
+                <!--页码end-->
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->
+
+<div class="mask_bg"></div>
+<!--规格编辑-->
+<div class="mask_cont spec_mask spec_mask1">
+    <div class="mask_cont_tit">规格编辑 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <div class="border_b table_box">
+            <table border="0" cellspacing="0" cellpadding="0" id="form" rel="">
+                <tr class="tit">
+                    <td><span class="pointcl">*</span>规格</td>
+                    <td><span class="pointcl">*</span>价格</td>
+                    <td><span class="pointcl">*</span>打包费</td>
+                    <td><span class="pointcl">*</span>库存</td>
+                    <td class="cz">&nbsp;</td>
+                </tr>
+
+            </table>
+            <a href="javascript:;" class="btn btn-primary btn-sm btn-outline add_btn">添加规格</a>
+        </div>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="baocun">保存</a>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.spec_mask1').height();
+    var evlt_w = $('.spec_mask1').width();
+    $('.spec_mask1').css("margin-top",-(evlt_h/2 + 60) + 'px');
+    $('.spec_mask').css("margin-left",-evlt_w/2 + 'px');
+    //spec_name 规格名称 price 价格 package_price 打包费 sale_sku
+    $(".tab_btn_spec").click(function(){
+        var parent_id = $(this).attr('rel');
+        $('#form').attr('rel',parent_id)
+        var link = "<{link ctl='product/product/ajax_spec'}>";
+        var html = '';
+        $.post(link,{data:parent_id},function(e){
+            if(e.data){
+                $.each(e.data,function(k,v){
+                    html += '<tr class="append_html" rel="'+k+'">';
+                    html += '<td><input type="text" class="int spec_name" value="'+v.spec_name+'"></td>';
+                    html += '<td><input type="text" class="int price" value="'+v.price+'"></td>';
+                    html += '<td><input type="text" class="int package_price" value="'+v.package_price+'"></td>';
+                    if(v.sale_type == 0){
+                        html += '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype['+k+']" value="-1" class="check_box skutype fl" checked><span class="fl">不限库存</span><input type="radio" name="skutype['+k+']" value="999" class="check_box skutype fl"><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="hidden" class="int fl sale_sku" value="-1"></div></td>';
+                    }else{
+                        html += '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype['+v.spec_id+']" value="-1" class="check_box skutype fl"><span class="fl">不限库存</span><input type="radio" name="skutype['+v.spec_id+']" value="999" class="check_box skutype fl" checked><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="text" class="int fl sale_sku" value="'+v.sale_sku+'"></div></td>';
+                    }
+                    html += '<td class="cz"><span class="black9"></span><a href="javascript:;" class="fa fa-times-circle clear_btn"></a></td>';
+                    html += '</tr>';
+
+                    /*html += '<tr class="append_html">' +
+                            '<td><input type="text" class="int spec_name" value="'+v.spec_name+'"></td>' +
+                            '<td><input type="text" class="int price" value="'+v.price+'"></td>' +
+                            '<td><input type="text" class="int package_price" value="'+v.package_price+'"></td>' +
+                            '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype['+v.spec_id+']" value="-1" class="check_box skutype fl" checked><span class="fl">不限库存</span><input type="radio" name="skutype['+v.spec_id+']" value="999" class="check_box skutype fl"><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="hidden" name="data[sale_sku]" class="int fl" value="-1"></div></td>'+
+                            '<td class="cz"><span class="black9"></span>' +
+                            '<a href="javascript:;" class="fa fa-times-circle clear_btn"></a></td>' +
+                            '</tr>'*/
+                });
+            }
+            $("#form").append(html);
+            $(".spec_mask1 .cont table tr td .clear_btn").click(function(){
+                $(this).parents("tr").remove();
+            });
+        },'json');
+        $('.spec_mask1').fadeIn(100);
+        $('.mask_bg').fadeIn(100);
+    });
+
+    $(document).on('change','.skutype',function(){
+                var val = $(this).val();
+                if(val > 0){
+                   $(this).siblings('.int').attr('type','text').val(val); 
+                }else{
+                    $(this).siblings('.int').attr('type','hidden').val(val);
+                }
+            });
+
+    $(".spec_mask1 .cancel,.spec_mask1 .close,.mask_bg").click(function(){
+        $('#form').attr('rel','')
+        $('.append_html').remove();
+        $('.spec_mask1').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+    });
+    
+    $(".spec_mask1 .add_btn").click(function(){
+        var k = $('.append_html:last').attr('rel');
+        if(k){
+            k = k+1;
+        }else{
+            k = 0
+        }        
+        $(this).parents(".spec_mask1").find(".table_box table").append('<tr class="append_html" rel="'+k+'">' +
+                '<td><input type="text" class="int spec_name"></td>' +
+                '<td><input type="text" class="int price"></td>' +
+                '<td><input type="text" class="int package_price"></td>' +
+                '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype['+k+']" value="-1" class="check_box skutype fl" checked><span class="fl">不限库存</span><input type="radio" name="skutype['+k+']" value="999" class="check_box skutype fl"><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="hidden" class="int fl sale_sku" value="-1"></div></td>' +
+                '<td class="cz"><span class="black9"></span><a href="javascript:;" class="fa fa-times-circle clear_btn"></a></td></tr>');
+        
+        $(".spec_mask1 .cont table tr td .clear_btn").click(function(){
+            $(this).parents("tr").remove();
+        });
+    });
+    
+    $(".spec_mask1 .cont table tr td .clear_btn").click(function(){
+        $(this).parents("tr").remove();
+    });
+
+    $('#baocun').on('click',function(){
+        var pid = $('#form').attr('rel');
+        var spec_name = $('.spec_name');
+        var price = $('.price')
+        var package_price = $('.package_price');
+        var sale_sku = $('.sale_sku');
+        var url = '<{link ctl="product/product/ajax_spec_edit"}>';
+        var data = [];
+        $.each(spec_name,function(k,v){
+          var a = v.value;
+          var b = price[k].value;
+          var c =  package_price[k].value;
+          var d =   sale_sku[k].value;
+          if(!a){
+              layer.msg('请填写完整的信息再保存');
+              return false;
+          }
+           if(!b){b=0;} if(!c){c=0;}if(!d){d=0}
+
+           data.push(a+'/'+b+'/'+c+'/'+d)
+        });
+        $('.spec_mask1').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+        $.post(url,{product_id:pid,data:data},function(e){
+            if(e.error>0){
+                layer.msg(e.message,{icon:2})
+            }else{
+                layer.msg('修改成功');
+                setTimeout(function(){
+                    window.location.reload();
+                    $('.spec_mask1').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                    $('#form').attr('rel','');
+                    $('.append_html').remove();
+                },2000);
+            }
+        },'json')
+    })
+});
+</script>
+<!--规格编辑end-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // 单选  
+        var subChk = $("input[name='product_id']");
+        subChk.click(function() { 
+            $(window.parent.document).find("#allChk").prop("checked", subChk.length == subChk.filter(":checked").length ? true:false);  
+        });
+    });
+</script>
+<{include file="block/footer.html"}>

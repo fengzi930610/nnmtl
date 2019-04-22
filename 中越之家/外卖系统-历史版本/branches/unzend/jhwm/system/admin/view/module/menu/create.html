@@ -1,0 +1,46 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td style="width:30px;" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th align="left"><{$MOD.title}></th>
+        <td></td>
+      </tr>
+    </table>
+</div>
+<{* widget id="uitips/notice" title="Tips" msg="修改时只能修改父级,不能修改层级" *}>
+<div class="page-data">
+	<form action="?module/menu-save.html" mini-form="menu-form" method="post">
+	<input type="hidden" name="ID" value="<{$menu.mod_id}>">
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th>菜单标题:</th>
+			<td><input type="text" name="data[title]" class="input w-200" value="<{$menu.title}>"></td>
+		</tr>
+		<tr>
+			<th>上级菜单:</th>
+			<td>
+				<{if $menu.module=='top'}>
+				顶级菜单
+				<{else}>
+				<select name="data[parent_id]" val="<{$menu.parent_id}>" class="w-100">
+				<{if !$menu && !$pager.PID}>
+				<option value="0">顶级菜单</option>
+				<{/if}>
+				<{foreach $tree as $v}><option value="<{$v.mod_id}>"<{if $v.mod_id==$menu.parent_id || $v.mod_id==$pager.PID}>selected="selected"<{/if}>>&nbsp;&nbsp;|--<{$v.title}></option><{/foreach}>
+				</select>
+				<{/if}>
+			</td>
+		</tr>
+		<tr>
+			<th width="150">排序：</th>
+			<td><input type="text" name="data[orderby]" class="input w-50" value="<{if $menu.orderby}><{$menu.orderby}><{else}>50<{/if}>"></td>
+		</tr>
+		<tr>
+			<th class="form-button-th"></th>
+			<td class="form-button-td"><input type="submit" class="bt-big"  value="提  交  数  据" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

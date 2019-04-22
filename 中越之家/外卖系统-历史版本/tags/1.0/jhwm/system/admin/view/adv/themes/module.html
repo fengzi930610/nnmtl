@@ -1,0 +1,3290 @@
+<{include file="admin:common/header.html"}>
+
+<!-- 颜色选择器 -->
+<style type="text/css">
+	html,body{height: 100%; width: 100%; overflow: hidden;}
+	.clear{clear: both; width: 100%; height: 0; line-height: 0; font-size: 0;}
+	.youhui_pic{ margin: 30px 94px;}
+	.block{ display: block;}
+	.save_btn{background: #35b8eb; border-radius: 2px; width: 120px; margin: 0 auto; color: #ffffff; line-height: 30px; text-align: center; cursor: pointer;}
+	#cate_box, #module5_youhui1_box, #module6_youhui1_box{ cursor: move;}
+	.sort .up,.sort .dwon{ cursor: pointer;}
+	.backgroundType{ display: none;}
+	.clientIndexSet_phone{ width: 375px;}
+	.clearImg_size{ font-size: 14px; line-height: 20px; margin-top: 10px}
+	.clearImg{ float: right; margin-right: 30px; cursor: pointer;}
+	.imgSize{ float: left; }
+	.clientIndexSet_right{ min-width: 500px;}
+	.watermark{ background-color: transparent !important;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      	<tr>
+	        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+	        <th><{$MOD.title}></th>
+	        <td align="right"><{link ctl="adv/themes:index" priv="hidden" class="button"}></td>
+	        <td width="15"></td>
+      	</tr>
+    </table>
+</div>
+<div class="clientIndexSet_bg">
+	<!-- 内容-开始 -->
+	<div class="clientIndexSet_box">
+		<!--左侧显示-开始-->
+		<div class="clientIndexSet_phone fl" style="display: block;">
+			<iframe class="clientIndexSet_iframe" id="clientIndexSet_iframe" name="clientIndexSet_iframe" width="100%" height="100%" src="?adv/themes-preview-<{$theme_id}>.html" frameborder="0"></iframe>
+		</div>
+		<!--左侧显示-结束-->	
+
+		<!--中间模块-开始-->	
+		<form action="?adv/themes-module-<{$theme_id}>" method="post" id="modules-form" class="clientIndexSet_middle fl" style="display: block; width: 400px;">
+			<div class="list">
+				<div class="bt">模块</div>
+				<div class="box">
+					<div class="tit">
+						<div class="fl">首页背景</div>
+						<div class="btn-set fr" module="module0" style="display: none;">设置</div>
+						<input type="hidden" name="config[module0][open]" value="1">
+					</div>
+				</div>
+			</div>
+			<{foreach $config as $k=>$module}>
+				<{if $k=='module1'}>
+					<div class="list">
+						<div class="bt">模块1</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">顶部导航栏</div>
+								<div class="btn-set fr" module="module1">设置</div>
+								<input type="hidden" name="config[module1][open]" value="1">
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module2'}>
+					<div class="list">
+						<div class="bt">模块2</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">轮播广告图</div>
+								<input type="checkbox" class="switch fl ml10" <{if $module.open}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module2][open]" value="<{$module.open}>">
+								<div class="btn-set fr" module="module2">设置</div>
+							</div>
+							<div class="txt">选用单张将会和下方分类列表区域使用一张图片，适用于节日等场景</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module3'}>
+					<div class="list">
+						<div class="bt">模块3</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">分类列表</div>
+								<div class="btn-set fr" module="module3">设置</div>
+								<input type="hidden" name="config[module3][open]" value="1">
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module4'}>
+					<div class="list">
+						<div class="bt">模块4</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">新订单下单弹幕</div>
+								<input type="checkbox" class="switch fr ml10" <{if $module.open}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module4][open]" value="<{$module.open}>">
+							</div>
+							<div class="txt">有用户在平台下单时会弹幕显示：“某某某1秒前下了单”，点击可跳转到对应的店铺页</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module5'}>
+					<div class="list change-sort">
+						<div class="bt">模块5</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">优惠专区</div>
+								<input type="checkbox" class="switch fl ml10" <{if $module.open}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module5][open]" value="<{$module.open}>">
+								<div class="btn-set fr" module="module5">设置</div>
+							</div>
+							<div class="sort">
+								<span class="up">上移<i class="fa fa-arrow-up"></i></span>
+								<span class="dwon">下移<i class="fa fa-arrow-down"></i></span>
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module6'}>
+					<div class="list change-sort">
+						<div class="bt">模块6</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">优惠专区(二)</div>
+								<input type="checkbox" class="switch fl ml10" <{if $module.open}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module6][open]" value="<{$module.open}>">
+								<div class="btn-set fr" module="module6">设置</div>
+							</div>
+							<div class="sort">
+								<span class="up">上移<i class="fa fa-arrow-up"></i></span>
+								<span class="dwon">下移<i class="fa fa-arrow-down"></i></span>
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module7'}>
+					<div class="list change-sort">
+						<div class="bt">模块7</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">大牌甄选</div>
+								<input type="checkbox" class="switch fl ml10" <{if $module.open}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module7][open]" value="<{$module.open}>" >
+								<div class="btn-set fr" module="module7">设置</div>
+							</div>
+							<div class="sort">
+								<span class="up">上移<i class="fa fa-arrow-up"></i></span>
+								<span class="dwon">下移<i class="fa fa-arrow-down"></i></span>
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module8'}>
+					<div class="list change-sort">
+						<div class="bt">模块8</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">单条广告</div>
+								<input type="checkbox" class="switch fl ml10" <{if $module.open}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module8][open]" value="<{$module.open}>">
+								<div class="btn-set fr" module="module8">设置</div>
+							</div>
+							<div class="sort">
+								<span class="up">上移<i class="fa fa-arrow-up"></i></span>
+								<span class="dwon">下移<i class="fa fa-arrow-down"></i></span>
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module9'}>
+					<div class="list">
+						<div class="bt">模块9</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">商家列表</div>
+								<input type="checkbox" class="switch fr ml10" <{if $module.show_huodong}>checked="checked"<{/if}>>
+								<input type="hidden" name="config[module9][show_huodong]" value="<{$module.show_huodong}>">
+								<div class="ts fr">显示优惠信息</div>
+								<input type="hidden" name="config[module9][open]" value="1">
+							</div>
+						</div>
+					</div>
+				<{/if}>
+
+				<{if $k=='module10'}>
+					<div class="list">
+						<div class="bt">模块10</div>
+						<div class="box">
+							<div class="tit">
+								<div class="fl">底部导航栏</div>
+								<div class="btn-set fr" module="module10">设置</div>
+								<input type="hidden" name="config[module10][open]" value="1">
+							</div>
+						</div>
+					</div>
+				<{/if}>
+			<{/foreach}>
+		</form>
+		<!--中间模块-结束-->	
+
+		<!--右侧设置-开始-->
+		<div class="clientIndexSet_right">
+			<!-- <div class="tips">修改后记得保存哦！</div> -->
+			<!-- <iframe class="editModule_iframe" id="editModule_iframe" name="editModule_iframe" width="100%" height="100%" src="?adv/themes-editModule-<{$theme_id}>-module1.html" frameborder="0"></iframe> -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module0" method="post" id="module0" class="module_box module0" style="display: ;">
+				<div class="tips">修改后记得保存哦！</div>
+				<div class="setPub_box">
+					<div class="setPub_bt">注意事项：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+						<div class="bgColor_txt" style="padding-top: 10px;">1、不上传图片默认使用白色背景</div>
+						<div class="bgColor_txt" style="padding-top: 10px;">2、图片宽度为750px，图片高度根据用户的需要自定义。图片尺寸为实际尺寸的2倍</div>
+						<div class="bgColor_txt" style="padding-top: 10px;">3、当图片高度小于首页（除商家列表部分）高度时，图片将和首页顶部对齐，余下部分默认白色填充，当图片高度大于首页高度时，图片将和首页顶部对齐，超出部分将被裁剪</div>
+						<div class="bgColor_txt" style="padding-top: 10px;">4、建议先确定好模块之后再根据模块尺寸上传背景图片</div>
+					</div>
+				</div>		
+		        <div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module0.background_color|default:''}>" name="config[module0][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+
+		        <div class="setPub_box">
+		            <div class="setPub_bt">背景图：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+		                <div class="bgColor_txt" style="padding-top: 10px;"></div>
+		                <div>
+		                    <div class="line_box" style="width: 375px; min-height: 500px;">
+		                        <div class="tip">上传图片</div>
+		                        <div class="clipView" width="0" height="0"></div>
+		                        <img src="<{$config.module0.background}>" style="width: 100%;">
+		                        <input type="hidden" name="config[module0][background]" value="<{$config.module0.background}>">
+		                    </div>
+		                    <div class="clearImg_size"><div class="clearImg">清空图片</div><div class="imgSize"></div></div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+
+
+		        <div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+		    </form>
+
+			<!-- 设置头部 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module1" method="post" id="module1" class="module_box module1" style="display: none;">
+				<div class="selectStyle">
+					<div class="setPub_box">
+						<div class="setPub_bt">选择样式：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+							<div class="radiao_box">
+			                    <label class="mr20"><input type="radio" name="config[module1][class]" class="setPub_radiao mr5" value="1" <{if $config.module1.class==1 || !$config.module1.class}>checked="checked"<{/if}>>样式一</label>
+			                    <label class="mr20"><input type="radio" name="config[module1][class]" class="setPub_radiao mr5" value="2" <{if $config.module1.class==2}>checked="checked"<{/if}>>样式二</label>
+			                    <label class="mr20"><input type="radio" name="config[module1][class]" class="setPub_radiao mr5" value="3" <{if $config.module1.class==3}>checked="checked"<{/if}>>样式三</label>
+			                </div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="stylePic" style="margin-left: 94px; width: 405px;">
+						<div class="line_box mt20 mb20" style="display: <{if $config.module1.class==1 || !$config.module1.class}>block<{else}>none<{/if}>;">
+							<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/searchTop.png">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+						</div>
+		                <div class="line_box mt20 mb20" style="display: <{if $config.module1.class==2}>block<{else}>none<{/if}>;">
+		                	<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/searchTop2.png">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+		                </div>
+		                <div class="line_box mt20 mb20" style="display: <{if $config.module1.class==3}>block<{else}>none<{/if}>;">
+		                	<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/searchTop3.png">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+		                </div>
+					</div>							
+				</div>
+		        <div class="setPub_box">
+		            <div class="setPub_bt">推荐搜索词显示：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="searchWord"> 
+		                	<input type="checkbox" class="switch" <{if $config.module1.searchBox.open}>checked="checked"<{/if}>>
+		                	<input type="hidden" name="config[module1][searchBox][open]" value="<{$config.module1.searchBox.open}>">
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        <div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" id="full1" value="<{$config.module1.background_color|default:''}>" name="config[module1][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        <div class="setPub_box">
+		            <div class="setPub_bt">导航栏文字颜色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="radiao_box">
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][color]" value="666666" <{if $config.module1.color=='666666' || !$config.module1.color}>checked="checked"<{/if}>>黑</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][color]" value="FFFFFF" <{if $config.module1.color=='FFFFFF'}>checked="checked"<{/if}>>白</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][color]" value="999999" <{if $config.module1.color=='999999'}>checked="checked"<{/if}>>灰</label>
+		                </div>
+		                <div class="icon_location" style="display: none;">
+		                	<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][icon_location]" value="default/icon/common/icon_location_gray@2x.png" <{if $config.module1.color=='666666' || !$config.module1.color}>checked="checked"<{/if}>>黑</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][icon_location]" value="default/icon/common/icon_location_white@2x.png" <{if $config.module1.color=='FFFFFF'}>checked="checked"<{/if}>>白</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][icon_location]" value="default/icon/common/icon_location_grayn@2x.png" <{if $config.module1.color=='999999'}>checked="checked"<{/if}>>灰</label>
+		                </div>
+		                <div class="icon_down" style="display: none;">
+		                	<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][icon_down]" value="default/icon/common/to_btn_arrowd_gray@2x.png" <{if $config.module1.color=='666666' || !$config.module1.color}>checked="checked"<{/if}>>黑</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][icon_down]" value="default/icon/common/to_btn_arrowd_white@2x.png" <{if $config.module1.color=='FFFFFF'}>checked="checked"<{/if}>>白</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][icon_down]" value="default/icon/common/to_btn_arrowd_grayn@2x.png" <{if $config.module1.color=='999999'}>checked="checked"<{/if}>>灰</label>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        <div class="setPub_box searchWord_box">
+		            <div class="setPub_bt">推荐搜索词文字颜色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="radiao_box">
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][searchBox][color]" value="666666" <{if $config.module1.searchBox.color=='666666' || !$config.module1.searchBox.color}>checked="checked"<{/if}>>黑</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][searchBox][color]" value="FFFFFF" <{if $config.module1.searchBox.color=='FFFFFF'}>checked="checked"<{/if}>>白</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module1][searchBox][color]" value="999999" <{if $config.module1.searchBox.color=='999999'}>checked="checked"<{/if}>>灰</label>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		            <div class="setPub_box word_box">
+		                <div class="setPub_bt">推荐搜索词：</div>
+		                <div class="setPub_nr" style="margin-left: 94px;">
+		                    <div class="inp_box">
+		                        <input type="text" name="" placeholder="限5个字以内" maxlength="5">
+		                        <a href="javascript:;" class="button btn-primary ml10 mr10" id="wordAdd">添加</a>
+		                        <span>最多添加6个搜索词</span>
+		                    </div>
+		                    <ul>
+		                        <{foreach $config['module1']['searchBox']['keywords'] as $key}>
+		                        <li><span><{$key}></span><input type="hidden" name="config[module1][searchBox][keywords][]" value="<{$key}>"><i></i></li>
+		                        <{/foreach}>
+		                        <!-- <li><span>排骨饭</span><input type="hidden" value="排骨饭"><i></i></li> -->
+		                    </ul>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+		    </form>
+
+			<!-- 设置轮播图 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module2" method="post" id="module2" class="module_box module2" style="display: none;">
+		        <div class="mt20 mb20" style="margin-left: 94px;">
+		        	<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/banner.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+		        </div>
+		        <div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module2.background_color|default:''}>" name="config[module2][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        <!-- <div class="setPub_box">
+		            <div class="setPub_bt">背景图：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+		                <div class="bgColor_txt" style="padding-top: 10px;">不上传或不选颜色默认使用白色背景。分类模块背景图与轮播模块背景图可使用一整张图片裁成两部分上传，效果更佳</div>
+		                <div>
+		                    <div class="line_box" style="width: 431px; height: 183px;">
+		                        <div class="tip">上传图片</div>
+		                        <div class="clipView" width="750" height="320"></div>
+		                        <img src="<{$config.module2.background}>" style="width: 100%;">
+		                        <input type="hidden" name="config[module2][background]" value="<{$config.module2.background}>">
+		                    </div>
+		                    <div class="clearImg_size"><div class="clearImg">清空图片</div><div class="imgSize">尺寸750*320</div></div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div> -->
+		        <div class="setPub_box">
+		            <div class="setPub_bt">轮播样式：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+		                <div class="radiao_box">
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module2][class]" value="1" <{if $config.module2.class==1 || !$config.module2.class}>checked="checked"<{/if}>>有轮播图</label>
+		                    <label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module2][class]" value="2" <{if $config.module2.class==2}>checked="checked"<{/if}>>无轮播图（仍可点击跳转）</label>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        
+		        <div class="setPub_box setPub_box_content" style="display: <{if $config.module2.class==1 || !$config.module2.class}>block<{else}>none<{/if}>;">
+		            <div class="setPub_bt">轮播内容：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+		                <div class="setPub_list_box" id="lunbo_box">
+		                	<{foreach $config.module2.content as $k=>$v}>
+		                    <div class="setPub_list">
+		                        <{if $k!=0}><div class="del"></div><{/if}>
+		                        <div class="line_box" style="width: 351px; height: 136px;">
+		                            <div class="tip">
+		                                <p>选择图片</p>
+		                                <p>尺寸：702*272</p>
+		                            </div>
+		                            <div class="clipView" width="702" height="272"></div>
+		                            <img src="<{$v.photo}>" style="width: 100%;">
+		                            <input type="hidden" name="config[module2][content][photo][]" value="<{$v.photo}>">
+		                        </div>
+		                        <div class="link_box">
+		                            <h5>跳转链接：</h5>
+		                            <div class="inp_box">
+		                                <input type="text" name="config[module2][content][link][]" class="inp" readonly id="module2_content_link_<{$k}>" value="<{$v.link}>">
+		                                <input type="hidden" name="config[module2][content][wxlink][]" class="inp" id="module2_content_wxlink_<{$k}>" value="<{$v.wxlink}>">
+		                                <!-- <a class="btuuon btn-primary-line ml10">选择链接</a> -->
+		                                <{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module2_content_link_<{$k}>,#module2_content_wxlink_<{$k}>/N/选择链接" class="btn-primary-line ml10" width="mini:500"}>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <{foreachelse}>
+							<div class="setPub_list">
+		                        <div class="line_box" style="width: 351px; height: 136px;">
+		                            <div class="tip">
+		                                <p>选择图片</p>
+		                                <p>尺寸：702*272</p>
+		                            </div>
+		                            <div class="clipView" width="702" height="272"></div>
+		                            <img src="<{$v.photo}>" style="width: 100%;">
+		                            <input type="hidden" name="config[module2][content][photo][]" value="">
+		                        </div>
+		                        <div class="link_box">
+		                            <h5>跳转链接：</h5>
+		                            <div class="inp_box">
+		                                <input type="text" name="config[module2][content][link][]" class="inp" id="module2_content_link_0" value="">
+		                                <input type="hidden" name="config[module2][content][wxlink][]" class="inp" id="module2_content_wxlink_0" value="">
+		                                <!-- <a class="btuuon btn-primary-line ml10">选择链接</a> -->
+		                                <{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module2_content_link_0,#module2_content_wxlink_0/N/选择链接" class="btn-primary-line ml10" width="mini:500"}>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <{/foreach}>  
+		                </div>
+		                <div class="setPub_add_btn" id="lunboAdd">添加轮播图片</div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        <div class="setPub_box setPub_box_link" style="display: <{if $config.module2.class==2}>block<{else}>none<{/if}>;">
+		            <div class="setPub_bt">跳转链接：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+		                <div class="setPub_list_box" id="lunbo_box">
+		                    <div class="setPub_list" style="padding: 0;">
+		                        <div class="link_box">
+		                            <div class="inp_box">
+		                                <input type="text" name="config[module2][link]" class="inp" readonly id="module2_link" value="<{$config.module2.link}>">
+		                                <input type="hidden" name="config[module2][wxlink]" class="inp" id="module2_wxlink" value="<{$config.module2.wxlink}>">
+		                                <!-- <a class="btuuon btn-primary-line ml10">选择链接</a> -->
+		                                <{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module2_link,#module2_wxlink/N/选择链接" class="btn-primary-line ml10" width="mini:500"}>
+		                            </div>
+		                        </div>
+		                    </div>  
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+		        <div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+		    </form>
+
+			<!-- 设置分类导航菜单 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module3" method="post" id="module3" class="module_box module3" style="display: none;">
+				<div class="selectStyle">
+					<div class="setPub_box">
+						<div class="setPub_bt">选择样式：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="radiao_box">
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module3][class]" value="1" <{if $config.module3.class==1 || !$config.module3.class}>checked="checked"<{/if}>>每行五列</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module3][class]" value="2" <{if $config.module3.class==2}>checked="checked"<{/if}>>每行四列</label>
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="stylePic" style="margin-left: 94px; width: 410px; height: 205px;">
+						<div class="mt20 mb20 list" style="display: <{if $config.module3.class==1 || !$config.module3.class}>block<{else}>none<{/if}>;">
+							<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/cate5.png">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+						</div>
+						<div class="mt20 mb20 list" style="display: <{if $config.module3.class==2}>block<{else}>none<{/if}>;">
+							<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/cate4.png" style="border: 1px dashed rgb(204, 204, 204);">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+						</div>
+					</div>							
+				</div>
+
+				<div class="setPub_box">
+		            <div class="setPub_bt">字体颜色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module3.color|default:'333333'}>" name="config[module3][color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用深灰色</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+
+				<div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module3.background_color|default:''}>" name="config[module3][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+				<!-- <div class="setPub_box">
+					<div class="setPub_bt">背景图：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="bgColor_txt" style="padding-top: 10px;">不上传默认使用白色背景。分类模块背景图与轮播模块背景图以及顶部导航栏背景图可使用一整张图片裁成三部分上传，效果更佳</div>
+						<div>
+							<div class="line_box" style="height: 241px;">
+								<div class="tip">上传图片</div>
+								<div class="clipView" width="750" height="410"></div>
+								<img src="<{$config.module3.background}>" style="width: 100%;">
+						                        <input type="hidden" name="config[module3][background]" value="<{$config.module3.background}>">
+							</div>
+							<div class="clearImg_size"><div class="clearImg">清空图片</div><div class="imgSize">尺寸750*410</div></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div> -->
+				
+				<div class="setPub_box">
+					<div class="setPub_bt">编辑分类：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="setPub_list_box" id="cate_box">
+							<{foreach $config.module3.content as $k=>$v}>
+							<div class="setPub_list">
+								<{if $k!=0}><div class="del"></div><{/if}>
+								<div class="pic">
+									<div class="line_box catePic" style="height: 94px;">
+										<div class="tip">选择图片</div>
+										<div class="clipView" width="94" height="94"></div>
+										<img src="<{$v.photo}>" style="width: 100%;">
+				                        <input type="hidden" name="config[module3][content][photo][]" value="<{$v.photo}>">
+									</div>
+									<div class="line_txt">尺寸94*94</div>
+								</div>
+								<div class="wz_box">
+									<div class="link_box">
+										<h5>名称：</h5>
+										<div class="inp_box"><input type="text" name="config[module3][content][title][]" class="inp" value="<{$v.title}>"></div>
+									</div>
+									<div class="link_box">
+										<h5>跳转链接：</h5>
+										<div class="inp_box">
+											<input type="text" class="inp" readonly id="module3_content_link_<{$k}>" name="config[module3][content][link][]" value="<{$v.link}>">
+											<input type="hidden" class="inp" id="module3_content_wxlink_<{$k}>" name="config[module3][content][wxlink][]" value="<{$v.wxlink}>">
+										</div>
+										<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module3_content_link_<{$k}>,#module3_content_wxlink_<{$k}>/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<{foreachelse}>
+							<div class="setPub_list">
+								<div class="pic">
+									<div class="line_box catePic" style="height: 94px;">
+										<div class="tip">选择图片</div>
+										<div class="clipView" width="94" height="94"></div>
+										<img src="<{$v.photo}>" style="width: 100%;">
+				                        <input type="hidden" name="config[module3][content][photo][]" value="">
+									</div>
+									<div class="line_txt">尺寸94*94</div>
+								</div>
+								<div class="wz_box">
+									<div class="link_box">
+										<h5>名称：</h5>
+										<div class="inp_box"><input type="text" name="config[module3][content][title][]" class="inp" value=""></div>
+									</div>
+									<div class="link_box">
+										<h5>跳转链接：</h5>
+										<div class="inp_box">
+											<input type="text" class="inp" readonly id="module3_content_link_0" name="config[module3][content][link][]" value="">
+											<input type="hidden" class="inp" id="module3_content_wxlink_0" name="config[module3][content][wxlink][]" value="">
+										</div>
+										<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module3_content_link_0,#module3_content_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<{/foreach}>
+						</div>
+						<div class="setPub_add_btn" id="cateAdd">添加分类导航</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+			</form>
+
+			<!-- 设置优惠专区 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module5" method="post" id="module5" class="module_box module5" style="display: none;">
+				<div class="selectStyle">
+					<div class="setPub_box">
+						<div class="setPub_bt">选择样式：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="radiao_box">
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="1" <{if $config.module5.class==1 || !$config.module5.class}>checked="checked"<{/if}>>样式一</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="2" <{if $config.module5.class==2}>checked="checked"<{/if}>>样式二</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="3" <{if $config.module5.class==3}>checked="checked"<{/if}>>样式三</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="4" <{if $config.module5.class==4}>checked="checked"<{/if}>>样式四</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="5" <{if $config.module5.class==5}>checked="checked"<{/if}>>样式五</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="6" <{if $config.module5.class==6}>checked="checked"<{/if}>>样式六</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module5][class]" value="7" <{if $config.module5.class==7}>checked="checked"<{/if}>>样式七</label>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>						
+				</div>
+			
+				<div class="youhui_pic youhui_pic1" style="display: <{if $config.module5.class==1 || !$config.module2.class}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic1.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+				</div>
+				<div class="youhui_pic youhui_pic1" style="display: <{if $config.module5.class==2}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic2.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+				</div>
+				<div class="youhui_pic youhui_pic3" style="display: <{if $config.module5.class==3}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic3.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+				</div>
+				<div class="youhui_pic youhui_pic4" style="display: <{if $config.module5.class==4}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic4.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+				</div>
+				<div class="youhui_pic youhui_pic5" style="display: <{if $config.module5.class==5}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic5.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+					<div class="setPub_num setPub_num5">5</div>
+				</div>
+				<div class="youhui_pic youhui_pic6" style="display: <{if $config.module5.class==6}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic6.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+					<div class="setPub_num setPub_num5">5</div>
+				</div>
+				<div class="youhui_pic youhui_pic7" style="display: <{if $config.module5.class==7}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic7.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+					<div class="setPub_num setPub_num5">5</div>
+					<div class="setPub_num setPub_num6">6</div>
+					<div class="setPub_num setPub_num7">7</div>
+				</div>
+
+				<div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module5.background_color|default:''}>" name="config[module5][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+
+				<div class="setPub_box youhui_box1">
+					<div class="setPub_num">1</div>
+					<div class="setPub_bt">图片标题：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="setPub_list_box">
+							<div class="setPub_list">
+								<div class="line_box mb20" style="width: 346px; height: 40px; overflow:hidden;">
+									<div class="tip">
+										<p>选择图片</p>
+									</div>
+									<div class="clipView" width="750" height="80"></div>
+									<img src="<{$config.module5.photo}>" style="max-height:40px;">
+					                <input type="hidden" name="config[module5][photo]" value="<{$config.module5.photo}>">
+								</div>
+								<div class="line_txt" style="width: 346px;">尺寸750*80</div>
+								<div class="link_box">
+									<h5>跳转链接：</h5>
+									<div class="inp_box">
+										<input type="text" class="inp" readonly id="module5_link" name="config[module5][link]" value="<{$config.module5.link}>">
+										<input type="hidden" class="inp" id="module5_wxlink" name="config[module5][wxlink]" value="<{$config.module5.wxlink}>">
+										<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_link,#module5_wxlink/N/选择链接" class="btn-primary-line" width="mini:500"}>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			
+				<div class="module5_style1 module5_styles" style="display: <{if $config.module5.class==1 || !$config.module5.class}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box" id="module5_youhui1_box">
+							<{foreach $config.module5.content[1] as $k=>$v}>
+								<div class="setPub_list">
+									<{if $k!=0}><div class="del"></div><{/if}>
+									<div class="sort">拖动排序<i></i></div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="240" height="320"></div>
+											<img src="<{$v.photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][1][photo][]" value="<{$v.photo}>">
+										</div>
+										<div class="line_txt">尺寸240*320</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class1_link_<{$k}>" name="config[module5][content][1][link][]" value="<{$v.link}>">
+												<input type="hidden" class="inp" id="module5_content_class1_wxlink_<{$k}>" name="config[module5][content][1][wxlink][]" value="<{$v.wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class1_link_<{$k}>,#module5_content_class1_wxlink_<{$k}>/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							<{foreachelse}>
+								<div class="setPub_list">
+									<div class="sort">拖动排序<i></i></div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="240" height="320"></div>
+											<img src="" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][1][photo][]" value="">
+										</div>
+										<div class="line_txt">尺寸240*320</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class1_link_0" name="config[module5][content][1][link][]" value="">
+												<input type="hidden" class="inp" id="module5_content_class1_wxlink_0" name="config[module5][content][1][wxlink][]" value="">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class1_link_0,#module5_content_class1_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							<{/foreach}>
+							</div>								
+							<div class="setPub_add_btn" id="module5_youhui1Add"><i class="fa fa-plus"></i>添加内容</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style2 module5_styles" style="display: <{if $config.module5.class==2}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box" id="module5_youhui2_box">
+								<div class="setPub_list">
+									<!-- <div class="del"></div>
+									<div class="sort">拖动排序<i></i></div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[2][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][2][photo][]" value="<{$config.module5.content[2][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class2_link_0" name="config[module5][content][2][link][]" value="<{$config.module5.content[2][0].link}>">
+												<input type="hidden" class="inp" id="module5_content_class2_wxlink_0" name="config[module5][content][2][wxlink][]" value="<{$config.module5.content[2][0].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class2_link_0,#module5_content_class2_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list">
+									<!-- <div class="del"></div>
+									<div class="sort">拖动排序<i></i></div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[2][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][2][photo][]" value="<{$config.module5.content[2][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class2_link_1" name="config[module5][content][2][link][]" value="<{$config.module5.content[2][1].link}>">
+												<input type="hidden" class="inp" id="module5_content_class2_wxlink_1" name="config[module5][content][2][wxlink][]" value="<{$config.module5.content[2][1].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class2_link_1,#module5_content_class2_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>		
+							</div>
+							<!-- <div class="setPub_add_btn" id="module_youhui2Add"><i class="fa fa-plus"></i>添加内容</div> -->
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style3 module5_styles" style="display: <{if $config.module5.class==3}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="del"></div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="702" height="224"></div>
+											<img src="<{$config.module5.content[3][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][3][photo][]" value="<{$config.module5.content[3][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸702*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp mb10" readonly id="module5_content_class3_link_0" name="config[module5][content][3][link][]" value="<{$config.module5.content[3][0].link}>">
+												<input type="hidden" class="inp" id="module5_content_class3_wxlink_0" name="config[module5][content][3][wxlink][]" value="<{$config.module5.content[3][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module5_content_class3_wxlink_0" name="config[module5][content][3][wxlink][]" value="<{$config.module5.content[0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class3_link_0,#module5_content_class3_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style4 module5_styles" style="display: <{if $config.module5.class==4}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="456"></div>
+											<img src="<{$config.module5.content[4][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][4][photo][]" value="<{$config.module5.content[4][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*456</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class4_link_0" name="config[module5][content][4][link][]" value="<{$config.module5.content[4][0].link}>">
+												<input type="hidden" class="inp" id="module5_content_class4_wxlink_0" name="config[module5][content][4][wxlink][]" value="<{$config.module5.content[4][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class4_wxlink_0" name="config[module5][content][4][wxlink][]" value="<{$config.module5.content[4][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class4_link_0,#module5_content_class4_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[4][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][4][photo][]" value="<{$config.module5.content[4][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class4_link_1" name="config[module5][content][4][link][]" value="<{$config.module5.content[4][1].link}>">
+												<input type="hidden" class="inp" id="module5_content_class4_wxlink_1" name="config[module5][content][4][wxlink][]" value="<{$config.module5.content[4][1].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_wxlink_1" name="config[module5][content][4][wxlink][]" value="<{$config.module5.content[4][1].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class4_link_1,#module5_content_class4_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[4][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][4][photo][]" value="<{$config.module5.content[4][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class4_link_2" name="config[module5][content][4][link][]" value="<{$config.module5.content[4][2].link}>">
+												<input type="hidden" class="inp" id="module5_content_class4_wxlink_2" name="config[module5][content][4][wxlink][]" value="<{$config.module5.content[4][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class4_wxlink_2" name="config[module5][content][4][wxlink][]" value="<{$config.module5.content[4][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class4_link_2,#module5_content_class4_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style5 module5_styles" style="display: <{if $config.module5.class==5}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[5][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][5][photo][]" value="<{$config.module5.content[5][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_link_0" name="config[module5][content][5][link][]" value="<{$config.module5.content[5][0].link}>">
+												<input type="hidden" class="inp" id="module5_content_class5_wxlink_0" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_wxlink_0" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class5_link_0,#module5_content_class5_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[5][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][5][photo][]" value="<{$config.module5.content[5][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_link_1" name="config[module5][content][5][link][]" value="<{$config.module5.content[5][1].link}>">
+												<input type="hidden" class="inp" id="module5_content_class5_wxlink_1" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][1].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_wxlink_1" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][1].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class5_link_1,#module5_content_class5_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[5][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][5][photo][]" value="<{$config.module5.content[5][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_link_2" name="config[module5][content][5][link][]" value="<{$config.module5.content[5][2].link}>">
+												<input type="hidden" class="inp" id="module5_content_class5_wxlink_2" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_wxlink_2" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class5_link_2,#module5_content_class5_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[5][3].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][5][photo][]" value="<{$config.module5.content[5][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_link_3" name="config[module5][content][5][link][]" value="<{$config.module5.content[5][3].link}>">
+												<input type="hidden" class="inp" id="module5_content_class5_wxlink_3" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][3].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class5_wxlink_3" name="config[module5][content][5][wxlink][]" value="<{$config.module5.content[5][3].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class5_link_3,#module5_content_class5_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style6 module5_styles" style="display: <{if $config.module5.class==6}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="702" height="224"></div>
+											<img src="<{$config.module5.content[6][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][6][photo][]" value="<{$config.module5.content[6][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸702*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_link_0" name="config[module5][content][6][link][]" value="<{$config.module5.content[6][0].link}>">
+												<input type="hidden" class="inp" id="module5_content_class6_wxlink_0" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_wxlink_0" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class6_link_0,#module5_content_class6_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[6][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][6][photo][]" value="<{$config.module5.content[6][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_link_1" name="config[module5][content][6][link][]" value="<{$config.module5.content[6][1].link}>">
+												<input type="hidden" class="inp" id="module5_content_class6_wxlink_1" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][1].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_wxlink_1" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][1].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class6_link_1,#module5_content_class6_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module5.content[6][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][6][photo][]" value="<{$config.module5.content[6][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_link_2" name="config[module5][content][6][link][]" value="<{$config.module5.content[6][2].link}>">
+												<input type="hidden" class="inp" id="module5_content_class6_wxlink_2" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_wxlink_2" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class6_link_2,#module5_content_class6_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module5.content[6][3].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][6][photo][]" value="<{$config.module5.content[6][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_link_3" name="config[module5][content][6][link][]" value="<{$config.module5.content[6][3].link}>">
+												<input type="hidden" class="inp" id="module5_content_class6_wxlink_3" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][3].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class6_wxlink_3" name="config[module5][content][6][wxlink][]" value="<{$config.module5.content[6][3].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class6_link_3,#module5_content_class6_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style7 module5_styles" style="display: <{if $config.module5.class==7}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[7][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][7][photo][]" value="<{$config.module5.content[7][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_link_0" name="config[module5][content][7][link][]" value="<{$config.module5.content[7][0].link}>">
+												<input type="hidden" class="inp" id="module5_content_class7_wxlink_0" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_wxlink_0" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class7_link_0,#module5_content_class7_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module5.content[7][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][7][photo][]" value="<{$config.module5.content[7][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_link_1" name="config[module5][content][7][link][]" value="<{$config.module5.content[7][1].link}>">
+												<input type="hidden" class="inp" id="module5_content_class7_wxlink_1" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][1].link}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_wxlink_1" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][1].link}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class7_link_1,#module5_content_class7_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module5.content[7][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][7][photo][]" value="<{$config.module5.content[7][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_link_2" name="config[module5][content][7][link][]" value="<{$config.module5.content[7][2].link}>">
+												<input type="hidden" class="inp" id="module5_content_class7_wxlink_2" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_wxlink_2" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class7_link_2,#module5_content_class7_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module5.content[7][3].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][7][photo][]" value="<{$config.module5.content[7][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_link_3" name="config[module5][content][7][link][]" value="<{$config.module5.content[7][3].link}>">
+												<input type="hidden" class="inp" id="module5_content_class7_wxlink_3" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][3].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_wxlink_3" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][3].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class7_link_3,#module5_content_class7_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">6</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module5.content[7][4].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][7][photo][]" value="<{$config.module5.content[7][4].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_link_4" name="config[module5][content][7][link][]" value="<{$config.module5.content[7][4].link}>">
+												<input type="hidden" class="inp" id="module5_content_class7_wxlink_4" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][4].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_wxlink_4" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][4].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class7_link_4,#module5_content_class7_wxlink_4/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">7</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module5.content[7][5].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module5][content][7][photo][]" value="<{$config.module5.content[7][5].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_link_5" name="config[module5][content][7][link][]" value="<{$config.module5.content[7][5].link}>">
+												<input type="hidden" class="inp" id="module5_content_class7_wxlink_5" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][5].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module5_content_class7_wxlink_5" name="config[module5][content][7][wxlink][]" value="<{$config.module5.content[7][5].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class7_link_5,#module5_content_class7_wxlink_5/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+				
+				<div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+			</form>
+
+			<!-- 设置优惠专区（二） -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module6" method="post" id="module6" class="module_box module5" style="display: none;">
+				<div class="selectStyle">
+					<div class="setPub_box">
+						<div class="setPub_bt">选择样式：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="radiao_box">
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="1" <{if $config.module6.class==1 || !$config.module6.class}>checked="checked"<{/if}>>样式一</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="2" <{if $config.module6.class==2}>checked="checked"<{/if}>>样式二</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="3" <{if $config.module6.class==3}>checked="checked"<{/if}>>样式三</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="4" <{if $config.module6.class==4}>checked="checked"<{/if}>>样式四</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="5" <{if $config.module6.class==5}>checked="checked"<{/if}>>样式五</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="6" <{if $config.module6.class==6}>checked="checked"<{/if}>>样式六</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module6][class]" value="7" <{if $config.module6.class==7}>checked="checked"<{/if}>>样式七</label>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>						
+				</div>
+			
+				<div class="youhui_pic youhui_pic1" style="display: <{if $config.module6.class==1 || !$config.module2.class}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic1.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+				</div>
+				<div class="youhui_pic youhui_pic1" style="display: <{if $config.module6.class==2}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic2.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+				</div>
+				<div class="youhui_pic youhui_pic3" style="display: <{if $config.module6.class==3}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic3.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+				</div>
+				<div class="youhui_pic youhui_pic4" style="display: <{if $config.module6.class==4}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic4.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+				</div>
+				<div class="youhui_pic youhui_pic5" style="display: <{if $config.module6.class==5}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic5.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+					<div class="setPub_num setPub_num5">5</div>
+				</div>
+				<div class="youhui_pic youhui_pic6" style="display: <{if $config.module6.class==6}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic6.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+					<div class="setPub_num setPub_num5">5</div>
+				</div>
+				<div class="youhui_pic youhui_pic7" style="display: <{if $config.module6.class==7}>block<{else}>none<{/if}>;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/yh_pic7.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+					<div class="setPub_num setPub_num1">1</div>
+					<div class="setPub_num setPub_num2">2</div>
+					<div class="setPub_num setPub_num3">3</div>
+					<div class="setPub_num setPub_num4">4</div>
+					<div class="setPub_num setPub_num5">5</div>
+					<div class="setPub_num setPub_num6">6</div>
+					<div class="setPub_num setPub_num7">7</div>
+				</div>
+
+				<div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module6.background_color|default:''}>" name="config[module6][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+
+				<div class="setPub_box youhui_box1">
+					<div class="setPub_num">1</div>
+					<div class="setPub_bt">图片标题：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="setPub_list_box">
+							<div class="setPub_list">
+								<div class="line_box mb20" style="width: 346px; height: 40px;">
+									<div class="tip">
+										<p>选择图片</p>
+									</div>
+									<div class="clipView" width="750" height="80"></div>
+									<img src="<{$config.module6.photo}>" style="width: 100%;">
+					                <input type="hidden" name="config[module6][photo]" value="<{$config.module6.photo}>">
+								</div>
+								<div class="line_txt" style="width: 346px;">尺寸750*80</div>
+								<div class="link_box">
+									<h5>跳转链接：</h5>
+									<div class="inp_box">
+										<input type="text" class="inp" readonly id="module6_link" name="config[module6][link]" value="<{$config.module6.link}>">
+										<input type="hidden" class="inp" id="module6_wxlink" name="config[module6][wxlink]" value="<{$config.module6.wxlink}>">
+										<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_link,#module6_wxlink/N/选择链接" class="btn-primary-line" width="mini:500"}>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				
+				<div class="module5_style1 module6_styles" style="display: <{if $config.module6.class==1 || !$config.module6.class}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box" id="module6_youhui1_box">
+							<{foreach $config.module6.content[1] as $k=>$v}>
+								<div class="setPub_list">
+									<{if $k!=0}><div class="del"></div><{/if}>
+									<div class="sort">拖动排序<i></i></div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="240" height="320"></div>
+											<img src="<{$v.photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][1][photo][]" value="<{$v.photo}>">
+										</div>
+										<div class="line_txt">尺寸240*320</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class1_link_<{$k}>" name="config[module6][content][1][link][]" value="<{$v.link}>">
+												<input type="hidden" class="inp" id="module6_content_class1_wxlink_<{$k}>" name="config[module6][content][1][wxlink][]" value="<{$v.wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class1_link_<{$k}>,#module6_content_class1_wxlink_<{$k}>/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							<{foreachelse}>
+								<div class="setPub_list">
+									<div class="sort">拖动排序<i></i></div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="240" height="320"></div>
+											<img src="" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][1][photo][]" value="">
+										</div>
+										<div class="line_txt">尺寸240*320</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class1_link_0" name="config[module6][content][1][link][]" value="">
+												<input type="hidden" class="inp" id="module6_content_class1_wxlink_0" name="config[module6][content][1][wxlink][]" value="">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class1_link_0,#module6_content_class1_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							<{/foreach}>
+							</div>
+							<div class="setPub_add_btn" id="module6_youhui1Add"><i class="fa fa-plus"></i>添加内容</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style2 module6_styles" style="display: <{if $config.module6.class==2}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box" id="module6_youhui2_box">
+								<div class="setPub_list">
+									<!-- <div class="del"></div>
+									<div class="sort">拖动排序<i></i></div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[2][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][2][photo][]" value="<{$config.module6.content[2][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class2_link_0" name="config[module6][content][2][link][]" value="<{$config.module6.content[2][0].link}>">
+												<input type="hidden" class="inp" id="module6_content_class2_wxlink_0" name="config[module6][content][2][wxlink][]" value="<{$config.module6.content[2][0].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class2_link_0,#module6_content_class2_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list">
+									<!-- <div class="del"></div>
+									<div class="sort">拖动排序<i></i></div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[2][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][2][photo][]" value="<{$config.module6.content[2][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class2_link_1" name="config[module6][content][2][link][]" value="<{$config.module6.content[2][1].link}>">
+												<input type="hidden" class="inp" id="module6_content_class2_wxlink_1" name="config[module6][content][2][wxlink][]" value="<{$config.module6.content[2][1].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class2_link_1,#module6_content_class2_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>		
+							</div>
+							<!-- <div class="setPub_add_btn" id="module_youhui2Add"><i class="fa fa-plus"></i>添加内容</div> -->
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style3 module6_styles" style="display: <{if $config.module6.class==3}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="del"></div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="702" height="224"></div>
+											<img src="<{$config.module6.content[3][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][3][photo][]" value="<{$config.module6.content[3][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸702*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp mb10" readonly id="module6_content_class3_link_0" name="config[module6][content][3][link][]" value="<{$config.module6.content[3][0].link}>">
+												<input type="hidden" class="inp" id="module6_content_class3_wxlink_0" name="config[module6][content][3][wxlink][]" value="<{$config.module6.content[3][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class3_wxlink_0" name="config[module6][content][3][wxlink][]" value="<{$config.module6.content[3][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class3_link_0,#module6_content_class3_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style4 module6_styles" style="display: <{if $config.module6.class==4}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="456"></div>
+											<img src="<{$config.module6.content[4][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][4][photo][]" value="<{$config.module6.content[4][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*456</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class4_link_0" name="config[module6][content][4][link][]" value="<{$config.module6.content[4][0].link}>">
+												<input type="hidden" class="inp" id="module6_content_class4_wxlink_0" name="config[module6][content][4][wxlink][]" value="<{$config.module6.content[4][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class4_wxlink_0" name="config[module6][content][4][wxlink][]" value="<{$config.module6.content[4][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class4_link_0,#module6_content_class4_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[4][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][4][photo][]" value="<{$config.module6.content[4][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class4_link_1" name="config[module6][content][4][link][]" value="<{$config.module6.content[4][1].link}>">
+												<input type="hidden" class="inp" id="module6_content_class4_wxlink_1" name="config[module6][content][4][wxlink][]" value="<{$config.module6.content[4][1].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_wxlink_1" name="config[module6][content][4][wxlink][]" value="<{$config.module6.content[4][1].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class4_link_1,#module6_content_class4_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[4][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][4][photo][]" value="<{$config.module6.content[4][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class4_link_2" name="config[module6][content][4][link][]" value="<{$config.module6.content[4][2].link}>">
+												<input type="hidden" class="inp" id="module6_content_class4_wxlink_2" name="config[module6][content][4][wxlink][]" value="<{$config.module6.content[4][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class4_wxlink_2" name="config[module6][content][4][wxlink][]" value="<{$config.module6.content[4][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class4_link_2,#module6_content_class4_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style5 module6_styles" style="display: <{if $config.module6.class==5}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[5][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][5][photo][]" value="<{$config.module6.content[5][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_link_0" name="config[module6][content][5][link][]" value="<{$config.module6.content[5][0].link}>">
+												<input type="hidden" class="inp" id="module6_content_class5_wxlink_0" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_wxlink_0" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class5_link_0,#module6_content_class5_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[5][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][5][photo][]" value="<{$config.module6.content[5][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_link_1" name="config[module6][content][5][link][]" value="<{$config.module6.content[5][1].link}>">
+												<input type="hidden" class="inp" id="module6_content_class5_wxlink_1" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][1].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_wxlink_1" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][1].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class5_link_1,#module6_content_class5_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[5][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][5][photo][]" value="<{$config.module6.content[5][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_link_2" name="config[module6][content][5][link][]" value="<{$config.module6.content[5][2].link}>">
+												<input type="hidden" class="inp" id="module6_content_class5_wxlink_2" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_wxlink_2" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class5_link_2,#module6_content_class5_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[5][3].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][5][photo][]" value="<{$config.module6.content[5][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_link_3" name="config[module6][content][5][link][]" value="<{$config.module6.content[5][3].link}>">
+												<input type="hidden" class="inp" id="module6_content_class5_wxlink_3" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][3].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class5_wxlink_3" name="config[module6][content][5][wxlink][]" value="<{$config.module6.content[5][3].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class5_link_3,#module6_content_class5_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style6 module6_styles" style="display: <{if $config.module6.class==6}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="702" height="224"></div>
+											<img src="<{$config.module6.content[6][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][6][photo][]" value="<{$config.module6.content[6][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸702*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_link_0" name="config[module6][content][6][link][]" value="<{$config.module6.content[6][0].link}>">
+												<input type="hidden" class="inp" id="module6_content_class6_wxlink_0" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_wxlink_0" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class6_link_0,#module6_content_class6_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[6][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][6][photo][]" value="<{$config.module6.content[6][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_link_1" name="config[module6][content][6][link][]" value="<{$config.module6.content[6][1].link}>">
+												<input type="hidden" class="inp" id="module6_content_class6_wxlink_1" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][1].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_wxlink_1" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][1].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class6_link_1,#module6_content_class6_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module6.content[6][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][6][photo][]" value="<{$config.module6.content[6][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_link_2" name="config[module6][content][6][link][]" value="<{$config.module6.content[6][2].link}>">
+												<input type="hidden" class="inp" id="module6_content_class6_wxlink_2" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_wxlink_2" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class6_link_2,#module6_content_class6_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module6.content[6][3].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][6][photo][]" value="<{$config.module6.content[6][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_link_3" name="config[module6][content][6][link][]" value="<{$config.module6.content[6][3].link}>">
+												<input type="hidden" class="inp" id="module6_content_class6_wxlink_3" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][3].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class6_wxlink_3" name="config[module6][content][6][wxlink][]" value="<{$config.module6.content[6][3].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class6_link_3,#module6_content_class6_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module5_style7 module6_styles" style="display: <{if $config.module6.class==7}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[7][0].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][7][photo][]" value="<{$config.module6.content[7][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_link_0" name="config[module6][content][7][link][]" value="<{$config.module6.content[7][0].link}>">
+												<input type="hidden" class="inp" id="module6_content_class7_wxlink_0" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][0].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_wxlink_0" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][0].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class7_link_0,#module6_content_class7_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="358" height="224"></div>
+											<img src="<{$config.module6.content[7][1].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][7][photo][]" value="<{$config.module6.content[7][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸358*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_link_1" name="config[module6][content][7][link][]" value="<{$config.module6.content[7][1].link}>">
+												<input type="hidden" class="inp" id="module6_content_class7_wxlink_1" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][1].link}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_wxlink_1" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][1].link}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class7_link_1,#module6_content_class7_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module6.content[7][2].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][7][photo][]" value="<{$config.module6.content[7][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_link_2" name="config[module6][content][7][link][]" value="<{$config.module6.content[7][2].link}>">
+												<input type="hidden" class="inp" id="module6_content_class7_wxlink_2" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][2].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_wxlink_2" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][2].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class7_link_2,#module6_content_class7_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module6.content[7][3].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][7][photo][]" value="<{$config.module6.content[7][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_link_3" name="config[module6][content][7][link][]" value="<{$config.module6.content[7][3].link}>">
+												<input type="hidden" class="inp" id="module6_content_class7_wxlink_3" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][3].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_wxlink_3" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][3].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class7_link_3,#module6_content_class7_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">6</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module6.content[7][4].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][7][photo][]" value="<{$config.module6.content[7][4].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_link_4" name="config[module6][content][7][link][]" value="<{$config.module6.content[7][4].link}>">
+												<input type="hidden" class="inp" id="module6_content_class7_wxlink_4" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][4].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_wxlink_4" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][4].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class7_link_4,#module6_content_class7_wxlink_4/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">7</div>
+									<div class="pic">
+										<div class="line_box" style="height: 144px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="170" height="224"></div>
+											<img src="<{$config.module6.content[7][5].photo}>" style="width: 100%;">
+					                        <input type="hidden" name="config[module6][content][7][photo][]" value="<{$config.module6.content[7][5].photo}>">
+										</div>
+										<div class="line_txt">尺寸170*224</div>
+									</div>
+									<div class="wz_box">
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_link_5" name="config[module6][content][7][link][]" value="<{$config.module6.content[7][5].link}>">
+												<input type="hidden" class="inp" id="module6_content_class7_wxlink_5" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][5].wxlink}>">
+											</div>
+											<!-- <h5>微信链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module6_content_class7_wxlink_5" name="config[module6][content][7][wxlink][]" value="<{$config.module6.content[7][5].wxlink}>">
+											</div> -->
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class7_link_5,#module6_content_class7_wxlink_5/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+				
+				<div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+			</form>
+
+			<!-- 设置大牌甄选 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module7" method="post" id="module7" class="module_box module7" style="display: none;">
+				<div class="selectStyle">
+					<div class="setPub_box">
+						<div class="setPub_bt">选择样式：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<div class="radiao_box">
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module7][class]" value="1" <{if $config.module7.class==1 || !$config.module7.class}>checked="checked"<{/if}>>样式一</label>
+								<label class="mr20"><input type="radio" class="setPub_radiao mr5" name="config[module7][class]" value="2" <{if $config.module7.class==2}>checked="checked"<{/if}>>样式二</label>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+					<div class="stylePic" style="margin-left: 94px;">
+						<div class="list mt20 mb20" style="display: <{if $config.module7.class==1 || !$config.module7.class}>block<{else}>none<{/if}>;">
+							<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/dp_pic1.png">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+						</div>
+
+						<div class="list mt20 mb20" style="display: <{if $config.module7.class==2}>block<{else}>none<{/if}>;">
+							<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/dp_pic2.png">
+								<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+							</div>
+						</div>
+					</div>					
+				</div>
+
+				<div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module7.background_color|default:''}>" name="config[module7][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+				
+				<div class="setPub_box">
+					<div class="setPub_bt">标题内容：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="setPub_list youhui_box2">
+							<div class="setPub_num">1</div>
+							<div class="line_box mb20" style="width: 346px; height: 40px;">
+								<div class="tip">
+									<p>选择图片</p>
+								</div>
+								<div class="clipView" width="750" height="80"></div>
+								<img src="<{$config.module7.photo}>" style="width: 100%;" id="module7_photo">
+				                <input type="hidden" id="module7_photo" name="config[module7][photo]" value="<{$config.module7.photo}>">
+							</div>
+							<div class="line_txt" style="width: 346px;">尺寸750*80</div>
+							<div class="link_box">
+								<h5>跳转链接：</h5>
+								<div class="inp_box">
+									<input type="text" class="inp" readonly id="module7_link" name="config[module7][link]" value="<{$config.module7.link}>">
+									<input type="hidden" class="inp" id="module7_wxlink" name="config[module7][wxlink]" value="<{$config.module7.wxlink}>">
+									<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_link,#module7_wxlink/N/选择链接" class="btn-primary-line ml10" width="mini:500"}>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+
+				<div class="module7_style1 module7_styles" style="display: <{if $config.module7.class==1 || !$config.module7.class}>block<{else}>none<{/if}>;">												
+					<div class="setPub_box">
+						<div class="setPub_bt">编辑内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<!-- <div class="bgColor_txt mb20" style="padding-top: 10px;">选择商家后，图片，名称，链接将会自动填充。您还可以对其进行修改。跳转链接不局限于商家。</div> -->
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class1_link_0,#module7_content_class1_wxlink_0,#module7_content_class1_title_0,#module7_content_class1_photo_0,#module7_content_class1_img_0/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									
+									<div class="pic">
+										<div class="line_box" style="height: 94px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="136" height="136"></div>
+				                            <img src="<{$config.module7.content[1][0].photo}>" style="width: 100%;" id="module7_content_class1_img_0">
+				                            <input type="hidden" id="module7_content_class1_photo_0" name="config[module7][content][1][photo][]" value="<{$config.module7.content[1][0].photo}>">
+										</div>
+										<div class="line_txt">尺寸136*136</div>
+									</div>
+									<div class="wz_box">
+										<!-- <div class="link_box">
+											<h5>名称：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module7_content_class1_title_0" name="config[module7][content][1][title][]" value="<{$config.module7.content[1][0].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module7_content_class1_link_0" name="config[module7][content][1][link][]" value="<{$config.module7.content[1][0].link}>">
+												<input type="hidden" class="inp" id="module7_content_class1_wxlink_0" name="config[module7][content][1][wxlink][]" value="<{$config.module7.content[1][0].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class1_link_0,#module7_content_class1_wxlink_0/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>	
+								<div class="setPub_list youhui_box2">
+									<!-- <div class="setPub_num">3</div>
+									<{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class1_link_1,#module7_content_class1_wxlink_1,#module7_content_class1_title_1,#module7_content_class1_photo_1,#module7_content_class1_img_1/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									
+									<div class="pic">
+										<div class="line_box" style="height: 94px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="136" height="136"></div>
+				                            <img src="<{$config.module7.content[1][1].photo}>" style="width: 100%;" id="module7_content_class1_img_1">
+				                            <input type="hidden" id="module7_content_class1_photo_1" name="config[module7][content][1][photo][]" value="<{$config.module7.content[1][1].photo}>">
+										</div>
+										<div class="line_txt">尺寸136*136</div>
+									</div>
+									<div class="wz_box">
+										<!-- <div class="link_box">
+											<h5>名称：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module7_content_class1_title_1" name="config[module7][content][1][title][]" value="<{$config.module7.content[1][1].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module7_content_class1_link_1" name="config[module7][content][1][link][]" value="<{$config.module7.content[1][1].link}>">
+												<input type="hidden" class="inp" id="module7_content_class1_wxlink_1" name="config[module7][content][1][wxlink][]" value="<{$config.module7.content[1][1].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class1_link_1,#module7_content_class1_wxlink_1/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class1_link_2,#module7_content_class1_wxlink_2,#module7_content_class1_title_2,#module7_content_class1_photo_2,#module7_content_class1_img_2/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									
+									<div class="pic">
+										<div class="line_box" style="height: 94px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="136" height="136"></div>
+				                            <img src="<{$config.module7.content[1][2].photo}>" style="width: 100%;" id="module7_content_class1_img_2">
+				                            <input type="hidden" id="module7_content_class1_photo_2" name="config[module7][content][1][photo][]" value="<{$config.module7.content[1][2].photo}>">
+										</div>
+										<div class="line_txt">尺寸136*136</div>
+									</div>
+									<div class="wz_box">
+										<!-- <div class="link_box">
+											<h5>名称：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module7_content_class1_title_2" name="config[module7][content][1][title][]" value="<{$config.module7.content[1][2].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module7_content_class1_link_2" name="config[module7][content][1][link][]" value="<{$config.module7.content[1][2].link}>">
+												<input type="hidden" class="inp" id="module7_content_class1_wxlink_2" name="config[module7][content][1][wxlink][]" value="<{$config.module7.content[1][2].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class1_link_2,#module7_content_class1_wxlink_2/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class1_link_3,#module7_content_class1_wxlink_3,#module7_content_class1_title_3,#module7_content_class1_photo_3,#module7_content_class1_img_3/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<!-- <div class="long_btn">选择商家</div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 94px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="136" height="136"></div>
+				                            <img src="<{$config.module7.content[1][3].photo}>" style="width: 100%;" id="module7_content_class1_img_3">
+				                            <input type="hidden" id="module7_content_class1_photo_3" name="config[module7][content][1][photo][]" value="<{$config.module7.content[1][3].photo}>">
+										</div>
+										<div class="line_txt">尺寸136*136</div>
+									</div>
+									<div class="wz_box">
+										<!-- <div class="link_box">
+											<h5>名称：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module7_content_class1_title_3" name="config[module7][content][1][title][]" value="<{$config.module7.content[1][3].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module7_content_class1_link_3" name="config[module7][content][1][link][]" value="<{$config.module7.content[1][3].link}>">
+												<input type="hidden" class="inp" id="module7_content_class1_wxlink_3" name="config[module7][content][1][wxlink][]" value="<{$config.module7.content[1][3].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class1_link_3,#module7_content_class1_wxlink_3/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">6</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class1_link_44,#module7_content_class1_wxlink_4,#module7_content_class1_title_4,#module7_content_class1_photo_4,#module7_content_class1_img_4/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<!-- <div class="long_btn">选择商家</div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 94px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="136" height="136"></div>
+				                            <img src="<{$config.module7.content[1][4].photo}>" style="width: 100%;" id="module7_content_class1_img_4">
+				                            <input type="hidden" id="module7_content_class1_photo_4" name="config[module7][content][1][photo][]" value="<{$config.module7.content[1][4].photo}>">
+										</div>
+										<div class="line_txt">尺寸136*136</div>
+									</div>
+									<div class="wz_box">
+										<!-- <div class="link_box">
+											<h5>名称：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module7_content_class1_title_4" name="config[module7][content][1][title][]" value="<{$config.module7.content[1][4].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module7_content_class1_link_4" name="config[module7][content][1][link][]" value="<{$config.module7.content[1][4].link}>">
+												<input type="hidden" class="inp" id="module7_content_class1_wxlink_4" name="config[module7][content][1][wxlink][]" value="<{$config.module7.content[1][4].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class1_link_4,#module7_content_class1_wxlink_4/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">7</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class1_link_5,#module7_content_class1_wxlink_5,#module7_content_class1_title_5,#module7_content_class1_photo_5,#module7_content_class1_img_5/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<!-- <div class="long_btn">选择商家</div> -->
+									<div class="pic">
+										<div class="line_box" style="height: 94px;">
+											<div class="tip">选择图片</div>
+											<div class="clipView" width="136" height="136"></div>
+				                            <img src="<{$config.module7.content[1][5].photo}>" style="width: 100%;" id="module7_content_class1_img_5">
+				                            <input type="hidden" id="module7_content_class1_photo_5" name="config[module7][content][1][photo][]" value="<{$config.module7.content[1][5].photo}>">
+										</div>
+										<div class="line_txt">尺寸136*136</div>
+									</div>
+									<div class="wz_box">
+										<!-- <div class="link_box">
+											<h5>名称：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" id="module7_content_class1_title_5" name="config[module7][content][1][title][]" value="<{$config.module7.content[1][5].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<h5>跳转链接：</h5>
+											<div class="inp_box">
+												<input type="text" class="inp" readonly id="module7_content_class1_link_5" name="config[module7][content][1][link][]" value="<{$config.module7.content[1][5].link}>">
+												<input type="hidden" class="inp" id="module7_content_class1_wxlink_5" name="config[module7][content][1][wxlink][]" value="<{$config.module7.content[1][5].wxlink}>">
+											</div>
+											<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class1_link_5,#module7_content_class1_wxlink_5/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>
+										</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>
+			
+				<div class="module7_style2 module7_styles" style="display: <{if $config.module7.class==2}>block<{else}>none<{/if}>;">
+					<div class="setPub_box">
+						<div class="setPub_bt">编辑内容：</div>
+						<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+							<!-- <div class="bgColor_txt mb20" style="padding-top: 10px;">选择商家后，图片，名称，链接将会自动填充。您还可以对其进行修改。跳转链接不局限于商家。</div> -->
+							<div class="setPub_list_box">
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">2</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class2_link_0,#module7_content_class2_wxlink_0,#module7_content_class2_title_0,#module7_content_class2_logo_0,#module7_content_class2_img_0/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<div class="dp_box">
+										<!-- <div class="logo">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">商家LOGO</div>
+												<div class="clipView" width="88" height="88"></div>
+					                            <img src="<{$config.module7.content[2][0].logo}>" style="width: 100%;" id="module7_content_class2_img_0">
+					                            <input type="hidden" id="module7_content_class2_logo_0" name="config[module7][content][2][logo][]" value="<{$config.module7.content[2][0].logo}>">
+											</div>
+											<div class="line_txt">尺寸88*88</div>
+										</div> -->
+										<div class="img">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">上传图片</div>
+												<div class="clipView" width="342" height="220"></div>
+					                            <img src="<{$config.module7.content[2][0].photo}>" style="width: 100%;">
+					                            <input type="hidden" name="config[module7][content][2][photo][]" value="<{$config.module7.content[2][0].photo}>">
+											</div>
+											<div class="line_txt">尺寸342*220</div>
+										</div>
+									</div>
+									<div class="">
+										<!-- <div class="link_box">
+											<div class="inp_box">商家名称：
+												<input type="text" class="inp" id="module7_content_class2_title_0" name="config[module7][content][2][title][]" value="<{$config.module7.content[2][0].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<div class="inp_box">跳转链接：
+												<input type="text" class="inp" readonly id="module7_content_class2_link_0" name="config[module7][content][2][link][]" value="<{$config.module7.content[2][0].link}>">
+												<input type="hidden" class="inp" id="module7_content_class2_wxlink_0" name="config[module7][content][2][wxlink][]" value="<{$config.module7.content[2][0].wxlink}>">
+												<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class2_link_0,#module7_content_class2_wxlink_0/N/选择链接" class="btn-primary-line" width="mini:500"}>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">3</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class2_link_1,#module7_content_class2_wxlink_1,#module7_content_class2_title_1,#module7_content_class2_logo_1,#module7_content_class2_img_1/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<div class="dp_box">
+										<!-- <div class="logo">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">商家LOGO</div>
+												<div class="clipView" width="88" height="88"></div>
+					                            <img src="<{$config.module7.content[2][1].logo}>" style="width: 100%;" id="module7_content_class2_img_1">
+					                            <input type="hidden" id="module7_content_class2_logo_1" name="config[module7][content][2][logo][]" value="<{$config.module7.content[2][1].logo}>">
+											</div>
+											<div class="line_txt">尺寸88*88</div>
+										</div> -->
+										<div class="img">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">上传图片</div>
+												<div class="clipView" width="342" height="220"></div>
+					                            <img src="<{$config.module7.content[2][1].photo}>" style="width: 100%;">
+					                            <input type="hidden" name="config[module7][content][2][photo][]" value="<{$config.module7.content[2][1].photo}>">
+											</div>
+											<div class="line_txt">尺寸342*220</div>
+										</div>
+									</div>
+									<div class="">
+										<!-- <div class="link_box">
+											<div class="inp_box">商家名称：
+												<input type="text" class="inp" id="module7_content_class2_title_1" name="config[module7][content][2][title][]" value="<{$config.module7.content[2][1].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<div class="inp_box">跳转链接：
+												<input type="text" class="inp" readonly id="module7_content_class2_link_1" name="config[module7][content][2][link][]" value="<{$config.module7.content[2][1].link}>">
+												<input type="hidden" class="inp" id="module7_content_class2_wxlink_1" name="config[module7][content][2][wxlink][]" value="<{$config.module7.content[2][1].wxlink}>">
+												<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class2_link_1,#module7_content_class2_wxlink_1/N/选择链接" class="btn-primary-line" width="mini:500"}>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">4</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class2_link_2,#module7_content_class2_wxlink_2,#module7_content_class2_title_2,#module7_content_class2_logo_2,#module7_content_class2_img_2/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<div class="dp_box">
+										<!-- <div class="logo">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">商家LOGO</div>
+												<div class="clipView" width="88" height="88"></div>
+					                            <img src="<{$config.module7.content[2][2].logo}>" style="width: 100%;" id="module7_content_class2_img_2">
+					                            <input type="hidden" id="module7_content_class2_logo_2" name="config[module7][content][2][logo][]" value="<{$config.module7.content[2][2].logo}>">
+											</div>
+											<div class="line_txt">尺寸88*88</div>
+										</div> -->
+										<div class="img">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">上传图片</div>
+												<div class="clipView" width="342" height="220"></div>
+					                            <img src="<{$config.module7.content[2][2].photo}>" style="width: 100%;">
+					                            <input type="hidden" name="config[module7][content][2][photo][]" value="<{$config.module7.content[2][2].photo}>">
+											</div>
+											<div class="line_txt">尺寸342*220</div>
+										</div>
+									</div>
+									<div class="">
+										<!-- <div class="link_box">
+											<div class="inp_box">商家名称：
+												<input type="text" class="inp" id="module7_content_class2_title_2" name="config[module7][content][2][title][]" value="<{$config.module7.content[2][2].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<div class="inp_box">跳转链接：
+												<input type="text" class="inp" readonly id="module7_content_class2_link_2" name="config[module7][content][2][link][]" value="<{$config.module7.content[2][2].link}>">
+												<input type="hidden" class="inp" id="module7_content_class2_wxlink_2" name="config[module7][content][2][wxlink][]" value="<{$config.module7.content[2][2].wxlink}>">
+												<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class2_link_2,#module7_content_class2_wxlink_2/N/选择链接" class="btn-primary-line" width="mini:500"}>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="setPub_list youhui_box2">
+									<div class="setPub_num">5</div>
+									<!-- <{link ctl="adv/themes:dialog" title="选择商家" selectLink="mini:#module7_content_class2_link_3,#module7_content_class2_wxlink_3,#module7_content_class2_title_3,#module7_content_class2_logo_3,#module7_content_class2_img_3/N/选择商家" class="long_btn block" width="mini:500"}> -->
+									<div class="dp_box">
+										<!-- <div class="logo">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">商家LOGO</div>
+												<div class="clipView" width="88" height="88"></div>
+					                            <img src="<{$config.module7.content[2][3].logo}>" style="width: 100%;" id="module7_content_class2_img_3">
+					                            <input type="hidden" id="module7_content_class2_logo_3" name="config[module7][content][2][logo][]" value="<{$config.module7.content[2][3].logo}>">
+											</div>
+											<div class="line_txt">尺寸88*88</div>
+										</div> -->
+										<div class="img">
+											<div class="line_box" style="height: 90px;">
+												<div class="tip">上传图片</div>
+												<div class="clipView" width="342" height="220"></div>
+					                            <img src="<{$config.module7.content[2][3].photo}>" style="width: 100%;">
+					                            <input type="hidden" name="config[module7][content][2][photo][]" value="<{$config.module7.content[2][3].photo}>">
+											</div>
+											<div class="line_txt">尺寸342*220</div>
+										</div>
+									</div>
+									<div class="">
+										<!-- <div class="link_box">
+											<div class="inp_box">商家名称：
+												<input type="text" class="inp" id="module7_content_class2_title_3" name="config[module7][content][2][title][]" value="<{$config.module7.content[2][3].title}>">
+											</div>
+										</div> -->
+										<div class="link_box">
+											<div class="inp_box">跳转链接：
+												<input type="text" class="inp" readonly id="module7_content_class2_link_3" name="config[module7][content][2][link][]" value="<{$config.module7.content[2][3].link}>">
+												<input type="hidden" class="inp" id="module7_content_class2_wxlink_3" name="config[module7][content][2][wxlink][]" value="<{$config.module7.content[2][3].wxlink}>">
+												<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module7_content_class2_link_3,#module7_content_class2_wxlink_3/N/选择链接" class="btn-primary-line" width="mini:500"}>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>	
+				</div>				
+				<div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+			</form>
+
+			<!-- 设置单条广告 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module8" method="post" id="module8" class="module_box module8" style="display: none;">
+				<div class="mt20 mb20" style="margin-left: 94px;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/adv.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+				</div>	
+
+				<div class="setPub_box">
+		            <div class="setPub_bt">背景色：</div>
+		            <div class="setPub_nr" style="margin-left: 94px; width: 405px;">
+		                <div class="bgColor_box">		                   
+		                    <div class="change_box" style="display: ;">
+		                        <div style='text-align:left; margin: 20px 0;'>
+		                            <input type="hidden" class="fullColor" value="<{$config.module8.background_color|default:''}>" name="config[module8][background_color]"/>
+		                        </div>		                        
+		                    </div>
+		                    <div class="bgColor_txt">不上传或不选颜色默认使用透明背景</div>
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+
+				<div class="setPub_box">
+					<div class="setPub_bt">内容：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="setPub_list">
+							<div class="line_box" style="height: 100px;">
+								<div class="tip">
+									<p>选择图片</p>
+									<!-- <p>尺寸：702*176</p> -->
+								</div>
+								<div class="clipView" width="702" height="176"></div>
+	                            <img src="<{$config.module8.photo}>" style="width: 100%;">
+	                            <input type="hidden" name="config[module8][photo]" value="<{$config.module8.photo}>">
+							</div>
+							<div class="line_txt" style="width: 346px;">尺寸702*176</div>
+							<div class="link_box">
+								<h5>跳转链接：</h5>
+								<div class="inp_box">
+									<input type="text" class="inp" readonly id="module8_link" name="config[module8][link]" value="<{$config.module8.link}>">
+									<input type="hidden" class="inp" id="module8_wxlink" name="config[module8][wxlink]" value="<{$config.module8.wxlink}>">
+									<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module8_link,#module8_wxlink/N/选择链接" class="btn-primary-line ml10" width="mini:500"}>
+								</div>
+							</div>
+						</div>	
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+			</form>
+
+			<!-- 设置底部导航 -->
+			<form action="?adv/themes-editModule-<{$theme_id}>-module10" method="post" id="module10" class="module_box module10" style="display: none;">
+				<div class="mt20 mb20" style="margin-left: 120px;">
+					<div class="stylePic_box"><img src="<{$pager.url}>/images/adv/pageset/footer_pic.png">
+						<img src="<{$pager.url}>/images/adv/pageset/watermark.png" class="watermark">
+					</div>
+				</div>
+				<div class="setPub_box">
+					<div class="setPub_bt">按钮未选中文字颜色：</div>
+					<div class="setPub_nr" style="margin-left: 120px;">
+						<div style='margin: 20px 0;'>
+					    	<input type="hidden" id="full2" value="<{$config.module10.color_nochecked}>" name="config[module10][color_nochecked]"/>
+					    </div>
+					</div>
+				</div>
+				<div class="setPub_box">
+					<div class="setPub_bt">按钮已选中文字颜色：</div>
+					<div class="setPub_nr" style="margin-left: 120px;">
+						<div style='margin: 20px 0;'>
+					    	<input type="hidden" id="full3" value="<{$config.module10.color_checked}>" name="config[module10][color_checked]"/>
+					    </div>
+					</div>
+				</div>
+				<div class="setPub_box">
+					<div class="setPub_bt">内容：</div>
+					<div class="setPub_nr" style="margin-left: 94px; width: 410px;">
+						<div class="setPub_list youhui_box2">
+							<div class="setPub_num">1</div>
+							<div class="setFooter_box">
+								<table>
+									<tr>
+										<td class="bt">按钮名：</td>
+										<td>
+											<input class="inp" type="text" name="config[module10][content][title][]" value="首页" readonly="readonly">
+											<input class="inp" type="hidden" name="config[module10][content][open][]" value="1">
+											<input class="inp" type="hidden" name="config[module10][content][link][]" value="">
+										</td>
+									</tr>
+									<tr>
+										<td class="bt">图标：</td>
+										<td>
+											<div class="icon fl">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[0].icon_checked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_checked][]" value="<{$config.module10.content[0].icon_checked}>">
+												</div>
+												<p>选择中时</p>
+											</div>
+											<div class="icon fl ml10">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[0].icon_nochecked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_nochecked][]" value="<{$config.module10.content[0].icon_nochecked}>">
+												</div>
+												<p>未选择中时</p>
+											</div>
+											<div class="fl ml10">（图标尺寸44*44）</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="setPub_list youhui_box2">
+							<div class="setPub_num">2</div>
+							<div class="setFooter_box">
+								<table>
+									<tr>
+										<td class="bt">按钮名：</td>
+										<td>
+											<input class="inp" type="text" name="config[module10][content][title][]" value="<{$config.module10.content[1].title}>">
+											<input type="checkbox" class="switch fr" <{if $config.module10.content[1].open}>checked="checked"<{/if}>>
+											<input type="hidden" name="config[module10][content][open][]" value="<{$config.module10.content[1].open}>">
+										</td>
+									</tr>
+									<tr>
+										<td class="bt">链接地址：</td>
+										<td>
+											<select class="select_inp" name="config[module10][content][link][]">
+												<option value="">购物车</option>
+												<{foreach $system_modules as $mod}>
+												<option value="<{$mod.advlink}>" <{if $mod.advlink == $config.module10.content[1].link}>selected<{/if}>><{$mod.title}></option>
+												<{/foreach}>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="bt">图标：</td>
+										<td>
+											<div class="icon fl">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[1].icon_checked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_checked][]" value="<{$config.module10.content[1].icon_checked}>">
+												</div>
+												<p>选择中时</p>
+											</div>
+											<div class="icon fl ml10">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[1].icon_nochecked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_nochecked][]" value="<{$config.module10.content[1].icon_nochecked}>">
+												</div>
+												<p>未选择中时</p>
+											</div>
+											<div class="fl ml10">（图标尺寸44*44）</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="setPub_list youhui_box2">
+							<div class="setPub_num">3</div>
+							<div class="setFooter_box">
+								<table>
+									<tr>
+										<td class="bt">按钮名：</td>
+										<td>
+											<input class="inp" type="text" name="config[module10][content][title][]" value="订单" readonly="readonly">
+											<input class="inp" type="hidden" name="config[module10][content][open][]" value="1">
+											<input class="inp" type="hidden" name="config[module10][content][link][]" value="">
+										</td>
+									</tr>
+									<tr>
+										<td class="bt">图标：</td>
+										<td>
+											<div class="icon fl">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[2].icon_checked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_checked][]" value="<{$config.module10.content[2].icon_checked}>">
+												</div>
+												<p>选择中时</p>
+											</div>
+											<div class="icon fl ml10">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[2].icon_nochecked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_nochecked][]" value="<{$config.module10.content[2].icon_nochecked}>">
+												</div>
+												<p>未选择中时</p>
+											</div>
+											<div class="fl ml10">（图标尺寸44*44）</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="setPub_list youhui_box2">
+							<div class="setPub_num">4</div>
+							<div class="setFooter_box">
+								<table>
+									<tr>
+										<td class="bt">按钮名：</td>
+										<td>
+											<input class="inp" type="text" name="config[module10][content][title][]" value="我的" readonly="readonly">
+											<input class="inp" type="hidden" name="config[module10][content][open][]" value="1">
+											<input class="inp" type="hidden" name="config[module10][content][link][]" value="">
+										</td>
+									</tr>
+									<tr>
+										<td class="bt">图标：</td>
+										<td>
+											<div class="icon fl">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[3].icon_checked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_checked][]" value="<{$config.module10.content[3].icon_checked}>">
+												</div>
+												<p>选择中时</p>
+											</div>
+											<div class="icon fl ml10">
+												<div class="line_box" style="height: 68px;">
+													<div class="tip">添加</div>
+													<div class="clipView" width="44" height="44"></div>
+							                        <img src="<{$config.module10.content[3].icon_nochecked}>" style="width: 100%;">
+							                        <input type="hidden" name="config[module10][content][icon_nochecked][]" value="<{$config.module10.content[3].icon_nochecked}>">
+												</div>
+												<p>未选择中时</p>
+											</div>
+											<div class="fl ml10">（图标尺寸44*44）</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>	
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="module_btn_box"><input type="button" class="bt-big btn-primary-big" value="保存"></div>
+			</form>
+		</div>
+		<!--右侧设置-结束-->	
+		<div class="clear"></div>
+	</div>		
+	<!-- 内容-结束 -->
+
+	<!-- 保存修改-开始 -->
+	<div class="clientIndexSet_bottom">
+		<button class="btn-primary-big">保存修改</button>
+	</div>
+	<!-- 保存修改-结束 -->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    	$('.clientIndexSet_middle .btn-set').click(function(){
+    		var module = $(this).attr('module');
+    		$('.clientIndexSet_middle .btn-set').show();
+    		$(this).hide();
+    		$('.clientIndexSet_right .module_box').hide();
+    		$('#'+module).show();
+    	});
+
+    	$('input[type="checkbox"]').on('change', function(){
+    		if($(this).prop('checked')){
+    			$(this).next('input').val(1);
+    		}else{
+    			$(this).next('input').val(0)
+    		}
+
+    		if($(this).parent().hasClass('searchWord')){
+    			backgroundType();
+    		}
+    	});
+
+    	changesort();
+    	$('.clientIndexSet_middle .change-sort .up').on('click', function(){
+    		var current = $(this).parents('.change-sort');
+    		var prev = current.prev('.change-sort');
+    		if(prev){
+    			current.insertBefore(prev);
+    		}
+    		changesort();
+    	});
+
+    	$('.clientIndexSet_middle .change-sort .dwon').on('click', function(){
+    		var current = $(this).parents('.change-sort');
+    		var next = current.next('.change-sort');
+    		if(next){
+    			current.insertAfter(next);
+    		}
+    		changesort();
+    	});
+
+    	$('.clearImg_size .clearImg').click(function(){
+    		$(this).parent().siblings('.line_box').find('img').attr('src', '').next('input').val('');
+    	});
+
+    	function changesort(){
+    		var length = $('.change-sort').length;
+    		$('.change-sort .sort').find('span').removeClass('disable');
+    		$('.change-sort .sort').eq(0).find('.up').addClass('disable');
+    		$('.change-sort .sort').eq(length-1).find('.dwon').addClass('disable');
+    	}
+
+    	/*module1---------------------------------------------------------------------------------------------------------*/
+        //样式切换
+        $('.module1 .radiao_box .setPub_radiao').on('change', function(){
+            var index = $(this).parent('label').index();
+            $(this).parents('.selectStyle').find('.line_box').css({"display":"none"}).eq(index).css({"display":"block"});
+            backgroundType();
+        });
+
+        function backgroundType(){
+        	var style = $('.module1 .radiao_box .setPub_radiao:checked').val();
+            var open =  $('.module1 .searchWord .switch').prop('checked');
+            var k = 0;
+            if((style==1 || style==3) && open){
+            	k = 0;
+            }else if((style==1 || style==3) && !open){
+            	k = 1;
+            }else if(style ==2 && open){
+            	k = 2;
+            }else if(style == 2 && !open){
+            	k = 3;
+            }
+            $('.module1 .backgroundType').hide().eq(k).show();
+        }
+
+        //背景设置tab切换
+        $(".bgColor_box .bgColor_tab .list").click(function(){
+            $(this).addClass("on").siblings().removeClass("on");
+            var index = $(this).index();
+            $(this).parents(".bgColor_box").find(".change_box").eq(index).show().siblings(".change_box").hide();
+        });
+
+        //颜色切换改变定位图标和箭头图标
+        $('.module1 input[name="config[module1][color]"]').on('change', function(){
+        	var index = $(this).parent().index();
+        	$(this).parents('.radiao_box').siblings('.icon_location').find('label').eq(index).find('input').prop('checked', true);
+        	$(this).parents('.radiao_box').siblings('.icon_down').find('label').eq(index).find('input').prop('checked', true);
+        });
+
+        //搜索词添加设置
+        $("#wordAdd").click(function(){
+            if($(this).parents(".word_box").find("ul li").length < 6){
+                if($(this).parent().find("input").val() != ''){
+                    var txt = $(this).parent().find("input").val();
+                    var li = '<li><span>' + txt +'</span><input type="hidden" name="config[module1][searchBox][keywords][]" value="'+txt+'"><i></i></li>';
+                    $(this).parents(".word_box").find("ul").append(li);
+                    $(this).parent().find("input").val('');
+                }else{
+                    Widget.MsgBox.error('请输入搜索词');
+                }
+            }else{ 
+                Widget.MsgBox.error('最多添加6个搜索词');
+            }
+        });
+
+        $(document).on('click','.searchWord_box .word_box ul li i',function () {
+            $(this).parent().remove();
+        });
+
+        /*module2-------------------------------------------------------------------------------------------------------------*/
+        $('.module2 .radiao_box .setPub_radiao').on('change', function(){
+            var val = $(this).val();
+            if(val == 1){
+                $('.setPub_box_content').show();
+                $('.setPub_box_link').hide();
+            }else{
+                $('.setPub_box_content').hide();
+                $('.setPub_box_link').show();
+            }
+        });
+
+        //轮播图添加事件
+	    addEvent("#lunboAdd","#lunbo_box",'<div class="setPub_list">' + 
+									'<div class="del"></div>' +
+									'<div class="line_box" style="width: 346px; height: 120px;">' +
+										'<div class="tip">' +
+											'<p>选择图片</p>' +
+											'<p>尺寸：726*240</p>' +
+										'</div>' +
+										'<div class="clipView" width="726" height="240"></div>' +
+										'<img src="" style="width: 100%;">' + 
+                                    	'<input type="hidden" name="config[module2][content][photo][]" value="">' + 
+									'</div>' +
+									'<div class="link_box">' +
+										'<h5>跳转链接：</h5>' +
+										'<div class="inp_box">' +
+											'<input type="text" name="config[module2][content][link][]" class="inp" readonly id="module2_content_link_#k#">' +
+		                                	'<input type="hidden" name="config[module2][content][wxlink][]" class="inp" id="module2_content_wxlink_#k#">' +
+		                                	'<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module2_content_link_#k#,#module2_content_wxlink_#k#/N/选择链接" class="btn-primary-line ml10" width="mini:500"}>' +
+										'</div>' +
+									'</div>' +
+								'</div>');
+	    removeEvent("#lunbo_box .setPub_list .del",".setPub_list");
+
+	    /*module3-----------------------------------------------------------------------------------------------------------------*/
+	    //样式切换
+        $('.module3 .radiao_box .setPub_radiao').on('change', function(){
+            var index = $(this).parent('label').index();
+            $(this).parents('.selectStyle').find('.list').css({"display":"none"}).eq(index).css({"display":"block"});
+        });
+
+        //分类导航菜单添加事件
+	    addEvent("#cateAdd","#cate_box",'<div class="setPub_list">' +
+									'<div class="del"></div>' +
+									'<div class="pic">' +
+										'<div class="line_box catePic" style="height: 94px;">' +
+											'<div class="tip">选择图片</div>' +
+											'<div class="clipView" width="94" height="94"></div>' +
+											'<img src="" style="width: 100%;">' +
+				                        	'<input type="hidden" name="config[module3][content][photo][]" value="">' +
+										'</div>' +
+										'<div class="line_txt">尺寸94*94</div>' +
+									'</div>' +
+									'<div class="wz_box">' +
+										'<div class="link_box">' +
+											'<h5>名称：</h5>' +
+											'<div class="inp_box"><input type="text" name="config[module3][content][title][]" class="inp"></div>' +
+										'</div>' +
+										'<div class="link_box">' +
+											'<h5>跳转链接：</h5>' +
+											'<div class="inp_box">' +
+												'<input type="text" class="inp" readonly id="module3_content_link_#k#" name="config[module3][content][link][]" value="">' +
+												'<input type="hidden" class="inp" id="module3_content_wxlink_#k#" name="config[module3][content][wxlink][]" value="">' +
+											'</div>' +
+											'<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module3_content_link_#k#,#module3_content_wxlink_#k#/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>' +
+										'</div>' +
+									'</div>' +
+									'<div class="clear"></div>' +
+								'</div>');
+	    removeEvent("#cate_box .setPub_list .del",".setPub_list");
+
+	    /*module5----------------------------------------------------------------------------------------------------------------*/
+	    $('#module5 .radiao_box .setPub_radiao').on('change', function(){
+            var index = $(this).parent('label').index();
+            $(this).parents('form').find('.youhui_pic').css({"display":"none"}).eq(index).css({"display":"block"});
+            $(this).parents('form').find('.module5_styles').css({"display":"none"}).eq(index).css({"display":"block"});
+        });
+
+        //优惠专区添加事件
+	    addEvent("#module5_youhui1Add","#module5_youhui1_box",'<div class="setPub_list">' +
+									'<div class="del"></div>' +
+									'<div class="sort">拖动排序<i></i></div>' +
+									'<div class="pic">'+
+										'<div class="line_box" style="height: 144px;">'+
+											'<div class="tip">选择图片</div>'+
+											'<div class="clipView" width="240" height="320"></div>'+
+											'<img src="" style="width: 100%;">'+
+					                        '<input type="hidden" name="config[module5][content][1][photo][]" value="">'+
+										'</div>'+
+										'<div class="line_txt">尺寸240*320</div>'+
+									'</div>'+
+									'<div class="wz_box">'+
+										'<div class="link_box">'+
+											'<h5>跳转链接：</h5>'+
+											'<div class="inp_box">'+
+												'<input type="text" class="inp" readonly id="module5_content_class1_link_#k#" name="config[module5][content][1][link][]" value="">'+
+												'<input type="hidden" class="inp" id="module5_content_class1_wxlink_#k#" name="config[module5][content][1][wxlink][]" value="">'+
+											'</div>'+
+											'<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module5_content_class1_link_#k#,#module5_content_class1_wxlink_#k#/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>'+
+										'</div>'+
+									'</div>'+
+									'<div class="clear"></div>'+
+								'</div>');
+	    removeEvent("#module5_youhui1_box .setPub_list .del",".setPub_list");
+
+	    /*module6----------------------------------------------------------------------------------------------------------------*/
+	    $('#module6 .radiao_box .setPub_radiao').on('change', function(){
+            var index = $(this).parent('label').index();
+            $(this).parents('form').find('.youhui_pic').css({"display":"none"}).eq(index).css({"display":"block"});
+            $(this).parents('form').find('.module6_styles').css({"display":"none"}).eq(index).css({"display":"block"});
+        });
+
+        //优惠专区添加事件
+	    addEvent("#module6_youhui1Add","#module6_youhui1_box",'<div class="setPub_list">' +
+									'<div class="del"></div>' +
+									'<div class="sort">拖动排序<i></i></div>' +
+									'<div class="pic">'+
+										'<div class="line_box" style="height: 144px;">'+
+											'<div class="tip">选择图片</div>'+
+											'<div class="clipView" width="240" height="320"></div>'+
+											'<img src="" style="width: 100%;">'+
+					                        '<input type="hidden" name="config[module6][content][1][photo][]" value="">'+
+										'</div>'+
+										'<div class="line_txt">尺寸240*320</div>'+
+									'</div>'+
+									'<div class="wz_box">'+
+										'<div class="link_box">'+
+											'<h5>跳转链接：</h5>'+
+											'<div class="inp_box">'+
+												'<input type="text" class="inp" readonly id="module6_content_class1_link_#k#" name="config[module6][content][1][link][]" value="">'+
+												'<input type="hidden" class="inp" id="module6_content_class1_wxlink_#k#" name="config[module6][content][1][wxlink][]" value="">'+
+											'</div>'+
+											'<{link ctl="adv/themes:dialog" title="选择链接" selectLink="mini:#module6_content_class1_link_#k#,#module6_content_class1_wxlink_#k#/N/选择链接" class="btn-primary-line mt10" width="mini:500"}>'+
+										'</div>'+
+									'</div>'+
+									'<div class="clear"></div>'+
+								'</div>');
+	    removeEvent("#module6_youhui1_box .setPub_list .del",".setPub_list");
+
+	    /*module7----------------------------------------------------------*/
+	    $('#module7 .radiao_box .setPub_radiao').on('change', function(){
+            var index = $(this).parent('label').index();
+            $(this).parents('.selectStyle').find('.list').css({"display":"none"}).eq(index).css({"display":"block"});
+            $(this).parents('form').find('.module7_styles').css({"display":"none"}).eq(index).css({"display":"block"});
+        });
+
+
+        /*公用方法--------------------------------------------------------------------------------------------------------------*/
+        /*$(document).on('click', '.clipView', function(){
+            var clipWidth = parseInt($(this).attr("width"));
+            var clipHeight = parseInt($(this).attr("height"));
+            var that = $(this);
+            clipView(clipWidth, clipHeight, function (dataURL){
+                that.siblings('img').attr('src', ''+dataURL);
+                that.siblings('input').val(dataURL);
+            });
+        });*/
+
+        //单模块保存
+        $(document).on('click', '.module_btn_box input', function(){
+            var formdata = $(this).parents('form').serialize();
+            var link = $(this).parents('form').attr('action');
+            $.post(link, formdata, function (e){
+                if(e.error > 0){
+                    Widget.MsgBox.error(e.message);
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    $('#clientIndexSet_iframe').attr('src', $('#clientIndexSet_iframe').attr('src'));
+                }
+            },'json');
+        });
+
+        //保存
+        $(document).on('click', '.clientIndexSet_bottom .btn-primary-big', function(){
+            var formdata = $('#modules-form').serialize();
+            var link = $('#modules-form').attr('action');
+            $.post(link, formdata, function (e){
+                if(e.error > 0){
+                    Widget.MsgBox.error(e.message);
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    $('#clientIndexSet_iframe').attr('src', $('#clientIndexSet_iframe').attr('src'));
+                    /*setTimeout(function(){
+                        window.parent.reload(true);
+                    },2000);*/
+                }
+            },'json');
+        });
+    });
+
+	//删除添加事件；
+	function addEvent(addClass,addrNrClass,addrNr){
+		$(addClass).click(function(){
+			var k = $(this).parents().find(addrNrClass).children().length;
+			re = new RegExp("#k#","g");
+			var newaddrNr = addrNr.replace(re,k);
+			$(this).parents().find(addrNrClass).append(newaddrNr);
+		});
+	};
+	function removeEvent(removeClass,removeNrClass){
+		$(document).on('click',removeClass,function (){
+			$(this).parents(removeNrClass).remove();
+		});
+	};
+</script>
+
+<!-- 图片选择 -->
+<script type="text/javascript">
+	window.__that = '';
+	var cropper = {'clipWidth' : 0, 'clipHeight' : 0};
+	$(document).on('click','body .clipView',function () {
+		var that = $(this);
+		var clipWidth = parseInt(that.attr("width"));
+		var clipHeight = parseInt(that.attr("height"));
+
+		window.__that = that;
+		cropper.clipWidth = clipWidth;
+		cropper.clipHeight = clipHeight;
+		localStorage['cropper'] = JSON.stringify(cropper);
+		var link = '?adv/themes-photoGallery.html';
+		layer.open({
+            type: 2,
+            title: '选择图片',
+            shadeClose: true, 
+            shade: false,
+            maxmin: false, //开启最大化最小化按钮
+            area: ['780px', '658px'],
+            content: [link],
+            success: function(){
+                
+            }
+        });
+	});
+
+	function closeLayer(){
+		layer.closeAll();
+	}
+
+	function fillImage(src, photo){
+		var that = window.__that;
+		that.siblings('img').attr('src', src);
+        that.siblings('input').val(photo);
+	}
+
+	function fillCustomizeLink(link)
+	{	
+		layer.closeAll();
+		if(window.__selectLink != undefined){
+			$(window.__selectLink[0]).val(link);
+			$(window.__selectLink[1]).val(link);
+		}
+	}
+</script>
+
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#cate_box, #module5_youhui1_box, #module6_youhui1_box').sortable();
+    });    
+</script>
+
+<link rel="stylesheet" href="./script/spectrum/spectrum.css">
+<script src="./script/spectrum/spectrum.js"></script>
+<script src="./script/spectrum/docs.js"></script>
+
+<{include file="admin:common/footer.html"}>

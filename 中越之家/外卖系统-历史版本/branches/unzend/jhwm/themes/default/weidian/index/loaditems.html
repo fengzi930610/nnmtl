@@ -1,0 +1,24 @@
+<{foreach $items as $k => $v}>
+<li class="recSeller_list">
+    <a href="<{$v.link}>">
+        <div class="pub_img fl"><img src="<{$pager.img}>/<{$v.logo}>" width="100" height="100"></div>
+    </a>
+    <div class="pub_wz">
+        <p class="bt">
+            <a href="<{$v.link}>" class="overflow_clear"><{$v.title}></a>
+            <em style="background:red;">店</em><em style="background:rgb(251,170,30);"> </em>
+        </p>
+        <a href="<{$v.link}>">
+            <div class="nr">
+                <div class="fl">
+                    <div><span class="starBg" style="vertical-align:super;"><span class="star" style="width:<{$v.score/$v.comments*20}>%;"></span></span><span class="ml10 black9">4分</span></div>
+                </div>
+                <div class="fr">
+                    <p class="black9 range"><em class="ico"></em>销量：<{$v.comments}></p>
+                    <p class="black9 "></p>
+                </div>
+            </div>
+        </a>
+    </div>
+</li>
+<{/foreach}>

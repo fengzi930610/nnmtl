@@ -1,0 +1,91 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/tuan/maidan:index'}>"  class="on">优惠买单设置</a>
+        <a href="<{link ctl='biz/tuan/maidan:order'}>">订单列表</a>
+    </ul>
+    <span class="r jq_s"><a href="javascript:void(0);"  class="btn btn-success jq_add">+新增一行</a></span>
+</div>
+
+<div class="ucenter_c">
+    <form id="post_form" action="<{link ctl='biz/tuan/maidan:index'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="table">
+            <tr>
+                <th class="w-200"></th>
+                <th class="w-180"></th>
+                <th class="w-50"></th>
+            </tr>
+            <tr>
+                <td>优惠类型</td>
+                <td colspan="2">
+                    <label><input type="radio"  name="data[type]" value="1" <{if $type == 1}>checked="checked"<{/if}>/>折扣</label>
+                    <label><input type="radio"  name="data[type]" value="0" <{if $type == 0}>checked="checked"<{/if}>/>满减</label>
+                </td>
+            </tr>
+            
+            <tr>
+                <td>最大优惠金额</td><td colspan="2"><input style="height:25px;width:50px;text-align:center;" type="text" class="input w-100" name="data[max_youhui]" value="<{$maidan.max_youhui|default:'0.00'}>" />元</td>
+            </tr>
+
+            <tr class="jq_type_1">
+                <td>折扣</td><td colspan="2"><input style="height:25px;width:50px;text-align:center;" type="text" class="input w-100" name="data[discount]" value="<{($maidan.discount/10)|default:'0.0'}>" />折扣(填写0~10之间的数字)</td>
+            </tr> 
+
+            <{foreach $maidan.config as $item}>
+            <tr class="jq_type_0" id="youhui_<{$item.youhui_id}>">
+                <td>每满&nbsp;&nbsp;<input style="height:25px;width:50px;text-align:center;" type="text" class="input w-100" name="data[m][]" value="<{$item.m}>" />元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减</td>
+                <td><input style="height:25px;width:50px;text-align:center;" type="text" class="input w-100" name="data[d][]" value="<{$item.d}>" />元</td>
+                <!--<td><a href="<{link ctl='biz/tuan/maidan:delete' args=$item.maidan_id}>" mini-act="remove:youhui_<{$item.maidan_id}>" mini-confirm="确认要删除吗？" class="btn btn-warning">删除</a></td>-->
+                <td><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td>
+            </tr>
+            <{foreachelse}>
+            <tr class="jq_type_0">
+                <td>每满&nbsp;&nbsp;<input style="height:25px;width:50px;text-align:center;" type="text" class="input w-100" name="data[m][]" value="" />元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减</td>
+                <td><input style="height:25px;width:50px;text-align:center;" type="text" class="input w-100" name="data[d][]" value="" />元</td>
+                <td><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td>
+            </tr>
+            <{/foreach}>
+        </table>
+        <div><div class="jq_bottom"><input type="submit" class="btn btn-success jq_save" value="保存数据"/></div></div>
+    </form>
+</div>
+
+<{include file="biz/block/footer.html"}>
+<script>
+$(document).ready(function(){
+    var type = "<{$type}>";
+    if(type==1) {
+        $('.jq_type_0').hide();
+        $('.jq_type_1').show();
+        $('.btn.btn-success.jq_add').hide();
+    }else {
+        $('.jq_type_1').hide();
+        $('.jq_type_0').show();
+        $('.btn.btn-success.jq_add').show();
+    }
+})    
+</script>
+<script type="text/javascript">
+$(".jq_add").click(function(){
+    var html = '<tr class="jq_type_0">';
+    html+='<td>每满&nbsp;&nbsp;<input type="text" style="height:25px;width:50px;text-align:center;" class="input w-100" name="data[m][]" value="" />元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减</td>';
+    html+='<td><input type="text" style="height:25px;width:50px;text-align:center;" class="input w-100" name="data[d][]" value="" />元</td>';
+    html+='<td><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td></tr>';
+    $(".table").append(html);
+})
+$(".table").on('click','.jq_delete', function () {
+    $(this).parent().parent().remove();
+})
+
+$("input[name='data[type]']").click(function () {
+    if ($(this).val() == 1) {
+        $('.jq_type_0').hide();
+        $('.jq_type_1').show();
+        $('.btn.btn-success.jq_add').hide();
+    } else {
+        $('.jq_type_1').hide();
+        $('.jq_type_0').show();
+        $('.btn.btn-success.jq_add').show();
+    }
+});
+</script>

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='ucenter/order/items' args=mall}>" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                订单详情
+            </div>
+            <{if $order.order_status == 0}><i class="right"><a href="javascript:void(0);" val="<{$order.order_id}>" class="btn cancel_order">取消订单</a></i><{/if}>
+        </header>
+        <section class="page_center_box">
+            <ul class="jifenaSc_box mb10">
+                <li class="list mt10">
+                    <p class="tit black3"><{$order.order_status_label}><small class="black9">-<{$order.dateline|format}></small></p>
+                    <div class="card_middle">
+                        <{foreach $order.mall_products as $product}>
+                        <div class="mb10">
+                            <div class="fl img"><img src="<{$pager.img}>/<{$product.products.photo|default:'default.png'}>"/></div>
+                            <div class="wz">
+                                <div class="line2">
+                                    <{$product.products.title}>
+                                </div>
+                                <div class="txt black3">
+                                    <div><span class="fontcl1 mr10">￥<{$product.products.price}></span><{$product.products.jifen}><span class="black9">积分</span></div>
+                                    <div>x<{$product.product_number}></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <{/foreach}>
+                    </div>
+                    <div class="card_foot">
+                        <div>运费</div>
+                        <div class="fontcl1">￥<{$order.detail.freight}></div>
+                    </div>    
+                    <div class="card_foot">
+                        <div>合计</div>
+                        <div class="fontcl1">￥<{$order.detail.product_price+$order.detail.freight}></div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="jf_orderDetails">
+                <li class="black3">订单详情</li>
+                <li>订单号：<{$order.order_id}></li>
+                <li>联系人：<{$order.contact}>  <{$order.mobile}></li>
+                <li>联系地址：<{$order.addr}></li> 
+                <{if $order.pay_status == 1}><li>支付方式：<{if $order.pay_code == 'alipay'}>支付宝<{/if}><{if $order.pay_code == 'wxpay'}>微信<{/if}><{if $order.pay_code == 'money'}>余额<{/if}>支付</li><{/if}>
+            </ul>
+        </section>
+        <{if $order.pay_status == 0}>
+        <footer>
+            <div class="btn_box"><a href="<{link ctl='ucenter/order/pay' arg1=$order.order_id}>"><input type="button" class="long_btn bgcolor1" value="立即支付"></a></div>
+        </footer>
+        <{/if}>
+        <script>
+            $(document).ready(function () {
+                $('#block_footer').hide();
+            })
+            $('.cancel_order').click(function () {
+                var order_id = $(this).attr('val');
+                var link = "<{link ctl='ucenter/order:chargeback' args='__order_id'}>";
+
+                if (confirm("确定要取消吗？")) {
+                    $.post(link.replace("__order_id", order_id), {}, function (ret) {
+                        if (ret.error == 0) {
+                            layer.open({
+                                content: ret.message,
+                                time: 2
+                            });
+                            location.reload(true);
+                        } else if (ret.error == 214) {
+                            location.reload(true);
+                        } else {
+                            layer.open({
+                                content: ret.message,
+                                time: 2
+                            });
+                        }
+                    }, 'json');
+                }
+
+            })
+        </script> 
+        <{include file="block/sfooter.html"}>
+    </body>
+</html>

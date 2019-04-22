@@ -1,0 +1,80 @@
+<{assign var="page_title" value="个人中心-账户中心-我的余额"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-我的余额")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+
+        <{include file="pchome/ucenter/block/left.html"}>
+
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="account-chongzhi">
+                <div class="tit">
+                    <span class="ml10">我的余额 &gt; <span class="maincl">余额充值</span></span>
+                </div>
+                <div class="chongzhi-cont">
+                    <div class="chongzhi-lists">
+                        <p class="biaoti mb5">充值套餐：</p>
+                        <div class="chong-box">
+                            <{foreach $money_pack as $k=>$money}>
+                            <div class="chong-one fl mr20 mb10 <{if $money@index==0}>on<{/if}>" c="<{$k}>" s="<{$money}>">
+                                <div class="one-zuo fl text_c">充</div>
+                                <div class="one-you fl text_c"><span  class="fontcl2">¥<big><{$k}></big></span><span class="ml5 mr5">送</span><span  class="fontcl2">¥<big ><{$money}></big></span>红包</div>
+                                <div class="clear"></div> 
+                                <div class="gou-ico"></div>   
+                            </div>
+                            <{/foreach}>
+                            <div class="clear"></div>
+                        </div>
+                        <p class="biaoti mb5 mt20">支付方式：</p>
+                        <div class="zhifu-box">
+                            <div class="zhifu-one one-a fl mb10 mr20 on" val="wxpay">
+                                <div class="gou"></div>   
+                            </div>
+                            <div class="zhifu-one one-b fl mb10 mr20" val="alipay">
+                                <div class="gou"></div>   
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="pay-box mt20">
+                            <div class="fl need-pay">需支付：<big class="fontcl2" id="recharge_num">¥0</big></div> 
+                            <div class="fr"><a href="javascript:;" class="btn confirm-btn" paycode="" amount="">确认充值</a></div> 
+                            <div class="clear"></div>   
+                        </div>
+                    </div>  
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".chong-one").click(function () {
+            var c = $(this).attr('c');
+            var s = $(this).attr('s');
+            $(this).addClass("on").siblings(".chong-one").removeClass("on");
+            $('#recharge_num').text('￥'+c);
+            $('.confirm-btn').attr('amount',c);
+        });
+        $(".chong-one").eq(0).click();
+        $(".zhifu-one").click(function(){
+            var code = $(this).attr('val');
+            $(this).addClass("on").siblings(".zhifu-one").removeClass("on");
+            $('.confirm-btn').attr('paycode',code);
+        });
+        $(".zhifu-one").eq(0).click();
+        $(".confirm-btn").click(function(){
+            var code = $(this).attr("paycode");
+            var amount = $(this).attr("amount");
+            var link = "<{link ctl='trade/payment:money' code=__codes amount=__amounts}>";
+            link = link.replace('__codes',code).replace('__amounts',amount);
+            window.location.href = link;
+        })
+    });
+</script>
+<{include file="pchome/block/footer.html"}>

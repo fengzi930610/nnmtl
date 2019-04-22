@@ -1,0 +1,55 @@
+<{assign var='tpl_title' value='商家地址-定位'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a  class="ico headerIco headerIco_3" onclick="window.history.go(-1)"></a></i>
+    <div class="title">商家地址</div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<!--地图开始-->
+<section class="page_center_box">
+    <div class="orderAddr_page">
+        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+        <div id="allmap" style="width: 100%; height:6.85rem;position:fixed; z-index: 100;"></div>
+    </div>
+</section>
+<!--地图结束-->
+
+<script type="text/javascript">
+// 初始化地图
+var map = null;
+var addr = null;
+var point = null;
+var marker = null;
+var myIcon = null;
+var sContent = '';
+var infoWindow = null;
+var Latlng = {
+    "lat":<{$shop.lat}>,
+    "lng":<{$shop.lng}>
+};
+
+sContent += "<div class='mb10'><div>";
+sContent += "<div class='img fl'>";
+sContent += "<img id='imgDemo' src='<{$pager.img}>/<{$shop.logo}>' width='69' height='52' />";
+sContent += "</div>";
+sContent += "<div class='wz'>";
+sContent += "<p class='bt'><{$shop.title}></p></br>";
+sContent += "<p class='black9'><{$shop.addr}></p>";
+sContent += "</div></div><div class='clear'></div></div></div>";
+
+map = new BMap.Map("allmap");
+infoWindow = new BMap.InfoWindow(sContent);
+point = new BMap.Point(Latlng.lng, Latlng.lat);
+map.centerAndZoom(point, 17);
+myIcon = new BMap.Icon("/themes/default/static/images/shop_pos@2x.png", new BMap.Size(36,36));
+marker = new BMap.Marker(point,{icon:myIcon});
+map.addOverlay(marker);
+marker.addEventListener("click", function(){
+   this.openInfoWindow(infoWindow);
+   //图片加载完毕重绘infowindow
+   document.getElementById('imgDemo').onload = function (){
+       infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+   }
+});
+</script>
+<{include file="block/footer.html"}>

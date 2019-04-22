@@ -1,0 +1,36 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right">&nbsp; <{link ctl="module/ctl:batch" class="button" width="mini:700" load="mini:添加导航菜单" title="添加控制模块"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data list">
+		<{foreach $menu_tree as $k=>$v}>
+		<{foreach $v.menu as $kk=>$vv}>
+		<tr>
+			<td class="title left" style="padding-right:50px;">
+				<{$v.title}> &gt; <{$vv.title}>
+				<span class="right">
+					<{link ctl="module/ctl:detail" args="<{$vv.mod_id}>" class="button" width="mini:700" load="mini:管理控制模型" title="管理模型"}>
+					<{link ctl="module/menu:edit" args="<{$vv.mod_id}>" class="button" width="mini:400" load="mini:编辑导航菜单" title="编辑导航"}>
+				</span>
+			</td>
+		</tr>
+		<tr><td>
+		<ul class="group-list">
+		<{foreach $vv.menu as $kkk=>$vvv}><li><{$vvv.title}>[<{if $vvv.visible}><b class="red">显示</b><{else}>隐藏<{/if}>]</li><{foreachelse}><li style="color:#FF3300;">未添加模型<li><{/foreach}>
+		<div class="clear-both"></div>
+		</ul>
+		</td></tr>
+		<{/foreach}>
+		<{/foreach}>
+	</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

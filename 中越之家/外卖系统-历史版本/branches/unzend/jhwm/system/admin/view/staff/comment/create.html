@@ -1,0 +1,28 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="staff/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?staff/comment-create.html" mini-form="comment-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th><span class="red">*</span>评论ID：</th><td><input type="text" name="data[comment_id]" value="<{$detail.comment_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>订单ID：</th><td><input type="text" name="data[order_id]" value="<{$detail.order_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>服务员ID：</th><td><input type="text" name="data[staff_id]" value="<{$detail.staff_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>用户ID：</th><td><input type="text" name="data[uid]" value="<{$detail.uid|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>分数：</th><td><input type="text" name="data[score]" value="<{$detail.score|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>评论内容：</th><td><input type="text" name="data[content]" value="<{$detail.content|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>回复：</th><td><input type="text" name="data[reply]" value="<{$detail.reply|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>回复ip：</th><td><input type="text" name="data[reply_ip]" value="<{$detail.reply_ip|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>回复时间：</th><td><input type="text" name="data[reply_time]" value="<{$detail.reply_time|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>创建IP：</th><td><input type="text" name="data[clientip]" value="<{$detail.clientip|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>创建时间：</th><td><input type="text" name="data[dateline]" value="<{$detail.dateline|default:''}>" class="input w-100"/></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

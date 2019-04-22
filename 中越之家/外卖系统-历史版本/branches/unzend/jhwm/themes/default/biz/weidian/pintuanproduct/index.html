@@ -1,0 +1,81 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li class="on"><a href="<{link ctl='biz/weidian/pintuanproduct:index'}>"><{L('拼团商品')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weidian/pintuanproduct:create'}>" class="btn btn-success"><{L('添加商品')}></a></span>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr>
+            <th class="w-50"><{L('商品')}>ID</th>
+            <th class="w-60"><{L('分类')}></th>
+            <th class="w-60"><{L('图片')}></th>
+            <th class="w-100"><{L('标题')}></th>
+            <th class="w-120">团购价</th>
+            <th class="w-120">团类型</th>
+            <th class="w-120"><{L('团购信息')}></th>
+            <th class="w-50"><{L('是否在售')}></th>
+            <th class="w-180"><{L('操作')}></th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.product_id}>" id="product_id" class="product_id" name="product_id[]" CK="PRI"/><{$item.product_id}><label></td>
+            <td><{$cates[$item['cate_id']]}></td>
+            <td><img src="<{$pager.img}>/<{$item.photo}>" class="wh-50"/></td>
+            <td>
+                <{$item.title}><br/>
+                <!--总销量:<{$item.sales}><br/>-->
+                佣金:<{$item.product.money_master}>
+                <!--预付款:<{$item.money_pre}>-->
+            </td>
+            <td>
+                团购价: &yen;<{$item.wei_price}><br/>
+                单买价: &yen;<{$item.price}><br/>
+            </td>
+            <td>
+                <{if 1 == $item['product']['tuan_type']}>阶梯团
+                    <{if $item.level}>
+                        <hr/>
+                        <{foreach $item.level as $v}>
+                            <{$v.user_num}>人团：&yen;<{$v.price}><br/>
+                        <{/foreach}>
+                    <{/if}>
+
+                <{else}>普通团,<{$item.product.user_num}>人团<{/if}>
+
+            </td>
+            <td>
+                满员限购: <{if 1==$item.product.tuan_limit}>是<{else}>否<{/if}><br/>
+                购买开团: <{if 1==$item.product.master_need_buy}>是<{else}>否<{/if}><br/>
+                单人购买上限: <{$item.product.item_limit}>件<br/>
+                成团有效期: <{$item.product.tuan_time}>天<br/>
+            </td>
+            <td><{if $item.is_onsale == 1}><font style="color:green;">上架中</font><{else}><font style="color:red;">已下架</font><{/if}></td>
+            <td>
+                <{if $item.is_onsale == 1}><a href="<{link ctl='biz/weidian/product:open' args=$item.product_id}>" mini-act="open" mini-confirm="确定要下架吗？" title="下架" class="btn btn-success">下架</a><{else}><a href="<{link ctl='biz/weidian/product:open' args=$item.product_id}>" mini-act="closed" mini-confirm="确定要上架吗？" title="上架" class="btn btn-success">上架</a><{/if}>
+                <a href="<{link ctl='biz/weidian/pintuanproduct/edit' args=$item.product_id}>" class="btn btn-success"><{L('修改')}></a>&nbsp;&nbsp;
+                <a href="<{link ctl='biz/weidian/product/delete' args=$item.product_id}>" mini-act="confirm:<{L('确认要删除该商品吗')}>?" class="btn btn-success"><{L('删除')}></a>
+            </td>
+        </tr>
+        <{foreachelse}>
+        <tr>
+            <td colspan="20">
+                <div class="alert alert-info"><{L('没有数据')}></div>
+            </td>
+        </tr>
+        <{/foreach}>
+        <tr>
+    </table>
+    <table cellspacing="0" cellpadding="0" class="table-data table">
+            <tr><th class="w-80">
+                    <label style="margin-right:20px;"><input type="checkbox" cka="PRI">&nbsp;&nbsp;全选</label>
+                <button action="/biz/weidian/product/onsale_open" mini-submit="#items-form"  type="button" class="btn btn-primary">批量上架</button>
+                <button action="/biz/weidian/product/onsale_close" mini-submit="#items-form"  type="button" class="btn btn-primary">批量下架</button>
+            </th></tr>
+        </table>
+    </form>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

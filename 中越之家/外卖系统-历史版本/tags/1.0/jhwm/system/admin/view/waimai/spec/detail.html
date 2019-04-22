@@ -1,0 +1,20 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/productspec:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>商品ID：</th><td><{$detail.product_id}></td></tr>
+<tr><th>价格：</th><td><{$detail.price}></td></tr>
+<tr><th>名称：</th><td><{$detail.spec_name}></td></tr>
+<tr><th>图片：</th><td><img src="<{$pager.img}>/<{$detail.spec_photo}>" class="wh-200" /></td></tr>
+<tr><th>库存：</th><td><{$detail.sale_sku}></td></tr>
+<tr><th>已购数：</th><td><{$detail.sale_count}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

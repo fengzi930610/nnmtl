@@ -1,0 +1,108 @@
+<{assign var='tpl_title' value=L("首页超市-列表")}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        超市
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<style type="text/css">
+.tuan_no{ margin:0.3rem 0; text-align:center; line-height:0.3rem;}
+.tuan_no h2{ font-weight:normal; font-size:0.18rem;}
+.tuan_no .iconBg{width:0.8rem; height:0.8rem; margin:0.1rem 0; background:#F7F7F7; border:0.02rem solid #F7F7F7; display:inline-block; border-radius:0.8rem; text-align:center;}
+</style>
+<section class="page_center_box">
+    <div class="recSeller_list_box mb10"  id="wrapper">
+        <ul></ul>
+    </div>
+</section>
+
+<script id="tmpl_shop_item" type="text/x-jquery-tmpl">
+    <li class="recSeller_list">
+        <a href="${url}" class="overflow_clear">
+            <div class="pub_img fl"><img src="<{$pager.img}>/${logo}" width="100" height="100" /></div>
+        </a>
+        <div class="pub_wz">
+            <p class="bt"><a href="${url}" class="overflow_clear">${title}</a></p>
+            <div class="nr">
+                <div class="fl">
+                    <p class="black9"><em class="ico timeIco"></em><span class="mr5">${yy_stime} - ${yy_ltime}</span>|<span class="ml5">月售 ${orders}</span></p>
+                    <p class="black9">${cate_title}</p>
+                </div>
+                <div class="fr">
+                    <p class="black9 range"><em class="ico"></em>${formatDistance(juli)}</p>
+                </div>
+            </div>
+        </div>
+    </li>
+</script>
+
+<script>
+
+$(document).ready(function () {
+    window.LoadData.params = {"page": 1};
+    getUxLocation(function (ret) {
+        if (ret.error) {
+            alert(ret.message);
+            window.location.href = "<{link ctl='position'}>";
+        } else {
+            $('#position').text(ret.addr);
+            loadPageItems();
+
+        }
+    });
+});
+
+/* 获取对象长度 */
+function olength(data) {
+    index = 0;
+    for(i in data){
+        index+=1;
+    }
+    return index;
+}
+
+function loadPageItems(params) {
+
+    if (LoadData.LOCK) {
+        return false;
+    }
+    LoadData.LOCK = true;
+    params = params || {};
+    LoadData.params = $.extend(LoadData.params, params);
+    Widget.MsgBox.load("加载中...");
+    $.post("<{link ctl='waimai/shop:loadmarketitems'}>", LoadData.params, function (ret) {
+        if (ret.error) {
+            Widget.MsgBox.error(ret.message);
+        } else {
+            if (olength(ret.data.items) > 0) {
+                if (parseInt(LoadData.params['page'], 10) < 2) {
+                    $("#wrapper ul").html($('#tmpl_shop_item').tmpl(ret.data.items));
+                } else {
+                    $('#tmpl_shop_item').tmpl(ret.data.items).appendTo($("#wrapper ul"));
+                }
+            } else if (LoadData.params.page > 1) {
+                if(! $(".loading_end").length) {
+                    $('#wrapper ul').append('</br><div class="loading_end">没有更多了...</div>');
+                }
+                LoadData.LOAD_END = true;
+            } else {
+                //给一个没有数据的提示信息
+                $("#wrapper ul").html('<div class="tuan_no"><div class="iconBg"><i class="ico8"></i> </div><h2>商户进驻中,敬请期待</h2></div>');
+                LoadData.LOAD_END = true;
+            }
+        }
+        LoadData.params.page++;
+        Widget.MsgBox.hide();
+        LoadData.LOCK = false;
+    }, "json");
+}
+
+$(window).scroll(function () {//监听滚动条改变
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+        loadPageItems();
+    }
+});
+</script>
+<{include file="block/footer.html"}>

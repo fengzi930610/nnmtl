@@ -1,0 +1,63 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+	<ul>
+        <li class="on"><a href="<{link ctl='biz/waimai/shop:youhui'}>">外卖优惠设置</a></li>
+	</ul>
+	
+</div>
+
+<div class="ucenter_c">
+    <form id="post_form" action="<{link ctl='biz/waimai/shop:youhui'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="table">
+            
+            <tr>
+            <th width="130"><span class="red">*</span>新用户首次下单立减：</th>
+                <td>
+                    <input type="text" class="input w-50" name="data[first_amount]" value="<{$detail.first_amount}>" />元
+                </td>
+            </tr>
+        </table>
+        
+        <table cellspacing="0" cellpadding="0" class="table" id="jq_table">
+            <tr><td colspan="5" style="text-align:right;"><a href="javascript:void(0);"  class="btn btn-success jq_add">+新增一行</a></td></tr>
+            <tr>
+                <th>编号</th>
+                <th>订单最小金额</th>
+                <th>优惠金额</th>
+                <th>排序</th>
+                <th>操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr class="jq_tr">
+                <td><{$item.youhui_id}><input type="hidden" name="data1[youhui_id][]" value="<{$item.youhui_id}>"></td>
+                <td><input type="text" class="input w-100" name="data1[order_amount][]" value="<{$item.order_amount}>" /></td>
+                <td><input type="text" class="input w-100" name="data1[youhui_amount][]" value="<{$item.youhui_amount}>" /></td>
+                <td><input type="text" class="input w-100" name="data1[orderby][]" value="<{$item.orderby}>" /></td>
+                <td><a href="<{link ctl='biz/waimai/shop/yhdelete' youhui_id=$item.youhui_id}>" mini-act="remove:youhui_<{$item.youhui_id}>" mini-confirm="确认要移除吗？" class="btn btn-warning">移除</a></td>
+            </tr>
+            <{foreachelse}>
+            <tr class="jq_tr"><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+            <{/foreach}>
+            
+        </table>
+        
+        <div><div class="jq_bottom"><input type="submit" class="btn btn-primary jq_save" value="保存数据"/></div></div>
+    </form>
+</div>
+<script>
+$(document).ready(function(){
+    $(".jq_add").click(function(){
+        var html = '<tr class="jq_tr">';
+        html+='<td>New</td>';
+        html+='<td><input type="text" class="input w-100" name="data2[order_amount][]" value="" /></td>';
+        html+='<td><input type="text" class="input w-100" name="data2[youhui_amount][]" value="" /></td>';
+        html+='<td><input type="text" class="input w-100" name="data2[orderby][]" value="" /></td>';
+        html+='<td><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td></tr>';
+        $("#jq_table").append(html);
+    })
+    $(".table").on('click','.jq_delete', function () {
+        $(this).parent().parent().remove();
+    })
+})    
+</script>
+<{include file="biz/block/footer.html"}>

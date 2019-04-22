@@ -1,0 +1,98 @@
+<{assign var='tpl_title' value='优惠买单订单详情'}>
+<{include file="block/header.html"}>
+<{include file="v3block/header.html"}>
+
+
+<section class="page_center_box" style="position: absolute;top:10px;">
+
+    <h3 class="bgcolor_white pad10 border_t border_b">商家信息</h3>
+    <div class="disctpay_delt bgcolor_white pad10 border_b mb10">
+            <!-- <div class="pub_img fl"><img src="<{$pager.img}>/<{$order.shop.logo}>"></div> -->
+            <div class="fr tel_box mt10"><a href="tel:<{$order.shop.phone|default:$order.shop.mobile}>" class="ico telIco"></a></div>
+			<a href="<{link ctl='tuan/shop:detail' arg0=$order.shop.shop_id}>">
+            <div class="pub_wz">
+                <h3 class=""><{$order.shop.title}><i class="ml10"></i></h3>
+                <p class="black9"><{$order.shop.addr}></p>
+                <!-- <p class="range black9"></p> -->
+            </div>
+
+            <div class="clear"></div>
+        </a>
+
+    </div>
+    <h3 class="bgcolor_white pad10 border_t border_b">订单详情</h3>
+    <div class="shangpin_edt nopadding black6">
+    	<p><span class="">订单号：</span><{$order.order_id}></p>
+		<p><span class="">消费：</span>￥<{$order.total_price}></p>
+		<p><span class="">实付：</span>￥<{$order.amount}></p>
+        <p><span class="">优惠方案：</span>商家优惠 ￥<{$order.total_price-$order.amount}></p>
+
+        <!-- 新增 -->
+		<p><span class="">买单时间：</span>2017-05-06  12:00 <br>
+            <span class="">手机号：</span>13515608638 
+        </p>
+    </div>
+    <{if $order.comment_status==0 && $order.pay_status==1}>
+    <div class="shangpin_price sm_padding clear_both border_b bottomFixed">
+        <div class="fl"><p class="mt5 maincl"><{$order.order_status_label}></p></div>
+        
+        <div class="fr"><a href="<{link ctl='ucenter/order/comment' arg1=$order.order_id}>" class="pub_btn bgcl1 whitebg">去评价</a></div>
+       
+    </div>
+     <{/if}>
+    <{if $order.comment_status==1}>
+    <!-- <h3 class="bgcolor_white pad10 border_t">我的评价信息</h3>
+    <ul class="mb10">
+        <li class="evaluate_list">
+            <div class="wz" style="margin-left:0;">
+                <div><span class="starBg"><span class="star" style="width:30%;"></span></span></div>
+                <p>菜很好吃，送餐很快...</p>
+                <div class="img_list">
+                    <ul>
+                        <li><img src="" width="100" height="100" /></li>
+                        <li><img src="" width="100" height="100" /></li>
+                        <li><img src="" width="100" height="100" /></li>
+                        <li><img src="" width="100" height="100" /></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <p class="black9">2015-10-21 13:56</p>
+            </div>
+            <div class="clear"></div>
+        </li>
+    </ul> -->
+    <{/if}>
+</section>
+<{if $order.order_status==0 &&  $order.pay_status==0}>
+<footer>
+    <div class="btn_box btn_box2"><a href="javascript:toPay(<{$order.order_id}>);"><input type="button" class="long_btn bgcolor1" value="立即支付"></a></div>
+</footer>
+
+<{/if}>
+<script>
+$('.range').text("<{$order.juli_label}>");
+/*去支付*/
+
+function toPay(order_id) {
+    /* trade/payment/order-{$order_id}.html?rebackurl={rebackurl} 不需要选支付方式的，*/
+    var payurl ="<{link ctl='trade/payment/order' arg0='#order_id#' http=$site.siteurl}>".replace('#order_id#',order_id);
+    var reback_url = '<{link ctl="ucenter/order:detail" arg0="#order_id#" http="home"}>'.replace("#order_id#",order_id);
+    window.location.href =payurl+'?rebackurl='+reback_url;
+
+}
+$(document).ready(function(e) {
+    /* var counter = 0;*/
+    if (window.history && window.history.pushState) {
+        $(window).on('popstate', function () {
+            window.history.pushState('forward', null, '#');
+            window.history.forward(1);
+            var url = '<{link ctl="maidan/order" http="home"}>';
+            window.location.href = url;
+        });
+    }
+    window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+    window.history.forward(1);
+});
+</script>
+</body>
+</html>

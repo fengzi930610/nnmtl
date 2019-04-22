@@ -1,0 +1,147 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+            <th>结算信息</th>
+            <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+            <td width="15"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+    <!--向导-->
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main"  priv="hide"  }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main"  priv="hide"}></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main"  priv="hide" class="on"}></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" target="_blank" priv="hide" title="进入门店"}>
+        <div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-importInit-<{$shop_id}>.html"  method="post" enctype="multipart/form-data">
+        <p class="form_title">导入数据[导入数据时间可能较长,导入期间 请不要进行操作，以防出现数据错误]</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+
+            <tr>
+                <th>选择平台</th>
+                <td>
+                    <select id="xx">
+
+                        <option value="1">饿了么</option>
+                        <option value="2">乐外卖</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="ele" >
+                <th>
+                    饿了么
+                </th>
+                <td>
+                    <input type="text" name="data[local_shop_id]" value="" placeholder="饿了么商铺ID" class="input w-400" id="ele-shop-id">
+                    <span class="tip-comment">https://www.ele.me/shop/*******</span>
+                </td>
+            </tr>
+            <tr id="lewaimai" >
+                <th>
+                    乐外卖
+                </th>
+                <td>
+                    <input type="text" name="data[lewaimai_shop_id]" value="" placeholder="乐外卖商家id" class="input w-400" id="lewaimai_shop_id">
+                    <input type="text" name="data[lewaimai_admin_id]" value="" placeholder="乐外卖平台id" class="input w-400" id="lewaimai_admin_id">
+                    <span class="tip-comment">https://wap.lewaimai.com/h5/lwm/waimai/shop/*****(商家id)?admin_id=****(平台id)</span>
+                </td>
+            </tr>
+
+           <!-- <tr id="ele" style="display: block">
+                <th>饿了么商铺ID：</th>
+                <td>
+                    <div>
+                        <input type="text" name="data[local_shop_id]" value="" placeholder="饿了么商铺ID" class="input w-400" id="ele-shop-id">
+                        <span class="tip-comment">https://www.ele.me/shop/*******</span>
+                    </div>
+
+                </td>
+            </tr>
+
+          <tr id="lewaimai" style="display: none">
+                <th>乐外卖：</th>
+                <td>
+                    <div>
+                        <input type="text" name="data[local_shop_id]" value="" placeholder="平台ID" class="input w-200" id="le_waimai_admin_id">
+                        <input type="text" name="data[local_shop_id]" value="" placeholder="商铺ID" class="input w-200" id="le_waimai_shop_id">
+                        <span class="tip-comment">https://wap.lewaimai.com/h5/lwm/waimai/shop/*****(商家id)?admin_id=****(平台id)</span>
+                    </div>
+
+                </td>
+            </tr>-->
+
+            </tbody>
+        </table>
+
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+            <tr>
+                <th></th>
+                <!-- <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td> -->
+                <td class="clear-td-bottom" colspan="10"><a href="javascript:;" mini-load="导入数据" mini-width="500"  class="button" title="导入数据" onclick="importInit();" id="import">提交</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+   /* mini-load="导入数据" mini-width="500"*/
+
+
+    function importInit(){
+        var shop_id = '<{$shop_id}>';
+        if( $('#xx').val()==1){
+            if(!$('#ele-shop-id').val()){
+               alert('请输入饿了吗商家id');
+               window.location.reload();
+            }
+            var ele_shop_id = $('#ele-shop-id').val();
+            var href = '?waimai/shop-importInit-'+shop_id+'-'+ele_shop_id+'-1.html';
+            $('#import').attr('href',href);
+        }else{
+            var lewaimai_shop_id = $('#lewaimai_shop_id').val();
+            var lewaimai_admin_id = $('#lewaimai_admin_id').val();
+            if(!lewaimai_shop_id||!lewaimai_admin_id){
+                alert('请输入乐外卖平台id和商户id ');
+                window.location.reload();
+            }
+            var href = '?waimai/shop-importInit-'+shop_id+'-'+lewaimai_shop_id+'-2-'+lewaimai_admin_id+'.html';
+            $('#import').attr('href',href);
+        }
+
+
+    }
+
+</script>
+
+<{include file="admin:common/footer.html"}>

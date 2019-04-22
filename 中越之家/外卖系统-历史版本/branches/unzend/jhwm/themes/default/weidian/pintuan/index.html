@@ -1,0 +1,187 @@
+<{assign var='tpl_title' value=L("拼团")}>
+<{include file="weidian/block/header.html"}>
+<section class="panel-left-reveal">
+    <section class="page-cont">
+        <header>
+            <i class="left"><a href="javascript:;" class="panel_left_show"><em class="ico headerIco headerIco1"></em></a></i>
+            <!--搜索-->
+            <div class="idx_sousuo">
+                <form action="<{link ctl='pintuan:index'}>" method="post">
+                    <input type="text" name="title" placeholder="搜索店铺内商品"><input type="submit" class="btn" value="搜索">
+                </form>
+            </div>
+            <!--搜索结束-->
+        </header>
+        <section class="page_center_box">
+            <!--内容-->
+            <div class="pintuan_list_box mt10">
+                <ul id="index_goods_items">
+
+                </ul>
+                <div class="loadding">
+                </div>
+                <div class="clear"></div>
+            </div>
+            <!--内容结束-->
+        </section>
+
+    </section>
+    <!--左边侧栏-->
+    <section class="panel_left">
+        <div class="cont">
+            <a href="<{link ctl='pintuan:index'}>" class="all" <{if !$cate_id}>style="color:#59c181;"<{/if}>>全部商品</a>
+            <{foreach $cate as $k => $v}>
+            <div class="list_box">
+                <div class="bt <{if $cate_id == $v.cate_id}>on<{/if}>"><a href="<{link ctl='pintuan:index' arg1=$v.cate_id}>"><{$v.title}></a></div>
+                <{if $v.children}>
+                <ul>
+                    <{foreach $v['children'] as $k1 => $v1}>
+                    <li <{if $cate_id == $v1.cate_id}>class="on"<{/if}>><a href="<{link ctl='pintuan:index' arg1=$v1.cate_id}>"><{$v1.title}></a></li>
+                    <{/foreach}>
+                </ul>
+                <{/if}>
+            </div>
+            <{/foreach}>
+        </div>
+    </section>
+    <div class="mask_bg"><a href="javascript:_touch();" style="position:absolute; top:0; right:0; left:0; bottom:0;"></a></div>
+    <!--左边侧栏结束-->
+</section>
+<{include file="weidian/block/nav.html"}>
+<script>
+    $(document).ready(function () {
+        $('.panel_left_show').click(function () {
+            $('.panel_left').addClass('on');
+            $('.page-cont').addClass('moved');
+            $('.mask_bg').show();
+        });
+    });
+
+    $(".mask_bg").on("touchstart", function (e) {
+        e.preventDefault();
+        startX = e.originalEvent.changedTouches[0].pageX,
+        startY = e.originalEvent.changedTouches[0].pageY;
+    });
+    $(".mask_bg").on("touchmove", function (e) {
+        e.preventDefault();
+        moveEndX = e.originalEvent.changedTouches[0].pageX,
+        moveEndY = e.originalEvent.changedTouches[0].pageY,
+        X = moveEndX - startX,
+        Y = moveEndY - startY;
+        if (Math.abs(X) > Math.abs(Y) && X < 0) {
+            $('.panel_left').removeClass('on');
+            $('.mask_bg').hide();
+            $('.page-cont').removeClass('moved');
+        }
+    });
+	$(".mask_bg").click(function() {
+		$('.panel_left').removeClass('on');
+		$('.mask_bg').hide();
+		$('.page-cont').removeClass('moved');
+	});
+
+
+    //无限滚动开始
+    var _lock = false;
+    var params = {"cate_id": "<{$pager.cate_id}>"};
+    var title = "<{$pager.title}>";
+    if(title){
+        params['title'] = title;
+    }
+    var page = 1;
+    var link = "<{link ctl='pintuan:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k,v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".loadding").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".loadding").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+
+            $(".shoucang_box").on("click", function () {
+                var product_id = $(this).attr('pid');
+                var link = "<{link ctl='pintuan/ajax_collect' arg1=__product_id}>";
+
+                $.post(link.replace('__product_id', product_id), {}, function (ret) {
+                    if (ret.error) {
+                        layer.open({
+                            content: ret.message
+                            , skin: 'msg'
+                            , time: 2 //2秒后自动关闭
+                        });
+                    } else {
+                        if (ret.status == 101) {
+                            layer.open({
+                                content: ret.message
+                                , skin: 'msg'
+                                , time: 2 //2秒后自动关闭
+                            });
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='passport/login'}>";
+                            }, 2000);
+                        } else {
+                            layer.open({
+                                content: ret.message
+                                , skin: 'msg'
+                                , time: 2 //2秒后自动关闭
+                            });
+                            setTimeout(function () {
+                                location.reload(true);
+                            }, 2000);
+                        }
+                    }
+                }, 'json');
+            })
+
+        });
+    }
+
+    $("section").scroll(function () {//监听滚动条改变
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+            if (_lock) {
+                return false;
+            }
+            _lock = false;
+             page++;
+            loaddata();
+            _lock = true;
+        }
+    });
+    //无限滚动结束
+</script>
+<style>.pintuan_list_state{cursor:hand;cursor:pointer}</style>
+<{include file="weidian/block/footer.html"}>

@@ -1,0 +1,40 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li class="on"><a href="<{link ctl='biz/weixin/packet:index'}>"><{L('红包')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weixin/packet:create'}>" class="pbtn">添加红包</a></span>
+</div>
+<div class="ucenter_c">
+    <table width="100%" border="0" cellspacing="0" class="table">
+   <tr><th class="w-100">活动名称</th><th>关键词</th><th>红包类型</th><th >红包属性</th><th>领取人数</th><th>领取次数</th><th class="w-100">活动时间</th><th class="w-100">是否开启</th>  <th class="w-220">操作</th></tr>
+    <{foreach $items as $item}>
+        <tr><td><{$item.title}></td>
+        <td><{$item.keyword}></td>
+        <td><{if $item.packet_type == 1}>手气红包<{else}>普通红包<{/if}></td>
+        <td>发放个数：<{$item.item_num}><br />
+        <{if $item.packet_type == 1}>总金额：<{$item.item_sum}><br />面额上限：<{$item.item_max}>
+		<{else}>
+			单个面额：<{$item.item_unit}>
+		<{/if}>
+        </td>
+        <td><{$item.people}> <{if $item.pcount >0}>已领：<{$item.pcount}>人<{/if}></td>
+        <td><{$item.get_number}></td>
+        <td><{$item.start_time|format:'Y-m-d'}> 至 <{$item.end_time|format:'Y-m-d'}></td>
+         <td><{if $item.is_open == 1}>已开启<{else}>未开启<{/if}></td>
+        <td>
+        	 <a href="<{link ctl='biz/weixin/packet:sn' arg0=$item.id}>" class="btn btn-success">领取</a>
+			 <a href="<{link ctl='biz/weixin/packet:logs' arg0=$item.id}>"  class="btn btn-success">兑换</a>
+             <a href="<{link ctl='biz/weixin/packet:preview' arg0=$item.id arg1=$item.wx_id  http='ajax'}>" mini-width='500' mini-load="扫描二维码" class="btn btn-success">预览</a>
+
+            <a href="<{link ctl='biz/weixin/packet:edit' arg0=$item.id}>" class="btn btn-success">修改</a>
+            <a href="<{link ctl='biz/weixin/packet:delete' arg0=$item.id}>" mini-act="删除" mini-confirm="确定要删除吗？" class="btn btn-success">删除</a>
+        </td></tr>
+       
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="tips"><span class="notice">没有数据</span></p></td></tr>
+    <{/foreach}>
+    <tr><td colspan="10"><div class="page"><{$pager.pagebar}></div></td></tr>
+    </table>
+</div>
+<{include file="biz/block/footer.html"}>

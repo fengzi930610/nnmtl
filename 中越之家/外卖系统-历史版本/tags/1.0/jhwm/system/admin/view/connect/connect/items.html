@@ -1,0 +1,40 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"><{link ctl="connect/connect:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr><th class="w-100">ID</th><th>类型</th><th>开放平台ID</th><th>绑定用户</th><th class="w-100">创建时间</th><th>创建IP</th><th class="w-150">操作</th></tr>
+    <{foreach $items as $item}>
+    <tr><td><label><input type="checkbox" value="<{$item.connect_id}>" name="connect_id[]" CK="PRI"/><{$item.connect_id}><label></td>
+<td><{$type_cfg[$item.type]|default:'--'}></td>
+<td><{$item.open_id}></td>
+<td>  <a ucard="@<{$item.uid}>">  <{$member_list[$item.uid].uname}>（ID:<{$item.uid}>，金币数：<{$member_list[$item.uid].gold}>）</a></td>
+<td><{$item.dateline|format}></td>
+<td><{$item.clientip}></td>
+<td><{link ctl="connect/connect:edit" load="mini:修改内容" args=$item.connect_id title="修改" class="button"}>
+    <{link ctl="connect/connect:delete" args=$item.connect_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}></td></tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left"><{link ctl="connect/connect:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

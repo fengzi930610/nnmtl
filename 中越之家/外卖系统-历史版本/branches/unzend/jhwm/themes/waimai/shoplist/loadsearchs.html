@@ -1,0 +1,37 @@
+<{foreach $items as $k=>$item}>
+<li class="shopList <{if $item.yyst==0}>close<{/if}>">
+    <a class="logo" href="<{link ctl='shop/detail' args=$item.shop_id http='waimai'}>" style="background-image: url('<{$pager.img}>/<{$item.logo}>')"></a> 
+    <div class="right_box">
+        <a href="<{link ctl='shop/detail' args=$item.shop_id http='waimai'}>">
+            <h3 class="overflow_clear"><{<{$item.title}>}></h3>
+            <{if $item.tips_label}><div class="open_state"><span><{$item.tips_label}></span></div><{/if}>
+            <div class="bq_box">
+                <{foreach $item.huodong as $hd}>
+                <{if $hd@index < 5}>
+                <span><{$hd.title}></span>
+                <{/if}>
+                <{/foreach}>
+            </div>
+        </a>
+       <{if $item.products}>
+        <div class="productList">
+           <ul>
+                <{foreach $item.products as $p}>
+                <li><a href="<{link ctl='shop/detail' arg0=$p.shop_id pid=$p.product_id http='waimai'}>">
+                    <div class="pic" style="background-image: url('<{$pager.img}>/<{$p.photo}>')"></div>
+                    <div class="wz_box">
+                        <h3 class="overflow_clear"><{$p.title}></h3>
+                        <div class="txt">已售<{$p.sales|default:0}> 赞<{$p.good|default:0}></div>
+                        <div class="price"><small>￥</small><{$p.price|default:'0.00'}></div>
+                    </div>
+                </a></li>
+                <{/foreach}>
+            </ul>
+            <{if count($item.products) > 2}>
+            <div class="more">展开更多商品<{count($item.products)}>个<i class="ico"></i></div>
+            <{/if}>
+        </div>
+        <{/if}>
+    </div>
+</li>
+<{/foreach}>

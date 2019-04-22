@@ -1,0 +1,114 @@
+<{assign var='tpl_title' value=L("商家入驻-结算信息")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .loginTop .logo img{ width:60px; height:60px;}
+</style>
+<div class="loginTop">
+    <div class="smallpage">
+        <div class="logo fl"><{if $site.logo_shop}><img src="<{$pager.img}>/<{$site.logo_shop}>"><{else}><img src="%THEME%/static/images/logo.png"><{/if}><span><{$site.title}>外送商家后台</span></div>
+        <!--<div class="tit fl">入驻</div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+
+        </div>-->
+        <div class="tit fl">客服电话：<{$site.phone}></div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+            &nbsp;&nbsp;<a class="black3"  href="<{link ctl='login/loginout'}>">退出登录</a>
+            <!--<i class="ico"></i>-->
+        </div>
+    </div>
+</div>
+<div class="bg_grey" style="padding:10px 0;">
+    <div class="smallpage">
+        <div class="enterProcess_state">
+        	<ul>
+            	<li class="on">
+                	<span class="num">1</span>
+                    <P>店铺信息</P>
+                </li>
+                <li class="on">
+                	<span class="num">2</span>
+                    <P>资质信息</P>
+                </li>
+                <li class="on">
+                	<span class="num">3</span>
+                    <P>配送信息</P>
+                </li>
+                <li class="on">
+                	<span class="num">4</span>
+                    <P>结算信息</P>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="enterPromt">
+            <h2 class="big_tit">结算信息填写</h2>
+            <div class="enterForm">
+                <form >
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="160"><span class="pointcl">*</span>开户行：</td>
+                            <td>
+                                <input type="text" class="form-control form_table_int form_table_intw1 fl" placeholder="请输入开户行信息" id="account_type" value="<{$account.account_type}>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>支行：</td>
+                            <td>
+                                <input type="text" class="form-control form_table_int form_table_intw1 fl" placeholder="请输入支行信息" id="account_branch" value="<{$account.account_branch}>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>银行卡号：</td>
+                            <td>
+                                <input type="text" class="form-control form_table_int form_table_intw1 fl" placeholder="请输入卡号" id="account_number" value="<{$account.account_number}>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>开户姓名：</td>
+                            <td>
+                                <input type="text" class="form-control form_table_int form_table_intw1 fl" placeholder="开户姓名" id="account_name" value="<{$account.account_name}>">
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+            </div>
+            <div class="form_table_btn_box text_c">
+                <a class="btn btn-default btn-w-m" href="<{link ctl='newreg/three'}>">上一步</a>
+                <{if $verify.verify ==5||$verify.verify==1}><a class="btn btn-primary btn-w-m" href="<{link ctl='newreg/index'}>">下一步</a><{else}><a class="btn btn-primary btn-w-m" href="javascript:;" id="sub_btn">提交申请</a><{/if}>
+            </div>
+        </div>
+        <div class="bottom_tel"><i class="ico"></i>客服热线：<{$site.phone}></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#sub_btn').on('click',function () {
+            var data = {
+                account_type:$('#account_type').val(),
+                account_branch:$('#account_branch').val(),
+                account_number:$('#account_number').val(),
+                account_name:$('#account_name').val()
+            }
+            var url = "<{link ctl='newreg/four' http='wmbiz'}>";
+            $.post(url,{data:data},function(e){
+                if(e.error>0){
+                    Widget.MsgBox.error(e.message)
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    setTimeout(function(){
+                       window.location.href = "<{link ctl='newreg/index'}>";
+                    },2000);
+                }
+
+            },'json');
+            
+        })
+        
+    })
+</script>
+<{include file="block/footer.html"}>

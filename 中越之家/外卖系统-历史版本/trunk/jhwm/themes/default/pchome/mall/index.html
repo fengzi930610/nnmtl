@@ -1,0 +1,112 @@
+<{assign var="page_title" value="首页"}>
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top.html"}>
+<div class="topNav">
+    <div class="line"><!--勿删--></div>
+    <div class="pagewd">
+        <div class="topNav_menu_all fl">
+            <div class="bt">所有店铺分类</div>
+            <div class="topNav_menu fl">
+                <{include file="pchome/block/cate_nav.html"}>
+            </div>
+        </div>
+        <div class="topNav_nav fl">
+            <ul id="cate_nav">
+                <{adv name="PC首页功能"}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="shangcheng-shouye">
+    <div class="pagewd">
+        <div class="top-nav">
+            <div class="tit">首页 &gt; 积分商城</div>
+            <div class="nav-detail">
+                <dl>
+                    <dt class="fl">分类：</dt>
+                    <dd class="black6">
+                        <a href="<{link ctl='mall/index' arg0=$pager.page}>">全部</a>
+                        <{foreach $cate as $k => $v}>
+                        <a href="<{link ctl='mall/index' arg0=$pager.page arg1=$v.cate_id}>" <{if $v.cate_id == $cate_id}>style="color:#59c181;"<{/if}>><{$v.title}></a>
+                        <{/foreach}>
+                    </dd>
+                </dl>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="shangcheng-shouye-content">
+            <div class="pagewd">
+                <div class="nav">
+                    <div class="fl">
+                        <div class="active"><a href="<{link ctl='mall/index' arg0=$pager.page}>" style='color:#ffffff;'>默认排序</a><i></i></div>
+                        <div>
+                            <{if $type_num == 'desc' && $type == 'sales'}>
+                                <a href="<{link ctl='mall/index' arg0=$pager.page arg1=$cate_id arg2='a' arg3='s'}>">兑换量</a>
+                            <{else}>
+                                <a href="<{link ctl='mall/index' arg0=$pager.page arg1=$cate_id arg2='d' arg3='s'}>">兑换量</a>
+                            <{/if}>
+                            <i></i>
+                        </div>
+                        <div>
+                            <{if $type_num == 'desc' && $type == 'jifen'}>
+                                <a href="<{link ctl='mall/index' arg0=$pager.page arg1=$cate_id arg2='a' arg3='j'}>">积分</a>
+                            <{else}>
+                                <a href="<{link ctl='mall/index' arg0=$pager.page arg1=$cate_id arg2='d' arg3='j'}>">积分</a>
+                            <{/if}>
+                            <i></i>
+                        </div>
+                    </div>
+                    <div class="fr">
+                        <p class="fl black6"><span><{$pager.pagebar}></span></p>
+                    </div>
+                </div>
+                <ul class="shangcheng-dingdan-content">
+                    <{foreach $items as $k => $v}>
+                    <li>
+                        <div class="jifen"><{$v.jifen}>积分</div>
+                        <a href="<{link ctl='mall/detail' arg0=$v.product_id}>" class="pic"><img src="<{$pager.img}>/<{$v.photo}>"></a>
+                        <div class="txt">
+                            <p class="tit"><a href="<{link ctl='mall/detail' arg0=$v.product_id}>"><{$v.title}></a></p>
+                            <p class="black6">支付<span>￥<{$v.price}></span><i class="add" pid='<{$v.product_id}>'></i></p>
+                        </div>
+                    </li>
+                    <{/foreach}>
+                </ul>
+                <div class="clear"></div>
+                <!--分页-->
+                <div class="pageNum_box">
+                    <{$pager.pagebar}>
+                </div>
+                <!--分页end-->
+                <script>
+                    $(document).ready(function(){
+                        $('.add').click(function () {
+                        var pid = $(this).attr('pid');
+                        var link = "<{link ctl='mall:addcart'}>";
+                        $.post(link, {pid: pid}, function (ret) {
+                                if (ret.error == 0) {
+                                    layer.msg('加入购物车成功');
+                                    $('.top_cart_num').html(ret.data.count);
+                                } else {
+                                    layer.msg(ret.message);
+                                    if (ret.error == 101) {
+                                        setTimeout(function () {
+                                            $('.modal-overlay').remove();
+                                            $('.modal').remove();
+                                            window.location.href = "<{link ctl='passport/login'}>";
+                                        },2000);
+                                    }
+                                }
+                            }, 'json');
+                        });
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

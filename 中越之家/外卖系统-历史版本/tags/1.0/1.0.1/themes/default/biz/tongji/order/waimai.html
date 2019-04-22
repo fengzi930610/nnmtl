@@ -1,0 +1,147 @@
+<{include file="biz/block/header.html"}>
+<style type="text/css">
+    .tab_fl2{display:inline-block;width:230px;border-right:2px solid #ffffff;background:#5db42f;color:#ffffff;line-height:40px;height:40px;padding:5px 0px;float:left;text-align:center;}
+</style>
+
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/tongji:w_order'}>" class="on">外卖</a>
+        <a href="<{link ctl='biz/tongji:t_order'}>">团购</a>
+        <a href="<{link ctl='biz/tongji:m_order'}>">优惠买单</a>
+    </ul>
+</div>
+<{if $have_waimai == 1}>
+<div class="ucenter_c">
+    <div style="margin-left:20px;margin-bottom:20px">
+        <div class="tab_fl2">今日订单量&nbsp;<{if $today_orders}><{$today_orders}><{else}>0<{/if}></div>
+        <div class="tab_fl2">本周订单量&nbsp;<{if $seven_orders}><{$seven_orders}><{else}>0<{/if}></div>
+        <div class="tab_fl2">本月订单量&nbsp;<{if $month_orders}><{$month_orders}><{else}>0<{/if}></div>
+        <div class="tab_fl2">累计总订单量&nbsp;<{if $all_orders}><{$all_orders}><{else}>0<{/if}></div>
+    </div>
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <td colspan="2">
+                <div class="tableBox">
+                    <div id="week_chart" style="margin-top:20px">
+                    </div>
+                    <div id="month_chart" style="margin-top:20px">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<{else}>
+<tr>
+    <td colspan="20">
+        <div class="alert alert-info">
+            <h3>您当前还未开通外卖功能，请移步店铺设置查看外卖功能开通状态</h3>
+        </div>
+    </td>
+</tr>
+<{/if}>
+
+<{include file="biz/block/footer.html"}>
+<script>
+$(function () {
+    $('#week_chart').highcharts({
+        chart: {
+            type: 'line'
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        title: {
+            text: '近一周订单量曲线',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: []
+        },
+        yAxis: {
+            title: {
+                text: '订单量 (个)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '个'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '订单量',
+            data: [
+                 <{foreach $week_data as $v1}>
+                [<{$v1.date}>,   <{if empty($v1.day_order)}>0<{else}><{$v1.day_order}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#month_chart').highcharts({
+        title: {
+            text: '近一月订单量曲线',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -90,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '订单量 (个)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '个'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '订单量',
+            data: [
+                <{foreach $month_data as $v2}>
+                [<{$v2.date}>,   <{if empty($v2.day_order)}>0<{else}><{$v2.day_order}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+});
+</script>

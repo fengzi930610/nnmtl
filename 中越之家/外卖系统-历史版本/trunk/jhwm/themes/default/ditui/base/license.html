@@ -1,0 +1,38 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='ditui/base:index'}>"><{L('基本资料')}></a>
+	<a href="<{link ctl='ditui/base:passwd'}>"><{L('安全设置')}></a>
+	<a href="<{link ctl='ditui/base:mobile'}>"><{L('更换手机')}></a>
+        <a href="<{link ctl='ditui/base:license'}>" class="on"><{L('身份认证')}></a>
+	<a href="<{link ctl='ditui/base:account'}>"><{L('提现帐号')}></a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='ditui/base:license'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">
+    <tr>
+        <th><span class="red">*</span><{L('真实姓名')}>：</th>
+        <td><input type="text" name="data[name]" value="<{$detail.name|default:''}>" class="input w-300"/></td>
+    </tr>
+    <tr>
+        <th><span class="red">*</span><{L('身份证号码')}>：</th>
+        <td><input type="text" name="data[id_number]" value="<{$detail.id_number|default:''}>" class="input w-300"/></td>
+    </tr>
+    <tr>
+        <th><{L('身份证正面照')}>：</th>
+        <td><input type="text" name="data[id_photo]" class="input w-300" id="file_photo" value="<{$detail.id_photo}>" <{if $detail.id_photo}>photo="<{$pager.img}>/<{$detail.id_photo}>"<{/if}> />
+        <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" <{L('选择文件')}> " />
+        <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span><{L('预览')}></a></td>
+    </tr>
+    <tr><th></th><td><input type="submit" value="<{L('保存数据')}>" class="btn btn-primary" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="ditui/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="ditui/block/footer.html"}>

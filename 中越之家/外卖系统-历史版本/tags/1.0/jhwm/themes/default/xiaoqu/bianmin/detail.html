@@ -1,0 +1,68 @@
+<{assign var='tpl_title' value=L("<{$detail.title}>")}>
+<{include file="block/xiaoqu_header.html"}>
+
+    	<!--头部-->
+
+        <header class="bar bar-nav">
+
+            <a href="" class="pull-left back"><span class="headerIco left_tit mr10"></span><{$detail.title}></a>
+
+            <a href="<{link ctl='xiaoqu/bianmin/report' arg1=$detail.bianmin_id}>" class="pull-right">举报</a>
+
+        </header>
+
+		<!--头部结束-->
+
+        <!--  主要内容部分 -->
+
+        <div class="content"> 
+
+        	<div class="myCommunity">
+
+            	<div class="box1 bgcolor_white">
+
+                    <div class="list border_b">
+
+                        <h3 class="wz"><{$detail.title}><span class="name ml5"><{$detail.cate_title}></span></h3>
+
+                        <p class="font_size14 black9">使用：<{$detail.views}>次</p>	
+
+                    </div>
+
+                    <div class="jieshao pad10 mb10">
+
+                    	<p class="tit mb5">相关介绍</p>
+
+                        <p class="wz"><{$detail.intro}>！</p>
+
+                    </div>
+
+                </div>
+
+                <div class="border_t border_b  bgcolor_white box2">
+
+                	<div class="nr border_b">
+
+                        <p><{$detail.phone}></p>
+
+                        <a href="tel:<{$detail.phone}>"><i class="phoneIco"></i></a>
+
+                    </div>
+
+                    <div class="nr">
+
+                        <p><{$detail.addr}></p>
+
+                        <i class="addressIco"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--  主要内容部分结束 -->
+
+<{include file="block/xiaoqu_footer.html"}>

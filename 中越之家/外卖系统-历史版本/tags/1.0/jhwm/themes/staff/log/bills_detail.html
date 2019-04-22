@@ -1,0 +1,59 @@
+<{assign var='tpl_title' value=L("配送员对账-资金流水")}>
+<{include file="block/header.html"}>
+
+
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="import-detail mb10">
+                    <div class="border_b money">
+                        <div>￥<{$detail.amount}>元</div>
+                        <p>汇入金额</p>
+                    </div>
+                    <div class="info">
+                        <div class="list">
+                            <div class="fl black9">类型</div>
+                            <div class="r-wz">账单汇入</div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">账期</div>
+                            <div class="r-wz"><{$detail.dateline|format:'Y.m.d '}></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">创建时间</div>
+                            <div class="r-wz"><{$detail.dateline|format:'Y.m.d H:i:s'}></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">流水单号</div>
+                            <div class="r-wz"><{$detail.bills_id}></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="duizhang-bill mb10">
+                    <div class="subtit-one subtit-two">2017.06.07 - 06.09账单</div>
+                    <ul class="list-box">
+                        <li class="pub_list">
+                            <div class="pub_list_bd">2017.06.09</div>
+                            <div class="ml10">￥262.71</div>
+                        </li>
+                        <li class="pub_list">
+                            <div class="pub_list_bd">2017.06.09</div>
+                            <div class="ml10">￥262.71</div>
+                        </li>
+                    </ul>
+                </div>-->
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<{include file="block/footer.html"}>

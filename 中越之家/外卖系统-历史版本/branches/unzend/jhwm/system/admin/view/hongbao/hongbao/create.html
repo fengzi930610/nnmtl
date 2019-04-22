@@ -1,0 +1,165 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="hongbao/hongbao:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?hongbao/hongbao-create.html" mini-form="hongbao-form" method="post" >
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th><span class="red">*</span>标题：</th>
+                <td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-150"/><br /></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>满多少使用：</th>
+                <td><input type="text" name="data[min_amount]" value="<{$detail.min_amount|default:''}>" class="input w-150"/><span class="tip-comment">满足使用条件</span></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>红包价值：</th>
+                <td><input type="text" name="data[amount]" value="<{$detail.amount|default:''}>" class="input w-150"/><span class="tip-comment">红包价值</span></td>
+            </tr>
+           <!-- <tr>
+                <th class="w-100"><span class="red">*</span>类型：</th>
+                    <td>
+                        <select name="data[type]" class="w-150">
+                            <{foreach $types as $k => $val}>
+                                <option value="<{$k}>"><{$val}></option>
+                            <{/foreach}>
+                        </select>
+                    </td>
+            </tr>-->
+            <tr><th>失效时间：</th>
+                <td>
+                    <input type="text" name="data[ltime]" value="<{if $detail.ltime}><{$detail.ltime|format:'Y-m-d'}><{/if}>" datetime="ltime" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" class="input w-150"/>
+                    <span class="tip-comment">红包过期时间</span>
+                </td>
+            </tr>
+            <tr>
+                <th class="w-100"><span class="red">*</span>数量：</th>
+                    <td>
+                        <select name="data[num]" class="w-150">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                        </select>
+                    </td>
+            </tr>
+            <tr>
+                <th>红包类型：</th>
+                <td>
+                    <div>
+                        <div class="list">
+                            <select name="data[from]" class="input w-100">
+                                <{foreach $module_config as $kkk=>$vvv}>
+                                <{if $vvv.used}>
+                                <option value="<{$kkk}>"><{$vvv.title}> </option>
+                                <{/if}>
+                                <{/foreach}>
+                            </select>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>红包使用时间：</th>
+                <td>
+                    <!-- <input type="text" style="display: inline" name="data[limit_stime]" value=""  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/>~
+                    <input type="text" style="display: inline" name="data[limit_ltime]" value=""  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/> -->
+                    <div class="stime_box">
+                        <input type="text" style="display: inline" name="data[limit_stime]" value="" class="input w-100 stime" time="0" readonly/>
+                        <ul class="time-ul"></ul>
+                    </div>
+                        ~
+                    <div class="ltime_box">
+                        <input type="text" style="display: inline" name="data[limit_ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                        <ul class="time-ul"></ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+
+        $(document).on('click', '.stime', function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parent('.stime_box').siblings('.ltime_box').find('.ltime').attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"ltime": ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.ltime', function(){
+            var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+            var ltime = $(this).attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"stime": stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();
+        });
+    });
+</script>
+
+<{include file="admin:common/footer.html"}>

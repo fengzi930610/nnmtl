@@ -1,0 +1,82 @@
+<{include file="block/header.html"}>
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='product/huodong/shop'}>">营销管理</a></li>
+        <li>折扣活动</li>
+        <li class="active">历史活动</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content" style="padding: 0;">
+    	<div class="topfixed border_b">
+	        <!--头部tab-结束-->
+	        <!--头部筛选操作-开始-->
+	        <div class="topDispatch">
+	            <div class="fl">
+	               <a href="<{link ctl='huodong/discount/create'}>" class="J_menuItem btn btn-primary btn-sm">新建限时折扣</a> 
+	            </div>
+	            <div class="clear"></div>
+	        </div>
+	        <!--头部筛选操作-结束-->
+	</div>
+        <!--商品列表部分-开始-->
+        <div class="application_list">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="dispatch_table">
+                <tr class="tit">
+                    <td  width="200">活动名称</td>
+                    <td >状态</td>
+                    <td width="200" class="center">优惠方式</td>
+                    <td>规则</td>
+                    <td class="right" width="170">操作</td>
+                </tr>
+                <{foreach $items as $item}>
+                <tr>
+                    <td><{$item.title}></td>
+                    <td>
+                        <p><{if $item.audit == 0}>待审核<{elseif $item.stime >$nowtime}>待生效<{elseif $item.stime <=$nowtime&&$item.ltime>=$nowtime&&$item.audit==1&&$item.closed==0}>已生效<{else}>已失效<{/if}></p>
+                        <p class="black9"><{$item.stime|format:'Y-m-d'}>&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;&nbsp;<{$item.ltime|format:'Y-m-d '}></p>
+                    </td>
+                    <td class="center"><{if $item.discount_type}>减价优惠<{else}>打折优惠<{/if}></td>
+                    <td>
+                        <{foreach $item.period_weeks as $w}>
+                            <{if $w==1}>周一<{/if}>
+                            <{if $w==2}>周二<{/if}>
+                            <{if $w==3}>周三<{/if}>
+                            <{if $w==4}>周四<{/if}>
+                            <{if $w==5}>周五<{/if}>
+                            <{if $w==6}>周六<{/if}>
+                            <{if $w==0}>周日<{/if}>
+                        <{/foreach}>
+                        &nbsp;&nbsp;&nbsp;的&nbsp;&nbsp;&nbsp;<{$item.period_times.stime}>至<{$item.period_times.ltime}>
+                    </td>
+                    <td class="right btns">
+                        <a class="btn edit" href="<{link ctl='huodong/discount/detail' args=$item.huodong_id}>">查看</a>
+                        <!-- <button class="btn">删除</button> -->
+                    </td>
+                </tr>
+                <{foreachelse}>
+                <tr><td colspan="5">暂无数据</td></tr>
+                <{/foreach}>
+            </table>
+        </div>
+        <!--商品列表部分-结束-->
+    </div>
+</div>
+
+<!--删除提示-->
+<div class="mask_cont prompt_mask">
+	<div class="mask_cont_tit text_c">提示</div>
+    <div class="cont">
+    	<div class="ts border_b">删除后将不可返回，确认删除？</div>
+        <div class="text_c mt20">
+        	<a href="javascript:;" class="btn btn-w-m btn-default cancel">考虑一下</a>
+            <a href="javascript:;" rel="" id="confirm_del" class="btn btn-w-m btn-primary comfirt">确认删除</a>
+        </div>
+    </div>
+</div>
+<div class="mask_bg"></div>
+
+<{include file="block/footer.html"}>

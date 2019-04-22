@@ -1,0 +1,14 @@
+<nav class="bar bar-tab">
+    <a class="tab-item external <{if $ctl != ucenter&& $ctl != near}>active<{/if}>" href="<{link ctl='cloud/index'}>">
+        <span class="footerIco footerIco1"></span>
+        <span class="tab-label">夺宝</span>
+    </a>
+    <a class="tab-item external <{if $ctl== near}>active<{/if}>" href="<{link ctl='cloud/near/index'}>">
+        <span class="footerIco footerIco2"></span>
+        <span class="tab-label">最新揭晓</span>
+    </a>
+    <a class="tab-item external <{if $ctl== ucenter}>active<{/if}>" href="<{link ctl='cloud/ucenter/index'}>">
+        <span class="footerIco footerIco3"></span>
+        <span class="tab-label">我的</span>
+    </a>
+</nav>

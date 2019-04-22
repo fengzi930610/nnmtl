@@ -1,0 +1,143 @@
+<{assign var='tpl_title' value='外卖订单评价'}>
+<{include file="block/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/jquery.form.js"></script>
+<header>
+	<i class="left"><a href="<{link ctl='ucenter/order'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	外卖订单评价
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<form action="<{link ctl='ucenter/order/comment_handle' }>" mini-form="car-form" id="comment_form" method="post">
+   <section class="page_center_box">
+       <script>
+        function fileSelected(obj, type) {
+            var files = obj.files;
+            for (var i = 0; i < files.length; i++) {
+                var tag = '';
+                var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                if (!rFilter.test(files[i].type)) {
+                    alert("只允许上传JPG、PNG、GIF格式图片");
+                    return false;
+                }
+                var reader = new FileReader();
+                reader.onloadstart = function (e) {
+                    $(".loading").show();
+                }
+                reader.onload = function (e) {
+                    $('#photo' + type).hide();
+                    $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        }
+    </script>
+    <div class="jiazheng">
+    	<div class="evaluate_star border_b pad10 bgcolor_white">服务态度 <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="#" class="star_clink" val="1"></a>
+                    <a href="#" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="#" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="#" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="#" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[score_fuwu]" id="score_fuwu" value="3">
+                </span></span></div>
+        <div class="evaluate_star border_b pad10 bgcolor_white">菜品口味 <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="#" class="star_clink" val="1"></a>
+                    <a href="#" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="#" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="#" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="#" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[score_kouwei]" id="score_kouwei" value="3">
+                </span></span></div>
+    	<div class="evaluate_star border_b pad10 bgcolor_white">综合评价 <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="#" class="star_clink" val="1"></a>
+                    <a href="#" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="#" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="#" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="#" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[score]" id="score" value="3">
+                </span></span></div>
+        <{if $order.pei_type!=3}>
+        <div class="evaluate_star border_b pad10 bgcolor_white mb10">配送速度 
+            <select name="data[pei_time]" size="1" id="pay_time">
+            	<{foreach $peitime as $k => $v}>
+                    <option value="<{$k}>"><{$v}></option>
+                <{/foreach}>
+            </select>
+        </div>
+        <{/if}>
+        <div class="pad10 border_t bgcolor_white">
+            <div class="pub_textarea_box">
+                <textarea class="pub_textarea" name="data[content]" id="content" placeholder="说说你的看法"></textarea>
+            </div>
+        </div>
+       <div class="shangjia_imgUpload">
+            <ul>
+                <li>
+                    <div class="imgUpload" style="width:0.6rem;height:0.6rem;">
+                        <label class="imgUpload_btn" style="width:0.6rem;height:0.6rem;">
+                            <input type="file" name="photo1" id="photo1" onchange="fileSelected(this, 1)" value="上传"   />
+                            <img src="" id="img1" style="display:none;" width="100%" height="100%" />
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="imgUpload" style="width:0.6rem;height:0.6rem;">
+                        <label class="imgUpload_btn" style="width:0.6rem;height:0.6rem;">
+                            <input type="file" name="photo2" id="photo2" onchange="fileSelected(this, 2)" value="上传"   />
+                            <img src="" id="img2" style="display:none;" width="100%" height="100%" />
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="imgUpload" style="width:0.6rem;height:0.6rem;">
+                        <label class="imgUpload_btn" style="width:0.6rem;height:0.6rem;">
+                            <input type="file" name="photo3" id="photo3" onchange="fileSelected(this, 3)" value="上传"   />
+                            <img src="" id="img3" style="display:none;" width="100%" height="100%" />
+                        </label>
+                    </div>
+                </li>
+                <li>
+                    <div class="imgUpload" style="width:0.6rem;height:0.6rem;">
+                        <label class="imgUpload_btn" style="width:0.6rem;height:0.6rem;">
+                            <input type="file" name="photo4" id="photo4" onchange="fileSelected(this, 4)" value="上传"   />
+                            <img src="" id="img4" style="display:none;" width="100%" height="100%" />
+                        </label>
+                    </div>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+          <input type='hidden' name='data[order_id]' id='order_id' value='<{$order.order_id}>'>
+    </div>
+    <p style="margin-top:0.2rem; margin-left: 0.1rem;" class="fl"><{L('评价后可获得')}><span class="maincl"><{$jifen}></span><{L('积分')}></p>
+</section>
+    <footer>
+        <div class="btn_box"> <input type="submit" value="提交评价" id="comment_submit" class="long_btn" /></div>
+    </footer>
+</form>
+    
+<script>
+    $('.star a').click(function () {
+        var val = $(this).attr('val');
+        $(this).parent().find('input').val(val);
+        $(this).parent().css('width', val * 20 + '%');
+    })
+    $("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+        if (ret.error == 0) {
+            layer.open({content: ret.message, time: 2});
+            setTimeout(function () {
+                window.location.href = "<{link ctl='ucenter/order/detail' args=$order.order_id }>";
+            }, 2000);
+        } else {
+            layer.open({content: ret.message, time: 2});
+            return false;
+        }
+    }});
+</script>
+<style type="text/css">
+    .star_clink{width:20%;}
+</style>
+
+</body>
+</html>

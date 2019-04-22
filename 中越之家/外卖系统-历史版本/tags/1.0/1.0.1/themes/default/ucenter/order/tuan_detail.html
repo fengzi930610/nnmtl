@@ -1,0 +1,124 @@
+<{assign var='tpl_title' value='我的团购订单详情'}>
+<{include file="block/header.html"}>
+<header>
+	<!--<i class="left"><a href="<{link ctl='ucenter/order/items' arg1='tuan'}>" class="ico headerIco headerIco_3"></a></i>-->
+        <i class="left"><a href="<{link ctl='ucenter/order/items_all'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的团购订单详情
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+
+<section class="page_center_box">
+    <ul>
+        <li class="orderFinish_list border_t">
+            <div class="pad10 box">
+            	<span class="linkIco"></span>
+                <div class="pub_img fl"><img src="<{$pager.img}>/<{$order.photo}>" width="100" height="100"></div>
+                <a href="<{link ctl='tuan/product:detail' args=$order.detail.tuan_id}>">
+                <div class="pub_wz">
+                    <p class="font_size14 overflow_clear"><{$order.detail.tuan_title}></p>
+                    <p class="black9"><{$order.detail.tuan_number}>份</p>
+                    <p class="black9">￥<{$order.detail.tuan_price}></p>
+                </div>
+                </a>
+                <div class="clear"></div>
+            </div>
+        </li>
+    </ul>
+    
+    <{if $order.quan}>
+    <div class="jiazheng">
+        <div class="order_details_nr">
+            <ul class="form_list_box">
+                <li class="list">
+                    <div class="fl"><p>团购券</p></div>
+                </li>
+                <li class="list last">
+                    <p class="black6">有效期至：<{$order.quan.ltime|format:'Y-m-d'}></p>
+                    <p class="black6">券码：<{$order.quan.number}>&nbsp;&nbsp;x&nbsp;<{$order.quan.count}><span class="fr">
+                    <{if $order.quan.status==0}>未使用<{/if}>
+                    <{if $order.quan.status==1}>已使用<{/if}>
+                    <{if $order.quan.status==-1}>已退款<{/if}></span></p>
+                    <div class="img" style="text-align:center;margin:0.05rem 0 0.05rem 0;"><div id="qrcodeTable"></div></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <{/if}>
+    
+    <h3 class="bgcolor_white pad10 border_t border_b">商家信息</h3>
+    <div class="shangpin_seller border_b mb10">
+        <div class="pub_box clear_both">
+            <a href="tel:<{$order.shop.mobile}>" class="ico telIco fr"></a>
+            <div class="pub_wz">
+                <h3><{$order.shop.title}></h3>
+            </div>
+        </div>
+        <div class="addr mt10 clear_both">
+        	<span class="range black9 fr"><{$order.juli_label}></span>
+            <p class="black9"><{$order.shop.addr}></p>
+        </div>
+    </div>
+    <div class="jiazheng">
+        <div class="order_details_nr">
+            <ul class="form_list_box">
+                <li class="list">
+                    <div class="fl"><p>订单详情</p></div>
+                    <div class="fr"><p class="black9">订单号：<{$order.order_id}></p></div>
+                </li>
+                <li class="list">
+                    <p class="black6">购买手机号：<{$order.mobile}></p>
+                </li>
+                <{if $order.pay_time>0}>
+                <li class="list">
+                    <p class="black6">付款时间：<{$order.pay_time|format:'Y-m-d H:i'}></p>
+                </li>
+                <{/if}>
+                <li class="list">
+                    <p class="black6">数量：<{$order.detail.tuan_number}></p>
+                </li>
+                <li class="list last">
+                    <p class="black6">总价：￥<{$order.detail.tuan_price}></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+    
+<{if $order.order_status == 0 && $order.pay_status == 0}>
+<footer>
+	<div class="btn_box"><a href="javascript:toPay(<{$order.order_id}>);"><input type="button" class="long_btn bgcolor1" value="立即支付"></a></div>
+</footer>
+<{/if}>
+
+
+</body>
+</html>
+
+<script>
+
+/*去支付*/
+function toPay(order_id) {
+    var order_id = parseInt(order_id);
+    var link_storage = "<{link ctl='ucenter/order:detail' arg0='temp0' }>";
+    localStorage['order_pay'] = link_storage.replace('temp0', order_id);
+    var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+    setTimeout(function () {
+        window.location.href = link.replace('temp1', order_id);
+    }, 1000);
+}
+
+// 生成二维码
+$('#qrcodeTable').qrcode({
+    render: "canvas",            //渲染方式 table 和 canvas两种
+    width: 128,                  //设置宽度  
+    height: 128,                 //设置高度  
+    typeNumber: -1,              //计算模式 
+    correctLevel: 2,             //纠错等级  0,1,2,3 默认为2
+    background: "#ffffff",       //背景颜色  
+    foreground: "#000000",       //前景颜色 
+    text    : '<{$order.quan.number}>' 
+}); 
+
+</script>

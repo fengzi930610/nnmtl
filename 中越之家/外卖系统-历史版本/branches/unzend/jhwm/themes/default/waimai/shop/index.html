@@ -1,0 +1,341 @@
+<{assign var='tpl_title' value=L("外卖店铺")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        <{if $cate_id == 5}>
+        商超
+        <{else}>
+        外卖店铺
+        <{/if}>
+    </div>
+    <i class="right"><a  href="javascript:tosearch();" link-load="" class="ico headerIco headerIco_1"></a></i>
+</header>
+
+<div class="saixuan_pull_box">
+    <div class="saixuan_pull">
+        <ul>
+            <li class="saixuan_pull_list">
+                <div class="click" filter="cate">分类<em></em></div>
+                <div class="saixuan_pull_child_box saixuan_fenlei" style="display:none;">
+                    <ul class="scroll_box">
+                        <li class="saixuan_pull_child select_all" ><a href="javascript:;" cate_id="0" cat="0"><i class="ico ico<{$v@index+1}>"></i>全部商家</a></li>
+                        <{foreach $cate_tree as $v}>
+                        <{if !$v.parent_id &&  $v.childrens}>
+                        <li class="saixuan_pull_child" <{if $pager.cate_id==$v.cate_id || $pager.cate.parent_id==$v.cate_id}>class="on" <{/if}> rel="<{$v.cate_id}>"><a href="javascript:;"><img src="<{$pager.img}>/<{$v.icon}>" /><{$v.title}></a><span class="linkIco"></span></li>
+                        <{elseif !$v.parent_id}>
+                        <li class="saixuan_pull_child" <{if $pager.cate_id==$v.cate_id || $pager.cate.parent_id==$v.cate_id}>class="on" <{/if}> rel="<{$v.cate_id}>"><a href="javascript:;"><img src="<{$pager.img}>/<{$v.icon}>" /><{$v.title}></a><span class="linkIco"></span></li>
+                        <{/if}>
+                        <{/foreach}>
+                    </ul>
+                    <div class="saixuan_fenlei_list_box">
+                        <{foreach $cate_tree as $item}>
+                        <{if $item.childrens}>
+                        <ul class="saixuan_fenlei_list_nr" id="a<{$item.cate_id}>">
+                            <li class="saixuan_fenlei_list"><a href="javascript:;" <{if !$pager.cate_id}>class="on" <{/if}> cate_id="<{$item.cate_id}>" cat_id="0" data="" >全部<{$item.title}></a></li>
+                            <{foreach $item.childrens as $child}>
+                            <{if $child.parent_id == $item.cate_id}>
+                            <li class="saixuan_fenlei_list">
+                                <a href="javascript:;" <{if $pager.cate_id==$item.cate_id}>class="on" <{/if}>cate_id="<{$child.cate_id}>" cat_id="<{$child.parent_id}>" >
+                                <{$child.title}>
+                                </a>
+                            </li>
+                            <{/if}>
+                            <{/foreach}>
+                        </ul>
+                        <{/if}>
+                        <{/foreach}>
+                    </div>
+                </div>
+            </li>
+            <li class="saixuan_pull_list">
+                <div class="click">
+                    <a href="javascript:;" filter="orderby">排序<em></em></a>
+                </div>
+                <div class="saixuan_pull_child_box" style="display:none;">
+                    <ul id='filter_order' class="border1">
+                        <li order=""><a href="javascript:;"><i class="ico ico1"></i>默认排序</a></li>
+                        <li order="time"><a href="javascript:;"><i class="ico ico5"></i>速度最快</a></li>
+                        <li order="juli"><a href="javascript:;"><i class="ico ico2"></i>距离最近</a></li>
+                        <li order="sales"><a href="javascript:;"><i class="ico ico6"></i>销量最好</a></li>
+                        <li order="price"><a href="javascript:;"><i class="ico ico4"></i>起送最低</a></li>
+                        <li order="score"><a href="javascript:;"><i class="ico ico3"></i>按评价排</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="saixuan_pull_list">
+                <div class="click">
+                    <a href="javascript:;" filter="sort">筛选<em></em></a>
+                </div>
+            	<div class="saixuan_pull_child_box" style="display:none;">
+                    <ul id="filter_sort" class="border1">
+                        <li sort="is_new"><a href="javascript:;"><i class="ico ico7"></i>新店开业</a></li>
+                        <li sort="online_pay"><a href="javascript:;"><i class="ico ico8"></i>在线支付</a></li>
+                        <li sort="first_amount"><a href="javascript:;"><i class="ico ico9"></i>首单优惠</a></li>
+                        <li sort="youhui_order"><a href="javascript:;"><i class="ico ico10"></i>下单立减</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+<section class="page_center_box">
+    <div class="recSeller_list_box border_t mt10 mb10"  id="wrapper">
+        <ul>
+            <!--LI节点-->
+        </ul>
+    </div>
+</section>
+
+<script id="item_for_waimai" type="text/x-jquery-tmpl">
+<li class="recSeller_list">
+    <a  class="overflow_clear"  href="${url}" onclick="clearswitch();">
+        <div class="pub_img fl"><img src="<{$pager.img}>/${logo}" width="100" height="100" />
+				{{if 0==yysj_status}}
+					<p class="state state3">打烊</p>
+				{{/if}}
+				</div>
+        <div class="pub_wz">
+            <p class="bt">
+                <a class="overflow_clear" href="${url}" onclick="clearswitch();">${title}</a>
+                {{if first_amount>0}}<em style="background:#F3765A;">首</em>{{/if}}
+                {{if youhui}}<em style="background:#81EAE6;">减</em>{{/if}}
+                {{if discount}}<em style="background:#AC8FF8;">折</em>{{/if}}
+            </p>
+            <a class="overflow_clear" href="${url}" onclick="clearswitch();">
+            <div class="nr">
+
+                <div class="fl">
+                    <a class="overflow_clear" href="${url}" onclick="clearswitch();">
+                    <div><span class="starBg" style="vertical-align:super;"><span class="star" style="width:${score*20}%;"></span></span><span class="ml10 black9">${score}分</span></div>
+                    <p class="black9">¥${min_amount}&nbsp;起 | ¥${freight_price}&nbsp;配送费 | {{if pei_time}}${pei_time}{{else}}30{{/if}}&nbsp;分钟到达</p>
+                    </a>
+                </div>
+                <div class="fr">
+                    <p class="black9 price txt_right">销量${orders}</p>
+                    <p class="black9 range txt_right"><em class="ico"></em>${juli_label}</p>
+                </div>
+            </div>
+            </a>
+        </div>
+    </a>
+</li>
+</script>
+
+<script>
+$(document).ready(function () {
+    var cate_id = parseInt("<{$cate_id}>");
+    window.LoadData.params = {"cate_id": "<{$pager.cate_id}>","cat_id": "<{$pager.cat_id}>","title": "<{$pager.title}>", "orderby": "<{$pager.orderby}>","is_new": "<{$pager.is_new}>", "online_pay": "<{$pager.online_pay}>","first_youhui": "<{$pager.first_youhui}>", "youhui_order": "<{$pager.youhui_order}>", "pei_type": "<{$pager.pei_type}>", "page": 1};
+    // 获取地址位置
+    getUxLocation(function (ret){
+        if (ret.error) {
+            alert(ret.message);
+            window.location.href = "<{link ctl='position'}>";
+        } else {
+            $('#position').text(ret.addr);
+            if(cate_id > 0) {
+                LoadData.params['cate_id'] = cate_id;
+                $(".saixuan_pull_list [filter='cate']").html('商超' + "<em></em>");
+            }
+            LoadData.params.page = 1;
+            loadPageItems(LoadData.params);
+        }
+    });
+});
+
+function clearswitch() {
+    localStorage.removeItem("switchTab_list");
+}
+
+/* 获取对象长度 */
+function olength(data) {
+    index = 0;
+    for(i in data){
+        index+=1;
+    }
+    return index;
+}
+
+// 下拉加载
+function loadPageItems(params) {
+    if (LoadData.LOCK || LoadData.LOAD_END) {
+        return false;
+    }
+    LoadData.LOCK = true;
+    params = params || {};
+    LoadData.params = $.extend(LoadData.params, params);
+    Widget.MsgBox.load("加载中...");
+
+    $.post("<{link ctl='waimai/shop:loadshopitems'}>", LoadData.params, function (ret) {
+        if (ret.error) {
+            Widget.MsgBox.error(ret.message);
+        } else {
+            var length = olength(ret.data.items);
+            if ( length > 0) {
+                if (parseInt(LoadData.params['page'], 9) < 2) {
+                    $("#wrapper ul").html($('#item_for_waimai').tmpl(ret.data.items)); // 第一页全部显示
+                } else {
+                    $('#item_for_waimai').tmpl(ret.data.items).appendTo($("#wrapper ul")); // 第二页以及之后的加入wrapper
+                }
+            } else if (LoadData.params.page > 1) {
+                if(! $(".loading_end").length) {
+                    $('#wrapper ul').append('<div class="loading_end">没有更多了...</div>');
+                }
+                LoadData.LOAD_END = true;
+            } else {
+                //给一个没有数据的提示信息
+                $("#wrapper ul").html('<div class="nonePage txt_center"><div class="nonePage_img"><img src="/themes/default/static/images/none/none2.png" width="25%"></div><h2 class="black3">该分类下暂时没有店铺</h2></div>');
+                LoadData.LOAD_END = true;
+            }
+        }
+        LoadData.params.page++;
+        Widget.MsgBox.hide();
+        LoadData.LOCK = false;
+    }, "json");
+}
+
+// 监听滚动区域 <section></section>
+$(".page_center_box").scroll(function () {
+    if ($(".page_center_box").scrollTop() >= $(".recSeller_list_box").height() - $(".page_center_box").height()) {
+        loadPageItems();
+    }
+});
+
+$(document).ready(function() {
+
+	/*头部下拉开始*/
+    //$('.saixuan_fenlei_list_box').hide();
+    /*头部下拉开始*/
+    if ($('.saixuan_pull').length > 0){/*判断是否存在这个html代码*/
+        $('.saixuan_pull .saixuan_pull_list').width(100 / $('.saixuan_pull .saixuan_pull_list').length + '%');
+        $('.page_center_box').css('top', '0.91rem');
+    }
+
+    $(".saixuan_pull_list .click").click(function () {
+        if ($(this).hasClass("on")) {
+            $(".saixuan_pull_list .click").removeClass("on");
+            $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+            $(".saixuan_pull_box .mask_bg").hide();
+        }else {
+
+            $(".saixuan_pull_list .click").removeClass("on");
+            $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+
+            $(this).addClass("on");
+            $(this).parent().find(".saixuan_pull_child_box").show();
+            $(".saixuan_pull_box .mask_bg").show();
+        }
+    });
+
+    $('.saixuan_fenlei .saixuan_pull_child').click(function () {
+        $('.saixuan_fenlei_list_box').show();
+        var rel = $(this).attr('rel');
+        $(this).parent().find(".saixuan_pull_child").removeClass("on");
+        $(this).addClass("on");
+        $('.saixuan_fenlei_list_nr').hide();
+
+        if($('#a' + rel).length == 0) {
+            // 没有子分类 直接加载列表
+            $('.saixuan_pull_child_box').hide();
+            $('.mask_bg').hide();
+            $(".saixuan_pull_list [filter='cate']").removeClass('on');
+            $(".saixuan_pull_list [filter='cate']").html($(this).text() + "<em></em>");
+            //$(".saixuan_fenlei_list_box").hide();
+            //if($(".saixuan_fenlei_list_box").css("display")=='block'){
+//                $(".saixuan_pull_child .after").css("left","50%");
+//            }else{
+//                $(".saixuan_pull_child .after").css("left","100%")
+//            }
+            LoadData.params['page'] = 1;
+            LoadData.params['cate_id'] = rel;
+            loadPageItems();
+        }else {
+            // 有子分类显示子分类列表
+            $('#a' + rel).show();
+        }
+        //if($(".saixuan_fenlei_list_box").css("display")=='block'){
+//            $(".saixuan_pull_child .after").css("left","50%");
+//        }else{
+//            $(".saixuan_pull_child .after").css("left","100%")
+//        }
+    });
+
+    $('.saixuan_fenlei .select_all').click(function(){
+        //$(".saixuan_fenlei_list_box").hide();
+        //if($(".saixuan_fenlei_list_box").css("display")=='block'){
+//            $(".saixuan_pull_child .after").css("left","50%");
+//        }else{
+//            $(".saixuan_pull_child .after").css("left","100%")
+//        }
+
+    });
+
+    $(".saixuan_pull_box .mask_bg").click(function(e){
+        $(this).hide();
+        $(".saixuan_pull_list .click").removeClass("on");
+        $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+    });
+	/*头部下拉结束*/
+
+
+});
+
+
+
+
+// 二级分类点击事件
+$(".saixuan_fenlei_list a,saixuan_fenlei_list_nr a").click(function () {
+    LoadData.params['page'] = 1;
+    LoadData.params['cate_id'] = $(this).attr('cate_id');
+    if($(this).attr('cat_id') == 0){
+        $(".saixuan_pull_list [filter='cate']").html($(this).text()+"<em></em>");
+        LoadData.params['title'] = $(this).attr('data');
+    }else{
+        $(".saixuan_pull_list [filter='cate']").html($(this).text() + "<em></em>");
+        LoadData.params['title'] = $(this).text();
+    }
+    $('.saixuan_pull_child_box').hide();
+    $('.mask_bg').hide();
+
+    $(this).parent().parent().parent().parent().parent().find(".click").removeClass("on");
+    $(".saixuan_fenlei_list a").removeClass("on");
+    $(this).addClass("on");
+    loadPageItems();
+});
+
+
+// 排序条件点击事件
+$("#filter_order li").click(function () {
+    LoadData.params['page'] = 1;
+    LoadData.params['order'] = $(this).attr('order');
+    $('.saixuan_pull_child_box').hide();
+    $('.mask_bg').hide();
+    $(".saixuan_pull_list [filter='orderby']").html($(this).text() + "<em></em>");
+    $(".saixuan_pull_list .click").removeClass("on");
+    $("#filter_order li").removeClass("on");
+    $(this).addClass("on");
+    loadPageItems();
+});
+
+// 筛选条件点击事件
+$("#filter_sort li").click(function () {
+    LoadData.params['page'] = 1;
+    LoadData.params['sort'] = $(this).attr('sort');
+    $('.saixuan_pull_child_box').hide();
+    $('.mask_bg').hide();
+    $(".saixuan_pull_list [filter='sort']").html($(this).text() + "<em></em>");
+    $(".saixuan_pull_list .click").removeClass("on");
+    $("#filter_order li").removeClass("on");
+    $(this).addClass("on");
+    loadPageItems();
+});
+
+function tosearch() {
+    localStorage['search_index'] = window.location.href;
+    localStorage['search_from'] = 'waimai';
+    window.location.href = "<{link ctl='search'}>";
+}
+</script>
+<{include file="block/footer.html"}>

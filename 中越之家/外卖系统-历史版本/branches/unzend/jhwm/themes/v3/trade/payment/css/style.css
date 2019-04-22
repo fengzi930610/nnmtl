@@ -1,0 +1,216 @@
+body { font-size: 12px; font-family: "Microsoft YaHei", "Helvetica Neue", "Hiragino Sans GB", "Segoe UI", Tahoma, Arial, STHeiti, sans-serif; _font-family: Tahoma, Arial, Helvetica, STHeiti, sans-serif; color: #333333; font-weight:normal; font-style:normal; background-color:#eef2f5;}
+
+.page,body{background-color:#eef2f5;}
+
+.weui-btn{ line-height:40px; font-size:16px; border-radius:4px;}
+
+/*.weui-btn_primary{background-color:#f0024f}*/
+
+.weui-btn_primary:not(.weui-btn_disabled):visited{color:#fff}
+
+.weui-btn_primary:not(.weui-btn_disabled):active{color:hsla(0,0%,100%,.6);background-color:#dd0a4e}
+
+
+
+img{ max-width:100%;}
+
+.none{ display:none;}
+
+input{ outline:none; appearance:none;-webkit-appearance: none;}
+
+.overflow_clear{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.fl{float:left;}
+
+.fr{float:right;}
+
+.clear{ height: 0; line-height: 0; font-size: 0; clear: both;}
+
+.clear_both:after{content: ""; display: block; height: 0; clear: both; visibility: hidden; font-size: 0;}
+
+.mask_bg{ display:none; position:fixed; z-index:99; top:0; left:0; width:100%; height:100%; background:#000; opacity:0.4;}
+
+
+
+.maincl{ color:#20AD20;}
+
+.fontcl1{ color:#ff3300;}
+
+.fontcl2{ color:#ff6600;}
+
+.fontcl3{ color:#ff9900;}
+
+.black9{ color:#999999;}
+
+.black6{ color:#666666;}
+
+.black3{ color:#333333;}
+
+
+
+.border_t{ border-top:1px solid #e6e6e6;}
+
+.border_b{ border-bottom:1px solid #e6e6e6;}
+
+.border_l{ border-left:1px solid #e6e6e6;}
+
+.border_r{ border-right:1px solid #e6e6e6;}
+
+
+
+.mt5{ margin-top:5px;}
+
+.mt10{ margin-top:10px;}
+
+.mt20{ margin-top:20px;}
+
+.mt30{ margin-top:30px;}
+
+
+
+.mb5{ margin-bottom:5px;}
+
+.mb10{ margin-bottom:10px;}
+
+.mb20{ margin-bottom:20px;}
+
+.mb30{ margin-bottom:30px;}
+
+
+
+.ml5{ margin-left:5px;}
+
+.ml10{ margin-left:10px;}
+
+.ml20{ margin-left:20px;}
+
+.ml30{ margin-left:30px;}
+
+
+
+.mr5{ margin-right:5px;}
+
+.mr10{ margin-right:10px;}
+
+.mr20{ margin-right:20px;}
+
+.mr30{ margin-right:30px;}
+
+
+
+.pad_b30{ padding-bottom:30px;}
+
+.pad_t46{ padding-top:46px;}
+
+
+
+.text_c{ text-align:center;}
+
+.text_r{ text-align:right;}
+
+.text_l{ text-align:left;}
+
+
+
+.articleBox p a{color:#f0024f;text-decoration:underline}
+
+.articleBox p{margin:10px 0; font-size:14px; line-height:22px; word-break:break-all;}
+
+.articleBox h2{line-height:40px;}
+
+.articleBox img{ max-width:100%;}
+
+
+
+.pub_list{
+
+    position: relative;
+
+    display: -webkit-box;
+
+    display: -webkit-flex;
+
+    display: flex;
+
+    -webkit-box-align: center;
+
+    -webkit-align-items: center;
+
+    align-items: center;
+
+}
+
+.pub_list .pub_list_bd{
+
+    -webkit-box-flex: 1;
+
+    -webkit-flex: 1;
+
+    flex: 1;
+
+}
+
+/*支付页面开始*/
+
+.pubPaypage .info_list{ overflow:hidden; background:#fff; position:relative; padding:12px 15px; font-size:14px; line-height:20px; border-bottom:1px solid #e6e6e6;}
+
+.pubPaypage .info_list:last-child{ border-bottom:0px;}
+
+.pubPaypage .info_list .bt{ color:#666;}
+
+.pubPaypage .info_list .price{ font-weight: 600; font-size:18px; color:#333;}
+
+.pubPaypage .pay_way .list{ background:#fff; padding:0 15px;}
+
+.pubPaypage .pay_way .list label{ display:block; overflow:hidden; padding:15px 0; border-bottom:1px solid #e6e6e6;}
+
+.pubPaypage .pay_way .list:last-child label{ border-bottom:0;}
+
+.pubPaypage .pay_way .list img{ width:30px; height:30px; float:left; margin-right:10px;}
+
+
+
+.pubPaypage .pay_way .list:first-child label{ padding: 13px 0; }
+
+.pubPaypage .pay_way .list .text .top{ font-size: 14px; line-height: 18px; }
+
+.pubPaypage .pay_way .list .text .black9{ line-height: 16px; }
+
+
+
+.pubPaypage .pay_way .list p{ float:left; font-size:14px; line-height:30px;}
+
+.pubPaypage .pay_way .list input[type="radio"]{ float:right; width:20px; height:20px; border:1px solid #e6e6e6; border-radius:100%; background:#fff; margin-top:5px; overflow:hidden;}
+
+.pubPaypage .pay_way .list input[type="radio"]:checked{ background:url(../img/index_selecter_enable@3x.png) no-repeat center; background-size:100%; border:0; border-radius:0;}
+
+.pubPaypage .btn_box{ margin:30px 15px;}
+
+.pubPaypage .btn_box .long_btn{ display:block; width:100%; height:40px; line-height:40px; text-align:center;background: #20AD20;border-radius: 4px; font-size:16px; color:#fff; border:0;}
+
+/*.pubPaypage .code_box{background:#fff;}*/
+
+.pubPaypage .code_box .code_img{ margin:0 auto; text-align:center; width:280px;}
+
+.pubPaypage .code_box .code_img .img{ margin:0 auto; width:280px; height:280px; padding:18px; background:#fff; overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+
+.pubPaypage .code_box .code_img .img img{ width:244px; height:244px;}
+
+.pubPaypage .code_box .code_img .wz{ text-align:center; padding:12px 0px; line-height:16px; border-top:0; font-size:14px;}
+
+.pubPaypage .code_box .code_img .wz img{ width:16px; height:16px; vertical-align:middle; margin-right:5px;}
+
+.pubPaypage .code_box.codeWeChat_box .code_img .img{border: 1px solid #C0F2B9;}
+
+.pubPaypage .code_box.codeWeChat_box .code_img .wz{border: 1px solid #C0F2B9; border-top:0;color:#59B64C;}
+
+.pubPaypage .code_box.codeAlipay_box .code_img .img{border: 1px solid #7EC6EC;}
+
+.pubPaypage .code_box.codeAlipay_box .code_img .wz{border: 1px solid #7EC6EC; border-top:0;color:#1296DB;}
+
+.pubPaypage .code_box.codeWeChat_box{font-size: 16px;}
+.wechatBtns{padding: 32px;}
+.wechatBtns .btnone{display:block;height: 44px;line-height:44px;text-align: center;color: #fff;background: #ff8800;border-radius:6px;margin-bottom:20px}
+.wechatBtns .btnone.bg2{background:#00aaee}
+/*支付页面结束*/
+

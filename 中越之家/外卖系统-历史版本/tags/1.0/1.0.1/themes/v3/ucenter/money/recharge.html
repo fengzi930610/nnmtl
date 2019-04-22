@@ -1,0 +1,56 @@
+<{assign var='tpl_title' value='在线充值'}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<div class="pubPaypage">
+                    <div class="pay_way mb10">
+                    	<{foreach $money_pack as $k=>$money}>
+                    	<div class="list">
+                        	<label>
+                                <p>充值<{$k}>元送<span class="pointcl1"><{$money}>元</span>红包</p>
+                                <input name="chon" type="radio" amount="<{$k}>" <{if $money@index==0}>checked="checked"<{/if}>>
+                            </label>
+                        </div>
+                        <{/foreach}>
+                    </div>
+                    <div class="pay_way">
+                    	<div class="list">
+                        	<label>
+                            	<img src="/themes/v3/static/img/pay1.png">
+                                <p>支付宝支付</p>
+                                <p class="overflow_clear black9"><small>推荐已安装支付宝客户端的用户使用</small></p>
+                                <input name="recharge" type="radio" paycode="alipay" checked="checked">
+                            </label>
+                        </div>
+                        <div class="list">
+                        	<label>
+                            	<img src="/themes/v3/static/img/pay2.png">
+                                <p>微信支付</p>
+                                <p class="overflow_clear black9"><small>推荐已安装微信客户端的用户使用</small></p>
+                                <input name="recharge" type="radio" paycode="wxpay">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="btn_box">
+                        <a href="javascript:paymoney();" class="long_btn" >确认充值</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<{include file="v3block/footer.html"}>
+<script>
+function paymoney () {
+    var code = $("input[name='recharge']:checked").attr("paycode");
+    var amount = $("input[name='chon']:checked").attr("amount");
+    var link = "<{link ctl='trade/payment:money' code=codes amount=amounts}>";
+    var url = link.replace('codes',code).replace('amounts',amount);
+    window.location.href = url;
+}
+</script>
+
+</body>
+</html>

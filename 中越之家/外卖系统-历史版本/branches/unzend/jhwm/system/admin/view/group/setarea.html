@@ -1,0 +1,450 @@
+<{include file="admin:common/header.html"}>
+
+<style type="text/css">
+    .hf-arrow-blue span {
+        border-color: #1ab394 transparent transparent;
+        bottom: -10px;
+        left: 50%;
+        margin-left: -5px;
+    }
+    .hf-arrow-blue * {
+        display: block;
+        border-width: 5px;
+        position: absolute;
+        border-style: solid dashed dashed dashed;
+        font-size: 0;
+        line-height: 0;
+    }
+    .hf-tag-blue {
+        width: 150px;
+        height: 25px;
+        position: relative;
+        background-color: #1ab394;
+        color: #fff;
+        font-size: 12px;
+        line-height: 25px;
+        text-align: center;
+        border-radius: 5px;
+        z-index: 999;
+    }
+    .songSet_area_tit{margin-top:10px;}
+</style>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--地图开始-->
+    <div class="songSet_area" style="height:800px">
+    	<div class="songSet_area_left float-l" style="height:800px">
+            <select id="province" class="w-150"><{widget id="data/province" value=$detail.province_id}></select>
+            <select id="city" name="data[city_id]" class="w-150"></select>
+        	<div class="songSet_area_tit">
+            	区域及配送范围
+                <div class="float-r">
+                	<!--<a href="javascript:void(0);" class="edit">编辑</a>
+                    <span class="quit-save" style="display:none"><a href="javascript:void(0);" class="quit">退出</a>/<a href="javascript:void(0);" class="save">保存</a></span>-->
+                </div>
+            </div>
+            <div class="areas" style="height:740px">
+                <ul class="group_list">
+                                  
+                </ul>
+                
+            </div>           	            
+        </div>
+        <div class="songSet_area_right" style="height:800px">
+        	<!--此处为地图区域-->
+            <div id="container" style="width:100%;height:800px"></div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <!--地图结束-->
+</div>
+
+<!--高德地图JavaScript API开始-->
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=<{$jh_map_key}>&plugin=AMap.PolyEditor,AMap.Geocoder"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js"></script>
+<script type="text/javascript">
+    var data_city = '<{$json_city}>';
+    var json_city = JSON.parse(data_city);
+    var editor = {};//配送团队区域
+    var markers = [];//配送团队点标记
+    var polygons = [];//区域轮廓
+    var city_id = '';
+
+    function province_edit(province_id){
+        if(province_id){
+            var html= "";
+            var key = 1;
+            $.each(json_city,function(k,v){
+                if(v.province_id==province_id){
+                    if(key==1){
+                        get_groups(v.city_id)
+                    }
+                    html+='<option value="'+v.city_id+'">'+v.city_name+'</option>';
+                    key++;
+                }
+
+            });
+        }else{
+            html = "<option value=''>请选择城市</option>";
+        }
+        $('#city').html(html);
+
+    }
+
+
+    $(function(){
+        window.__map = new AMap.Map('container');//地图显示
+        window.__map.plugin(["AMap.ToolBar"], function() {//缩放控件
+            window.__map.addControl(new AMap.ToolBar());
+            window.__map.setStatus({scrollWheel:true});
+        });
+        //window.__map.setFitView();
+        AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
+            //图层切换控件
+            window.__map.addControl(new BasicControl.LayerSwitcher({
+                position: 'lb'
+            }));
+        });
+
+        province_edit($('#province').val());
+
+
+       /* city_id = $('#city').val();
+        get_groups(city_id);*/
+       $('#province').on('change',function(){
+           var province_id = $(this).val();
+           province_edit(province_id);
+       })
+
+        $('#city').on('change',function(){
+            get_groups($(this).val());
+        })
+
+
+
+
+
+
+    });
+
+    $(document).on('click','.edit',function(){
+        
+        $(this).parent('.edit-edit').hide();
+        $(this).parent().siblings('.quit-save').show();
+        var k = $(this).parents('li').attr('key');
+        var path = editor[k].getPath();
+        var v = window.__GROUPS[k];
+        window.__map.setZoomAndCenter(12, [v.lng, v.lat]);
+        if(typeof(path) == 'object' && Object.getOwnPropertyNames(path).length > 1){
+            editor[k]._polygonEditor= new AMap.PolyEditor(window.__map, editor[k]);
+            editor[k]._polygonEditor.open();
+            editor[k].setOptions({draggable:true});
+        }else{
+            editor[k]=(function(){
+                var arr = [];
+                var hex_color = rgb_hex($(".area"+k+" .tit").css('color'));                              
+                arr = [
+                [parseFloat(v.lng)-parseFloat("0.02"),parseFloat(v.lat)+parseFloat("0.02")],
+                [parseFloat(v.lng)-parseFloat("0.02"),parseFloat(v.lat)-parseFloat("0.02")],
+                [parseFloat(v.lng)+parseFloat("0.02"),parseFloat(v.lat)-parseFloat("0.02")],
+                [parseFloat(v.lng)+parseFloat("0.02"),parseFloat(v.lat)+parseFloat("0.02")]
+                ]                
+                return new AMap.Polygon({
+                    map: window.__map,
+                    path: arr,
+                    strokeColor: hex_color,
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: hex_color,
+                    fillOpacity:0.4,
+                    extData:k
+                });
+
+            })();
+            editor[k]._polygonEditor= new AMap.PolyEditor(window.__map, editor[k]);
+            editor[k]._polygonEditor.open();
+        }
+
+    });
+
+    $(document).on('click','.quit',function(){
+        var k = $(this).parents('li').attr('key');
+        layer.confirm('是否放弃此次编辑？', {
+            btn: ['是', '否'] //可以无限个按钮
+        }, function(index, layero){
+            var link = '?group/group-setarea-#city_id#.html'.replace('#city_id#',city_id);
+            //window.self.location.reload(link);
+            window.location.href = link; 
+            $('.area'+k).find('.quit-save').hide();
+            $('.area'+k).find('.edit-edit').show();
+            layer.close(index);
+        }, function(index){
+
+        });
+    });
+
+    $(document).on('click','.save',function(){
+        var k = $(this).parents('li').attr('key');
+        var group_id = $(this).parents('li').attr('group-id');
+        var link = '?group/group-save_polygon-#group_id#.html'.replace('#group_id#',group_id);
+        var polygon_point = {};
+        var points = {};
+        polygon_point = editor[k].getPath();
+        editor[k].setOptions({draggable:false});
+        $.each(polygon_point,function(i,v){
+            var step = {"lng":v.lng,"lat":v.lat};
+            points[i] = step;           
+        });
+        $.post(link, {polygon_point: points}, function (ret) {
+            if (ret.error == 0) {
+                editor[k]._polygonEditor.close();
+                $('.area'+k).find('.quit-save').hide();
+                $('.area'+k).find('.edit-edit').show();
+            }
+            layer.msg(ret.message);
+        },'json');
+    });
+
+    $(document).on('click','.initialize',function(){
+        var k = $(this).parents('li').attr('key');
+        var v = window.__GROUPS[k];
+        clear_district();
+        regeocoder(v.lng,v.lat,k);
+    });
+
+    // rgb转hex 
+    function rgb_hex(rgb) {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
+        }
+        return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    }
+
+    //获取当前城市配送团队
+    function get_groups(city_id){
+
+        var link = "?group/group-get_groups-#city_id#.html".replace("#city_id#",city_id);
+        $.post(link,{},function(e){
+            var html = '';
+            var key = 0;
+            if(e.error==0){
+                window.__map.clearMap();
+                window.__GROUPS = e.data.groups;
+                //window.__map.setCity(e.data.city.city_name,13);//根据城市名设置中心地点
+                //window.__map.setLayers([new AMap.TileLayer.Satellite()]);//卫星视图
+                $.each(window.__GROUPS,function(k,v){                   
+                    html += '<li class="area'+k+'" key="'+k+'" group-id="'+v.group_id+'">';
+                    html += '<div class="tit">'+v.group_name+'<span class="edit-edit" style="float:right; margin-right:10px;"><a href="javascript:;" style="color:#ff3300" class="edit">编辑</a>/<a href="javascript:;" class="initialize">查看区域</a></span><span class="quit-save" style="float:right; margin-right:10px; display:none"><a href="javascript:void(0);" style="color:#ff3300" class="quit">退出</a>/<a href="javascript:void(0);" style="color:#ff3300" class="save">保存</a>/<a href="javascript:void(0);" style="color:#ff3300" class="init">初始化</a></span></div>';
+                    html += '<div class="price"><span class="ml5 mr5">'+v.contact+'</span><span class="ml5 mr5 black9">|</span><span class="ml5 mr5">'+v.mobile+'</span></div>';
+                    html += '<div class="price"><span class="ml5 mr5"><a href="javascript:;" style="text-decoration:none" title="'+v.addr+'">'+v.addr+'</a></span></div>';
+                    html += '</li>';
+                    key++;
+                });
+                
+                if(!key > 0){
+                    html = '<li style="text-align:center; padding-bottom:15px;">该城市暂无配送团队！</br><a href="?group/group-create.html" style="font-size:14px; font-weight:bold; color:red">前去添加</a></li>';
+                }
+                $('.group_list').html(html);                
+
+                if(window.__GROUPS.length == 1){
+                    window.__map.setZoomAndCenter(10, [window.__GROUPS[0].lng,window.__GROUPS[0].lat]);
+                }else{
+                    window.__map.setCity(e.data.city.city_name,function(e){
+                        window.__map.setZoomAndCenter(12, e);
+                    });//根据城市名设置中心地
+                }
+                set_marker();
+                set_polypon();
+
+            }else{
+                layer.msg(e.message,{icon:2});
+            }
+
+        },'json');
+    }
+
+    function set_marker(){        
+        window.__map.on('complete', function() {
+            $.each(window.__GROUPS,function(k,v){
+                var new_marker =  new AMap.Marker({//标记点
+                    map: window.__map,
+                    position: [v.lng, v.lat],
+                    offset: new AMap.Pixel(-75,-25),
+                    content:'<div class="hf-tag-blue"><div class="hf-arrow-blue"><span></span></div>'+ v.group_name+'</div>'
+                });
+                new_marker.group_id = v.group_id;
+                markers.push(new_marker);
+            });
+        });
+    }
+
+    function clear_marker(){
+        /*$.each(markers,function(k,v){
+            v.setMap();
+        });*/
+        window.__map.remove(markers);
+    }
+
+    function set_polypon(){
+        $.each(window.__GROUPS,function(k,v){
+            editor[k]=(function(){
+                var arr = [];
+                var hex_color = rgb_hex($(".area"+k+" .tit").css('color')); 
+                
+                $.each(v.polygon_point,function(kk,vv){
+                    arr.push([vv.lng,vv.lat]);
+                });
+                    
+                return new AMap.Polygon({
+                    map: window.__map,
+                    path: arr,
+                    strokeColor: hex_color,
+                    strokeOpacity: 1,
+                    strokeWeight: 3,
+                    fillColor: hex_color,
+                    fillOpacity: 0.4
+                });
+
+                editor[k]._polygonEditor= new AMap.PolyEditor(window.__map, editor[k]);
+            })();
+        });
+    }
+    
+    function regeocoder(lng,lat,k) {  //逆地理编码
+        var lnglatXY = [lng, lat]; //已知点坐标
+        var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+        });        
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                var adcode = result.regeocode.addressComponent.adcode;
+                var district_name = result.regeocode.addressComponent.district;
+                draw_district(district_name);
+            }
+        });        
+        /*var marker = new AMap.Marker({  //加点
+            map: window.__map,
+            position: lnglatXY
+        });*/
+    }
+
+    function draw_district(district_name,k) {
+        //加载行政区划插件
+        AMap.service('AMap.DistrictSearch', function() {
+            var opts = {
+                subdistrict: 1,   //返回下一级行政区
+                extensions: 'all',  //返回行政区边界坐标组等具体信息
+                level: 'city'  //查询行政级别为 市
+            };
+            //实例化DistrictSearch
+            district = new AMap.DistrictSearch(opts);
+            district.setLevel('district');
+            //行政区查询
+            district.search(district_name, function(status, result) {
+                var bounds = result.districtList[0].boundaries;                
+                if (bounds) {
+                    for (var i = 0, l = bounds.length; i < l; i++) {
+                        //生成行政区划polygon
+                        var polygon = new AMap.Polygon({
+                            map: window.__map,
+                            zIndex:1,
+                            strokeWeight: 2,
+                            path: bounds[i],
+                            fillOpacity:0.4,
+                            fillColor: '#CCF3FF',
+                            strokeColor: '#CC66CC'
+                        });
+                        polygons.push(polygon);
+                    }
+                    //window.__map.setFitView();//地图自适应
+                }
+                /*if (bounds) {
+                    editor[k]=(function(){                             
+                        return new AMap.Polygon({
+                            map: window.__map,
+                            path: bounds,
+                            strokeColor: '#CC66CC',
+                            strokeOpacity: 0.7,
+                            strokeWeight: 2,
+                            fillColor: '#CCF3FF',
+                            fillOpacity: 0.7
+                        });
+                    })();
+                    editor[k]._polygonEditor= new AMap.PolyEditor(window.__map, editor[k]);
+                    editor[k]._polygonEditor.open();        
+                }*/
+            });
+        });
+    }
+
+    function clear_district(){
+        $.each(polygons,function(k,v){
+            v.setMap();
+        });
+    }
+
+    $(document).on('click','.init',function(){
+        var h = $(this)
+
+        layer.confirm('是否初始化配送区域？', {
+            btn: ['是', '否'] //可以无限个按钮
+        }, function(index, layero){
+            var k = h.parents('li').attr('key');
+            //var path = editor[k].getPath();
+            var v = window.__GROUPS[k];
+            window.__map.setZoomAndCenter(12, [v.lng, v.lat]);
+            editor[k]._polygonEditor.close();
+            editor[k].setMap();
+
+
+            editor[k]=(function(){
+                var arr = [];
+                var hex_color = rgb_hex($(".area"+k+" .tit").css('color'));
+                arr = [
+                    [parseFloat(v.lng)-parseFloat("0.02"),parseFloat(v.lat)+parseFloat("0.02")],
+                    [parseFloat(v.lng)-parseFloat("0.02"),parseFloat(v.lat)-parseFloat("0.02")],
+                    [parseFloat(v.lng)+parseFloat("0.02"),parseFloat(v.lat)-parseFloat("0.02")],
+                    [parseFloat(v.lng)+parseFloat("0.02"),parseFloat(v.lat)+parseFloat("0.02")]
+                ]
+                return new AMap.Polygon({
+                    map: window.__map,
+                    path: arr,
+                    strokeColor: hex_color,
+                    strokeOpacity: 0.5,
+                    strokeWeight: 2,
+                    fillColor: hex_color,
+                    fillOpacity: 0.4,
+                    extData:k
+                });
+
+            })();
+
+
+            editor[k]._polygonEditor= new AMap.PolyEditor(window.__map, editor[k]);
+            editor[k]._polygonEditor.open();
+            layer.close(index);
+        }, function(index){
+
+        });
+
+
+
+    });
+    
+</script>
+<!--高德地图JavaScript API结束-->
+
+<{include file="admin:common/footer.html"}>

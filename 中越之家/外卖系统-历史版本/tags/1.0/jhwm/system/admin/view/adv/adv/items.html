@@ -1,0 +1,49 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">
+				<{link ctl="adv/adv:so" load="mini:搜索广告位" width="mini:400" class="button" title="搜索"}> &nbsp; &nbsp;
+				<{link ctl="adv/adv:create" load="mini:添加广告位" width="mini:500" class="button" title="添加"}>
+			</td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr><th class="w-100">ID</th><th>广告位</th><th>页面</th><th class="w-100">类型</th><th class="w-50">排序</th><th class="w-200">操作</th></tr>
+    <{foreach $items as $item}>
+    <tr>
+		<td class="left"><label><input type="checkbox" value="<{$item.adv_id}>" name="adv_id[]" CK="PRI"/><{$item.adv_id}><label></td>
+		<td class="left"><{$item.title}></td><td><{$theme_list[$item.theme_id].title|default:'默认模板'}>:<{$item.page|default:'--'}></td>
+		<td><{$from_list[$item.from]}></td><td><{$item.orderby}></td>
+		<td>
+            <{link ctl="adv/adv:detail" args=$item.adv_id class="button" title="数据"}>
+            <{link ctl="adv/adv:config" args=$item.adv_id class="button" iframe="mini:广告位模板" width="mini:600" title="模板"}>
+			<{link ctl="adv/adv:code" args=$item.adv_id class="button" load="mini:调用代码" width="mini:550" title="代码"}>
+			<{link ctl="adv/adv:edit" args=$item.adv_id title="修改"  load="mini:修改广告位" width="mini:500" class="button"}>
+			<{link ctl="adv/adv:delete" args=$item.adv_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+		</td>
+	</tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left">
+                <{link ctl="adv/adv:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+            </td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

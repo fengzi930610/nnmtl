@@ -1,0 +1,42 @@
+<!--底部导航-->
+<div class="footer_nav">
+    <a href="<{link ctl='/' http='www'}>" class="list on">
+        <i class="ico ico1"></i>
+        <P>首页</P>
+    </a>
+    <a href="<{link ctl='cates/index' http=$site.waimaiurl}>" class="list">
+        <i class="ico ico2"></i>
+        <P>分类</P>
+    </a>
+    <a href="<{link ctl='shop/cart' http=$site.waimaiurl}>" class="list">
+        <i class="ico ico3"></i>
+        <P>购物车</P>
+    </a>
+    <a href="<{link ctl='order/index' http='www'}>" class="list">
+        <i class="ico ico4"></i>
+        <P>订单</P>
+    </a>
+    <a href="<{link ctl='ucenter/index' http='www'}>" class="list">
+        <i class="ico ico5"></i>
+        <P>我的</P>
+    </a>
+</div>
+<!--底部导航end-->
+<script type="text/javascript">
+    //选中导航JS
+    var urlstr = location.href;
+    var urlstatus = false;
+    $('.footer_nav a').each(function () {
+        var index =  $('.footer_nav a').index($(this));
+        if(urlstr.indexOf($(this).attr('href'))>=0&&$(this).attr('href') != '/'){
+            $('.footer_nav a ').removeClass("on");
+            $('.footer_nav').children('a').eq(index).addClass('on');
+        }else{
+            $(this).removeClass('on');
+        }
+    });
+    var sitruel = "<{$site.siteurl}>"+'/';
+    if(urlstr == sitruel){
+        $('.footer_nav').children('a').eq(0).addClass('on');
+    }
+</script>

@@ -1,0 +1,113 @@
+<{assign var='tpl_title' value=L("home")}>
+<{include file="block/header.html"}>
+<body>
+<div class="wrapper wrapper-content">
+   	<!--表单-->
+    <!-- <div class="tabnr_change show">
+        <form action="<{link ctl='finance/account:cash'}>" method="post" mini-form="wmbiz">
+            <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td><p class="form_table_t">提现账户：</p></td>
+                    <td><div class="form_table_nr"><{$account.account_number}></div></td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">可提现余额：</p></td>
+                    <td><div class="form_table_nr">￥<{$shop.money}></div></td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">提现金额：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+                            <div class="clearfix">
+                                <span class="fl"><input type="text" name='data[money]' value="<{$shop.money}>" class="form_table_int form_table_intw2" id='money' placeholder="请输入金额" /></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">备注：</p></td>
+                    <td>
+                        <div class="form_table_nr"><textarea name='data[intro]' class="form_table_int form_table_textarea"></textarea></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form_table_btn_box text_c">
+                <input type="submit" class="btn btn-primary btn-w-m confirm" value="确认提现"/>
+            </div>
+        </form>
+    </div> -->
+    <div class="tabnr_change show">
+        <form action="" method="post">
+            <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td><p class="form_table_t">提现账户：</p></td>
+                    <td><div class="form_table_nr"><{$account.account_number}></div></td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">可提现余额：</p></td>
+                    <td><div class="form_table_nr">￥<{$shop.money}></div></td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">提现金额：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+                            <div class="clearfix">
+                                <span class="fl"><input type="text" name='data[money]' value="<{$shop.money}>" class="form_table_int form_table_intw2" id='money' placeholder="请输入金额" /></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">备注：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+                            <textarea name='data[intro]' class="form_table_int form_table_textarea" id="intro"></textarea>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form_table_btn_box text_c">
+                <input type="button" class="btn btn-primary btn-w-m confirm" value="确认提现" />
+            </div>
+        </form>
+    </div>
+</div>
+    <!--表单end-->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var _lock = false;
+        $('.confirm').click(function(){
+            if(!_lock){                
+                Widget.MsgBox.load('处理中。。。。。');                
+                var link = "<{link ctl='finance/account:cash'}>";
+                var money = $('#money').val();
+                var intro = $('#intro').val();                
+                var data = {"intro":intro,'money':money};
+                if(money <= 0){
+                    Widget.MsgBox.error('提现金额不正确');
+                    return false;
+                }
+                _lock = true;
+                $('.confirm').attr("disabled", "disabled");
+                $.post(link,{data:data},function(e){
+                    if(e.error==0){
+                        Widget.MsgBox.success(e.message);
+                        setTimeout(function (){
+                            window.location.href = "<{link ctl='finance/account:index' http='wmbiz'}>";
+                        },2000);
+                    }else{
+                        Widget.MsgBox.error(e.message);
+                    }
+                    setTimeout(function(){
+                        _lock = false;
+                        $('#money').val(0);
+                        $('.confirm').removeAttr("disabled");
+                    },3000);                    
+                },'json');
+            }
+        });
+    });
+</script>
+
+<{include file="block/footer.html"}>

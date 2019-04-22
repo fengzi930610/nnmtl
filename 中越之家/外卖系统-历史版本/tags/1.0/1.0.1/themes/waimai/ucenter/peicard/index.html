@@ -1,0 +1,138 @@
+<{assign var='tpl_title' value=L("配送会员卡")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .card_con12.on{ display: block}
+    .card_bot4{ background: #999;}
+    .pay-btn{ background: #FF725C;}
+    .card_con{ margin-bottom: 50px;}
+    .cardbg{ width: 100%; height: 118px; background-repeat: no-repeat; background-position: center; background-size: cover; position: relative; overflow: hidden;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+              	<div class="card_top">
+              		<div class="card_top2">注: 购买不同种类的配送会员卡将同时生效</div>
+              		<div class="card_con">
+                        <{foreach $items as $k=>$item}>
+              			<div class="card_con2" card-id="<{$item.card_id}>" amount="<{$item.amount}>">
+                            <div class="cardbg" style="background-image: url('<{$pager.img}>/<{$item.photo|default:'default/peicard/theme1@2x.png'}>')"><img src="%THEME%/static/images/Group2@2x.png" class="card_con12"></div>
+              				<div class="card_con4">
+              					<div class="card_con5">
+              						<div class="card_con7"><{$item.title}></div>
+              						<div class="card_con8">￥<{$item.amount}></div>
+              					</div>
+              					<div class="card_con9">单日可使用配送单数: <{$item.limits}>单</div>
+              					<div class="card_con5">
+              						<div class="card_con10">每单最多减免配送费: ￥<{$item.reduce}><span class="card_con11">有限期限: <{$item.days}>天</span></div>
+              					</div>
+              					
+              				</div>
+              			</div>
+                        <{/foreach}>
+              			<!-- <div class="card_con2">
+                                                    <div class="class2"></div>
+                            <div class="card_con4">
+                                <div class="card_con5">
+                                    <div class="card_con7">15天卡</div>
+                                    <div class="card_con8">￥15</div>
+                                </div>
+                                <div class="card_con9">单日可免费配送单数: 1单</div>
+                                <div class="card_con5">
+                                    <div class="card_con10">每单最多减免配送费: ￥3.00 <span class="card_con11">有限期限: 30天</span></div>
+                                </div>
+                                <img src="%THEME%/static/images/Group2@2x.png" class="card_con12">
+                            </div>
+                        </div>
+                        <div class="card_con2">
+                                                    <div class="class3"></div>
+                            <div class="card_con4">
+                                <div class="card_con5">
+                                    <div class="card_con7">15天卡</div>
+                                    <div class="card_con8">￥15</div>
+                                </div>
+                                <div class="card_con9">单日可免费配送单数: 1单</div>
+                                <div class="card_con5">
+                                    <div class="card_con10">每单最多减免配送费: ￥3.00 <span class="card_con11">有限期限: 30天</span></div>
+                                </div>
+                                <img src="%THEME%/static/images/Group2@2x.png" class="card_con12">
+                            </div>
+                        </div> -->
+              		</div>
+              	</div>
+            </div>
+            <div class="card_bot">
+              <div class="card_bot2">金额<span class="card_bot3">￥0.00</span></div>
+              <div class="card_bot4">去支付</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        var card_id;
+        var amount = '0.00';
+        $('.card_con2').click(function(){
+            card_id = $(this).attr('card-id');
+            amount = $(this).attr('amount');
+            $('.card_con12').removeClass('on');
+            $(this).find('.card_con12').addClass('on');
+            $('.card_bot3').html('￥'+amount);
+            $('.card_bot4').addClass('pay-btn');
+        });
+
+        /*$(document).on('click', '.pay-btn', function(){
+            if(card_id){
+                var back_url = "<{link ctl='ucenter/peicard:mycard' http='waimai'}>"
+                var link = "<{link ctl='ucenter/peicard:recharge' arg0='#card_id#' rebackurl=__back_url__ http='waimai'}>".replace('#card_id#', card_id).replace('__back_url__', back_url);
+                window.location.href = link;
+            }else{
+                Widget.MsgBox.error('请选择需要购买的会员卡');
+            }
+        });*/
+        $('.card_bot .card_bot4').click(function(){
+            if(card_id){
+                var back_url = "<{link ctl='ucenter/peicard:mycard' http='waimai'}>"
+                var link = "<{link ctl='ucenter/peicard:recharge' arg0='#card_id#' rebackurl=__back_url__ http='waimai'}>".replace('#card_id#', card_id).replace('__back_url__', back_url);
+                window.location.href = link;
+            }else{
+                Widget.MsgBox.error('请选择需要购买的会员卡');
+            }            
+        });
+        /*$(document).on('click', '.pay-btn', function(){
+            if(card_id){
+                var back_url = "<{link ctl='ucenter/peicard:mycard' http='waimai'}>"
+                var link = "<{link ctl='ucenter/peicard:recharge' arg0='#card_id#' rebackurl=__back_url__ http='waimai'}>".replace('#card_id#', card_id).replace('__back_url__', back_url);
+                window.location.href = link;
+            }else{
+                Widget.MsgBox.error('请选择需要购买的会员卡');
+            }
+        });*/
+    });
+	/*function xianFn(e){
+		if(e == 1){
+			var div1 = document.getElementById("car");
+			var div2 = document.getElementById("car2");
+			var div3 = document.getElementById("car3");
+          	div1.style.display="block";
+          	div2.style.display="none";
+          	div3.style.display="none";
+		}else if(e == 2){
+			var div1 = document.getElementById("car");
+			var div2 = document.getElementById("car2");
+			var div3 = document.getElementById("car3");
+          	div1.style.display="none";
+          	div2.style.display="block";
+          	div3.style.display="none";
+		}else if(e == 3){
+			var div1 = document.getElementById("car");
+			var div2 = document.getElementById("car2");
+			var div3 = document.getElementById("car3");
+          	div1.style.display="none";
+          	div2.style.display="none";
+          	div3.style.display="block";
+		}		
+	}*/
+</script>
+</body>
+</html>

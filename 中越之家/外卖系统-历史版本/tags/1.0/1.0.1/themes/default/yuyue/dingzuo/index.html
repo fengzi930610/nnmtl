@@ -1,0 +1,221 @@
+<{assign var='tpl_title' value=L("在线订座")}>
+<{include file="block/header.html"}>
+<link href="/themes/default/static/css/mobiscroll.2.13.2.css" rel="stylesheet" />
+<<style type="text/css" media="screen">
+    .lineBook_quhao .list .txt_right{ width:60%;}
+    .lineBook_quhao .list .txt_right input{text-align:right; width:100%; height:0.24rem; font-size:0.14rem; border:none; background:none;}
+</style>
+<header>
+	<i class="left"><a href="<{link ctl='shop/detail' args=$shop.shop_id}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	在线订座
+    </div>
+    <i class="right"><a href="javascript:;" class="ico"></a></i>
+</header>
+
+<section class="page_center_box">
+	<div class="lineBook_quhao">
+    	<div class="list linkico border_b">
+        	<div class="fl"><i class="ico ico3"></i>日期</div>
+            <div class="fr txt_right">
+                <input type="text" id="select_datetime" placeholder="点击选择日期">
+                <input type="hidden" name="yuyue_date" value=""/>
+            </div>
+        </div>
+        <div class="list linkico mt10">
+            <div class="fl"><i class="ico"></i>人数</div>
+            <div class="fr txt_right">
+                <div data-role="fieldcontain" class="demo-select">
+                    <select id="city" class="demo-test-select" data-role="none">
+                        <{foreach $yuyue_numbers as $v}>
+                        <option value="<{$v}>"><{$v}></option>
+                        <{/foreach}>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="setPage_list lineBook_dzyuyueRoom on mt10">
+            <p class="fl">订包厢</p>
+            <input type="checkbox" checked class="switch_int fr">
+            <input type="hidden" name="is_baoxiang" value="1"/>
+        </div>
+        <p class="bt">顾客信息</p>
+        <div class="list disbox border_b">
+        	<div class="int_box"><input type="text" name="contact" placeholder="请填写您的姓名"></div>
+            <div class="selct_box">
+            	<label class="radioInt"><input type="radio">先生</label>先生
+                <label class="radioInt ml10"><input type="radio">女士</label>女士
+                <input type="hidden" name="sex" value="">
+            </div>
+        </div>
+        <div class="list disbox">
+        	<div class="name">联系电话：</div>
+        	<div class="int_box"><input type="text" name="mobile" placeholder="请填写您的手机号"></div>
+        </div>
+        <p class="bt">备注信息</p>
+        <div class="list mb10">
+        	<div class="textarea_box">
+            	<textarea placeholder="如有特殊要求，请填写，我们会尽量满足~" id="notice"></textarea>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+	<div class="btn_box">
+    	<a href="javascript:;" class="long_btn">立即订座</a>
+    </div>
+</footer>
+
+<script src="<{$pager.res}>/script/layer.m/layer.m.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/iscroll.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<{$pager.res}>/script/layer.m/layer.m.js" type="text/javascript" charset="utf-8"></script>
+<script src="<{$pager.res}>/script/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/jquery.flexslider-min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/iscroll.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/common.js?20160630" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/pub.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/jscookie.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/ecart.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/jquery.sglide.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/mobiscroll.2.13.2.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+<script>
+$(document).ready(function() {
+    $('.radioInt input').click(function(){
+		$('.radioInt').removeClass('on');
+		$(this).parent('.radioInt').addClass('on');
+        $("input[name='sex']").val($('.radioInt.on').text());
+	});
+
+	$('.lineBook_dzyuyueTime .tab_box a').each(function(e){
+		$(this).click(function(){
+			$('.lineBook_dzyuyueTime .tab_box a').removeClass('on');
+			$(this).addClass('on');
+			$('.lineBook_dzyuyueTime .list_box').each(function(i){
+				if(e==i){
+					$('.lineBook_dzyuyueTime .list_box').hide();
+					$(this).show();
+				}else{
+					$(this).hide();
+				}
+			});
+		});
+	});
+	$('.lineBook_dzyuyueTime .list_box a').click(function(){
+		$('.lineBook_dzyuyueTime .list_box a').removeClass('on');
+		$(this).addClass('on');
+        $("input[name='yuyue_time']").val($('.lineBook_dzyuyueTime .list_box .on span').text());
+	});
+});
+
+// 选择日期时间
+$(function () {
+    var now = new Date();
+    $('#select_datetime').mobiscroll().datetime({
+        lang: 'zh',
+        dateFormat: 'yy/mm/dd',
+        dateOrder: 'yymmdd',
+        dayNames: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+        dayNamesShort: ['日', '一', '二', '三', '四', '五', '六'],
+        dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+        dayText: '日',
+        hourText: '时',
+        minuteText: '分',
+        monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        monthNamesShort: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'],
+        monthText: '月',
+        secText: '秒',
+        timeFormat: 'HH:ii',
+        timeWheels: 'HHii',
+        yearText: '年',
+        nowText: '当前',
+        pmText: '下午',
+        amText: '上午',
+    });
+});
+
+
+// 选择人数
+$(function () {
+    var curr = new Date().getFullYear();
+    var opt = {
+        'default': {
+
+            theme: 'default',
+            mode: 'scroller',
+            display: 'modal',
+            animate: 'fade'
+        },
+        'select': {
+            preset: 'select'
+        },
+    }
+    $('.demo-test-select').scroller($.extend(opt['select'],opt['default']));
+});
+
+
+// 是否包厢事件
+$(document).off('click','.lineBook_dzyuyueRoom').on('click','.lineBook_dzyuyueRoom',function(){
+    $(this).toggleClass('on');
+    if($(this).hasClass('on')) {
+        $("input[name='is_baoxiang']").val(1);
+    }else {
+        $("input[name='is_baoxiang']").val(0);
+    }
+})
+
+// 立即订座
+$(document).off('click','.long_btn').on('click','.long_btn',function(){
+    var yuyue_time = $("#select_datetime").val();
+    if(!yuyue_time) {layer.open({content:'请选择预约日期',time:2});return;}
+
+    var yuyue_number = $(".demo-test-select").val();
+    if(!yuyue_number) {layre.open({content:'请选择预约人数',time:2});return;}
+
+    var is_baoxiang = $("input[name='is_baoxiang']").val();
+
+    var contact = $("input[name='contact']").val();
+    var sex = $("input[name='sex']").val();
+    if(!contact) {
+        layer.open({content:'请填写您的姓名',time:2});return;
+    }else {
+        contact = contact + sex;
+    }
+
+    var mobile = $("input[name='mobile']").val();
+    if(!mobile) {layer.open({content:'请填写您的手机号',time:2});return;
+    }
+
+    var notice = $("#notice").val();
+    var shop_id = parseInt(<{$shop.shop_id}>);
+
+    $.ajax({
+        url: "<{link ctl='yuyue/dingzuo:create'}>",
+        async: false,
+        dataType: 'json',
+        data: {"shop_id":shop_id,"yuyue_time":yuyue_time,"yuyue_number":yuyue_number,"is_baoxiang":is_baoxiang,"contact":contact,"mobile":mobile,"notice":notice},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error==0) {
+                layer.open({content:ret.message, time:2});
+                var dingzuo_id = parseInt(ret.data.dingzuo_id);
+                if(dingzuo_id > 0) {
+                    setTimeout(function(){
+                        window.location.href = "<{link ctl='yuyue/dingzuo:detail-"+dingzuo_id+"'}>";
+                    },1500);
+                }
+            }else {
+                layer.open({content:ret.message, time:2});return;
+            }
+        },
+        error: function (xhr, status, err) {
+            alert(err);
+        },
+    });
+})
+
+</script>
+<{include file="block/footer.html"}>

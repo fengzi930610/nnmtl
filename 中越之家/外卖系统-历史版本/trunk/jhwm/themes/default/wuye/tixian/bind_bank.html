@@ -1,0 +1,72 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/tixian/bind_bank'}>" class="on">绑定银行</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <{if !$mybank}>
+    <form action="<{link ctl='wuye/tixian/index:bind_bank'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+            <input type="hidden" value="<{$wuye_id}>" name="data[wuye_id]" />
+        <table cellspacing="0" cellpadding="0" class="form">
+         <tr>
+            <th><span class="red">*</span>所属银行：</th>
+            <td>
+                <select name="data[title]" class="select select_td input w-200">
+                    <{foreach $bank_list as $k => $v}>
+                    <option value="<{$v}>"><{$v}></option>
+                    <{/foreach}>
+                </select>
+            </td>
+        </tr>
+    <tr>
+        <th><span class="red">*</span>开户人：</th>
+        <td><input type="text" name="data[name]" value="" class="input w-300"/></td>
+    </tr>
+        <tr>
+        <th><span class="red">*</span>开户帐号：</th>
+        <td><input type="text" name="data[account]" value="" class="input w-300"/></td>
+    </tr>
+
+      <tr>
+        <th><span class="red">*</span>是否默认：</th>
+        <td><input type="radio" name="data[is_default]" id="radio" value="0" checked="checked" />否&nbsp;<input type="radio" name="data[is_default]" id="radio" value="1" />是</td>
+    </tr>
+
+        <tr><th></th><td><input type="submit" value="提交" class="btn btn-success" /></td></tr>
+    </table>
+    </form>
+    <{else}>
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th colspan="5" style="background:#ffffc8;color:#ff0000;">您已绑定过银行，您可在下面编辑修改。</th>
+    </tr>
+    <tr>
+        <th class="w-200">所属银行</th>
+        <th class="w-200">开户人</th>
+        <th class="w-250">卡号</th>
+        <th class="w-150">时间</th>
+        <th class="w-150">操作</th>
+    </tr>
+    <{foreach $mybank as $item}>
+    <tr>
+        <td><{$item.title}></td>
+        <td><{$item.name}></td>
+        <td><{$item.account}></td>
+        <td><{$item.dateline|format}></td>
+        <td><a href="<{link ctl='wuye/tixian/index:edit' args=$item.account_id}>" class="btn btn-success" style="margin-right:2px;">编辑</a></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+<{/if}>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="wuye/block/footer.html"}>

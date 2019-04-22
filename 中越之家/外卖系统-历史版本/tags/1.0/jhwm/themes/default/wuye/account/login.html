@@ -1,0 +1,35 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>物业管理中心登录</title>
+    <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/layer/layer.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+    <link type="text/css" rel="stylesheet" href="/themes/default/wuye/static/css/login.css">
+</head>
+<body>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+    <div class="register_box">
+    	<h2>物业管理中心</h2>
+        <h4>Business Management System</h4>
+        <h3><span>登录</span></h3>
+        <div class="register_cont login_cont">
+        	<form action="<{link ctl='wuye/account:login'}>" mini-form="wuye-form" method="post">
+                <div class="int_box"><em class="ico ico_1"></em>
+                	<div class="box"><input type="text" name="data[mobile]" class="text" placeholder="请输入手机号"></div>
+                </div>
+                <div class="int_box"><em class="ico ico_2"></em>
+                	<div class="box"><input type="password" name="data[passwd]" class="text" placeholder="请输入密码"></div>
+                </div>
+                <input type="submit" class="btn" value="登录">
+
+            </form>
+        </div>
+        <p class="copyt">Copyright © 2013-2016 江湖科技出品, All rights reserved. ICP备案：皖ICP备13010842号</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<script type="text/javascript">
+window.Widget = window.Widget || parent.window.Widget || {};
+(function(K, $){
+	<{if $pager.error && $pager.error != 200}>
+	//$("#widget-dialog-load-content").dialog("destroy");
+    layer.close(layer.index);
+	Widget.MsgBox.error("<{$pager.message}>");
+	parent.window.__MINI_LOAD = window.__MINI_LOAD = false;
+
+	<{else}>
+	Widget.MsgBox.success("<{$pager.message}>", function(){});
+	setTimeout(function(){<{if $pager.link}>window.location = "<{$pager.link}>";<{else}>window.location.reload(true);<{/if}>},800);
+	<{/if}>
+})(window.KT, window.jQuery);
+</script>

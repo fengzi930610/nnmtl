@@ -1,0 +1,48 @@
+<{assign var='tpl_title' value='兑换红包'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter/hongbao/index'}>" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        输入兑换码
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+    <section class="page_center_box">
+    <div class="loginPage" style="padding:0;">
+        <div class="">
+        	<form action="" method="post">
+            <div class="loginPage_int_box border_b border_t">
+                <div class="pub_box" style="margin-left:0.05rem;">
+                    <input class="long_int exchange" type="text" placeholder="请输入兑换码">
+                </div>
+            </div>
+            <p class="pad_l10 pad_r10 mt10 mb10 black9">*输入正确的兑换码可获得红包，在支付结算中使用红包获得优惠</p>
+            <div class="btn_box">
+                <input class="long_btn" type="button" value="兑换" onclick="exchange_sn()">
+            </div>
+            </form>
+        </div>
+    </div>
+    </section>
+
+<script type="text/javascript">
+function exchange_sn()
+{
+    var v = $('.exchange').val();
+    if(($.trim(v).length<4)){
+        layer.open({content:"兑换码不正确",time:1.5});
+    }else{
+        $.post("<{link ctl='ucenter/hongbao/exchange'}>",{hongbao_sn:v},function(respone){
+            if(!respone.error){
+                layer.open({content:respone.message,time:1.5,end:function(){
+                    window.location.href="<{link ctl='ucenter/hongbao/index'}>";
+                }});
+            }else{
+                layer.open({content:respone.message,time:1.5});
+            }
+        },'json');
+    }
+
+}
+</script>
+<{include file="block/footer.html"}>

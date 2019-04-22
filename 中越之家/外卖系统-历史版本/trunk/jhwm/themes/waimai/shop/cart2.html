@@ -1,0 +1,119 @@
+<{assign var='tpl_title' value=L("购物车")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+.del{
+    display: inline-block;
+    margin:0 12px 0 24px;
+    color: #F60;
+}
+.del .ico{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url(/themes/waimai/static/img/index_btn_delete@3x.png) no-repeat center;
+    background-size: contain;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.opt_bar{
+    display: flex;
+    text-align: right;
+    clear: both;
+    height: 36px;
+    line-height: 36px;
+    padding-top: 12px;
+}
+.opt_bar .btn{
+    display: block;
+    width: 50%;
+    height: inherit;
+    line-height: inherit;
+    text-align: center;
+    font-size: 14px;
+}
+.opt_bar .btn.shop{
+    background-color: #090;
+    color: #FFF;
+    margin-right: 6px;
+}
+.opt_bar .btn.buy{
+    background-color: #F60;
+    color: #FFF;
+    margin-left: 6px;
+}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            
+            <div class="container_mid">
+            	<div class="mt10 takeout_shopCart">
+                    
+                </div>
+            </div>
+            <{include file="waimai/block/footer_nav.html"}>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var ecarts = JSON.parse(localStorage["ECart"] || '{}') || {};
+        var ecarts2 = {};
+        $.each(ecarts,function(i,item){
+            if(typeof(item) == 'object' && Object.getOwnPropertyNames(item).length > 0){
+                ecarts2[i] = item;
+            }
+        })
+        var title_lists = JSON.parse(localStorage["title_list"] || '{}') || {};
+        var html = "";
+        var key = 0;
+        // console.log(ecarts2);
+        $.each(ecarts2,function(k,v){
+            var link = "<{link ctl='shop/detail' arg0=__shop_id__ http='waimai'}>";
+            var ecart = new window.ECart(k);
+            var total = ecart.total_count();
+            var shtml = "";
+            html += '<div class="shopCart_list mb10"><div class="top pub_list"><a href="'+link.replace("__shop_id__",k)+'" class="pub_list_bd"><i class="ico"></i>'+title_lists[k]+'<i class="link_ico"></i></a><span class="num black9">共'+total+'件</span><a href="javascript:;" class="del" rel="'+k+'"><i class="ico"></i>清空</a></div><div class="list_box"><ul>';
+            $.each(v,function(k1,v1){
+                if(v1.spec_name){
+                   var img = "<{$pager.img}>"+'/'+v1.spec_photo;
+                }else{
+                   var img = "<{$pager.img}>"+'/'+v1.photo;
+                }
+                var product_id = v1.product_id;
+                var url = "<{link ctl='shop/detail' arg0='#shop_id#' pid='oooo'}>".replace('#shop_id#',k).replace('oooo',product_id);
+                //shtml += '<li><div class="img"><span><img src="'+img+'"></span></div><P class="fontcl1">￥'+v1.price+'</P></li>';
+                shtml += '<li><div class="img"><a href="'+url+'"><span style="background: url('+img+')  no-repeat center; background-size: cover;"></span></a></div><P class="fontcl1">￥'+v1.price+'</P></li>';
+            })
+            html += shtml;
+            html += '</ul>';
+            html += '<div class="opt_bar"><a href="'+link.replace("__shop_id__",k)+'" class="btn shop">进入商家</a><a href="'+("<{link ctl='order/order' arg0='#shop_id#' http='waimai'}>").replace('#shop_id#',k)+'" class="btn buy">去结算</a></div>';
+            html += '<div class="clear"></div></div></div>';
+            key ++;
+        })
+        if(key==0){
+            html = '<div class="shop-car-none-cont"><img src="/themes/waimai/static/img/icon-cart-none@3x.png"><p>您的购物车空空如也</p><a href="<{link ctl='index' http="waimai"}>" class="see-around-btn">去逛逛</a></div>';
+        }
+        $(".takeout_shopCart").html(html);   
+        //console.log(html);
+    })
+    
+    $(function(){
+        $('.shopCart_list .top .del').click(function(){
+            var shop_id = $(this).attr("rel");
+            var ecart = new window.ECart(shop_id);
+            var obj = $(this);
+            Widget.MsgBox.confirm("您确定要清空该店铺购物车吗?", function(ret){
+                if(ret){
+                    ecart.clear();
+                    obj.parents('.shopCart_list').remove();
+                    window.location.reload();
+
+                }
+            });
+
+            
+        })
+    })
+</script>
+<{include file="waimai/block/footer.html"}>

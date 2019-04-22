@@ -1,0 +1,67 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<div class="fx_dpManage_list fx_center">
+            <a href="/index">
+                <div class="img fl"><img src="<{$pager.img}>/<{$FENXIAO.photo}>" width="80" height="80"></div>
+            <div class="wz_box">
+                <h4><{$FENXIAO.title}></h4>
+                <p class="fontcl1"><{$FENXIAO.shop_name}></p>
+            </div>
+            <div class="clear"></div>
+        <span class="linkIco"></span>
+        </a>
+    </div>
+    <div class="fx_centerMenu mb10">
+        <ul>
+            <li><a href="<{link ctl='ucenter/shop/profit/index'}>"><i class="ico ico1"></i>收益</a></li>
+            <li><a href="<{link ctl='ucenter/shop/order/index'}>"><i class="ico ico2"></i>推广订单</a></li>
+            <li><a href="<{link ctl='ucenter/shop/tongji/index'}>"><i class="ico ico3"></i>统计</a></li>
+            <li><a href="<{link ctl='ucenter/shop/manage/index'}>"><i class="ico ico4"></i>店铺管理</a></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="fx_centerMenu_list">
+        <ul>
+            <li><a href="<{link ctl='ucenter/shop/info/index'}>" class="border_b linkIco">店铺信息</a></li>
+            <li><a href="<{link ctl='ucenter/shop/member/index'}>" class="border_b linkIco">团队成员</a></li>
+            <li><a href="<{link ctl='product/index'}>" class="border_b linkIco">分销商品</a></li>
+            <li><a href="javascript:void(0);" class="linkIco share_show">开始推广</a></li>
+        </ul>
+    </div>
+</section>
+<!--分享弹层-->
+<div class="share_mask" style="bottom:0;display:none;">
+    <img src="/themes/default/fenxiao/static/images/fx_share.png" width="100%" />
+</div>
+<div class="mask_bg" style="display:none;"></div>
+
+<div class="preloader txt_center" style="padding-top:0.1rem;"><img src="/themes/default/weidian/static/images/home_logo@2x.png" width="28"><p class="black9 font_size14 font_line30 mt10">江湖技术支持</p></div>
+
+<script>
+$(document).ready(function () {
+        localStorage["link"]  = window.location;
+	$(document).on('click','.share_show',function(){
+            //重写URL地址，让用户可以分享指定地址。
+            var stateObject = {};
+            var title = "share";
+            var newUrl = "<{link ctl='index'}>";
+            history.pushState(stateObject,title,newUrl);
+             $('.share_mask').addClass('on');
+            $('.mask_bg').show();
+            $('.share_mask').show();
+        })
+        $(document).on('click','.share_mask',function(){
+            //重写后关闭遮罩层时恢复URL地址，防止用户在返回上一页的时候发生错误
+            var stateObject2 = {};
+            var title2 = "share";
+            history.pushState(stateObject2,title2,localStorage["link"]);
+            $('.share_mask').removeClass('on');
+            $('.mask_bg').hide();
+            $('.share_mask').hide();
+	});
+        
+});
+</script>
+<!--分享弹层结束-->
+
+<{include file="fenxiao/block/footer.html"}>

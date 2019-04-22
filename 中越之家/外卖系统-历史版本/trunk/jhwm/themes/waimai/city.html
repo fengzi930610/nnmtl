@@ -1,0 +1,92 @@
+<{assign var='tpl_title' value=L("切换城市")}>
+<{include file="block/header.html"}>
+<style>
+    .page,body{ background:#fff;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div style=" margin-right:50px;">
+                    <div class="city_box">
+                        <ul>
+                            <li class="box_list">
+                                <p>当前选择城市</p>
+                                <ul class="city_list_inline">
+                                    <li><a href="<{link ctl='position' http='waimai'}>"><em class="ico lctIco"></em><span class="maincl">--</span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="city_fixed">
+                        <ul>
+                            <{foreach $city_list as $k => $v}>
+                            <li><a href="#a<{$k}>"><{$k}></a></li>
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                    <{foreach $city_list as $k => $v}>
+                    <div class="cities_wrapper">
+                        <h4 class="title"><{$k}><small class="">（按字母排序）</small></h4>
+                        <div class="cities" id="a<{$k}>">
+                            <{foreach $v as $kk => $vv}>
+                            <a class="city" href="javascript:void(0);" val='<{$vv.city_name_vn}>' cityid='<{$vv.city_id}>' city_code="<{$vv.city_code|default:''}>"><{$vv.city_name}></a>
+                            <{/foreach}>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        //var now_city_name = localStorage['UxCity'] || "选择城市"; //localStorage不能跨域换成COOKIE
+        //<{if false}>以下为旧代码
+        var now_city_name = localStorage['UxCity'] || Cookie.get("UxCity") ||"选择城市";
+        $('.maincl').text(now_city_name);
+        $('.city').click(function () {
+            var cityname = $(this).attr('val');
+            var cityid = $(this).attr('cityid');
+            localStorage['UxCity'] = cityname;
+            localStorage['UxCityId'] = cityid;
+            Cookie.set("UxCityId", cityid, 86400 * 30);
+            //Cookie.set("UxCity", cityname, 86400 * 30);
+            location.href = "<{link ctl='position' http='waimai'}>";
+        })
+        //<{/if}>
+        //<{if false}>2019-02-25 添加 新的代码逻辑<{/if}>
+
+        var citys_vn = {},citys_cn = {};
+        //<{foreach $city_list as $v}><{foreach $v as $kk => $city}>
+        
+        citys_vn["<{$city.city_name_vn}>"] = "<{$city.city_name}>";
+        citys_cn["<{$city.city_name}>"] = "<{$city.city_name_vn}>";
+        //<{/foreach}><{/foreach}>
+
+        function transCityNameToCN(name)
+        {
+            if(typeof name == "string" && (name = $.trim(name)) !== "" && typeof citys_vn[name] !== "undefined")
+                name = citys_vn[name];
+            return name;
+        }
+        function transCityNameToVN(name)
+        {
+            if(typeof name == "string" && (name = $.trim(name)) !== "" && typeof citys_cn[name] !== "undefined")
+                name = citys_cn[name];
+            return name;
+        }
+        var curCityName = typeof UxLocation.city === "string" ? UxLocation.city : "";
+        $('.maincl').text(curCityName === ""?"--":transCityNameToCN(curCityName));
+        $('.city').click(function () {
+            var cityname = $(this).attr('val');
+            UxLocation.city = cityname;
+            Cookie.set("UxCityName", cityname, 86400 * 30);
+            setUxLocation(UxLocation);
+            location.href = "<{link ctl='index' http='waimai'}>";
+        })
+    })
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,138 @@
+<{assign var='tpl_title' value=L("搜索小区")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav">
+
+    <form action="<{link ctl='xiaoqu/index/search'}>" method="get">
+
+        <a href="<{link ctl='xiaoqu/index/items'}>" class="pull-left headerIco" style="width:10%;float:left;"></a>
+
+        <div class="searchbar dizhi-sou" style="width:90%;float:left;">
+
+            <div class="search-input">
+
+                <input type="search" id='search' name="keyword" placeholder='请输入您要搜索的小区名称' style="width:80%;float:left;" />
+
+                <input type="submit" id="submit" class="pull-right" value="搜索" style="width:20%;float:left;">
+
+            </div>
+
+        </div>
+
+    </form>
+
+</header>
+
+<!--头部结束-->
+
+<div class="content">
+
+    <div class="sousuo-cont">
+
+        <{if $list}>
+
+        <{foreach $list as $k => $v}>
+
+        <div class="pad10 cont-one bgcolor_white mb10 addr_list" val="<{$v.xiaoqu_id}>">
+
+            <a href="" class="black3">
+
+                <p class="xiaoqu-name"><{$v.title}></p>
+
+                <p class="black9 font_size14"><{$v.addr}></p>
+
+            </a>
+
+        </div>
+
+        <{/foreach}>
+
+        <{else}>
+
+        <div class="no-find txt_center black3">
+
+            <p class=" font_line24 mb5">未搜索到该小区？</p>
+
+            <p class="mb10">请告诉我们，我们尽快添加</p>
+
+            <a href="<{link ctl='xiaoqu/index/xiaoqu_create'}>" class="black3 mt5 submit-xiaoqu" style='background:rgb(89,193,129);color:#ffffff;'>提交小区</a>
+
+        </div>
+
+        <{/if}>
+
+    </div>
+
+</div>
+
+<script>
+
+//针对小区列表的点击事件处理begin
+
+    $('.addr_list').click(function () {
+
+        var xiaoquname = $(this).find('.xiaoqu-name').text();
+
+        var xiaoquid = $(this).attr('val');
+
+        //先AJAX请求，获得结果，根据结果执行不同方式
+
+        var link = "<{link ctl='xiaoqu/index/ajax_check_search_xiaoqu'}>";
+
+        $.post(link, {xiaoquid:xiaoquid}, function (ret) {
+
+            if (ret.error == 101) {
+
+                $.alert('您还没有登录', function () {
+
+                    window.location.href = "<{link ctl='passport/login'}>";
+
+                });
+
+            } else if (ret.error == 0) {
+
+                //如果成功，已入驻，直接跳转首页
+
+                localStorage['UxXiaoqu'] = xiaoquname;
+
+                localStorage['UxXiaoquId'] = xiaoquid;
+
+                Cookie.set("UxXiaoqu", xiaoquname, 86400 * 30);
+
+                Cookie.set("UxXiaoquId", xiaoquid, 86400 * 30);
+
+                location.href = "<{link ctl='xiaoqu'}>";
+
+            } else {
+
+                //申请入驻提交表单
+
+                var link = "<{link ctl='xiaoqu/yezhu/create' args=__xiaoquid}>";
+
+                location.href = link.replace('__xiaoquid',xiaoquid);
+
+            }
+
+        }, 'json');
+
+        
+
+        
+
+    })
+
+    $('.city_name').click(function () {
+
+        var link = "<{link ctl='xiaoqu/city'}>";
+
+        window.location.href = link;
+
+    })
+
+//end
+
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

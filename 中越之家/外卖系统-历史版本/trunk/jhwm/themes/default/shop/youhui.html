@@ -1,0 +1,161 @@
+<{assign var='tpl_title' value='<{$detail.title}>-优惠买单'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='shop/detail' arg0=$detail.shop_id}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        <{$detail.title}>
+    </div>
+</header>
+
+<section class="page_center_box">
+    <div class="bgcolor_white border mar10 pad10 font_size14" style="padding: 0.02rem 0.1rem;">
+        <p class="fl" style="height: 0.36rem;line-height: 0.36rem;">消费金额：</p>
+        <P class="fr pointcl1 ">
+            <input type="number" id="money" placeholder="输入金额"
+                   style="display:inline-block;width:230px;height:0.36rem;line-height:0.36rem;border:none;">
+        </P>
+        <div class="clear"></div>
+    </div>
+    <p class="couponMoney_show maincl mar10 font_size14"><span class="add"
+                                                               style="display:inline-block; width:0.18rem; height:0.18rem; text-align:center; line-height:0.18rem; border-radius:100%; border:0.01rem solid #59c181; font-size:0.16rem; margin-right:0.05rem; vertical-align:middle;">+</span>输入不享优惠金额
+    </p>
+
+    <div class="bgcolor_white border mar10 pad10 font_size14" id="no" style="display:none; padding: 0.02rem 0.1rem;">
+        <p class="fl" style="height: 0.36rem;line-height: 0.36rem;">不享受金额：</p>
+        <P class="fr pointcl1 ">
+            <input type="number" id="no_money" placeholder="输入金额"
+                   style="display:inline-block;width:230px;height:0.36rem;line-height:0.36rem;border:none;">
+        </P>
+        <div class="clear"></div>
+    </div>
+
+    <{if !$options.type}>
+    <div class="bgcolor_white border_t border_b pad10">
+        <div class="fl">
+            <p class="font_size14" style="line-height:0.28rem;">
+                <{foreach $options.config as $k => $v}>
+                每满<span class="pointcl1"><{$v.m}></span>减<span class="pointcl1"><{$v.d}></span>元&nbsp;&nbsp;
+                <{if $v@index % 2 ==1}>
+                </br>
+                <{/if}>
+                <{/foreach}><br>
+                最大优惠：(<span class="pointcl1"><{$options.max_youhui}>元</span>)
+            </p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <{else}>
+    <div class="bgcolor_white border_b pad10 mb10">
+        <p class="font_size14">限时折扣：消费打<span class="pointcl1"><{$options['discount']/10}></span>折，最高减<span
+                class="pointcl1"><{$options.max_youhui}></span>元</p>
+    </div>
+    <{/if}>
+
+
+    <div class="pad10 font_size14 txt_center">
+        消费金额:<span class="pointcl1">￥<span id="money_total">0</span></span>,不优惠金额:<span class="pointcl1">￥<span
+            id="money_no">0</span></span>,应付金额:<span class="pointcl1">￥<span id="money_should">0</span></span>
+    </div>
+    <div class="btn_box"><a href="javascript:void(0);" class="long_btn">立即提交</a></div>
+</section>
+
+<script>
+    var m = 0;
+    var dm = 0;
+    var dec_money = 0;
+    var type = "<{$options.type}>";
+    var max_youhui = parseInt("<{$options.max_youhui}>");
+    var discount = "<{$options.discount}>";
+    var config = "<{$options.config}>";
+    var sale = discount / 100;
+    $(document).ready(function () {
+
+        function js(m, dm) {
+            m = Number(parseFloat(m).toFixed(2));
+            dm = Number(parseFloat(dm).toFixed(2));
+            if (!dm) {
+                dm = 0;
+                $('#money_no').text(dm);
+            } else {
+                $('#money_no').text(dm);
+            }
+            if (!m) {
+                m = 0;
+            } else {
+                $('#money').text(m);
+            }
+            $('#money_total').text(parseFloat(m + dm).toFixed(2));
+            if (type == 1) {
+                var dec_money = Number(parseFloat((m * sale).toFixed(2)));
+
+                if ((m - dec_money) > max_youhui) {
+                    $('#money_should').text(m - max_youhui + dm);
+                } else {
+                    $('#money_should').text(dec_money + dm);
+                }
+
+            } else {
+                var url = "<{link ctl='shop:youhui_check' arg0=$detail.shop_id arg1=__money}>";
+                $.post(url.replace('__money', m), {}, function (ret) {
+                    $('#money_should').text(Number(parseFloat(ret.money + dm).toFixed(2)));
+                }, 'json');
+            }
+        }
+
+        $('#money').keyup(function () {
+            var money = Number(parseFloat($(this).val()).toFixed(2));
+            js(money);
+        })
+
+        $('.add').click(function () {
+            $('#no').show();
+        })
+        $('#no_money').keyup(function () {
+            if (!$('#money').val()) {
+                layer.open({
+                    content: '请先填写消费金额！',
+                    time: 2
+                });
+            } else if (Number(parseFloat($('#no_money').val()).toFixed(2)) > Number(parseFloat($('#money').val()).toFixed(2))) {
+                layer.open({
+                    content: '输入错误！',
+                    time: 2
+                });
+            } else {
+                var no_money = $(this).val();
+                var dmoney = $('#money').val() - no_money;
+                js(dmoney, no_money);
+            }
+        })
+
+
+        $('.long_btn').click(function () {
+            var m1 = $('#money').val();
+            var m2 = $('#no_money').val();
+            var shop_id = "<{$detail.shop_id}>";
+            var url = "<{link ctl='shop:youhui_create'}>";
+            $.post(url, {shop_id: shop_id, money: m1, no_money: m2}, function (ret) {
+                if (ret.error == 0) {
+                    layer.open({
+                        content: ret.message,
+                        time: 2
+                    });
+                    var order_id = parseInt(ret.data.order_id);
+                    localStorage['order_pay'] = "<{link ctl='ucenter/order:detail-" + order_id + "'}>";
+                    var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+                    setTimeout(function () {
+                        window.location.href = link.replace('temp1', order_id);
+                    }, 2000)
+                } else {
+                    layer.open({
+                        content: ret.message,
+                        time: 2
+                    });
+                }
+            }, 'json');
+        })
+
+
+    })
+</script>
+<{include file="block/footer.html"}>

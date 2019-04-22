@@ -1,0 +1,23 @@
+<!-- <{foreach $item as $v}>
+
+<div class="box">
+    <div class="time">
+        <{$v.dateline|format:'Y-m-d'}>
+    </div>
+    <div class="content">
+        <{$v.intro}><{$v.number|default:0}>积分
+    </div>
+</div>
+<{/foreach}> -->
+
+
+
+<{foreach $item as $v}>
+<li class="list clear_both border_b"> 
+	<div class="fl"> 
+		<p><{$v.intro}></p> <small class="black9"><span><{$v.dateline|format:'Y-m-d'}></span></small> 
+	</div> 
+	<div class="fr maincl mt10"><{$v.number|default:0}><small>积分</small></div> 
+</li>
+<{/foreach}>
+

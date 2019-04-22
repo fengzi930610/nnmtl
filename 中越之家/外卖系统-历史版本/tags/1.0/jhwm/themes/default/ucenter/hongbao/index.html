@@ -1,0 +1,59 @@
+<{assign var='tpl_title' value='我的红包'}>
+<{include file="block/header.html"}>
+    <header>
+        <i class="left"><a href="<{link ctl='ucenter'}>" link-load="" link-type="right"  class="ico headerIco headerIco_3"></a></i>
+        <div class="title">
+                    我的红包
+        </div>
+        <i class="right"><a link-load="" href="<{link ctl='ucenter/hongbao/exchange'}>">兑换</a></i>
+</header>
+<section class="page_center_box">
+   <p class="pad10" style="text-align:right;"><a href="<{link ctl='page/hongbao'}>" class="black9"><em style="display:inline-block; width:0.14rem; height:0.14rem; text-align:center; line-height:0.14rem; border:0.01rem solid #999999; border-radius:100%; margin-right:0.05rem;">?</em>使用说明</a></p>
+   <div class="redBag_list_box">
+       <ul id="index_goods_items">
+
+        </ul>
+        <div class="loadding">
+
+        </div>
+        <div class="clear"></div>
+   </div>
+</section>
+<script>
+setmsgisread();
+function setmsgisread() {
+    var message_id = localStorage['message_id'];
+    jQuery.ajax({
+        url: "<{link ctl='ucenter/msg:setread'}>",
+        async: true,
+        dataType: 'json',
+        data: {"message_id": message_id},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                //layer.open({content: ret.message,time: 2});
+            }else{
+                //提交成功
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+
+    });
+}
+
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/hongbao/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+        loaddata(link, page, params);
+        $(".next").click(function () {
+            page++;
+            loaddata(link, page, params);
+        })
+    })
+
+
+</script>
+<{include file="block/footer.html"}>

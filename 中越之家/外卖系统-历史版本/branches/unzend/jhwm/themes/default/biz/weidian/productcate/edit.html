@@ -1,0 +1,59 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/weidian/productcate:index'}>" class="on"><{L('商品分类')}></a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/weidian/productcate:edit' args=$detail.cate_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th><span class="red">*</span><{L('父级分类')}>：</th>
+                <td>
+                    <{if 1==$is_edit_parent}>
+                    
+                    <select name="data[parent_id]" class="input w-200">
+                        <option value="0"><{L('顶级分类')}></option>
+                        <{foreach $cate_list as $v}>
+                            <{if $v.cate_id != $detail.cate_id}>
+                            <option value="<{$v.cate_id}>" <{if $v.cate_id==$detail.parent_id}> selected <{/if}> ><{$v.title}></option>
+                            <{/if}>
+                        <{/foreach}>
+                    </select>
+                    <{else}>
+                        顶级分类
+                    <{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span><{L('标题')}>：</th>
+                <td><input type="text" name="data[title]" value="<{$detail.title}>" class="input w-150"/></td>
+            </tr>
+            <{*
+            <tr>
+                <th><{L('图标')}>：</th>
+                <td>
+                    <input type="text" name="data[icon]" class="input w-300" id="file_photo" value="<{$detail.icon}>" <{if $detail.icon}>photo="<{$pager.img}>/<{$detail.icon}>"<{/if}> />
+                    <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" <{L('选择文件')}> " />
+                    <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span><{L('预览')}></a>
+                </td>
+            </tr>
+            *}>
+            <tr>
+                <th><span class="red"></span><{L('排序')}>：</th>
+                <td><input type="text" name="data[orderby]" value="<{$detail.orderby}>" class="input w-150"/></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="<{L('保存数据')}>" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

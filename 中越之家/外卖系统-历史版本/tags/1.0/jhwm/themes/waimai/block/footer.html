@@ -1,0 +1,83 @@
+<{if !$request.IN_APP_CLIENT}>
+<!-- 全部订单下拉 -->
+<script type="text/javascript">
+    $(function(){
+        $(".dingdan-list-top-cont .top-a .color-lan").on("click",function() {
+            $(this).find(".ico-it").toggleClass("on");
+            $(".dingdans-mask").find(".dan-xiala").toggle();
+            $(".dingdans-mask").fadeToggle(300);
+        });
+        $(".dan-xiala .dan-a").on("click",function() {
+            $(this).addClass("on").parent(".dan-xiala .li-one").siblings().find(".dan-xiala .dan-a").removeClass("on");
+            $(".dingdans-mask").find(".dan-xiala").hide();
+            $(".dingdans-mask").fadeOut(300);
+           window.location.href = $(this).attr('rel')
+        });
+        $(".dingdans-mask").on("click",function() {
+            $(".dingdans-mask").find(".dan-xiala").hide();
+            $(".dingdans-mask").fadeOut(300);
+        });
+    });
+    window.onpageshow = function(event) { 
+        if (event.persisted) {
+            window.location.reload()
+        }
+    };
+
+var in_weixin = "<{$request.IN_WEIXIN}>";
+var ctl_act = "<{$request.ctl}>/<{$request.act}>";
+
+if(in_weixin && (ctl_act!='ucenter/share/index' && ctl_act!='ucenter/order/detail')){
+    var params = {
+        'title': '<{$CONFIG.site.title}>',
+        'desc': document.title,
+        'link': window.location.href,
+        'imgUrl': '<{$pager.img}>/<{$site.logo}>',
+    };
+    Widget.Share.WeixinShare = function(params){
+        wx.ready(function(){
+            // 发送给朋友
+            wx.onMenuShareAppMessage({
+                title: params.title, 
+                desc: params.desc, 
+                link: params.link, 
+                imgUrl: params.imgUrl, 
+                type: '', 
+                dataUrl: '', 
+                success: function () {
+                    //layer.open({content: '分享成功！', time: 1});
+                },
+                cancel: function () { 
+                }
+            });
+            // 分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: params.title, 
+                link: params.link, 
+                imgUrl: params.imgUrl, 
+                success: function () { 
+                    //layer.open({content: '分享成功！', time: 1});
+                },
+                cancel: function () { 
+                }
+            });
+            // 分享到手机QQ
+            wx.onMenuShareQQ({
+                title: params.title, 
+                desc: params.desc, 
+                link: params.link, 
+                imgUrl: params.imgUrl, 
+                success: function () { 
+                    //layer.open({content: '分享成功！', time: 1});
+                },
+                cancel: function () { 
+                }
+            });
+        });
+    }
+}
+</script>
+<!-- 全部订单下拉end-->
+<{/if}>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/pub_app.css"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/pullToRefresh.css"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/append.css"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/mobiscroll.custom-2.6.2.min.css"/>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/script/layer.m/layer.m.js" type="text/javascript" charset="utf-8"></script>
+<title>找回密码</title>
+</head>
+<body>
+    <header>
+    	<i class="left"><a href="<{link ctl='passport/login'}>" class="ico headerIco headerIco_3"></a></i>
+        <div class="title">
+        	找回密码
+        </div>
+        <i class="right"><a href="#" class=""></a></i>
+    </header>
+    <section class="page_center_box">
+        <div class="loginPage" style="padding:0;">
+            <div class="mt10">
+            	<form action="<{link ctl='passport/forget'}>" method="post" onsubmit="return check_submit(this);">
+            	<div class="loginPage_int_box border_b border_t">
+                	<div class="pub_ico fl"><em class="ico ico_1"></em></div>
+                    <div class="pub_box">
+                        <input class="long_int mobile" type="text" name="mobile" placeholder="请输入手机号" error="手机号码不正确" >
+                        <a class="pub_btn" lock="false">获取验证码</a>
+                    </div>
+                </div>
+                <div class="loginPage_int_box border_b">
+                	<div class="pub_ico fl"><em class="ico ico_2"></em></div>
+                    <div class="pub_box">
+                        <input class="long_int" type="text" name="verify" placeholder="请输入验证码" error="验证码不正确">
+                    </div>
+                </div>
+                <div class="loginPage_int_box border_b">
+                	<div class="pub_ico fl"><em class="ico ico_3"></em></div>
+                    <div class="pub_box"><input class="long_int" type="password" name='new_pswd' placeholder="请输入新密码（不少于6位）" error="新密码至少6位" ></div>
+                </div>
+                <div class="loginPage_int_box border_b mb10">
+                	<div class="pub_ico fl"><em class="ico ico_3"></em></div>
+                    <div class="pub_box"><input class="long_int" type="password" name="re_pswd" placeholder="请再输入密码（不少于6位）"  error="重输入密码不正确"></div>
+                </div>
+                <div class="btn_box">
+                    <input class="long_btn" type="submit" value="立即提交">
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+<script src="/themes/default/static/js/pub.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+
+    /*验证码发送#开始#*/
+    var minute = 59, m;
+    $('.pub_btn').click(function(ele){
+        lock  = $(this).attr('lock');
+        ele   = $(this);
+        phone = $('.mobile').val();
+        if(lock == 'false'){
+            if(!(/^1[3|5|4|7|8]\d{9}$/.test(phone))){
+                layer.open({content:"手机号码不正确",time:2});
+                return false;
+            }
+            m = minute;
+            ele.attr('lock', 'true');
+            ele.addClass('graybg');
+            $.post("<{link ctl='passport/sendsms'}>",{mobile:phone},function(respone){
+                layer.open({content:respone.message,time:2});
+            },'json');
+            interval = setInterval(function(){
+                if(m<1){
+                    ele.attr('lock', 'false');
+                    ele.removeClass('graybg');
+                    $(".pub_btn").text("重新发送");
+                    clearInterval(interval);
+                }else{
+                    $(".pub_btn").text(m+"秒");
+                    --m;
+                }
+            },1000);
+        }
+    });
+    /*验证码发送#结束#*/
+
+/* 数据提交#开始# */
+function check_submit(form){
+    frm = form.elements;
+    dta = {};
+    for(i=0;i<frm.length;i++){
+        nme = frm[i].name;
+        val = frm[i].value;
+        if(nme == 'mobile'){
+            if(!(/^1[3|4|5|7|8]\d{9}$/.test(val))){
+                layer.open({content:'手机号码不正确',time:2});
+                return false;
+            }
+            dta.mobile = val;
+        }else if(nme == 'verify'){
+            if(!(/^\d{4,6}$/.test(val))){
+                layer.open({content:'验证码不正确',time:2});
+                return false;
+            }
+            dta.verify = val;
+        }else if(nme == 'new_pswd'){
+            if(val.length<5){
+                layer.open({content:'新密码至少6位',time:2});
+                return false;
+            }
+            dta.pswd = val;
+        }else if(nme == 're_pswd'){
+            if(val != dta.pswd){
+                layer.open({content:'重复密码不正确',time:2});
+                return false;
+            }
+        }
+    }
+    $.post("<{link ctl='passport/forget'}>",{submit:dta},function(respone){
+        if(!respone.error){
+            layer.open({content:respone.message,time:2,end:function(){
+                window.location.href="/passport";
+            }});
+        }else{
+            layer.open({content:respone.message, time:2});
+        }
+    },'json');
+    return false;
+}
+/* 数据提交#结束# */
+</script>
+<{include file="block/sfooter.html"}>
+</body>
+</html>

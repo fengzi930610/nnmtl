@@ -1,0 +1,22 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/tixian:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?shop/tixian-reason.html" mini-form="item-form" method="post">
+<input type="hidden" name="tixian_id" value="<{$detail.tixian_id}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>退回原因：</th><td>
+    <textarea name="reason" id="textarea" class="w-300"></textarea>
+    <br>输入原因，如：帐号错误。<span class="red">*&nbsp;退回以后，金额将返回该账户余额中。</span></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

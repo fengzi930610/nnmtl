@@ -1,0 +1,31 @@
+<{assign var="tpl_title" value="新闻资讯"}>
+<{include file="waimai/web/block/header.html"}>
+<div class="container_mid">	
+	<div class="sq-news-bg"></div>
+	<div class="mainwd sq-news-box">
+		<div class="news-box">
+			<h2 class="tit"><span>新闻资讯</span></h2>
+			<ul>
+				<{foreach $items as $item}>
+				<li class="list">
+					<a href="<{link ctl='web/news:detail' arg0=$item.article_id http='waimai'}>">
+						<div class="fl pic"><img src="<{$pager.img}>/<{$item.thumb}>" /></div>
+						<div class="text">
+							<h3 class="overflow_clear bt"><{$item.title}></h3>
+							<p class="black9 wz"><{$item.desc}></p>
+							<div>
+								<p class="fl black9"><{$item.dateline|format:"Y-m-d"}></p>
+								<p class="fr black9">浏览<span class="fontcl1"><{$item.views}></span>次</p>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</a>
+				</li>
+				<{/foreach}>
+			</ul>
+			<div class="page"><{$pager.pagebar}></div>
+		</div>
+	</div>
+</div>
+<{include file="waimai/web/block/footer.html"}>

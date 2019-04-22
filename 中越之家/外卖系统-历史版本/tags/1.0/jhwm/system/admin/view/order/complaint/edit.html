@@ -1,0 +1,31 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="order/complaint:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?order/complaint-edit.html" mini-form="complaint-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="complaint_id" value="<{$detail.complaint_id}>"/>
+<tr><th>投诉ID：</th><td><{$detail.complaint_id|default:''}></td></tr>
+<tr><th>订单ID：</th><td><{$detail.order_id|default:''}></td></tr>
+<tr><th>用户UID：</th><td><{$detail.uid|default:''}></td></tr>
+<tr><th>商户UID：</th><td><{$detail.shop_id|default:''}></td></tr>
+<tr><th>服务人员ID：</th><td><{$detail.staff_id|default:''}></td></tr>
+<tr><th>投诉类型：</th><td><{$detail.title|default:''}></td></tr>
+<tr><th>投诉内容：</th><td>
+<textarea name="data[content]" class="textarea w-300"><{$detail.content|default:''}></textarea>
+</td></tr>
+<tr><th>商户回复内容：</th><td><textarea name="data[reply]" class="textarea w-300"><{$detail.reply|default:''}></textarea></td></tr>
+<tr><th>商户回复时间：</th><td><{$detail.reply_time|default:''}></td></tr>
+<tr><th>客户IP：</th><td><{$detail.clientip|default:''}></td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format:'Y-m-d H:i:s'}> </td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

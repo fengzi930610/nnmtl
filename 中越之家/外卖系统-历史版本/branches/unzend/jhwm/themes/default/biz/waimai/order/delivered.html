@@ -1,0 +1,135 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/waimai/order:index'}>">待接单</a>
+        <a href="<{link ctl='biz/waimai/order:pei'}>">待配送</a>
+        <a href="<{link ctl='biz/waimai/order:delivered'}>" class="on">配送中</a>
+        <a href="<{link ctl='biz/waimai/order:complete'}>">已完成</a>
+        <a href="<{link ctl='biz/waimai/order:cancellist'}>">已取消</a>
+        <a href="<{link ctl='biz/waimai/order:ziti'}>">自提单</a>
+    </ul>
+    <span class="r"><a target="_blank" href="<{link ctl='biz/waimai/ordermanage:index'}>" class="btn btn-success">快速管理</a></span>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr class="alt">
+            <th class="w-60">订单编号</th>
+            <th class="w-150">下单时间</th>
+            <th class="w-80">配送员</th>
+            <th>地址</th>
+            <th class="w-240">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><{$item.order_id}></td>        
+            <td><{$item.dateline|format:'Y-m-d H:i'}></td>
+            <td><{if $item.pei_type==0}>
+            <b class="red">自主配送</b>
+            <{elseif $item.pei_type==3}>
+            <b class="blue">客户自提</b>
+            <{else}>
+            <{$staffs[$item['staff_id']]['name']}>(<{$staffs[$item['staff_id']]['mobile']}>)
+            <{/if}>
+            </td>
+            <td><{if $item.pei_type==3}><b class="blue">客户自提</b><{else}><{$item.addr}><{$item.house}><{/if}>(<b class="blue"><{$item.contact}>,<{$item.mobile}></b>)</td>
+            <td>
+                <{if $item.staff_id>0}>
+                <a href="javascript:Widget.MsgBox.success('骑手配送中');" class="btn btn-primary" title="骑手配送中">骑手配送中</a>
+                <{else}>
+                <a href="<{link ctl='biz/waimai/order:finish' arg0=$item.order_id}>"  mini-act="订单已送达" class="btn btn-primary" title="订单已送达">订单已送达</a>
+                <{/if}>
+                <a href="<{link ctl='biz/waimai/order:cancel' arg0=$item.order_id}>" mini-act="confirm:您确定要取消订单吗" class="btn btn-warning" title="取消订单">取消订单</a>
+                <a href="javascript:void(0);" rel="<{$item.order_id}>"  class="btn btn-success view_btn" title="查看">查看</a>
+            </td>
+        </tr>
+        <tr class="table_child tr_<{$item.order_id}>">
+            <td class="border_none" colspan="7">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_detail">
+                <tr>
+                    <th colspan="3">
+                            <div>
+                            <ul>
+                                <li class="list">订单号：<{$item.order_id}>
+                                <li class="list">联系人：<{$item.contact}>
+                                <li class="list">手机号：<{$item.mobile}>
+                                <li class="list">下单时间：<{$item.dateline|format:'Y-m-d H:i'}>
+                                <li class="list">状态：<{$item.order_status_label}>
+                                <li class="list">在线支付：<{if $item.online_pay==1}>是<{else}>否<{/if}>
+                                <li class="list">支付状态：<{if $item.pay_status==1}>已支付<{else}>未支付<{/if}>
+                                <li class="list">送达时间：<{if $item.pei_time ==0}>尽快送达<{else}><{$item.pei_time|format}><{/if}></li>
+                                <{if $item.pei_type==0}>
+                                    <li class="list"><b class="red">商家自主配送</b></li>
+                                <{elseif $item.pei_type==3}>
+                                    <li class="list"><b class="blue">客户自提</b></li>
+                                <{else}>
+                                    <li class="list">配送员：<{$staffs[$item['staff_id']]['name']}></li>
+                                    <li class="list">配送员手机：<{$staffs[$item['staff_id']]['mobile']}></li>
+                                <{/if}>
+                                </ul>
+                        </div>
+                    </th>
+                </tr>
+                <{foreach $item.products as $var}>
+                <{if $item.order_id == $var.order_id}>
+                <tr>
+                    <td width="200"><{$var.product_name}></td>
+                    <td width="200"><span class="num">×<{$var.product_number}></span></td>
+                    <td class="txt_r">单价：<span class="price">￥<{$var.product_price}></span></td>
+                </tr>
+                <{/if}>
+                <{/foreach}>
+                <tr>
+                    <td colspan="3">打包费：￥<{$var.package_price}> 运费：￥<{$var.freight}></td>
+                </tr>
+                <tr>
+                    <td colspan="3">合计：<span class="price_zong">￥<{$item.total_price}></span>结算价：￥<{$item.js_price}><{if $item.first_youhui>0}>首单优惠：-￥<{$item.first_youhui}><{/if}><{if $item.order_youhui>0}>下单立减：-￥<{$item.order_youhui}><{/if}><{if $item.hongbao>0}>红包抵扣：-￥<{$item.hongbao}><{/if}></td>
+                </tr>
+                <tr>
+                    <td colspan="3">备注：<{$item.note|default:'无'}></td>
+                </tr>
+            </table>
+        </td>
+        </tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">暂无待完成订单</div></td></tr>
+        <{/foreach}>
+        <tr>
+    </table>
+    </form>
+    <div class="page"><{$pager.pagebar}></div>
+    <div class="page-bar">
+        <table>
+            <tr>
+               <!--  <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td class="left">
+                    <a action="<{link ctl='biz/waimai/order:finish'}>"  mini-submit="#items-form" class="btn btn-success" title="批量完成">批量完成</a>
+                </td> -->
+                <td><div class="page"><{$pager.pagebar}></div></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".view_btn").click(function () {
+            $('.tr_' + $(this).attr('rel')).slideToggle();
+        })
+        
+        $(".stamp .mask_bg").click(function(){
+            $(".stamp").hide();
+        })
+    });
+    function printorder(order_id){                
+        $(".stamp_list_"+order_id).show();
+        $(".print_"+order_id).click(function(){
+            var link = "<{link ctl='biz/waimai/order:porder' args='__order_id'}>";
+             $.get(link.replace('__order_id',order_id),function (ret) {
+               $('#abc').html(ret);
+               $('#abc').printArea();
+            },'html')
+        });
+    }
+</script>
+<span  id='abc'></span>   
+<{include file="biz/block/footer.html"}>

@@ -1,0 +1,39 @@
+<{assign var='tpl_title' value=L("我的预约")}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter/index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        <div class="changeTab_box">
+            <div class="changeTab">
+                <a href="<{link ctl='yuyue/paidui/items'}>" class="link">我的号单</a>
+                <a href="javascript:;" class="link on">我的订座</a></div>
+        </div>
+    </div>
+    <i class="right"><a href="javascript:;" class="ico"></a></i>
+</header>
+
+<section class="page_center_box">
+    <div class="lineBook_ordlist_box">
+        <ul id="index_goods_items">
+
+        </ul>
+        <div class="loadding">
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='yuyue/dingzuo/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+        loaddata(link, page, params);
+        $(".next").click(function () {
+            page++;
+            loaddata(link, page, params);
+        })
+    })
+</script>
+<{include file="block/footer.html"}>

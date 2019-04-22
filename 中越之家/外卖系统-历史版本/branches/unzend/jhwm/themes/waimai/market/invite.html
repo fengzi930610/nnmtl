@@ -1,0 +1,66 @@
+<{assign var='tpl_title' value=L("邀请好友")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+      	<div class="page_cont">
+            <div class="container_mid inviteFriends_bg">
+	        	<!-- 内容部分 -->
+                <div class="inviteFriends_adv"><img src="/themes/waimai/static/images/adv2.jpg" width="100%"></div>
+                <div class="inviteFriends_info">
+                	<i class="ico fr"></i>
+                    <div class="cont">
+                        <P>好友<span style="color: green;"><{$member.nickname}></span>给您送福利啦!</P>
+                        <P>最高可领￥<{$total_money}>红包哦！</P>
+                    </div>
+                </div>
+                <div class="inviteFriends_box">
+                	<div class="inviteFriends_form">
+                    	<input type="text" id="mobile" class="text" placeholder="请输入手机号">
+                        <input type="button" value="领取红包" class="long_btn">
+                    </div>
+                    <div class="inviteFriends_rules">
+                        <div class="tit"><span>活动规则</span></div>
+                        <div class="cont">
+                            <{$inviteCfg.intro}>
+                        </div>
+                    </div>
+                </div>
+                
+				<!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".long_btn").click(function () {
+            var link = "<{link ctl='market:invite_handle' http='waimai'}>";
+            var pmid = "<{$member.uid}>";
+            var mobile = $('#mobile').val();
+            jQuery.ajax({
+                url: link,
+                async: true,
+                dataType: 'json',
+                data: {"pmid": pmid, "mobile": mobile},
+                type: 'POST',
+                success: function (ret) {
+                    if (ret.error == 0) {
+                        //成功
+                        layer.open({content: ret.message, time: 2});
+                        setTimeout(function () {
+                            window.location.href = ("<{link ctl='market/detail' arg0=__uid__}>").replace('__uid__', ret.invite_uid);
+                        }, 1000)
+                    } else {
+                        //报错
+                        layer.open({content: ret.message, time: 2});
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='index' http='waimai'}>";
+                        }, 2000)
+                    }
+                }
+            });
+    })
+})
+</script>
+
+<{include file="block/footer.html"}>

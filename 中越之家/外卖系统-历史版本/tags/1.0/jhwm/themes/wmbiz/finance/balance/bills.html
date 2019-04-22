@@ -1,0 +1,70 @@
+<{assign var='tpl_title' value=L("home")}>
+<{include file="block/header.html"}>
+<body>
+<div class="wrapper wrapper-content">
+    <div class="finance_table">
+        <div class="dispatch_serch">
+            <form action="<{link ctl='finance:balance'}>" method="post">
+            <div class="clearfix list_box">
+                入账状态：
+                <label class="ml10"><input type="radio" name="status" value='1' <{if $status == 1 || !$status}>checked<{/if}>>全部</label> 
+                <label class="ml20"><input type="radio" name="status" value='2' <{if $status == 2}>checked<{/if}>>未入账</label> 
+                <label class="ml20"><input type="radio" name="status" value='3' <{if $status == 3}>checked<{/if}>>已入账</label>
+                <span style="float: right"><a target="_blank" href="<{link ctl='finance/orderexcel/output' status=$status stime=$sel_time.stime ltime=$sel_time.ltime}>">导出对账明细</a></span>
+            </div>
+            <div class="clearfix list_box" id="data_5">
+            	<span class="fl">查询日期：</span>
+                <span class="fl ml10 input-daterange" id="datepicker">
+                <input type="text" name="begin_time" placeholder="" class="tuan_topser tuan_topserw3" value="<{$sel_time.stime}>"> 至
+                <input type="text" name='end_time' placeholder="" class="tuan_topser tuan_topserw3" value="<{$sel_time.ltime}>"></span>
+                <input type="submit" class="btn btn-primary btn-sm ml20" value="确 定">
+            </div>
+            </form>
+        </div>
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+                <td rowspan="2">订单日期</td>
+                <td rowspan="2">入账状态</td>
+                <td rowspan="2">商家应得</td>
+                <td colspan="4">金额详情</td>
+                <td rowspan="2">详情</td>
+            </tr>
+            <tr class="tit">
+
+                <td>用户支付</td>
+                <td>平台手续费</td>
+                <td>活动款（平台补贴）</td>
+                <td>配送费</td>
+
+            </tr>
+          <!--  <tr class="tit">
+            	<td>订单日期</td>
+                <td>入账状态</td>
+                <td>总金额</td>
+                <td>手续费</td>
+                <td>时间</td>
+                <td>详情</td>
+            </tr>-->
+            <{foreach $items as $k => $v}>
+            <tr>
+                <td><{$v.bills_sn}></td>
+                <td><{if $v.status == 0}><span class="pointcl">未入账</span><{/if}><{if $v.status == 1}><span class="maincl">已入账</span><{/if}></td>
+                <td><{$v.amount|default:0}></td>
+                <td><{$v.user_amount|default:0}></td>
+                <td>-<{$v.fee|default:0}></td>
+                <td>+<{$v.roof_amount|default:0}></td>
+                <td><{$v.freight|default:0}></td>
+                <td><a href="<{link ctl='finance/balance:bills_log' bills_id=$v.bills_id}>" class="maincl">查看</a></td>
+            </tr>
+            <{/foreach}>
+
+            <tr>
+                <td colspan="8"> <div class="paging"><{$pager.pagebar}></div></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+
+<{include file="block/footer.html"}>

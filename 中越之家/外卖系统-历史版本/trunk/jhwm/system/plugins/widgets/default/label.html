@@ -1,0 +1,1 @@
+<{foreach $data.options as $k=>$v}><{if in_array($k, (array)$data.value)}><label class="<{$data.class}>" style="<{$data.style}>"><{$v}></label><{$data.separator}><{/if}><{/foreach}>

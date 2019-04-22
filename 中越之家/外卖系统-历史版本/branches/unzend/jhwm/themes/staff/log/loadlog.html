@@ -1,0 +1,14 @@
+<{foreach $items as $v}>
+<li><a <{if $v.extend}>href="<{link ctl='log/detail' arg0=$v.log_id http='staff'}>"<{else}>href = "javascript:;"<{/if}>  >
+    <div class="fl">
+        <h3><{$v.intro}></h3>
+        <P class="black9"><{$v.dateline|format:'Y-m-d'}><span class="ml5"><{if $v.money>0}>转入<{else}>转出<{/if}></span></P>
+    </div>
+    <div class="fr">
+        <{if $v.money>0}> <big style="color:#06c1ae;">+<{$v.money}><i class="linkico"></i></big><{else}> <big style="color:#ff5a5a;"><{$v.money}><i class="linkico"></i></big><{/if}>
+        <P class="black9">余额<{$v.balance}></P>
+    </div>
+    <div class="clear"></div>
+    </a></li>
+
+<{/foreach}>

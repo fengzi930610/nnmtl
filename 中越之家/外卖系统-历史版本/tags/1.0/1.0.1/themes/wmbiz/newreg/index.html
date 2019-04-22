@@ -1,0 +1,297 @@
+<{assign var='tpl_title' value=L("信息状态")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .loginTop .logo img{ width:60px; height:60px;}
+</style>
+<div class="loginTop">
+    <div class="smallpage">
+        <div class="logo fl"><{if $site.logo_shop}><img src="<{$pager.img}>/<{$site.logo_shop}>"><{else}><img src="%THEME%/static/images/logo.png"><{/if}><span><{$site.title}>外送商家后台</span></div>
+        <div class="tit fl">客服电话：<{$site.phone}></div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+            &nbsp;&nbsp;<a class="black3"  href="<{link ctl='login/loginout'}>">退出登录</a>
+            <!--<i class="ico"></i>-->
+        </div>
+    </div>
+</div>
+<div class="bg_grey enterInfo_box">
+    <div class="smallpage">
+        <{if !$waimai}>
+        <div class="enterInfo_state mb20">
+            <p class="state fl"><i class="ico ico1"></i>您还没有入驻<{$site.title}>外送</p>
+            <a href="<{link ctl='newreg/one'}>" class="fl maincl btn">立即入驻&gt;&gt;</a>
+            <div class="clear"></div>
+        </div>
+        <{elseif $waimai&&$verify.verify!=5&&$verify.verify!=1}>
+            <{if !$waimai['city_id']}>
+                <div class="enterInfo_state mb20">
+                    <p class="state fl"><i class="ico ico1"></i>您还没有完善店铺信息</p>
+                    <a href="<{link ctl='newreg/one'}>" class="fl maincl btn">立即完善&gt;&gt;</a>
+                    <div class="clear"></div>
+                </div>
+            <{elseif !$verify}>
+                <div class="enterInfo_state mb20">
+                    <p class="state fl"><i class="ico ico1"></i>您还没有完善店铺信息</p>
+                    <a href="<{link ctl='newreg/two'}>" class="fl maincl btn">立即完善&gt;&gt;</a>
+                    <div class="clear"></div>
+                </div>
+            <{elseif $waimai.pei_type == 5}>
+                <div class="enterInfo_state mb20">
+                    <p class="state fl"><i class="ico ico1"></i>您还没有完善店铺信息</p>
+                    <a href="<{link ctl='newreg/three'}>" class="fl maincl btn">立即完善&gt;&gt;</a>
+                    <div class="clear"></div>
+                </div>
+            <{elseif !$account}>
+                <div class="enterInfo_state mb20">
+                    <p class="state fl"><i class="ico ico1"></i>您还没有完善店铺信息</p>
+                    <a href="<{link ctl='newreg/four'}>" class="fl maincl btn">立即完善&gt;&gt;</a>
+                    <div class="clear"></div>
+                </div>
+            <{elseif $verify.verify == 2}>
+            <div class="enterInfo_state mb20">
+                <p class="state fl"><i class="ico ico1"></i>您的申请已被拒绝（拒接原因:<{$verify.refuse|default:'----'}>）</p>
+                <a href="<{link ctl='newreg/one'}>" class="fl maincl btn">重新填写&gt;&gt;</a>
+                <div class="clear"></div>
+            </div>
+            <{/if}>
+        <{elseif $verify.verify==5}>
+            <div class="enterInfo_state mb20">
+                <p class="state fl"><i class="ico ico1"></i>您的店铺信息正在审核中，请等待</p>
+                <div class="clear"></div>
+            </div>
+        <{elseif $verify.verify==1}>
+            <div class="enterInfo_state mb20">
+                <p class="state fl"><i class="ico ico6"></i>您的店铺信息已通过审核</p>
+                <a href="<{link ctl='index/index'}>" class="fl maincl btn">立即进入&gt;&gt;</a>
+                <div class="clear"></div>
+            </div>
+        <{/if}>
+        <!--<p style="font-size:14px;">完成以下步骤，即可上线营业</p>-->
+        <div class="enterInfo_step">
+            <div class="list_box">
+                <div class="enterInfo_step_tit mb20 mt10">
+                    <span class="num fl">1</span>
+                    <h2 class="fl">店铺信息</h2>
+                    <a href="javascript:;" class="fold fr">收起<i class="ico up"></i></a>
+                    <a href="javascript:;" class="open fr" style="display:none;">展开<i class="ico"></i></a>
+                </div>
+                <hr class="enterInfo_step_nr_line none">
+                <div class="enterInfo_step_nr mb30">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="120">店铺名称：</td>
+                            <td width="400"><{$waimai.title}></td>
+                            <td class="bt" width="120">联系人：</td>
+                            <td><{$waimai.contact}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="120">手机号：</td>
+                            <td><{$waimai.phone}></td>
+                            <td class="bt" width="120">店铺分类：</td>
+                            <td><{$cate.title}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="120">店铺地址：</td>
+                            <td colspan="3"><{$waimai.addr}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="120">店铺logo：</td>
+                            <td colspan="3">
+                                <div class="img_box fl">
+                                    <div class="img"><img width="148" height="148" src="<{$pager.img}>/<{$waimai.logo|default:'default/shop_logo.png'}>"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="120">门头图：</td>
+                            <td colspan="3">
+                                <div class="img_box fl">
+                                    <div class="img"><img width="148" height="148" src="<{$pager.img}>/<{$waimai.banner|default:'default/shop_logo.png'}>"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="120">环境图：</td>
+                            <td colspan="3">
+                                <{foreach $env as $item}>
+                                    <div class="img_box fl mr10">
+                                        <div class="img"><img width="148" height="148" src="<{$pager.img}>/<{$item.photo}>"></div>
+                                    </div>
+                                <{/foreach}>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="enterInfo_step_tit mb20 mt10">
+                    <span class="num fl">2</span>
+                    <h2 class="fl">资质信息</h2>
+                    <a href="javascript:;" class="fold fr" style="display:none;">收起<i class="ico up"></i></a>
+                    <a href="javascript:;" class="open fr">展开<i class="ico"></i></a>
+                </div>
+                <hr class="enterInfo_step_nr_line">
+                <div class="enterInfo_step_nr mb30 none">
+                    <h3>店铺资质信息</h3>
+                    <hr style="border:0; width:100%; height:0; line-height:0; font-size:0; text-align:center; border-bottom:1px solid #ccc; margin:10px 0 20px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="bt" width="180">法人姓名：</td>
+                                <td width="260"><{$verify.id_name}></td>
+                                <td class="bt" width="180">法人身份证号：</td>
+                                <td><{$verify.id_number}></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="180">身份证正反面：</td>
+                                <td colspan="3">
+                                    <div class="img_list_box mb20">
+                                        <div class="fl mr10">
+                                            <span class="img"><img width="232" height="154" src="<{$pager.img}>/<{$verify.id_photo|default:'default/verify.png'}>"><p>身份证正面</p></span>
+                                        </div>
+                                        <div class="fl mr10">
+                                            <span class="img"><img width="232" height="154" src="<{$pager.img}>/<{$verify.id_photo_f|default:'default/verify.png'}>"><p>身份证反面</p></span>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="180">法人手持身份证照：</td>
+                                <td colspan="3">
+                                    <div class="img_list_box mb20">
+                                        <div class="fl mr10">
+                                            <span class="img"><img width="232" height="154" src="<{$pager.img}>/<{$verify.id_photo_s|default:'default/verify.png'}>"><p>身份证正面</p></span>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    <h3>证件信息</h3>
+                    <hr style="border:0; width:100%; height:0; line-height:0; font-size:0; text-align:center; border-bottom:1px solid #ccc; margin:10px 0 20px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="180">证件信息：</td>
+                            <td>营业执照</td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">证件照：</td>
+                            <td>
+                                <div class="img_list_box mb20">
+                                    <div class="fl mr10">
+                                        <span class="img"><img width="232" height="154" src="<{$pager.img}>/<{$verify.yz_photo|default:'default/verify.png'}>"><p>手持证件照片</p></span>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </td>
+                        </tr>
+                       <tr>
+                            <td class="bt" width="180">证件名称：</td>
+                            <td><{$verify.yz_name}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">证件编号/注册号：</td>
+                            <td><{$verify.yz_number}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">证件地址：</td>
+                            <td><{$verify.yz_addr}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">证件有效期至：</td>
+                            <td><{$verify.yz_time}></td>
+                        </tr>
+                    </table>
+                    <h3>餐饮服务许可证信息</h3>
+                    <hr style="border:0; width:100%; height:0; line-height:0; font-size:0; text-align:center; border-bottom:1px solid #ccc; margin:10px 0 20px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="180">餐饮服务许可证：</td>
+                            <td>
+                                <div class="img_list_box mb20">
+                                    <div class="fl mr10">
+                                        <span class="img"><img width="232" height="154" src="<{$pager.img}>/<{$verify.cy_photo|default:'default/verify.png'}>"><p>餐饮服务许可证</p></span>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">许可证件名称：</td>
+                            <td><{$verify.cy_name}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">许可证件编号：</td>
+                            <td><{$verify.cy_number}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">许可证件地址：</td>
+                            <td><{$verify.cy_addr}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">许可证件有效期：</td>
+                            <td><{$verify.cy_time}></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>  
+            <div class="list_box">
+                <div class="enterInfo_step_tit mb20 mt10">
+                    <span class="num fl">3</span>
+                    <h2 class="fl">配送信息</h2>
+                    <a href="javascript:;" class="fold fr" style="display:none;">收起<i class="ico up"></i></a>
+                    <a href="javascript:;" class="open fr">展开<i class="ico"></i></a>
+                </div>
+                <hr class="enterInfo_step_nr_line">
+                <div class="enterInfo_step_nr mb30 none">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="120">配送方式：</td>
+                            <td><{if !$waimai}>未设置<{elseif $waimai.pei_type == 0}>商家自主配送<{elseif $waimai.pei_type == 1}>平台配送<{/if}></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="enterInfo_step_tit mb20 mt10">
+                    <span class="num fl">4</span>
+                    <h2 class="fl">结算信息</h2>
+                    <a href="javascript:;" class="fold fr" style="display:none;">收起<i class="ico up"></i></a>
+                    <a href="javascript:;" class="open fr">展开<i class="ico"></i></a>
+                </div>
+                <hr class="enterInfo_step_nr_line">
+                <div class="enterInfo_step_nr mb30 none">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="180">开户行：</td>
+                            <td colspan="3"><{$account.account_type}><{if $account.account_branch}>-<{$account.account_branch}><{/if}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">银行卡号：</td>
+                            <td colspan="3"><{$account.account_number}></td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="180">开户姓名：</td>
+                            <td colspan="3"><{$account.account_name}></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".enterInfo_step_tit a").click(function () {
+            if ($(this).css("display") == "block") {
+                $(this).hide().siblings("a").show();
+            } else {
+                $(this).show().siblings("a").hide();
+            }
+            $(this).parents(".list_box").find(".enterInfo_step_nr").slideToggle(200);
+            $(this).parents(".list_box").find(".enterInfo_step_nr_line").slideToggle(200);
+        });
+    });
+</script>
+<{include file="block/footer.html"}>

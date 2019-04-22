@@ -1,0 +1,55 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">ID</th>
+        <th class="w-100">LOGO</th>
+        <th class="w-250">商家名称</th>
+        <th class="w-150">手机号</th>
+        <th class="w-150">总营收</th>       
+        <th class="w-150">余额</th>
+        <th class="w-150">创建时间</th>
+        <th class="w-200">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><label><input type="checkbox" value="<{$item.shop_id}>" name="shop_id[]" CK="PRI"/><{$item.shop_id}><label></td>
+        <td><img src="<{$pager.img}>/<{$item.logo}>" width="50" height="50" /></td>
+        <td><{$item.title|default:'--'}></td>
+        <td><{$item.mobile}></td>
+        <td><b class="red">￥<{$item.total_money}></b></td>
+        <td><b class="red">￥<{$item.money}></b></td>
+        <td><{$item.dateline|format}><br /><{$item.clientip}>(<{$item.clientip|iplocal}>)</td>
+        <td>
+            <{link ctl="shop/shop:delete" arg0=$item.shop_id arg1='1' act="mini:彻底删除" confirm="mini:确定要彻底删除吗？不可恢复" title="彻底删除" class="button"}>
+            <{link ctl="shop/shop:regain" arg0=$item.shop_id act="mini:恢复" confirm="mini:确定要恢复该人员吗？" title="恢复" class="button"}>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    
+    <{/foreach}>
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"></td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

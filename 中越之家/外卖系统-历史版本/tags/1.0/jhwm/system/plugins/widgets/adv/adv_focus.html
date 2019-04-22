@@ -1,0 +1,8 @@
+<div class="loading"></div>
+<div class="pic">
+	<ul>
+	<{foreach $data.items as $item}>
+		<li><a href="<{$item.link}>" <{if $item.target}> target="<{$item.target}>"<{/if}>><img src="<{$pager.img}>/<{$item.thumb}>" thumb="" alt="<{$item.title}>" text="<{$item.title}>" /></a></li>
+	<{/foreach}>
+	</ul>
+</div>

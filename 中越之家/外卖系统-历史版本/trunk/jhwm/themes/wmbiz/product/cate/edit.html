@@ -1,0 +1,213 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+.stime_box,.ltime_box{display: inline-block; position: relative;}
+.stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+.stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+.stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+.spec_mask .cont { overflow: visible;}
+.weekSelctBox{padding-bottom: 20px;}
+.weekSelctBox label{position: relative;display: inline-block;height: 30px;padding: 0 16px;color: #555;font-size: 12px;line-height: 28px;border: 1px solid #bbb;border-radius: 2px;cursor: pointer; margin-right: 10px;}
+.weekSelctBox label input{width: 0; height: 0;}
+.weekSelctBox label.on{border-color: #00bd9e;}
+.weekSelctBox label.on:before{content: " ";position: absolute;right: 0;bottom: 0;width: 0;height: 0;border: 7px solid #00bd9e;border-top-color: transparent;border-left-color: transparent;}
+.weekSelctBox label.on:after {content: " ";position: absolute;right: 1px;bottom: 3px;width: 6px;height: 3px;border: 1px solid #fff;border-top-color: transparent;border-right-color: transparent; -webkit-transform: rotate(-59deg);transform: rotate(-59deg);}
+</style>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='product/product/index'}>">商品管理</a></li>
+        <li class="active">编辑分类</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <!--表单-->
+    <div class="">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="javascript:;">商品分类</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div class="">
+                                        <form action="<{link ctl='product/cate/edit' arg0=$detail.cate_id}>" mini-form="wmbiz" method="post" target="miniframe">
+                                            <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td width="120"><p class="form_table_t">父级分类：</p></td>
+                                                    <td><div class="form_table_nr"><input type="text" readonly="readonly" class="form_table_int form_table_intw1" value="<{$pcate.title|default:'一级分类'}>"/></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="120"><p class="form_table_t">分类名称：</p></td>
+                                                    <td><div class="form_table_nr"><input type="text" name="data[title]" value="<{$detail.title}>" class="form_table_int form_table_intw1" /></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="120"><p class="form_table_t">排序：</p></td>
+                                                    <td><div class="form_table_nr"><input type="text" name="data[orderby]" value="<{$detail.orderby}>"  class="form_table_int form_table_intw1" /></div></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="200"><p class="form_table_t">展示设置：</p></td>
+                                                    <td>
+                                                        <!-- <div class="form_table_nr">
+                                                            开始时间：<input type="text" class="int stime date form_table_int " name="data[stime]" value="<{$detail.settime.stime}>" readonly onclick="WdatePicker({dateFmt:'HH:mm',minDate:'00:00',maxDate:'23:59'})">
+                                                            结束时间<input type="text" class="int stime date form_table_int " name="data[ltime]" value="<{$detail.settime.ltime}>" readonly onclick="WdatePicker({dateFmt:'HH:mm',minDate:'00:00',maxDate:'23:59'})">
+                                                            <br/><br/> <span style="color:#ff621f">备注：如果设置09:00 - 10:00 则在9点到10点该分类及分类下的商品显示。设置23:00-10:00 该分类只在晚上11点到次日早上10点分类及分类下的商品显示。热销商品不受此规则影响。</span>
+                                                        </div> -->
+                                                        <div class="form_table_nr" style="padding:30px">
+                                                            <label class="mr30"><input type="radio" name="data[show_type]" value="0" class="check_box" <{if empty($detail.show_type)}>checked="checked"<{/if}>/>全天展示</label>
+                                                            <label class="mr30"><input type="radio" name="data[show_type]" value="-1" class="check_box" <{if $detail.show_type == -1}>checked="checked"<{/if}>/>不展示</label>
+                                                            <label class="mr30"><input type="radio" name="data[show_type]" value="1" class="check_box" <{if $detail.show_type == 1}>checked="checked"<{/if}>/>自定义时间</label>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            $(document).ready(function(){
+                                                                $("input[name='data[show_type]']").change(function(){
+                                                                    var val = $(this).val();
+                                                                    var that = $(this).parents('.form_table_nr').siblings('.spec_mask1');
+                                                                    if(val==1){
+                                                                        that.show();
+                                                                    }else{
+                                                                        that.hide();
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+
+                                                        <div class="spec_mask spec_mask1" <{if $detail.show_type != 1}>style="display:none"<{/if}>>
+                                                            <div class="cont">
+                                                                <div class="table_box">
+                                                                    <table border="0" cellspacing="0" cellpadding="0" class="mdzz_table">
+                                                                        <tr class="tit">
+                                                                            <td>开始时间</td>
+                                                                            <td class="line">&nbsp;</td>
+                                                                            <td>结束时间</td>
+                                                                            <td class="cz">&nbsp;</td>
+                                                                        </tr>
+
+                                                                        <tr class="int_box">
+                                                                            <td>
+                                                                                <div class="stime_box">
+                                                                                    <input type="text" class="int stime date" name="data[stime]" time="<{$detail.settime.stime_time}>" value="<{$detail.settime.stime}>" readonly>
+                                                                                    <ul class="time-ul">
+                                                                                        
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="line">——</td>
+                                                                            <td>
+                                                                                <div class="ltime_box">
+                                                                                    <input type="text" class="int ltime date" name="data[ltime]" time="<{$detail.settime.ltime_time}>" value="<{$detail.settime.ltime}>" readonly>
+                                                                                    <ul class="time-ul">
+                                                                                        
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </td>
+                                                                            <!-- <td><a href="javascript:;" class="fa fa-times-circle clear_btn"></a></td> -->
+                                                                            <td><a href="javascript:;" class="btn btn-default btn-clear" style="padding:3px 12px">清空</a></td>
+                                                                        </tr>
+
+                                                                        <!-- <tr class="append_cnmmdzz1">
+                                                                            <td>
+                                                                                <button type="button" id="sku_add" class="btn btn-default btn-big" >添加时间+</button>
+                                                                            </td>
+                                                                        </tr> -->
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <input type="hidden" name="data[parent_id]" value="<{$detail.parent_id}>"/>
+                                            <div class="form_table_btn_box text_c">
+                                                <input class="btn btn-primary btn-w-m"  type="submit" value="保存"/>
+                                                <a class="btn btn-default btn-w-m" href="<{link ctl='product/cate/index'}>">取消</a>
+                                                
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--表单end-->
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+        $(document).on('click','.stime',function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parents('.int_box').find('.ltime').attr('time');
+            var that = $(this);
+
+            if(!ltime){
+                ltime = '86400';
+            }
+
+            $.post("<{link ctl='shop/shop:getTime'}>", {ltime: ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('ul').show();
+                }
+            },'json');
+        })
+        $(document).on('click','.ltime',function(){
+            var ltime = $(this).attr('time');
+            var stime = $(this).parents('.int_box').find('.stime').attr('time');
+            var that = $(this);
+            if(!stime){
+                stime = '1';
+            }
+            $.post("<{link ctl='shop/shop:getTime'}>", {stime: stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }                           
+                    })
+                    if(html){
+                        that.siblings('ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('ul').show();
+                }
+            },'json');
+        })
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();
+        });
+
+        $(document).on('click','.btn-clear',function(){
+            $(this).parents('.int_box').find('.stime,.ltime').val('').attr('time','');
+        });
+
+    })
+</script>
+<{include file="block/footer.html"}>

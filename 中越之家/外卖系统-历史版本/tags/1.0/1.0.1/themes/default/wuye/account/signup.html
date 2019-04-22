@@ -1,0 +1,148 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>商户管理中心登录</title>
+    <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/layer/layer.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+    <link type="text/css" rel="stylesheet" href="/themes/default/biz/static/css/login.css">
+</head>
+<body>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+	<div class="register_box">
+    	<h2>商户管理中心</h2>
+        <h4>Business Management System</h4>
+        <h3><span>申请入驻</span></h3>
+        <div class="register_cont">
+        	<form action="<{link ctl='biz/account:signup'}>" mini-form="biz" method="post">
+                <div class="int_box lt"><input type="text" class="text" name="data[mobile]" id="mobile" placeholder="联系电话"></div>
+                <div class="int_box rt">
+                    <input type="text" class="text short lt" name="data[code]" placeholder="验证码">
+                    <a class="hqyzm" href="javascript:void(0);" login="sendsms">获取验证码</a>
+                </div>
+                <div class="int_box lt"><input type="text" class="text" name="data[passwd]" placeholder="登录密码"></div>
+                <div class="int_box rt"><input type="text" class="text" name="data[title]" placeholder="店铺名称"></div>
+                <div class="int_box lt"><input type="text" class="text" name="data[phone]" placeholder="服务电话"></div>
+                <div class="selct_box rt">
+                    <div class="box">
+                        <select class="text"  name="data[city_id]">
+                                <option>请选择城市</option>
+                                <{foreach $citys as $k=>$val}>
+                                <option value="<{$val.city_id}>"><{$val.city_name}></option>
+                                <{/foreach}>
+                        </select>
+                    </div>
+                </div>
+                <div class="selct_box lt">
+                    <div class="box">
+                       <select class="text"  name="data[cate_id]">
+                            <option>请选择店铺类型</option>
+                            <{foreach $cates as $val}>
+                            <{if $val.children}>
+                                <{foreach $val.children as $v}>
+                                    <option value="<{$v.cate_id}>"><{$val.title}>--><{$v.title}></option>
+                                <{/foreach}>
+                            <{else}>
+                                <option value="<{$val.cate_id}>"><{$val.title}></option>
+                            <{/if}>
+
+                            <{/foreach}>
+                        </select>
+                    </div>
+                </div>
+                <div class="int_box rt"><input type="text" class="text" name="data[addr]" placeholder="店铺地址"></div>
+                <div class="cl"></div>
+                <div class="textarea_box"><textarea  name="data[info]" placeholder="店铺简介" class="text"></textarea></div>
+                <input type="submit" class="btn" value="立即申请">
+            </form>
+            <div class="bottom_link">
+            	<a href="<{link ctl='biz/account/login'}>">已有账号？立即登录</a>
+            </div>
+        </div>
+        <p class="copyt">Copyright © 2013-2016 江湖科技出品, All rights reserved. ICP备案：皖ICP备13010842号</p>
+    </div>
+
+
+
+
+
+
+<script>
+var unSelected = "#999";
+var selected = "#333";
+$(function () {
+$("select").css("color", unSelected);
+$("option").css("color", selected);
+$("select").change(function () {
+var selItem = $(this).val();
+if (selItem == $(this).find('option:first').val()) {
+$(this).css("color", unSelected);
+} else {
+$(this).css("color", selected);
+}
+});
+})
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var minute = 60;
+        var mobile_timeout;
+        var mobile_count = minute;
+        var mobile_lock = 0;
+        BtnCount = function () {
+            if (mobile_count == 0) {
+                $(".hqyzm").addClass("on");
+                $('.hqyzm').removeAttr("disabled");
+                $('.hqyzm').text("重新获取");
+                mobile_lock = 0;
+                clearTimeout(mobile_timeout);
+                $('.hqyzm').removeClass("on");
+            } else {
+                mobile_count--;
+                $('.hqyzm').text(+mobile_count.toString() + "秒...");
+                mobile_timeout = setTimeout(BtnCount, 1000);
+            }
+        };
+        $("[login]").click(function () {
+            if (mobile_lock == 0) {
+                var mobile = $('#mobile').val();
+                var link = "<{link ctl='passport/sendsms'}>";
+                $.post(link, {mobile: mobile}, function (ret) {
+                    if (ret.error == 0) {
+                        BtnCount();
+                        mobile_lock = 1;
+                        $(".hqyzm").addClass("on");
+                        $('.hqyzm').attr("disabled", "disabled");
+                    } else {
+                        layer.msg(ret.message);
+                        mobile_lock = 0;
+                    }
+                }, 'json');
+                mobile_count = minute;
+            }
+        });
+        $('#btn_mobile').click(function () {
+            var link = "<{link ctl='biz/shop:mobile'}>";
+            $.post(link,$("#form_post").serialize(), function (ret) {
+                if (ret.error == 0) {
+                    layer.msg(ret.message);
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 1000)
+                    BtnCount();
+                } else {
+                    layer.msg(ret.message);
+                }
+            }, 'json');
+        })
+    })
+
+</script>
+
+
+</body>
+</html>

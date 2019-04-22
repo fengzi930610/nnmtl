@@ -1,0 +1,197 @@
+<{assign var='tpl_title' value=L("账户信息")}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont mycenter-index-cont">
+            <div class="container_mid"> 
+                <div class="link-one mt10 mb10">
+                    <a href="javascript:;" class="pub_list link-tuxiang" id="tuxiang-show">                            
+                        <div class="pub_list_bd">头像</div>
+                        <div class="pic-yuan" style="line-height: 0px;"><{if $MEMBER.face}><img class="face_img" height="30" src="<{$pager.img}>/<{$MEMBER.face}>"><{/if}></div>
+                    </a>  
+                </div>  
+                <div class="link-one mb10">
+                    <a href="<{link ctl='ucenter/info/update_nickname'}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">昵称</div>
+                        <div class="black6"><{if $MEMBER.nickname}><{$MEMBER.nickname}><{else}>点击设置昵称<{/if}></div>
+                    </a>  
+                </div>
+                <!--<div class="link-one">
+                    <a href="javascript:;" class="pub_list link-a border_b" id="sex-show">                            
+                        <div class="pub_list_bd">性别</div>
+                        <div class="black6">男</div>
+                    </a>  
+                </div>-->
+                <!--
+                <div class="link-one mb10">
+                    <a href="#" class="pub_list link-a">                            
+                        <div class="pub_list_bd">地址</div>
+                        <div class="black6">安徽省 合肥市</div>
+                    </a>  
+                </div>   -->
+                <div class="link-one">
+                    <a href="<{link ctl='ucenter/info/update_mobile'}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">手机号</div>
+                        <div class="black6"><{substr_replace($MEMBER['mobile'], '****', 3, 4)}></div>
+                    </a>  
+                </div>  
+                <div class="link-one">
+                    <a href="javascript:void(0);" onclick="wx_bind();" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">微信</div>
+                        <div class="black6"><{if $MEMBER.wx_openid}>已绑定<{else}>去绑定<{/if}></div>
+                    </a>  
+                </div>
+                <div class="link-one mb10">
+                    <a href="<{link ctl='ucenter/info/update_passwd'}>" class="pub_list link-a">                            
+                        <div class="pub_list_bd">密码</div>
+                        <div class="black6">修改</div>
+                    </a>  
+                </div>
+
+            </div>
+            <div class="text_c mt10 mb10">
+                <{if $MEMBER.uid}><a href="<{link ctl='passport/loginout'}>" class="tuichu-btn fontcl1">退出登录</a><{/if}>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 选择图像弹出 -->
+<div class="tuxiang-tanchu" style="display:none">
+    <div class="myzhanghu-upload-cont">
+        <div class="cont-menu">
+            <div class="the-top">
+                <div class="menu-a border_b">从相册上传头像<input type="file" onchange="fileSelected(this)"/></div>
+                <div class="menu-a">拍照换头像</div>    
+            </div>
+            <div class="quxiao-btn mt10">取消</div>    
+        </div>
+    </div>
+    <div class="myzhanghu-mask"></div>    
+</div>   
+<!-- 选择图像弹出end -->
+<!-- 选择性别弹出 -->
+<div class="sex-tanchu" style="display:none">
+    <div class="mysex-upload-cont">
+        <div class="sex-menu">
+            <div class="menu1 border_b"><label class="pub_list"><span class="pub_list_bd">男</span><input type="checkbox" class="sex-input"></label></div> 
+            <div class="menu1 border_b"><label class="pub_list"><span class="pub_list_bd">女</span><input type="checkbox" class="sex-input"></label></div>              
+        </div>
+    </div>
+    <div class="mysex-mask"></div>    
+</div>   
+<!-- 选择性别弹出end -->
+<!-- 选择图像弹出 -->
+<script>
+    $('#tuxiang-show').on("click",function(){
+        $(".tuxiang-tanchu").fadeIn(300);
+        $('.myzhanghu-mask').on("click",function(){
+            $(".tuxiang-tanchu").fadeOut(300);   
+        });
+        $('.quxiao-btn').on("click",function(){
+            $(".tuxiang-tanchu").fadeOut(300);   
+        });
+    });  
+    //微信绑定
+    function wx_bind()
+    {
+        $.ajax({
+            url: "<{link ctl='ucenter/info:wx_bind'}>",
+            async: true,
+            dataType: 'json',
+            type: 'POST',
+            success: function (ret) {
+                if(ret.error > 0){
+                    layer.open({content: ret.message,time: 2});
+                    setTimeout(function(){window.location.reload();},2000);
+                }else{
+                    window.location.reload();
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+    }
+    //上传图片
+function upload_face(file)
+{
+    var formData = new FormData();
+    formData.append('avatar', file);
+    $.ajax({
+        url : "<{link ctl='ucenter/info:upload_face'}>",
+        type : "POST",
+        data : formData,
+        processData : false,
+        contentType : false,
+        success : function(responseStr) {
+            layer.open({
+                content:"更换头像成功",
+                time:1.5
+            });
+        },
+        error : function(responseStr) {
+            layer.open({
+                content:"未知错误发生",
+                time:1.5
+            });
+        }
+    });
+}
+if (!window.applicationCache) {
+    alert("不支持HTML5");
+}
+//HTML5选图片
+function fileSelected(obj){
+    var files = obj.files;
+    for(var i=0;i<files.length;i++){
+        var tag = '';
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(files[i].type)) {
+            alert("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.onloadstart = function(e){
+            $(".loading").show();
+        }
+        reader.onload = function(e){
+            $(".face_img").attr('src',e.target.result);
+        }
+        reader.readAsDataURL(files[i]);
+    }
+    upload_face(files[0]);
+    //隐藏弹出框
+    $(".tuxiang-tanchu").fadeOut(300);   
+}
+</script>
+<!-- 选择图像弹出end -->
+<!-- 选择性别弹出 -->
+<script>
+    $('#sex-show').on("click",function(){
+        $(".sex-tanchu").fadeIn(300);
+        $('.mysex-mask').on("click",function(){
+            $(".sex-tanchu").fadeOut(300);   
+        });
+    });   
+</script>
+<!-- 选择性别弹出end -->
+<script>
+     //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+        //推外卖 加的连接
+        var url = "<{link ctl='ucenter/member' http='waimai'}>";
+       /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+               window.location.href = url;
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>
+
+</body>
+</html>

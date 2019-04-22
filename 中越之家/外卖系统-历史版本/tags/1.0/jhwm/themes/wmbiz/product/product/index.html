@@ -1,0 +1,450 @@
+<{include file="block/header.html"}>
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='product/product:index'}>">商品管理</a></li>
+        <li class="active">商品列表</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content" style="padding: 0;">
+    	<div class="topfixed border_b">
+	        <!--头部tab-开始-->
+	        <div class="topTab">
+	            <a href="javascript:;" class="list on">商品管理</a>
+	            <a href="<{link ctl='product/cate:index'}>" class="list">分类管理</a>
+                <a href="<{link ctl='product/product:warnsku'}>" class="list">库存预警</a>
+	        </div>
+	        <!--头部tab-结束-->
+	        <!--头部筛选操作-开始-->
+	        <div class="topDispatch">
+	            <div class="fl new">
+	               <a href="<{link ctl='product/product:create'}>" class="J_menuItem btn btn-primary btn-sm">新建商品</a> 
+	               <!-- <button type="button" disabled class="btn btn-default btn-outline btn-sm"><span class="black9">商品排序</span></button> -->
+	            </div>
+	            <div class="fl caozuo">
+	                <label class="all"><input type="checkbox" id="allChk" cka="PRI"><span class="ml10">全选</span></label>
+	                <a href="javascript:;" class="btn btn-default btn-outline btn-sm" id="onsale_open">上架</a>
+	                <a href="javascript:;" class="btn btn-default btn-outline btn-sm" id="onsale_close">下架</a>
+	                <a href="javascript:;" class="btn btn-default btn-outline btn-sm" id="edit_sort">改排序</a>
+                    <a href="javascript:;" class="btn btn-default btn-outline btn-sm tab_btn_repertory">改库存</a>
+	                <a href="javascript:;" class="btn btn-default btn-outline btn-sm tab_btn_del">删除</a>
+	            </div>
+                <form action="<{link ctl='product/product/items'}>" method="post" target="productIframe">
+                    <input type="submit" value="so" class="btn btn-primary btn-sm fr ml5" style="height:31px">
+    	            <div class="fr search_box">    
+    	                <select id="select_1" name="SO[is_onsale]" class="tuan_topser tuan_topserw1">
+    	                    <option <{if !$pager.SO.is_onsale}>selected<{/if}> value="0">所有状态</option>
+                            <option <{if $pager.SO.is_onsale == 1}>selected<{/if}> value="1">售卖中</option>
+                            <option <{if $pager.SO.is_onsale == 2}>selected<{/if}> value="2">已下架</option>	                    
+    	                </select>
+    	                <input type="text" placeholder="" name="SO[title]" value="" class="tuan_topser tuan_topserw2">
+                    </div>
+                </form>
+	            <div class="clear"></div>
+	        </div>
+	        <!--头部筛选操作-结束-->
+	    </div>
+        <!--商品列表部分-开始-->
+        <div class="GoodsList_bd">
+            <div class="GoodsList_bd_cate fl ">
+                <ul>
+                    <li><a href="<{link ctl='product/product:items' args='hot'}>" target="productIframe">热销</a></li>
+                    <li><a href="<{link ctl='product/product:items' args='must'}>" target="productIframe">必点商品</a></li>
+                    <{foreach $pcates as $item}>
+                    <li><a href="<{link ctl='product/product:items' args=$item.cate_id}>" target="productIframe"><{$item.title}></a></li>
+                    <{/foreach}>
+                </ul>
+            </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('.GoodsList_bd_cate li:first').addClass('on');
+                    $('#productIframe').attr('src',$('.GoodsList_bd_cate li:first a').attr('href'));
+                    $('.GoodsList_bd_cate li a').click(function(){
+                        $('.GoodsList_bd_cate li').removeClass('on');
+                        $(this).parent('li').addClass('on');
+                        $('#productIframe').attr('src',$(this).attr('href'));
+                    });
+                });
+            </script>
+            <div class="GoodsList_bd_r" style="padding:0px;">
+                <!-- 循环 -->
+                <iframe src="<{link ctl='product/product:items'}>" name="productIframe" id="productIframe" style="width:100%;height:100%;border:none"></iframe>
+            </div>
+            
+        </div>
+        <!--商品列表部分-结束-->
+    </div>
+</div>
+
+<!--删除提示-->
+<div class="mask_cont prompt_mask">
+	<div class="mask_cont_tit text_c">提示</div>
+    <div class="cont">
+    	<div class="ts border_b">删除后将不可返回，确认删除？</div>
+        <div class="text_c mt20">
+        	<a href="javascript:;" class="btn btn-w-m btn-default cancel">考虑一下</a>
+            <a href="javascript:;" rel="" id="confirm_del" class="btn btn-w-m btn-primary comfirt">确认删除</a>
+        </div>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+    $(document).ready(function() {
+
+        $("#allChk").click(function() {  
+            //$("input[name='product_id']").prop("checked",this.checked);
+            //获取子iframe v3.6 2017/11/29
+            $(window.frames["productIframe"].document).find("input[name='product_id']").prop("checked",this.checked);
+        });  
+          
+        /*// 单选  子iframe处理
+        var subChk = $("input[name='product_id']");
+        subChk.click(function() { 
+            alert(subChk.length); 
+            $("#allChk").prop("checked", subChk.length == subChk.filter(":checked").length ? true:false);  
+        });*/
+        
+        var evlt_h = $('.prompt_mask').height();
+    	var evlt_w = $('.prompt_mask').width();
+    	$('.prompt_mask').css("margin-top",-evlt_h/2 + 'px');
+    	$('.prompt_mask').css("margin-left",-evlt_w/2 + 'px');
+    	
+    	$(".tab_btn_del").click(function(){
+                var product_ids = [];
+                /*$('input:checkbox[name=product_id]:checked').each(function(){
+                    product_ids.push($(this).val());
+                })*/
+                $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+                    product_ids.push($(this).val());
+                })
+                if(product_ids.length == 0){
+                    layer.msg('请选择要删除的商品', {icon: 2});
+                }else{
+                    $('.prompt_mask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                }
+    	});
+    	
+    	$(".prompt_mask .cancel,.mask_bg").click(function(){
+    		$('.prompt_mask').fadeOut(100);
+    		$('.mask_bg').fadeOut(100);
+    	});
+    });
+
+    /*var json_cates = <{$scates}>;
+    var cate_id2 = "<{$pager.SO.cate_id2}>";
+    var cate_id = "<{$pager.SO.cate_id}>";
+    select(json_cates,2,cate_id,cate_id2);*/   
+
+    $("#confirm_del").click(function(){ //批量删除
+        var product_ids = [];
+        /*$('input:checkbox[name=product_id]:checked').each(function(){
+            product_ids.push($(this).val());
+        })*/
+        $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+            product_ids.push($(this).val());
+        })
+
+        var link = "<{link ctl='product/product/delete'}>";
+        $.post(link,{"product_id":product_ids},function(data){
+            $('.prompt_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+            
+            if(data.error == 0){
+                //window.location.reload(true);
+                layer.msg(data.message);
+                $('#productIframe').attr('src', $('#productIframe').attr('src'));//强制刷新 v3.6
+            }else{
+                layer.msg(data.message, {icon: 2});
+            }
+        },'json')
+    })
+
+    $("#onsale_open").click(function(){ //批量上架
+        var product_ids = [];
+        /*$('input:checkbox[name=product_id]:checked').each(function(){
+            product_ids.push($(this).val());
+        })*/
+        $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+            product_ids.push($(this).val());
+        })
+
+        var link = "<{link ctl='product/product/onsale_open'}>";
+        $.post(link,{"product_id":product_ids},function(data){
+            $('.prompt_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+            
+            if(data.error == 0){
+                //window.location.reload(true);
+                layer.msg(data.message);
+                $('#productIframe').attr('src', $('#productIframe').attr('src'));//强制刷新 v3.6
+            }else{
+                layer.msg(data.message, {icon: 2});
+            }
+        },'json')
+    })
+
+    $("#edit_sort").click(function(){ //批量修改排序
+        var product_ids = [];
+        /*$('input:checkbox[name=product_id]:checked').each(function(){
+           product_ids.push($(this).val());
+        });*/
+        $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+            product_ids.push($(this).val());
+        })
+
+        var arr = [];
+        $.each(product_ids,function(k,v){
+            //var sort_id= $('.sort_order_'+v).val();
+            var sort_id= $(window.frames["productIframe"].document).find('.sort_order_'+v).val();//v3.6
+            arr.push(v+'-'+sort_id);
+        });
+        if(arr.length==0){
+            layer.msg('请选择需要修改的数据');
+            return false;
+        }
+        var link = "<{link ctl='product/product/edit_sort'}>";
+        $.post(link,{"sort_data":arr},function(data){
+            $('.prompt_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+            
+            if(data.error == 0){
+                //window.location.reload(true);
+                layer.msg(data.message);
+                $('#productIframe').attr('src', $('#productIframe').attr('src'));//强制刷新 v3.6
+            }else{
+                layer.msg(data.message, {icon: 2});
+            }
+        },'json')
+    })
+
+    $("#onsale_close").click(function(){ //批量下架
+        var product_ids = [];
+        /*$('input:checkbox[name=product_id]:checked').each(function(){
+            product_ids.push($(this).val());
+        })*/
+        $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+            product_ids.push($(this).val());
+        })
+
+        var link = "<{link ctl='product/product/onsale_close'}>";
+        $.post(link,{"product_id":product_ids},function(data){
+            $('.prompt_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+            
+            if(data.error == 0){
+                //window.location.reload(true);
+                layer.msg(data.message);
+                $('#productIframe').attr('src', $('#productIframe').attr('src'));//强制刷新 v3.6
+            }else{
+                layer.msg(data.message, {icon: 2});
+            }
+        },'json')
+    })
+
+</script>
+<!--删除提示end-->
+<!--规格编辑-->
+<div class="mask_cont spec_mask spec_mask1">
+	<div class="mask_cont_tit">规格编辑 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+    	<div class="border_b table_box">
+        	<table border="0" cellspacing="0" cellpadding="0" id="form" rel="">
+                <tr class="tit">
+                    <td><span class="pointcl">*</span>规格</td>
+                    <td><span class="pointcl">*</span>价格</td>
+                    <td><span class="pointcl">*</span>打包费</td>
+                    <td><span class="pointcl">*</span>库存</td>
+                    <td class="cz">&nbsp;</td>
+                </tr>
+            </table>
+			<a href="javascript:;" class="btn btn-primary btn-sm btn-outline add_btn">添加规格</a>
+        </div>
+        <div class="text_c mt20">
+        	<a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="baocun">保存</a>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.spec_mask1').height();
+	var evlt_w = $('.spec_mask1').width();
+	$('.spec_mask1').css("margin-top",-(evlt_h/2 + 60) + 'px');
+	$('.spec_mask').css("margin-left",-evlt_w/2 + 'px');
+	//spec_name 规格名称 price 价格 package_price 打包费 sale_sku
+	$(".tab_btn_spec").click(function(){
+        var parent_id = $(this).attr('rel');
+        $('#form').attr('rel',parent_id)
+        var link = "<{link ctl='product/product/ajax_spec'}>";
+        var html = '';
+        $.post(link,{data:parent_id},function(e){
+            if(e.data){
+                $.each(e.data,function(k,v){
+                    html += '<tr class="append_html">' +
+                            '<td><input type="text" class="int spec_name" value="'+v.spec_name+'"></td>' +
+                            '<td><input type="text" class="int price" value="'+v.price+'"></td>' +
+                            '<td><input type="text" class="int package_price" value="'+v.package_price+'"></td>' +
+                            '<td><input type="text" class="int sale_sku" value="'+v.sale_sku+'"></td>' +
+                            '<td class="cz"><span class="black9"></span>' +
+                            '<a href="javascript:;" class="fa fa-times-circle clear_btn"></a></td>' +
+                            '</tr>'
+                });
+            }
+            $("#form").append(html);
+            $(".spec_mask1 .cont table tr td .clear_btn").click(function(){
+                $(this).parents("tr").remove();
+            });
+        },'json');
+		$('.spec_mask1').fadeIn(100);
+		$('.mask_bg').fadeIn(100);
+	});
+	
+	$(".spec_mask1 .cancel,.spec_mask1 .close,.mask_bg").click(function(){
+        $('#form').attr('rel','')
+        $('.append_html').remove();
+		$('.spec_mask1').fadeOut(100);
+		$('.mask_bg').fadeOut(100);
+
+	});
+	
+	$(".spec_mask1 .add_btn").click(function(){
+		$(this).parents(".spec_mask1").find(".table_box table").append('<tr class="append_html">' +
+                '<td><input type="text" class="int spec_name"></td>' +
+                '<td><input type="text" class="int price"></td>' +
+                '<td><input type="text" class="int package_price"></td>' +
+                '<td><input type="text" class="int sale_sku"></td>' +
+                '<td class="cz"><span class="black9"></span><a href="javascript:;" class="fa fa-times-circle clear_btn"></a></td></tr>');
+		
+		$(".spec_mask1 .cont table tr td .clear_btn").click(function(){
+			$(this).parents("tr").remove();
+		});
+	});
+	
+	$(".spec_mask1 .cont table tr td .clear_btn").click(function(){
+		$(this).parents("tr").remove();
+	});
+
+    $('#baocun').on('click',function(){
+        var pid = $('#form').attr('rel');
+        var spec_name = $('.spec_name');
+        var price = $('.price')
+        var package_price = $('.package_price');
+        var sale_sku = $('.sale_sku');
+        var url = '<{link ctl="product/product/ajax_spec_edit"}>';
+        var data = [];
+        $.each(spec_name,function(k,v){
+          var a = v.value;
+          var b = price[k].value;
+          var c =  package_price[k].value;
+          var d =   sale_sku[k].value;
+          if(!a){
+              layer.msg('请填写完整的信息再保存', {icon: 2});
+              return false;
+          }
+           if(!b){b=0;} if(!c){c=0;}if(!d){d=0}
+
+           data.push(a+'/'+b+'/'+c+'/'+d)
+        });
+        $('.spec_mask1').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+        $.post(url,{product_id:pid,data:data},function(e){
+            if(e.error>0){
+                layer.msg(e.message,{icon:2})
+            }else{
+                layer.msg('修改成功');
+                setTimeout(function(){
+                    window.location.reload();
+                    $('.spec_mask1').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                    $('#form').attr('rel','');
+                    $('.append_html').remove();
+                },2000);
+            }
+        },'json')
+    })
+});
+</script>
+<!--规格编辑end-->
+
+<!--批量库存-->
+<div class="mask_cont spec_mask repertory_mask">
+	<div class="mask_cont_tit">批量改库存 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+    	<div class="border_b table_box">
+        	<table border="0" cellspacing="0" cellpadding="0">
+                <tr class="tit">
+                    <td class="bt">库存修改为：</td>
+                    <td><input type="text" id="stock_num" class="int"></td>
+                    <td><small class="ml20 black9">-1&nbsp;<{L("不限库存")}></small></td>
+                    <!-- <td class="cz"><small class="black9"></small></td> -->
+                </tr>
+            </table>
+        </div>
+        <div class="text_c mt20">
+        	<a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" id="btn_stock" class="btn btn-w-m btn-primary comfirt">保存</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.repertory_mask').height();
+    	var evlt_w = $('.repertory_mask').width();
+    	$('.repertory_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+    	$('.repertory_mask').css("margin-left",-evlt_w/2 + 'px');
+    	
+    	$(".tab_btn_repertory").click(function(){
+            var product_ids = [];
+            /*$('input:checkbox[name=product_id]:checked').each(function(){
+                product_ids.push($(this).val());
+            })*/
+            $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+                product_ids.push($(this).val());
+            })
+
+            if(product_ids.length == 0){
+                layer.msg('请选择要修改的内容', {icon: 2});
+            }else{
+                $('.repertory_mask').fadeIn(100);
+                $('.mask_bg').fadeIn(100);
+            }
+    	});
+    	
+    	$(".repertory_mask .cancel,.repertory_mask .close,.mask_bg").click(function(){
+    		$('.repertory_mask').fadeOut(100);
+    		$('.mask_bg').fadeOut(100);
+    	});
+    	
+    });
+    $("#btn_stock").click(function(){ //批量改库存
+        var product_ids = [];
+        /*$('input:checkbox[name=product_id]:checked').each(function(){
+            product_ids.push($(this).val());
+        })*/
+        $(window.frames["productIframe"].document).find('input:checkbox[name=product_id]:checked').each(function(){//v3.6
+            product_ids.push($(this).val());
+        })
+
+        var link = "<{link ctl='product/product/stock_num'}>";
+        var stock_num = $("#stock_num").val();
+        $.post(link,{"product_id":product_ids,"stock_num":stock_num},function(data){
+            $('.repertory_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+            
+            if(data.error == 0){
+                //window.location.reload(true);
+                layer.msg(data.message);
+                $('#productIframe').attr('src', $('#productIframe').attr('src'));//强制刷新 v3.6
+            }else{
+                layer.msg(data.message, {icon: 2});
+            }
+        },'json')
+    })
+
+</script>
+<!--批量库存end-->
+<{include file="block/footer.html"}>

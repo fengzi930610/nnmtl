@@ -1,0 +1,62 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="product/product:shop" arg0=$detail.shop_id priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?product/product-edit.html" mini-form="product-form" method="post" ENCTYPE="multipart/form-data">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <input type="hidden" name="product_id" value="<{$detail.product_id}>"/>
+            <input type="hidden" name="data[shop_id]" value="<{$detail.shop_id}>"/>
+            <tr><th><span class="red">*</span>商家：</th><td><input type="text" name="" readonly="readonly" value="<{$shop.title|default:''}>" class="input w-200"/></td></tr>
+            <tr>
+                <th><span class="red">*</span>分类：</th>
+                <td>
+                    <select name="data[cate_id]" class="w-100">
+                        <{widget id="product/cate" shop_id=$detail['shop_id'] value=$detail.cate_id type="类型"}>
+                    </select>
+                </td>
+            </tr>
+            <tr><th><span class="red">*</span>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-200"/><span class="tip-comment">标题</span></td></tr>
+            <tr><th><span class="red">*</span>图片：</th><td><input type="text" name="data[photo]" value="<{$detail.photo}>" <{if $detail.photo}>photo="<{$pager.img}>/<{$detail.photo}>"<{/if}> class="input w-200" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[photo]" class="input w-100" /><span class="tip-comment">图片</span></td></tr>
+            <tr><th><span class="red">*</span>价格：</th><td><input type="text" name="data[price]" value="<{$detail.price|default:''}>" class="input w-100"/><span class="tip-comment">价格</span></td></tr>
+            <tr><th><span class="red">*</span>打包费：</th><td><input type="text" name="data[package_price]" value="<{$detail.package_price|default:''}>" class="input w-100"/><span class="tip-comment">打包费,0:免打包费</span></td></tr>
+            <tr><th><span class="red">*</span>销量：</th><td><input type="text" name="data[sales]" value="<{$detail.sales|default:''}>" class="input w-100"/><span class="tip-comment">销量</span></td></tr>
+            <tr>
+                <th>类型：</th>
+                <td>
+                    <ul class="group-list">
+                        <li><label><input type="radio" name="data[sale_type]" value="0" <{if $detail['sale_type'] ==0}>checked="checked"<{/if}> >普通</label></li>
+                        <li><label><input type="radio" name="data[sale_type]" value="1" <{if $detail['sale_type'] ==1}>checked="checked"<{/if}> >限量</label></li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            <tr id="tr_sale_sku1" class="hide">
+                <th>限购数：</th><td><input type="text" name="data[sale_sku]" value="<{$detail.sale_sku|default:''}>" class="input w-100"/></td></tr>
+            <tr id="tr_sale_sku2" class="hide">
+                <th>已购数：</th><td><input type="text" name="data[sale_count]" value="<{$detail.sale_count|default:''}>" class="input w-100"/></td>
+            </tr>
+            <tr><th><span class="red">*</span>描述：</th><td><textarea name="data[intro]" class="textarea"><{$detail.intro}></textarea><br /><span class="tip-comment">描述</span></td></tr>
+<tr><th><span class="red">*</span>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:''}>" class="input w-100"/><span class="tip-comment">排序</span></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<script type="text/javascript">
+        $("[name='data[sale_type]']").click(function () {
+            if ($(this).val() == 1) {
+                $("#tr_sale_sku1").show();
+                $("#tr_sale_sku2").show();
+            } else {
+                $("#tr_sale_sku2").hide();
+                $("#tr_sale_sku1").hide();
+            }
+        });
+        $("[name='data[sale_type]']:checked").trigger("click");
+</script>
+<{include file="admin:common/footer.html"}>

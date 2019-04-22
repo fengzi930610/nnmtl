@@ -1,0 +1,34 @@
+@charset "utf-8";
+@import url(common.css);
+.page-menu { float:right; width:100%; height:auto; display:table;clear:both; margin:0 auto; cursor:hand; clear:both; }
+.page-menu a { width:100%; /*padding-left:30px;*/}
+.page-menu a:link    { color: #333333; text-decoration: none;}
+.page-menu a:visited { color: #333333; text-decoration: none;}
+.page-menu a:hover   { color: #157C10; text-decoration: none; }
+.page-menu a:active  { color: #157C10; text-decoration: none;};
+.page-menu li.menu{border-bottom:1px solid #C0D4DB; cursor:pointer;}
+.page-menu li.menu strong{width:100%;display:block;padding-left:30px;cursor:pointer;}
+.page-menu li.open { background:url(../images/-.gif) no-repeat 10px 11px; line-height:35px;}
+.page-menu li.open ul{display:block;border-bottom: 1px solid #C0D4DB;/*border-top: 1px dotted #C0D4DB;*/}
+.page-menu li.close { background:url(../images/+.gif) no-repeat 10px 11px; line-height:35px;border-bottom: 1px solid #C0D4DB;}
+.page-menu li.close ul{display:none;}
+.menu-item { background:#FFF; width:100%; font-weight:normal;}
+.menu-item li.active a{color:#FF3300;font-weight:bold;}
+
+/********************外卖4.0新版样式********************/
+html,body{ width: 100%;height: 100%; }
+/*左侧的menu*/
+.page-menu{ float: none;width: 110px;height: 100%;display: table;clear: both;margin: 0;cursor: hand;overflow-x: hidden;overflow-y: auto; }
+.page-menu li.close{ background: none;line-height: 1;border-bottom: none; }
+.page-menu li.open{ background: none;line-height: 1; }
+.page-menu li.menu strong{ display: block;box-sizing: border-box;height: 50px;padding: 0 0 0 20px;font-size: 14px;line-height: 50px;color: #7f96a3;position: relative; }
+.page-menu li.open strong{background: #313439 ;color: #fafafa;}
+.page-menu li.open strong:before{ content: '';border-top: 10px solid transparent;border-bottom: 10px solid transparent;border-left: 7px solid #108ee7;position: absolute;left: 0;top: 50%;margin-top: -10px; }
+
+.menu-item{ display: none;position: absolute;width: 131px;height: 100%;top: 0;left: 110px;background: #e8ebef;/*border-right: 1px solid #e4ebf1;*/overflow-x: hidden;overflow-y: auto; }
+.menu-item li{ display: block;box-sizing: border-box;text-indent: 0;background: none; }
+.menu-item li a{ display: block;box-sizing: border-box;line-height: 28px;font-size: 13px;padding: 6px 6px 6px 12px;color: #333 !important;}
+.menu-item li:hover a{text-decoration: none; color: #666;}
+.menu-item li.active a {font-weight: normal;background: #fff;}
+
+/********************外卖4.0新版样式 end********************/

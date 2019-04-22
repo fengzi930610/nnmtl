@@ -1,0 +1,86 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='qiang/order:index'}>">抢购管理</a></li>
+        <li class="active">订单管理</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <form action="<{link ctl='qiang/order:index'}>" method="post">
+            <div class="dispatch_serch">
+                <div class="clearfix list_box">
+                    <div class="fl" id="data_5">
+                        <span class="input-daterange" id="datepicker">创建日期：<input type="text" name="SO[dateline][]" value="<{$pager['SO']['dateline'][0]}>" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[dateline][]" value="<{$pager['SO']['dateline'][1]}>" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm fl" value="搜 索">
+                </div>
+                <div class="clearfix list_box">
+                    <div class="fl mr20">核销券码：<input type="text" name="SO[number]" value="<{$pager['SO']['number']|default:''}>" placeholder="" class="tuan_topser tuan_topserw2"></div>
+                </div>
+                <div class="clearfix list_box">消费类型：
+                    <label class="ml10"><input type="radio" <{if !$pager['SO'] || $pager['SO']['pei_so'] == 0}>checked<{/if}> name="SO[pei_so]" value="0">全部</label> 
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['pei_so'] == 1}>checked<{/if}> name="SO[pei_so]" value="1">物流发货</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['pei_so'] == 2}>checked<{/if}> name="SO[pei_so]" value="2">到店消费</label>
+                </div>
+                <div class="clearfix list_box">订单状态：
+                    <label class="ml10"><input type="radio" <{if !$pager['SO'] || $pager['SO']['order_so'] == 0}>checked<{/if}> name="SO[order_so]" value="0">全部</label> 
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == -2}>checked<{/if}> name="SO[order_so]" value="-2">已退款</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == -1}>checked<{/if}> name="SO[order_so]" value="-1">已取消</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == 1}>checked<{/if}> name="SO[order_so]" value="1">待发货</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == 2}>checked<{/if}> name="SO[order_so]" value="2">待收货</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == 3}>checked<{/if}> name="SO[order_so]" value="3">待消费</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == 4}>checked<{/if}> name="SO[order_so]" value="4">已完成</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['order_so'] == 5}>checked<{/if}> name="SO[order_so]" value="5">已过期</label>
+                </div>
+            </div>
+        </form>        
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+                <td>订单ID</td>
+                <td>标题</td>
+                <td>用户</td>
+                <td>价格</td>
+                <td>数量</td>
+                <td>运费</td>
+                <td>合计</td>
+                <td>平台佣金比例</td>
+                <td>类型</td>
+                <td>消费类型</td>
+                <td>订单状态</td>
+                <td>团购券码</td>
+                <td>过期时间</td>
+                <td>使用时间</td>
+                <td>创建时间</td>
+                <td>操作</td>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><{$item.order_id}></td>
+                <td><{$item.qiang_order.qiang_title}></td>
+                <td><{$member_list[$item.uid]['nickname']}>(UID:<{$item.uid}>)</td>
+                <td>￥<{$item.qiang_order.qiang_discount_price}></td>
+                <td><{$item.qiang_order.qiang_number}></td>
+                <td>￥<{$item.qiang_order.qiang_freight}></td>
+                <td>￥<{$item.amount + $item.money}></td>
+                <td><{$item.qiang_order.bl}>%</td>
+                <td><b><{$type[$item.qiang_order.type]}></b></td>
+                <td><b><{$item.ziti_label}></b></td>      
+                <td><b><{$item.status_label}></b></td>
+                <td><{if $item.qiang_order.number}><{$item.qiang_order.number}><{else}>----<{/if}></td>
+                <td><{if $item.qiang_order.use_ltime}><{$item.qiang_order.use_ltime|format:'Y-m-d'}><{else}>----<{/if}></td>
+                <td><{if $item.qiang_order.use_time}><{$item.qiang_order.use_time|format:'Y-m-d H:i:s'}><{else}>----<{/if}></td>
+                <td><{$item.dateline|format:'Y-m-d H:i:s'}></td>
+                <td>
+                    <a href="<{link ctl='qiang/order:detail' arg0=$item.order_id http='wmbiz'}>" class="btn btn-primary btn-sm btn-outline" title="查看">查看</a>
+                </td>
+            </tr>
+            <{/foreach}>
+        </table>
+        <div class="paging">
+            <{$pager.pagebar}>
+        </div>
+    </div>
+</div>
+<{include file="block/footer.html"}>

@@ -1,0 +1,22 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="adv/adv:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">广告位具体显示条数参照这里的limit</h4>
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>模板调用：</th>
+    <td><textarea class="textarea small"><{$code.widget}></textarea></td>
+</tr>
+<tr><th>站外调用：</th><td><textarea class="textarea small"><{$code.js}></textarea></td></tr>
+<tr><th></th><td></td></tr>
+</table>  
+</div>
+<{include file="admin:common/footer.html"}>

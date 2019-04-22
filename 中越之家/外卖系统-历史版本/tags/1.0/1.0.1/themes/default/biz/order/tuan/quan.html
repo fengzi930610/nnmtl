@@ -1,0 +1,81 @@
+<{include file="biz/block/header.html"}>
+
+
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/order:tuan'}>" >正在抢购</a>
+        <a href="<{link ctl='biz/order:t_manager'}>" >订单管理</a>
+        <a href="<{link ctl='biz/order:t_quan'}>" class="on">券管理</a>
+    </ul>
+</div>
+每个里面输入一个！到店付的也就是没有在平台付钱，商家自行收取消费
+<div class="ucenter_c">
+    <form id="post_form" action="<{link ctl='biz/order/t_confirm'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="table">
+            <span class="r"><a href="javascript:void(0);"  class="btn btn-success jq_add">+ 新增一行</a></span>
+            <tr class="jq_tr" >
+                <td>
+	                <input type="text" class="input w-110" name="code[1]" value="" />
+	                <code id="code_1"></code>
+	                <a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a>
+                </td>
+            </tr>  
+        </table>
+        <input type="submit" class="btn btn-primary jq_save" value="√ 确认消费"/>
+    </form>
+</div>
+<script>
+
+function used(id, msg, type) {
+    $("#code_" + id).html(msg);
+    switch (type) {
+        case 1:
+            $("#code_" + id).css('color', 'green');
+            break;
+        case 2:
+            $("#code_" + id).css('color', 'orange');
+            break;
+        case 3:
+            $("#code_" + id).css('color', 'red');
+            break;
+    }
+}
+
+var code_num = 1;
+$(document).ready(function(){
+    $(".jq_add").click(function(){
+    	code_num++;
+        var html = '<tr class="jq_tr">';
+        html+='<td><input type="text" class="input w-110" name="code[' + code_num + ']" value="" /><code id="code_' + code_num + '"></code><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td>';
+        html+='</tr>';
+        $(".table").append(html);
+    })
+    $(".table").on('click','.jq_delete', function () {
+        $(this).parent().parent().remove();
+    })
+})    
+
+/*function testconfirm() {
+	var url = "<{link ctl='biz/order/t_confirm'}>";
+	jQuery.ajax({        
+	    url: url, 
+	    async: true,  
+	    dataType: 'json',
+	    type: 'POST',   
+	    success: function (ret) { 
+	        if(ret.error > 0){
+	            layer.open({content: ret.message,time: 2});
+	        }else{
+	            layer.open({content: ret.message,time: 2});
+	            setTimeout(function(){window.location.reload();},1000);
+	        }
+	    }, 
+	    error: function (XMLHttpRequest, textStatus, errorThrown) { 
+	        alert(errorThrown); 
+	    },  
+
+	});
+}*/
+</script>
+<{include file="biz/block/footer.html"}>
+       

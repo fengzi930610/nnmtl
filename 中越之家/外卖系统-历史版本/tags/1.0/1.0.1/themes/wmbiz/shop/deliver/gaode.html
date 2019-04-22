@@ -1,0 +1,431 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+    .anchorBL{display:none}
+    body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+    #allmap {height:700px;min-height: 500px; width: 100%;}
+    #control{width:100%;}
+    .songSet_delivery{ border:1px solid #e6e6e6; padding:15px 20px; height:128px;}
+    .songSet_delivery h2{ font-size:18px; line-height:22px; color:#00bd9e; margin:0; margin-bottom:8px;}
+    .songSet_delivery p{ font-size:14px; line-height:22px; color:#666; margin-bottom:0;}
+
+</style>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='shop/shop:index'}>">店铺管理</a></li>
+        <li class="active">配送设置</li>
+    </ol>
+</div>
+<div class="wrapper wrapper-content">
+    <!--内容-->
+    <div class="songSet_top row mb20">
+        <div class="col-md-6">
+            <div class="songSet_dian">
+                <div class="wz_box">
+                    <h3><{$detail.title}></h3>
+                    <p>地址：<{$detail.addr}></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <{if $group}>
+        <div class="col-md-6">
+            <div class="songSet_delivery">
+                <h2 class=""><{$group.group_name}></h2>
+                <p class="">站长：<{$group.contact}></p>
+                <p class="">联系电话：<{$group.mobile}></p>
+                <p class="">区域：<{$group.province.province_name}>-<{$group.city.city_name}>-<{$group.addr}></p>
+            </div>
+        </div><{/if}>
+
+    </div>
+    <div class="songSet_area" style="height:100%;min-height:500px;">
+        <div class="songSet_area_left fl" style="height:100%;min-height:500px;">
+            <div class="songSet_area_tit">
+                区域及配送范围<{if $detail.pei_type==0}>（拖拽区域或点可编辑）<{/if}>
+                <div class="fr fr_e">
+                    <{if $detail.pei_type=='0'}>
+                    <a href="javascript:void(0);" class="edit"><{if $detail.area_polygon}>编辑<{else}>去添加<{/if}></a>
+                    <{/if}>
+
+                </div>
+                <div class="fr fr_es" style="display:none">
+                    <a href="javascript:delModal();" class="exit">退出</a>
+                    <i>|</i>
+                    <a href="javascript:void(0);" class="save">保存</a>
+                </div>
+            </div>
+            <div class="areas">
+                <ul class="ul_detail">
+                    <{if  $detail.pei_type=='0'}>
+                    <{foreach $detail['area_polygon']['area_price'] as $k=>$v}>
+                    <li class="<{$k}>">
+                        <div class="tit">配送方位<i class="fa fa-question-circle question-circle"><span>常规时段下商家配送范围</span></i></div>
+                        <div class="price">
+                            起送价<span class="ml5 mr5"><{$v['min_price']}></span>元<span class="ml5 mr5 black9">|</span>
+                            <{if $detail.pei_type==0}>
+                            配送费<span class="ml5 mr5"><{$v['shipping_fee']}></span>元<br/>
+                            <{/if}>
+
+                        </div>
+                    </li>
+                    <{/foreach}>
+
+                    <{else}>
+                    <li class="area_1">
+                        <div class="tit">配送方位<i class="fa fa-question-circle question-circle"><span>当前所属配送站的起送价</span></i></div>
+                        <div class="price">
+                            起送价<span class="ml5 mr5"><{$group.min_amount}></span>元<span class="ml5 mr5 black9">|</span>
+                        </div>
+                    </li>
+
+                    <{/if}>
+
+
+                </ul>
+                <ul class="ul_edit" style="display:none">
+                    <{foreach $detail['area_polygon']['area_price'] as $k=>$v}>
+                    <li class="<{$k}>">
+                        <div class="tit">配送方位<i class="fa fa-question-circle question-circle"><span>常规时段下商家配送范围</span></i></div>
+                        <div class="price min_price">起送价<input type="text" value="<{$v['min_price']}>">元</div>
+                        <{if $detail.pei_type==0}>
+                        <div class="price shipping_fee">配送费<input type="text" value="<{$v['shipping_fee']}>">元</div>
+                        <{else}>
+                        <div style="display: none" class="price shipping_fee">配送费<input type="text" value="0">元</div>
+                        <{/if}>
+                        <a href="javascript:;" class="remove"></a>
+                    </li>
+                    <{/foreach}>
+                </ul>
+                <div class="text_c mt10 mb10 ml20 mr20" style="display:none"><a href="#" class="btn btn-primary btn-block add_area">+新增配送区域</a></div>
+            </div>
+        </div>
+        <div class="songSet_area_right" style="height:100%;min-height:500px;">
+            <div id="allmap"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!--内容end-->
+
+    <script type="text/javascript">
+        // rgb转hex
+        function rgb_hex(rgb) {
+            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            function hex(x) {
+                return ("0" + parseInt(x).toString(16)).slice(-2);
+            }
+            return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        }
+
+        // 数组取并集
+        $.arrayIntersect = function(a, b) {
+            return $.merge($.grep(a, function(i) {
+                return $.inArray(i, b) == -1;
+            }), $.grep(b, function(i) {
+                return $.inArray(i, a) == -1;
+            }));
+        };
+    </script>
+
+    <!--谷歌JavaScript API开始-->
+    <!-- <script src="//webapi.amap.com/maps?v=1.4.2&key=<{$jh_map_key}>&&plugin=AMap.PolyEditor"></script>
+    <script src="//webapi.amap.com/ui/1.0/main.js"></script> -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<{$jh_map_key}>&language=zh-CN"></script>
+    <script type="text/javascript">
+        // rgb转hex
+        function rgb_hex(rgb) {
+            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            function hex(x) {
+                return ("0" + parseInt(x).toString(16)).slice(-2);
+            }
+            return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        }
+        var temp_ids = ['area_1','area_2','area_3','area_4','area_5','area_6','area_7','area_8','area_9','area_10'];// 初始化数组
+        var p_list = [];// 初始化
+
+        //区数组差集
+        var minus = function (arr,orgArr) {
+            var result = [];
+            var obj = {};
+            for (var i = 0; i < arr.length; i++) {
+                obj[arr[i]] = 1;
+            }
+            for (var j = 0; j < orgArr.length; j++) {
+                if (!obj[orgArr[j]])
+                {
+                    obj[orgArr[j]] = 1;
+                    result.push(orgArr[j]);
+                }
+            }
+            return result;
+        };
+
+
+
+    </script>
+    <script type="text/javascript">
+
+        // 百度地图API功能
+        var map = null;
+        var marker = null;
+        var lng = Number("<{$detail.lng}>");
+        var lat = Number("<{$detail.lat}>");
+        var polygons = [];
+        
+
+        function songSet_remove(){
+            $(".songSet_area_left .areas li .remove").click(function(){
+                $(this).parent("li").remove();
+                if($(".text_c").is(":hidden")){
+                    $(".text_c").show();    //如果元素为隐藏,则将它显现
+                }
+                if (!$.isEmptyObject(p_list)) {
+                    var area_child = $(this).parent("li").attr('class');
+                    $.each(p_list,function(k,v){
+                        if(v==area_child){
+                            delete p_list[k];
+                        }
+                    });
+                    var delOfs = -1;
+                    $.each(polygons,function(k,v){
+                        if(v.area === area_child)
+                        {
+                            v.polygon.setMap(null);
+                            v.polygon = null;
+                            v.data = [];
+                            delOfs = k;
+                        }
+                    });
+                    if(delOfs >= 0)
+                        polygons.splice(delOfs,1);
+                }
+            });
+        }
+        songSet_remove();
+
+
+        $(function(){
+
+            map = new google.maps.Map(
+                document.getElementById("allmap"),
+                {
+                    zoom: 11, 
+                    center: {lng:lng,lat:lat},
+                    fullscreenControl: false,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    gestureHandling: "greedy"
+                }
+            );
+            marker = new google.maps.Marker({
+                position: {lat:lat, lng:lng},
+                map:map
+            });
+            var shop_type = Number("<{$detail.pei_type}>");
+            var point,json_point;
+            if(shop_type === 1){
+                point = '<{$group_point}>';
+                json_point = JSON.parse(point);
+                if(json_point){
+                    $.each(json_point,function(k,v){
+                        v.lat = Number(v.lat);
+                        v.lng = Number(v.lng);
+                    });
+                    var hex_color = rgb_hex($(".area_1 .tit").css('color'));
+                    hex_color = hex_color?hex_color:"#008800";
+                    new google.maps.Polygon({
+                        paths: json_point,
+                        strokeColor: hex_color, //边颜色
+                        strokeOpacity: 0.8, //边透明度
+                        strokeWeight: 2,    //边粗线度
+                        fillColor: hex_color,   //填充颜色
+                        fillOpacity: 0.35,  //填充透明度,
+                        editable:false, //是否可编辑
+                        map:map
+                    });
+                }
+            }else{
+                point = '<{$shop_point}>';
+                json_point = JSON.parse(point);
+                if(json_point){
+                    var ofs = 0;
+                    $.each(json_point,function(k,v){
+                        p_list.push(k);
+                        var hex_color = rgb_hex($('.'+k+" .tit").css('color'));
+                        hex_color = hex_color?hex_color:"#008800";
+                        polygons[ofs] = {
+                            polygon:null,
+                            data:[],
+                            color: hex_color,
+                            area:k,
+                            postData:null
+                        };
+                        $.each(v,function(k,v){
+                            polygons[ofs].data.push({lng:Number(v.lng),lat:Number(v.lat)});
+                        });
+                        if(polygons[ofs].data.length === 0)
+                        {
+                            polygons[ofs].data = [
+                                {lng:lng-0.02,lat:lat+0.02},
+                                {lng:lng-0.02,lat:lat-0.02},
+                                {lng:lng+0.02,lat:lat-0.02},
+                                {lng:lng+0.02,lat:lat+0.02}
+                            ];
+                        }
+                        polygons[ofs].polygon = new google.maps.Polygon({
+                            paths: polygons[ofs].data,
+                            strokeColor: polygons[ofs].color, //边颜色
+                            strokeOpacity: 0.8, //边透明度
+                            strokeWeight: 2,    //边粗线度
+                            fillColor: polygons[ofs].color,   //填充颜色
+                            fillOpacity: 0.35,  //填充透明度,
+                            editable:false, //是否可编辑
+                            map:map,
+                        });
+                        ofs++;
+                    });
+                }
+            }
+
+            $(".edit").click(function() {
+                $(".ul_detail").attr("style", "display: none;");
+                $(".ul_edit").removeAttr("style");
+                $(".text_c").removeAttr("style");
+                $(".fr_e").attr("style", "display: none;");
+                $(".fr_es").removeAttr("style");
+                $.each(polygons,function(k,v){
+                    v.polygon.setMap(null);
+                    v.polygon = new google.maps.Polygon({
+                        paths: v.data,
+                        strokeColor: v.color, //边颜色
+                        strokeOpacity: 0.8, //边透明度
+                        strokeWeight: 2,    //边粗线度
+                        fillColor: v.color,   //填充颜色
+                        fillOpacity: 0.35,  //填充透明度,
+                        editable:true, //是否可编辑
+                        map:map,
+                    });
+                });
+            });
+
+            $('.add_area').on('click',function(){
+                var chaji = minus(p_list,temp_ids);
+                var child = [];
+                $(".songSet_area_left .areas .ul_edit li").each(function(){
+                    var area_child = $(this).attr('class');
+                    child.push(area_child);
+                });
+                if($(".songSet_area_left .areas .ul_edit li").length <= 10) {
+                    if (child.length == 9) {
+                        $(".text_c").attr("style", "display:none");
+                    }
+                    $(".songSet_area_left .areas .ul_edit").append('<li class=' + chaji[0] + '>' +
+                        '<div class="tit">配送方位<i class="fa fa-question-circle question-circle"><span>常规时段下商家配送范围</span></i></div>' +
+                        '<div class="price min_price">起送价<input type="text" value="0">元</div>' +
+                        '<div class="price shipping_fee">配送费<input type="text" value="0">元</div>' +
+                        '<a href="javascript:;" class="remove"></a>' +
+                        '</li>');
+                    p_list.push(chaji[0]);
+                    var hex_color = rgb_hex($("."+chaji[0]+" .tit").css('color'));
+                    var newPolyItem = {
+                        polygon:null,
+                        data:[],
+                        color: hex_color,
+                        area:chaji[0],
+                        postData:null
+                    };
+                    newPolyItem.data = [
+                        {lng:lng-0.02,lat:lat+0.02},
+                        {lng:lng-0.02,lat:lat-0.02},
+                        {lng:lng+0.02,lat:lat-0.02},
+                        {lng:lng+0.02,lat:lat+0.02}
+                    ];
+                    newPolyItem.polygon = new google.maps.Polygon({
+                        paths: newPolyItem.data,
+                        strokeColor: newPolyItem.color, //边颜色
+                        strokeOpacity: 0.8, //边透明度
+                        strokeWeight: 2,    //边粗线度
+                        fillColor: newPolyItem.color,   //填充颜色
+                        fillOpacity: 0.35,  //填充透明度,
+                        editable:true, //是否可编辑
+                        map:map,
+                    });
+                    polygons.push(newPolyItem);
+                    songSet_remove();
+                }
+
+            });
+        });
+
+        $(".save").click(function () {
+            if(polygons.length === 0)
+            {
+                layer.msg('请添加一个配送模板');
+                return;
+            }
+            var allPostData = {};
+            $.each(polygons,function(k,v){
+                var postData = {};
+                var pathData = v.polygon.getPath().getArray();
+                v.postData = [];
+                for(var kx in pathData)
+                {
+                    postData[String(kx)] = {lat:pathData[kx].lat(),lng:pathData[kx].lng()};
+                    v.postData.push(postData[String(kx)]);
+                }
+                allPostData[v.area] = postData;
+            });
+
+            var area_price = {};
+
+            $(".songSet_area_left .areas .ul_edit li").each(function(){
+                var area_k = $(this).attr('class');
+                area_price[area_k] = {};
+                area_price[area_k].min_price = $(this).find(".min_price input").val();
+                area_price[area_k].shipping_fee = $(this).find(".shipping_fee input").val();
+            });
+
+            $.post("<{link ctl='shop/deliver:edit_save'}>", {polygon_point: allPostData, area_price: area_price}, function (ret) {
+                if (ret.error == 0) {
+                    $.each(polygons,function(k,v){
+                        v.data = v.postData;
+                        v.postData = null;
+                        v.polygon.setMap(null);
+                        v.polygon = new google.maps.Polygon({
+                            paths: v.data,
+                            strokeColor: v.color, //边颜色
+                            strokeOpacity: 0.8, //边透明度
+                            strokeWeight: 2,    //边粗线度
+                            fillColor: v.color,   //填充颜色
+                            fillOpacity: 0.35,  //填充透明度,
+                            editable:false, //是否可编辑
+                            map:map,
+                        });
+                    });
+                }
+                layer.msg(ret.message);
+            },'json');
+        });
+
+
+
+
+
+
+
+    </script>
+
+    <script type="text/javascript">
+        // 删除提示模态框
+        function delModal() {
+            layer.confirm('退出编辑后，此次修改将不会生效，是否确定退出？', {
+                btn: ['是','否'] //按钮
+            }, function(){
+                window.location.href = "<{link ctl='shop/deliver:index'}>";
+            }, function(){
+                layer.closeAll();
+            });
+        }
+    </script>
+
+    <{include file="block/footer.html"}>

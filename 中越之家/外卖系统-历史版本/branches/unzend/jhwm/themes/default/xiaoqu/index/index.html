@@ -1,0 +1,135 @@
+<{assign var='tpl_title' value=L("小区首页")}>
+<{include file="block/xiaoqu_header.html"}>
+<!--头部-->
+<header class="bar bar-nav">
+    <a href="<{link ctl='index'}>" class="pull-left headerIco external"></a>
+    <a class="pull-right"></a>
+    <h1 class="title"><a href="<{link ctl='xiaoqu/yezhu'}>" class="xiaoqu">选择小区</a><i class="ico"></i></h1>
+</header>
+<!--头部结束-->
+<div class="content"> 
+    <!--幻灯banner-->
+    <!-- Slider -->
+    <div class="swiper-container" data-space-between='10'>
+        <div class="swiper-wrapper">
+            <{foreach $banner as $k => $v}>
+            <div class="swiper-slide"><a href="<{$v.link}>"><img src="<{$pager.img}>/<{$v.photo}>" style='width:100%;max-height:200px;'></a></div>
+            <{/foreach}>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <!--幻灯banner结束-->
+    <{if $notice.title}>
+    <div class="idx_notice"><a href="<{link ctl='xiaoqu/news/detail' arg1=$notice.news_id}>" class="black9"><span class="tag">通知</span><{$notice.title}></a></div>
+    <{/if}>
+    <!--功能-->
+    <div class="idx_funct mb10">
+        <ul>
+            <li class="list">
+                <a href="<{link ctl='xiaoqu/news'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_notify@2x.png">
+                    <p>物业通知</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='xiaoqu/bill'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_pay@2x.png">
+                    <p>缴费</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='xiaoqu/baoxiu'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_repairs@2x.png">
+                    <p>报修</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='xiaoqu/report'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_complain@2x.png">
+                    <p>投诉</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='xiaoqu/bianmin'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_serve@2x.png">
+                    <p>便民</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='paotui'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_run@2x.png">
+                    <p>跑腿</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='shop'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_total@2x.png">
+                    <p>商家</p>
+                </a>
+            </li>
+            <li class="list"><a href="<{link ctl='xiaoqu/tieba'}>">
+                    <img src="/themes/default/xiaoqu/static/images/community_neighbourhood@2x.png">
+                    <p>邻里</p>
+                </a>
+            </li>
+
+        </ul>
+        <div class="cl"></div>
+    </div>
+    <!--功能结束-->
+    <!--广告-->
+    <div class="idx_ads mb10">
+        <div class="list">
+            <{foreach $adv_items as $k => $v}>
+            <div style="width:50%;height:4rem;overflow:hidden;" class="fl"><img src="<{$pager.img}>/<{$v.thumb}>" style="height:4rem;"></div>
+            <{/foreach}>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+    <!--广告结束-->
+    <!--商家列表-->
+    <div class="shangjia_list_box infinite-scroll">
+        <div class="tit">周边推荐商家</div>
+        <ul class="border_t infinite-scroll infinite-scroll-bottom" data-distance="100">
+            <{foreach $items as $k => $v}>
+            <li class="shangjia_list">
+
+                <div class="img fl">
+                    <a href="<{link ctl='shop/detail' arg1=$v.shop_id}>" class="external"><img src="<{$pager.img}>/<{$v.logo}>"></a>
+                </div>
+                <div class="wz_box">
+                    <div class="wz">
+                        <div class="left">
+                            <h3 class="overflow_clear"><a href="<{link ctl='shop/detail' arg1=$v.shop_id}>" target="_blank" class="external"><{$v.title}></a></h3>
+                            <p><span class="starBg mr10"><span class="star" style="width:<{$v.avg_score*20}>%";></span></span><small class="black9">售出<{$v.orders}>单</small></p>
+                            <p class="overflow_clear black9"><a href="<{link ctl='shop/detail' arg1=$v.shop_id}>" target="_blank" class="external"><{$v.addr}></a></p>
+                        </div>
+                        <div class="right">
+                            <p><span class="fontcl1 mr10">￥<{$v.min_amount}>元</span>起送</p>
+                            <p><span class="fontcl1 mr10">￥<{$v.freight_price}>元</span>配送</p>
+                        </div>
+                    </div>
+                    <div class="tag_box">
+                        <{if $v.first_amount}>
+                        <p class="black9"><span class="tag" style="background:#FF5722;">首</span>新用户首次下单立减<{$v.first_amount}>元</p>
+                        <{/if}>
+                        <{if $v.youhui_title}>
+                        <p class="black9"><span class="tag" style="background:#FFB54C;">减</span><{$v.youhui_title}></p>
+                        <{/if}>
+                        <{if $v.online_pay}><p class="black9"><span class="tag" style="background:#92B9E1;">付</span>商家支持在线支付</p><{/if}>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </li>
+            <{/foreach}>
+        </ul>
+        <!-- 加载提示符 -->
+        <!--<div class="infinite-scroll-preloader">
+            <div class="preloader"></div>
+        </div>-->
+    </div>
+    <!--商家列表结束-->
+</div>
+<script>
+    $(document).ready(function(){
+        var is_yezhu = "<{$is_yezhu}>";
+        if(is_yezhu == 0){
+            //window.location.href="<{link ctl='xiaoqu/yezhu/create'}>";
+        }
+    })
+</script>
+<{include file="block/xiaoqu_footer.html"}>

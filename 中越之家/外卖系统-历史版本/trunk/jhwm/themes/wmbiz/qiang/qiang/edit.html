@@ -1,0 +1,170 @@
+<{include file="merchant:block/header.html"}>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>修改团购</h5>
+            </div>
+            <div class="ibox-content">
+                <form action="<{link ctl='merchant/tuan/tuan:edit' args=$detail.tuan_id}>" method="post" mini-form="merchant"
+                      class="form-horizontal" ENCTYPE="multipart/form-data">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <input type="text" name="data[title]" value="<{$detail.title|default:''}>"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">描述：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <input type="text" name="data[desc]" value="<{$detail.desc|default:''}>"
+                                       class="form-control">
+                            </div>
+                            <span class="help-block m-b-none">副标题用</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类型：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <div class="radio radio-success radio-inline">
+                                    <input type="radio" id="type_tuan" name="data[type]" value="tuan" <{if $detail.type == 'tuan'}>checked="checked"<{/if}> />
+                                    <label for="type_tuan">团购券</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" id="type_quan" name="data[type]" value="quan" <{if $detail.type == 'quan'}>checked="checked"<{/if}>/>
+                                    <label for="type_quan">代金券</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group draggable">
+                        <label class="col-sm-2 control-label">图片：</label>
+                        <div class="col-sm-10">
+                            <div class="uploadPhoto_box">
+                                <input type="hidden" name="data[photo]" class="form-control" value="<{$detail.photo|default:''}>"/>
+                                <input type="file" onchange="imgFileUpload(this, 0)" />
+                                <img id="img_0" src="<{$pager.img}>/<{$detail.photo|default:'default/default.png'}>"/>
+                                <span class="edit"><{if $detail.photo}>编 辑<{else}>添 加<{/if}></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">门店价：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                               <div class="input-group ">
+                                    <span class="input-group-addon">¥</span>
+                                    <input type="text" name="data[market_price]" value="<{$detail.market_price}>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">优惠价：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                               <div class="input-group ">
+                                    <span class="input-group-addon">¥</span>
+                                    <input type="text" name="data[price]" value="<{$detail.price}>" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group draggable">
+                        <label class="col-sm-2 control-label">开始时间：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <div class="input-group date">
+                                    <span  class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" name="data[stime]" id="d4311"   value="<{$detail.stime|format:'Y-m-d H:i:s'}>"  class="form-control"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group draggable">
+                        <label class="col-sm-2 control-label">结束时间：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <div class="input-group date">
+                                    <span  class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input type="text" name="data[ltime]" id="d4312"  value="<{$detail.ltime|format:'Y-m-d H:i:s'}>" class="form-control"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">最小购买数：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <input type="text" name="data[min_buy]" value="<{$detail.min_buy|default:1}>"
+                                       class="form-control">
+                            </div>
+                            <span class="help-block m-b-none">每单最少购买数量</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">最大购买数：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <input type="text" name="data[max_buy]" value="<{$detail.max_buy|default:99}>"
+                                       class="form-control">
+                            </div>
+                            <span class="help-block m-b-none">每单最多购买数量</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">库存数量：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <input type="text" name="data[stock_num]" value="<{$detail.stock_num|default:'0'}>"
+                                       class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">使用规则：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-6">
+                                <textarea name="data[notice]" class="form-control border-left m-t" style="height: 150px"><{$detail.notice}></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图文详情：</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-12">
+                                <textarea name="data[detail]" class="form-control border-left m-t" kindeditor="full" style="width:500px;height:350px;"><{$detail.detail}></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-sm-10">
+                            <div class="col-sm-4">
+                                <button class="btn btn-primary" type="submit">保存数据</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="<{link ctl='merchant/tuan/tuan'}>" class="btn btn-default" type="submit">返回</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="merchant:block/footer.html"}>
+<script type="text/javascript">
+    (function (K, $) {
+        var editor = KindEditor.create('textarea[kindeditor]', {
+            uploadJson: '<{link ctl="merchant/upload:editor" http="merchant"}>',
+            extraFileUploadParams: {OTOKEN: "<{$OTOKEN}>"}
+        });
+    })(window.KT, window.jQuery);
+</script>  

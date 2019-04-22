@@ -1,0 +1,30 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='ditui/base:index'}>" class="on"><{L('基本资料')}></a>
+	<a href="<{link ctl='ditui/base:passwd'}>"><{L('安全设置')}></a>
+	<a href="<{link ctl='ditui/base:mobile'}>"><{L('更换手机')}></a>
+        <a href="<{link ctl='ditui/base:license'}>"><{L('身份认证')}></a>
+	<a href="<{link ctl='ditui/base:account'}>"><{L('提现帐号')}></a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='ditui/base:index'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">
+    <tr><th><{L('姓名')}>：</th><td><input type="text" value="<{$info.name}>" class="input w-300" readonly="true"/></td></tr>
+    <tr><th><{L('手机号')}>：</th><td><input type="text" value="<{$info.mobile}>" class="input w-300" readonly="true"/></td></tr>
+    <tr><th><{L('账户余额')}>：</th><td><input type="text" value="<{$info.money}>" class="input w-300" readonly="true"/></td></tr>
+    <tr><th><{L('推广码')}>：</th><td><input type="text" value="<{$info.pmid}>" class="input w-300" readonly="true"/></td></tr>
+    <tr><th><{L('是否审核')}>：</th><td><input type="text" value="<{if $info.audit==1}><{L('已审核')}><{else}><{L('未审核')}><{/if}>" class="input w-300" readonly="true"/></td></tr>
+</table>
+
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="ditui/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="ditui/block/footer.html"}>
+

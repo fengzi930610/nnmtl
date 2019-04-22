@@ -1,0 +1,73 @@
+<{include file="fenxiao/block/header.html"}>
+        <div class="person-cont">
+            <a href="<{link ctl='ucenter/info'}>">
+                <div class="person-who"><div class="tu-person"><img src="<{$pager.img}>/<{$MEMBER.face}>"></div><span><{$MEMBER.nickname}></span></div>
+                <i class="you-jt-icon"></i>
+            </a>
+        </div>
+<div class="sth-xinxi bgcolor_white my-order"><div class="border_b mr10 ml10  pad_t10 pad_b10"><a href="<{link ctl='ucenter/order/index'}>"><span class="">我的订单</span><div class="see-allsth">查看全部<i class="jt-icon"></i></div></a></div></div>
+        <div class="bgcolor_white my-order-all">
+            <div class="pad_t10 pad_b10">
+                <ul>
+                    <li class="list on">
+                        <a href="<{link ctl='ucenter/order/index' st=1}>">
+                            <i class="ico ico1"></i>
+                            <P>待付款</P>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="<{link ctl='ucenter/order/index' st=2}>">
+                            <i class="ico ico2"></i>
+                            <P>待发货</P>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="<{link ctl='ucenter/order/index' st=3}>">
+                            <i class="ico ico3"></i>
+                            <P>待收货</P>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="<{link ctl='ucenter/order/index' st=4}>">
+                            <i class="ico ico4"></i>
+                            <P>待评价</P>
+                        </a>
+                    </li>
+                    <li class="list">
+                        <a href="<{link ctl='ucenter/order/index' st=5}>">
+                            <i class="ico ico5"></i>
+                            <P>退款/退货</P>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div style="padding-bottom: 0.6rem;width: 100%;overflow-y: auto;">
+        <div class="sth-xinxi mt10 bgcolor_white lianjie-links">
+            <div class="mr10 ml10 border_b pad_t10 pad_b10"><a href="<{link ctl='ucenter/addr'}>"><span><i class="ico icon2"></i>收货地址</span><i class="jt-icon"></i></a></div>
+        </div>
+        <div class="sth-xinxi pad10 mb10 bgcolor_white lianjie-links">
+            <a href="<{link ctl='ucenter/collect'}>"><span><i class="ico icon4"></i>我的收藏</span><i class="jt-icon"></i></a>
+        </div>
+        <div class="sth-xinxi mt10 bgcolor_white lianjie-links">
+                <div class="mr10 ml10 border_b pad_t10 pad_b10">
+                <a href="<{link ctl='ucenter/shop/manage:index'}>">
+                        <span><i class="ico icon7"></i>我的小店</span><i class="jt-icon"></i>
+                </a>
+            </div>
+        </div>
+        <div class="sth-xinxi pad10 mb10 bgcolor_white lianjie-links">
+            <a href="<{link ctl='ucenter/shop/index:tuike'}>">
+                <span ><i class="ico icon8"></i>推客申请</span><i class="jt-icon"></i>
+            </a>
+        </div>
+        <div class="sth-xinxi mt10 bgcolor_white lianjie-links">
+            <div class="mr10 ml10 border_b pad_t10 pad_b10"><a href="<{link ctl='ucenter/money'}>"><span><i class="ico icon5"></i>我的余额</span><i class="jt-icon"></i></a></div>
+        </div>
+        <div class="sth-xinxi pad10 mb10 bgcolor_white lianjie-links">
+            <a href="<{link ctl='ucenter/integral'}>"><span ><i class="ico icon6"></i>我的积分</span><i class="jt-icon"></i></a>
+        </div>
+        </div>
+<{include file="fenxiao/block/nav.html"}>
+<{include file="fenxiao/block/footer.html"}>

@@ -1,0 +1,510 @@
+<{include file="admin:common/header.html"}>
+<link href="<{$pager.res}>/cdn/css/swiper.min.css?<{$TMPLVER}>" rel="stylesheet">
+<script src="<{$pager.res}>/cdn/js/swiper.min.js?<{$TMPLVER}>"></script>
+<style scoped>
+	.topBg_box,.bannerBg_box,.cateNav{background-repeat:no-repeat; background-position:center; background-size:100% 100%;}
+
+	.WMhome .footer{display: flex; height: 44px; background:#fff; position: fixed; left: 0; right: 0; bottom: 0; border-top: 1px solid #eee;}
+	.WMhome .footer .list{flex: 1; text-align: center; font-size: 12px; color: #666; line-height: 0; padding-top: 6px;}
+	.WMhome .footer .list p{line-height: 16px;}
+	.WMhome .footer .list.on{color: #20AD20;}
+	.WMhome .footer .list .ico{width: 20px; height: 20px; display: inline-block; background-repeat: no-repeat; background-position: center; background-size: contain; margin-bottom: 2px;}
+	.WMhome .footer .list .ico_home{background-image: url(/admin/images/adv/pageset/tabbar01@3x.png);}
+	.WMhome .footer .list.on .ico_home{background-image: url(/admin/images/adv/pageset/tabbar01_pre@3x.png);}
+	.WMhome .footer .list .ico_find{background-image: url(/admin/images/adv/pageset/tabbar02@3x.png);}
+	.WMhome .footer .list.on .ico_find{background-image: url(/admin/images/adv/pageset/tabbar02_pre@3x.png);}
+	.WMhome .footer .list .ico_order{background-image: url(/admin/images/adv/pageset/tabbar03@3x.png);}
+	.WMhome .footer .list.on .ico_order{background-image: url(/admin/images/adv/pageset/tabbar03_pre@3x.png);}
+	.WMhome .footer .list .ico_mine{background-image: url(/admin/images/adv/pageset/tabbar04@3x.png);}
+	.WMhome .footer .list.on .ico_mine{background-image: url(/admin/images/adv/pageset/tabbar04_pre@3x.png);}
+	.WMhome{width: 100%;overflow: hidden; background: #fff;}
+	.WMhome .location{font-size: 18px; padding: 2px 12px 0; max-width: 46%;}
+	.WMhome .location .addr_ico{display: inline-block; width: 14px; height: 18px; background: url(/admin/images/adv/pageset/icon_location@3x.png) no-repeat center; background-size: contain; vertical-align: middle; margin-right: 6px;}
+	.WMhome .location .down_ico{display: inline-block; width: 10px; height: 8px; background: url(/admin/images/adv/pageset/to_btn_arrowd@3x.png) no-repeat center; background-size: contain; vertical-align: middle; margin-left: 6px;}
+	.WMhome .topState{overflow: hidden;padding-top: 6px; box-sizing: border-box;}
+	.WMhome .weather{overflow: hidden; font-size: 20px; line-height: 24px; color: #666; float: right; background:rgba(255,255,255,0.8);margin-right:10px;border-radius: 20px;padding:4px 10px;}
+	.WMhome .weather .ico_weather{display: inline-block; width: 24px; height: 24px; background: url(/admin/images/adv/pageset/icon_sun@3x.png) no-repeat center; background-size: contain; vertical-align: bottom; margin-right: 6px;}
+	.WMhome .weather p{font-size: 9px; line-height: 12px;}
+	.WMhome .right_search{text-align: center; width: 90px; height: 30px; border-radius: 30px; background: rgba(255,255,255,0.8); margin-top: 0px; margin-right: 10px;}
+	.WMhome .right_search input{box-sizing: border-box; width: 100%; height: 30px; border-radius: 30px; background: url(/admin/images/adv/pageset/icon_search@3x.png) no-repeat 12px center; background-size:11px; font-size: 14px; color: #999; padding-left: 33px;}
+	
+	.WMhome .topBg_box .searchBox{padding: 7px 12px 0;}
+	.WMhome .searchBox{padding: 10px 12px;}
+	.WMhome .searchBox input{box-sizing: border-box; width: 100%; height: 32px; border-radius: 4px; background: #EDEDED url(/admin/images/adv/pageset/icon_search@3x.png) no-repeat 12px center; background-size:11px; font-size: 14px; color: #999; padding-left: 33px; border: 0;}
+	.searchBox_fixed{position:fixed; z-index: 20; left: 0; top: 0; right:0;}
+	.WMhome .searchWord{padding: 0 0px 0px; margin: 0 4px; overflow-x: auto; overflow-y: hidden; box-sizing: border-box;}
+	.WMhome .searchWord ul{display: block; white-space:nowrap;}
+	.WMhome .searchWord ul li{display: inline-block; font-size: 15px; color: #666; line-height: 20px; margin: 0 8px;}
+	.WMhome .idxBanner{background:#fff; position: relative; z-index: 0; padding: 12px 12px;}
+	.WMhome .idxBanner .swiper-wrapper{-webkit-align-items: center;align-items: center;}
+	.WMhome .idxBanner .swiper-wrapper .swiper-slide{width: 100%;}
+	.WMhome .idxBanner .swiper-wrapper .swiper-slide a{display: block;width: 100%; padding: 19.4% 0; height: 0; background-position: center; background-repeat: no-repeat; background-size: cover; background-color: #f7f7f7; border-radius: 4px; overflow: hidden;}
+	.WMhome .idxBanner .swiper-pagination{bottom: 4px;}
+	.WMhome .idxBanner .swiper-pagination .swiper-pagination-bullet{background:#fff;width:8px;height:8px;border-radius:100%;opacity:0.8;}
+	.WMhome .idxBanner .swiper-pagination .swiper-pagination-bullet-active{opacity:1;}
+	.WMhome .cateNav .swiper-container{background: #fff;padding: 12px 0;}
+	.WMhome .cateNav .swiper-container .swiper-pagination{bottom: 4px}
+	.WMhome .cateNav .swiper-container .swiper-pagination .swiper-pagination-bullet{background: #637284;width: 6px;height: 6px;border-radius: 6px;}
+	.WMhome .cateNav .swiper-container .swiper-pagination .swiper-pagination-bullet-active{background-image: linear-gradient(-90deg, #73E966 0%, #1CD9AA 100%);width: 12px;}
+	.WMhome .cateNav ul{display: block;overflow: hidden;}
+	.WMhome .cateNav.col5 ul li{width:20%;}
+	.WMhome .cateNav ul li{text-align: center;padding-bottom: 12px; float: left; width:25%;}
+	.WMhome .cateNav ul li img{width: 50px;height: 50px;}
+	.WMhome .cateNav ul li p{font-size: 12px;line-height: 20px;color: #333;margin-top: 6px;}
+	.idxTitle{padding: 10px; overflow: hidden;}
+	.idxTitle h1{font-size: 18px; float:left;}
+	.idxTitle .more{float: right; font-size: 14px; color: #666;}
+	.idxTitle .right_ico{display: inline-block; width: 6px; height: 10px; background: url(/admin/images/adv/pageset/btn_arrow_r_small@3x.png) no-repeat center; background-size: contain; margin-left: 4px;}
+	.preferentialAarea1{overflow-y: hidden; overflow-x: auto; padding: 0 10px;}
+	.preferentialAarea1 ul{display: block; white-space:nowrap;}
+	.preferentialAarea1 ul li{display: inline-block; width: 120px; height: 160px; border-radius: 4px; overflow: hidden; margin-right: 10px; background: #eee;}
+	.preferentialAarea2{overflow: hidden;padding: 0 8px;}
+	.preferentialAarea2 ul{overflow: hidden;}
+	.preferentialAarea2 ul li{float: left; width:calc(50% - 4px); margin: 0 2px; height: 0; padding: 16% 0; background: #eee; overflow: hidden;}
+	.preferentialAarea3{overflow: hidden;padding: 0 10px;}
+	.preferentialAarea3 ul li{width:100%; height: 0; padding: 16% 0; background: #eee; overflow: hidden;}
+	.preferentialAarea4{overflow: hidden;padding: 0 8px;}
+	.preferentialAarea4 ul li{float: left; width:calc(50% - 4px); margin: 0 2px; height: 0; padding: 16% 0; background: #eee; overflow: hidden;}
+	.preferentialAarea4 ul li:last-child{margin-top: 4px;}
+	.preferentialAarea4 ul li:first-child{padding: calc(32% + 2px) 0;}
+	.preferentialAarea5{overflow: hidden;padding: 0 8px;}
+	.preferentialAarea5 ul{overflow: hidden;}
+	.preferentialAarea5 ul li{float: left; width:calc(50% - 4px); margin: 2px 2px; height: 0; padding: 16% 0; background: #eee; overflow: hidden;}
+	.preferentialAarea6{overflow: hidden;padding: 0 8px;}
+	.preferentialAarea6 ul{overflow: hidden;}
+	.preferentialAarea6 ul li{float: left; width:calc(50% - 4px); margin: 2px 2px; height: 0; padding: 16% 0; background: #eee; overflow: hidden;}
+	.preferentialAarea6 ul li:first-child{width:calc(100% - 4px);}
+	.preferentialAarea6 ul li:nth-child(3),.preferentialAarea6 ul li:nth-child(4){width:calc(25% - 4px);}
+	.preferentialAarea7{overflow: hidden;padding: 0 8px;}
+	.preferentialAarea7 ul{overflow: hidden;}
+	.preferentialAarea7 ul li{float: left; width:calc(50% - 4px); margin: 2px 2px; height: 0; padding: 16% 0; background: #eee; overflow: hidden;}
+	.preferentialAarea7 ul li:nth-child(3),.preferentialAarea7 ul li:nth-child(4),.preferentialAarea7 ul li:nth-child(5),.preferentialAarea7 ul li:nth-child(6){width:calc(25% - 4px);}
+	.largeSelection1{overflow: hidden;}
+	.largeSelection1 ul li{float: left; width: 33.33%; text-align: center; padding: 0px 0 10px;}
+	.largeSelection1 ul li .pic{background-position:center; background-repeat: no-repeat; background-size: cover; width: 68px; height: 68px; border-radius: 100%; background-color: #eee; overflow: hidden; margin:4px auto;}
+	.largeSelection1 ul li h3{font-size: 15px; color: #333; line-height: 20px;}
+	.largeSelection2{overflow: hidden; padding: 0 5px;}
+	.largeSelection2 ul{margin-top: -5px;}
+	.largeSelection2 ul li{float: left; width:calc(50% - 10px); margin: 5px 5px;}
+	.largeSelection2 ul li .pic{background-position:center; background-repeat: no-repeat; background-size: cover; width: 100%; height: 0; background-color: #eee; overflow: hidden; padding: 26% 0;}
+	.largeSelection2 ul li .logo_box{overflow: hidden; margin-top: -22px; padding: 0 10px;}
+	.largeSelection2 ul li .logo{background-position:center; background-repeat: no-repeat; background-size: cover; width: 44px; height: 44px; border-radius: 2px; background-color: #eee; overflow: hidden; float:left;}
+	.largeSelection2 ul li h3{font-size: 15px; color: #333; line-height: 20px; padding-top: 22px; margin-left: 50px;}
+	.screenTab{background: #fff; height: 44px; width: 100%; display: flex; align-items: center;}
+	.screenTab .list{width: 33.33%; text-align: center; font-size: 15px;color: #333; flex:1;}
+	.screenTab .list.on{color: #000;}
+	.screenTab .list.on .dwon_ico{background-image: url(/admin/images/adv/pageset/btn_arrow_t_small@3x.png);}
+	.screenTab .list .dwon_ico{display: inline-block; width: 12px; height: 12px; background: url(/admin/images/adv/pageset/btn_arrow_b_small@3x.png) no-repeat center; background-size: contain; margin-left: 6px;}
+	.screenTab .list .screen_ico{display: inline-block; width: 12px; height: 12px; background: url(/admin/images/adv/pageset/btn_choose_select@3x.png) no-repeat center; background-size: contain; margin-left: 6px;}
+	.shopLists_h{min-height: calc(100% - 96px);}
+	.WMhome_scroll{width: 100%; overflow: hidden; background-repeat:no-repeat; background-size: 100% auto; background-position: center -20px;}
+
+	.shoplists{background: #fff; padding: 10px; overflow: hidden;}
+	.shoplists .logo{width: 80px; height: 80px; border-radius: 4px; border: 1px solid #e6e6e6; overflow: hidden; background-repeat: no-repeat; background-position: center; background-size: cover; position: relative; float: left;}
+	.shoplists .logo .tag{position: absolute; left: 0; top: 0; width: 32px; height: 32px;background: url(/admin/images/adv/pageset/label_new@3x.png) no-repeat center; background-size:contain;}
+	.shoplists .txt_box{margin-left: 90px;}
+	.shoplists h2{font-size: 18px; line-height: 20px;}
+	.shoplists .box{overflow:hidden;font-size: 14px; margin: 6px 0;}
+	.shoplists .song{float: right; display: inline-block; font-size: 10px !important; border: 1px solid #2797ff; color: #2797ff; border-radius: 5px 0 5px 0;padding:0 3px; line-height: 16px;}
+	.shoplists .song2{border-color:#ff9000; color: #ff9000;}
+	.shoplists .green{color: #20AD20;}
+	.shoplists .grey{color: #e6e6e6;}
+	.shoplists hr{width: 100%; display: block; height: 0; border:0; border-bottom: 1px solid #f6f6f6; margin:10px 0; padding: 0;}
+	.shoplists .support{overflow: hidden;}
+	.shoplists .support span{overflow: hidden; border: 1px solid #20AD20; color: #20AD20; display: inline-block; margin-right: 4px; padding: 0 4px; border-radius: 4px;}
+	.shoplists .hd{overflow: hidden;}
+	.shoplists .hd .right{float: right; width: 86px; text-align: right; font-size: 12px; color: #999;}
+	.shoplists .hd .right .ico{width: 10px; height: 6px; background: url(/admin/images/adv/pageset/btn_arrow_down_small@3x.png) no-repeat center; background-size:contain; margin-left: 4px; display: inline-block;}
+	.shoplists .hd ul{display: block; margin-right: 90px; height: 72px;}
+	.shoplists .hd ul.on{height: auto;}
+	.shoplists .hd ul li{overflow:hidden;text-overflow:ellipsis;white-space:nowrap; font-size: 12px; color: #666; line-height: 16px;}
+	.shoplists .hd ul li .ico{width: 16px; height: 16px; display: inline-block; border-radius: 4px; line-height: 16px; text-align: center; color: #fff; font-size: 12px; font-style: normal; margin:4px 4px 4px 0;}
+	.shoplists .hd ul li .jian_ico{background: #ff4d5b;}
+	.shoplists .hd ul li .zhe_ico{background: #c268d4;}
+	.shoplists .hd ul li .shou_ico{background: #ff9000;}
+
+	.shoplists .products{overflow-x: hidden; overflow-y: auto; margin-top: 6px;}
+	.shoplists .products ul{display: block; white-space:nowrap; margin: 0 -5px;}
+	.shoplists .products ul li{display: inline-block; margin: 0 5px;}
+	.shoplists .products ul li .pic{width: 120px; height: 88px; overflow: hidden; background-repeat: no-repeat; background-position: center; background-size: cover; position: relative; background-color: #eee;}
+	.shoplists .products ul li h3{font-size: 14px; color: #666; line-height: 20px; margin: 6px 0 4px;}
+	.shoplists .products ul li .price{font-size: 18px; color: #FA4C34;}
+	.shoplists .products ul li .price small{font-size: 14px;}
+
+	.idxTitle{height: 20px; background-repeat:no-repeat; background-position:center; background-size:cover;}
+	   
+    .preferentialAarea1 ul li,.preferentialAarea2 ul li,.preferentialAarea3 ul li,.preferentialAarea4 ul li,.preferentialAarea5 ul li,.preferentialAarea6 ul li,.preferentialAarea7 ul li{ background-position: center; background-repeat: no-repeat; background-size: cover;}
+    .WMhome .preferentialAarea3 ul li{ padding: 12.4% 0}
+</style>
+
+<div class="page-data" style="margin: 0;">
+	<!-- 内容-开始 -->
+	<div class="WMhome">
+		<div class="WMhome_scroll" ref="WMhome_scroll" style="background-image: url('<{if $config.module0.background}><{$config.module0.background}><{/if}>'); background-color:<{if $config.module0.background_color}>#<{$config.module0.background_color}><{/if}>;">
+			<{foreach $config as $k=>$module}>
+				<{if $k=='module1' && $module.open}>
+					<div class="topBg_box" style="background-image: url(''); background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>; color:<{if $module.color}>#<{$module.color}><{/if}>;">
+					<{if $module.class==2}>
+						<div class="topState" ref="searchBox" style="height: 44px;">
+							<div class="right_search fr"><input type="text" name="" placeholder="搜索词" disabled="disabled"></div>
+							<div class="location"><i class="addr_ico" style="background-image: url('<{$module.icon_location}>')"></i>华润五彩国际<i class="down_ico" style="background-image: url('<{$module.icon_down}>')"></i></div>
+						</div>
+					<{elseif $module.class==3}>
+						<div style="height: 84px;">
+							<div class="topState">
+								<div class="weather">
+									<div class="fl"><i class="ico_weather"></i>29°</div>
+									<div class="fl ml10">
+										<p>52 良</p>
+										<p>晴</p>
+									</div>
+								</div>
+								<div class="location"><i class="addr_ico" style="background-image: url('<{$module.icon_location}>')"></i>华润五彩国际<i class="down_ico" style="background-image: url('<{$module.icon_down}>')"></i></div>
+							</div>
+							<div class="searchBox" ref="searchBox">
+								<input type="text" name="" placeholder="搜索词" disabled="disabled">
+							</div>
+						</div>
+					<{else}>
+						<div style="height: 84px;">
+							<div class="topState">
+								<div class="location"><i class="addr_ico" style="background-image: url('<{$module.icon_location}>')"></i>华润五彩国际<i class="down_ico" style="background-image: url('<{$module.icon_down}>')"></i></div>
+							</div>
+							<div class="searchBox" ref="searchBox">
+								<input type="text" name="" placeholder="搜索词" disabled="disabled">
+							</div>
+						</div>
+					<{/if}>
+					<{if $module.searchBox.open}>
+						<div class="searchWord" style="height: 31px;">
+							<ul>
+							<{foreach $module.searchBox.keywords as $key}>
+								<li class="list" style="color:<{if $module.searchBox.color}>#<{$module.searchBox.color}><{/if}>;"><{$key}></li>
+							<{/foreach}>
+							</ul>
+						</div>
+					<{/if}>
+					</div>
+				<{/if}>
+							
+				<{if $k=='module2' && $module.open}>
+					<div class="bannerBg_box" style="background-image: url(''); background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+						<{if $module.class==1}>
+						<div class="idxBanner">
+							<div class="swiper-container" ref="idxBanner">
+						        <div class="swiper-wrapper">
+						        	<{foreach $module.content as $kk=>$vv}>
+						            <div class="swiper-slide">
+						            	<a style="background-image: url('<{$vv.photo}>');" title=""></a>
+						            </div>
+						            <{/foreach}>
+						        </div>
+						        <{if count($module.content) > 1}>
+						        <div class="swiper-pagination"></div>
+						        <{/if}>
+						    </div>
+					    </div>
+					    <{else if $module.class==2}>
+					    <div class="idxBanner" style="background-color: transparent">
+							<div class="swiper-container" ref="idxBanner">
+						        <div class="swiper-wrapper">						        
+						            <div class="swiper-slide">
+						            	<a style="background-color: transparent" title=""></a>
+						            </div>
+						        </div>
+						    </div>
+					    </div>
+					    <{/if}>
+					</div>
+				<{/if}>
+				
+				<{if $k=='module3' && $module.open}>
+					<div class="cateNav <{if $module.class==1 || !$module.class}>col5<{/if}>" style="background-image: url(''); background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+				    	<div class="swiper-container" ref="cateNav" style="background: transparent;">
+					        <div class="swiper-wrapper">
+					        	<{foreach $module.content as $kk=>$vv}>
+									<{if ($module.class==1 && $kk%10==0) || ($module.class==2 && $kk%8==0)}>
+									<div class="swiper-slide">
+					                	<ul>
+						            <{/if}>
+							                <li>
+					                            <img src="<{$vv.photo}>">
+					                            <p style="<{if $module.color}>color: #<{$module.color}><{/if}>"><{$vv.title}></p>
+						                    </li>
+						            <{if ($module.class==1 && (count($module.content)==$kk+1 || ($kk+1)%10==0)) || ($module.class==2 && (count($module.content)==$kk+1 || ($kk+1)%8==0))}>
+										</ul>
+					            	</div>
+					            	<{/if}>						            
+					        	<{/foreach}>
+					        </div>
+					        <{if ($module.class==1 && count($module.content)>10) || ($module.class==2 && count($module.content)>8)}>
+					        <div class="swiper-pagination"></div>
+					        <{/if}>
+					    </div>
+				    </div>
+				<{/if}>
+
+				<{if ($k=='module5' || $k=='module6') && $module.open}>
+				<div style="background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+					<div class="idxTitle" style="background-image: url('<{$module.photo}>');">
+						<!-- <h1>优惠专区</h1> -->
+					</div>
+					<{if $module.class==1 || !$module.class}>
+					<div class="preferentialAarea1 mb10">
+						<ul>
+						<{foreach $module.content[1] as $kk=>$vv}>
+							<li style="background-image: url('<{$vv.photo}>');"><!-- <img src="<{$vv.photo}>"> --></li>
+						<{/foreach}>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==2}>
+					<div class="preferentialAarea2 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.content[2][0].photo}>');"><!-- <img src="<{$module.content[2][0].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[2][1].photo}>');"><!-- <img src="<{$module.content[2][1].photo}>"> --></li>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==3}>
+					<div class="preferentialAarea3 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.content[3][0].photo}>');"><!-- <img src="<{$module.content[3][0].photo}>"> --></li>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==4}>
+					<div class="preferentialAarea4 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.content[4][0].photo}>');"><!-- <img src="<{$module.content[4][0].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[4][1].photo}>');"><!-- <img src="<{$module.content[4][1].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[4][2].photo}>');"><!-- <img src="<{$module.content[4][2].photo}>"> --></li>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==5}>
+					<div class="preferentialAarea5 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.content[5][0].photo}>');"><!-- <img src="<{$module.content[5][0].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[5][1].photo}>');"><!-- <img src="<{$module.content[5][1].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[5][2].photo}>');"><!-- <img src="<{$module.content[5][2].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[5][3].photo}>');"><!-- <img src="<{$module.content[5][3].photo}>"> --></li>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==6}>
+					<div class="preferentialAarea6 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.content[6][0].photo}>');"><!-- <img src="<{$module.content[6][0].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[6][1].photo}>');"><!-- <img src="<{$module.content[6][1].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[6][2].photo}>');"><!-- <img src="<{$module.content[6][2].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[6][3].photo}>');"><!-- <img src="<{$module.content[6][3].photo}>"> --></li>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==7}>
+					<div class="preferentialAarea7 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.content[7][0].photo}>');"><!-- <img src="<{$module.content[7][0].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[7][1].photo}>');"><!-- <img src="<{$module.content[7][1].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[7][2].photo}>');"><!-- <img src="<{$module.content[7][2].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[7][3].photo}>');"><!-- <img src="<{$module.content[7][3].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[7][4].photo}>');"><!-- <img src="<{$module.content[7][4].photo}>"> --></li>
+							<li style="background-image: url('<{$module.content[7][5].photo}>');"><!-- <img src="<{$module.content[7][5].photo}>"> --></li>
+						</ul>
+					</div>
+					<{/if}>
+				</div>
+				<{/if}>
+
+				<{if $k=='module7' && $module.open}>
+				<div style="background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+					<div class="idxTitle" style="background-image: url('<{$module.photo}>');">
+						<!-- <h1>大牌甄选</h1>
+						<div class="more">更多<i class="right_ico"></i></div> -->
+					</div>
+					<{if $module.class==1 || !$module.class}>
+					<div class="largeSelection1">
+						<ul>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[1][0].photo}>');"></div>
+								<!-- <h3 class="overflow_clear"><{$module.content[1][0].title}></h3> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[1][1].photo}>');"></div>
+								<!-- <h3 class="overflow_clear"><{$module.content[1][1].title}></h3> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[1][2].photo}>');"></div>
+								<!-- <h3 class="overflow_clear"><{$module.content[1][2].title}></h3> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[1][3].photo}>');"></div>
+								<!-- <h3 class="overflow_clear"><{$module.content[1][3].title}></h3> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[1][4].photo}>');"></div>
+								<!-- <h3 class="overflow_clear"><{$module.content[1][4].title}></h3> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[1][5].photo}>');"></div>
+								<!-- <h3 class="overflow_clear"><{$module.content[1][5].title}></h3> -->
+							</li>
+						</ul>
+					</div>
+					<{/if}>
+
+					<{if $module.class==2}>
+					<div class="largeSelection2">
+						<ul>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[2][0].photo}>');"></div>
+								<!-- <div class="logo_box">
+									<div class="logo" style="background-image: url('<{$module.content[2][0].logo}>');"></div>
+									<h3 class="overflow_clear"><{$module.content[2][0].title}></h3>
+								</div> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[2][1].photo}>');"></div>
+								<!-- <div class="logo_box">
+									<div class="logo" style="background-image: url('<{$module.content[2][1].logo}>');"></div>
+									<h3 class="overflow_clear"><{$module.content[2][1].title}></h3>
+								</div> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[2][2].photo}>');"></div>
+								<!-- <div class="logo_box">
+									<div class="logo" style="background-image: url('<{$module.content[2][2].logo}>');"></div>
+									<h3 class="overflow_clear"><{$module.content[2][2].title}></h3>
+								</div> -->
+							</li>
+							<li>
+								<div class="pic" style="background-image: url('<{$module.content[2][3].photo}>');"></div>
+								<!-- <div class="logo_box">
+									<div class="logo" style="background-image: url('<{$module.content[2][3].logo}>');"></div>
+									<h3 class="overflow_clear"><{$module.content[2][3].title}></h3>
+								</div> -->
+							</li>
+						</ul>
+					</div>
+					<{/if}>
+				</div>
+				<{/if}>
+
+				<{if $k=='module8' && $module.open}>
+				<div style="background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+					<div class="preferentialAarea3 mb10">
+						<ul>
+							<li style="background-image: url('<{$module.photo}>')"></li>
+						</ul>
+					</div>
+				</div>
+				<{/if}>
+
+				<{if $k=='module9' && $module.open}>
+				<div style="background-color: #FFFFFF">
+					<div class="idxTitle">
+						<h1>附近商家</h1>
+					</div>
+					<div class="screenTab" ref="screenTab">
+						<div class="list">全部分类<i class="dwon_ico"></i></div>
+						<div class="list">排序<i class="dwon_ico"></i></div>
+						<div class="list">筛选<i class="screen_ico"></i></div>
+					</div>
+
+					<!--商家列表-开始-->
+					<div class="shopLists_h">
+						<div class="shoplists_box">
+							<div class="shoplists">
+								<div class="logo" style="background-image:url('<{$pager.img}>/default/shop_logo.png');">
+									<div class="tag"></div>
+								</div>
+								<div class="txt_box">
+									<h2 class="overflow_clear">商户名称</h2>
+									<div class="box">
+										<div class="starBg"><div class="star" style="width:60%;"></div></div>
+										月售1000单
+										<div class="song">商家配送</div>
+										<!-- <div class="song song2">平台专送</div> -->
+									</div>
+									<div class="box">
+										<div class="fl">起送￥20 <small class="grey"> | </small> 配送￥5</div>
+										<div class="fr"><span class="green">30分钟</span> <small class="grey"> | </small> 120m</div>
+									</div>
+									<hr>
+									<div class="support">
+										<span>支持自提</span> 
+										<span>极速退款</span>
+									</div>
+									<{if $module.show_huodong}>
+									<div class="hd">
+										<div class="right">3个活动<i class="ico"></i></div>
+										<ul class="">
+											<li><i class="ico jian_ico">减</i>满50减5</li>
+											<li><i class="ico zhe_ico">折</i>限时折扣</li>
+											<li><i class="ico shou_ico">首</i>首单立减10元</li>
+										</ul>
+									</div>
+									<{/if}>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<{/if}>
+
+				<{if $k=='module10' && $module.open}>
+					<div class="footer">
+						<{foreach $module.content as $kk=>$vv}>
+							<{if $vv.open}>
+							<{if $kk==0}>
+							<div class="list" style="color: #<{$module.color_checked}>">
+								<i class="ico ico_home" style="background-image: url('<{$vv.icon_checked}>')"></i>
+								<p><{$vv.title}></p>
+							</div>
+							<{else}>
+							<div class="list" style="color: #<{$module.color_nochecked}>">
+								<i class="ico ico_home" style="background-image: url('<{$vv.icon_nochecked}>')"></i>
+								<p><{$vv.title}></p>
+							</div>
+							<{/if}>
+							<{/if}>
+						<{/foreach}>
+					</div>
+				<{/if}>
+			<{/foreach}>
+
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// 轮播图
+			var mySwiper1 = new Swiper ('.idxBanner .swiper-container', {
+		        autoplay: 3000,//可选选项，自动滑动
+            	autoplayDisableOnInteraction : false,//设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay
+		        loop : true,
+		        pagination: {
+				    el: '.idxBanner .swiper-pagination',
+				}
+		    });
+		    // 分类菜单
+			var mySwiper2 = new Swiper ('.cateNav .swiper-container', {
+		        autoplay: false,//可选选项，自动滑动
+		        autoplayDisableOnInteraction : false,//设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay
+		        pagination: {
+				    el: '.cateNav .swiper-pagination',
+				}
+		    });	
+		});
+	</script>
+	<!-- 内容-结束 -->
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,198 @@
+<{include file="admin:common/header.html"}>
+<style>
+    .page-data .form td img{margin: 0px;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+                <th>资质信息</th>
+                <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+                <td width="15"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+	<!--向导-->
+    <div class="guide_list_box mgb10">
+    	<ul>
+        <li>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main"  priv="hide" class="on"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main"  priv="hide" }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main"  priv="hide"}></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" target="_blank" priv="hide" title="进入门店"}>
+    	<div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-two-<{$shop_id}>.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <p class="form_title">店铺资质信息</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th>法人姓名：</th>
+                    <td><input type="text" name="data[id_name]" value="<{$verify.id_name}>" class="input w-200"><span class="tip-comment">请输入法人姓名</span></td>
+                </tr>
+                <tr>
+                    <th>法人身份证号：</th>
+                    <td><input type="text" name="data[id_number]" value="<{$verify.id_number}>" class="input w-400"><span class="tip-comment">请输入身份证号</span></td>
+                </tr>
+                <tr>
+                    <th>身份证正反面：</th>
+                    <td>
+                    	<div class="square_img_list_area mgb10">
+                            <div class="float-l mgr10">
+                                <span class="img"><img id="id_photo1" width="232" height="154" src="<{$pager.img}>/<{$verify.id_photo|default:'default/verify.png'}>"/><p>身份证正面</p></span>
+                                <input type="hidden" name="data[id_photo]" id="id_photo" value="<{$verify.id_photo}>"/>
+                                <input type="file" upload="" class="input w-100 jq_photo" rel="id_photo" value="上传图片">
+                            </div>
+                            <div class="float-l mgr10">
+                                <span class="img"><img id="id_photo_f1" width="232" height="154" src="<{$pager.img}>/<{$verify.id_photo_f|default:'default/verify.png'}>"/><p>身份证反面</p></span>
+                                <input type="hidden" name="data[id_photo_f]"  value="<{$verify.id_photo_s}>" id="id_photo_f"/>
+                                <input type="file" class="input w-100 jq_photo" rel="id_photo_f" value="上传图片">
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                        <P class="gray">选择文件上传图片要求：使用身份证原件拍照，证件文字清晰。</P>
+                    </td>
+                </tr>
+                <tr>
+                    <th>手持身份证：</th>
+                    <td>
+                    	<div class="square_img_list_area mgb10">
+                            <div class="float-l mgr10">
+                                <span class="img"><img id="id_photo_s1" width="232" height="154" src="<{$pager.img}>/<{$verify.id_photo_s|default:'default/verify.png'}>"/><p>手持身份证照片</p></span>
+                                <input type="hidden" name="data[id_photo_s]" id="id_photo_s" value="<{$verify.id_photo_s}>"/>
+                                <input type="file" class="input w-100 jq_photo" rel="id_photo_s" value="上传图片">
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                        <P class="gray">要求：商家负责人手持本人身份证原件拍照，五官可见，证件文字清晰</P>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="form_title">证件信息</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <!--<tr>
+                    <th>证件信息：</th>
+                    <td>
+                        <label><input type="radio" name="data[audit]" value="1" class="input">营业执照</label> <label><input type="radio" name="data[audit]" value="0" checked="checked" class="input">其他证件</label>
+                    </td>
+                </tr>-->
+                <tr>
+                    <th>证件照：</th>
+                    <td>
+                    	<div class="square_img_list_area mgb10">
+                            <div class="float-l mgr10">
+                                <span class="img"><img id="yz_photo1" width="232" height="154" src="<{$pager.img}>/<{$verify.yz_photo|default:'default/verify.png'}>"/><p>证件照</p></span>
+                                <input type="hidden" name="data[yz_photo]" value="<{$verify.yz_photo}>" id="yz_photo"/>
+                                <input type="file" class="input w-100 jq_photo" rel="yz_photo" value="上传图片">
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                        <P class="gray">*要求：使用证件原件拍照，证件文字清晰。</P>
+                    </td>
+                </tr>
+                <tr>
+                    <th>证件名称：</th>
+                    <td><input type="text" name="data[yz_name]" value="<{$verify.yz_name}>" class="input w-300"></td>
+                </tr>
+                <tr>
+                    <th>证件编号/注册号：</th>
+                    <td><input type="text" name="data[yz_number]" value="<{$verify.yz_number}>" class="input w-300"></td>
+                </tr>
+                <tr>
+                    <th>证件地址：</th>
+                    <td><input type="text" name="data[yz_addr]" value="<{$verify.yz_addr}>" class="input w-300"></td>
+                </tr>
+                <tr>
+                	<th>证件有效期至：</th>
+                    <td>
+                        <input type="text" name="data[yz_time]" value="<{$verify.yz_time}>" datetime="ltime" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" class="input w-150"></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="form_title">餐饮服务许可证信息</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th>餐饮服务许可证：</th>
+                    <td>
+                    	<div class="square_img_list_area mgb10">
+                            <div class="float-l mgr10">
+                                <span class="img"><img id="cy_photo1" width="232" height="154" src="<{$pager.img}>/<{$verify.cy_photo|default:'default/verify.png'}>"/><p>餐饮服务许可证</p></span>
+                                <input type="hidden" name="data[cy_photo]" value="<{$verify.cy_photo}>" id="cy_photo"/>
+                                <input type="file" class="input w-100 jq_photo" rel="cy_photo" value="上传图片">
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                        <P class="gray">使用餐饮服务许可证原件拍照，证件文字清晰。</P>
+                    </td>
+                </tr>
+                <tr>
+                    <th>许可证件名称：</th>
+                    <td><input type="text" name="data[cy_name]" value="<{$verify.cy_name}>" class="input w-300"></td>
+                </tr>
+                <tr>
+                    <th>许可证件编号：</th>
+                    <td><input type="text" name="data[cy_number]" value="<{$verify.cy_number}>" class="input w-300"></td>
+                </tr>
+                <tr>
+                    <th>许可证件地址：</th>
+                    <td><input type="text" name="data[cy_addr]" value="<{$verify.cy_addr}>" class="input w-300"></td>
+                </tr>
+                <tr>
+                	<th>许可证件有效期：</th>
+                    <td>
+                        <input type="text" name="data[cy_time]" value="<{$verify.cy_time}>" datetime="ltime" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" class="input w-150"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<p class="s-50"></p>
+<script>
+    $('.jq_photo').on('change',function(){
+        var rel = $(this).attr('rel')
+        var form = new FormData();
+        var file = $(this)[0]['files'][0];
+        Widget.UploadFile("?waimai/shop-uploadimg.html", {image:file}, function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                $('#'+rel+"1").attr('src', "<{$pager.img}>/" + ret.data.photo);
+                $('#'+rel).val(ret.data.photo);
+            }
+        });
+    });
+</script>
+<{include file="admin:common/footer.html"}>

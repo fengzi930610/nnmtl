@@ -1,0 +1,57 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?finance/account-logs.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="商户名称、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="finance/account:so" args=2 load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">提示：一键转账只支持转账到支付宝账号</h4>
+    <form id="items-form">
+    <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <th class="w-100">提现编号</th>
+            <th class="w-200">提现商家</th>
+            <th class="w-200">提现账户</th>
+            <th class="w-100">提现金额</th>
+            <th class="w-100">转账时间</th> 
+            <th class="w-100">提现状态</th>
+            <th class="w-150">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.tixian_id}>" name="tixian_id[]" CK="PRI"/><{$item.tixian_id}><label></td>
+            <td><!-- <{$shops[$item['shop_id']]['title']}> --><{$item['title']}>(<{$item.shop_id}>:<{$item['mobile']}>)</td>
+            <td><{$item.account_info}></td>
+            <td><{$item.money}></td>
+            <td><{$item.updatetime|format}></td>
+            <td><{if $item.status == 4}><span class="green"><{if $item.pay_status == 1}>转账支付宝<{/if}>  已完成<{elseif $item.status == 5}><span class="red">转账失败(<{$item.reason}>)<{/if}></span></td>
+            <td>
+                <{if $item.status == 4}><span class="green">提现完成<{elseif $item.status == 5}><span class="red">提现失败,资金原路返回<{/if}></span>
+            </td>
+        </tr>
+        <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="10" class="page-list"><{$pager.pagebar}></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+</div>
+<{include file="admin:common/footer.html"}>

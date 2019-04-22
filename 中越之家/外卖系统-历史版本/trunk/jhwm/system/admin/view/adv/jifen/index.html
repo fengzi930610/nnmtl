@@ -1,0 +1,485 @@
+<{include file="admin:common/header.html"}>
+<link rel="stylesheet" href="http://cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<style type="text/css">
+    a:hover{text-decoration:none;}
+    /*积分商城*/
+    /*.jifenMall{padding-bottom: 51px;}*/
+    .jifenMall .take-out_banner{height: 160px; position:relative;}
+    .jifenMall .take-out_banner .line_box{position: absolute; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6);}
+    .jifenMall  .line_box div{color: #fff;width:180px;height:40px;line-height:40px;text-align:center;border-radius: 40px;border:2px solid #fff;font-weight: bold;position: absolute;top: 50%;left: 50%;margin-left: -90px;margin-top: -20px;}
+    .jifenMall .take-out_banner .swiper-container {width: 100%;height:100%;margin-left: auto;margin-right: auto;}
+    .jifenMall .take-out_banner .swiper-slide {text-align: center;font-size: 0;line-height:0;background: #fff;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;
+        -ms-flex-align: center;-webkit-align-items: center;align-items: center;}
+    .jifenMall .take-out_banner .swiper-slide a{display: block; width: 100%; height: 160px; background-repeat: no-repeat; background-position:center; background-size: cover;}
+    .jifenMall .swiper-container-horizontal>.swiper-pagination-bullets{bottom: 0px;}
+    .jifenMall .take-out_banner .swiper-pagination-bullet {opacity: 0.4;background: #000000;border-radius: 8px;width:18px;height:4px;}
+    .jifenMall .take-out_banner .swiper-pagination-bullet-active {opacity: 1;background: #FF9900;box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.20);}
+    .jifenMall .jifenMall_img1{width: 100%;}
+    .jifenMall .mineIntegral_menu{ background:#fff; overflow:hidden; margin-bottom: 10px; position: relative;}
+    .jifenMall .mineIntegral_menu .line_box{position: absolute; z-index: 20; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6);}
+    .jifenMall .mineIntegral_menu .list{float: left;display: block;width: 25%;padding:10px 0;text-align: center;line-height:24px;}
+    .jifenMall .mineIntegral_menu .list img{ width:44px; height:44px;  border-radius: 10px;}
+    .jifenMall .mineIntegral_menu .list p{ font-size:12px; color:#666; margin-top:3px;}
+    .jifenMall .take-out_adv_box{position: relative;}
+    .jifenMall .take-out_adv_box .line_box{position: absolute; z-index: 20; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6);}
+    .jifenMall .mineIntegral_long_adv{ text-align:center; width:100%; overflow:hidden; margin-bottom: 10px; line-height: 0;}
+    .jifenMall .mineIntegral_long_adv img{ width:100%;}
+    .jifenMall .mineIntegral_adv{ overflow:hidden; margin-bottom: 10px;}
+    .jifenMall .mineIntegral_adv .adv1{ display:block; position:relative; width:50%; height: 0; padding: 20% 0; float:left; background:#fff;}
+    .jifenMall .mineIntegral_adv .adv2,.mineIntegral_adv .adv3{ display:block; position:relative; width:50%; height: 0; padding: 10% 0; float:left; background:#fff;}
+    .jifenMall .mineIntegral_adv .adv1 span,.mineIntegral_adv .adv2 span,.mineIntegral_adv .adv3 span{ display:block; position:absolute; left:0; top:0; width:100%; height:100%;}
+    .jifenMall .mineIntegral_adv .adv1 span img,.mineIntegral_adv .adv2 span img,.mineIntegral_adv .adv3 span img{ display:block; position:static; left:0; top:0; width:100%; height:100%;}
+    .jifenMall .mineIntegral_adv .adv1::after{ content:''; display:block; width:1px; height:100%; background:#e6e6e6; position:absolute; right:0; bottom:0;}
+    .jifenMall .mineIntegral_adv .adv2::after{ content:''; display:block; height:1px; width:100%; background:#e6e6e6; position:absolute; left:0; bottom:0;}
+    .jifenMall .footer{position: absolute; z-index: 22; left: 27px; bottom: 100px; right: 28px;}
+    .line_box{opacity: 0;}
+    .line_box.on,.line_box:hover{opacity: 1;}
+    .banner_list .img p{ color: #f30 !important; font-weight: bold}
+    .banner_list .del { font-size: 28px; color: #ccc; position: absolute; top: 4px; right: 4px;}
+    .banner_list .btn_box{ margin-right:350px}
+    .banner_list .wx_box{ margin-right:400px !important;}
+    .change_list_banner .banner_list,.change_list_cate .banner_list{ cursor:move}
+    .banner_list{box-shadow: -1px -1px 5px #eee, 1px 1px 5px #eee;}
+    .banner_list:hover{background: rgba(0,0,0,0.05)}
+</style>
+<div class="page-data">
+    <div class="guide_list_box">
+        <ul>
+            <!-- <li><a href="?adv/waimai-index.html">外卖</a></li> -->
+            <li><a href="?adv/start-index.html">APP启动页</a></li>
+            <li><a href="javascript:;" class="on">积分</a></li>
+            <{if $have_paotui}><li><a href="?adv/paotui-index.html">跑腿</a></li><{/if}>        
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <div class="appAdvSet_box">
+        <div class="appAdvSet_iphone6 float-l">
+            <div class="iphone6_box">
+                <!--外卖V3-开始-->
+                <div class="jifenMall">
+                    <div class="take-out_banner">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <{foreach $banner as $k=>$v}>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(<{$pager.img}>/<{$v.thumb}>);"></a></div>
+                                <{foreachelse}>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201708/20170815_473C43E03611AC19CC1D37F59B88E24F.jpg);"></a></div>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201708/20170815_473C43E03611AC19CC1D37F59B88E24F.jpg);"></a></div>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201708/20170815_473C43E03611AC19CC1D37F59B88E24F.jpg);"></a></div>
+                                <{/foreach}>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="line_box on"><!-- <div>尺寸：320×160</div> --></div>
+                    </div>
+                    <img src="/admin/images/adv/jifenMall_img1.jpg" class="jifenMall_img1">
+                    <div class="mineIntegral_menu">
+                        <ul>
+                            <{foreach $cate_list as $k=>$v}>
+                            <li class="list">
+                                <a href="javascript:;">
+                                    <img src="<{$pager.img}>/<{$v.icon}>">
+                                    <p><{$v.title}></p>
+                                </a>
+                            </li>
+                            <{/foreach}>
+                            <li class="list">
+                                <a href="javascript:;">
+                                    <img src="/themes/jifen/static/images/integralMall/jifenshop_mainnav08@3x.png">
+                                    <p>全部</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class=""></div>
+                    </div>
+                    <div class="take-out_adv_box">
+                        <div class="mineIntegral_long_adv">
+                            <{if $tuijian[0]['thumb']}>
+                            <a href="javascript:;"><img src="<{$pager.img}>/<{$tuijian[0]['thumb']}>" height="107"></a>
+                            <{else}>
+                            <a href="javascript:;"><img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_900121307DB9F0E14930F6FB5E210D98.png"></a>
+                            <{/if}>
+                        </div>
+                        <div class="mineIntegral_adv">
+                            <{if $tuijian[1]['thumb']}>
+                            <a href="javascript:;" class="adv1"><span><img src="<{$pager.img}>/<{$tuijian[1]['thumb']}>" alt="img1"></span></a>
+                            <{else}>                            
+                            <a href="javascript:;" class="adv1"><span><img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_7603EDAA421A9C5245D19F5866B62848.png"></span></a>
+                            <{/if}>
+                            <{if $tuijian[2]['thumb']}>
+                            <a href="javascript:;" class="adv2"><span><img src="<{$pager.img}>/<{$tuijian[2]['thumb']}>" alt="img1"></span></a>
+                            <{else}>                            
+                            <a href="javascript:;" class="adv2"><span><img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_FD95024AC9FEBFE493289C54AF6FAC7A.png"></span></a>
+                            <{/if}>
+                            <{if $tuijian[3]['thumb']}>
+                            <a href="javascript:;" class="adv3"><span><img src="<{$pager.img}>/<{$tuijian[3]['thumb']}>" alt="img1"></span></a>
+                            <{else}>                            
+                            <a href="javascript:;" class="adv3"><span><img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_E21B0A4E3F8F133E363FC71FDD354D48.png"></span></a>
+                            <{/if}>
+                        </div>
+                        <div class="line_box"><!-- <div>尺寸：375×107</div> --></div>
+                    </div>
+                    <!-- <img src="/admin/images/adv/waimaiV3_foot.jpg" class="footer"> -->
+                </div>
+                <!--外卖V3-开始-->
+            </div>
+        </div>
+        <div class="appAdvSet_box_r">
+            <h5 class="tip-notice">拖动选项可进行排序</h5>
+            <form action="?adv/jifen-save.html" method="post" mini-form="admin-form" id="my_form">
+                <input name="banner[adv_id]" type="hidden" value="<{$banner_id}>"/>
+                <input name="tuijian[adv_id]" type="hidden" value="<{$tuijian_id}>"/>
+                <!--banner轮播-开始-->
+                <div class="change_list change_list_banner">
+                    <{foreach $banner as $k=>$v}>
+                    <div class="banner_list" rel="<{$k}>">
+                        <div class="img float-l">
+                            <label >
+                                <img src="<{$pager.img}>/<{$v.thumb}>" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="banner[thumb][]" class="file_img" value="<{$v.thumb}>"/>
+                            </label>
+                            <P>尺寸：960×480</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="banner[title][]" value="<{$v.title}>" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="banner[link][]" value="<{$v.link}>" class="input w-200" id="banner_adv_link_<{$k}>">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#banner_adv_link_$k/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <{foreachelse}>
+                    <div class="banner_list" rel="0">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="banner[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：960×480</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="banner[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="banner[link][]" class="input w-200" id="banner_adv_link_0">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#banner_adv_link_0/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                    <a href="javascript:;" class="appAdvSet_add" id="banner_add">+</a>
+                </div>
+                <!--banner轮播-结束-->
+                <!--分类菜单-结束-->
+                <!--广告位-开始-->
+                <div class="change_list" style="display: none;">
+                    <{foreach $tuijian as $ks=>$vvv}>
+                    <div class="banner_list" rel="<{$ks}>">
+                        <div class="img float-l">
+                            <label >
+                                <{if $vvv.thumb}>
+                                <img src="<{$pager.img}>/<{$vvv.thumb}>" class="img_src" width="100" height="100"/>
+                                <{else}>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <{/if}>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value="<{$vvv.thumb}>"/>
+                            </label>
+                            <P>尺寸：
+                                <{if $ks==0}>1125×321<{/if}>
+                                <{if $ks==1}>495×525<{/if}>
+                                <{if $ks==2}>618×261<{/if}>
+                                <{if $ks==3}>618×261<{/if}>
+                            </P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" value="<{$vvv.title}>" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" value="<{$vvv.link}>" class="input w-200" id="tj_adv_link_<{$ks}>">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#tj_adv_link_$ks/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <{foreachelse}>
+                    <div class="banner_list" rel="0">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value="<{$tuijian[0]['thumb']}>"/>
+                            </label>
+                            <P>尺寸：1125×321</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_0">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#tj_adv_link_0/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                    <td class="bt">状态：</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="banner_list" rel="1">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：495×525</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_1">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#tj_adv_link_1/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                    <td class="bt">状态：</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="banner_list" rel="2">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：618×261</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_2">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#tj_adv_link_2/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                    <td class="bt">状态：</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="banner_list" rel="3">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：618×261</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_3">
+                                        <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#tj_adv_link_3/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                    <td class="bt">状态：</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                    <!-- <a href="javascript:;" class="appAdvSet_add" id="tuijian_add">+</a> -->
+                </div>
+                <!--广告位-结束-->
+            </form>
+            <div class="change_list1 ">
+                <a href="javascript:;" class="appAdvSet_submit">提交修改</a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        function upload_img_format(){
+            $('.uploadimg').on('change',function(){
+                var h = $(this);
+                var files = $(this)[0]['files'];
+                var params = {"paotui" : files[0]};
+                var pre = "<{$pager.img}>";
+                Widget.UploadFile("?adv/adv-uploadimg.html", params, function(ret){
+                    if(ret.error==0){
+                        h.parent().children().eq(0).attr('src',pre+'/'+ret.data.photo)
+                        h.parent().children().eq(2).val(ret.data.photo)
+                    }else{
+                        layer.msg(ret.message);
+                    }
+                });
+            })
+        }
+        upload_img_format();
+        //添加banner轮播图js；
+        function banner_add(){
+            $("#banner_add").click(function(){
+                //var j = $(this).siblings('.banner_list:last').attr('rel');
+                var j = $(this).siblings('.banner_list').length;
+                var k = parseInt(j)+1;
+                $("#banner_add").before('<div class="banner_list" rel="'+k+'"> <div class="img float-l"> <label> <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/> <input type="file" hidden="hidden" name="" class="uploadimg"> <input type="hidden" name="banner[thumb][]" class="file_img" value=""/> </label> <P>尺寸：960×480</P> </div> <div class="btn_box float-r"> <a href="javascript:;" class="del fa fa-times-circle"></a> </div> <div class="wx_box"> <table width="100%" border="0" cellspacing="0"> <tr> <td class="bt">标题：</td> <td><input type="text" name="banner[title][]" class="input w-200"></td></tr><tr> <td class="bt">跳转链接：</td> <td><input type="text" name="banner[link][]" class="input w-200" id="banner_adv_link_'+k+'"> <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#banner_adv_link_'+k+'/N/选择链接" class="button" width="mini:300"}></td></tr> </table> </div> </div>');
+                adv_del();
+                upload_img_format();
+            });
+        };
+        //删除banner轮播图js；
+        function adv_del(){
+            $(".banner_list .del").click(function(){
+                var h =  $(this);
+                layer.confirm('确认删除？', {
+                    btn: ['是','否'] //按钮
+                }, function(){
+                    h.parents(".banner_list").remove();
+                    layer.closeAll()
+                }, function(){
+                });
+            });
+        };
+        //删除广告；
+        adv_del();
+        //添加banner轮播图；
+        banner_add();
+        //点击出现线框；
+        function tuijian_add(){
+            $("#tuijian_add").click(function(){
+                //var j = $(this).siblings('.banner_list:last').attr('rel');
+                var j = $(this).siblings('.banner_list').length;
+                var k = parseInt(j)+1;
+                $("#tuijian_add").before(' <div class="banner_list" rel="'+k+'"> <div class="img float-l"> <label> <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/> <input type="file" hidden="hidden" name="" class="uploadimg"> <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/> </label> <P>尺寸：375×107</P> </div> <div class="btn_box float-r"> <a href="javascript:;" class="del fa fa-times-circle"></a> </div> <div class="wx_box"> <table width="100%" border="0" cellspacing="0"> <tr> <td class="bt">标题：</td> <td><input type="text" name="tuijian[title][]" class="input w-200"></td></tr><tr> <td class="bt">跳转链接：</td> <td><input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_'+k+'"> <{link ctl="adv/jifen:dialog" title="选择链接" select="mini:#tj_adv_link_'+k+'/N/选择链接" class="button" width="mini:300"}></td></tr> </table> </div> </div>');
+                tuijian_del();
+                upload_img_format();
+            });
+        }
+        function tuijian_del(){
+            $(".banner_list .del").click(function(){
+                var h =  $(this);
+                layer.confirm('确认删除？', {
+                    btn: ['是','否'] //按钮
+                }, function(){
+                    h.parents(".banner_list").remove();
+                    layer.closeAll()
+                }, function(){
+                });
+            });
+        }
+        tuijian_add();
+        tuijian_del();
+        $(".line_box").each(function(index){
+            $(this).click(function(){
+                $(".line_box").removeClass("on");
+                $(this).addClass("on");
+                $(".appAdvSet_box_r .change_list").eq(index).show().siblings().hide();
+            });
+        });
+    });
+    $('.appAdvSet_submit').on('click',function(){
+        $('#my_form').submit();
+    })
+</script>
+<script src="http://cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.jifenMall .take-out_banner .swiper-container', {
+        pagination: '.jifenMall .take-out_banner .swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: 2000
+    });
+</script>
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.change_list_banner').sortable();
+    });
+</script>
+<{include file="admin:common/footer.html"}>

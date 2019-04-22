@@ -1,0 +1,55 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .page-data{margin: 0px;}
+    .page-data .table{border-spacing: 0; border-collapse: collapse;}
+    .page-data .table th{text-align: center; border: 1px solid #e6e6e6;}
+    .page-data .table td{text-align: center;}
+</style>
+<div class="page-data">
+    <div class="mgb10">
+        <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+                <th>日期</th>
+                <th>骑手名</th>
+                <th>骑手手机</th>
+                <th>骑手等级</th>
+                <th>补贴订单数</th>
+                <th>补贴金额</th>
+                <th>操作</th>
+            </tr>
+            <tr>
+                <td>总计</td>
+                <td>----</td>
+                <td>----</td>
+                <td>----</td>
+                <td><{$count_amount|default:0}></td>
+                <td><{$sum_amount|default:0}></td>
+                <td>----</td>
+            </tr>
+            <{foreach $items as $k=>$v}>
+            <tr>
+                <td><{$v.day}></td>
+                <td><{$v.staff.name}></td>
+                <td><{$v.staff.mobile}></td>
+                <td><{$v.staff.level.title|default:"暂未绑定"}></td>
+                <td><{$v.count}></td>
+                <td><{$v.amount}></td>
+                <td><{link ctl="subsidy/staff:detail" target="admin_main" arg0="<{$v.staff_id}>" arg1="<{$v.day}>" priv='hide' title="详情" class="button"}></td>
+            </tr>
+            <{/foreach}>
+        </table>
+    </div>
+    <div class="page-bar">
+
+        <table>
+            <tbody>
+            <tr>
+                <td class="page-list" colspan="10"><{$pager.pagebar}></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<{include file="admin:common/footer.html"}>

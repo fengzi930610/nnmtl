@@ -1,0 +1,76 @@
+<{include file="admin:common/header.html"}>
+<style>
+    .page-data .form td img{margin: 0px;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <{link ctl="finance/mall:shop" args=$weidian.shop_id priv="hidden" class="button" title="商家对账"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tbody>
+            <tr>
+                <th>商家名称：</th>
+                <td><p><{$weidian.title}></p></td>
+            </tr>
+            <tr>
+                <th>店铺logo：</th>
+                <td>
+                    <div>
+                        <div class="square_img_area float-l mr10">
+                            <div class="img"><img width="150" height="150" src="<{$pager.img}>/<{$weidian.logo}>"></div>
+                        </div>
+                        <div class="clear-both"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+	<div class="enterInfo_step_tit mb10">
+        <h2 class="float-l blue"><{$bills.bills_sn}>订单明细</h2>
+    </div>
+    <div class="finance_ord_delt mb10">
+    	<table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>平台佣金</th>
+            </tr>
+            <tr>
+                <td><p class="orange">+<{$bills.fee}></p></td>
+            </tr>
+        </table>
+
+    </div>
+    <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <th>订单编号</th>
+            <th>入账状态</th>
+            <th>在线支付</th>
+            <th>商家应得</th>
+            <th>平台佣金</th>
+            <th>退款金额</th>
+            <th>佣金比例</th>
+            <th>创建时间</th>
+        </tr>
+        <{foreach $items as $k => $v}>
+        <tr>
+            <td><{$v.bills_number}></td>
+            <td><{if $v.status == 0}><span style="color:#fd0202;">未入账</span><{/if}><{if $v.status == 1}><span style="color:#00bd9e;">已入账</span><{/if}></td>
+            <td><{$v.amount+$v.fee+$v.tuikuan}></td>
+            <td><{$v.amount}></td>
+            <td>+<{$v.fee}></td>
+            <td><{$v.tuikuan}></td>
+            <td><{$weidian.weidian_bl}>%</td>
+            <td><{$v.dateline|format}></td>
+        </tr>
+        <{/foreach}>
+    </table>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,34 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<ul>
+		<a href="<{link ctl='biz/shop/member:index'}>" class="on">我的客户</a>
+		<a href="<{link ctl='biz/shop/member:fans'}>">我的粉丝</a>
+	</ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50">客户ID</th>
+        <th class="w-150">昵称</th>
+        <th class="w-300">手机号</th>
+        <th class="w-100">图像</th>
+        <th>最后登录时间</th>
+        <th>操作</th>
+    </tr>
+    <{foreach $members as $item}>
+    <tr>
+        <td><{$item.uid}></td>       
+        <td><{$item['nickname']}></td>
+        <td><{$item['mobile']}></td>
+        <td><img src="<{$pager.img}>/<{$item['face']}>" class="wh-50" /></td>
+        <td><{$item['lastlogin']|format}></td>
+        <td><a href="<{link ctl='biz/shop/member:detail' arg0=$item.uid}>" class="btn btn-success" title="查看">查看</a></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

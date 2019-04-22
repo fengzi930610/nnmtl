@@ -1,0 +1,171 @@
+<{assign var="page_title" value="首页"}>
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top.html"}>
+<div class="topNav">
+    <div class="line"><!--勿删--></div>
+    <div class="pagewd">
+        <div class="topNav_menu_all fl">
+            <div class="bt">所有店铺分类</div>
+            <div class="topNav_menu">
+                <{include file="pchome/block/cate_nav.html"}>
+            </div>
+        </div>
+        <div class="topNav_nav fl">
+            <ul id="cate_nav">
+                <{adv name="PC首页功能"}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="shangcheng-xiangqing">
+    <div class="pagewd">
+        <div class="sm-tip">首页&gt;积分商城&gt;积分商城详情</div>
+        <div class="caozuo-box">
+            <div class="pic fl"><img src="<{$pager.img}>/<{$detail.photo}>"></div>
+            <div class="txt border_b">
+                <h5><a href="#"><{$detail.title}></a></h5>
+                <div class="tip">
+                    <div class="jifen fl">积分：<div class="xiangqing-jifen"><{$detail.jifen}>积分</div></div>
+                    <p class="num black6 fl">剩余数量：<{$detail.sku}></p>
+                    <p class="share fr">分享到<i></i></p>
+                </div>
+                <p class="price black6 ">换购价：<span>￥<span class="xiangqing-danjia"><{$detail.price}></span></span></p>
+                <div class="number">
+                    <span class="fl">数量：</span>
+                    <i class="jian reduces" pid="<{$detail.product_id}>" quantity="-">-</i>
+                    <input type="text" class="text_box" readonly value="<{$this_count|default:'0'}>">
+                    <i class="jia adds" pid="<{$detail.product_id}>" quantity="+">+</i>
+                </div>
+            </div>
+            <div class="abtn">
+                <a href="javascript:void(0);" class="btn fl btn-duihuan"  pid="<{$detail.product_id}>" type="1">立即兑换</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="tuwen fl articleBox">
+            <div class="title border_b maincl">
+                图文详情
+            </div>
+            <div class="detail">
+                <p><{$detail.info}></p>
+            </div>
+        </div>
+        <div class="jilu fr">
+            <div class="title border_b">推荐商品</div>
+            <ul class="shangcheng-dingdan-content">
+                <{foreach $other as $k => $v}>
+                <li>
+                    <div class="jifen"><{$v.jifen}>积分</div>
+                    <a class="pic" href="<{link ctl='mall/detail' arg0=$v.product_id}>"><img src="<{$pager.img}>/<{$v.photo}>"></a>
+                    <div class="txt">
+                        <p class="tit"><a href="<{link ctl='mall/detail' arg0=$v.product_id}>"><{$v.title}></a></p>
+                        <p class="black6">支付<span>￥<{$v.price}></span><i class="adds" pid="<{$v.product_id}>" type="2"></i></p>
+                    </div>
+                </li>
+                <{/foreach}>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        function sc_add_to_cart(obj) {
+            var pid = obj.attr('pid');
+            var link = "<{link ctl='mall:addcart'}>";
+            var type = obj.attr('type');
+            $.post(link, {pid: pid}, function (ret) {
+                if (ret.error == 0) {
+                    $('#total_count').html(ret.data.count);
+                    $('#total_price').html("￥" + ret.data.price);
+                    $('#total_jifen').html(ret.data.jifen + "<span class='black9'>分</span>");
+                    var val = $('.text_box').val();
+                    val = parseInt(val, 10) + 1;
+                    $('.text_box').attr('value', val);
+                    $('#choose').css("display", "block");
+                    $('.cartAdd_btn').css("display", "none");
+                    $('.top_cart_num').html(ret.data.count);
+                    if(type == 1){
+                        layer.msg('兑换成功!');
+                        setTimeout(function(){
+                            window.location.href="<{link ctl='mall/cart'}>";
+                        },1500);
+                    }
+                    if(type == 2){
+                        layer.msg('加入购物车成功!');
+                    }
+                } else if (ret.error == 101) {
+                    layer.msg(ret.message);
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport/login'}>";
+                    }, 2000);
+                } else {
+                    layer.msg(ret.message);
+                }
+            }, 'json');
+        }
+        $('.adds').click(function () {
+            sc_add_to_cart($(this));
+        });
+        $('.btn-duihuan').click(function(){
+            sc_add_to_cart($(this));
+        })
+
+        $('.reduces').click(function () {
+            var pid = $(this).attr('pid');
+            var link = "<{link ctl='mall:addcart'}>";
+            var val = $('.text_box').val();
+            val = parseInt(val, 10) - 1;
+            if (val < 0) {
+
+            } else {
+                $.post(link, {pid: pid, reduce: 1}, function (ret) {
+                    if (ret.error == 0 || ret.error == 244) {
+                        $('#total_count').html(ret.data.count);
+                        $('#total_price').html("￥" + ret.data.price);
+                        $('#total_jifen').html(ret.data.jifen + "<span class='black9'>分</span>");
+                        $('.text_box').attr('value', val);
+                        $('.top_cart_num').html(ret.data.count);
+                    } else if (ret.error == 101) {
+                        layer.msg(ret.message);
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='passport/login'}>";
+                        }, 2000);
+                    } else {
+                        layer.msg(ret.message);
+                    }
+                }, 'json');
+
+                if (val == 0) {
+                    $('#choose').css("display", "none");
+                    $('.cartAdd_btn').css("display", "block");
+                }
+            }
+        });
+
+        // 商城详情数量变化
+        var $xq_jian = $('.shangcheng-xiangqing .caozuo-box .number .jian')
+        var $xq_jia = $('.shangcheng-xiangqing .caozuo-box .number .jia')
+        var $xq_num = $('.shangcheng-xiangqing .caozuo-box .number input')
+        $xq_jian.click(function () {
+            var $xq_num = $(this).parent('.number').find('input');
+            $xq_num.val($xq_num.val() - 1)
+            if ($xq_num.val() < 0) {
+                $xq_num.val(0)
+            }
+        });
+        $xq_jia.click(function () {
+            var $xq_num = $(this).parent('.number').find('input');
+            $xq_num.val(parseInt($xq_num.val()) + 1)
+        });
+
+
+    })
+</script>
+<div class='clear'></div>
+<{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

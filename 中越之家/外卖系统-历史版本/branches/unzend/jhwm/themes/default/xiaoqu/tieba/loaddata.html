@@ -1,0 +1,87 @@
+<{foreach $list as $k => $v}>
+
+        <div class="card border_b">
+
+            <div class="card-header">
+
+                <div>
+
+                    <a href="<{link ctl='xiaoqu/tieba/detail' arg1=$v.tieba_id}>" class="fl img"><img src="<{$pager.img}>/<{$v.face}>"/></a>
+
+                    <div class="wz">
+
+                        <div class="name"><{$v.nickname}></div>
+
+                        <p class="time black9"><{$v.dateline|format}></p>
+
+                    </div>
+
+                    <div class="cl"></div>
+
+                </div>
+
+                <{if $v.from == 'trade'}>
+
+                <div class="price">￥<{$v.price}></div>
+
+                <{/if}>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-content-inner">
+
+                    <a href="<{link ctl='xiaoqu/tieba/detail' arg1=$v.tieba_id}>">
+
+                        <div class="tit">
+
+                            <span class="mr10 <{if $v.from== 'trade'}>bgColor<{/if}>"><{if $v.from == 'topic'}>二手<{else}>邻里圈<{/if}></span><{$v.title}>！
+
+                        </div>
+
+                        <div class="linliQuan_pic">
+
+                            <ul>
+
+                                <{foreach $v.photos as $k1 =>$v1}>
+
+                                <li class="pic_list">
+
+                                    <div class="box"><img src="<{$pager.img}>/<{$v1}>"/></div>
+
+                                </li>
+
+                                <{/foreach}>
+
+                            </ul>
+
+                            <div class="cl"></div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+
+                <div class="left"><i class="ico"></i><{$v.xiaoqu.title}></div>
+
+                <div class="right">
+
+                    <a><i class="ico ico1"></i><{$v.views}></a>
+
+                    <a id="<{$v.tieba_id}>" class="goods"><i class="ico ico2"></i><span><{$v.likes}></span></a>
+
+                    <a href="<{link ctl='xiaoqu/tieba/detail' arg1=$v.tieba_id}>"><i class="ico ico3"></i><{$v.replys}></a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+<{/foreach}>

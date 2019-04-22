@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link type="text/css" rel="stylesheet" href="/themes/default/mobile/static/css/public.css?<{$VER}>" />
+<script type="text/javascript"  src="/static/script/kt.j.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<title><{$CONFIG.site.title}>-扫码领取卡劵</title>
+<style type="text/css">
+.cardcont { margin-bottom:10px; }
+.cardcont_top { background:#01af63; padding:20px; color:#fff; font-size:14px; }
+.cardcont_top h2{ color:#fff; font-size:18px;}
+.cardcont_bot { text-align:center; border-bottom:1px solid #ddd; width:80%; padding:10px 10%; background:#fff; margin:0px auto; }
+.cardcont_bot .btn { display:inline-block; height:40px; line-height:40px; width:50%; background:#ff6600; font-size:14px; margin:10px 0px; }
+.cardintro { border-top:1px solid #ddd; background:#fff; }
+.cardintro p { border-bottom:1px solid #ddd; padding:10px; line-height:24px; font-size:14px; color:#333; }
+.footer { text-align:center; border-top:1px solid #ddd; line-height:50px; margin-top:20px; font-size:16px; background:#fff; }
+.header { border-bottom:2px solid #01AF63; padding:20px 0px; }
+/*.
+.tips .icn { font-size:14px; top:-4px; }
+.forg { color:#ff6600; }
+.farial { font-family:Arial, Helvetica, sans-serif; }
+.tips { font:20px/50px 'Microsoft Yahei'; margin:12px 0 30px; }
+.tips i { position:relative; top:-6px; }
+.cardcont { width:98%; padding:0px 1%; }
+.cardcont h3 { font-size:18px; }
+.cardcont .cardbox { border:1px solid #eee; border-radius:5px; position:relative; }
+.cardcont .cardbox .ltbox { width:30%; background:#f0f0f0; border-bottom:1px dotted #ccc; padding:10px; }
+.cardcont .cardbox .rthox { width:63%; position:absolute; right:-5px; top:10px; }
+.cardcont .cardbox p,
+.cardcont .cardbox h3 { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:24px; }
+*/
+</style>
+</head>
+<body style=" background:#F0EFED;">
+<div class="cardcont">
+	<div class="cardcont_top">
+		<div class="header"><img src="<{if $CONFIG.site.logo}><{$pager.img}>/<{$CONFIG.site.logo}><{else}>/themes/default/static/images/cardLogo.png<{/if}>" class="logo" style=" max-width:100%; height:auto;"/></div>
+		<h2><{$detail.title}></h2>
+		<p>有效期至：2015年10月1日</p>
+		<p>商家：<{$detail.brand_name}></p>
+		<{if $detail.card_type == 'DISCOUNT'}>
+		<p>类型：折扣券</p>
+		<{elseif $detail.card_type == 'GIFT'}>
+		<p>类型：礼品券</p>
+		<{elseif $detail.card_type == 'CASH'}>
+		<p>类型：代金券</p>
+		<{elseif $detail.card_type == 'GENERAL_COUPON'}>
+		<p>类型：通用券</p>
+		<{elseif $detail.card_type == 'GROUPON'}>
+		<p>类型：团购券</p>
+		<{else}>
+		<p>类型：其他</p>
+		<{/if}> </div>
+	<div class="cardcont_bot"> <img  src="<{$codeurl}>" style=" width:100%; height:auto;"/> <{if $detail.status  == 'CARD_STATUS_NOT_VERIFY'}>
+		<p>待审核</p>
+		<{elseif $detail.status  == 'CARD_STATUS_VERIFY_FAIL'}>
+		<p>审核失败</p>
+		<{elseif $detail.status  == 'CARD_STATUS_VERIFY_OK'}>
+		<p>通过审核</p>
+		<{elseif $detail.status  == 'CARD_STATUS_DELETE'}>
+		<p>卡券被商户删除</p>
+		<{elseif $detail.status  == 'CARD_STATUS_USER_DISPATCH'}>
+		<p>在公众平台投放过的卡券 </p>
+		<{/if}> 
+		
+		<a onclick="addCard('<{$detail.id}>')" class="btn">立即领取</a> 
+		
+		</div>
+</div>
+<input type = 'hidden' id='ext' value='<{$detail.wxjscfg.ext}>'>
+<div class="cardintro">
+	<p>优惠：<{$detail.sub_title}></p>
+	<p>详情：<{$detail.notice}><{$detail.service_phone}><{$detail.description}></p>
+</div>
+<div class="footer"><{$CONFIG.site.title}></div>
+</body>
+
+<script type="text/javascript">
+	  wx.config({
+		  debug: false,
+		  appId: '<{$wxjscfg.appId}>',
+		  timestamp: <{$wxjscfg.timestamp}>,
+		  nonceStr: '<{$wxjscfg.nonceStr}>',
+		  signature: '<{$wxjscfg.signature}>',
+		  jsApiList: [
+			'checkJsApi',
+			'addCard',
+			'chooseCard',
+			'openCard'
+		  ]
+	  });
+
+function addCard(card_id){
+	var e = $('#ext').val();
+    wx.addCard({
+        cardList: [{
+            cardId: card_id,
+            cardExt: e,
+        }], // 需要添加的卡券列表
+        success: function (res) {
+            var cardList = res.cardList; // 添加的卡券列表信息
+        }
+    });
+}
+	</script>
+
+</html>

@@ -1,0 +1,41 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-automatic.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="automatic" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+
+<tr>
+	<th>超时未支付：</th>
+	<td><input type="text" name="config[unpay_cancel_time]" value="<{$config.unpay_cancel_time|default:'15'}>" class="input w-100"/><span class="tip-comment">超时未支付的自动取消时间(分钟)</span></td>
+	</tr>
+<tr>
+	<th>自动结算时间：</th>
+	<td>
+		<input type="text" name="config[auto_comfirm_time]" value="<{$config.auto_comfirm_time|default:'180'}>" class="input w-100"/>
+		<span class="tip-comment">超时未确认自动结算时间(分钟)</span>
+	</td>
+</tr>
+<tr>
+	<th>超时未接单：</th>
+	<td><input type="text" name="config[unjiedan_cancel_time]" value="<{$config.unjiedan_cancel_time|default:'15'}>" class="input w-100"/><span class="tip-comment">商户未接单自动取消时间(分钟)</span>
+	</td>
+</tr>
+	<tr>
+		<th>用户申请退款，未处理自动同意：</th>
+		<td><input type="text" name="config[untreated_agree_time]" value="<{$config.untreated_agree_time|default:'720'}>" class="input w-100"/><span class="tip-comment">用户申请退款，未处理系统自动同意退款（分钟）：</span>
+		</td>
+	</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+
+<{include file="admin:common/footer.html"}>

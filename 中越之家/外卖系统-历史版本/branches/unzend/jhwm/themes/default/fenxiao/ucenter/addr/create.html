@@ -1,0 +1,92 @@
+<{include file="fenxiao/block/header.html"}>
+<div>
+    <form id="form_post" method="post">
+        <div class="pad10 bgcolor_white address-edit border_b"><input type="text" name="data[contact]" class="" value="" placeholder="姓名"  id="nickname"></div>
+        <div class="pad10 bgcolor_white address-edit border_b"><input type="text" name="data[mobile]" class="" placeholder="联系电话"  id="mobile"></div>
+        <div class="xinxi-gai pad10 bgcolor_white border_b diqu" id="map">
+            <input type="text" name="data[addr]" id="addr" placeholder="省、市、区、乡镇/街道" value="<{$o_addr}>" class="inpu1" style="width:80%;"><i class="jt-icon"></i>
+        </div>
+        <input type="hidden" id="lng" name="data[lng]" value="<{$lng}>">
+        <input type="hidden" id="lat" name="data[lat]" value="<{$lat}>">
+        <div class="pad10 bgcolor_white address-edit border_b"><input type="text" id="house" name="data[house]" class="" placeholder="详细地址"></div>
+        <div class="xinxi-gai pad10 mt10 bgcolor_white diqu">
+            <span class="font_size14">设置为默认地址</span><span class="yuan-icon-green"><input type="hidden" id="is_default" name="data[is_default]" value="0"><i class="quan-icon-green"></i></span>
+        </div>
+    </form>
+</div>
+<div class="dizhi-add-new"><a href="javascript:void(0);" class="long_btn">保存</a></div>
+<!--设为默认地址-->
+<script>
+    var search = decodeURIComponent(location.search);
+    if (search != '') {
+        search = search.substring(1, search.length);
+        search = search.split('&');
+        for (i in search) {
+            kv = search[i].split('=');
+            search[kv[0]] = kv[1];
+            delete search[i];
+        }
+        if (search['o_addr'] && search['o_lng'] && search['o_lat']) {
+            $("#lng").val(search['o_lng']);
+            $("#lat").val(search['o_lat']);
+            $("#addr").val(search['o_addr']);
+        }
+    }
+    $(document).ready(function () {
+        $("#map").click(function () {
+            var link = "<{link ctl='ucenter/addr:map'}>";
+            localStorage['back_addr'] = JSON.stringify({"backurl": window.location.href});
+            window.location.href = link;
+        })
+        $(".yuan-icon-green").click(function () {
+            if ($(this).hasClass("on")) {
+                $(this).removeClass("on");
+                $('#is_default').val('0');
+            } else {
+                $(this).addClass("on");
+                $('#is_default').val('1');
+            }
+        });
+
+        //读取信息开始
+        var addr_nickname = localStorage.getItem('addr_nickname');
+        if (addr_nickname) {
+            $('#nickname').val(addr_nickname);
+        }
+        var addr_mobile = localStorage.getItem('addr_mobile');
+        if (addr_mobile) {
+            $('#mobile').val(addr_mobile);
+        }
+        //读取信息结束
+        //存储信息开始
+        $('#nickname').blur(function () {
+            localStorage.setItem('addr_nickname', $(this).val());
+        })
+        $('#mobile').blur(function () {
+            localStorage.setItem('addr_mobile', $(this).val());
+        })
+        //存储信息结束
+    });
+    $(".long_btn").click(function(){
+        var link = "<{link ctl='ucenter/addr:create'}>";
+        $.post(link, $('#form_post').serialize(), function (ret) {
+            if (ret.error == 0) {
+                layer.open({
+                    content: ret.message,
+                    time: 2 //2秒后自动关闭
+                });
+                setTimeout(function () {
+                    window.location.href = "<{link ctl='ucenter/addr'}>";
+                }, 1000)
+                BtnCount();
+            } else {
+                layer.open({
+                    content: ret.message,
+                    time: 2 //2秒后自动关闭
+                });
+                return;
+            }
+        },'json');
+    });
+</script>
+<{include file="fenxiao/block/footer.html"}>

@@ -1,0 +1,48 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<ul id='tab_1'>
+		<a href="<{link ctl='ditui/msg:order'}>" ><{L('订单消息')}> </a>
+		<a href="<{link ctl='ditui/msg:comment'}>" ><{L('评价消息')}> </a>
+		<a href="<{link ctl='ditui/msg:complain'}>" ><{L('投诉消息')}> </a>
+		<a href="<{link ctl='ditui/msg:system'}>" ><{L('系统消息')}> </a>
+	</ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr class="alt">
+        <th class="w-100"><{L('是否新消息')}> </th>
+	    <th class="w-100"><{L('标题')}> </th>
+	    <th class="w-100"><{L('内容')}> </th>
+	    <th class="w-150"><{L('时间')}> </th>
+	    <th class="w-150"><{L('操作')}> </th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{if $item.is_read==0}><{L('新消息')}> <{elseif $item.is_read==1}><{L('已读')}> <{else}><{/if}></td>   
+        <td><{$item.title}></td>         
+        <td><{$item.content}></td>
+        <td><{$item.dateline|format:'Y-m-d H:i'}></td>
+        <td><a href="<{link ctl='ditui/order:detail' args=$item.order_id}>" onclick="sendmsgid(<{$item.msg_id}>);" class="btn btn-success" title="<{L('查看')}> "><{L('查看')}> </a></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info"><{L('暂无系统消息')}> </div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="ditui/block/footer.html"}>
+
+<script>
+ $("#tab_1 a").each(function(){  
+    $this = $(this);  
+    if($this[0].href==String(window.location)){  
+        $this.addClass("on");  
+    }  
+});  
+
+function sendmsgid(msg_id) {
+    localStorage['ditui_msg_id'] = msg_id;
+}
+
+</script>

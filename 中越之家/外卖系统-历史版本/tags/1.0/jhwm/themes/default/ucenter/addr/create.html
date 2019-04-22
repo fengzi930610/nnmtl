@@ -1,0 +1,155 @@
+<{assign var='tpl_title' value='新增收货地址'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="javascript:void(0);" id="back" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	新增地址 <!--修改信息-->
+    </div>
+</header>
+
+<section class="page_center_box">
+ 	<div>
+    	<form>
+        <table class="serveAddr_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="74"><p class="bt ml10">联系人</p></td>
+                <td class="pad_r10"><input type="text" placeholder="请输入姓名" id="nickname"></td>
+            </tr>
+            <tr>
+                <td width="74"><p class="bt ml10">手机号</p></td>
+                <td class="pad_r10"><input type="text" placeholder="请输入手机号" id="mobile"></td>
+            </tr>
+            <tr id="addr_map">
+                <td width="74"><p class="bt ml10">地址</p></td>
+                <td class="pad_r10">
+	                <div class="serveAddr_link_box">
+	                	<input type="text" placeholder="请输入小区，大厦" id="addr"  value="<{$addr}>" readonly="readonly">
+                        <!-- <{if isset($_GET['o_addr'])}>value="<{$_GET['o_addr']}>"<{/if}> -->
+
+	                	<span class="serveAddr_link"></span>
+	                </div>
+                </td>
+				<input type="hidden" id="lng" value = "<{$lng}>">
+                <input type="hidden" id="lat" value = "<{$lat}>">
+            </tr>
+            <tr>
+                <td width="74"><p class="bt ml10">详细地址</p></td>
+                <td class="pad_r10"><input type="text" placeholder="请输入具体楼栋门牌号" id="house"></td>
+            </tr>
+        </table>
+        <div>
+            <p class="black9 pad_l10 pad_r10 font_line24 mt10">非必填选项</p>
+            <ul class="serveAddr_posit clear_both">
+                <li class="list"><label class="radioLabel"><span class="radioInt"><input type="radio" value="1"></span></label>公司</li>
+                <li class="list"><label class="radioLabel"><span class="radioInt"><input type="radio" value="2"></span></label>家</li>
+                <li class="list"><label class="radioLabel"><span class="radioInt"><input type="radio" value="3"></span></label>学校</li>
+                <li class="list"><label class="radioLabel"><span class="radioInt"><input type="radio" value="4"></span></label>其他</li>
+				<input type="hidden" id="type">
+            </ul>
+        </div>
+		<div class="btn_box mt10"><input type="button" class="long_btn" value="确认添加"></div>
+        </form>
+    </div>
+</section>
+<{include file="block/sfooter.html"}>
+
+<script type="text/javascript">
+var search = decodeURIComponent(location.search);
+if(search != ''){
+	search = search.substring(1, search.length);
+	search = search.split('&');
+	for(i in search){
+		kv = search[i].split('=');
+		search[kv[0]] = kv[1];
+		delete search[i];
+	}
+	if(search['o_addr'] && search['o_lng'] && search['o_lat']){
+		$("#lng").val(search['o_lng']);
+		$("#lat").val(search['o_lat']);
+		$("#addr").val(search['o_addr']);
+	}
+}
+
+$(document).ready(function() {
+    /*单选项选择开始*/
+	$('.radioLabel').click(function(){
+                $('#type').val($(this).find("input").val());
+		$('.radioInt').removeClass('on');
+		$(this).find('.radioInt').addClass('on');
+	});
+	/*单选项选择结束*/
+        $('#back').click(function(){
+            history.back(-1);
+        })
+
+        //读取信息开始
+            var addr_nickname = localStorage.getItem('addr_nickname');
+            if(addr_nickname){$('#nickname').val(addr_nickname);}
+            var addr_mobile = localStorage.getItem('addr_mobile');
+            if(addr_mobile){$('#mobile').val(addr_mobile);}
+        //读取信息结束
+
+
+        //存储信息开始
+            $('#nickname').blur(function(){
+                localStorage.setItem('addr_nickname',$(this).val());
+            })
+            $('#mobile').blur(function(){
+                localStorage.setItem('addr_mobile',$(this).val());
+            })
+        //存储信息结束
+});
+$(".long_btn").click(function(){
+	var contact = $('#nickname').val();
+	var mobile   = $('#mobile').val();
+	var house    = $('#house').val();
+	var addr     = $('#addr').val();
+	var type     = $('#type').val();
+	var lng      = $('#lng').val();
+	var lat      = $('#lat').val();
+        var from = "<{$from}>";
+
+        var waimai_back = localStorage.getItem('waimai_back');
+
+        if(from){
+            var link = "<{link ctl='ucenter/addr:create' arg1=$from arg2=$cate_id}>";
+        }else{
+            var link = "<{link ctl='ucenter/addr:create'}>";
+        }
+	$.post(link,{contact:contact, mobile:mobile, house:house, addr:addr, type:type, lng:lng, lat:lat},function(ret){
+            if (ret.error == 0) {
+                layer.open({
+                    content: ret.message,
+                    time: 2 //2秒后自动关闭
+                });
+                setTimeout(function(){
+
+                    if(waimai_back){
+                        localStorage.removeItem('waimai_back');
+                        var link1 = "<{link ctl='waimai/order:order' arg1=__waimai_back}>";
+                        link = link1.replace('__waimai_back',waimai_back);
+                        window.location.href=link;
+                    }else{
+                        window.location.href=ret.forward;
+                    }
+
+                },1000)
+                BtnCount();
+            } else {
+                layer.open({
+                    content: ret.message,
+                    time: 2 //2秒后自动关闭
+                });
+                return ;
+            }
+	}, 'json');
+});
+
+
+$("#addr_map").click(function(){
+    var link = "<{link ctl='ucenter/addr/add_map'}>";
+    localStorage['back_addr'] = JSON.stringify({"backurl":window.location.href});
+    window.location.href=link;
+})
+</script>
+<{include file="block/footer.html"}>

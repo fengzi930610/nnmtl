@@ -1,0 +1,115 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/waimai/order:index'}>">订单列表</a>
+        <a href="javascript:;" class="on">订单详情</a>
+    </ul>
+</div>     
+<div class="ucenter_c">
+<table cellspacing="0" cellpadding="0" class="table">
+        <tr>
+            <th>订单ID：</th><td class="w-300"><{$detail.order_id}></td>
+            <th>用户：</th><td><{$member.nickname}></td>
+        </tr>
+        <tr>
+            <th>商家：</th><td><span class="red"><{$shop.title}></span></td>
+            <th>商品总价：</th><td><{$detail.product_price}></td>
+        </tr>
+        <tr><th>商品数量：</th><td><{$detail.product_number}></td><th>打包费：</th><td><{$detail.package_price}></td></tr>
+        <tr><th>运费：</th><td><{$detail.freight}></td><th>使用余额支付：</th><td><{$detail.money}></td></tr>
+        <tr><th><{$pay_method}>：</th><td><{$detail.amount}></td><th>订单优惠：</th><td><{$detail.order_youhui}></td></tr> 
+        <tr><th>首单优惠：</th><td><{$detail.first_youhui}></td><th>使用红包：</th><td><{if $detail.hongbao_id>0}><{$detail.hongbao}>(ID:<{$detail.hongbao_id}>)<{else}>无<{/if}></td></tr>
+        <tr>
+            <th>经纬度：</th><td>经度：<{$detail.lng}>纬度：<{$detail.lat}></td>
+            <th>地址：</th><td><span class="green"><{$detail.addr}>，<{$detail.house}>(<{$detail.contact}>,<{$detail.mobile}>)</span></td>
+        </tr>
+        <tr><th>期望送达时间：</th><td><{if $detail.pei_time==0}>尽快送达<{else}><{$detail.pei_time|format:'Y-m-d H:i'}><{/if}></td><th>备注：</th><td><{$detail.note|default:'无'}></td></tr>
+        <tr><th>订单状态：</th><td><span class="red"><{$detail['order_status_label']}></span></td><th>支付状态：</th><td><span class="green"><{if $detail.pay_status==1}>已支付<{else}>未支付<{/if}></span></td></tr>
+        <tr><th>是否在线支付：</th><td><{if $detail.online_pay==1}>在线支付<{else}>餐到付款<{/if}></td><th>支付方式：</th><td><{$payments[$detail['pay_type']]|default:'无'}></td></tr>
+        <tr><th>支付IP：</th><td><{$detail.pay_ip|default:'无'}></td><th>支付时间：</th><td><{$detail.pay_time|format:'Y-m-d H:i:s'}></td></tr>
+        <tr>
+            <th>配送类型：</th><td><{if $detail.pei_type==0}>商家自主配送<{elseif $detail.pei_type==1}>第三方配送<{else}>代购送<{/if}></td>
+            <th>配送员：</th>
+                <td>
+                    <{if $detail.pei_type==0}>
+                        商家自主配送
+                    <{elseif $detail.pei_type==3}>
+                        到店自提
+                    <{else}>
+                        <{if $detail.staff_id>0}>
+                            <{$detail.staff.name}>(<{$detail.staff.mobile}>)
+                        <{else}>
+                            配送员未接单
+                        <{/if}>
+                    <{/if}>
+                </td>
+            </tr>
+        <tr><th>配送费用：</th><td><{$detail.pei_amount}></td><th>评论状态：</th><td><{if $detail.comments_status==1}>已点评<{else}>未点评<{/if}></td></tr>
+        <tr>
+            <th>最后催单时间：</th><td><{if $detail.cui_time}><{$detail.cui_time|format}><{else}>--<{/if}></td>
+            <th>下单时间：</th><td><{$detail.dateline|format:'Y-m-d H:i:s'}></td></td>
+        </tr>
+        <tr><td colspan="10" class="h-10"></td></tr>
+</table>
+<table width="100%" border="0" cellspacing="0" class="table-data table">
+<tr>
+    <th class="w-100">商品ID</th>
+    <th class="w-50">商品名称</th>
+    <th class="w-50">单价</th>
+    <th class="w-50">打包费</th>
+    <th class="w-100">数量</th>
+    <th class="w-100">小计</th>
+</tr>
+<{foreach $product_list as $v}>
+<tr>
+    <td>ID:<{$v.product_id}></td>
+    <td><{$v['product_name']}></td>
+    <td>￥<{$v['product_price']}></td>
+    <td>￥<{$v['package_price']}></td>
+    <td>X<{$v['product_number']}></td>
+    <td>￥<{$v['amount']}></td>
+</tr>
+<{/foreach}>
+</table>                            
+<table width="100%" border="0" cellspacing="0" class="table-data table">
+<tr>
+    <th class="w-100">日志编号</th>
+    <th>日志</th>
+    <th class="w-180">时间</th>
+</tr>
+<{foreach $log_list as $v}>
+<tr >
+    <td><{$v.log_id}></td>
+    <td><{$v.log}></td>
+    <td><{$v.dateline|format}></td>
+</tr>
+<{/foreach}>
+</table> 
+</div>
+<script>
+$(document).ready(function() {
+    var shop_msg_id = localStorage['shop_msg_id'];
+    setread(shop_msg_id);
+});
+
+function setread(shop_msg_id) {
+    var link = "<{link ctl='biz/msg:setread' arg0='temp'}>";
+    jQuery.ajax({
+        url: link.replace('temp', shop_msg_id),
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if (ret.error > 0) {
+                //Widget.MsgBox.success(ret.message);
+            } else {
+                //Widget.MsgBox.success(ret.message);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+      },
+    });
+}
+</script>
+<{include file="biz/block/footer.html"}>

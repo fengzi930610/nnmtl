@@ -1,0 +1,227 @@
+<{assign var='tpl_title' value=L("分类")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <!--头部搜索-->
+            <div class="topSerch_box pub_list">
+                <div class="pub_list_bd">
+                    <input type="search" value="<{$pager.title}>" class="int" id="idx_serch_container_show" placeholder="搜索商家、 商品"/>
+                </div>
+                <input type="button" value="" class="btn">
+            </div>
+            <!--头部搜索end-->
+            <div class="container_mid">
+            	<div class="goodsCate_cont_box">
+                	<!--左边分类菜单-->
+                    <div class="goodsCate">
+                        <ul>
+                            <{foreach $pcates as $cate}>
+                                <{if $cate.parent_id == 0}>
+                                <li <{if $cate_id}><{if $cate.cate_id == $cate_id}>class="on"<{/if}><{else}><{if $cate@index == 0}>class="on"<{/if}><{/if}> rel="<{$cate.cate_id}>" ><a class="black3" href="<{link ctl='cates/index/' arg0=$cate.cate_id http='waimai'}>"><{$cate.title}></a></li>
+                                <{/if}>
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                    <!--左边分类菜单end-->
+                    <!--左边分类内容-->
+                    <div class="goodsCate_cont">
+                            <div class="goodsCate_list">
+                                <{foreach $scates as $item}>
+                                    <div class="tit"><a class="black3" href="<{link ctl='product/index' cat_id=$item.cate_id http='waimai'}>"><{$item.title}></a></div>
+                                    <{if $item.children}>
+                                        <div class="list">
+                                            <ul>
+                                                <{foreach $item.children as $cat}>
+                                                    <{if $cat@index < 6}>
+                                                        <li>
+                                                            <a href="<{link ctl='product/index' cat_id=$cat.cate_id http='waimai'}>">
+                                                                <div class="img"><span><img src="<{$pager.img}>/<{$cat.photo}>"></span></div>
+                                                                <p><{$cat.title}></p>
+                                                            </a>
+                                                        </li>
+                                                    <{/if}>
+                                                <{/foreach}>
+                                            </ul>
+                                        </div>
+                                    <{/if}>
+                                <{/foreach}>
+                            </div>
+                    </div>
+                    <!--左边分类内容end-->
+                </div>
+            </div>
+            <{if !$from||$from == 0}>
+            <div class="footer_nav">
+
+                <a href="<{link ctl='index:index' http='waimai'}>" class="list">
+                    <i class="ico ico1"></i>
+                    <P>首页</P>
+                </a>
+                <a href="<{link ctl='shop/cart2' http='waimai'}>" class="list">
+                    <i class="ico ico3"></i>
+                    <P>购物车</P>
+                </a>
+                <a href="<{link ctl='ucenter/order/index' http='waimai'}>" class="list">
+                    <i class="ico ico4"></i>
+                    <P>订单</P>
+                </a>
+                <a href="<{link ctl='ucenter/member' http='waimai'}>" class="list">
+                    <i class="ico ico5"></i>
+                    <P>我的</P>
+                </a>
+            </div>
+            <script type="text/javascript">
+                //选中导航JS
+                var urlstr = location.href;
+                var urlstatus = false;
+                $('.footer_nav a ').each(function () {
+                    var index =  $('.footer_nav a ').index($(this));
+                    if($(this).attr('href')==urlstr||$(this).attr('href')==urlstr+'/index.html'){
+                        $('.footer_nav').children('a').eq(index).addClass('on');
+                    }
+                });
+                var sitruel = "<{$site.siteurl}>"+'/';
+                if(urlstr == sitruel){
+                    $('.footer_nav').children('a').eq(0).addClass('on');
+                }
+            </script>
+            <{/if}>
+        </div>
+    </div>
+</div>
+<!--搜索弹出-->
+<div class="container" id="idx_serch_container">
+    <div class="page js_show">
+    	<div class="page_cont coupons_sousuo-cont">
+                <div class="sousuo-box mt5 ml10 mr10">
+                    <input type="text" value="<{$pager.title}>" class="shuru-inp" id="souInput" placeholder="搜索商家、商品">
+                    <input type="button" class="sou-btn">
+                    <a href="javascript:" class="icon-cha" id="clearCha"></a> 
+                </div> 
+                <div class="container_mid">           	
+                    <div class="hot_sou">
+                        <div class="the-tit pub_list mb10">
+                            <div><i class="ico mr5"></i>热门搜索</div>
+                        </div> 
+                        <div class="sou-list1">
+                            <ul>
+                                <{foreach $hotwaimai as $item}>
+                                <li class="fl"><a href="<{link ctl='product/index' title=$item http='waimai'}>" class="sou-a"><{$item}></a></li>
+                                <{/foreach}>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>   
+                    </div>
+                    <div class="hot_sou">
+                        <div class="the-tit pub_list mb10">
+                            <div><i class="ico mr5 ico-history"></i>搜索历史</div>
+                            <a href="javascript:void(0);" class="clear-btn"><i class="ico mr5 clear-ico"></i>清除</a>
+                        </div> 
+                        <div class="sou-list2">
+                            <ul id="search_history">
+                                
+                            </ul>
+                        </div>   
+                    </div>                                         
+                </div>
+        </div>
+    </div>
+</div>
+<!--搜索弹出end-->
+<script>
+$(function(){
+    $("#souInput").on("input",function(){
+        if($(this).val().length!=0){
+           $("#clearCha").css("display","block"); 
+        }else{
+           $("#clearCha").css("display","none");
+        }
+    });
+     $("#clearCha").on("click",function(){
+            $(this).hide();
+            $("#souInput").val('');
+            $("#souInput").focus();
+    });
+});
+</script>
+<script>
+     //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+       /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                var url = "<{link ctl='index' http='waimai'}>";
+               window.location.href = url;
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    // 读取历史搜索记录
+    var html = "";
+    if(localStorage['search_history']) {
+        var str = localStorage['search_history'];
+        var strs = new Array();
+        var strs = str.split(",");  
+        strs = Unique(strs); //去重复元素
+        for (var i = strs.length - 1; i >= strs.length - 5; i--) {
+            if(strs[i] != undefined) {
+                var link = "/product/index.html?title="+encodeURIComponent(strs[i]);
+                html += '<li> <a class="sou-b" href="'+link+'">'+strs[i]+'</a> </li>';
+            }
+        }
+        $('#search_history').html(html);
+    }
+    
+    // 搜索事件
+    $(".sou-btn").click(function(){
+        var search_title = $('#souInput').val(); 
+        if(localStorage['search_history']) {
+            localStorage['search_history'] = localStorage['search_history'] + ',' +search_title;
+        }else {
+            localStorage['search_history'] = search_title;
+        }
+        var link = "<{link ctl='product/index' title='tmp' http='waimai'}>";
+        var link2 = "<{link ctl='shoplist/index' http='waimai'}>";
+        if(search_title){
+            window.location.href = link.replace('tmp',search_title);
+        }else{
+             window.location.href  = link2;
+        }
+        
+    });
+
+    // 清空输入
+    $("#clearCha").click(function(){
+        $('#souInput').val("");
+    });
+
+    // 清空搜索记录
+    $(".clear-btn").click(function(){
+        $('#souInput').val("");
+        localStorage.removeItem('search_history');
+        if(localStorage['search_history'] == undefined) {
+            $('#search_history').empty().html("");
+        }
+    });
+});
+
+    
+    
+    
+$(function(){
+    $("#idx_serch_container_show").click(function(){
+            $("#idx_serch_container").addClass("on");
+	});
+	$("#idx_serch_container .close_btn").click(function(){
+            $("#idx_serch_container").removeClass("on");
+	});
+});
+</script>
+<{include file="block/footer.html"}>

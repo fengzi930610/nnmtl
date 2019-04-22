@@ -1,0 +1,56 @@
+
+<div class="ucenter_c" style="width: 400px; height: 200px; min-height:0px;">
+    <form action="<{link ctl='biz/waimai/order:setspend'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <td style="text-align:center;">密码正确，是否消费此券？</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <p><{$shop.title}><{if $detail.type=='quan'}>代金券<{else}>团购券<{/if}></p>
+                    <p>&yen;<{$tuan.price}>&nbsp;&nbsp;x<{$detail.count}></p>
+                    <p>密码：<{$detail.number}></p>
+                    <p>有效期：<{$detail.ltime|format:'Y-m-d'}></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <input type="button" id="cancel" value="取消" class="btn btn-default" "/>&nbsp;&nbsp;&nbsp;
+                    <input type="button" id="set" value="确定" class="btn btn-success" "/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+$('#cancel').click(function(){
+    layer.closeAll('page');
+})
+
+$('#set').click(function(){
+    var ticket_id = parseInt("<{$detail.ticket_id}>");
+    var number = parseInt("<{$detail.number}>");
+
+    jQuery.ajax({
+        url: "<{link ctl='biz/tuan/order:used'}>",
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        data:{"ticket_id":ticket_id,"number":number},
+        success: function (ret) {
+            if(ret.error > 0){
+                alert(ret.message);
+            }else{
+                alert(ret.message);
+            }  
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
+    });
+    setTimeout(function () {
+        layer.closeAll('page');
+    }, 1000)
+})
+</script>
+

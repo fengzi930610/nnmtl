@@ -1,0 +1,490 @@
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--轮播图-->
+            	<div class="idx_banner">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <{adv id="1" name="V3首页轮播" city_id=$request.city_id}>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <!---->
+                    <div class="topLink">
+                        <a href="<{link ctl='ucenter/msg/index'}>" class="left"><i class="topLink_ico ico1"></i></a>
+                        <a href="#" class="right" id="idx_serch_container_show"><i class="topLink_ico ico2"></i></a>
+                        <a href="<{link ctl='position'}>" class="serch"><i class="ico fl"></i><span id="position">定位中</span><i class="arrow_ico fr"></i></a>
+                    </div>
+                </div>
+                <!--轮播图end-->
+                <!--特色导航-->
+                <div class="idx_menu border_b">
+                    <{adv name="V3首页分类" city_id=$request.city_id}>
+                </div>
+                <!--特色导航end-->
+                <!--头条-->
+                <a href="<{link ctl='headline/index'}>" class="pub_list topLine mb10">
+                    <div class="img"><img src="%THEME%/static/img/icon-toutiao@2x.png"></div>
+                    <div class="pub_list_bd"><{$news.title}></div>
+                    <div class="arrow_ico"></div>
+                </a>
+                <!--头条end-->
+                <div class="idx_adv mb10">
+                    <{adv id="28" name="" city_id=$request.city_id}>
+                </div>
+                <!--特色推荐-->
+                <div class="idx_recmd">
+                    <ul>
+                        <{adv name="首页推荐广告位A"}>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="idx_recmd mb10">
+                    <ul>
+                        <{adv name="首页推荐广告位B"}>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <{if $tuan}>
+                <div class="idx_tit pub_list">
+                    <div class="pub_list_bd">精选团购</div>
+                    <a href="<{link ctl='huodong/actlist' arg0=1}>" class="more">更多 <i class="link_ico"></i></a>
+                </div>
+                <div class="idx_recmdTwo mb10">
+                    <ul>
+                        <{foreach $tuan as $v}>
+                        <li>
+                            <div class="box">
+                                <a href="<{link ctl='huodong/detail' arg0=$v.active_id}>">
+                                    <img src="<{$pager.img}>/<{$v.banner1}>">
+                                </a>
+                            </div>
+                        </li>
+                        <{/foreach}>
+
+                        <!--<{adv name="首页精选团购广告位"}>-->
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <{/if}>
+                <{if $shop}>
+                <div class="idx_tit pub_list">
+                    <div class="pub_list_bd">商城购物</div>
+                    <a href="<{link ctl='huodong/actlist' arg0=2}>" class="more">更多 <i class="link_ico"></i></a>
+                </div>
+                <div class="idx_recmdTwo mb10">
+                    <ul>
+                        <{foreach $shop as $v}>
+                        <li>
+                            <div class="box">
+                                <a href="<{link ctl='huodong/detail' arg0=$v.active_id}>">
+                                    <img src="<{$pager.img}>/<{$v.banner1}>">
+                                </a>
+                            </div>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <{/if}>
+
+
+                <!--特色推荐end-->
+                <!--店铺列表-->
+                <div class="idx_titTwo"><span class="black6">附近店铺</span></div>
+                <div class="take-out_tuijian idx_take-out_tuijian">
+                    <div class="store_lists">
+                        <ul>
+                            <{foreach $items as $item}>
+                            <li>
+                            	<div>
+                                    <a class="block" href="<{link ctl='shop/detail' args=$item.shop_id http='waimai'}>">
+                                    <div class="left">
+                                        <div class="pic fl">
+                                            <img src="<{$pager.img}>/<{$item.waimai.logo}>">
+                                        </div>
+                                        <div class="black9 fl">
+                                            <{$item.waimai.title}>
+                                            <div class="sale"><div class="starBg"><span class="star" style="width: <{round($item['waimai']['avg_score']*20,1)}>%;"></span></div><span class="fontcl2 ml10 mr10"><{round($item['waimai']['avg_score'],1)}>分</span>已售<{$item.waimai.orders}>单</div>
+                                            <p>￥<{$item.waimai.min_amount}>起送 / <{if $item.waimai.freight=='0'}>免配送费<{else}>配送费<{$item.waimai.freight}>元<{/if}></p>
+                                        </div>
+                                    </div>
+                                    <div class="right fr">
+                                        <div class="bg"><{if $item.waimai.pei_type == 1}>平台专送<{else}>商家配送<{/if}><i></i></div >
+                                        <p class="time"><{$item.waimai.pei_time}>分钟</p>
+                                        <p class="black9"><{$item.juli_label}></p>
+                                    </div>
+                                    </a>
+                                    <div class="clear"></div>
+                                    <div class="activity">
+                                        <div class="black6 box">
+                                            <div class="first">
+                                                <{if $item.waimai.first}><p class=""><i class="ico_shou"></i><span>新用户首单优惠<{$item.waimai.first.first_amount}>元</span></p><{/if}>
+                                                <div class=" pull_down"><span></span>活动<i class="ico_xia"></i></div>
+                                                <{if $item.waimai.manjian}><p><i class="ico_jian"></i><{$item.waimai.manjian.title}></p><{/if}>
+                                                <{if $item.waimai.manfan}><p><i class="ico_fan"></i><{$item.waimai.manfan.title}></p><{/if}>
+                                                <{if $item.waimai.coupon}><p><i class="ico_quan"></i><{$item.waimai.coupon}></p><{/if}>
+                                                <!--<p><i class="ico_zhe"></i>10元优惠券一张（满60元可用），20元优惠券一张...</p>
+                                                <p><i class="ico_fan"></i>折扣商品5折起</p>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <{if $item.products}>
+                                    <!--<a href="<{link ctl='shop/detail' args=$item.shop_id http="waimai"}>">-->
+                                        <div class="shopCart_list">
+                                            <div class="list_box">
+                                                <ul>
+                                                    <{foreach $item.products as $product}>
+                                                    <li>
+                                                        <a href="<{link ctl='shop/detail' args=$item.shop_id pid=$product.product_id http='waimai'}>">
+                                                            <div class="img"><span style="background: url('<{$pager.img}>/<{$product.photo}>') no-repeat center; background-size: cover;"></span> <div class="hot">HOT</div></div>
+                                                            <P class="fontcl1">￥<{$product.price}></P>
+                                                        </a>
+                                                    </li>
+                                                    <{/foreach}>
+                                                </ul>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    <!--</a>-->
+                                <{/if}>
+                            </li>
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                    <a href="<{link ctl='product/extend_index' http='waimai' }>" class="see_more">更多附近商家&gt;</a>
+               </div>
+                <!--店铺列表end-->
+                <!--产品列表-->
+                <div class="idx_titTwo"><span class="black6">猜你喜欢</span></div>
+                <div class="goods_list_box mb10">
+                    <ul>
+                        <{foreach $likes as $item}>
+                    	<li class="goods_list addecart"  rel="<{link ctl='shop/detail' args=$item.shop_id pid=$item.product_id http='waimai'}>"  data='{"product_id":"<{$item.product_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>"}'>
+                        	<div class="box">
+                                    <div class="img"><a href="javascript:;" style="background: url('<{$pager.img}>/<{$item.photo}>') no-repeat center; background-size: cover;"></a></div>
+                                <div class="wz_box">
+                                    <h4 class="overflow_clear"><a  href="javascript:;"><{$item.title}></a></h4>
+                                    <p class="fontcl1"><small>￥</small><{$item.price}></P>
+                                    <P class="black9 overflow_clear"></P>
+                                    <a href="javascript:;" class="btn"></a>
+                                </div>
+                            </div>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <!--产品列表end-->
+            </div>
+            <{include file="v3block/foot_nav.html"}>
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="goto_top"></a>
+<!-- Initialize Swiper -->
+<!--搜索弹出-->
+<div class="container" id="idx_serch_container">
+    <div class="page js_show">
+    	<div class="page_cont coupons_sousuo-cont">
+                <div class="sousuo-box mt5 ml10 mr10">
+                    <input type="text" value="<{$pager.title}>" class="shuru-inp" id="souInput" placeholder="搜索商家">
+                    <input type="button" class="sou-btn">
+                    <a href="javascript:" class="icon-cha" id="clearCha"></a>
+                </div>
+                <div class="container_mid">
+                    <div class="hot_sou">
+                        <div class="the-tit pub_list mb10">
+                            <div><i class="ico mr5"></i>热门搜索</div>
+                        </div>
+                        <div class="sou-list1">
+                            <ul>
+                                <{foreach $hotwaimai as $item}>
+                                <li class="fl"><a href="<{link ctl='product/index' title=$item http="waimai"}>" class="sou-a"><{$item}></a></li>
+                                <{/foreach}>
+                                <div class="clear"></div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="hot_sou">
+                        <div class="the-tit pub_list mb10">
+                            <div><i class="ico mr5 ico-history"></i>搜索历史</div>
+                            <a href="javascript:void(0);" class="clear-btn"><i class="ico mr5 clear-ico"></i>清除</a>
+                        </div>
+                        <div class="sou-list2">
+                            <ul id="search_history">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <a href="javascript:void(0);" class="close_btn"><span>×</span></a>
+        </div>
+    </div>
+</div>
+<!--搜索弹出end-->
+<script>
+$(function(){
+    $("#souInput").on("input",function(){
+        if($(this).val().length!=0){
+           $("#clearCha").css("display","block");
+        }else{
+           $("#clearCha").css("display","none");
+        }
+    });
+     $("#clearCha").on("click",function(){
+            $(this).hide();
+            $("#souInput").val('');
+            $("#souInput").focus();
+    });
+	
+	$(document).ready(function () {		
+		//首页轮播图的宽高比例
+		var wid_width = $("body").width();
+		$(".idx_banner").css("width","100%");
+	});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    // 读取历史搜索记录
+    var html = "";
+    if(localStorage['search_history']) {
+        var str = localStorage['search_history'];
+        var strs = new Array();
+        var strs = str.split(",");
+        strs = Unique(strs); //去重复元素
+        for (var i = strs.length - 1; i >= strs.length - 5; i--) {
+            if(strs[i] != undefined) {
+                var link_url = "<{link ctl='shoplist/index' http='waimai'}>";
+                var url  =   link_url+"?title="+encodeURIComponent(strs[i]);
+                html += '<li> <a class="sou-b" href="'+url+'">'+strs[i]+'</a> </li>';
+            }
+        }
+        $('#search_history').html(html);
+    }
+
+    // 搜索事件
+    $(".sou-btn").click(function(){
+        var search_title = $('#souInput').val();
+        if(localStorage['search_history']) {
+            localStorage['search_history'] = localStorage['search_history'] + ',' +search_title;
+        }else {
+            localStorage['search_history'] = search_title;
+        }
+        var link = "<{link ctl='shoplist/index' title='tmp' http='waimai'}>";
+        window.location.href = link.replace('tmp',search_title);
+    });
+
+    // 清空输入
+    $("#clearCha").click(function(){
+        $('#souInput').val("");
+    });
+
+    // 清空搜索记录
+    $(".clear-btn").click(function(){
+        $('#souInput').val("");
+        localStorage.removeItem('search_history');
+        if(localStorage['search_history'] == undefined) {
+            $('#search_history').empty().html("");
+        }
+    });
+    $('.addecart').on('click',function(){
+        var url = $(this).attr('rel');
+        window.location.href = url;
+
+    })
+
+});
+
+$(function(){
+    $("#idx_serch_container_show").click(function(){
+            $("#idx_serch_container").addClass("on");
+	});
+	$("#idx_serch_container .close_btn").click(function(){
+            $("#idx_serch_container").removeClass("on");
+	});
+});
+</script>
+<script>
+var swiper = new Swiper('.swiper-container', {
+    pagination: '.swiper-pagination',
+    slidesPerView: 1,
+    paginationClickable: true,
+    spaceBetween: 0,
+    loop: true
+});
+</script>
+<script>
+function ask_demo_uxlocation(){
+    layer.open({
+        //title : "切换地址",
+        content: '为了更好的体验程序功能，建议您切换地址为【合肥.华润五彩国际】？',
+        btn: ['立即切换', '任性继续'],
+        shadeClose: false,
+        yes: function(){
+            var demo_uxlocation = {"lng":"117.257186","lat":"31.835828","addr":"华润五彩国际"};
+            setUxLocation(demo_uxlocation);
+            Cookie.set("UxCityId", 1,"","/");
+            //Cookie.set("UxCity", encodeURI("合肥"),"","/");
+            localStorage.setItem('UxCity', '合肥');
+            localStorage.setItem('UxCityId', '1');
+            Cookie.set("ask_demo_uxlocation", 1,"","/");
+            window.location = "<{link ctl='index' http=$site.siteurl}>";
+            //layer.open({content: '你点了确认', time: 1});
+        }, no: function(){
+            Cookie.set("ask_demo_uxlocation", 1,"","/");
+            window.location = "<{link ctl='position' http=$site.siteurl}>";
+            //layer.open({content: '你选择了取消', time: 1});
+        }
+    });
+}
+
+
+$(document).ready(function () {
+    $('#l1').addClass('on');
+    //var now_city_name = localStorage.getItem("UxCity"); 定位一块停用localStorage
+    //var now_city_name = decodeURI(Cookie.get("UxCity"));
+    var now_city_name = localStorage['UxCity'] || '选择城市';
+    $('.this_city').text(now_city_name);
+    $('#position').text()=='定位中...'
+    if(Cookie.get("ask_demo_uxlocation")!=1){
+        ask_demo_uxlocation();
+    }else{
+        var LocTimer = setTimeout(function(){
+            alert("获取不到你的地址");
+            window.location.href = "<{link ctl='position'}>";
+        }, 10000);
+        getUxLocation(function(ret){
+            var uxl = JSON.parse(ret) || {};
+            clearTimeout(LocTimer);
+            if(ret.error){
+                alert(ret.message);
+                window.location.href = "<{link ctl='position'}>";
+            }else{
+                $('#position').text(decodeURI(uxl.addr));
+                //地址处理
+                var link = "<{link ctl='index/get_addr'}>";
+                $.post(link, {lat:uxl.lat,lng:uxl.lng}, function (r) {
+                    if (r.error == 0) {
+                        $('.this_city').text(r.addr);
+                    }
+                }, 'json');
+                //loadPageItem(LoadData.params);
+            }
+        });
+    }
+
+});
+</script>
+<script>
+    window.onload = function () {
+       /* var url = '/api.php?API=client/adv/start';
+        if(Cookie.get("showed")==null){
+            $.post(url,function(e){
+                var height = $(window).height();
+                var wight = $(window).width();
+                if(e.error==0&&e.data){
+                    var src = '<{$pager.img}>/'+e.data.thumb;
+                    layer.open({
+                        type: 1,
+                        skin: 'layui-layer-demo', //样式类名
+                        closeBtn: 0, //不显示关闭按钮
+                        anim: 2,
+                        area: [wight+'px', height+'px'],
+                        shadeClose: false, //开启遮罩关闭
+                        content: '<img class="jq_c" style="width:'+wight+'px;height: '+height+'px"  src="'+src+'">'
+                    });
+                    setTimeout(function(){
+                        //layer.closeAll();
+                        $(".layermbox").remove();
+                        Cookie.set("showed",1)
+                    },5000);
+                }
+            },'json')
+        }*/
+
+    }
+
+$(document).ready(function(){
+    $(".activity .first").each(function(k,value){
+        var num = $(this).find("p").length;
+        if(num>2){
+            $(this).find(".pull_down span").html(num+'个');
+        }else{
+            $(this).find(".pull_down").remove();
+        }
+    })
+})
+
+
+</script>
+<script>
+$.fn.scrollTo =function(options){
+	var defaults = {
+		toT : 0,    //滚动目标位置
+		durTime : 500,  //过渡动画时间
+		delay : 30,     //定时器时间
+		callback:null   //回调函数
+	};
+	var opts = $.extend(defaults,options),
+		timer = null,
+		_this = this,
+		curTop = _this.scrollTop(),//滚动条当前的位置
+		subTop = opts.toT - curTop,    //滚动条目标位置和当前位置的差值
+		index = 0,
+		dur = Math.round(opts.durTime / opts.delay),
+		smoothScroll = function(t){
+			index++;
+			var per = Math.round(subTop/dur);
+			if(index >= dur){
+				_this.scrollTop(t);
+				window.clearInterval(timer);
+				if(opts.callback && typeof opts.callback == 'function'){
+					opts.callback();
+				}
+				return;
+			}else{
+				_this.scrollTop(curTop + index*per);
+			}
+		};
+	timer = window.setInterval(function(){
+		smoothScroll(opts.toT);
+	}, opts.delay);
+	return _this;
+};
+$(document).ready(function () {
+	$(".container_mid").scroll(function () {
+		if ($(".container_mid").scrollTop() > 100) {
+			$(".goto_top").show();
+		} else {
+			$(".goto_top").hide();
+		}
+	});
+	$(".goto_top").click(function () {
+		//$(".container_mid").scrollTop(0);
+		$(".container_mid").scrollTo({toT:0});
+	});
+});
+
+$(document).on('touchstart','.activity .first .pull_down',function(){
+    var len=$(this).parents('.activity').find('.first p').length;
+    console.log(len)
+    if($(this).find('i').hasClass('on')){
+        $(this).parent().animate({'height':"auto ",'max-height':'40px','overflow':'hidden !important'},300);
+        $(this).find('i').removeClass('on');
+    }
+    else{
+        $(this).parent().animate({height:20*len+'px','max-height':20*len+'px','overflow':'auto !important'},300);
+        $(this).find('i').addClass('on');
+    }
+});
+</script>
+
+<{include file="v3block/footer.html"}>

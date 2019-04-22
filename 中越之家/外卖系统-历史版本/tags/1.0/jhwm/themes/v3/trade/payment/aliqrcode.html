@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>支付宝扫码支付</title>
+    <link rel="stylesheet" href="%THEME%/static/weui/weui.min.css"/>
+    <link rel="stylesheet" href="%THEME%/trade/payment/css/style.css"/>
+</head>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容开始-->
+                <div class="pubPaypage">
+                    <div class="mb10">
+                        <{if $trade.order_id || $trade.order_ids}>
+                        <div class="info_list">
+                            <span class="fl bt">订单编号：</span>
+                            <span class="fr">
+                                <{if $trade.order_id}>
+                                    <{$trade.order_id}>
+                                <{else}>
+                                    <{foreach $trade.order_ids as $order_id}>
+                                        <{if $order_id@index == 0}>
+                                        <{$order_id}>
+                                        <{else}>
+                                        、<{$order_id}>
+                                        <{/if}>
+                                    <{/foreach}>
+                                <{/if}>
+                            </span>
+                        </div>
+                        <{elseif $payd_type=='deliver'}>
+                        <div class="info_list">
+                            <span class="fl bt">配送费充值</span>
+                        </div>
+                        <{else}>
+                        <div class="info_list">
+                            <span class="fl bt">余额充值</span>
+                        </div>
+                        <{/if}>
+                        <div class="info_list"><span class="fl bt">支付金额：</span><big class="fr price"><small>￥</small><{$trade.amount}></big></div>
+                    </div>
+                    <div class="code_box codeAlipay_box">
+                        <div class="code_img">
+                            <div class="img"><img src='<{link ctl="qrcode" data=$trade.qrcode size="8"}>'></div>
+                            <div class="wz"><img src="%THEME%/trade/payment/img/payWay01@3x.png">请使用支付宝扫描上方二维码完成支付</div>
+                        </div>
+                    </div>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/layer/3.0.1/mobile/layer.js"></script>
+<script type="text/javascript">
+(function($){
+    function query_order_pay_status(){
+        $.getJSON("<{link ctl='trade/payment:queryorder' arg0=<{$trade.trade_no}>}>", function(ret){
+            if(ret.error){
+                layer.open({
+                    content: ret.message
+                    ,btn: '查看订单'
+                    ,yes: function(index){
+                      window.location.href = "<{$rebackurl}>";
+                      layer.close(index)
+                    }  
+                });
+                setTimeout(function(){window.location.href="<{$rebackurl}>";}, 1500);
+            }else if(ret.trade_status == 'SUCCESS'){
+                layer.open({
+                    content: "恭喜您支付成功"
+                    ,btn: '查看订单'
+                    ,yes: function(index){
+                      window.location.href = "<{$rebackurl}>";
+                      layer.close(index)
+                    }  
+                }); 
+                setTimeout(function(){window.location.href="<{$rebackurl}>";}, 1500);               
+            }else{
+                setTimeout(function(){query_order_pay_status();}, 2000);
+            }
+        })
+    }
+    //3秒后查询
+    setTimeout(function(){query_order_pay_status();}, 5000);
+})(window.jQuery);
+</script>
+</body>
+</html>
+

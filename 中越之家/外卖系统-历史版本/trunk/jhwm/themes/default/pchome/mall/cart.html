@@ -1,0 +1,244 @@
+<{assign var="page_title" value="首页"}>
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<div class="headerTop_one green">
+    <div class="pagewd">
+        <div class="logo fl">
+            <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo}>"></a>
+        </div>
+        <div class="tit fl">购物车</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!---->
+<div class="shangcheng-shoppingcar-content shangcheng-wrap">
+    <div class="nav">
+        <ul>
+            <li class="nav-all"><input type="checkbox" class="allchoose">全选</li>
+            <li class="nav-shop">商品</li>
+            <li class="nav-num">数量</li>
+            <li class="nav-jifen">积分</li>
+            <li class="nav-price">金额</li>
+            <li class="nav-del">操作</li>
+        </ul>
+    </div>
+
+    <{if $mallcart}>
+    <{foreach $mallcart as $k=>$v}>
+    <div class="box" id="li_<{$k}>">
+        <input type="checkbox" pids="<{$k}>" class="input_checkbox" <{if $v.check == 1}>checked="checked"<{/if}>>
+        <a href="<{link ctl='mall/product:detail' arg0=$products[$k].product_id}>"><img src="<{$pager.img}>/<{$products[$k].photo}>"></a>
+        <div class="txt">
+            <h5><{$products[$k].title}></h5>
+            <p><span class="danjia">￥<span class="sp-danjia"><{$products[$k].price}></span></span><span class="shangpin-jifen"><{$products[$k].jifen}></span>积分</p>
+            <p class="kucun black9">剩余数量：<{$products[$k].sku}></p>
+        </div>
+        <div class="num">
+            <div class="jian fl reduces" pid="<{$k}>" quantity="-">-</div>
+            <input type="text" value="<{$v.num}>" class="text_box_<{$k}> this_val">
+            <div class="jia fr adds" pid="<{$k}>" quantity="+">+</div>
+        </div>
+        <span class="jifen"><{$products[$k].jifen*$v.num}></span>
+        <span class="price"><{$products[$k].price*$v.num}></span>
+        <span class="del black3" pid="<{$k}>">删除</span>
+    </div>
+    <{/foreach}>
+    <{/if}>
+</div>
+
+<!-- 固定层 -->
+<div class="shangcheng-shoppingcar-bot">
+    <p class="bot-all"><input type="checkbox" class="allchoose" id="bottom_choose">全选</p>
+    <p class="black3"></p>
+    <p class="yixuan">已选<span class="number" id="total_count" style="font-size:18px;"><{$total.checked_count}></span>件</p>
+    <p class="zong-price" style="padding-left:10px;">合计：<span id="total_price" style="font-size:18px;">￥<{$total.checked_price}><span></span></span></p>
+    <p class="jifen" id="total_jifen"><{$total.checked_jifen|default:0}><span>积分</span></p>
+    <a href="javascript:void(0);" class="btn order_sub">提交订单</a>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('body').addClass('shangcheng');
+        var total = "<{$total.count}>";
+        if (!total) {
+            layer.msg('购物车没有商品');
+            setTimeout(function () {
+                window.location.href = "<{link ctl='mall'}>";
+            }, 2000);
+        }
+        window.__Mall_Product_Freight = parseInt("<{$freight}>");
+
+        // 加号
+        $('.adds').click(function (e) {
+            var pid = $(this).attr('pid');
+            var link = "<{link ctl='mall:addcart'}>";
+            $.post(link, {pid: pid}, function (ret) {
+                if (ret.error == 0) {
+                    var price = window.__Mall_Product_Freight + parseFloat(ret.data.price);
+                    $('#total_count').html(ret.data.count);
+                    $('#total_price').html('￥' + price);
+                    $('#total_jifen').html(ret.data.jifen + "<span class='black9'>积分</span>");
+                    var val = $('.text_box_' + pid).val();
+                    val = parseInt(val, 10) + 1;
+                    $('.text_box_' + pid).attr('value', val);
+                } else if (ret.error == 101) {
+                    layer.open({content: ret.message, time: 2});
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport/login'}>";
+                    }, 2000);
+                } else {
+                    layer.open({content: ret.message, time: 2});
+                }
+            }, 'json');
+        });
+
+        // 减号
+        $('.reduces').click(function () {
+            var pid = $(this).attr('pid');
+            var link = "<{link ctl='mall:addcart'}>";
+            var val = $('.text_box_' + pid).val();
+            val = parseInt(val, 10) - 1;
+            $.post(link, {pid: pid, reduce: 1}, function (ret) {
+                if (ret.error == 0) {
+                    var price = window.__Mall_Product_Freight + parseFloat(ret.data.price);
+                    $('#total_count').html(ret.data.count);
+                    $('#total_price').html('￥' + price);
+                    $('#total_jifen').html(ret.data.jifen + "<span class='black9'>积分</span>");
+                    $('.text_box_' + pid).attr('value', val);
+                } else if (ret.error == 244) {
+                    layer.open({content: ret.message, time: 2});
+                    if (ret.forward) {
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='mall/product'}>";
+                        }, 1500);
+                    }
+                } else if (ret.error == 101) {
+                    layer.open({content: ret.message, time: 2});
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport/login'}>";
+                    }, 2000);
+                } else {
+                    layer.open({content: ret.message, time: 2});
+                }
+            }, 'json');
+            if (val <= 0) {
+                $('#li_' + pid).remove();
+            }
+        });
+        
+        $('.del').click(function(){
+            var pid = $(this).attr('pid');
+            var link = "<{link ctl='mall:addcart'}>";
+            var val = $('.text_box_' + pid).val();
+            val = 0;
+            $.post(link, {pid: pid, reduce:-1}, function (ret) {
+                if (ret.error == 0) {
+                    var price = window.__Mall_Product_Freight + parseFloat(ret.data.price);
+                    $('#total_count').html(ret.data.count);
+                    $('#total_price').html('￥' + price);
+                    $('#total_jifen').html(ret.data.jifen + "<span class='black9'>积分</span>");
+                    $('.text_box_' + pid).attr('value', val);
+                } else if (ret.error == 244) {
+                    layer.open({content: ret.message, time: 2});
+                    if (ret.forward) {
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='mall/product'}>";
+                        }, 1500);
+                    }
+                } else if (ret.error == 101) {
+                    layer.open({content: ret.message, time: 2});
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport/login'}>";
+                    }, 2000);
+                } else {
+                    layer.open({content: ret.message, time: 2});
+                }
+            }, 'json');
+            if (val <= 0) {
+                $('#li_' + pid).remove();
+            }
+        })
+        
+
+ 
+        //全选删除等处理
+        function change_check(){
+            var length = $(".input_checkbox[type=checkbox]:checked").length;
+            var price = 0;
+            var jifen = 0;
+            var total_num = 0;
+            for(var i = 0;i<length;i++){
+                var pid = $(".input_checkbox[type=checkbox]:checked").eq(i).attr('pids');
+                var this_price = parseInt($('#li_'+pid).find('.price').html());
+                var this_jifen = parseInt($('#li_'+pid).find('.jifen').html());
+                var num = parseInt($('#li_'+pid).find('.this_val').val());
+                price+=this_price;
+                jifen+=this_jifen;
+                total_num+=num;
+            }
+            $('#total_price').html('￥'+price);
+            $('#total_jifen').html(jifen+'积分'); 
+            $('#total_count').html(total_num);
+        }
+        
+        var $no=$('.shangcheng-shoppingcar-bot').find('.number')
+        var $inp=$('.shangcheng-shoppingcar-content .box input[type=checkbox]');
+        var $all=$('.shangcheng .allchoose');
+        var Length=parseInt($('.shangcheng-shoppingcar-content .box input[type=checkbox]:checked').parent().find('.this_val').text());
+        $inp.click(function(){
+            if($(this).prop('checked')==false){
+                $all.removeAttr('checked');
+            }
+            change_check();
+        })
+
+        $all.click(function(){
+            if($(this).prop('checked')==true){
+                $inp.prop('checked',true);
+                $all.prop('checked',true);
+            }
+            else{
+                $inp.prop('checked',false);
+                $all.prop('checked',false);
+            }
+            change_check();
+        });
+
+        // 删除
+        var $del_p=$('.shangcheng-shoppingcar-content');
+        var $del=$del_p.find('.del')
+        $del.click(function(){
+            $(this).parent().fadeOut('fast', function() {
+                $(this).remove();
+            });
+        });
+
+        $('.order_sub').click(function(){
+            var link = "<{link ctl='mall/order'}>";
+            var length = $(".input_checkbox[type=checkbox]:checked").length;
+            if(length == 0){
+                layer.msg('您没有选择需要购买的商品！');
+                return false;
+            }else{
+                var check_arr = {};
+                for(var i = 0;i<length;i++){
+                    var pid = $(".input_checkbox[type=checkbox]:checked").eq(i).attr('pids');
+                    check_arr[pid] = pid;
+                }
+                 Cookie.set("check_arr",JSON.stringify(check_arr),86400);
+                 window.location.href=link;
+            }
+        })
+        
+        
+        
+        
+    })
+</script>
+<style>
+    body{background:#f5f5f5;}
+    .shangcheng-shoppingcar-bot .yixuan{padding-left:500px;}
+</style>
+</body>
+</html>

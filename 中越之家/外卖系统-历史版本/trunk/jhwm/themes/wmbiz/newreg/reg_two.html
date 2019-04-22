@@ -1,0 +1,247 @@
+<{assign var='tpl_title' value=L("商家入驻-资质信息")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .loginTop .logo img{ width:60px; height:60px;}
+</style>
+<div class="loginTop">
+	<div class="smallpage">
+        <div class="logo fl"><{if $site.logo_shop}><img src="<{$pager.img}>/<{$site.logo_shop}>"><{else}><img src="%THEME%/static/images/logo.png"><{/if}><span><{$site.title}>外卖商家后台</span></div>
+        <div class="tit fl">客服电话：<{$site.phone}></div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+            &nbsp;&nbsp;<a class="black3"  href="<{link ctl='login/loginout'}>">退出登录</a>
+        </div>
+    </div>
+</div>
+<div class="bg_grey" style="padding:10px 0;">
+    <div class="smallpage">
+        <div class="enterProcess_state">
+        	<ul>
+            	<li class="on">
+                	<span class="num">1</span>
+                    <P>店铺信息</P>
+                </li>
+                <li class="on">
+                	<span class="num">2</span>
+                    <P>资质信息</P>
+                </li>
+                <li>
+                	<span class="num">3</span>
+                    <P>配送信息</P>
+                </li>
+                <li>
+                	<span class="num">4</span>
+                    <P>结算信息</P>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="enterPromt">
+            <form id="myform"  action="<{link ctl='newreg/two' http='wmbiz'}>" mini-form="three-form" method="post">
+                <h2 class="big_tit">上传店铺资质信息</h2>
+                <div class="enterForm">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="170"><span class="pointcl">*</span>法人姓名：</td>
+                            <td>
+                                <input type="text" name="data[id_name]" class="form-control form_table_int form_table_intw1 fl" value="<{$verify.id_name}>" placeholder="请输入法人姓名">
+                                <span class="ml30 black6 fl">输入真实的姓名</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="170"><span class="pointcl">*</span>法人身份证号：</td>
+                            <td>
+                                <input type="text" name="data[id_number]" class="form-control form_table_int form_table_intw1 fl" value="<{$verify.id_number}>" placeholder="请输入身份证号">
+                                <span class="ml30 black6 fl">输入真实的有效证件</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="170"><span class="pointcl">*</span>身份证：</td>
+                            <td>
+                                <div class="img_list_box mb20">
+                                    <div class="fl mr10">
+                                        <span class="img"><img width="230" height="152" src="<{if $verify.id_photo}><{$pager.img}>/<{$verify.id_photo}><{/if}>"  id="id_photo1"><p>身份证正面</p></span>
+                                        <input type="hidden" name="data[id_photo]" id="id_photo" value="<{$verify.id_photo}>"/>
+                                        <!--当有图片时，删除按钮出现-->
+                                        <!--<a href="javascript:;" class="del pointcl">删除</a>-->
+                                        <a href="javascript:;" class="btn btn-w-m btn-primary"><input class="photo1" type="file" value="上传图片" rel="id_photo">上传图片</a>
+                                    </div>
+                                    <div class="fl mr10">
+                                        <span class="img"><img width="230" height="152" src="<{if $verify.id_photo_f}><{$pager.img}>/<{$verify.id_photo_f}><{/if}>"  id="id_photo_f1"><p>身份证反面</p></span>
+                                        <input type="hidden" name="data[id_photo_f]"  value="<{$verify.id_photo_f}>" id="id_photo_f"/>
+                                        <!--当有图片时，删除按钮出现-->
+                                        <!--<a href="javascript:;" class="del pointcl">删除</a>-->
+                                        <a href="javascript:;" class="btn btn-w-m btn-primary"><input class="photo1"  type="file" value="上传图片" rel="id_photo_f">上传图片</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div><span class="fl black6">要求：使用身份证原件拍照，证件文字清晰。</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="170"><span class="pointcl">*</span>手持证件：</td>
+                            <td>
+                                <div class="img_list_box mb20">
+                                    <div class="fl mr10">
+                                        <span class="img"><img width="230" height="152" src="<{if $verify.id_photo_s}><{$pager.img}>/<{$verify.id_photo_s}><{/if}>" id="id_photo_s1"><p>手持身份证</p></span>
+                                        <input type="hidden" name="data[id_photo_s]" id="id_photo_s" value="<{$verify.id_photo_s}>"/>
+                                        <!--当有图片时，删除按钮出现-->
+                                        <!--<a href="javascript:;" class="del pointcl">删除</a>-->
+                                        <a href="javascript:;" class="btn btn-w-m btn-primary"><input class="photo1"  type="file" value="上传图片" rel="id_photo_s">上传图片</a>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div><span class="fl black6">要求：商家负责人手持本人身份证原件拍照，五官可见，证件文字清晰</span></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <h2 class="big_tit">证件信息</h2>
+                <div class="enterForm">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>营业执照：</td>
+                                <td>
+                                    <div class="img_list_box mb20">
+                                        <div class="fl mr10">
+                                            <span class="img"><img width="230" height="152" src="<{if $verify.yz_photo}><{$pager.img}>/<{$verify.yz_photo}><{/if}>" id="yz_photo1"><p>证件照</p></span>
+                                            <input type="hidden" name="data[yz_photo]" id="yz_photo" value="<{$verify.yz_photo}>"/>
+                                            <!--当有图片时，删除按钮出现-->
+                                            <!--<a href="javascript:;" class="del pointcl">删除</a>-->
+                                            <a href="javascript:;" class="btn btn-w-m btn-primary"><input class="photo1" type="file" value="上传图片" rel="yz_photo">上传图片</a>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div><span class="fl black6">*要求：使用证件原件拍照，证件文字清晰。</span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>证件名称：</td>
+                                <td>
+                                    <input type="text" name="data[yz_name]" class="form-control form_table_int form_table_intw1 fl" placeholder="" value="<{$verify.yz_name}>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>证件编号/注册号：</td>
+                                <td>
+                                    <input type="text" name="data[yz_number]" class="form-control form_table_int form_table_intw1 fl" placeholder="" value="<{$verify.yz_number}>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>证件地址：</td>
+                                <td>
+                                    <input type="text" name="data[yz_addr]" class="form-control form_table_int form_table_intw1 fl" placeholder="" value="<{$verify.yz_addr}>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>证件有效期至：</td>
+                                <td>
+                                    <input type="text" name="data[yz_time]" id="datetimepicker1"  class="form-control form_table_int form_table_intw1 fl date_int" placeholder="" value="<{if $verify.yz_time!=null&&$verify.yz_time!=0}><{$verify.yz_time|format:'Y-m-d'|default:''}><{/if}>">
+                                </td>
+                            </tr>
+                        </table>
+
+                </div>
+                <h2 class="big_tit">餐饮服务许可证信息</h2>
+                <div class="enterForm">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>餐饮服务许可证：</td>
+                                <td>
+                                    <div class="img_list_box mb20">
+                                        <div class="fl mr10">
+                                            <span class="img"><img width="230" height="152" src="<{if $verify.cy_photo}><{$pager.img}>/<{$verify.cy_photo}><{/if}>" id="cy_photo1"><p>证件照</p></span>
+                                            <input type="hidden" name="data[cy_photo]" value="<{$verify.cy_photo}>" id="cy_photo"/>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                    <div><a href="javascript:;" class="btn btn-w-m btn-primary fl"><input type="file" class="photo1" value="上传图片" rel="cy_photo">上传图片</a><span class="fl black6 ml10">使用餐饮服务许可证原件拍照，证件文字清晰。</span></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>许可证件名称：</td>
+                                <td>
+                                    <input type="text" name="data[cy_name]" class="form-control form_table_int form_table_intw1 fl" placeholder="" value="<{$verify.cy_name}>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>证件编号/注册号：</td>
+                                <td>
+                                    <input type="text" name="data[cy_number]" class="form-control form_table_int form_table_intw1 fl" placeholder="" value="<{$verify.cy_number}>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>许可证件地址：</td>
+                                <td>
+                                    <input type="text" name="data[cy_addr]" class="form-control form_table_int form_table_intw1 fl" placeholder="" value="<{$verify.cy_addr}>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bt" width="170"><span class="pointcl">*</span>许可证件有效期：</td>
+                                <td>
+                                    <input type="text" name="data[cy_time]" id="datetimepicker2" class="form-control form_table_int form_table_intw1 fl date_int" placeholder="" value="<{if $verify.cy_time!=null&&$verify.cy_time!=0}><{$verify.cy_time|format:'Y-m-d'|default:''}><{/if}>">
+                                </td>
+                            </tr>
+                        </table>
+
+                </div>
+            </form>
+
+            <div class="form_table_btn_box text_c">
+                <a class="btn btn-default btn-w-m" href="<{link ctl='newreg/one'}>">上一步</a>
+                <{if $verify.verify ==5||$verify.verify==1}><a class="btn btn-primary btn-w-m" href="<{link ctl='newreg/three'}>">下一步</a><{else}><a class="btn btn-primary btn-w-m" href="javascript:;" id="nextsubmit">提交并进入下一步</a><{/if}>
+            </div>
+        </div>
+        <div class="bottom_tel"><i class="ico"></i>客服热线：<{$site.phone}></div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".enterForm table tr td .img_list_box .img img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+});
+</script>
+<script>
+
+    $(function(){
+        $('.photo1').on('change',function(){
+            var rel = $(this).attr('rel')
+            var form = new FormData();
+            var file = $(this)[0]['files'][0];
+            Widget.UploadFile("<{link ctl='newreg:uploadimg'}>", {image:file}, function(ret){
+                if(ret.error){
+                    Widget.MsgBox.error(ret.message);
+                }else{
+                    $('#'+rel+"1").attr('src', "<{$pager.img}>/" + ret.data.photo);
+                    $('#'+rel+"1").css('opacity',1);
+                    $('#'+rel).val(ret.data.photo);
+                }
+            });
+        });
+        $('#datetimepicker1').datepicker({defaultDate: '2017-3-31',language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: true,//今日按钮
+            format: "yyyy-mm-dd"//日期格式
+            });
+        $('#datetimepicker2').datepicker({defaultDate: '2017-3-31',language: "zh-CN",
+            autoclose: true,//选中之后自动隐藏日期选择框
+            clearBtn: true,//清除按钮
+            todayBtn: true,//今日按钮
+            format: "yyyy-mm-dd"//日期格式
+             });
+        $('#nextsubmit').on('click',function(){
+            $("#myform").submit();
+        })
+
+    })
+
+</script>
+<{include file="block/footer.html"}>

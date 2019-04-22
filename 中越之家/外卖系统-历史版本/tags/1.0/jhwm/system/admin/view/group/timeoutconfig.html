@@ -1,0 +1,111 @@
+<{include file="admin:common/header.html"}>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=824a595f958e444b737a5bc6325ad44f"></script>-->
+<script src="//webapi.amap.com/maps?v=1.4.2&key=<{$jh_map_key}>"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="group/group:items" priv="hide" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="group/group:edit" arg0=$group_id title="基本设置" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="group/group:set_map" arg0=$group_id title="配送区域" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="group/group:baseconfig" arg0=$group_id title="配送费基础设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="group/group:timeconfig" arg0=$group_id title="配送费时间设置" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="group/group:badweather" arg0=$group_id title="恶劣天气配置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="group/group:timeoutconfig" arg0=$group_id title="超时规则设置" target="admin_main"  priv="hide"  class="on"}></li>
+            <li> <{link ctl="group/group:autopai" arg0=$group_id title="自动派单设置" target="admin_main"  priv="hide" }></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="songSet_dian mgb10">
+        <{link ctl="group/group:manage" args=$group_id class="button float-r" priv="hide" target="_blank" title="进入配送站"}>
+        <div class="wz_box">
+            <h3><{$detail.group_name}></h3>
+            <p>地址：<{$detail.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?group/group-timeoutconfig-<{$group_id}>.html" mini-form="member-form" method="post" >
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr><th style="text-align: left; text-indent: 10px;" colspan="2">超时规则设置（该项规则影响骑手超时订单和用户端预计送达时间,没有设置会统一使用40分钟）：</th></tr>
+
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellspacing="0" class="table-data form w-800" style="float:left;">
+                        <tr>
+                            <th><span>提前显示时间：</span></th>
+                            <td>
+                                <input type="text" class="input w-100" name="timeout_time" value="<{$detail.timeout_time|default:'15'}>">
+                                <span class="tip-comment">服务端显示距离预计送达时间的剩余时间</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="w-500">
+                <td>
+                    <table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-800">
+                        <tr>
+                            <th>距离(km)</th>
+                            <th>预计送达时间(分钟)</th>
+                            <th class="w-100"><a class="jq_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $detail.timeout_config as $k=>$item}>
+                        <tr class="jq_tr" rel="<{$k}>">
+                            <td>
+                                <input type="text" class="input w-100" name="config[fkm][]" value="<{$item.fkm}>" />
+                            </td>
+                            <td>
+                                <input type="text" class="input w-100" name="config[time][]" value="<{$item.time}>" />
+                            </td>
+                            <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                        </tr>
+                        <{foreachelse}>
+                        <tr class="jq_tr" rel="0">
+                            <td><input type="text" class="input w-100" name="config[fkm][]" value=""></td>
+                            <td><input type="text" class="input w-100" name="config[time][]" value=""></td>
+                            <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                        </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+            </tr>
+            <tr><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".jq_add").click(function () {
+            var j = $(".jq_tr:last").attr("rel");
+            var k = parseInt(j)+1;
+            $("#table_hongbao_list").append('<tr class="jq_tr" rel="0"> <td><input type="text" class="input w-100" name="config[fkm][]" value=""></td>  <td> <input type="text" class="input w-100" name="config[time][]" value="" /> </td> <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td> </tr>');
+        })
+        $("#table_hongbao_list").on('click', '.jq_delete', function () {
+            $(this).parent().parent().remove();
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    (function(K, $){
+        $("input[name='config[closed]']").on('click', function(){
+            if($(this).val() == 1){
+                $("#tr_closed_reason").show();
+            }else{
+                $("#tr_closed_reason").hide();
+            }
+        });
+    })(window.KT, window.jQuery);
+</script>
+
+<{include file="admin:common/footer.html"}>

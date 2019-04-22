@@ -1,0 +1,54 @@
+<{assign var='tpl_title' value=L("邀请成功")}>
+<{include file="waimai/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid inviteFriends_bg2">
+                <!-- 内容 -->
+                <img src="/themes/waimai/static/images/inviteFriends_adv3.png" width="100%" />
+                <div class="useRed_box">
+                    <ul class="red_box">
+                        <{foreach $hongbaos as $k=>$hb}>
+                        <li>
+                            <div class="pub_list top">
+                                <div class="num">￥<big><{$hb.amount}></big></div>
+                                <div class="pub_list_bd wz">
+                                    <div>好友邀请新人红包</div>
+                                    <p class="black6">有效期至<{$hb.ltime|format:'Y-md H:i'}></p>
+                                </div>
+                                <a href="<{link ctl='index' http='waimai'}>" class="btn">立即使用</a>
+                            </div>
+                            <div class="black9 bot">满¥<{$hb.min_amount}>可用</div>
+                        </li>
+                        <{/foreach}>
+                        <!-- <li>
+                            <div class="pub_list top">
+                                <div class="num">￥<big>3.00</big></div>
+                                <div class="pub_list_bd wz">
+                                    <div>好友邀请新人红包</div>
+                                    <p class="black6">有效期至2018-04-28</p>
+                                </div>
+                                <a href="" class="btn">立即使用</a>
+                            </div>
+                            <div class="black9 bot">满¥25.00可用</div>
+                        </li> -->
+                    </ul>
+                    <div class="text_c text"><span>红包已放入账号:</span><{$member.mobile}><br/>下载APP即可使用</div>
+                    <a href="<{$down_link}>" class="download_btn">立即下载</a>
+                </div>
+                <div class="receiveRed_tit"><span>活动规则</span></div>
+                <div class="receiveRed_guize">
+                    <!-- <p>1.邀请好友奖励现金红包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p> -->
+                    <{$invite_cfg.intro}>
+                </div>
+                <!-- 内容end -->
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="waimai/block/footer.html"}>

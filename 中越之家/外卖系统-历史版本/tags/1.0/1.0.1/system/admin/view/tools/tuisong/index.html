@@ -1,0 +1,97 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><label class="left">推送内容</label>
+            </td>
+            <td align="left"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?tools/tuisong-index.html" method="POST" onsubmit="return check(this);">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tbody>
+    <tr>
+        <th>推送内容：</th>
+        <td>
+            <textarea name="content" class="textarea w-600" style="height:200px;" id="content"></textarea><br>
+        </td>
+    </tr>
+    <tr>
+        <th class="w-100">推送对象：</th>
+        <td>
+            <select class="width:200px !important;" onchange="change(this);">
+                <option value="all">推送给所有人</option>
+                <{foreach $items as $item}>
+                <option value="<{$item['name']}>"><{$item['title']}></option>
+                <{/foreach}>
+            </select>
+        </td>
+        <!-- <td>
+            <label><input type="radio" name='a' checked="true" onclick="change('', 1)">广播给所有人</label>
+            <label><input type="radio" name='a' onclick="change('appTag', 2)">设备应用标签</label>
+            <label><input type="radio" name='a' onclick="change('registerId', 3)">设备注册的ID</label>
+            <input type="hidden" name="range" value="1" class="range">
+            <p style="height:50px;line-height:50px;display:none" class="appTag pin">
+                <input type="text" class="input w-600" name="tags" placeholder="请输入设备应用标签,多个以逗号隔开">
+            </p>
+            <p style="height:50px;line-height:50px;display:none" class="registerId pin">
+                <input type="text" class="input w-600" name="register" placeholder="请输入设备注册ID,多个以逗号隔开">
+            </p>
+        </td> -->
+    </tr>
+    <tr>
+        <th class="clear-th-bottom"></th>
+        <td class="clear-td-bottom" colspan="10">
+            <input type="submit" class="bt-big" value="提交数据">
+        </td>
+    </tr>
+</tbody>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+/*提交检查*/
+var range = 1;//默认所有
+var tag   = '';
+function check(o)
+{
+    var action   = o.action;
+    var content  = $('#content').val();
+        if(content.length<5){
+            layer.open({content:"推送内容至少5个字符"});
+            return false;
+        }
+        data = {range:range, content:content, tags:tag};
+        if(confirm('确定推送消息吗')){
+            Widget.MsgBox.load('loading');
+            $.post(action, {data:data}, function(respone){
+                Widget.MsgBox.hide();
+                console.log(respone);
+                if(respone.status == 200){
+                    layer.open({content:"推送成功"});
+                }else{
+                    layer.open({content:"未知错误"});
+                    console.log(respone);
+                }
+            }, 'json');
+        }
+    return false;
+}
+/*附定项显示*/
+function change(o)
+{
+    val = o.value;
+    if(val == 'all'){
+        range = 1;
+    }else{
+        //分组推送
+        range = 2;
+        tag   = val;
+    }
+}
+</script>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,42 @@
+<{include file="pchome/block/top_nav.html"}>
+<div class="headerTop">
+    <div class="pagewd">
+        <a href="<{link ctl='index'}>" class="logo fl"><img src="<{$pager.img}>/<{$site.logo2}>" width="220" height="60"/></a>
+        <div class="city fl"><i class="ico"></i><{if $city.city_name}><{$city.city_name}><{/if}><a href="<{link ctl='city'}>">[ <{if $city.city_name}>切换城市<{else}>选择城市<{/if}> ]</a></div>
+        <div class="search_box fl">
+            <div class="int_box">
+                <form action="<{link ctl='shop'}>" mothod="post">
+                    <input type="text" placeholder="搜索商家" value="<{$shop_name}>" name="shop_name">
+                    <input type="submit" class="btn" value="">
+                </form>
+                <div class="clear"></div>
+            </div>
+            <div class="hot">
+                热门搜索：
+                <{foreach $hot_shop as $k => $v}>
+                <a href="<{link ctl='shop' shop_name=$v.title}>"><{$v.title}></a>
+                <{/foreach}>
+            </div>
+        </div>
+        <div class="sq_box fl">
+            <a href="<{link ctl='ucenter'}>" class="bt"><i class="ico"></i>我的商圈<i class="arrow_ico"></i></a>
+            <div class="sq_pull">
+                <div class="tit" id='index_tit'>
+                    您好，<{if !$MEMBER}>请<a href="<{link ctl='passport/login'}>" class="maincl">[登录]</a><{else}><{$MEMBER.nickname}><{/if}>
+                </div>
+                <ul>
+                    <li><a href="<{link ctl='ucenter/index'}>">我的订单<i class="linkico"></i></a></li>
+                    <li><a href="<{link ctl='ucenter/money:recharge'}>">余额充值<i class="linkico"></i></a></li>
+                    <li><a href="<{link ctl='ucenter/jifen'}>">我的积分<i class="linkico"></i></a></li>
+                    <li><a href="<{link ctl='ucenter/collectshop'}>">我的收藏<i class="linkico"></i></a></li>
+                    <li><a href="<{link ctl='ucenter/hongbao'}>">我的红包<i class="linkico"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="cart fr">
+            <a href="<{link ctl='mall/cart'}>" class="bt"><i class="ico"></i>购物车<span class="num top_cart_num"><{$top_mall_count.count|default:0}></span></a>  
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--头部结束-->

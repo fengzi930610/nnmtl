@@ -1,0 +1,212 @@
+<{assign var="page_title" value="首页"}>
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top.html"}>
+    <!--导航-->
+    <div class="topNav">
+    	<div class="line"><!--勿删--></div>
+    	<div class="pagewd">
+        	<div class="topNav_menu_all fl">
+            	<div class="bt">所有店铺分类</div>
+                
+            </div>
+            <div class="topNav_nav fl">
+            	<ul id="cate_nav">
+                    <{adv name="PC首页功能"}>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--导航end-->    
+	<!--轮播-->
+    <div class="idx_banner">
+    	<div class="flexslider">
+            <ul class="slides">
+                <{adv name="PC首页轮播"}>
+            </ul>  
+        </div>
+        <div class="idx_banner_cont">
+            <div class="topNav_menu fl">
+                <{include file="pchome/block/cate_nav.html"}>
+            </div>
+            <div class="idx_fastenter fr">
+            	<div class="wx_code">
+                    <img src="<{$pager.img}>/<{$site.weixinqr}>" width="90" height="90"/>
+                </div>
+                <div class="list_box">
+                	<ul>
+                    	<li>
+                            <a href="<{link ctl='waimai/shop/index'}>">
+                            	<i class="ico ico1"></i>
+                                <p>订外卖</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<{link ctl='service/index'}>">
+                            	<i class="ico ico2"></i>
+                                <p>找家政</p>
+                            </a>
+                        </li>
+                        <li>
+                        	<a href="<{link ctl='service/index'}>">
+                            	<i class="ico ico3"></i>
+                                <p>找维修</p>
+                            </a>
+                        </li>
+                        <li>
+                        	<a href="<{link ctl='service/index'}>">
+                            	<i class="ico ico4"></i>
+                                <p>找跑腿</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--轮播end-->
+    <div class="bg_grey">
+    	<div class="pagewd">
+            <div class="idx_adv mb20">
+                <ul>
+                    <{adv name="PC首页轮播下面图片广告位"}>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="idx_adv_long mb20"><a href="<{link ctl='shop/index'}>"><img src="/themes/default/pchome/static/pic/pic7.png"></a></div>
+            <!--楼层-->
+            <{foreach $cates as $cate}>
+                <div class="idx_tit mb10">
+                    <div class="tit fl"><{$cate.title}></div>
+                    <div class="fr link_box">
+                        <{foreach $cate.childrens as $cat}>
+                            <a href="<{link ctl='shop/index' args=$cat.cate_id}>"><{$cat.title}></a><span>|</span>
+                        <{/foreach}>
+                        <a href="<{link ctl='shop/index' args=$cate.cate_id}>">全部&gt;</a>
+                    </div>
+                </div>
+                <div class="shangjia_list_box">
+                    <ul>
+                        <{calldata mdl="shop/shop" cate_id=$cate.all city_id=$city.city_id limit=8}>
+                            <li class="shangjia_list">
+                            <div class="img">
+                                <a href="<{link ctl='shop/detail' args=$item.shop_id}>"><img src="<{$pager.img}>/<{$item.logo}>" width="283" height="282"/></a>
+                                <div class="shangjia_label">
+                                    <{if $item.have_tuan == 1}><span class="bg1">团</span><{/if}>
+                                    <{if $item.have_waimai == 1}><span class="bg2">外</span><{/if}>
+                                    <{if $item.have_maidan == 1}><span class="bg3">惠</span><{/if}>
+                                    <{if $item.have_quan == 1}><span class="bg4">券</span><{/if}>
+                                    <{if $item.have_paidui == 1}><span class="bg5">排</span><{/if}>
+                                    <{if $item.have_dingzuo == 1}><span class="bg6">订</span><{/if}>
+                                    <{if $item.have_diancan == 1}><span class="bg7">点</span><{/if}>
+                                    <{if $item.have_weidian == 1}><span class="bg8">微</span><{/if}>
+                                </div>
+                            </div>
+                            <div class="wz_box">
+                                <h3 class="overflow_clear"><a href="<{link ctl='shop/detail' args=$item.shop_id}>" class=""><{$item.title}></a></h3>
+                                <div class="star_box black6"><{$cate.title}>-<{$cates_list[$item['cate_id']]['title']}> <span class="starBg"><span class="star" style="width:<{round($item['score']*20/$item['comments'],2)}>%;"></span></span></div>
+                                <div class="price_box">
+                                    <p class="fl black6">人均：<big class="fontcl1">￥<{$item.avg_amount}></big></p>
+                                    <!--<p class="fr black9">已售<{$item}></p>-->
+                                </div>
+                            </div>
+                        </li>
+                        <{/calldata}>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+            <div class="idx_more_long mb20"><a href="<{link ctl='shop/index' args=$cate.cate_id}>">更多<{$cate.title}>，请点击查看 &gt;</a></div>
+            <{/foreach}>
+            <!--楼层end-->
+        </div>
+    </div>
+	<!--楼层左侧浮动-->    
+    <div class="idx_floor_fixed">
+    	<ul>
+            <{foreach $cates as $cate}>
+        	<li>
+                    <a href="javascript:void(0);">
+                            <i class="ico<{$cate@index + 1}>"></i>
+                        <p><{$cate.title}></p>
+                    </a>
+                </li>
+            <{/foreach}>	
+        </ul>
+    </div>
+    <script>
+		$(document).ready(function() {
+			//楼层快捷导航
+			$(".idx_floor_fixed li").click(function(){
+				var index 	= $(this).index(),
+					_this 	= $(".idx_tit").eq(index),
+					sc_top	= _this.offset().top-20,
+					t   	= 300;
+				if(index == 10){
+					sc_top = sc_top-40;
+				}
+				$("html,body").animate({
+					scrollTop:sc_top
+				},t);
+			});
+			var arr	= [];
+			$(".idx_tit").each(function(i){
+				arr[i] = $(".idx_tit").eq(i).offset().top;
+			});
+			$(window).resize(function(){
+				$(".idx_tit").each(function(i){
+					arr[i] = $(".idx_tit").eq(i).offset().top;
+				});
+			})
+			$(window).scroll(function(){
+				var top = $(document).scrollTop(),
+					t   = 100;
+				for (var i = 0 ; i < arr.length; i++) {
+					if(top >= arr[i]-300 && top < arr[i] + 150){
+						$(".idx_floor_fixed li a").removeClass("on");
+						$(".idx_floor_fixed li a").eq(i).addClass("on");
+					}
+				};
+			});
+			$(window).scroll(function(){
+				var top = $(document).scrollTop(),t   = 100;
+				var sc_top_one	= $(".idx_tit").eq(0).offset().top - 100;
+				if(top > sc_top_one){
+					$(".idx_floor_fixed").show();
+				}else{
+					$(".idx_floor_fixed").hide();
+				}
+			});
+		
+			var fast_nav_height = $(".idx_floor_fixed").height();
+			var window_height	= $(window).height();
+			var fast_nav_left = (parseInt($(window).width())-1200)/2-72+'px';
+			$(".idx_floor_fixed").css({
+				top:(window_height-fast_nav_height)/2,
+				left:fast_nav_left,
+			})
+			$(window).resize(function(){
+				fast_nav_height = $(".idx_floor_fixed").height();
+				window_height   = $(window).height();
+				$(".idx_floor_fixed").stop(true,false).animate({
+					top:(window_height-fast_nav_height)/2
+				},300);
+			});
+		
+		});
+	</script>
+    <!--楼层左侧浮动end-->   
+
+	<script type="text/javascript">
+        $(document).ready(function () {
+            $('.flexslider').flexslider({
+                directionNav: true,
+                pauseOnAction: false,
+            });//首页轮播js结束
+        });
+    </script>
+    <{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

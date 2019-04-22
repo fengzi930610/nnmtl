@@ -1,0 +1,133 @@
+<{foreach $items as $v}>
+<style type="text/css">
+    .caidanListsOne ul li .pic,.caidanListsOne ul li .num,.caidanListsOne ul li .price{
+        flex-shrink:0;
+    }
+    .pub_list .pub_list_bd{
+        max-width: 55%
+    }
+</style>
+<div class="takeout_orderList" rel="<{$order.order_id}>">
+    <div class="list">
+        <div class="list_top border_b">
+            <div class="left">
+                <div class="portrait fl">
+                    <img src="<{$pager.img}>/<{$v.waimai_logo}>" alt="<{link ctl='shop:detail' arg0=$v.shop_id http="waimai"}>" width="30" height="30">
+                </div>
+                <a class="text black3" href="<{link ctl='shop/detail' arg0=$v.shop_id http='waimai'}>">
+                    <h3 class="overflow_clear"><{$v.waimai_title}><i class="ico_right ml10"></i></h3>
+                    <p class="black9"><{$v.dateline}></p>
+                </a>
+            </div>
+            <span class="status wait fr cpmdzz_<{$v.order_id}>"><{$v.msg}></span>
+            <div class="clear"></div>
+        </div>
+    </div>
+    
+    <{if false}><!-- 2019-02-21 使用显示图片列表的方式 禁用原有 -->
+    <div class="tip border_b">
+        <a href="<{link ctl='ucenter/order/detail' arg0=$v.order_id http='waimai'}>" style="color: black">
+            
+            <div class="item-inner">
+                <div class="item-row">
+                    <div class="item-title"><{foreach $v['products'] as $vv}><{if $vv@index==0}><{$vv.product_name}><{elseif $vv@index <=2}>、<{$vv.product_name}><{/if}><{/foreach}>&nbsp;&nbsp;<{if $v['order']['product_number']>1}>等<{/if}><{$v['order']['product_number']}>件商品</div>
+                    <{if $v.pei_type==1&&$v.online_pay==0}>
+                    <div class="item-after">￥<{$v.total_price}></div>
+                    <{else}>
+                    <div class="item-after">￥<{$v.amount+$v.money+$v.card_amount}></div>
+                    <{/if}>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- 2019-02-21 使用显示图片列表的方式禁用原有 结束 --><{/if}>
+
+    <{if false}><!-- 2019-02-21 使用显示图片列表的方式 --><{/if}>
+    <a href="<{link ctl='ucenter/order/detail' arg0=$v.order_id http='waimai'}>" style="color: black">
+        <div class="caidanListsOne">
+            <ul>
+               <{foreach $v['products'] as $vv}>
+                <li class="pub_list">
+                    <div class="pic" style="background-image: url('<{$pager.img}>/<{$vv.product_photo}>');"></div>
+                    <div class="pub_list_bd">
+                        <h3 class="overflow_clear"><{$vv.product_name}></h3>
+                    </div>
+                    <div class="num">x <{$vv.product_number}></div>
+                    <div class="price">￥<{$vv.product_prices}></div>
+                </li>
+                <{/foreach}>
+            </ul>
+        </div>
+        <div class="tip border_b">
+            <div class="item-inner">
+                <div class="item-row">
+                    <div class="item-title">总计<{$v['order']['product_number']}>件商品</div>
+                    <{if $v.pei_type==1&&$v.online_pay==0}>
+                    <div class="item-after">实付￥<{$v.total_price}></div>
+                    <{else}>
+                    <div class="item-after">实付￥<{$v.amount+$v.money+$v.card_amount}></div>
+                    <{/if}>
+                </div>
+            </div>
+        </div>
+    </a>
+    <{if false}><!-- 2019-02-21 使用显示图片列表的方式 结束 --><{/if}>
+
+    <div class="btn_tip cnmcp_<{$v.order_id}>" >
+        
+
+
+        <{if $v.show_btn.cui=='1'&&$v.cui_time==0}>
+        <a href="javascript:;" class="cui_btn" rel="<{$v.order_id}>" onclick="cui(this)">催单</a>
+        <{/if}>
+
+        <{if $v.show_btn.canel=='1'}>
+        <a href="javascript:;" class="cancel_btn" rel="<{$v.order_id}>" onclick="canel(this)">取消订单</a>
+        <{/if}>
+
+        <{if $v.show_btn.pay=='1'}>
+        <a data-id="<{$v.order_id}>" onclick="gopay(this);"  class="pay_btn" id="order_<{$v.order_id}>" rel="<{$v.flash_time}>" data-shopid="<{$v.shop_id}>" is-baskets="<{$v.is_baskets}>">去支付</a>
+        <script>
+            __Wait_Pay_Order.push({"dateline":<{$v.flash_time}>,"order_id":<{$v.order_id}>});
+        </script>
+
+        <{/if}>
+
+        <{if $v.show_btn.payback=='1'}>
+        <a href="javascript:;" class=" payback" rel="<{$v.order_id}>" onclick="tui(this)">申请退款</a>
+        <{/if}>
+
+        <{if $v.show_btn.see=='1'}>
+        <a href="<{link ctl='shop:comment' arg0=$v.shop_id http='waimai'}>" class="chakan_btn">查看评价</a>
+        <{/if}>
+
+        <{if $v.show_btn.confirm=='1'&&($v.pei_type==0||$v.pei_type==1)}>
+        <a href="javascript:;" class="queding_btn" rel="<{$v.order_id}>" onclick="queren(this)">确认送达</a>
+        <{/if}>
+        <{if $v.show_btn.confirm=='1'&&$v.pei_type==3}>
+        <a href="javascript:;" class="queding_btn" rel="<{$v.order_id}>" onclick="queren(this)">确认自提</a>
+        <{/if}>
+        <{if $v.show_btn.admin=='1'}>
+        <a href="javascript:;" class="shenqing_btn" rel="<{$v.order_id}>" onclick="shenqin(this);">申请客服</a>
+        <{/if}>
+        <{if $v.show_btn.comment=='1'}>
+        <a href="<{link ctl='ucenter/order:comment' arg0=$v.order_id  http='waimai'}>" class="pingjia_btn">去评价</a>
+        <{/if}>
+        <{if $v.show_btn.again=='1'}>
+        <a href="javascript:;" class="more_btn" data-id="<{$v.shop_id}>" rel="<{$v.order_id}>" onclick="again(this)">再来一单</a>
+        <{/if}>
+        
+        <a href="<{link ctl='ucenter/order/detail' arg0=$v.order_id http='waimai'}>" class="pingjia_btn">订单详情</a>
+        <{if false}><a href="<{link ctl='shop/detail' arg0=$v.shop_id http='waimai'}>" class="pingjia_btn">店铺</a><{/if}>
+        
+
+    </div>
+    <div class="left_top"><p>外</p></div>
+</div>
+
+<{/foreach}>
+
+
+
+
+

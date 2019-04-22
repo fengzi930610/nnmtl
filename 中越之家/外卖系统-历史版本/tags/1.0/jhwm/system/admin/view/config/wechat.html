@@ -1,0 +1,183 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <h4 class="tip-notice">微信公众号必须为服务号类型才能正常使用</h4>
+    <form action="?system/config-wechat.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="wechat" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <!-- <tr>
+                <th>公众号类型：</th>
+                <td>
+                    <label><input type="radio" value="0" <{if empty($config.type)}>checked="checked"<{/if}>name="config[type]">订阅号</label>
+                    <label><input type="radio" value="1" <{if $config.type}>checked="checked"<{/if}> name="config[type]">服务号</label>&nbsp;&nbsp;
+                    
+                </td>
+            </tr> -->
+            <tr>
+                <th>公众号APPID：</th>
+                <td><input type="text" name="config[appid]" value="<{$config.appid}>" class="input w-300"/></td>
+            </tr>
+
+            <tr>
+                <th>公众号APPSecret：</th>
+                <td><input type="text" name="config[appsecret]" value="<{$config.appsecret}>" class="input w-300"/></td>
+            </tr>
+            
+            <tr>
+                <th>微信Token：</th>
+                <td><input type="text" name="config[wechat_token]" value="<{$config.wechat_token|default:md5(__CFG::SECRET_KEY|cat:__CFG::Authorize)}>" class="input w-300"/><span class="tip-comment"><a href=""微信接口Token,全站统一Token</span></td>
+            </tr>
+
+            <tr>
+                <th>微信EncodingAESKey：</th>
+                <td><input type="text" name="config[wechat_aeskey]" value="<{$config.wechat_aeskey}>" class="input w-300"/><span class="tip-comment"><a href=""微信接口Token,全站统一Token</span></td>
+            </tr>
+
+            <tr>
+                <th>APP应用ID：</th>
+                <td>
+                    <input type="text" name="config[app_appid]" value="<{$config.app_appid}>" class="input w-300"/>
+                    <span class="tip-comment">微信开放平台申请获得，<a href="https://open.weixin.qq.com/" target="_blank">立即申请</a></span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>APP应用Secret：</th>
+                <td>
+                    <input type="text" name="config[app_appsecret]" value="<{$config.app_appsecret}>" class="input w-300"/>
+                    <span class="tip-comment">微信开放平台申请获得，<a href="https://open.weixin.qq.com/" target="_blank">立即申请</a></span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>公众号应用ID：</th>
+                <td>
+                    <input type="text" name="config[open_mp_appid]" value="<{$config.open_mp_appid}>" class="input w-300"/>
+                    <span class="tip-comment">公众号第三方平台AppId, 微信开放平台申请获得，<a href="https://open.weixin.qq.com/" target="_blank">立即申请</a></span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>公众号应用Secret：</th>
+                <td>
+                    <input type="text" name="config[open_mp_appsecret]" value="<{$config.open_mp_appsecret}>" class="input w-300"/>
+                    <span class="tip-comment">公众号第三方平台AppSecret, 微信开放平台申请获得，<a href="https://open.weixin.qq.com/" target="_blank">立即申请</a></span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>公众号应用Token：</th>
+                <td><input type="text" name="config[open_mp_token]" value="<{$config.open_mp_token|default:md5(__CFG::SECRET_KEY|cat:__CFG::Authorize)}>" class="input w-300"/><span class="tip-comment"><a href=""微信接口Token,全站统一Token</span></td>
+            </tr>
+
+            <tr>
+                <th>公众号应用AESKey：</th>
+                <td><input type="text" name="config[open_mp_aeskey]" value="<{$config.open_mp_aeskey}>" class="input w-300"/><span class="tip-comment"><a href=""微信接口Token,全站统一Token</span></td>
+            </tr>
+
+            <{if $have_wxapp}>
+            <tr>
+                <th>微信小程序appid：</th>
+                <td>
+                    <input type="text" name="config[wxapp_appid]" value="<{$config.wxapp_appid}>" class="input w-300"/>
+                    <span class="tip-comment">小程序appid</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>微信小程序Secret：</th>
+                <td>
+                    <input type="text" name="config[wxapp_secret]" value="<{$config.wxapp_secret}>" class="input w-300"/>
+                    <span class="tip-comment">小程序Secret</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>微信小程序原始ID：</th>
+                <td>
+                    <input type="text" name="config[wxapp_id]" value="<{$config.wxapp_id}>" class="input w-300"/>
+                    <span class="tip-comment">微信小程序原始ID</span>
+                </td>
+            </tr>
+            <{/if}>
+
+            <!--临时增加跑腿-->
+            <{if $have_pwxapp}>
+            <tr>
+                <th>微信小程序appid(跑腿)：</th>
+                <td>
+                    <input type="text" name="config[wxapp_appid_paotui]" value="<{$config.wxapp_appid_paotui}>" class="input w-300"/>
+                    <span class="tip-comment">小程序appid</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>微信小程序Secret(跑腿)：</th>
+                <td>
+                    <input type="text" name="config[wxapp_secret_paotui]" value="<{$config.wxapp_secret_paotui}>" class="input w-300"/>
+                    <span class="tip-comment">小程序Secret</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>微信小程序原始ID(跑腿)：</th>
+                <td>
+                    <input type="text" name="config[wxapp_id_paotui]" value="<{$config.wxapp_id_paotui}>" class="input w-300"/>
+                    <span class="tip-comment">微信小程序原始ID</span>
+                </td>
+            </tr>
+            <{/if}>
+            <!--临时增加跑腿-->
+
+            <tr>
+                <th>开启引导关注：</th>
+                <td>
+                    <label><input type="radio" value="1" <{if $config.subscribe_open}>checked="checked"<{/if}>name="config[subscribe_open]">开启</label>
+                    <label><input type="radio" value="0" <{if empty($config.subscribe_open)}>checked="checked"<{/if}> name="config[subscribe_open]">关闭</label>&nbsp;&nbsp;        
+                </td>
+            </tr>
+
+            <tr>
+                <th>公众号二维码：</th>
+                <td>
+                    <input type="hidden" name="config[subscribe_qr]" value="<{$config.subscribe_qr}>" />
+                    <input type="file" name="config[subscribe_qr]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+                    <{if $config.subscribe_qr}><img src="<{$pager.img}>/<{$config.subscribe_qr}>" photo="<{$pager.img}>/<{$config.subscribe_qr}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+                </td>
+            </tr>
+
+            <tr>
+                <th>模板消息跳转：</th>
+                <td>
+                    <label><input type="radio" value="0" <{if empty($config.wxtmpl)}>checked="checked"<{/if}>name="config[wxtmpl]">网页</label>
+                    <label><input type="radio" value="1" <{if $config.wxtmpl}>checked="checked"<{/if}> name="config[wxtmpl]">小程序</label>&nbsp;&nbsp;
+                    <span class="tip-comment">默认跳网页（跳小程序：小程序appid必须与发模板消息的公众号是绑定关联关系，并且小程序要求是已发布的）</span>        
+                </td>
+            </tr>
+
+            <tr>
+                <th>微信中支付宝支付</th>
+                <td>
+                    <label><input type="radio" name="config[wx_alipay]" <{if $config.wx_alipay == 0 || empty($config.wx_alipay)}>checked="checked"<{/if}> value="0"/>隐藏</label>&nbsp;
+                    <label><input type="radio" name="config[wx_alipay]" <{if $config.wx_alipay == 1}>checked="checked"<{/if}> value="1"/>浏览器打开</label>&nbsp;&nbsp;&nbsp;
+                    <span class="tip-comment">在微信中，支付宝支付的模式</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

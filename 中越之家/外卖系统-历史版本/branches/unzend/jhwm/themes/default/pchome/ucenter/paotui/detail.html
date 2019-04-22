@@ -1,0 +1,321 @@
+<{assign var="page_title" value="订单详情"}>
+<{assign var='tpl_title' value=L("订单详情")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+    <div class="minePage_bg bg_grey">
+    	<div class="pagewd">
+            <{include file="pchome/ucenter/block/left.html"}>
+            <div class="minePage_cont fr">
+            	<!--内容start-->
+            	<div class="errand-orderParticulars mq-orderParticulars">
+                    <div class="top-title">
+                        跑腿订单&gt;<span class="maincl">订单详情</span>
+                    </div> 
+                    <div class="top-lg-box">
+                        <div class="box-left fl">
+                            <p class="haoma">订单号：<{$detail.order_id}></p>
+                            <p class="status"><{$detail.order_status_label}></p>
+                            <{if $detail.order_status == 0 && $detail.pay_status == 0}>
+                                <a href="<{link ctl='payment/pay' args=$detail.order_id}>" class="btn pay-btn active">立即支付</a>
+                            <{elseif $detail.order_status == 5}>
+                                <a href="javascript:void(0);" class="btn pay-btn active">补差价</a>
+                            <{elseif $detail.order_status == 8 && $detail.comment_status == 0}>
+                                <a href="javascript:void(0);" id="dianping_btn" class="btn pay-btn active">去评价</a>
+                            <{else}>
+                                <{$detail.order_status_warning}>
+                            <{/if}>
+                            <{if $detail.order_status == 0}>
+                            <a href="javascript:void(0);" class="btn quxiao-btn jq_cancel">取消订单</a>
+                            <{/if}>
+                        </div>
+                        <div class="box-right fl">
+                        <p class="tishi black6">该订单会为您保留24小时（从下单之日算起），24小时之后如果未能付款，系统将自动取消该订单。</p>
+                            <div class="process">
+                                <div class="box box-first">
+                                    <div class="cir active">1</div>
+                                    <p class="pro-status">等待付款</p>
+                                    <div class="text txt-active">
+                                        <p>提交订单</p>
+                                        <p><{$detail.dateline|format:'Y-m-d'}></p>
+                                        <p><{$detail.dateline|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <{if $detail.pay_time>0}>
+                                <div class="box">
+                                    <div class="cir active">2</div>
+                                    <div class="text txt-active">
+                                       <p>付款成功</p> 
+                                       <p><{$detail.pay_time|format:'Y-m-d'}></p>
+                                       <p><{$detail.pay_time|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <{else}>
+                                <div class="box">
+                                    <div class="cir">2</div>
+                                    <div class="text">
+                                       <p>等待付款</p> 
+                                    </div>
+                                </div>
+                                <{/if}>
+                                <{if $detail.staff_id >0}>
+                                <div class="box">
+                                    <div class="cir active">3</div>
+                                    <div class="text txt-active">
+                                       <p>已接单</p>
+                                       <p><{$detail.jd_time|format:'Y-m-d'}></p>
+                                       <p><{$detail.jd_time|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="cir active">4</div>
+                                    <div class="text txt-active">
+                                       <p>等待服务</p>  
+                                    </div>
+                                </div>
+                                <{else}>
+                                <div class="box">
+                                    <div class="cir">3</div>
+                                    <div class="text">
+                                       <p>待接单</p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="cir">4</div>
+                                    <div class="text">
+                                       <p>等待服务</p>  
+                                    </div>
+                                </div>
+                                <{/if}>
+                                <{if $detail.order_status == 8}>
+                                <div class="box">
+                                    <div class="cir active">5</div>
+                                    <div class="text txt-active">
+                                        <p>正在服务</p>
+                                    </div>
+                                </div>
+                                 <div class="box box-last">
+                                    <div class="cir active">6</div>
+                                    <div class="text txt-active">
+                                        <p>服务完成</p>
+                                        <p><{$detail.lasttime|format:'Y-m-d'}></p>
+                                        <p><{$detail.lasttime|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <{elseif $detail.order_status == -1}>
+                                <div class="box">
+                                    <div class="cir">5</div>
+                                    <div class="text">
+                                        <p>正在服务</p>
+                                    </div>
+                                </div>
+                                 <div class="box box-last">
+                                    <div class="cir active">6</div>
+                                    <div class="text txt-active">
+                                        <p>订单取消</p>
+                                        <p><{$detail.lasttime|format:'Y-m-d'}></p>
+                                        <p><{$detail.lasttime|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <{else}>
+                                <div class="box">
+                                    <div class="cir">5</div>
+                                    <div class="text">
+                                        <p>正在服务</p>
+                                    </div>
+                                </div>
+                                 <div class="box box-last">
+                                    <div class="cir">6</div>
+                                    <div class="text">
+                                        <p>服务完成</p>
+                                    </div>
+                                </div>
+                                <{/if}>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div> 
+                    <!--<div class="mid-box">
+                        <div class="information">
+                            <p>联系人信息：<span class="black6"><{$detail.contact}>，<{$detail.mobile}>，<{$detail.addr}><{$detail.house}></span></p>
+                            <{if $detail.order.fuwu_time>0}><p>服务时间：<span class="black6"><{$detail.order.fuwu_time|format:'Y-m-d H:i'}></span></p><{/if}>
+                            <p>服务要求：<span class="black6 sm"><{$detail.intro}></span></p>
+                            <p class="last">担保定金：¥<{$detail.order.danbao_amount}><span class="sm-status"><{if $detail.pay_time >0}>已支付<{else}>未支付<{/if}></span></p>
+                        </div>
+                    </div>-->
+                    <div class="mid-box">
+                        <div class="left-top"><{$detail.order.type_title}></div>
+                        <div class="information">
+                            <p>担保费用：<span class="price"><{$detail.order.danbao_amount}>元</span></p>
+                            <p>跑腿费用：<span class="price"><{$detail.order.paotui_amount}>元</span></p>
+                            <p>结算费用：<span class="price"><{$detail.order.jiesuan_amount}>元</span></p>
+                            <{if $detail.order.type == 'buy'}>
+                                <{if $detail.order.o_addr}>
+                                    <p>购买地址：<span class="black6"><{$detail.order.o_addr}><{$detail.order.o_house}></span></p>
+                                <{/if}>
+                            <p>收货时间：<span class="black6"><{$detail.order.time|format:'Y-m-d H:i'}></span></p>
+                            <p>备注：<span class="black6 sm"><{$detail.intro}></span></p>
+                            <p>收货地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                            <p class="last">收货人：<span><{$detail.contact}>  <{$detail.mobile}></span></p>
+                            <{elseif $detail.order.type == 'song'}>
+                                <{if $detail.order.o_addr}>
+                                        <p>取货地址：<span class="black6"><{$detail.order.o_addr}><{$detail.order.o_house}></span></p>
+                                    <{/if}>
+                                <p>收货时间：<span class="black6"><{$detail.order.time|format:'Y-m-d H:i'}></span></p>
+                                <p>备注：<span class="black6 sm"><{$detail.intro}></span></p>
+                                <p>收货地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                                <p class="last">收货人：<span><{$detail.contact}>  <{$detail.mobile}></span></p>
+                            <{elseif $detail.order.type == 'paidui'}>
+                            <{if $detail.order.o_addr}>
+                                <p>排队地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                            <{/if}>
+                            <p>排队时间：<span class="black6"><{$detail.order.time|format:'Y-m-d H:i'}></span></p>
+                            <{elseif $detail.order.type == 'chongwu'}>
+                            <{if $detail.addr}>
+                                <p>服务地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                            <{/if}>
+                            <p>服务时间：<span class="black6"><{$detail.order.time|format:'Y-m-d H:i'}></span></p>
+                            <{elseif $detail.order.type == 'seat'}>
+                            <{if $detail.addr}>
+                                <p>服务地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                            <{/if}>
+                            <p>服务时间：<span class="black6"><{$detail.order.time|format:'Y-m-d H:i'}></span></p>
+                            <{elseif $detail.order.type == 'other'}>
+                            <{if $detail.addr}>
+                                <p>服务地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                            <{/if}>
+                            <p>服务时间：<span class="black6"><{$detail.order.time|format:'Y-m-d H:i'}></span></p>
+                            <{/if}>
+                        </div>
+                    </div>
+                    <{if $detail.staff_id >0}>
+                    <div class="bottom-box">
+                        <p>服务人员信息：<{$detail.staff.name}><span class="black6"><{$detail.staff.mobile}></span></p>
+                    </div>
+                    <{/if}>
+                </div>
+                <!--内容end-->
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<!--评价弹出层-->
+    <div class="mask_bg"></div>
+    <div class="shangjia_evlt_mask shangjia_evlt_mask_box">
+    	<div class="tit">评价</div>
+        <div class="cont">
+        <form action="<{link ctl='ucenter/order/staff_comment_handle' }>" mini-form="car-form" id="comment_form" method="post">
+            <script>
+                function fileSelected(obj, type) {
+                    var files = obj.files;
+                    for (var i = 0; i < files.length; i++) {
+                        var tag = '';
+                        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                        if (!rFilter.test(files[i].type)) {
+                            alert("只允许上传JPG、PNG、GIF格式图片");
+                            return false;
+                        }
+                        var reader = new FileReader();
+                        reader.onloadstart = function (e) {
+                            $(".loading").show();
+                        }
+                        reader.onload = function (e) {
+                            $('#photo' + type).hide();
+                            $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                        }
+                        reader.readAsDataURL(files[i]);
+                    }
+                }
+            </script>
+            	<div class="star_box mb20">
+                	<span class="fl">总体评价</span>
+                    <div class="starCz_bg fl">
+                    	<div class="starCz_bar" style="width:60%;"></div>
+                        <div class="click">
+                            <a href="javascript:void(0);" rel="1"></a>
+                            <a href="javascript:void(0);" rel="2"></a>
+                            <a href="javascript:void(0);" rel="3"></a>
+                            <a href="javascript:void(0);" rel="4"></a>
+                            <a href="javascript:void(0);" rel="5"></a>
+                            <input type='hidden' name="data[score]" id="score" value="3">
+                        </div>
+                    </div>
+                </div>
+                <div class="textarea_box mb20">
+                    <textarea name="data[content]" id="content" placeholder="您对Ta的的印象"></textarea>
+                </div>
+                <div class="img_box mb10">
+                	<a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo1" id="photo1" onchange="fileSelected(this, 1)" value="上传"   />
+                            <img src="" id="img1" style="display:none;" width="100%" height="100%" />
+                        </a>
+                        <a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo2" id="photo2" onchange="fileSelected(this, 2)" value="上传"   />
+                            <img src="" id="img2" style="display:none;" width="100%" height="100%" />
+                        </a>
+                        <a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo3" id="photo3" onchange="fileSelected(this, 3)" value="上传"   />
+                            <img src="" id="img3" style="display:none;" width="100%" height="100%" />
+                        </a>
+                        <a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo4" id="photo4" onchange="fileSelected(this, 4)" value="上传"   />
+                            <img src="" id="img4" style="display:none;" width="100%" height="100%" />
+                        </a>
+                </div>
+                <div class="btn_box">
+                    <input type="hidden" name="data[order_id]" id="order_id" value="<{$detail.order_id}>"/>
+                    <input type="button" class="btn cancel" value="取消">
+                    <input type="submit" class="btn" id="comment_submit" value="确认评价">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var evlt_h = $('.shangjia_evlt_mask_box').height();
+            $('.shangjia_evlt_mask_box').css("margin-top",-evlt_h/2 + 'px');
+
+            $("#dianping_btn").click(function(){
+                    $('.shangjia_evlt_mask_box').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+            });
+            $(".shangjia_evlt_mask .cancel,.mask_bg").click(function(){
+                    $('.shangjia_evlt_mask').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+            });
+            
+            $('.click a').click(function () {
+                var rel = $(this).attr('rel');
+                $(this).parent().find('input').val(rel);
+                $(".starCz_bar").css('width', rel * 20 + '%');
+            })
+            $("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+                if (ret.error == 0) {
+                    layer.open({content: ret.message, time: 2});
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 1500);
+                } else {
+                    layer.open({content: ret.message, time: 2});
+                    return false;
+                }
+            }});
+            
+        });
+    </script>
+    <!--评价弹出层end-->
+    <script>
+	$(document).ready(function() {
+            $(".jq_cancel").click(function(){
+                var order_id = "<{$detail.order_id}>";
+                var link = "<{link ctl='ucenter/order/cancel' args=oooo}>";
+                $.post(link.replace("oooo",order_id),{},function(ret){
+                    layer.msg(ret.message);
+                    if(ret.error == 0){
+                        window.location.reload(true);
+                    }
+                },'json')
+            })
+        });
+    </script>
+<{include file="pchome/block/footer.html"}>

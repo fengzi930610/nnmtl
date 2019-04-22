@@ -1,0 +1,58 @@
+<{assign var='tpl_title' value=L("配送员对账-历史账单")}>
+<{include file="block/header.html"}>
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="duizDelt_state mt10">
+                    <div class="fl">
+                        <h3><{$data.day}></h3>
+                    </div>
+                    <div class="fr">
+                        <h3>￥<{$data.amount}></h3>
+                        <!-- <a href="#" class="link"><i></i></a>-->
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="duizDelt_state_z mb10">
+
+                    <div class="fl">订单共<{$data.order|default:0}> 笔</div>
+                    <div class="fr">￥<{$data.amount|amount:0}></div>
+                </div>
+
+                <!-- 内容部分 -->
+                <p class="black9 mr10 ml10 mt5 mb5"><big>历史账单</big></p>
+                <div class="duizLishi_list">
+                    <ul id="loaditems">
+                        <{foreach $items as $k=>$v}>
+                        <li><a href="<{link ctl='bills/detail' arg0=$v.bills_id}>">
+                            <div class="fl">
+                                <h3><{$v.day}></h3>
+                                <{if $v.status==0}> <P class="fontcl3">未结算</P><{else}><P class="black9">已结算</P><{/if}>
+                            </div>
+                            <div class="fr">
+                                <big>￥<{$v.amount}></big>
+                                <P class="fontcl3"></P>
+                            </div>
+                            <div class="clear"></div>
+                            <i class="linkico"></i>
+                        </a></li>
+                        <{foreachelse}>
+                        <div class="loadding" style="display: block;"><div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">没有找到数据</span></div></div>
+                        <div class="clear"></div>
+                        <{/foreach}>
+
+                    </ul>
+
+                </div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<{include file="block/header.html"}>

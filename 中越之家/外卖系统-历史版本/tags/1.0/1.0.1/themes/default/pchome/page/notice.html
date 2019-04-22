@@ -1,0 +1,52 @@
+<{assign var='tpl_title' value=L("<{$CONFIG.site.title}> - 系统提示！")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+    <div class="headerTop">
+        <div class="pagewd">
+            <a href="<{link ctl='index/index'}>" class="logo fl"><img src="<{$pager.img}>/<{$site.logo2}>" width="220" height="60" /></a>        
+            <div class="clear"></div>
+        </div>
+    </div>
+   	<!--头部结束-->
+    <!--内容-->
+    <div class="tishi_page">
+    	<div class="pagewd">
+        	<div class="page-cont-success">
+                    <{if $pager.error==0}>
+            	<img src="/themes/default/pchome/static/images/tishi/win_bg.png">
+                <p class="the-words"><span style='color:green;'><{$pager.message|default:'操作成功！'}></span></p>
+                <{else}>
+                <img src="/themes/default/pchome/static/images/tishi/lost_bg.png">
+                <p class="the-words"><span style='color:#ff0000;'><{$pager.message|default:'操作失败！'}></span></p>
+                <{/if}>
+                <p class="black9 tiao-wenzi"><span><span id="czts_time"></span>秒后自动<a href="javascript:jump();" class="tiao">跳转</a></span></p>              
+            </div>	
+        </div>	
+    </div>
+    <!--内容end-->    
+<script>
+    var secs = 3; //倒计时的秒数
+    var URL;
+    function Load(url) {
+        URL = "<{if $pager.link}><{$pager.link}><{else}><{link ctl='index'}><{/if}>";
+        for (var i = secs; i >= 0; i--) {
+            window.setTimeout('doUpdate(' + i + ')', (secs - i) * 1000);
+        }
+    }
+    function doUpdate(num) {
+        document.getElementById('czts_time').innerHTML = num;
+        if (num == 0) {
+            window.location = URL;
+        }
+    }
+    function jump(){
+        URL = "<{if $pager.link}><{$pager.link}><{else}><{link ctl='index'}><{/if}>";
+        window.location.href = URL;
+    }
+    
+</script>
+<script language="javascript">
+    Load(""); //要跳转到的页面
+</script>    
+<{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

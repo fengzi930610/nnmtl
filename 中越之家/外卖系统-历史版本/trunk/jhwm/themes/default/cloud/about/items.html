@@ -1,0 +1,42 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco back headerIco2"></a>
+            <a class="pull-right headerIco headerIco3" href="<{link ctl='cloud/index'}>"></a>
+            <h1 class="title">常见问题</h1>
+        </header>
+		<!--头部结束-->
+        <div class="content"> 
+        	<!--常见问题-->
+            <div class="prblm_list_box">
+                <ul>
+                   <{foreach $items as $item}>
+                        <li class="prblm_list">
+                            <div class="tit overflow_clear"><span class="num"><{$item@index+1}>.</span><{$item.title}><i class="ico"></i></div>
+                            <div class="cont">
+                                <{$item['content']}>
+                            </div>
+                        </li>
+                    <{/foreach}>
+                </ul>
+            </div>
+        	<!--常见问题结束-->
+        </div>
+    </div>
+<script>
+$(document).ready(function() {
+    $(".prblm_list .tit").click(function(){
+		
+		if($(this).parent(".prblm_list").hasClass("on")){
+			$(".prblm_list").removeClass("on");
+			$(this).parent(".prblm_list").removeClass("on");
+		}else{
+			$(".prblm_list").removeClass("on");
+			$(this).parent(".prblm_list").addClass("on");
+		}
+		
+	});
+});
+</script>
+<{include file="cloud/block/footer.html"}>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+		<title><{$CONFIG.site.title}></title>
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="%THEME%/static/js/common.js?20170510" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<script type="text/javascript">
+		setTimeout(function(){
+			var params = {
+				"order_id" : "<{$order.order_id}>",//订单ID
+				"amount" : "<{$order.amount}>",
+				"rebackurl" : "<{$rebackurl}>", //支付后跳转的页面
+				"code" : "", //支付类型（可选），如果传了支付类型了就直接去支付了，如果没有传到选择支付方式的界面	
+			}
+			window.JHAPP.onPayment(JSON.stringify(params));
+		}, 10)
+	</script>
+	<body></body>
+</html>

@@ -1,0 +1,6 @@
+<{foreach $data.article as $item}>
+<li>
+    <a href="<{link ctl='content:items' arg0=$item.cat_id}>" title="<{$item.cat_title}>" target="_blank" class="f14 red"><{$item.cat_title}></a><font class="f14">&nbsp;|&nbsp;</font>
+    <a href="<{link ctl='content:detail' arg0=$item.article_id}>" class="f14 black8"><{$item.title|cutstr:40:'..'}></a>
+</li>
+<{/foreach}>

@@ -1,0 +1,56 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><label class="left">添加分组</label>
+            </td>
+            <td align="left"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?tools/tuisong-edittag-<{$detail['tui_id']}>.html" method="POST" onsubmit="return check(this);">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+    <tbody>
+        <tr>
+            <th><span class="red">*</span>中文名称：</th>
+            <td><input type="text" name="data[title]" value="<{$detail['title']}>" class="input w-300" msg="中文名称至少2位字符"></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>英文标示：</th>
+            <td><input type="text" name="data[name]" value="<{$detail['name']}>" class="input w-300" msg="英文标示至少2位字符"></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>排序：</th>
+            <td><input type="text" name="data[order]" value="<{$detail['order']}>" class="input w-300" msg="排序值只能为整数"></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td><input type="submit" class="bt-big" value="提交数据"></td>
+        </tr>
+    </tbody>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+/*验证提交数据*/
+function check(o)
+{
+    eles = o.elements;
+    for(i=0;i<eles.length;i++){
+        if(eles[i].name){
+            regex = eles[i].getAttribute('regex');
+            msg   = eles[i].getAttribute('msg');
+            value = eles[i].value;
+            regex = [/^[^\s]{2,}$/, /^[A-Za-z]{2,}$/, /^[0-9]{1,}$/];
+            if(!(regex[i].test(eles[i].value))){
+                layer.open({content:msg, time:2000});
+                return false
+            }
+        }
+    }
+    return true;
+}
+</script>

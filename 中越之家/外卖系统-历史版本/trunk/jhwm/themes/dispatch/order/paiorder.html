@@ -1,0 +1,690 @@
+<{assign var='tpl_title' value=L("待指派")}>
+<{include file="newblock/header.html"}>
+<style>
+    .wrapperMain_bg * { white-space: normal; }
+    #staff_list  .on { color: #35b8eb;}
+    .riderMark{left: 0; top: 0; transform: translate(-0%,-0%); -webkit-transform: translate(-0%,-0%);}
+    .orderAssign ul li p{ padding-left: 24px;}
+    .riderList ul li .operate.on{ bottom: 0;}
+    .button-group{ position:absolute; right:220px; top:15px; background: rgba(107, 134, 153, 0.7);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF6b8699,endColorstr=#BF6b8699); height:40px; border-radius:40px; box-shadow: 0 0 8px #889faf;}
+    .button-group label{ display:block; float:left; font-size:14px; color:#fff; padding:0 15px; min-width:60px; height:40px; line-height:40px; text-align:center; position:relative; cursor:pointer; font-weight: bold;}
+    .button-group label input{ position:absolute; left:0; top:0; opacity:0;}
+    .button-group label.on{ background:#fff; border-radius:40px; color:#09b49a;}
+    .orderAssign .detail_btn{ text-align: right; margin: 5px 10px 0 0; }
+    .orderAssign .detail_btn a{ display: inline-block; line-height: 20px; color: #35b8eb; }
+	#right_close{ right: 200px; }
+	#right_close,#right_show{ background: #35b8eb; color: #fff; }
+</style>
+<div class="wrapperMain">
+    <div class="wrapperMain_bg">
+        <!--内容-开始-->
+          <!-- <div class="tableBox_top mb20">
+                <div class="console fr">
+                    <ul>
+                        <li>
+                            <p>今日订单</p>
+                            <p><{$today_count|default:0}></p>
+                        </li>
+                        <li>
+                            <p>配送时间<span class="state">运营中</span></p>
+                            <p>05:00 - 03:00</p>
+                        </li>
+                        <li>
+                            <p>1月13日</p>
+                            <p><i class="fa fa-cloud mr5"></i>9℃</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>-->
+            <div class="tabsChangeBox mb20">
+                <div class="fl tabsBox">
+                    <ul>
+                        <li class="on"><a href="<{link ctl='order/paiorder' http='dispatch'}>" target="J_iframe">待指派<span class="num"><{$count.pai|default:0}></span></a></li>
+                        <li><a href="<{link ctl='order/waitorder' http='dispatch'}>" target="J_iframe">配送中</a><span class="num"><{$count.pei|default:0}></span></li>
+                        <li><a href="<{link ctl='order/complete' http='dispatch'}>" target="J_iframe">已完成<span class="num"><{$count.complete|default:0}></span></a></li>
+                        <li><a href="<{link ctl='order/yichang' http='dispatch'}>" target="J_iframe">异常<span class="num"><{$count.yichang}></span></a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="fr right">
+                     <div class="fl renovate"> <span id="shuaxin_label" style="color: #f60;">距刷新30s</span>&nbsp;&nbsp;&nbsp;自动刷新数据<i class="ico"></i></div>
+                    <a href="<{link ctl='order/waitordertable' http='dispatch'}>" class="fr switch">切换列表派单</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="mapBox">
+                <div class="map" id="map" style="width: 100%;height: 800px;" >
+                   <!-- <div class="riderMark" style="z-index: 99999">
+                        <a href="javascript:;" class="fa fa-eye fl" id="see"></a>
+                        <div class="name fl">赵又廷</div>
+                        <div class="num fl black9"><span class="maincl">0</span>/<span class="fontcl3">0</span>/<span class="black6">5</span></div>
+                        <div class="clear"></div>
+                    </div>-->
+                </div>
+                <div class='button-group'>
+                    <label class="on"><input type='radio' onclick='refresh(this.value)' checked name='mapStyle' value='normal'>标准</label>
+                    <label><input type='radio' onclick='refresh(this.value)' name='mapStyle' value='grey'>夜间</label>
+                    <label><input type='radio' onclick='refresh(this.value)' name='mapStyle' value='darkblue'>极夜蓝</label>
+                    <label><input type='radio' onclick='set_map_view();' name='mapStyle' value='darkblue'>卫星</label>
+                </div>
+                <div class="mapBox_left">
+                    <div class="idx_ord_ts" style="display: none; z-index:2; background:#fff" id="shua_order">您的订单发生变更，快去看看吧！
+                        <!-- <a href="javascript:;" class="btn" onClick="load_order();">立即刷新</a> -->
+                    </div>
+                    <div class="top ts" style="top:0;">
+                        <div class="filter">
+                            <input type="text" name="" value="" id="shop_title" placeholder="搜商家">
+                        </div>
+                        <a href="javascrpt:;" class="fa fa-refresh" id="refresh"></a>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="orderAssign">
+                        <ul id="order_list">
+                        </ul>
+                    </div>
+                </div>
+                <a href="javascript:;" id="right_close">关闭</a>
+            	<a href="javascript:;" id="right_show">展开</a>
+                <div class="mapBox_right">
+                    <div class="top">
+                        <div class="search">
+                            <div id="so_staff">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <input type="text" id="staff_text" name="" value="" placeholder="搜骑手">
+                        </div>
+                        <div class="filter">
+                            <input type="text" name="" id="order_limit" readonly="readonly" value="所有背单">
+                            <i class="fa fa-caret-down"></i>
+                            <div class="pullDown">
+                                <ul>
+                                    <li rel="-1" class="on">所有背单</li>
+                                    <li rel="0">=0</li>
+                                    <li rel="1">≤1</li>
+                                    <li rel="3">≤3</li>
+                                    <li rel="5">≤5</li>
+                                    <li rel="7">≤7</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="tab">
+                       <!-- <div class="fl list on">
+                            <p>开工</p>
+                            <p>91</p>
+                        </div>
+                        <div class="fr list">
+                            <p>下班</p>
+                            <p>166</p>
+                        </div>-->
+                    </div>
+                    <div class="riderList">
+                        <ul id="staff_list">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <!--内容-结束-->
+    </div>
+</div>
+<div class="paidan_mask" style="display:none;">
+    <div class="tit_box" ><span id="text1"></span><a href="javascript:;" class="close">×</a></div>
+    <div class="cont">
+        <textarea id="text" placeholder="请输入留言"></textarea>
+        <div class="selct_box">
+            <span>是否替配送员接单</span>
+            <span><input type="radio"   name="slct" value="1" class="mybth">是</span>
+            <span><input type="radio" checked  name="slct" value="0" class="mybth">否</span>
+        </div>
+    </div>
+    <div class="bottom_box">
+        <a href="javascript:;" id="queding" class="btn btn1">确定</a>
+        <a href="javascript:;" class="btn cancel">取消</a>
+    </div>
+</div>
+<div class="mask_bg" style="z-index: 20;display: none;"></div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".mask_bg,.paidan_mask .close,.paidan_mask .cancel").click(function(){
+            $(".paidan_mask").hide();
+            $(".mask_bg").hide();
+        });
+        $(".button-group label input").click(function(){
+            $(".button-group label").removeClass("on");
+            $(this).parent().addClass("on");
+        });
+    });
+</script>
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=<{$map_key}>&plugin=AMap.ToolBar,AMap.Geocoder,AMap.MarkerShape"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#right_close").click(function(){
+        $(".mapBox_right").addClass("close");
+        $("#right_close").hide();
+        $("#right_show").show();
+    });
+    $("#right_show").click(function(){
+        $(".mapBox_right").removeClass("close");
+        $("#right_close").show();
+        $("#right_show").hide();
+    });
+});
+</script>
+<script type="text/javascript">
+    var timeout = null;
+    var markers_order = [];//订单标记点  保存 用以删除
+    var Polyline_order = [];//订单路线 保存 用以删除
+    var market_staff = [];  //
+    var staff_order_marker = [];
+    window.order_list = {};
+    //加载订单
+    function load_order(){
+        var url = "<{link ctl='map/loadorder' http='dispatch'}>";
+        var shop_title = $('#shop_title').val();
+        var parmas = {
+            title:shop_title
+        }
+        $.post(url,parmas,function(e){
+            window.order_list = e.data;
+            build_html(e.data);
+        },'json');
+    }
+    load_order();
+    load_staff();
+    $('#refresh').on('click',function(){
+        load_order();
+        $('#shua_order').fadeOut(100);
+        $('.mapBox_left .top').css('top',0);
+        //清除地图标的点
+        window.__map.remove(markers_order);
+        window.__map.remove(Polyline_order);
+    })
+    function build_html(data){
+        var html ="";
+        if(data.length>0){
+            $.each(data,function(k,v){
+                var data = {
+                    'order_id':v.order_id,
+                    'lng':v.lng,
+                    'lat':v.lat,
+                    'o_lng':v.o_lng,
+                    'o_lat':v.o_lat
+                }
+                var tag='';
+                if(v.from=='waimai'){
+                    tag='wai';
+                }else{
+                    tag='pao';
+                }
+                var json = JSON.stringify(data);
+                var href = "<{link ctl='order/detail' arg0='__ORDER_ID__'}>";
+                var urls = href.replace('__ORDER_ID__',v.order_id)
+                html += "<li id='order_"+v.order_id+"'><i class='tag "+tag+"'></i><label>\n";
+                if(v.from == 'waimai'){
+                    html += "<div class=\"addr\"><i class=\"ico\">取</i>"+v.shop_title+" <span style=\"color:#ff7601; font-size:16px;\">#"+v.day_num+"</span></div>\n";
+                    html += "<p>"+v.shop_addr+"</p><br>\n"
+                }else{
+                    html += "<div class=\"addr\"><i class=\"ico\">取</i>"+v.shop_addr+" #"+v.day_num+"</div>\n";
+                }
+                html += "<div class=\"addr\"><i class=\"ico ico2\">送</i>"+v.addr+"--"+v.house+"</div>\n" +
+                    "                                <p>"+v.time_label+" <span class=\"fontcl3\"></span></p>\n" +
+                    "                                <p>"+v.label_time+"</p>\n" +
+                    "                                <input class='order_list' rel='"+json+"' type=\"checkbox\" name=\"addr\" hidden=\"hidden\">\n" +
+                    "                                <span class=\"checkbox\"></span>\n" +
+                    "                            </label>" +
+                    "<div class='detail_btn'><span style='float:left;padding-left:24px;font-size:13px;'>订单编号："+v.order_id+"</span><a class='order_detail' target='centerMask_iframe' href='"+urls+"' >详情</a></div>"+
+                        "</li>";
+            });
+        }
+        $('#order_list').html(html);
+    }
+    $(".filter").click(function(){
+        event.stopPropagation();
+        if($(this).find(".pullDown").css("display") == "block"){
+            $(this).find(".pullDown").slideUp(100);
+        }else{
+            $(this).find(".pullDown").slideDown(100);
+        };
+    });
+    $(".filter .pullDown ul li").click(function(){
+        event.stopPropagation();
+        $(this).addClass("on").siblings().removeClass("on");
+        $(this).parents(".filter").find(".pullDown").slideUp(100);
+        $(this).parents(".filter").find("input").val($(this).html());
+        load_staff();
+    });
+    $(document).click(function(){
+        $(".filter .pullDown").slideUp(100);
+    });
+    function point_order(staff){
+        if(!staff){
+            layer.msg('未指定需要指派的配送员');
+            return false;
+        }
+        var order_ids = [];
+        $.each($('.order_list'),function(k,v){
+              if(v.checked){
+                  var data = JSON.parse(v.getAttribute('rel'));
+                  order_ids.push(data.order_id);
+              }
+        })
+        if(order_ids.length==0){
+            layer.msg('请选择需要指派的订单');
+            return false;
+        }
+        var text = "指派:"+staff.name
+        $('#text1').text(text);
+        $('.paidan_mask').show();
+        $('#queding').off().on('click',function(){
+           var is_ckeck = $('input:radio[name="slct"]:checked').val();
+           var message = $('#text').val();
+           var data = {
+               "check":is_ckeck,
+               "message":message,
+               "order_ids":order_ids,
+               "staff_id":staff.staff_id
+           };
+           var url = "<{link ctl='map/point_order' http='dispatch'}>";
+           $.post(url,{data:data},function(e){
+               $('.paidan_mask').hide();
+               if(e.error==0){
+                   window.__map.remove(markers_order);
+                   window.__map.remove(Polyline_order);
+                   layer.msg(e.message);
+                   load_order();
+                   load_staff();
+               }else{
+                   layer.msg(e.message);
+               }
+           },'json');
+        })
+    }
+    //地图图层切换
+    function refresh(enName) {
+        window.__map.setMapStyle('amap://styles/'+enName);
+        window.satellLayer.hide();
+        window.roadNetLayer.hide();
+    }
+    //地图图层切换
+    function set_map_view(){
+        window.__map.setMapStyle('amap://styles/normal');
+        window.satellLayer = new AMap.TileLayer.Satellite({zIndex:10}); //实例化卫星图
+        window.satellLayer.setMap(window.__map); //在map中添加卫星图
+        window.roadNetLayer = new AMap.TileLayer.RoadNet({zIndex:10}); //实例化路网图层
+        window.roadNetLayer.setMap(window.__map); //在map中添加路网图层
+    }
+    function load_staff(){
+        var staff_title = $('#staff_text').val();
+        var order_limit =  $('.pullDown  .on').attr('rel')
+        var parmas = {
+            'title':staff_title,
+            'limit_order':order_limit
+        }
+        var url = "<{link ctl='map/loadstaff' http='dispatch'}>";
+        $.post(url,{SO:parmas},function(e){
+            build_staff(e.data)
+        },'json');
+    }
+    function build_staff(data){
+        var html="";
+        window.__map.remove(market_staff);
+        window.__map.remove(staff_order_marker);
+        market_staff = [];
+        if(data.length>0){
+            $.each(data,function(k,v){
+                var marker = new AMap.Marker({ //添加自定义点标记
+                    position: [v.lng,v.lat], //基点位置
+                    offset: new AMap.Pixel(-58,-55),//相对于基点的偏移位置
+                    draggable: false,  //是否可拖动
+                    content:'<div class="riderMark"  style="z-index: 99;position: absolute;">\n' +
+                    '                        <a href="javascript:;" onclick="show_me('+v.staff_id+')" class="eye-slash" ></a>\n' +
+                    '                        <div class="name"  >'+v.name+'</div>\n' +
+                    "                       <div class='num black9'  ><span class='maincl'>"+v.dq_order+"</span>/<span class='fontcl3'>"+v.ds_order+"</span></div>\n" +"<div id='staff_point_"+ v.staff_id+"' class='assign' onclick='point_order("+JSON.stringify(v)+")'>指派</div>"+
+                    '                        <div class="clear"></div>\n' +
+                    '                    </div>',  //自定义点标记覆盖物内容
+                    extData:v.staff_id,
+                });
+                marker.staff_id = v.staff_id;
+                marker.ext_data = v;
+                marker.setMap(window.__map);
+                market_staff.push(marker);
+                marker.on('mouseover',function(){
+                    var staff_id = marker.getExtData();
+                    marker.setzIndex(101);
+                    $('#staff_'+staff_id).find('.operate').addClass('on');
+                });
+                marker.on('mouseout',function(){
+                    var staff_id = marker.getExtData();
+                    marker.setzIndex(100);
+                    $('#staff_'+staff_id).find('.operate').removeClass('on');
+                });
+                html+= "<li id='staff_"+v.staff_id+"'>\n" +
+                    "                                <div class=\"name\">"+v.name+"" +
+                    "                                    <div class=\"num fr\"><span class=\"maincl\">"+v.dq_order+"</span>/<span class=\"fontcl3\">"+v.ds_order+"</span></div>\n" +
+                    "                                </div>\n" +
+                    "                                <div class=\"new\">"+v.level_name+"</div>\n" +
+                    "                                <div class=\"number\">"+v.mobile+"</div>\n" +
+                    "                                <div class=\"operate\">\n" +
+                    "                                    <a href=\"javascript:;\" rel='"+v.staff_id+"' onclick=\"show_me("+v.staff_id+")\"><i class=\"fa eye-slash   \"></i></a>\n" +
+                    "                                    <a href=\"javascript:;\" onclick='point_order("+JSON.stringify(v)+")' rel='"+v.staff_id+"'>指派</a>\n" +
+                    "                                </div>\n" +
+                    "                            </li>";
+            });
+        }
+        $('#staff_list').html(html);
+    }
+    $('#so_staff').on('click',function(){
+        load_staff();
+    })
+    function show_me(staff_id){
+       // $('.riderMark').children('.assign').hide();
+        window.__map.remove(staff_order_marker);
+        if($('#staff_'+staff_id).children().find('i').hasClass('fa-eye')){
+            console.log(2)
+            window.__map.remove(staff_order_marker);
+            staff_order_marker = [];
+            $('#staff_list i').removeClass('fa-eye');
+            $('#staff_list i').addClass('eye-slash');
+            $('#staff_'+staff_id).children().find('i').addClass('eye-slash');
+            $('#staff_'+staff_id).children().find('i').removeClass('fa-eye');
+            if(market_staff.length>0){
+                $.each(market_staff,function(k,v){
+                    $('#staff_'+v.staff_id).removeClass('on')
+                    var data = v.ext_data;
+                    v.setContent('<div class="riderMark" style="z-index: 99;position: absolute;">' +
+                        '                                           <a href="javascript:;" onclick="show_me('+data.staff_id+')" class="fa eye-slash" ></a>' +
+                        '                                         <div class="name"  >'+data.name+'</div>' +
+                        '                                            <div class="num black9"  ><span class="maincl">'+data.dq_order+'</span>/<span class="fontcl3">'+data.ds_order+"</span></div><div onclick='point_order("+JSON.stringify(data)+")' id='staff_point_"+ data.staff_id+"'  class='assign' >指派</div>" +
+                        '                                            <div class="clear"></div>' +
+                        '                                        </div>');
+                        v.show();
+                });
+            }
+        }else{
+            if(market_staff.length>0){
+                $.each(market_staff,function(k,v){
+                    if(v.staff_id==staff_id){
+                        $('#staff_'+staff_id).addClass('on')
+                        var data = v.ext_data;
+                        v.setContent('<div class="riderMark" style="z-index: 99;position: absolute;">' +
+                            '                                           <a href="javascript:;" onclick="show_me('+data.staff_id+')" class="fa fa-eye" ></a>' +
+                            '                                         <div class="name"  >'+data.name+'</div>' +
+                            '                                            <div class="num black9"  ><span class="maincl">'+data.dq_order+'</span>/<span class="fontcl3">'+data.ds_order+"</span></div><div   onclick='point_order("+JSON.stringify(data)+")' id='staff_point_"+ data.staff_id+"' class='assign' >指派</div>" +
+                            '                                            <div class="clear"></div>' +
+                            '                                        </div>');
+                        v.show();
+                    }else{
+                        $('#staff_'+v.staff_id).removeClass('on')
+                        v.hide();
+                    }
+                });
+            }
+            get_staff_order(staff_id);
+            $('#staff_list i').removeClass('fa-eye');
+            $('#staff_list i').addClass('eye-slash');
+            $('#staff_'+staff_id).children().find('i').addClass('fa-eye');
+            $('#staff_'+staff_id).children().find('i').removeClass('eye-slash');
+        }
+        function get_staff_order(staff_id){
+            var url = "<{link ctl='map/get_staff_order' http='dispatch' arg0='__STAFF__'}>";
+            var link = url.replace('__STAFF__',staff_id);
+            $.post(link,{},function(e){
+                if(e.error==0){
+                    if(e.data.length>0){
+                        $.each(e.data,function(k,v){
+                            var  polygonArr = [];
+                            marker1 = new AMap.Marker({
+                                icon: "//webapi.amap.com/theme/v1.3/markers/n/end.png",
+                                position: [v.lng,v.lat]
+                            });
+                            polygonArr.push([v.lng,v.lat]);
+                            marker1.setMap(window.__map);
+                            marker2 = new AMap.Marker({
+                                icon:  "//webapi.amap.com/theme/v1.3/markers/n/start.png",
+                                position: [v.o_lng,v.o_lat]
+                            });
+                            polygonArr.push([v.o_lng,v.o_lat]);
+                            marker2.setMap(window.__map);
+                            staff_order_marker.push(marker1);
+                            staff_order_marker.push(marker2);
+                            var polyline = new AMap.Polyline({
+                                path: polygonArr,          //设置线覆盖物路径
+                                strokeColor: "#94ffca", //线颜色
+                                strokeOpacity: 1,       //线透明度
+                                strokeWeight: 4,        //线宽
+                                strokeStyle: "dashed",   //线样式
+                                strokeDasharray: [10, 5], //补充线样式,
+                                zIndex:110
+                            });
+                            polyline.setMap(window.__map);
+                            staff_order_marker.push(polyline);
+                        });
+                    }
+                }
+            },'json');
+        }
+    }
+    function format_diff(arr1, arr2) {
+        var newArr = [];
+        var arr3 = [];
+        for (var i=0;i<arr1.length;i++) {
+            if(arr2.indexOf(arr1[i]) === -1)
+                arr3.push(arr1[i]);
+        }
+        var arr4 = [];
+        for (var j=0;j<arr2.length;j++) {
+            if(arr1.indexOf(arr2[j]) === -1)
+                arr4.push(arr2[j]);
+        }
+        newArr = arr3.concat(arr4);
+        return newArr;
+    }
+    function check_order(){
+        resart_timeout();
+        var auto = localStorage.getItem('auto_shuaxin')||0;
+        var link = "<{link ctl='map/loadorder' http='dispatch'}>";
+        var old_order_list = window.order_list;
+        var arr1 = [];
+        var arr2 = [];
+        $.each(old_order_list,function(k,v){
+            arr1.push(v.order_id);
+        });
+        $.post(link,{},function(e){
+            if(e.error==0){
+                if(auto = '1'){
+                    build_html(e.data);
+                }
+                $.each(e.data,function(k1,v1){
+                    arr2.push(v1.order_id);
+                });
+                var diff = format_diff(arr1,arr2);
+                if(diff.length!=0){
+                    if(auto=='0'){
+                        $('#shua_order').fadeIn(100);
+                        var h = document.getElementById("shua_order").offsetHeight;
+                        $('.mapBox_left .top').css('top',h+'px');
+                    }
+                }
+            }
+        },'json');
+        if(auto=='1'){
+            load_staff();
+        }
+    }
+    function  check_swoole(){
+        var suport_swoole = '<{$swoole.is_swoole}>';
+        var swoole_port = parseInt('<{$swoole.swoole_port}>');
+        var swoole_ip = '<{$swoole.swoole_ip}>';
+        var auto_shuaxin = '<{$swoole.auto_shuaxin}>';
+        if(suport_swoole=='1'){
+            if(window.WebSocket){
+                window.exampleSocket = new WebSocket("ws://"+swoole_ip+":"+swoole_port);
+                window.exampleSocket.onopen = function (event) {
+                    //长连接  需要发送数据  保持连接
+                    window.long_time =  setInterval("senddata();",20000);
+                };
+                window.exampleSocket.onmessage = function (event) {
+                    var data = JSON.parse(event.data);
+                    if(auto_shuaxin=='1'){
+                        build_staff(data.data.staff);
+                        build_html(data.data.order);
+                    }else{
+                        var old_order_list = window.order_list;
+                        var arr1 = [];
+                        var arr2 = [];
+                        $.each(old_order_list,function(k,v){
+                            arr1.push(v.order_id);
+                        });
+                        $.each(data.data.order,function(k1,v1){
+                            arr2.push(v1.order_id);
+                        });
+                        var diff = format_diff(arr1,arr2);
+                        if(diff.length!=0){
+                            $('#shua_order').fadeIn(100);
+                        }
+                    }
+                }
+                window.exampleSocket.onclose = function(evt)
+                {
+                    console.log('连接异常')
+                    clearTimeout(window.long_time);
+                    //socket  报错 使用 轮询方式
+                    setInterval('check_order()',30000);
+                };
+                window.exampleSocket.onerror = function(evt)
+                {
+                    //socket  报错 使用 轮询方式
+                    setInterval('check_order()',30000);
+                };
+            }else{
+                //不支持swoole 的   采取轮训的模式
+                setInterval('check_order()',30000);
+            }
+        }else{
+            //不支持swoole 的   采取轮训的模式
+            setInterval('check_order()',30000);
+        }
+    }
+    function  senddata(){
+        var group_id =  '<{$swoole.group_id}>';
+        var data = JSON.stringify({group_id:group_id})
+         window.exampleSocket.send(data);
+    }
+    setTimeout(function(){
+        check_swoole();
+        resart_timeout();
+    },200);
+    function  resart_timeout(){
+        clearInterval(timeout);
+        $('#shuaxin_label').text('距刷新30s');
+        var   time = 30;
+        timeout = setInterval(function(){
+            time--;
+            $('#shuaxin_label').text('距刷新'+time+'s');
+        },1000);
+    }
+    $(document).ready(function(){
+        var polygon_point = JSON.parse('<{$polygon_point}>'); //配送区域点集合
+        var lng = '<{$detail.lng}>'||"";
+        var lat = '<{$detail.lat}>' || '';
+        window.__map= new AMap.Map('map',{
+            resizeEnable: true,
+            center: [lng, lat],
+            zoom:14,
+            scrollWheel:true
+        });
+        //我是注释:下面这段代码是在地图绘制配送范围 --开始
+        if(polygon_point.length>0){
+            var arr = [];
+            $.each(polygon_point,function(k,v){
+                arr.push([v.lng,v.lat])
+            });
+            var init_polygon = new AMap.Polygon({
+                map:  window.__map,
+                path: arr,
+                strokeColor: "#F00000",
+                strokeOpacity: 0.8,
+                strokeWeight: 3,
+                strokeStyle: "dashed",
+                fillColor: "#C8C8C8",
+                fillOpacity: 0.0,
+                draggable:false
+            });
+        }
+        //我是注释:下面这段代码是在地图绘制配送范围 --结束
+        //点击订单处理
+        $(document).on('click', '.order_list', function(){
+            //清除地图标的点
+            window.__map.remove(markers_order);
+            window.__map.remove(Polyline_order);
+            markers_order = [];
+            Polyline_order = [];
+            $.each($('.order_list'),function(k,v){
+                if(v.checked){
+                    var data = JSON.parse(v.getAttribute('rel'));
+                    var  polygonArr = [];
+                    marker1 = new AMap.Marker({
+                        icon: "//webapi.amap.com/theme/v1.3/markers/n/end.png",
+                        position: [data.lng,data.lat]
+                    });
+                    polygonArr.push([data.lng,data.lat]);
+                    marker1.setMap(window.__map);
+                    marker2 = new AMap.Marker({
+                        icon:  "//webapi.amap.com/theme/v1.3/markers/n/start.png",
+                        position: [data.o_lng, data.o_lat]
+                    });
+                    polygonArr.push([data.o_lng, data.o_lat]);
+                    marker2.setMap(window.__map);
+                    markers_order.push(marker1);
+                    markers_order.push(marker2);
+                    var polyline = new AMap.Polyline({
+                        path: polygonArr,          //设置线覆盖物路径
+                        strokeColor: "#6289ff", //线颜色
+                        strokeOpacity: 1,       //线透明度
+                        strokeWeight: 4,        //线宽
+                        strokeStyle: "dashed",   //线样式
+                        strokeDasharray: [10, 5], //补充线样式,
+                        zIndex:110
+                    });
+                    polyline.setMap(window.__map);
+                    Polyline_order.push(polyline);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        if(localStorage.getItem('auto_shuaxin')==undefined){
+            localStorage.setItem('auto_shuaxin',0);
+        }
+        var auto = localStorage.getItem('auto_shuaxin')||0;
+        if(auto=='1'){
+            $('.tabsChangeBox .right .renovate .ico').addClass('on');
+        }else{
+            $('.tabsChangeBox .right .renovate .ico').removeClass('on');
+        }
+        $('.tabsChangeBox .right .renovate .ico').click(function(){
+            if($(this).hasClass('on')){
+                localStorage.setItem('auto_shuaxin',0);
+                $(this).removeClass('on');
+            }else{
+                localStorage.setItem('auto_shuaxin',1);
+                $(this).addClass('on');
+            }
+        });
+    })
+</script>
+<script type="text/javascript">
+    centerMaskShow('.order_detail','订单详情','800px','500px');
+</script>
+<script type="text/javascript">
+$(document).on('click', '.riderMark', function(){
+    $('.riderMark').children('.assign').hide();
+    $(this).children('.assign').show();
+})
+</script>
+<{include file="newblock/footer.html"}>

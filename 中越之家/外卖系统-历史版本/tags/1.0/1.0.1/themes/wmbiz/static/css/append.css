@@ -1,0 +1,44 @@
+#datepicker input{text-align: left;}
+.preview{background: #1ab394;color: #fff;  height: 30px; line-height: 30px; float: right; width: 40px; display: inline-block; border-radius: 2px; cursor: pointer;}
+.w50{width: 50px;}
+.input-daterange {	width: auto !important;}
+.prompt_mask1 .cont{ padding:0 20px 20px; width:360px;}
+.prompt_mask1 .cont .ts{ padding:30px; text-align:center; font-size:15px; color:#666;}
+.prompt_mask1 .cont .btn{ width:120px;}
+
+/* 修改登录页面 2017-12-16 */
+.loginTop{ padding: 29px 0; text-align: center; }
+.loginTop img{ margin-top: -10px; }
+.loginTip{ display: inline-block; color: #00bd9e; font-size: 22px; margin-left: 10px; line-height: 42px; }
+.login_box{ width: 900px; margin: 0 auto; background: #fff; padding: 54px 0 100px; }
+.login_form_box { width: 362px; height: auto; background: none; margin: 0 auto; border: none; }
+.login_form_box .tab_box{ padding:10px 30px; margin-bottom: 40px; border-bottom: none; }
+.login_form_box .tab_box a{ line-height:52px; font-size:26px; position: relative; }
+.login_form_box .tab_box a:after{ content: ''; width: 104px; height: 3px; background: transparent; position: absolute; left: 50%; bottom: 0; margin-left: -52px;}
+.login_form_box .tab_box a.on:after,.login_form_box .tab_box a:hover:after{ background: #00bd9e; }
+.login_form_box .cont{ padding: 0; }
+.login_form_box .int_box{ border-color: #ddd; height:48px; background:#fff; border-radius: 4px; }
+.login_form_box .int_box .box{ margin-left: 0; border-left: none; height: 46px; border-radius: 4px; }
+.login_form_box .int_box .box input{ height: 46px; line-height: 46px; border-radius: 4px; background: #fff; }
+.login_form_box .int_box .box .clear_ico{ top: 16px; }
+.login_form_box .caozuo_box{ margin: 36px 0 10px; }
+.login_form_box .caozuo_box input[type="checkbox"]{ vertical-align: middle; margin-top: -2px; outline: none; }
+.login_form_box .long_btn{ font-size:14px; border-radius: 4px; margin-top: 28px; }
+.login_form_box .foot{ border-top: none; padding: 0; margin-top: 50px; text-align: center; line-height: 20px; font-size: 14px; }
+.login_form_box .foot a{ display: inline-block; }
+.login_form_box .int_box.getyzm_int_box .box{ width: auto; margin-right: 96px; }
+.login_form_box .int_box.getyzm_int_box .getyzm_box{ width: 86px; height: 46px; padding: 8px 0; right: 10px; }
+.login_form_box .int_box .getyzm{ position: absolute; right: -132px; top: -1px; width: 120px; height: 48px; border-radius: 4px; background: #00bd9e; color: #fff; font-size: 14px; line-height: 48px; text-align: center; cursor: pointer; }
+.footer_one{ background: none; border-top: none; padding-top: 50px; }
+/* 修改登录页面 2017-12-16 结束 */
+
+/* 三方管理-授权管理 */
+.shouquan_box ul{ overflow: hidden; width: calc(100% + 20px); }
+.shouquan_box li{ float: left; width: calc(50% - 20px); padding: 20px; margin-right: 20px; margin-bottom: 20px; border: 1px solid #e6e6e6; text-align: center; }
+.shouquan_box li .tit{ font-size: 24px; line-height: 30px; margin-bottom: 30px; }
+.shouquan_box li .ico{ display: inline-block; width: 60px; height: 67px; background: url(../images/shouquan_ico.png) no-repeat; background-size: contain; vertical-align: middle; }
+.shouquan_box li p{ font-size: 14px; margin: 10px 0 20px; }
+.shouquan_box li .btn{ width: 100px; height: 35px; line-height: 35px; padding: 0; border-color: #359aff; color: #359aff; }
+.shouquan_box li.on .ico{ background-image: url(../images/shouquan_ico_on.png); }
+.shouquan_box li.on .btn{ border-color: #ff9a03; color: #ff9a03; }
+/* 三方管理-授权管理end */

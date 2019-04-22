@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>排队订座-排队取号-取号</title>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/pub_app.css"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/style.css"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/sm.css"/>
+</head>
+
+<body>
+<header>
+    <i class="left"><a href="<{link ctl='shop/detail' args=$shop.shop_id}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        排队取号
+    </div>
+    <i class="right"><a href="javascript:;" class="ico"></a></i>
+</header>
+
+<section class="page_center_box">
+    <div class="lineBook_quhao">
+        <div class="list linkico">
+            <div class="fl"><i class="ico"></i>人数</div>
+            <div class="fr txt_right">
+                <input type="text" id="picker" value="2人" />
+                <input type="hidden" name="paidui_number" value="2" />
+            </div>
+        </div>
+        <p class="bt">顾客信息</p>
+        <div class="list disbox border_b">
+            <div class="int_box"><input type="text" id="contact" placeholder="尊称：请填写您的姓名"></div>
+            <div class="selct_box">
+                <label class="radioInt"><input type="radio">先生</label>先生
+                <label class="radioInt ml10"><input type="radio">女士</label>女士
+                <input type="hidden" name="sex" value="">
+            </div>
+        </div>
+        <div class="list disbox">
+            <div class="name">联系电话：</div>
+            <div class="int_box"><input type="text" id="mobile" placeholder="请填写您的手机号"></div>
+        </div>
+    </div>
+    <div class="btn_box"><a href="javascript:;" class="long_btn" id="create">立即取号</a></div>
+</section>
+
+<script src="/themes/default/static/js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/sm.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/default/static/js/pub.js" type="text/javascript" charset="utf-8"></script>
+<script src="<{$pager.res}>/script/layer.m/layer.m.js" type="text/javascript" charset="utf-8"></script>
+<script>
+$(document).ready(function() {
+    $('.radioInt input').click(function(){
+        $('.radioInt').removeClass('on');
+        $(this).parent('.radioInt').addClass('on');
+        $("input[name='sex']").val($('.radioInt.on').text());
+    });
+});
+</script>
+
+<script>
+$("#picker").picker({
+  toolbarTemplate: '<div class="tit">\
+  <div class="btn fl close-picker" id="cancle">取消</div>\
+  <div class="btn fr" id="ok">确定</div>\
+  <h1 class="title">请选择就餐人数</h1>\
+  </div>',
+  cols: [
+    {
+        textAlign: 'center',
+        values: [<{$paidui_numbers}>],
+        onChange: function (picker, values, displayValues) {
+            $("input[name='paidui_number']").val(picker.cols[0].value);
+        },
+    }
+  ]
+});
+
+$(document).off('click','#cancle').on('click','#cancle',function(){
+    $("#picker").picker("close");
+    $("input[name='paidui_number']").val($('#picker').val());
+})
+$(document).off('click','#ok').on('click','#ok',function(){
+    $("#picker").picker("close");
+    $("input[name='paidui_number']").val($('#picker').val());
+})
+
+// 立即取号
+$(document).off('click','#create').on('click','#create',function(){
+    var shop_id = parseInt(<{$shop.shop_id}>);
+    var paidui_number = $("input[name='paidui_number']").val();
+    paidui_number = parseInt(paidui_number.replace("人", ''));
+    if($('#contact').val() == '') {
+        layer.open({content:'请填写您姓名', time:2});return;
+    }else {
+        var contact = $('#contact').val() + $("input[name='sex']").val();
+    }
+    var mobile = $('#mobile').val();
+    $.ajax({
+        url: "<{link ctl='yuyue/paidui:create'}>",
+        async: false,
+        dataType: 'json',
+        data: {"shop_id":shop_id,"paidui_number":paidui_number,"contact":contact,"mobile":mobile},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error==0) {
+                layer.open({content:ret.message, time:2});  
+                var paidui_id = parseInt(ret.data.paidui_id);
+                if(paidui_id > 0) {
+                    setTimeout(function(){
+                        window.location.href = "<{link ctl='yuyue/paidui/detail-"+paidui_id+"'}>";               
+                    },1500);
+                }
+            }else {
+                layer.open({content:ret.message, time:2});return;
+            }
+        },
+        error: function (xhr, status, err) {
+            alert(err);
+        },
+    });
+})
+</script>
+<script>   
+    
+</script>
+</html>

@@ -1,0 +1,41 @@
+<{assign var='tpl_title' value=L("配送员对账-首页")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+	.awardRecord_list ul li{background: #fff; margin-bottom: 12px; padding: 10px 15px;}
+	.awardRecord_list ul li .wz_box{margin-left: 52px;}
+	.awardRecord_list ul li .wz_box h3{overflow: hidden; font-size: 14px; line-height: 20px; margin-bottom: 4px; font-weight: 500;}
+	.awardRecord_list ul li .wz_box h3 span{color: #f60;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+            	<!--内容-开始-->
+            		<div class="awardRecord_list">
+            			<ul id="index_goods_items">
+
+            			</ul>
+            		</div>
+
+				<!--内容-结束-->
+				<div class="loadding" style="">
+				</div>
+				<div class="pubnodata" style="">
+				</div>
+            	<!--内容-结束-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        var link = "<{link ctl='dashang/load_reward' arg0='#page#' arg1='#staff_id#' http='staff'}>";
+        var url = link.replace("#staff_id#",'<{$staff_id}>');
+        var parmas = {};
+        loadpage(url,parmas,1,'index_goods_items','index_goods_items');
+        scroll(url,parmas,1,".container_mid","#index_goods_items",'index_goods_items');
+    })
+
+</script>
+<{include file="block/footer.html"}>

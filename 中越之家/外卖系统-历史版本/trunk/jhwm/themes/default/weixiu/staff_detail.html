@@ -1,0 +1,230 @@
+<{assign var='tpl_title' value=L("服务人员详情")}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='server/index:allserver'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	服务人员详情
+    </div>
+    <i class="right">
+        <a href="javascript:void(0);" class="ico headerIco collect_btn <{if $detail['collect'] == 0}>headerIco_5<{else}>headerIco_8<{/if}> ml10"></a>
+            </i>
+</header>
+
+   <section class="page_center_box">
+    <div class="jiazheng">
+        <div class="masterLsit">
+            <ul class="pub_list_box">
+                <li class="pub_list pad10 mb10 border_b">
+                    <div class="pub_img fl">
+                        <div><img src="<{$pager.img}>/<{$detail.face}>" width="100" height="100"></div>
+                    </div>
+                    <div class="pub_wz">
+                        <p class="name"><{$detail.name}><small class="ml10 black9"><{if $detail.age}><{$detail.age}>岁<{else}>保密<{/if}></small><small class="ident fontcl1 ml10"><{if $detail.verify_name == 1}><b>V</b>已认证<{/if}></small> <!--<span class="fr range fontcl1">&lt;100m</span>--></p>
+                        <p class="black9"><span class="starBg"><span class="star" style="width:<{round(($detail['score']/$detail['comments'])*20,2)}>%;"></span></span></p>
+                        <p class="black9">服务<{$detail.orders}>次</p>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="findAunt_xq">
+            <div class="order_top">
+                <div class="order_chose"> <a href="javascript:(0);" class="current">服务</a> <a href="javascript:(0);">介绍</a> <a href="javascript:(0);">评价</a> </div>
+            </div>
+            <div class="findAunt_xq_box">
+                <div class="findAunt_xq_list findAunt_serv">
+                	<ul class="border_t">
+
+                        <{foreach $attr as $k => $v}>
+                        <li class='staff_detail_check' sid='<{$detail.staff_id}>' sname='<{$detail.name}>' cid='<{$v.cate_id}>'>
+                            <label class="radioLabel">
+                                <div class="fl">
+                                    <img class="fl img" src="<{$pager.img}>/<{$v.cate.photo}>" width="100" height="100">
+                                    <p class="overflow_clear font_size14"><{$v.cate_title}></p>
+                                    <p class="overflow_clear black9">计价方式：<{$v.cate.price}>元 /<{$unit[$v.cate.unit]}></p>
+                                    <p class="overflow_clear black9">服务费用：<{$v.cate.start}>元起</p>
+                                </div>
+                                <div class="fr">
+                                    <span class="radioInt"><input type="radio" name="payway"></span>
+                                </div>
+                                <div class="clear"></div>
+                            </label>
+                        </li>
+                        <{/foreach}>
+                        </ul>
+                </div>
+                <div class="findAunt_xq_list findAunt_infor" style="display:none;">
+                	<p><{$detail.intro}></p>
+                </div>
+                <div class="findAunt_xq_list findAunt_evlut" style="display:none;">
+                	<div class="findAunt_evlut_chose mb10">
+                        <ul>
+                            <li class="list on" id="l1" val="1">全部<span class="graybg">(<{$count['i']}>)</span></li>
+                            <li class="list" id="l2" val="2">好评<span class="graybg">(<{$count['a']}>)</span></li>
+                            <li class="list" id="l3" val="3">中评<span class="graybg">(<{$count['b']}>)</span></li>
+                            <li class="list" id="l4" val="4">差评<span class="graybg">(<{$count['c']}>)</span></li>
+                        </ul>
+                    </div>
+
+
+                        <ul class="findAunt_evlut_box" id="c1">
+                            <{foreach $comments as $k => $v}>
+                            <li class="findAunt_evlut_list">
+                                <p class="nr"><{$v.content}></p>
+                                <p class="mb5"><span class="starBg"><span class="star" style="width:<{$v.score*20}>%;"></span></span></p>
+                                <p class="black9">来自<{$v.staff_name}><span class="fr"><{$v.dateline|format}></span></p>
+                            </li>
+                            <{foreachelse}>
+                                <div class='no_evlut_box'>
+                                    暂无评论内容！<!--<img src="/themes/default/mobile/static/images/no_evlut.png">-->
+                                </div>
+                            <{/foreach}>
+                        </ul>
+
+                        <ul class="findAunt_evlut_box" id="c2">
+                            <{foreach $commentsa as $k => $v}>
+                            <li class="findAunt_evlut_list">
+                                <p class="nr"><{$v.content}></p>
+                                <p class="mb5"><span class="starBg"><span class="star" style="width:<{$v.score*20}>%;"></span></span></p>
+                                <p class="black9">来自<{$v.staff_name}><span class="fr"><{$v.dateline|format}></span></p>
+                            </li>
+                            <{foreachelse}>
+                                <div class='no_evlut_box'>
+                                    暂无评论内容！<!--<img src="/themes/default/mobile/static/images/no_evlut.png">-->
+                                </div>
+                            <{/foreach}>
+                        </ul>
+
+
+                        <ul class="findAunt_evlut_box" id="c3">
+                            <{foreach $commentsb as $k => $v}>
+                            <li class="findAunt_evlut_list">
+                                <p class="nr"><{$v.content}></p>
+                                <p class="mb5"><span class="starBg"><span class="star" style="width:<{$v.score*20}>%;"></span></span></p>
+                                <p class="black9">来自<{$v.staff_name}><span class="fr"><{$v.dateline|format}></span></p>
+                            </li>
+                            <{foreachelse}>
+                                <div class='no_evlut_box'>
+                                    暂无评论内容！<!--<img src="/themes/default/mobile/static/images/no_evlut.png">-->
+                                </div>
+                            <{/foreach}>
+                        </ul>
+
+
+                        <ul class="findAunt_evlut_box" id="c4">
+                            <{foreach $commentsc as $k => $v}>
+                            <li class="findAunt_evlut_list">
+                                <p class="nr"><{$v.content}></p>
+                                <p class="mb5"><span class="starBg"><span class="star" style="width:<{$v.score*20}>%;"></span></span></p>
+                                <p class="black9">来自<{$v.staff_name}><span class="fr"><{$v.dateline|format}></span></p>
+                            </li>
+                            <{foreachelse}>
+                                <div class='no_evlut_box'>
+                                    暂无评论内容！<!--<img src="/themes/default/mobile/static/images/no_evlut.png">-->
+                                </div>
+                            <{/foreach}>
+                        </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+$(document).ready(function() {
+    function collect(status,type) {
+    var link = "<{link ctl='ucenter/collect:collect' arg0='tmp1' arg1='tmp2' arg2='tmp3'}>";
+    var url = link.replace('tmp1', status).replace('tmp2', type).replace('tmp3', "<{$detail.staff_id}>");
+    $.post(url,{},function(ret){
+        //console.log(ret);
+        if(ret.error > 0){
+            layer.open({content: ret.message,time: 2});
+            if(ret.error == 101) {
+                setTimeout(function(){
+                    window.location.href = "<{link ctl='passport:login'}>";
+                },1500)
+            }
+        }else{
+            layer.open({content: ret.message,time: 2});
+            setTimeout(function(){
+                window.location.reload();
+            },1000)
+        }
+    },'json')
+}
+
+// 收藏事件
+
+$('.collect_btn').click(function(){
+
+    var collect_num = "<{$detail.collect}>";
+    if(collect_num == 1){
+        collect(0,2);
+    }else{
+        collect(1,2);
+    }
+
+});
+
+
+
+
+    /*单选项选择开始*/
+	$('.radioLabel').click(function(){
+		$('.radioInt').removeClass('on');
+		$(this).find('.radioInt').addClass('on');
+	});
+	/*单选项选择结束*/
+
+	$(".findAunt_xq .order_chose a").each(function(a) {
+        $(this).click(function(){
+			$(this).parent().find("a").removeClass("current");
+			$(this).addClass("current");
+			$(".findAunt_xq_list").each(function(b) {
+                if(a==b){
+					$(".findAunt_xq_list").hide();
+					$(this).show();
+				}
+				else{
+					$(this).hide();
+				}
+            });
+		});
+    });//选择评价与服务内容结束
+
+	$(".findAunt_evlut_chose .list").each(function(a) {
+        $(this).click(function(){
+			$(this).parent().find(".list").removeClass("on");
+			$(this).addClass("on");
+			$(".findAunt_evlut_box").each(function(b) {
+                if(a==b){
+					$(".findAunt_evlut_box").hide();
+					$(this).show();
+				}
+				else{
+					$(this).hide();
+				}
+            });
+		});
+    });//评价选择结束
+
+
+    $('.findAunt_evlut_box').hide();
+    $('#c1').show();
+
+
+    $('.staff_detail_check').click(function(){
+      var staff_id = $(this).attr('sid');
+      var staff_name = $(this).attr('sname');
+      var cate_id = $(this).attr('cid')
+      localStorage.setItem('weixiu_staff_id',staff_id);
+      localStorage.setItem('weixiu_staff_name',staff_name);
+      var link = "<{link ctl='weixiu/order:index' args='__cid__'}>";
+      window.location.href=link.replace('__cid__',cate_id);
+    })
+
+
+});
+</script>
+
+<{include file="block/footer.html"}>

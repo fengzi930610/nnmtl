@@ -1,0 +1,581 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb" style="float:left">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='oauth/order:index'}>">三方订单</a></li>
+        <li class="active">订单管理</li>
+    </ol>
+    <a href="javascript:;" style="float:right" class="btn btn-sm btn-primary" onclick="fadan();">自主发单</a>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+
+        <div class="dispatch_tab">
+            <ul>
+                <li <{if $status==1}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=1}><{$query}>">待接单</a></li>
+                <li <{if $status==2}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=2}><{$query}>" >待配送</a></li>
+                <li <{if $status==3}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=3}><{$query}>">配送中</a></li>
+                <li <{if $status==4}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=4}><{$query}>">已送达</a></li>
+                <li <{if $status==5}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=5}><{$query}>">已完成</a></li>
+                <li <{if $status==6}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=6}><{$query}>">异常订单</a></li>
+                <li <{if $status==7}>class='on'<{/if}>><a href="<{link ctl='oauth/order:index' arg0=1 arg1=7}><{$query}>">已取消</a></li>
+            </ul>
+        </div>
+
+
+        <form action="<{link ctl='oauth/order:index' arg0=1 arg1=$status}>" method="post">
+            <div class="dispatch_serch">
+                <div class="clearfix list_box">
+                    <div class="fl" id="data_5">
+                        <span class="input-daterange" id="datepicker">选择日期：<input type="text" name="SO[stime]" value="<{$SO['stime']|default:''}>" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[ltime]" value="<{$SO['ltime']|default:''}>" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm fl" value="搜 索">
+                </div>
+                <div class="clearfix list_box">配送类型：
+                    <label class="ml10"><input type="radio" <{if !$SO || !$SO['type']}>checked<{/if}> name="SO[type]" value="">全部</label>
+                    <label class="ml30"><input type="radio" <{if $SO['type']=='ele'}>checked<{/if}> name="SO[type]" value="ele">饿了么</label>
+                    <label class="ml30"><input type="radio" <{if $SO['type']=='meituan'}>checked<{/if}> name="SO[type]" value="meituan">美团</label>
+                    <label class="ml30"><input type="radio" <{if $SO['type']=='own'}>checked<{/if}> name="SO[type]" value="own">自主</label>
+                </div>
+            </div>
+        </form>
+
+        <!--订单列表-->
+        <div class="ord_list_box">
+            <!--催单-->
+            <{foreach $items as $v}>
+            <div class="ord_list">
+                <div class="top_box">
+                    <div class="num pull-left"><{if $v.pei_time>0}><span class="style">预定单</span><{/if}>订单编号：<span class="fontcl1"><{$v.dateline|format:"Ymd"}>#<{$v.day_num}></span><small class="ml10 black6">（送达时间：<{$v.pei_time_label}>）</small></div>
+
+                    <div class="state pull-right">
+                        <span class="black9"><{$v.order_status_label}></span>
+                        <span class="pointcl"><{if $v.cui_time > 0 && !empty($v['cui_logs']) && $v['cui_logs']['reply_time'] == 0}>客户催单&nbsp;<{/if}><{if $v.refund_status ==1 }>申请退单&nbsp;<{elseif $v.refund_status ==-1}>拒绝退款<{elseif $v.refund_status==2}>同意退款<{/if}></span>
+                    </div>
+                </div>
+                <div class="mid_box">
+                    <{if !empty($v.refund_info)}><div class="reason">退单理由：<{$v['refund_info']['reflect']}></div><{/if}>
+                    <h3><{$v.contact}><small><span class="ml10 black9"><{if $v.type=='ele'}>饿了么<{else if $v.type=='meituan'}>美团<{else if $v.type=='own'}>自主<{/if}></span><span class="ml10 black9"></span><{if $v.count_order>1}><a href="javascript:;" rel="<{$v.uid}>" data-id="<{$v.order_id}>" class="fr maincl seeOrd">查看用户历史订单&gt;</a><{/if}></small></h3>
+                    <p><span class="black3">订单ID：</span><{$v.order_id}></p>
+                    <p><span class="black3">联系方式：</span><{$v.mobile}></p>
+                    <p><span class="black3">地址：</span><{$v.addr}> <{if $v.house != ''}>(<{$v.house}>)<{/if}></p>
+                    <p><span class="black3">骑手信息：</span><{if $v.staff}><{$v.staff.mobile}>&nbsp;(<{$v.staff.name}>)<{else}>----<{/if}></p>
+                    <p><span class="black3">下单时间：</span><span class="fontcl2"><{$v.dateline|format:'Y-m-d H:i'}>下单</span><span class="ml30 maincl"><span class="black3">支付方式：</span><{if $v.online_pay == 1}>在线支付<{elseif $v.online_pay == 0}>货到付款<{/if}></span></p>
+                    <div class="delt_box">
+                        <div class="bt_box on">
+                            <div class="bt"><b>订单信息</b> <a href="javascript:;" class="pull-right open">展开<i class="ml5 fa fa-angle-down"></i></a></div>
+                            <div class="remark"><span class="fontcl2">备注：</span><{$v.intro}></div>
+                        </div>
+                        <div class="open_box none">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <{foreach $v['product'] as $p}>
+                                <tr>
+                                    <td><{$p.product_name}></td>
+                                    <td>¥<{$p.product_price}></td>
+                                    <td>x<{$p.product_number}></td>
+                                    <td class="text_r">¥<{$p.amount}></td>
+                                </tr>
+                                <{/foreach}>
+                            </table>
+                            <div class="border_b border_t">
+                                <{if $v.p_order}>
+                                <div class="cost_box"><b>配送费：</b> <span class="pull-right fontcl1">¥<{$v.p_order.amount}></span></div>
+                                <div class="cost_box"><b>小费：</b> <span class="pull-right fontcl1">¥<{$v.p_order.tip}></span></div>
+                                <{/if}>
+                            </div>
+                            <div class="cost_box"><b>小计：</b> <span class="pull-right fontcl1">¥<{$v.total_price}></span></div>                 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom_box">
+                    <!-- 打印订单-->
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:yprint' arg0=$v.order_id}>" onclick="callcontroller(this);">打印订单</a>
+
+                    <{if $v.show_btn.cancel == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:cancel' arg0=$v.order_id}>" onclick="cancel(this);">取消订单</a>
+                    <{/if}>
+                    
+                    <{if $v.show_btn.jiedan == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:jiedan' arg0=$v.order_id}>" onclick="jiedan(this);">接单</a>
+                    <{/if}>
+
+                    <{if $v.show_btn.cancelpei == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:cancelpei' arg0=$v.order_id }>" onclick="cancelpei(this);">取消配送</a>
+                    <{/if}>
+
+                    <{if $v.show_btn.addtip == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:addtip' arg0=$v.order_id }>" onclick="addtip(this);">追加小费</a>
+                    <{/if}>
+
+                    <{if $v.show_btn.setpei == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:setpei' arg0=$v.order_id }>" onclick="setpei(this);">申请配送</a>
+                    <{/if}>
+
+                    <{if $v.show_btn.setconfirm == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:setconfirm' arg0=$v.order_id }>" onclick="setconfirm(this);">确认送达</a>
+                    <{/if}>
+
+                    <{if $v.show_btn.agree == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:agree' arg0=$v.order_id}>" onclick="agree(this);">同意退款</a>
+                    <{/if}>
+                    
+                    <{if $v.show_btn.refuse == 1}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='oauth/order:refuse' arg0=$v.order_id}>" onclick="refuse(this);">拒绝退款</a>
+                    <{/if}>
+
+                    <!-- 详情 -->
+                    <!-- <a href="<{link ctl='oauth/order:detail' arg0=$v.order_id}>" class="btn btn-sm btn-primary" style="float:right">查看详情</a> -->
+                </div>
+            </div>
+            <{foreachelse}>
+            <div class="smallpage">
+                <div class="noDingdan-cont">
+                    <img src="%THEME%/static/images/order-no.png" class="mb20">
+                    <p class="black6">暂无指定订单</p>
+                    <p class="black9">暂时没有该筛选条件的订单，稍后再来看看吧！</p>
+                </div>
+            </div>
+            <{/foreach}>
+        </div>
+        <!--订单列表end-->
+        <!--页码-->
+        <div class="paging">
+            <{$pager.pagebar}>
+        </div>
+        <!--页码end-->
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".ord_list .delt_box .bt .open").click(function(){
+            $(this).parents(".delt_box").find(".open_box").slideToggle(300);
+            if($(this).parents(".bt_box").hasClass("on")){
+                $(this).parents(".bt_box").removeClass("on");
+                $(this).html("收起<i class='ml5 fa fa-angle-up'></i>");
+            }else{
+                $(this).parents(".bt_box").addClass("on");
+                $(this).html("展开<i class='ml5 fa fa-angle-down'></i>");
+            }
+        });
+
+        $('.view_reminder').mouseover(function () {
+            var r = $(this).attr('rel');
+            layer.tips(r, $(this), {
+                tips: [4, '#00bd9e']
+            });
+        })
+        $('.view_reminder2').mouseover(function () {
+            var r = $(this).attr('rel');
+            layer.tips(r, $(this), {
+                tips: [1, '#00bd9e']
+            });
+        })
+
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+    });
+</script>
+
+
+<div class="mask_bg"></div>
+<!--自主发单-->
+<style type="text/css">
+    .prompt_mask .cont{ width: 580px;}
+    .prompt_mask .form_table td{ border: none}
+    .prompt_mask .form_table_int{ width: 200px;}
+</style>
+<div class="mask_cont prompt_mask">
+    <div class="mask_cont_tit text_c">自主发单<a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <form action="<{link ctl='oauth/order:fadan' http='wmbiz'}>" method="post" id="fadan-form">
+            <div class="border_b table_box">
+                <table border="0" cellspacing="0" cellpadding="0" width="100%" class="form_table">                
+                    <tr>
+                        <td style="width: 150px;"><p class="form_table_t"><em>·</em>收货人：</p></td>
+                        <td>
+                            <div class="form_table_nr">                            
+                                <input type="text" placeholder="请填写收货人" class="form_table_int" name="data[contact]" value="">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;"><p class="form_table_t"><em>·</em>联系方式：</p></td>
+                        <td>
+                            <div class="form_table_nr">                            
+                                <input type="text" placeholder="请输入收货人的手机号" class="form_table_int" name="data[mobile]" value="">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;"><p class="form_table_t"><em>·</em>收货地址：</p></td>
+                        <td>
+                            <div class="form_table_nr">                            
+                                <input type="text" placeholder="请输入收货地址" class="form_table_int" style="width:300px" name="data[addr]" value="">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 150px"><p class="form_table_t">订单商品：</p></td>
+                        <td>
+                            <div class="goodsCate">
+                                <div id="list_box_attr">
+                                    <div class="cate_list normslist">
+                                        <div class="cate_two" style="padding:0px;">
+                                            <div class="skuitemPanel">
+                                                <ul class="labelList" id="labelList"></ul>
+                                                <div class="add_box"><input type="text" class="input" value="" id="attr_tmp"></div>
+                                                <a href="javascript:;" class="btn-primary btn-sm attr_val_add">添加</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 150px;"><p class="form_table_t">备注：</p></td>
+                        <td>
+                            <div class="form_table_nr">                            
+                                <input type="text" placeholder="备注信息" class="form_table_int" name="data[intro]" value="">
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="width: 150px;"><p class="form_table_t">基础运费：</p></td>
+                        <td>
+                            <div class="form_table_nr">                            
+                                <input type="text" class="form_table_int min_pei" value="" readonly>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;"><p class="form_table_t">小费：</p></td>
+                        <td>
+                            <div class="form_table_nr">  
+                                <input type="text" placeholder="请填写小费(有助于提高骑手接单速度)" class="form_table_int" name="data[tip]" value="0">
+                            </div>
+                        </td>
+                    </tr>                
+                </table>
+            </div>
+        </form>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary confirm">发单</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.prompt_mask').height();
+        var evlt_w = $('.prompt_mask').width();
+        $('.prompt_mask').css("margin-top",-evlt_h/2 + 'px');
+        $('.prompt_mask').css("margin-left",-evlt_w/2 + 'px');
+
+        $(".prompt_mask .cancel,.prompt_mask .close,.mask_bg").click(function(){
+            $('.prompt_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+
+        $('.attr_val_add').off().on('click',function(){
+            var attr_val = $('#attr_tmp').val();
+            if(!attr_val){
+                Widget.MsgBox.error('请填写商品！');
+                return false;
+            }
+            var html = '<li class="attr_val" data="'+attr_val+'" ><input type="hidden" name="data[products][]" value="'+attr_val+'"/><div class="box"><span><i>'+attr_val+'</i></span><i class="fa fa-close gicon-remove" rel=""></i></div></li>';
+            $('#labelList').append(html);
+            $('#attr_tmp').val("");
+        })
+
+        $(document).on('click', '.gicon-remove', function(){
+            $(this).parent().parent().remove();
+        });
+
+        $('.prompt_mask .confirm').click(function(){
+            var form_data = $('#fadan-form').serialize();
+            var url = $('#fadan-form').attr('action');
+            $.post(url, form_data, function (ret){
+                if(ret.error > 0){
+                    Widget.MsgBox.error(ret.message);
+                }else{
+                    Widget.MsgBox.success('发单成功！');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1500);
+                }
+            },'json');
+        });
+    });
+
+    function fadan(){
+        $.post("<{link ctl='oauth/order:get_minpei' http='wmbiz'}>",{},function (ret){
+            if(ret.error > 0){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                $('.prompt_mask .min_pei').val(ret.data.min_pei);
+                $('.prompt_mask').fadeIn(100);
+                $('.mask_bg').fadeIn(100);
+            }
+        },'json');
+    }
+</script>
+<!--删除提示end-->
+
+<!--拒绝-->
+<div class="mask_cont spec_mask refuse_mask">
+    <div class="mask_cont_tit">拒绝退单 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <textarea placeholder="请输入拒绝原因" id="niweismwangjijiale"></textarea>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="refused">确定</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.refuse_mask').height();
+        var evlt_w = $('.refuse_mask').width();
+        $('.refuse_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+        $('.refuse_mask').css("margin-left",-evlt_w/2 + 'px');
+
+        $(".tab_btn_refuse").click(function(){
+            $('.refuse_mask').fadeIn(100);
+            $('.mask_bg').fadeIn(100);
+            $('#refused').attr('rel', $(this).attr('rel'));
+        });
+
+        $(".refuse_mask .cancel,.refuse_mask .close,.mask_bg").click(function(){
+            $('.refuse_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+
+
+    });
+</script>
+<!--拒绝end-->
+
+<script>
+    function callcontroller(obj){
+        var url = obj.getAttribute('data-url')
+        $.post(url,{},function(e){
+            if(e.error == 0){
+                Widget.MsgBox.success(e.message);
+            }else{
+                Widget.MsgBox.error(e.message);
+            }
+        },'json');
+    }
+
+    function jiedan(obj){
+        var url = obj.getAttribute('data-url')
+        layer.confirm('确认接单？', {
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer.closeAll();
+            $.post(url,{},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('接单成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        }, function(){
+           layer.closeAll();
+        });
+    }
+
+    function cancel(obj){
+        var url = obj.getAttribute('data-url')
+        layer.confirm('确认取消订单？', {
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer.closeAll();
+            $.post(url,{},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('取消订单成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        }, function(){
+            layer.closeAll();
+        });
+    }
+
+    function setpei(obj){
+        $.post("<{link ctl='oauth/order:get_minpei' http='wmbiz'}>",{},function (ret){
+            if(ret.error > 0){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                layer.prompt({title: '基础配送费 ￥'+ret.data.min_pei+'，可填写小费', formType: 0, value: '0'}, function(pass, index){
+                    //layer.close(index);
+                    var url = obj.getAttribute('data-url');
+                    if(parseFloat(pass)<0){
+                        Widget.MsgBox.error('非法的小费');
+                        return false;
+                    }
+                    var data = {'tip':pass};
+                    $.post(url,{data:data},function(e){
+                        if(e.error == 0){
+                            Widget.MsgBox.success('申请配送成功');
+                            setTimeout(function(){
+                                window.location.reload();
+                            },1000);
+                        }else{
+                            Widget.MsgBox.error(e.message);
+                        }
+                    },'json');
+                });
+            }
+        },'json');        
+    }
+
+
+    function addtip(obj){
+        var url = obj.getAttribute('data-url');
+        layer.prompt({title: '请填写小费', formType: 0, value: '0'}, function(pass, index){
+            var url = obj.getAttribute('data-url');
+            if(parseFloat(pass)<0){
+                Widget.MsgBox.error('非法的小费');
+                return false;
+            }
+            var data = {'tip':pass};
+            $.post(url,{data:data},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('追加小费成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        });
+
+
+    }
+
+    function cancelpei(obj){
+        var url = obj.getAttribute('data-url')
+        layer.confirm('确认取消配送吗？', {
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer.closeAll();
+            $.post(url,{},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('取消配送成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        }, function(){
+            layer.closeAll();
+        });
+    }
+
+    function setconfirm(obj){
+        var url = obj.getAttribute('data-url')
+        layer.confirm('确认送达吗？', {
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer.closeAll();
+            $.post(url,{},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('确认送达成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        }, function(){
+            layer.closeAll();
+        });
+    }
+
+    function agree(obj){
+        var url = obj.getAttribute('data-url')
+        layer.confirm('确认同意退款吗？', {
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer.closeAll();
+            $.post(url,{},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('同意退款成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        }, function(){
+            layer.closeAll();
+        });
+    }
+
+    function refuse(obj){
+        var url = obj.getAttribute('data-url')
+        layer.confirm('确认拒绝退款退款吗？', {
+            btn: ['是','否'] //按钮
+        }, function(){
+            layer.closeAll();
+            $.post(url,{data:"1"},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('拒绝退款成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        }, function(){
+            layer.closeAll();
+        });
+
+
+
+        /*layer.prompt({title: '拒绝退款,请输入拒绝理由', formType: 0,value: '0'}, function(pass, index){
+            layer.close(index);
+            var url = obj.getAttribute('data-url');
+            if(!pass){
+                layer.msg('请输入拒绝理由');
+                return false;
+            }
+            var data = {
+                'reason':pass
+            };
+            $.post(url,{data:data},function(e){
+                if(e.error == 0){
+                    Widget.MsgBox.success('拒绝退款成功');
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+                }else{
+                    Widget.MsgBox.error(e.message);
+                }
+            },'json');
+        });*/
+    }
+</script>
+<!--评价详情弹层-结束-->
+<{include file="block/footer.html"}>

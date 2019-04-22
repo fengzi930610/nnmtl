@@ -1,0 +1,463 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+	<!--营业情况-->
+    <!-- <div class="mrkt_tit mgb10 mgt10">
+        <span class="bt">今日营业统计</span>
+    </div>
+    <div class="mrkt_total_box column6">
+    	<div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.today_yyamount}></p>
+                    <p>今日营业总额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.today_pingtai_amount}></p>
+                    <p>今日平台收入</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.waimai_amount}></p>
+                    <p>今日外卖营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.tuan_amount}></p>
+                    <p>今日团购营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.weidian_amount}></p>
+                    <p>今日商城营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.maidan_amount}></p>
+                    <p>今日买单营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div> -->
+    
+    <div class="mrkt_tit mgb10 mgt10">
+        <span class="bt" id="td_s"></span> 
+        <span class="ml30">
+            <select id="date_list"><option value="0">按照月份选择</option>
+                <{foreach $date_list as $k => $v}>
+                    <option value="<{$v}>"><{$v|format:'Y-m'}></option>
+                <{/foreach}>
+            </select>
+        </span>
+        <ul class="time-day-list">
+            <li class="ml10"><a href="#" onclick="format_map(0)">昨日</a></li>
+            <li class="ml10"><a href="#" onclick="format_map(1)">今日</a></li>
+            <li class="ml10"><a href="#" onclick="format_map(7)">本周</a></li>
+        </ul>
+    </div>
+    <!-- <div class="mrkt_total_box column6">
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big timer" id="yyamount">0.00</p>  
+                    <p>本期营业总额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big timer" id="pingtai_amount">0.00</p>
+                    <p>本期平台收入</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big timer" id="waimai_amount">0.00</p>
+                    <p>本期外卖营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big timer" id="tuan_amount">0.00</p>
+                    <p>本期团购营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big timer" id="weidian_amount">0.00</p>
+                    <p>本期商城营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big timer" id="maidan_amount">0.00</p>
+                    <p>本期买单营业额</p>
+                </div>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div> -->
+    <div class="tongji-table-form-cont">
+        <div class="mrkt_total_table mrkt_total_table-one">
+            <div id="pie_container" style="min-width:400px;height:326px"></div>
+            <div class="message"></div>
+        </div>
+        <div class="tongji-form">
+            <form>
+                <table width="100%" border="0" cellspacing="0" class="table-data table">
+                    <tbody id="yy_table">
+
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <div class="mrkt_total_table">
+        <div id="container" style="min-width:400px;height:350px"></div>
+        <div class="message"></div>
+    </div>
+    <!--营业情况end-->
+    <!--订单情况-->
+    <div class="mrkt_tit mgb10 mgt10">
+        <span class="bt">今日订单量</span>
+    </div>
+    <div class="mrkt_total_box column4">
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big"><{$count.waimai_yorder}>单</p>
+                    <p>外卖有效订单</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear-both"></div>
+    </div>
+    <div class="mrkt_tit mgb10 mgt10">
+        <span class="bt" id="td_s_order"></span>
+        <span class="ml30">
+            <select id="date_list_order"><option value="0">按照月份选择</option>
+                <{foreach $date_list as $k => $v}>
+                    <option value="<{$v}>"><{$v|format:'Y-m'}></option>
+                <{/foreach}>
+            </select>
+        </span>
+    </div>
+    <div class="mrkt_total_box column4">
+        <div class="list">
+            <div class="mrkt_total">
+                <div class="wz_box">
+                    <p class="big" id="waimai_yorder"></p>
+                    <p>外卖有效订单</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear-both"></div>
+    </div>
+    <div class="mrkt_total_table">
+        <div id="container_order" style="min-width:400px;height:400px"></div>
+        <div class="message_order"></div>
+    </div>
+    <!--订单情况end-->
+</div>
+
+<script src="<{$pager.res}>/cdn/highcharts/highcharts.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/exporting.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/series-label.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/oldie.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts-zh_CN.js"></script>
+
+<script type="text/javascript">
+    var days = "<{$days}>";
+    function format_map(time) {
+        if (time <= 31) {
+            $("select:first option:first").attr("selected", "selected");
+        };
+        var link = "?tongji/tongji-get_chart-#time#.html".replace('#time#', time);
+        $.post(link, {}, function (e) {
+            if (e.error==0) {
+                var html = ' <tr class="alt"><th>分类</th><th>营业额</th><th>平台收入</th><th>商户应得</th> </tr>';
+                $.each(e.data.items, function(k, v){
+                    html += '<tr>'+
+                                '<td class="clear-td-bottom">'+v.name+'</td>'+
+                                '<td class="clear-td-bottom">'+v.y+'</td>'+
+                                '<td class="clear-td-bottom">'+v.fee+'</td>'+
+                                '<td class="clear-td-bottom">'+v.shop_amount+'</td>'+
+                            '</tr>';
+                });
+                $("#yy_table").html(html);
+                $('#td_s').text(e.data.intro);
+
+                var yyamount = e.data.yyamount_count.yyamount;
+                var fee = e.data.yyamount_count.fee;
+                // 扇形图
+                $('#pie_container').highcharts({
+                    credits: {
+                        enabled:false
+                    },
+                    title: {
+                        floating:true,
+                        text: '营业总额：¥'+yyamount+'<br/>平台收入：¥'+fee
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            point: {
+                                events: {
+                                    mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                                        chart.setTitle({
+                                            text: e.target.name+ '\t' + '¥'+ e.target.y
+                                        });
+                                    },
+                                    mouseOut: function(e) {  // 鼠标滑过时动态更新标题
+                                        chart.setTitle({
+                                            text: '营业总额：¥'+yyamount+'<br/>平台收入：¥'+fee
+                                        });
+                                    }
+                                }
+                            },
+                        }
+                    },
+                    series: [{
+                        type: 'pie',
+                        innerSize: '80%',
+                        name: '占比',
+                        data: e.data.items
+                    }]
+                }, function(c) {
+                    // 环形图圆心
+                    var centerY = c.series[0].center[1],
+                        titleHeight = parseInt(c.title.styles.fontSize);
+                    c.setTitle({
+                        y:centerY + titleHeight/2
+                    });
+                    chart = c;
+                });
+
+                if (time == 0 || time == 1) {
+                    // 柱状图
+                    $('#container').highcharts({
+                        chart: {
+                            type: 'bar'
+                        },
+                        title: {
+                            text: '营业情况统计'
+                        },
+                        xAxis: {
+                            categories: e.data.categories,
+                            title: {
+                                text: null
+                            }
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: '营业额（¥）',
+                                align: 'high'
+                            },
+                            labels: {
+                                overflow: 'justify'
+                            }
+                        },
+                        tooltip: {
+                            valuePrefix: '¥'
+                        },
+                        plotOptions: {
+                            bar: {
+                                dataLabels: {
+                                    enabled: true,
+                                    allowOverlap: true
+                                }
+                            }
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'top',
+                            x: -40,
+                            y: 100,
+                            floating: true,
+                            borderWidth: 1,
+                            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                            shadow: true
+                        },
+                        credits: {
+                            enabled: false
+                        },
+                        series: [{
+                            name: '营业额',
+                            data: e.data.items
+                        }]
+                    });
+                }else{
+                    // 折线图
+                    var _chart = new Highcharts.Chart('container', {
+                        credits: {
+                            enabled:false
+                        },
+                        title: {
+                            text: '营业情况统计',
+                            x: -20
+                        },
+                        /*subtitle: {
+                            text: '',
+                            x: -20
+                        },*/
+                        xAxis: {
+                            categories: e.data.chart_days
+                        },
+                        yAxis: {
+                            title: {
+                                text: '营业额(¥)'
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
+                        },
+                        tooltip: {
+                            valuePrefix: '¥'
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        series: [{
+                            name: '本期营业总额',
+                            data: e.data.curve_yyamount
+                        }, {
+                            name: '本期平台收入',
+                            data: e.data.curve_pingtai_amount
+                        }]
+                    });
+                }
+
+
+            } else {
+                Widget.MsgBox.error(e.message);
+            }
+        }, 'json')
+    }
+
+    function format_map_order(time) {
+        var link = "?tongji/tongji-get_chart_order-#time#.html".replace('#time#', time);
+        $.post(link, {}, function (e) {
+            if (e.error==0) {
+                var chart = new Highcharts.Chart('container_order', {
+                    credits: {
+                        enabled:false
+                    },
+                    title: {
+                        text: '有效订单量统计',
+                        x: -20
+                    },
+                    /*subtitle: {
+                        text: '',
+                        x: -20
+                    },*/
+                    xAxis: {
+                        categories: e.data.chart_days
+                    },
+                    yAxis: {
+                        title: {
+                            text: '有效订单量'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: [{
+                        name: '外卖有效订单',
+                        data: e.data.curve_waimai_yorder
+                    },/*{
+                        name: '积分商城有效订单',
+                        data: e.data.curve_mall_yorder
+                    }*/]
+                });
+                $('#td_s_order').text(e.data.intro);
+                $('#waimai_yorder').text(e.data.waimai_yorder+"单");
+                $('#tuan_yorder').text(e.data.tuan_yorder+"单");
+                $('#weidian_yorder').text(e.data.weidian_yorder+"单");
+                $('#maidan_yorder').text(e.data.maidan_yorder+"单");
+            } else {
+                Widget.MsgBox.error(e.message);
+            }
+        }, 'json')
+    }
+
+    format_map(days);
+    format_map_order(days);
+
+    $('#date_list').change(function(){
+        var days = $(this).val();
+        if(days > 0){
+            format_map(days);
+        }
+    })
+    $('#date_list_order').change(function(){
+        var days = $(this).val();
+        if(days > 0){
+            format_map_order(days);
+        }
+    })
+</script>
+<!-- <script type="text/javascript" src="./script/dataspeed.js?20170523"></script> -->
+<{include file="admin:common/footer.html"}>

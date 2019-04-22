@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Baidu Maps Marker By IJH.CC</title>
+    <style>
+        html { height: 100%;overflow:hidden;}
+        body { height: 100%; margin: 0; padding: 0; background-color: #FFF;font-size: 11px;}
+        .button{-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;background-color: #4d90fe;background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);background-image: -moz-linear-gradient(top,#4d90fe,#4787ed);background-image: -ms-linear-gradient(top,#4d90fe,#4787ed);background-image: -o-linear-gradient(top,#4d90fe,#4787ed);background-image: linear-gradient(top,#4d90fe,#4787ed);border: 1px solid #3079ed;color: #fff;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;cursor: default;font-weight: bold;text-align: center;white-space: nowrap; margin-right: 16px; height: 27px; line-height: 25px; min-width: 54px; outline: 0px; padding: 0 8px;}
+    </style>
+    <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//webapi.amap.com/maps?v=1.4.2&key=942f0ec4d152d1f3d163168d43916de6"></script>
+    <script type="text/javascript" src="//cache.amap.com/lbs/static/addToolbar.js"></script>
+
+    <script type="text/javascript" >
+
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        var map, geocoder;
+        var P = {};
+        var G = parent.window.G || {};
+        var marker;
+        function initialize() {
+             map = new AMap.Map('map_canvas');
+
+            AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.OverView'],
+                function(){
+                    map.addControl(new AMap.ToolBar());
+
+                });
+            map.on('click', function(e) {
+                e.lnglat.getLng();
+                e.lnglat.getLat();
+                marker = new AMap.Marker({
+                    icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                    position: [e.lnglat.getLng(), e.lnglat.getLat()],
+                    draggable: true,
+                    cursor: 'move',
+                    raiseOnDrag: true
+                });
+                P.lng =  e.lnglat.getLng();
+                P.lat = e.lnglat.getLat();
+                SetMapPoint(P);
+                map.clearMap();
+                droggy_market();
+
+            });
+
+
+            // map = new BMap.Map('map_canvas');
+            P.lng = parseFloat(GetQueryString("lng")) || '';
+            P.lat = parseFloat(GetQueryString("lat")) || '';
+
+            if(P.lng && P.lat){
+
+                SetMapPoint(P);
+                map.setZoomAndCenter(15, [ P.lng, P.lat]);
+               marker = new AMap.Marker({
+                    icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                    position: [P.lng, P.lat],
+                   draggable: true,
+                   cursor: 'move',
+                   raiseOnDrag: true
+                });
+
+
+                /*var point = new BMap.Point(P.lng, P.lat);
+                map.centerAndZoom(point, 15);*/
+            }else{
+
+
+
+                $(document).ready(function(){
+                    $.ajax({
+                        url:'http://www.ijh.cc/iplocaltion.php?type=jsonp',
+                        dataType:"jsonp",
+                        jsonp:"callback",
+                        success:function(ret){
+                            if(!ret.status){
+                                P.lng = ret.content.point.x;
+                                P.lat =  ret.content.point.y;
+                                map.setZoomAndCenter(15, [ P.lng, P.lat]);
+                                SetMapPoint(P);
+
+                                // 在新中心点添加 marker
+                              marker = new AMap.Marker({
+                                    icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                                    position: [P.lng, P.lat],
+                                  draggable: true,
+                                  cursor: 'move',
+                                  raiseOnDrag: true
+                                });
+
+                            }
+                        }
+                    });
+                });
+            }
+            droggy_market();
+
+
+
+
+
+           // map.addControl(new BMap.NavigationControl());
+           // map.enableScrollWheelZoom();
+           // var marker = new BMap.Marker(point);
+           // map.addOverlay(marker);
+           // marker.enableDragging();
+         // //  var gc = new BMap.Geocoder();
+          //  gc.getLocation(point, function(rs){
+          //      var addComp = rs.addressComponents;
+            //    var address = [addComp.city].join('');
+          //  });
+          //  marker.addEventListener("dragging", function(e){SetMapPoint(e.point);});
+          //  map.disableDoubleClickZoom();
+          //  map.addEventListener("dblclick", function(e){
+            //    marker.setPosition(e.point);
+            //    SetMapPoint(e.point);
+          //  });
+        }
+
+
+        /*setTimeout(function(){
+            marker.setMap(map);
+
+            marker.on('dragend',function(r){
+                var geocoder = new AMap.Geocoder({
+                    radius: 1000,
+                    extensions: "all"
+                });
+                geocoder.getAddress([r.lnglat.lng,r.lnglat.lat], function(status, result) {
+                    if (status === 'complete' && result.info === 'OK') {
+                        console.log(result)
+                    }
+                });
+
+            })
+            // getPosition( )
+
+
+
+        },500);*/
+
+        function droggy_market(){
+
+            setTimeout(function(){
+                marker.setMap(map);
+                marker.on('dragend',function(r){
+                    P.lng =  r.lnglat.lng;
+                    P.lat = r.lnglat.lat;
+                    SetMapPoint(P);
+                })
+            },500);
+        }
+
+
+        function SetMapPoint(point){
+            P = point;
+            document.getElementById("Baidu_Map_Marker").value =  P.lng + ", " + P.lat;
+
+        }
+        function search(address) {
+            if (!map) return;
+            if(!address){
+                alert("请输入有效的定位地点");
+                return ;
+            }
+            placeapi(address,"",function(e){
+               if(e.infocode=='10000'&&e.pois.length>0){
+                   var loaction = e.pois[0].location;
+                   var json_lo = loaction.split(',');
+                   P.lng = json_lo[0];
+                   P.lat = json_lo[1];
+                   map.setZoomAndCenter(15, [ P.lng, P.lat]);
+                   SetMapPoint(P);
+
+                   // 在新中心点添加 marker
+                   marker = new AMap.Marker({
+                       icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                       position: [P.lng, P.lat],
+                       draggable: true,
+                       cursor: 'move',
+                       raiseOnDrag: true
+                   });
+                   map.clearMap();
+                   droggy_market();
+
+               }else{
+                   alert('未找到地址');
+                   return false;
+               }
+            });
+
+        }
+        function GGUID(){
+            var guid = '';
+            for (var i = 1; i <= 32; i++) {
+                var n = Math.floor(Math.random() * 16.0).toString(16);
+                guid += n;
+            }
+            return "KT"+guid.toUpperCase();
+        }
+        /*function geocoder(lng, lat, callback){
+            callback = callback || function(ret){};
+            var callfun = GGUID();
+            window[callfun] = function(ret){callback(ret);}
+
+
+            // 修改百度根据坐标返回为更具高德返回坐标系
+            $.getScript('http://restapi.amap.com/v3/geocode/regeo?key=ccfe0f51eeba3b2d158565f9ef386c41'+"&radius=20"+"&location="+lng+','+lat+"&output=json"+"&callback="+callfun);
+
+            //$.getScript("http://api.map.baidu.com/geocoder/v2/?ak=824a595f958e444b737a5bc6325ad44f&callback="+callfun+"&location="+lat+","+lng+"&output=json&pois=1");
+
+        }*/
+        function placeapi(key, city, callback){
+            city = city || '';
+            callback = callback || function(ret){};
+            var callfun = GGUID();
+            window[callfun] = function(ret){callback(ret);}
+            $.getScript("http://restapi.amap.com/v3/place/text?key=ccfe0f51eeba3b2d158565f9ef386c41"+"&keywords="+key+"&city="+city+"&offset=20&page=1&output=json&callback="+callfun);
+
+            //$.getScript("http://api.map.baidu.com/place/v2/search?ak=824a595f958e444b737a5bc6325ad44f&output=json&callback="+callfun+"&query="+key+"&page_size=10&page_num=0&scope=1&region="+city);
+        }
+
+
+
+        //window.onerror=function(){return true;}
+    </script>
+</head>
+<body onload="initialize();">
+<div style="padding:3px 8px;border-bottom:1px solid #dedede;">
+    <label style="display:inline-block;">
+        <input type="text" value="" id="Baidu_Map_SO_Key" style="width:150px;height:21px;padding:3px 5px;border:1px solid #CCC;"/>&nbsp;&nbsp;
+        <button id="Baidu_Map_SO_Btn" class="button" onclick="search(document.getElementById('Baidu_Map_SO_Key').value)">定位</button>
+    </label>
+    <label style="float:right;line-height:21px;padding:3px 5px;display:inline-block;"><b>坐标</b>：<input type="text" value="" id="Baidu_Map_Marker" style="width:150px;height:21px;padding:3px 5px;border:1px solid #CCC;"  readonly/></label>
+    <div style="clear:both;"></div>
+</div>
+<div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+</html>

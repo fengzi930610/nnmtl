@@ -1,0 +1,91 @@
+<{assign var="page_title" value="申请入驻-成为跑腿小哥"}>
+<{assign var='tpl_title' value=L("申请入驻-成为跑腿小哥")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<div class="headerTop_one green">
+    <div class="pagewd">
+        <div class="logo fl">
+            <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo}>"></a>
+        </div>
+        <div class="tit fl">申请入驻 > 申请跑腿哥</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="applyEnter pagewd">
+    <div class="applyEnter_tit">如何申请跑腿哥？</div>
+    <div class="applyEnter_delt">
+        <div class="list_box">
+            <ul>
+                <li data-sr="move 100px, over 1s,wait 0s, enter left">
+                    <img src="/themes/default/pchome/static/images/apply_img1.png" class="animated">
+                    <p>1.下载app，登录页申请</p>
+                </li>
+                <li data-sr="move 100px, over 1s,wait .2s, enter left">
+                    <img src="/themes/default/pchome/static/images/apply_img2.png" class="animated">
+                    <p>2.成为跑腿小哥</p>
+                </li>
+                <li data-sr="move 100px, over 1s,wait .4s, enter left">
+                    <img src="/themes/default/pchome/static/images/apply_img3.png" class="animated">
+                    <p>3.熟悉各大商铺</p>
+                </li>
+                <li data-sr="move 100px, over 1s,wait .6s, enter left">
+                    <img src="/themes/default/pchome/static/images/apply_img4.png" class="animated">
+                    <p>4.考核通过审核</p>
+                </li>
+            </ul>
+        </div>
+        <div class="text_c" data-sr="move 100px, over 1s,wait 0s, enter bottom"><a href="javascript:;" class="applyEnter_btn">立即加入</a></div>
+    </div>       	
+</div>
+
+<div class="applyEnter bg_grey">
+    <div class="pagewd">
+        <div class="applyEnter_tit">跑腿小哥好处</div>
+        <div class="applyEnter_delt" data-sr="move 200px, over 1s,wait 0s, enter left">
+            <div class="wz_box">
+                <ul>
+                    <li>
+                        <p>1.采用无线小型打印机，在餐厅里放一台这样的打印机，当网上餐厅有人下单的时候，打印机自动打印订单</p>
+                    </li>
+                    <li>
+                        <p>2.采用无线小型打印机，在餐厅里放一台这样的打印机，当网上餐厅有人下单的时候，打印机自动打印订单</p>
+                    </li> 
+                    <li>
+                        <p>3.采用无线小型打印机，在餐厅里放一台这样的打印机，当网上餐厅有人下单的时候，打印机自动打印订单</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>        
+</div>
+
+<!--立即加入弹出层-->
+<div class="applyEnter_mask">
+    <div class="text_r"><a href="javascript:;" class="close"></a></div>
+    <div class="cont">
+        <div class="img"><img src="<{$pager.img}>/<{$qrcode}>" width='180' height='180'></div>
+        <P>快速扫码，立即加入</P>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+    $(document).ready(function () {
+        $(".applyEnter_btn").click(function () {
+            $(".applyEnter_mask").fadeIn(100);
+            $(".mask_bg").fadeIn(100);
+        });
+        $(".applyEnter_mask .close,.mask_bg").click(function () {
+            $(".applyEnter_mask").fadeOut(100);
+            $(".mask_bg").fadeOut(100);
+        });
+    });
+</script>
+<!--立即加入弹出层-->
+<script type="text/javascript">
+    window.sr = new scrollReveal({
+        //reset: true,
+        move: '200px',
+        mobile: true
+    });
+</script> 
+<{include file="pchome/block/footer.html"}>

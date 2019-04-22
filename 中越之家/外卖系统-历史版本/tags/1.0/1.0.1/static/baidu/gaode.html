@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Baidu Maps Marker By IJH.CC</title>
+    <style>
+        html { height: 100%;overflow:hidden;}
+        body { height: 100%; margin: 0; padding: 0; background-color: #FFF;font-size: 11px;}
+        .button{-webkit-box-shadow: none;-moz-box-shadow: none;box-shadow: none;background-color: #4d90fe;background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);background-image: -moz-linear-gradient(top,#4d90fe,#4787ed);background-image: -ms-linear-gradient(top,#4d90fe,#4787ed);background-image: -o-linear-gradient(top,#4d90fe,#4787ed);background-image: linear-gradient(top,#4d90fe,#4787ed);border: 1px solid #3079ed;color: #fff;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;cursor: default;font-weight: bold;text-align: center;white-space: nowrap; margin-right: 16px; height: 27px; line-height: 25px; min-width: 54px; outline: 0px; padding: 0 8px;}
+    </style>
+    <script type="text/javascript"  src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript" >
+        //使用本页面，如果传入地图KEY，则使用传入的KEY，否则使用默认KEY
+        var mapKey = (GetQueryString("key") || "");
+        var centerPoint = {lng:null,lat:null};
+        if(mapKey !== "")
+          $.getScript("https://maps.googleapis.com/maps/api/js?key="+mapKey+"&language=zh-CN&libraries=places");
+        centerPoint.lng = parseFloat(GetQueryString("lng")) || '';
+        centerPoint.lat = parseFloat(GetQueryString("lat")) || '';
+
+        if(!centerPoint.lng || !centerPoint.lat)
+          centerPoint = {lng:105.834888,lat:21.020805};
+
+        
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+        var map = null, geocoder;
+        var P = {};
+        var G = parent.window.G || {};
+        var marker = null;
+        function initialize() {
+          if(mapKey === "")
+          {
+             $("#map_canvas").text("未指定地图API KEY，无法初始化地图"+mapKey);
+             $("#map_canvas").css("padding","14px");
+             $("#map_canvas").css("font-size","16px");
+             $("#map_canvas").css("color","#F00");
+             return;
+          }
+
+          map = new google.maps.Map(
+            document.getElementById("map_canvas"),
+            {
+              zoom: 15,
+              gestureHandling: "greedy"
+            }
+          );
+
+          map.addListener("click",function(ev){
+            var newPoint = {
+              lat:ev.latLng.lat(),
+              lng:ev.latLng.lng()
+            };
+            SetMapPoint(newPoint);
+            if(marker)
+              marker.setPosition(newPoint);
+          });
+          
+          map.setCenter(centerPoint);
+          marker = new google.maps.Marker({
+            position: centerPoint,
+            draggable: true,
+            map:map,
+            cursor:"move"
+          });
+          SetMapPoint(centerPoint);
+          marker.addListener("position_changed",function(){
+            SetMapPoint({
+              lng:this.position.lng(),
+              lat:this.position.lat()
+            });
+          });
+        }
+
+        function SetMapPoint(point){
+            P = point;
+            document.getElementById("Baidu_Map_Marker").value =  P.lng.toFixed(6) + ", " + P.lat.toFixed(6);
+        }
+
+        function search(address) {
+          if(!map)
+            return;
+          if(typeof address !== "string")
+            address = String(address);
+          address = address.replace(/^\s+|\s+$/g,"");
+          if(address === "")
+          {
+            alert("请输入要查找地点的名称");
+            return ;
+          }
+          (new google.maps.places.PlacesService(map)).findPlaceFromQuery({
+            query: address,
+            fields: ["geometry","name","formatted_address"]
+          },function(results, status){
+            if(status == google.maps.places.PlacesServiceStatus.OK)
+            {
+              if(results.length === 0)
+              {
+                alert("未找到地址");
+                return false;
+              }
+              var location = {lng:results[0].geometry.location.lng(),lat:results[0].geometry.location.lat()};
+              SetMapPoint(location);
+              if(marker)
+                marker.setPosition(location);
+              map.setCenter(location);
+            }
+            else if(status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
+              alert("未找到地址");
+            else
+              alert(status);
+          });
+        }
+    </script>
+</head>
+<body onload="initialize();">
+<div style="padding:3px 8px;border-bottom:1px solid #dedede;">
+    <label style="display:inline-block;">
+        <input type="text" value="" id="Baidu_Map_SO_Key" style="width:150px;height:21px;padding:3px 5px;border:1px solid #CCC;"/>&nbsp;&nbsp;
+        <button id="Baidu_Map_SO_Btn" class="button" onclick="search(document.getElementById('Baidu_Map_SO_Key').value)">定位</button>
+    </label>
+    <label style="float:right;line-height:21px;padding:3px 5px;display:inline-block;"><b>坐标</b>：<input type="text" value="" id="Baidu_Map_Marker" style="width:150px;height:21px;padding:3px 5px;border:1px solid #CCC;"  readonly/></label>
+    <div style="clear:both;"></div>
+</div>
+<div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+</html>

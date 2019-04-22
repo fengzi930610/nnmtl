@@ -1,0 +1,19 @@
+<{foreach $items as $k => $v}>
+<li class="payBill_list">
+    <div class="img fl"><img src="/themes/default/xiaoqu/static/images/pay_1@2x.png"></div>
+    <div class="wz_box">
+        <div class="left">
+            <a href="<{link ctl='xiaoqu/bill/detail' arg1=$v.bill_id}>">
+            <div class="wz overflow_clear"><span class="mr10"><{$v.yezhu_name}></span><{$v.yezhu_house}></div>
+            <p class="black9"><{$v.bill_title}></p>
+            </a>
+        </div>
+        <div class="right">
+            <p>￥<{$v.total_price}></p>
+            <{if $v.pay_status == 0}><p class="small fontcl1">待支付</p><{/if}>
+            <{if $v.pay_status == 1}><p class="small maincl">缴费成功</p><{/if}>
+        </div>
+    </div>
+    <div class="cl"></div>
+</li>
+<{/foreach}>

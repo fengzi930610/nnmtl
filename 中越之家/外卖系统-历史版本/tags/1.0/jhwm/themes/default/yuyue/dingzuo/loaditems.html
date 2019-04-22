@@ -1,0 +1,16 @@
+<{foreach $items as $k => $v}>
+<li class="lineBook_ordlist mb10"><a href="<{$v.detail_url}>">
+        <div class="top border_b">
+            <p class="fl"><{$v.shop_detail.title}></p>
+            <p class="fr maincl"><{$v.order_status_label}></p>
+        </div>
+        <div class="cont">
+            <div class="left">
+                <p><span class="black9">到店时间</span> <{$v.yuyue_time_str}></p>
+                <p><span class="black9">就餐人数</span> <{$v.yuyue_number}> <{$v.zhuohao_detail.title}></p>
+            </div>
+        </div>
+        <div class="bottom border_t black9"><span class="tag" style="background:#7ED321;">订座</span></div>
+    </a>
+</li>
+<{/foreach}>

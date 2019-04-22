@@ -1,0 +1,229 @@
+<{include file="admin:common/header.html"}>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/exporting.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/series-label.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/oldie.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts-zh_CN.js"></script>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--入账情况-->
+    <div class="mrkt_tit mgb10 mgt10">
+        <span class="">
+            <b class="bt">月对账状况</b>
+            <select class="jq_month">
+                <{foreach $bills_month as $month}>
+                <option value="<{$month|format:'Y年m月'}>"><{$month|format:'Y年m月'}></option>
+                <{/foreach}>
+            </select>
+        </span>
+    </div>
+    <div class="mrkt_total_box column2 mgb10">
+        <div class="list" style="width: 25%">
+            <div class="mrkt_total" style="height: 100px;">
+                <a href="javascript:;">
+                    <div class="wz_box" style="padding-top: 20px;">
+                        <p class="big jq_amount"></p>
+                        <p>商家应得（元）</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list" style="width: 25%">
+            <div class="mrkt_total" style="height: 100px;">
+                <a href="javascript:;">
+                    <div class="wz_box" style="padding-top: 20px;">
+                        <p class="big jq_last_amount"></p>
+                        <p>对比上月商家应得（元）</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list" style="width: 25%">
+            <div class="mrkt_total" style="height: 100px;">
+                <a href="javascript:;">
+                    <div class="wz_box" style="padding-top: 20px;">
+                        <p class="big jq_money"></p>
+                        <p>平台抽成（元）</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list" style="width: 25%">
+            <div class="mrkt_total" style="height: 100px;">
+                <a href="javascript:;">
+                    <div class="wz_box" style="padding-top: 20px;">
+                        <p class="big jq_last_money"></p>
+                        <p>对比上月平台抽成（元）</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="mrkt_tit mgb10 mgt10">
+        <span class="bt">月盈利状况</span>
+    </div>
+    <div class="mrkt_total_box column2 mgb10">
+        <div class="list">
+            <div class="mrkt_total" style="height: 100px;">
+                <a href="javascript:;">
+                    <div class="wz_box" style="padding-top: 20px;">
+                        <p class="big jq_entry"></p>
+                        <p>本月盈利（元）</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: 100px;">
+                <a href="javascript:;">
+                    <div class="wz_box" style="padding-top: 20px;">
+                        <p class="big jq_last_entry"></p>
+                        <p>对比上月盈利（元）</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <div class="mrkt_tit mgb10 mgt10" id="containter" style="width: 100%;height: 500px;">
+
+
+
+    </div>
+    <script>
+        $(function () {
+            high_table($(".jq_month").val());
+            $(".jq_month").change(function(){
+                var month = $(this).val();
+                high_table(month);
+            })
+        });
+           
+        function high_table(month){
+            month = month.replace('年','-').replace('月','');
+            var url = "?tongji/money-get_data.html";
+            $.post(url,{month:month},function(ret){
+                $(".jq_money").html(ret.data.bills.fee);
+                var html = "";
+                if(ret.data.bills.cha_money < 0){
+                    html = '<i class="dwon red">↓</i>'+ret.data.bills.cha;
+                }else{
+                    html = '<i class="up green">↑</i>'+ret.data.bills.cha;
+                }
+                $(".jq_last_money").html(html);
+                $('.jq_amount').html(ret.data.bills.shop);
+                var html1 = "";
+                if(ret.data.bills.cha_shop < 0){
+                    html1 = '<i class="dwon red">↓</i>'+ret.data.bills.cha_shop;
+                }else{
+                    html1 = '<i class="up green">↑</i>'+ret.data.bills.cha_shop;
+                }
+                $('.jq_last_amount').html(html1);
+                $('.jq_entry').html(ret.data.entry.mouth_entry)
+                var html2 = "";
+                if(ret.data.entry.cha_entry < 0){
+                    html2 = '<i class="dwon red">↓</i>'+ret.data.entry.cha_entry;
+                }else{
+                    html2 = '<i class="up green">↑</i>'+ret.data.entry.cha_entry;
+                }
+                $('.jq_last_entry').html(html2);
+
+                var chart = Highcharts.chart('containter', {
+                    credits: {
+                        enabled: false //不显示LOGO
+                    },
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: '资金入账'
+                    },
+                    subtitle: {
+                        text: ''
+                    },
+                    yAxis: {
+                        title: {
+                            text: '金额'
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+                    plotOptions: {
+                        series: {
+                            label: {
+                                connectorAllowed: false
+                            }
+                        }
+                    },
+                    xAxis:{
+                        categories:ret.data.t_mouth_bills.x
+                    },
+                    series:[
+                        {
+                            name:"本月商家应得",
+                            data:ret.data.t_mouth_bills.amount
+                        },
+                        {
+                            name:"上月商家应得",
+                            data:ret.data.l_mouth_bills.amount
+                        },
+
+                        {
+                            name:"本月平台抽成",
+                            data:ret.data.t_mouth_bills.fee
+                        },
+
+                        {
+                            name:"上月平台抽成",
+                            data:ret.data.l_mouth_bills.fee
+                        },
+                        {
+                            name:"本月盈利",
+                            data:ret.data.t_month_tongji
+                        },{
+                             name:"上月盈利",
+                            data:ret.data.l_month_tongji
+                        }
+                    ],
+                    responsive: {
+                        rules: [{
+                            condition: {
+                                maxWidth: 500
+                            },
+                            chartOptions: {
+                                legend: {
+                                    layout: 'horizontal',
+                                    align: 'center',
+                                    verticalAlign: 'bottom'
+                                }
+                            }
+                        }]
+                    }
+                });
+
+
+
+
+
+            },'json')
+        }
+    
+    </script>
+    <!--入账情况end-->
+</div>
+<{include file="admin:common/footer.html"}>

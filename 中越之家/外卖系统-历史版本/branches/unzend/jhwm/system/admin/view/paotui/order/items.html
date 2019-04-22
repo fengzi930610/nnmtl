@@ -1,0 +1,178 @@
+<{include file="admin:common/header.html"}>
+
+<style type="text/css">
+    .ordList_box_r .delt table tr td.bt { width: 100% !important;}
+</style>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?paotui/order-index-1-<{$st}>.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="订单ID、用户名、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="paotui/order:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--浮动开始-->
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > 98) {
+                    $(".table_fixed").show();
+                } else {
+                    $(".table_fixed").hide();
+                }
+            });
+        });
+    </script>
+    <!--浮动结束-->
+
+    <!--向导-->
+    <div class="guide_list_box mb25">
+        <ul>
+            <li><a href="?paotui/order-index-1-0.html" <{if $st==0}>class="on"<{/if}>>全部</a></li>
+            <li><a href="?paotui/order-index-1-1.html" <{if $st==1}>class="on"<{/if}>>待支付</a></li>
+            <li><a href="?paotui/order-index-1-2.html" <{if $st==2}>class="on"<{/if}>>待接单</a></li>
+            <li><a href="?paotui/order-index-1-3.html" <{if $st==3}>class="on"<{/if}>>待配送</a></li>
+            <li><a href="?paotui/order-index-1-4.html" <{if $st==4}>class="on"<{/if}>>配送中</a></li>
+            <li><a href="?paotui/order-index-1-5.html" <{if $st==5}>class="on"<{/if}>>已送达</a></li>
+            <li><a href="?paotui/order-index-1-6.html" <{if $st==6}>class="on"<{/if}>>已完成</a></li>
+            <li><a href="?paotui/order-index-1-7.html" <{if $st==7}>class="on"<{/if}>>已取消</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <form id="items-form">
+        <div class="ordList_box">
+            <div class="ordList_box_l">
+                
+                <div class="ordList_list_box">
+                    <ul>
+                    <{foreach $items as $item}>
+                        <li class="ordList_list" sf='<{$item.detail_json}>'>
+                            <div class="right right_box">
+                                <P class="price">￥<{$item.amount}></P>
+                                <div><a href="?paotui/order-detail-<{$item.order_id}>.html" class="button" title="查看">查看详情</a></div>
+                            </div>
+                            <div class="wz">
+                                <h2><{$item.paotui_order.from_label}>&nbsp;&nbsp;&nbsp;<small class="black6"><{$item.type_label}></small></h2>
+                                <P><span class="black6">联系方式：</span><{$item.contact}>&nbsp;&nbsp;<{$item.mobile}></P>
+                                <P><span class="black6">配送地址：</span><{$item.addr}><{$item.house}></P>
+                                <P><span class="black6">配送站：</span><{$groups[$item.group_id].group_name}>（ID:<{$item.group_id}>）</P>
+                                <P><span class="black6">用户信息：</span><span ><{$item.member_info.nickname}>(<{$item.member_info.mobile}>)</span></P>
+                                <P><span class="black6">送达时间：</span><span class="red"><{$item.pei_time_label}></span></P>
+                                <P><span class="black6">订单状态：</span><span class="red"><{$item.msg}></span></P>
+
+
+                            </div>
+                            <div class="clear-both"></div>
+                        </li>
+                    <{/foreach}>
+                    </ul>
+                </div>
+            </div>
+            <div class="ordList_box_r">
+                <div class="list_box">
+                    <div class="bt">
+                        <div>商品</div>                        
+                    </div>
+                    <div class="list">
+                        <div class="clear-both"></div>
+                    </div>
+                </div>
+                <div class="delt">
+                    <div class="tit">订单详情</div>
+                    <div class="box">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="bt" id="order_id">订单编号：</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="member">下单用户：</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="dateline">创建时间：</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="pay_type">支付方式：</td>
+                                <td><P class="green"></P></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="intro">订单备注：</td>
+                                <td><P class=""></P></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="price">
+                        <ul id="detail_2"></ul>
+                        <div class="clear-both"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <!-- <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="paotui/order:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td> -->
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+$(document).ready(function(e) {
+    $('.fr.mr10').click(function(){
+        if($(this).parents(".order_details").find('.orderinfo').height()==0){
+            var gettr=$(this).parents(".order_details").find('.orderinfo tr').length
+            $(this).parents(".order_details").find('.orderinfo').css('height',gettr*30+'px')
+        }else{
+            $(this).parents(".order_details").find('.orderinfo').css('height',0)
+        }
+    });
+});
+
+$(".ordList_list").click(function(){
+    $(".ordList_list").removeClass("on");
+    $('.list').html("");
+    $('#detail_2').html("");
+    $(this).addClass("on");
+    var data = JSON.parse($(this).attr('sf'));
+    if (data) {
+        $.each(data.products, function(k,v){
+            var products_html = "";
+            products_html += '<ul><li>'+v+'</li></ul>';
+            $('.list').append(products_html);
+        });
+        $("#order_id").html('订单编号：'+data.detail.order_id);
+        $("#member").html('下单用户：'+data.detail.member);
+        $("#dateline").html('创建时间：'+data.detail.dateline);
+        $("#pay_type").html('支付方式：'+data.detail.pay_type);
+        $("#intro").html('订单备注：'+data.detail.intro);
+
+        $.each(data.detail_2, function(kk,vv){
+            var detail_html = "";
+            detail_html += '<li><span>'+vv.title+'：</span><a>'+vv.val+'</a></li>';
+            $('#detail_2').append(detail_html);
+        });
+    };
+});
+</script>
+<style>
+.page-data .table tr.order_delt.over{ background:#f8f8f8;}
+.page-data .table tr td .order_details{ border:0; margin:0;}
+.page-data .table tr td .order_details tr{background:#fafafa;}
+</style>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,45 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/message:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?member/message-edit.html" mini-form="message-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="message_id" value="<{$detail.message_id}>"/>
+<tr>
+    <th><span class="red">*</span>会员：</th>
+    <td>
+        <input type="hidden" name="data[uid]" value="<{$detail.uid}>" id="select_member_uid_id" />
+        <input type="text" value="<{$member.nickname}>" id="select_member_uid_name" class="input w-300" readonly/>
+        <{link ctl="member/member:dialog" arg0="member" select="mini:#select_member_uid_id,#select_member_uid_name/N/选择用户" title="选择用户" class="button"}>
+    </td>
+</tr>
+<tr><th><span class="red">*</span>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>内容：</th><td><textarea name="data[content]" class="textarea"><{$detail.content}></textarea><br /></td></tr>
+<tr>
+    <th class="w-100"><span class="red">*</span>类型：</th>
+        <td>
+            <select name="data[type]" class="w-150">
+                <{foreach $types as $k => $val}>
+                <option value="<{$k}>" <{if $detail.type==$k}>selected="selected"<{/if}>  ><{$val}></option>
+                <{/foreach}>
+            </select>
+        </td>
+</tr>
+<tr>
+	<th><span class="red">*</span>状态：</th>
+	<td>
+		<label><input type="radio" name="data[is_read]" <{if $detail.is_read}>checked="checked"<{/if}> value="1"/>已读</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[is_read]" <{if isset($detail.is_read) && empty($detail.is_read)}>checked="checked"<{/if}> value="0"/>未读</label>
+	</td>
+</tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

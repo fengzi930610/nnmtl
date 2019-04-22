@@ -1,0 +1,111 @@
+<{assign var='tpl_title' value=L("配送员对账-提现")}>
+<{include file="block/header.html"}>
+
+<body ontouchstart>
+<style type="text/css">
+    .balance-btn a{ background:#06c1ae !important;}
+</style>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="balance-cont">
+                    <div class="top mb10" id="my_account">
+                        <div class="fl img"><img src="<{$pager.img}>/<{$staff.face}>" /></div>
+                        <div class="right">
+                            <div class="pub_list wz">
+                                <div class="pub_list_bd"><{$account.title}></div>
+                                <div class="ml10"><{$account.name}></div>
+                            </div>
+                            <p><{$account.number}></p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="bt black6">可提现金额<span class="show-popup">￥:<{$staff.money}></span></div>
+                    <div class="input-box mt5">
+                        <p>￥</p>
+                        <input type="text" id="money_tixian" name="data[money]" placeholder="请输入提现金额" />
+                    </div>
+                    <div style="height: 20px;"></div>
+                </div>
+                <div class="balance-btn"><a href="javascript:;" id="confirm" class="primary btn btn-primary">确认提现</a></div>
+                <p class="text_c black9">预计三个工作日内到账</p>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="js_dialog" id="popup-cont" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog balance-dialog">
+        <h3 class="tit">提示</h3>
+        <p class="black6 text_l">有正在提现中的提现任务。</p>
+        <a href="javascript:;" class="maincl btn">知道了</a>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+
+        var confirm_lock = false;
+
+        $('.show-popup').on('click', function(){
+            $('#popup-cont').fadeIn(200);
+        });
+        $('.balance-dialog .btn,.weui-mask').on('click', function(){
+            $(this).parents('.js_dialog').fadeOut(200);
+        });
+        $('#confirm').on('click',function(){
+
+            if(!confirm_lock){
+                confirm_lock = true;
+                setTimeout(function(){
+                    confirm_lock = false;
+                },3000);
+                var money = $('#money_tixian').val();
+                var format_money = parseFloat(money);
+                if(format_money<=0){
+                    layer.msg('提现金额不正确');
+                }
+                var link = "<{link ctl = 'tixian/create' http='staff'}>";
+                var data = {
+                    money:money,
+                }
+                $.post(link,{data:data},function(e){
+                    if(e.error==0){
+                        layer.msg(e.message);
+                        setTimeout(function(){
+                            window.location.href = "<{link ctl='index' http='staff'}>";
+                        },2000);
+                    }else{
+                        layer.msg(e.message);
+                    }
+                },'json');
+            }
+        })
+        $('#money_tixian').on('keyup',function(){
+
+            var total_money = "<{$staff.money}>";
+            var format_money = parseFloat(total_money);
+            var input_money = $(this).val();
+            var format_input_money = parseFloat(input_money);
+            if(format_money<format_input_money){
+                $(this).val(total_money);
+            }
+        })
+        $('#my_account').on('click',function(){
+
+            var url = "<{link ctl='tixian/account' http='staff'}>";
+            window.location.href = url;
+        })
+
+    });
+</script>
+
+
+
+
+<{include file="block/footer.html"}>

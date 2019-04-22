@@ -1,0 +1,63 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+	<ul>
+        <li class="on"><a href="<{link ctl='biz/shop/print:index'}>">打印设置</a></li>
+	</ul>
+	<span class="r"><a href="<{link ctl='biz/shop/print:create'}>" class="btn btn-success">添加设置</a></span>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-30">ID</th>
+        <th class="w-60">平台名称</th>
+        <th class="w-60">用户ID</th>
+        <th class="w-80">API密钥</th>
+        <th class="w-50">终端号</th>
+        <th class="w-50">终端密钥</th>
+        <th class="w-60">是否启用</th>
+        <th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $v}>
+    <tr>
+        <td><{$v.plat_id}></td>
+        <td><{$v.title}></td>
+        <td><{$v.partner}></td>  
+        <td><{$v.apikey}></td>   
+        <td><{$v.machine_code}></td> 
+        <td><{$v.mkey}></td>   
+        <td><{if $v.status == 1}><font style="color: green;">启用中</font><{else}><font style="color: red;">静默中</font><{/if}></td> 
+        <td>
+            <a href="javascript:change(<{$v.plat_id}>, <{$v.status}>);" class="btn btn-success"><{if $v.status == 1}>静默<{else}>启用<{/if}></a>&nbsp;&nbsp;
+            <a href="<{link ctl='biz/shop/print/edit' args=$v.plat_id}>" class="btn btn-success">修改</a>&nbsp;&nbsp;
+            <a href="<{link ctl='biz/shop/print/delete' args=$v.plat_id}>" mini-act="confirm:确认要删除该设置吗?" class="btn btn-success">删除</a>
+        </td>
+    </tr>     
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>
+<script>
+
+function change(plat_id, status) {
+    jQuery.ajax({  
+        url: "<{link ctl='biz/shop/print:change'}>", 
+        async: true,  
+        dataType: 'json',  
+        data: {"plat_id": plat_id, "status": status},
+        type: 'POST',   
+        success: function (ret) { 
+            if(ret.error > 0){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                Widget.MsgBox.success(ret.message);
+                window.location.reload();
+            }
+        }, 
+    });
+}
+
+</script>

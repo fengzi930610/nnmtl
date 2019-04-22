@@ -1,0 +1,23 @@
+<div class="headerTop_one green">
+    <div class="pagewd">
+        <div class="logo fl">
+            <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo}>"></a>
+        </div>
+        <div class="tit fl myshequ"><a href="<{link ctl='ucenter/index'}>">我的商圈</a></div>
+        <div class="fr minePage_top">
+            <div class="search_box fl">
+                <div class="int_box">
+                    <form action="<{link ctl='shop'}>" mothod="post">
+                        <input type="text" name="shop_name" placeholder="搜索商家/商品">
+                        <input type="submit" class="btn" value="">
+                        <div class="clear"></div>
+                    </form>
+                </div>
+            </div>
+            <div class="cart fl">
+                 <a href="<{link ctl='mall/cart'}>" class="bt"><i class="ico"></i>购物车<span class="num top_cart_num"><{$top_mall_count.count|default:0}></span></a>  
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

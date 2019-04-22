@@ -1,0 +1,404 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+    .spec_mask .cont { overflow: visible;}
+    .weekSelctBox{padding-bottom: 20px;}
+    .weekSelctBox label{position: relative;display: inline-block;height: 30px;padding: 0 16px;color: #555;font-size: 12px;line-height: 28px;border: 1px solid #bbb;border-radius: 2px;cursor: pointer; margin-right: 10px;}
+    .weekSelctBox label input{width: 0; height: 0;opacity: 0;}
+    .weekSelctBox label.on{border-color: #00bd9e;}
+    .weekSelctBox label.on:before{content: " ";position: absolute;right: 0;bottom: 0;width: 0;height: 0;border: 7px solid #00bd9e;border-top-color: transparent;border-left-color: transparent;}
+    .weekSelctBox label.on:after {content: " ";position: absolute;right: 1px;bottom: 3px;width: 6px;height: 3px;border: 1px solid #fff;border-top-color: transparent;border-right-color: transparent; -webkit-transform: rotate(-59deg);transform: rotate(-59deg);}
+     .btn_admin {
+          display: inline-block;
+          padding: 6px 12px;
+          margin-bottom: 0;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 1.42857143;
+          text-align: center;
+          white-space: nowrap;
+          vertical-align: middle;
+          -ms-touch-action: manipulation;
+          touch-action: manipulation;
+          cursor: pointer;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          background-image: none;
+          border: 1px solid transparent;
+          border-radius: 4px; background-color: #1ab394; border-color: #1ab394;color: #FFF;
+        margin-left: 100px;
+        margin-top:10px;
+      }
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+            <th>配送信息</th>
+            <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+            <td width="15"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+    <!--向导-->
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main"  priv="hide" class="on"}></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main"  priv="hide" }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main"  priv="hide" }></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" target="_blank" priv="hide" title="进入门店"}>
+        <div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-setbusiness-<{$shop_id}>.html" mini-form="shop-form" method="post" >
+        <p class="form_title">营业时间设置</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th>营业状态</th>
+                <td>
+                    <label><input type="radio" name="data[yy_status]" <{if $waimai.yy_status==1}>checked="checked"<{/if}> value="1"/>营业中</label>&nbsp;
+                    <label><input type="radio" name="data[yy_status]" <{if $waimai.yy_status==0||empty($waimai.yy_status)}>checked="checked"<{/if}> value="0"/>打烊</label>&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <th>支付方式</th>
+                <td>
+                    <select  name="data[pay_type]">
+
+                        <{if $waimai.pei_type==1&&$waimai.remove==0}>
+                        <option value="1" <{if $waimai.is_daofu==1 && $waimai.online_pay==1}>selected="selected"<{/if}>>全部支持</option>
+                        <{/if}>
+                        <{if $waimai.pei_type==0}>
+                        <option value="1" <{if $waimai.is_daofu==1 && $waimai.online_pay==1}>selected="selected"<{/if}>>全部支持</option>
+                        <{/if}>
+                        <option value="3" <{if $waimai.is_daofu==0 && $waimai.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option>
+                        <{if $waimai.pei_type==1&&$waimai.remove==0}>
+                        <option value="2" <{if $waimai.is_daofu==1 && $waimai.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option>
+                        <{/if}>
+                        <{if $waimai.pei_type==0}>
+                        <option value="2" <{if $waimai.is_daofu==1 && $waimai.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option>
+                        <{/if}>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>允许自提</th>
+                <td>
+                    <select class="form_table_int form_table_intw2 fl" name="data[is_ziti]" id="ziti_name">
+                        <option value="1" <{if $waimai.is_ziti==1 }>selected="selected"<{/if}>>支持</option>
+                        <option value="0" <{if $waimai.is_ziti==0}>selected="selected"<{/if}>>不支持</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="is_show">
+                <th>自提是否免起送价</th>
+                <td>
+                    <select class="form_table_int form_table_intw2 fl" name="data[zero_ziti]" >
+                        <option value="1" <{if $waimai.zero_ziti==1 }>selected="selected"<{/if}>>支持</option>
+                        <option value="0" <{if $waimai.zero_ziti==0}>selected="selected"<{/if}>>不支持</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>预订单时间范围(用户可选择的预订单天数)：</th>
+
+                <td>
+                    <div class="form_table_nr">
+                        <select class="form_table_int form_table_intw2 fl" name="data[yuyue_day]">
+                            <option value="0" <{if $waimai.yuyue_day == 0}>selected<{/if}>>不支持</option>
+                            <option value="1" <{if $waimai.yuyue_day == 1}>selected<{/if}>>当天</option>
+                            <option value="2" <{if $waimai.yuyue_day == 2}>selected<{/if}>>明天</option>
+                            <option value="3" <{if $waimai.yuyue_day == 3}>selected<{/if}>>3天</option>
+                            <option value="4" <{if $waimai.yuyue_day == 4}>selected<{/if}>>4天</option>
+                            <option value="5" <{if $waimai.yuyue_day == 5}>selected<{/if}>>5天</option>
+                            <option value="6" <{if $waimai.yuyue_day == 6}>selected<{/if}>>6天</option>
+                            <option value="7" <{if $waimai.yuyue_day == 7}>selected<{/if}>>7天</option>
+                        </select>
+
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <th>营业日</th>
+                <td>
+                    <div class="weekSelctBox">
+                        <label <{if in_array(1,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="1" <{if in_array(1,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期一</label>
+                        <label <{if in_array(2,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="2" <{if in_array(2,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期二</label>
+                        <label <{if in_array(3,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="3" <{if in_array(3,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期三</label>
+                        <label <{if in_array(4,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="4" <{if in_array(4,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期四</label>
+                        <label <{if in_array(5,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="5" <{if in_array(5,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期五</label>
+                        <label <{if in_array(6,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="6" <{if in_array(6,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期六</label>
+                        <label <{if in_array(0,$waimai.yy_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[yy_weeks][]" value="0" <{if in_array(0,$waimai.yy_weeks)}>checked="checked"<{/if}>>星期日</label>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <th>营业时间段</th>
+                <td id="time">
+
+                    <{foreach $waimai.yy_peitime as $k=>$v}>
+                    <div class="yy_time">
+                        <div class="stime_box">
+                            <label>开始时间<input type="text" class="input w-100 stime" name="data[stime][]" value="<{$v.stime}>" time="<{$v.stime_time}>" /></label>&nbsp;~
+                            <ul class="time-ul"></ul>
+                        </div>
+                        <div class="stime_box">
+                            <label>结束时间<input type="text" class="input w-100 ltime" name="data[ltime][]" value="<{$v.ltime}>" time="<{$v.ltime_time}>" /></label>&nbsp;
+                            <ul class="time-ul"></ul>
+                        </div>
+                        <a class="shanchu_btn" >删除</a>
+
+
+                    </div>
+                    <{/foreach}>
+                    <div id="yy_peitime_add" <{if count($waimai.yy_peitime) >= 3}>style="display:none"<{/if}>>
+                        <button type="button" id="sku_add1" class="btn_admin" >添加时间+</button>
+                    </div>
+
+
+
+                </td>
+            </tr>
+            <tr>
+                <th>配送时间(默认营业时间)：</th>
+                <td>
+                    <label><input type="radio" name="data[pstime_type]" <{if $waimai.pstime_type == 1}>checked="checked"<{/if}> value="1"/>同营业时间</label>&nbsp;
+                    <label><input type="radio" name="data[pstime_type]" <{if empty($waimai.pstime_type)}>checked="checked"<{/if}> value="0"/>自定义时间</label>&nbsp;
+                </td>
+            </tr>
+            <tr id="hide_me_please" <{if $waimai.pstime_type==1}>style="display:none"<{/if}>>
+                <th>可配送时间段</th>
+                <td id="ps_time">
+                    <{foreach $waimai.ps_time as $k1=>$v1}>
+                    <div class="ps_time">
+                        <div class="stime_box">
+                            <label>开始时间<input type="text" class="input w-100 stime" name="data[ps_stime][]" value="<{$v1.stime}>" time="<{$v1.stime_time}>" /></label>&nbsp;~
+                            <ul class="time-ul"></ul>
+                        </div>
+                        <div class="stime_box">
+                            <label>结束时间<input type="text" class="input w-100 ltime" name="data[ps_ltime][]" value="<{$v1.ltime}>" time="<{$v1.ltime_time}>" /></label>&nbsp;
+                            <ul class="time-ul"></ul>
+                        </div>
+                        <a class="shanchu_btn" >删除</a>
+
+
+                    </div>
+                    <{/foreach}>
+                    <div id="add_ps_time"  <{if count($waimai.ps_time) >= 3}>style="display:none"<{/if}>>
+                    <button type="button" id="sku_add2" class="btn_admin" >添加时间+</button>
+
+                </td>
+
+             </div>
+            </tr>
+
+
+
+        </table>
+
+
+
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+            <tr>
+                <th></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    //业时间week选择js
+    $(".weekSelctBox label input").click(function(){
+        if($(this).prop('checked')){//获取是否选中 并判断
+            $(this).parent().addClass("on"); //修改设置为不选中状态
+        }else{
+            $(this).parent().removeClass("on");//修改设置为选中状态
+        }
+    });
+
+
+    function check(){
+        var length = $('.yy_time').length;
+       if(length>=3){
+           $('#yy_peitime_add').hide();
+       }else{
+           $('#yy_peitime_add').show();
+       }
+
+    }
+
+    function ckeck2(){
+        var length = $('.ps_time').length;
+        if(length>=3){
+            $('#add_ps_time').hide();
+        }else{
+            $('#add_ps_time').show();
+        }
+    }
+
+
+    $('#sku_add1').on('click',function(){
+
+        var html = "<div class=\"yy_time\">\n" +
+            "                        <div class=\"stime_box\">\n" +
+            "                            <label>开始时间<input type=\"text\" class=\"input w-100 stime\" name=\"data[stime][]\" value=\"08:00\" time=\"28800\" /></label>&nbsp;~\n" +
+            "                            <ul class=\"time-ul\"></ul>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"stime_box\">\n" +
+            "                            <label>结束时间<input type=\"text\" class=\"input w-100 ltime\" name=\"data[ltime][]\" value=\"20:00\" time=\"79200\" /></label>&nbsp;\n" +
+            "                            <ul class=\"time-ul\"></ul>\n" +
+            "                        </div>\n" +
+            "                        <a class=\"shanchu_btn\" >删除</a>\n" +
+            "\n" +
+            "\n" +
+            "                    </div>";
+        $('#yy_peitime_add').before(html);
+
+        check();
+        ckeck2();
+
+    })
+    $('#sku_add2').on('click',function(){
+        var html = " <div class=\"ps_time\">\n" +
+            "                        <div class=\"stime_box\">\n" +
+            "                            <label>开始时间<input type=\"text\" class=\"input w-100 stime\" name=\"data[ps_stime][]\" value=\"08:00\" time=\"28800\" /></label>&nbsp;~\n" +
+            "                            <ul class=\"time-ul\"></ul>\n" +
+            "                        </div>\n" +
+            "                        <div class=\"stime_box\">\n" +
+            "                            <label>结束时间<input type=\"text\" class=\"input w-100 ltime\" name=\"data[ps_ltime][]\" value=\"20:00\" time=\"79200\" /></label>&nbsp;\n" +
+            "                            <ul class=\"time-ul\"></ul>\n" +
+            "                        </div>\n" +
+            "                        <a class=\"shanchu_btn\" >删除</a>\n" +
+            "\n" +
+            "\n" +
+            "                    </div>";
+        $('#add_ps_time').before(html);
+
+        check();
+        ckeck2();
+
+    })
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+
+        $(document).on('click', '.stime', function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parent().parent().next().find('.ltime').attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"ltime": ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })
+
+                    if(html){
+                        that.parent().next().html(html);
+                        //that.parent().nextSbiling();
+                       // that.siblings('.time-ul').html(html);
+                    }
+                    that.parent().next().hide();
+                    that.parent().next().show();
+
+                   /* $('.time-ul').hide();
+                    that.siblings('.time-ul').show();*/
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.ltime', function(){
+            //var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+            var stime = $(this).parent().parent().prev().find('.stime').attr('time');
+            var ltime = $(this).attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"stime": stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })
+                    if(html){
+                        that.parent().next().html(html);
+                    }
+                    that.parent().next().hide();
+                    that.parent().next().show();
+                }
+            },'json');
+        });
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent().prev().children().attr('time',time)
+            $(this).parent().prev().children().val(strtime);
+          /*  $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();*/
+        });
+        $(document).on('click','.shanchu_btn',function(){
+            $(this).parent().remove();
+            check();
+            ckeck2();
+        });
+        $(document).on('click','input[name="data[pstime_type]"]',function(){
+          if($(this).val()==1){
+              $("#hide_me_please").hide();
+
+          }else{
+              $("#hide_me_please").show();
+          }
+        });
+
+
+
+    });
+</script>
+
+
+<{include file="admin:common/footer.html"}>

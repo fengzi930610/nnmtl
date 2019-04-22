@@ -1,0 +1,171 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2017/4/6
+ * Time: 17:12
+ */
+if(!defined('__CORE_DIR')){
+    exit("Access Denied");
+}
+
+return array (
+    'huodong_id' =>
+        array (
+            'field' => 'huodong_id',
+            'label' => '活动id',
+            'pk' => true,
+            'add' => true,
+            'edit' => false,
+            'html' => false,
+            'empty' => true,
+            'show' => false,
+            'list' => true,
+            'type' => 'int',
+            'comment' => '',
+            'default' => '',
+            'SO' => false,
+        ),
+    'shop_id'=>
+    array(
+        'field' => 'shop_id',
+        'label' => '商铺id',
+        'pk' => false,
+        'add' => true,
+        'edit' => false,
+        'html' => false,
+        'empty' => false,
+        'show' => false,
+        'list' => true,
+        'type' => 'int',
+        'comment' => '',
+        'default' => '',
+        'SO' => false,
+    ),
+    'config'=>
+    array(
+        'field' => 'config',
+        'label' => '配置',
+        'pk' => false,
+        'add' => true,
+        'edit' => true,
+        'html' => false,
+        'empty' => false,
+        'show' => false,
+        'list' => true,
+        'type' => 'text',
+        'comment' => '',
+        'default' => '',
+        'SO' => false,
+    ),
+    'stime'=>
+    array(
+        'field' => 'stime',
+        'label' => '开始时间',
+        'pk' => false,
+        'add' => true,
+        'edit' => true,
+        'html' => false,
+        'empty' => false,
+        'show' => false,
+        'list' => true,
+        'type' => 'int',
+        'comment' => '',
+        'default' => '',
+        'SO' => false,
+    ),
+    'ltime'=>
+    array(
+        'field' => 'ltime',
+        'label' => '结束时间',
+        'pk' => false,
+        'add' => true,
+        'edit' => true,
+        'html' => false,
+        'empty' => false,
+        'show' => false,
+        'list' => true,
+        'type' => 'int',
+        'comment' => '',
+        'default' => '',
+        'SO' => false,
+    ),
+    'audit'=>
+        array(
+            'field' => 'audit',
+            'label' => '是否审核',
+            'pk' => false,
+            'add' => true,
+            'edit' => true,
+            'html' => false,
+            'empty' => true,
+            'show' => false,
+            'list' => true,
+            'type' => 'int',
+            'comment' => '',
+            'default' => '',
+            'SO' => false,
+        ),
+    'closed'=>
+        array(
+            'field' => 'closed',
+            'label' => '是否删除',
+            'pk' => false,
+            'add' => true,
+            'edit' => true,
+            'html' => false,
+            'empty' => true,
+            'show' => false,
+            'list' => true,
+            'type' => 'int',
+            'comment' => '',
+            'default' => '',
+            'SO' => false,
+        ),
+    'dateline'=>
+    array(
+            'field' => 'dateline',
+            'label' => '是否删除',
+            'pk' => false,
+            'add' => true,
+            'edit' => false,
+            'html' => false,
+            'empty' => false,
+            'show' => false,
+            'list' => true,
+            'type' => 'int',
+            'comment' => '',
+            'default' => '',
+            'SO' => false,
+    ),'clientip' => 
+  array (
+      'field' => 'clientip',
+      'label' => 'IP',
+      'pk' => false,
+      'add' => true,
+      'edit' => true,
+      'html' => false,
+      'empty' => false,
+      'show' => false,
+      'list' => true,
+      'type' => 'clientip',
+      'comment' => '',
+      'default' => '',
+      'SO' => false,
+  ),
+    'type'=>array(
+        'field' => 'type',
+        'label' => '面向人群',
+        'pk' => false,
+        'add' => true,
+        'edit' => true,
+        'html' => false,
+        'empty' => true,
+        'show' => false,
+        'list' => true,
+        'type' => 'int',
+        'comment' => '',
+        'default' => '',
+        'SO' => false,
+    )
+);

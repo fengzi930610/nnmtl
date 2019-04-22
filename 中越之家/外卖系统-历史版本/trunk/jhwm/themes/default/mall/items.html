@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='mall'}>" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                商城列表
+            </div>
+            <i class="right la-down"><a href="#" class="ico icon-down open-jifen_xiala" id="xiala" style="display:inline-block;width:0.2rem;"></a></i>
+        </header>
+        <section class="page_center_box">
+            <div class="mineIntegral_list_box mt10">
+                <ul id="index_goods_items">
+                    
+                </ul>
+                <div class="loadding">
+            
+                </div>
+                <div class="clear"></div>
+            </div>
+        </section>
+        <!--下拉选项-->
+        <div class="mask_box"> 
+            <div class="jifen_xiala" style="display:none;">
+                <div class="box saixuan_fenlei">
+                    <ul class="lei-box">
+                        <li class="pull_child">
+                            <a href="javascript:void(0);" rel="0" shref="<{link ctl='mall/product:items'}>">全部</a>
+                        </li>
+                        
+                        <{foreach $cates as $v}>
+                        <li class="pull_child on">
+                            <a href="javascript:void(0);" cate_id="<{$v.cate_id}>" <{if $v['children']}>rel="1"<{else}>rel=0<{/if}> shref="<{link ctl='mall/product:items' arg0=$v.cate_id}>">
+                            <div class="fl"><{$v.title}></div><p class="fr <{if $v.cate_id == $cate.cate_id}>radioIco<{/if}>"></p><div class="clear"></div>
+                            </a>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                    
+                        <{foreach $cates as $v}>
+                            <{if $v['children']}>
+                            <div class="saixuan_fenlei_list_box" style="display:none;">
+                                <ul class="saixuan_fenlei_list_nr">
+                                    <li class="fenlei_list <{if $cate_id == $v.cate_id}>on<{/if}>"><a href="javascript:;" rel="0" shref="<{link ctl='mall/product:items' arg0=$v.cate_id}>">全部</a></li>
+                                    <{foreach $v['children'] as $k1 => $v1}>
+                                        <li class="fenlei_list p<{$v1.parent_id}> <{if $cate_id == $v1.cate_id}>on<{/if}>" id="c<{$v1.cate_id}>"><a  rel="0" href="javascript:;" shref="<{link ctl='mall/product:items' arg0=$v1.cate_id}>"><i class="ico-gou"></i><{$v1.title}></a></li>
+                                    <{/foreach}>
+                                </ul>
+                            
+                            </div>
+                            <{/if}>
+                        <{/foreach}>
+                   
+                </div>
+            </div>
+            <div class="mask_bg" style="z-index:11;"></div>
+        </div>
+        <!--下拉选项结束-->
+        <footer style="z-index:10;">
+            <div class="shcheng-liebiao-foot">
+                <div class="fl" id="pub">
+                    <div class="fl go-car"><i class="num" id="total_count"><{$total.count|default:0}></i></div>
+                    <div class="fl jia-ge"><span class="fontcl1" id="total_price">￥<{$total.price|default:0}></span></div>
+                    <div class="fl ji-fen" id="total_jifen"><{$total.jifen|default:0}><span class="black9">分</span></div>
+                </div>
+                <div class="fr"><a href="javascript:void(0);" class="gou-btn pub_btn">立即购买</a></div>
+                <div class="clear"></div>
+            </div>
+        </footer>
+        <script>
+            $(document).ready(function(){
+                var link = "<{link ctl='mall/product/loaditems' arg0='#page#'}>";
+                var page = 1;
+                var params = {"cate_id":"<{$cate_id}>"};
+                loaddata(link,page,params);
+
+                $(document).on("click",".next",function(){
+                    page++;
+                    loaddata(link,page,params);
+                })
+
+            })
+            
+            
+            
+        $(document).on('click', '.add', function () {
+            var pid = $(this).attr('pid');
+            var link = "<{link ctl='mall/order:addcart'}>";
+            $.post(link, {pid: pid}, function (ret) {
+                if (ret.error == 0) {
+                    window.__Mall_Product_Freight = parseInt(ret.data.freight);
+                    var price = window.__Mall_Product_Freight + parseFloat(ret.data.price);
+                    $('#total_count').html(ret.data.count);
+                    $('#total_price').html('￥' + price);
+                    $('#total_jifen').html(ret.data.jifen+"<span class='black9'>分</span>");
+                    $('.freight').html(window.__Mall_Product_Freight+"<span class='black9'>运费</span>");
+                } else {
+                    layer.open({content: ret.message, time: 2});
+                    if (ret.error == 101) {
+                        setTimeout(function () {
+                            $('.modal-overlay').remove();
+                            $('.modal').remove();
+                            window.location.href="<{link ctl='passport/login'}>";
+                        }, 1500);
+                    }
+                }
+            }, 'json');
+        });
+    </script>
+        <script>
+            $(document).ready(function () {
+                //初始化子类显示
+                var cate_id = "<{$cate.cate_id}>";
+                $('#c'+cate_id).parent().parent().show();
+                $('.p'+cate_id).parent().parent().show();
+                
+                $('#block_footer').hide();
+                $('#xiala').click(function () {
+                    if ($(".mask_box .jifen_xiala").css("display") == "none") {
+                        $(".mask_box .jifen_xiala").show();
+                        $(".mask_bg").show();
+                    } else {
+                        $(".mask_box .jifen_xiala").hide();
+                        $(".mask_bg").hide();
+                    }
+                });
+            })
+            $('.tab-item.external').removeClass('active');
+            $('#tab-item4').addClass('active');
+
+            $('.pub_btn').click(function () {
+                window.location.href="<{link ctl='mall/order:cart'}>";
+            })
+
+            $('#pub').click(function () {
+                window.location.href="<{link ctl='mall/order:cart'}>";
+            })
+            
+            $(document).on('click', '.box ul li a', function () {
+                var rel = $(this).attr("rel");
+                if(rel == 0){
+                    var link = $(this).attr('shref');
+                    location.href = link;
+                }else{
+                    var cate_id = $(this).attr("cate_id");
+					$(".saixuan_fenlei_list_box").hide();
+                    $('#c'+cate_id).parent().parent().show();
+                    $('.p'+cate_id).parent().parent().show();
+                }
+            })
+        </script>
+<{include file="block/sfooter.html"}>

@@ -1,0 +1,146 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/shop:import" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <{if $cates}>
+    <form action="?waimai/shop-importDo-<{$shop_id}>-<{$ele_shop_id}>.html" id="ImportDo-form" method="post">
+        <input type="hidden" name="data[ele_shop_id]" value="<{$ele_shop_id}>" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <td>
+                <ul class="group-list" style="width:100%;max-height:400px;overflow-y:auto;">                           
+                    <{foreach $cates as $k=>$cate}>
+                     <li style="width:140px;">
+                    <label><input type="checkbox" name="data[cates][]" value="<{$cate.ele_cate_id}>"/>&nbsp;<{$cate.title}></label>
+                    </li>
+                    <{/foreach}>
+                    </ul>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>
+                    <label style="margin-left:10px;"><input type="radio" name="data[importSku]" value="0"/>不导入库存</label>
+                    <label><input type="radio" name="data[importSku]" value="1" checked="checked" />导入库存</label>
+                </td>
+            </tr> -->
+            <tr>
+                <td>
+                    <label style="margin-left: 10px;"><input type="radio" name="data[importImg]" value="0"/>不导入图片</label>
+                    <label><input type="radio" name="data[importImg]" value="1" checked="checked"/>导入图片</label>
+                </td>
+            </tr>
+            <tr><td class="clear-td-bottom fr" colspan="10"><input type="button" class="bt-big" value="开始导入" /></td></tr>
+        </table>
+    </form>
+    <{/if}>
+</div>
+<!--弹层-开始-->
+<style type="text/css">
+    .loading_mask{width: 100%; height: 100%; position: fixed; z-index: 1; left: 0; top: 0; /*background: rgba(0, 0, 0, 0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);*/}
+    .loading_mask .txt{background: rgba(0, 0, 0, 0.5);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000); position: absolute;left: 50%; top: 50%; font-size: 18px; font-weight: bold; color: #fff; border-radius: 4px; text-align: center; padding: 10px 20px; 
+        transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        -o-transform: translate(-50%,-50%);
+    }
+</style>
+<div class="loading_mask" style="display:none">
+    <div class="txt">
+        <div>正在导入数据，请不要关闭页面！</div>
+        <div style="padding-top:10px">已导入<span class="success_count">0</span>条数据...</div>
+    </div>
+</div>
+<!--弹层-结束-->
+<script type="text/javascript">
+    var ele_json = <{json_encode($cates)}>;
+    var ele_sel_cate_ids = [];
+    var success_count = failed_count = 0;
+    var importSku = importImg = 1;
+
+    $(document).ready(function(){
+        $('.bt-big').click(function(){
+            $('.loading_mask').show();
+            layer.load();
+            //importSku = $('input[name="data[importSku]"]:checked').val();
+            importImg = $('input[name="data[importImg]"]:checked').val();
+            $('input:checkbox:checked').each(function(){
+                var e_cate_id = $(this).val();
+                ele_sel_cate_ids.push(e_cate_id);
+            });
+            import_cate(0);
+        });
+    });
+
+    function import_cate(cate_index){
+        var cate_link = "?waimai/shop-importcate-<{$shop_id}>.html";
+        var e_cate_id = ele_sel_cate_ids[cate_index];
+        var cate = ele_json[e_cate_id] || null;
+        if(cate_index < ele_sel_cate_ids.length){
+
+
+            $.post(cate_link, {"cate_title":cate["title"]}, function(ret){
+                if(ret.error){
+
+                }else{
+                    //todo..
+                    import_product(e_cate_id,ret.data, 0, function(){
+                        import_cate(++cate_index);
+                    });
+                    //import_product(e_cate_id,ret.data, 0, cate_index);
+                }
+                //import_cate(++cate_index);
+            }, 'json');
+        }else{
+            layer.msg('导入完成,成功导入'+success_count+'条数据');
+            $('.loading_mask').hide();
+            layer.closeAll('loading');
+            ele_sel_cate_ids = [];
+            success_count = failed_count = 0;
+            $('.loading_mask .success_count').text(success_count);
+            setTimeout(function(){
+                layer.closeAll();
+            },3000);
+        }
+        
+        /*if(cate && cate["products"]){
+            for(var i=0; i< cate["products"].length;  i++){
+                import_product(cate_id, cate["products"][i]);
+            }
+        }*/
+    }
+
+
+    function import_product(e_cate_id, cate_id, product_index, callback){
+        callback = typeof(callback) == 'function' ? callback : function(){};
+        if(product_index < ele_json[e_cate_id]["products"].length){
+            var product = ele_json[e_cate_id]["products"][product_index];
+            var product_link = "?waimai/shop-importproduct-<{$shop_id}>.html";
+            var type = '<{$type}>';
+            $.post(product_link, {"cate_id":cate_id,"product":product,"importSku":importSku,"importImg":importImg,"type":type}, function(ret){
+                //todo.
+                if(ret.error){
+                    faileds += 1;
+                }else{
+                    success_count += 1;
+                    $('.loading_mask .success_count').text(success_count);
+
+                }
+                import_product(e_cate_id, cate_id, ++product_index, callback);
+
+            },"json");
+        }else{
+            callback();
+        }
+    }
+</script>
+
+<{include file="admin:common/footer.html"}>

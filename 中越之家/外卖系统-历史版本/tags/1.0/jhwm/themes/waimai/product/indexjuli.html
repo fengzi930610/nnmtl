@@ -1,0 +1,94 @@
+<{assign var='tpl_title' value=L("商品/商家")}>
+<{include file="waimai/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <!--头部搜索-->
+
+            <!--头部搜索end-->
+            <!--头部下拉end-->
+            <div class="container_mid">
+                <div class="list_change_cont  list_cont_shop">
+                    <div class="take-out_tuijian idx_take-out_tuijian">
+                        <div class="store_lists">
+                            <ul id="index_goods_items">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="loadding">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="goto_top"></a>
+<!--搜索弹出-->
+
+<script>
+    window.onload = function(){
+        var link = "<{link ctl='product/loadshops' arg0='#page#' http='waimai'}>";
+        var list_id = "index_goods_items";
+        params = {
+            'order':'j'
+        };
+        var page = 1;
+       loadpage(link,params,page,list_id);
+        scroll(link,params,'.container_mid',"",list_id);
+        setTimeout(function(){
+            $(".activity .first").each(function(){
+                var num = $(this).find("p").length;
+                if(num>2){
+                    $(this).find(".pull_down span").html(num+'个');
+                    $(this).find(".pull_down").show();
+                }/*else{
+                 $(this).find(".pull_down").remove();
+                 }*/
+            })
+        },500)
+        $('.takeout-list-title a.list').click(function(){
+            $(this).toggleClass('on').siblings().removeClass('on');
+            $('.takeout-list-mask').show();
+            var ind=$(this).index();
+            $('.takeout-list-mask .mask-list').eq(ind/2).toggle().siblings().hide();
+            if($(this).hasClass("on")){
+                $('.takeout-list-mask').show();
+            }else{
+                $('.takeout-list-mask').hide();
+            }
+        })
+        $('.takeout-list-mask .choose a').click(function(){
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+        $('.takeout-list-mask .choose_box .reset_btn').click(function(){
+            $('.takeout-list-mask .choose a').removeClass('on');
+
+        })
+        $('.takeout_mask-bg').click(function(){
+            $('.takeout-list-mask .mask-list').hide();
+            $('.takeout-list-title a').removeClass('on');
+        })
+        $('.mask-list li').click(function(){
+            $(this).addClass('on').siblings().removeClass('on')
+        })
+        $(document).on('touchstart','.activity .first .pull_down',function(){
+            var len=$(this).parents('.activity').find('.first p').length;
+            console.log(len)
+            if($(this).find('i').hasClass('on')){
+                $(this).parent().animate({'height':"auto ",'max-height':'40px','overflow':'hidden !important'},300);
+                $(this).find('i').removeClass('on');
+            }
+            else{
+                $(this).parent().animate({height:20*len+'px','max-height':20*len+'px','overflow':'auto !important'},300);
+                $(this).find('i').addClass('on');
+            }
+        });
+
+
+    }
+
+</script>
+
+<{include file="waimai/block/footer.html"}>

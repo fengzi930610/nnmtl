@@ -1,0 +1,37 @@
+<{assign var='tpl_title' value=L("限时折扣-历史记录")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--内容开始-->
+            	<div class="actList_box mt10">
+                    <ul>
+                        <{foreach $items as $item}>
+                            <li class="actList">
+                                <div class="cont">
+                                <h3><{$item.title}> <span class="maincl state"><{if $item.closed == 1}>已失效<{elseif $item.audit == 0}>待审核<{elseif $item.stime >$nowtime}>待生效<{elseif $item.ltime < $nowtime}>已过期<{else}>已生效<{/if}></span></h3>
+                                <a href="<{link ctl='webview/huodong/discount/detail' args=$item.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                            </div>
+                            <div class="bottom pub_list">
+                                <div class="time black9"><{if $item.stime == ($item.ltime + 86399)}><{$item.stime|format:'Y-m-d H:i'}>至<{$item.ltime|format:'Y-m-d H:i'}><{else}><{$item.stime|format:'Y-m-d'}>至<{$item.ltime|format:'Y-m-d'}><{/if}></div>
+                                <div class="pub_list_bd btn_box">
+                                    <{if $item.closed != 1}><a href="<{link ctl='webview/huodong/discount/close' args=$item.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default">撤销活动</a><{/if}>
+                                </div>
+                            </div>  
+                            </li>
+                        <{foreachelse}>
+                        <li class="actList">
+                            <div class="cont">
+                                <P>暂无数据</P>
+                            </div>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

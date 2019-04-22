@@ -1,0 +1,47 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><label class="left">推送分组列表</label>
+            </td>
+            <td align="left"></td>
+            <td width="15"></td>
+            <td align="right">
+				<a href="?tools/tuisong-addtag.html" mini-width="400" class="button">+添加分组</a> &nbsp;&nbsp;
+			</td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tbody>
+        <tr class="alt">
+            <th class="w-100">ID</th>
+            <th>中文名称</th>
+            <th>英文标示</th>
+            <th>使用数量</th>
+            <th class="w-50">排序</th>
+            <th class="w-50">更新时间</th>
+            <th class="w-200">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr class="">
+    		<td class="left"><{$item['tui_id']}></td>
+    		<td class="left"><{$item['title']}></td>
+            <td><{$item['name']}></td>
+    		<td><{$item['number']}></td>
+            <td><{$item['order']}></td>
+            <td><{$item['dateline']|format}></td>
+    		<td>
+                <a href="?tools/tuisong-edittag-<{$item['tui_id']}>.html" class="button" title="数据">编辑</a>
+    			<a href="?tools/tuisong-removetag-<{$item['tui_id']}>.html" mini-act="删除" mini-confirm="确定要删除吗？" title="删除" class="button">删除</a>
+    		</td>
+	    </tr>
+        <{/foreach}>
+        </tbody>
+    </table>
+	</form>
+</div>

@@ -1,0 +1,86 @@
+<{assign var='tpl_title' value=L("帐号登录")}>
+<{include file="v3block/header.html"}>
+<style>
+.page, body {background-color: #fff;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="myself-shuru-cont">
+                        <div class="inp-box">
+                            <input type="tel" id="mobile" placeholder="手机号" value="">
+                            <div class="cha-cio"></div>
+                        </div>
+                        <div class="inp-box">
+                            <input type="password" id="password" placeholder="密码" value="">
+                            <div class="cha-cio"></div>
+                        </div>
+                        <div class="mt30"> 
+                            <a href="<{link ctl='passport/register' rebackurl=$rebackurl}>" class="btn-a fl">注册</a><a href="javascript:;" class="btn-a login-a fr">登录</a>
+                            <div class="clear"></div> 
+                        </div>
+                        <p class="a-link-as">
+                            <a href="<{link ctl='passport/login' arg0=quick  rebackurl=$rebackurl}>" class="soon-btn">快捷登录</a><a href="<{link ctl='passport/forget'}>" class="soon-btn">忘记密码?</a>   
+                        </p>
+                        <div class="line-box">
+                            <span class="black9">第三方登录</span>
+                        </div>
+                        <a href="<{link ctl='passport:wxlogin' rebackurl=$rebackurl}>" class="weixin-login-a">
+                            <img src="%THEME%/static/img/my/btn_weixin@3x.png">
+                            <p class="black6 text_c">微信</p>    
+                        </a>
+                    </form>  
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 输入时 -->
+<script>
+$(function(){
+    $(".inp-box input").focus(function () {
+        $('.inp-box input').on('input', function() {
+            if($(this).val().length == 0 ){
+              $(this).parent(".inp-box").find(".cha-cio").css("display","none");       
+            }else{
+              $(this).parent(".inp-box").find(".cha-cio").css("display","block");
+            }
+        });
+    }); 
+    $(".inp-box input").blur(function(){
+        $(this).parent(".inp-box").find(".cha-cio").css("display","none");            
+    }); 
+
+    $(".cha-cio").on("click",function(){
+        $(this).hide();
+        $(this).parent(".inp-box").find(".inp-box input").val('');
+        $(this).parent(".inp-box").find(".inp-box input").focus();
+    });
+});
+
+$(document).ready(function () {
+    $('.login-a').click(function () {
+        var mobile = $('#mobile').val();
+        var passwd = $('#password').val();
+        var link = "<{link ctl='passport/dologin' http='www'}>";
+        var reback_url ="<{$rebackurl}>";
+        $.post(link, {mobile: mobile, passwd: passwd,rebackurl:reback_url}, function (ret) {
+            if (ret.error != 0) {
+                Widget.MsgBox.error(ret.message);
+            } else {
+                Widget.MsgBox.error('欢迎回来');
+                setTimeout(function () {window.location.href = ret.forward;}, 1000)
+            }
+        }, 'json');
+    })
+    //注册页获取验证码部分结束
+})
+
+</script>
+<!-- 输入时end -->
+
+<!-- 获取验证码 -->
+
+<!-- 获取验证码end-->
+<{include file="v3block/footer.html"}>

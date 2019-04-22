@@ -1,0 +1,77 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_c">
+
+<table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td width="30" align="right"><h3>订单详情</h3></td>
+        <td width="30" align="right"><h3>&nbsp;</h3></td>
+        <!--<td ><a href="<{link ctl='biz/order:index'}>"  class="btn btn-success">订单列表</a></td>-->
+     </tr>
+    <tr><!--order_id,from,order_status,pay_status,total_price,,contact,mobile,dateline-->
+        <td style="width:200px;margin-right:50px;">订单号：</td>
+        <td ><{$order.order_id}></td>
+    </tr>
+    <tr>
+        <td>订单类型：</td>
+        <td style="width:200px;margin-right:50px">
+         <{if $order.from == 'tuan'}>团购订单<{/if}> 
+         <{if $order.from == 'waimai'}>外卖订单<{/if}> 
+         <{if $order.from == 'maidan'}>优惠买单订单<{/if}>    
+        </td>
+        
+    </tr>
+    <tr>
+        <td>订单状态：</td>
+        <td style="width:200px;margin-right:50px"><{$order.order_status_label}></td>
+    </tr>
+    <tr>
+        <td>支付状态：</td>
+        <td style="width:200px;margin-right:50px"><{if $order.pay_status==1}>已支付<{else}>未支付<{/if}></td>
+    </tr>
+    <tr>
+        <td>订单总金额：</td>
+        <td style="width:200px;margin-right:50px">&yen;<{$order.total_price}></td>
+    </tr>
+    <tr>
+        <td>订餐者：</td>
+        <td style="width:200px;margin-right:50px"><{$order.contact}></td>
+    </tr>
+    <tr>
+        <td>手机号：</td>
+        <td style="width:200px;margin-right:50px"><{$order.mobile}></td>
+    </tr>
+    <tr>
+        <td>下单时间：</td>
+        <td style="width:200px;margin-right:50px"><{$order.dateline|format:"Y-m-d H:i:s"}></td>
+    </tr>
+    <!--<tr><td><a href="<{link ctl='biz/order:detail' args=$item.order_id}>" class="btn btn-success" title="立即回复">立即回复</a></td></tr>-->
+</table>
+
+</div>
+<{include file="biz/block/footer.html"}>
+<script>
+$(document).ready(function() {
+    var shop_msg_id = localStorage['shop_msg_id'];
+    setread(shop_msg_id);
+});
+
+function setread(shop_msg_id) {
+    var link = "<{link ctl='biz/msg:setread' arg0='temp'}>";
+    jQuery.ajax({
+        url: link.replace('temp', shop_msg_id),
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if (ret.error > 0) {
+                //Widget.MsgBox.success(ret.message);
+            } else {
+                //Widget.MsgBox.success(ret.message);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+      },
+    });
+}
+</script>

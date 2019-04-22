@@ -1,0 +1,92 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{* link ctl="system/smstmpl:index" class="button" title="短息模版" *}></td>
+		<td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <h4 class="tip-notice">
+        <{if $config.comid && $config.uname && $config.passwd}>短信账户余额<b class="blue"><{$have_sms_count}></b>条。<{/if}>需要短息服务的用户通过官方客服 <{"800070067"|qq}> 联系购买。
+    </h4>
+    <form action="?system/config-sms.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="sms" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th>显示错误提示：</th>
+            <td>
+                <label><input type="radio" name="config[show_error]" <{if $config.show_error}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+                <label><input type="radio" name="config[show_error]" <{if empty($config.show_error)}>checked="checked"<{/if}> value="0"/>关闭</label>
+                <span class="tip-comment">当短息发送失败时，是否显示相应的提示，建议在调试时打开</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>开启余额提醒：</th>
+            <td>
+                <label><input type="radio" name="config[remind_open]" <{if $config.remind_open}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+                <label><input type="radio" name="config[remind_open]" <{if empty($config.remind_open)}>checked="checked"<{/if}> value="0"/>关闭</label>
+            </td>
+        </tr>
+
+        <tr>
+            <th>企业ID：</th>
+            <td><input type="text" name="config[comid]" value="<{$config.comid|default:'70'}>" class="input w-200"/></td>
+        </tr>
+        <tr>
+            <th>所用平台：</th>
+            <td><input type="text" name="config[smsnumber]" value="<{$config.smsnumber|default:'10690'}>" class="input w-200"/></td>
+        </tr>
+        <tr>
+            <th>帐号：</th>
+            <td><input type="text" name="config[uname]" value="<{$config.uname|default:''}>" class="input w-200"/></td>
+        </tr>
+        <tr>
+            <th>密码：</th>
+            <td><input type="password" name="config[passwd]" value="<{$config.passwd|default:''}>" class="input w-200"/></td>
+        </tr>
+        <tr>
+            <th>管理员手机：</th>
+            <td>
+                <input type="text" name="config[mobile]" value="<{$config.mobile|default:''}>" class="input w-200"/>
+                <!-- <a ><input type="button" class="bt-big" style="" value="发送测试"></a> -->
+                <{link ctl="sms/log:admin" class="button" title="发送测试"}>
+                <span class="tip-comment">用于接收网站通知，多个手机号用英文,隔开</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>图形验证码设置：</th>
+            <td>
+                <input type="text" name="config[sms_num]" value="<{$config.sms_num|default:0}>" class="input w-200"/>
+                <span class="tip-comment">10分钟内限制的短信条数</span>
+            </td>
+        </tr>
+        <tr>
+            <th>开启图形验证码：</th>
+            <td>
+                <label><input type="radio" name="config[verify_open]" <{if $config.verify_open}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+                <label><input type="radio" name="config[verify_open]" <{if empty($config.verify_open)}>checked="checked"<{/if}> value="0"/>关闭</label>
+            </td>
+        </tr>
+
+        <tr>
+            <th>短信签名：</th>
+            <td>
+                <input type="text" name="config[title]" value="<{$config.title|default:$CONFIG.site.title}>" class="input w-200"/>
+                <span class="tip-comment">发送短信时的标题内容(默认网站标题)，例如：【******】您的短信验证码是123456，该验证码3分钟有效</span>
+            </td>
+        </tr>
+
+         <tr>
+            <th class="clear-th-bottom"></th>
+            <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+        </tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

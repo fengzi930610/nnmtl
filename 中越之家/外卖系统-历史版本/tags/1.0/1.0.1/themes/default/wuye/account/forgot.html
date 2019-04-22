@@ -1,0 +1,98 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>忘记密码</title>
+<link type="text/css" rel="stylesheet" href="css/style.css">
+    <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/layer/layer.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+    <link type="text/css" rel="stylesheet" href="/themes/default/biz/static/css/login.css">
+</head>
+<body>
+    <div class="register_box">
+    	<h2>商户管理中心</h2>
+        <h4>Business Management System</h4>
+        <h3><span>忘记密码</span></h3>
+        <div class="register_cont forgot_cont">
+        	<form id="form_post"  method="post">
+                <div class="int_box"><input type="text" name="data[mobile]" id="mobile" class="text" placeholder="请输入手机号"></div>
+                <div class="int_box">
+                    <input type="text" name="data[code]" class="text short lt" placeholder="请输入验证码">
+                    <a class="hqyzm" href="javascript:void(0);" login="sendsms">获取验证码</a>
+                </div>
+                <div class="int_box"><input type="password" name="data[new_passwd]" class="text" placeholder="请输入新密码"></div>
+                <div class="int_box"><input type="password" name="data[new_passwd2]" class="text" placeholder="请再次输入新密码"></div>
+                <input type="button" class="btn" id="btn_mobile" value="修改密码">
+            </form>
+            <div class="bottom_link">
+            	<a href="<{link ctl='biz/account:login'}>">已有账号？立即登录</a>
+            </div>
+        </div>
+        <p class="copyt">Copyright © 2013-2016 江湖科技出品, All rights reserved. ICP备案：皖ICP备13010842号</p>
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var minute = 60;
+            var mobile_timeout;
+            var mobile_count = minute;
+            var mobile_lock = 0;
+            BtnCount = function () {
+                if (mobile_count == 0) {
+                    $(".hqyzm").addClass("on");
+                    $('.hqyzm').removeAttr("disabled");
+                    $('.hqyzm').text("重新获取");
+                    mobile_lock = 0;
+                    clearTimeout(mobile_timeout);
+                    $('.hqyzm').removeClass("on");
+                } else {
+                    mobile_count--;
+                    $('.hqyzm').text(+mobile_count.toString() + "秒...");
+                    mobile_timeout = setTimeout(BtnCount, 1000);
+                }
+            };
+            $("[login]").click(function () {
+                if (mobile_lock == 0) {
+                    var mobile = $('#mobile').val();
+                    var link = "<{link ctl='passport/sendsms'}>";
+                    $.post(link, {mobile: mobile}, function (ret) {
+                        if (ret.error == 0) {
+                            BtnCount();
+                            mobile_lock = 1;
+                            $(".hqyzm").addClass("on");
+                            $('.hqyzm').attr("disabled", "disabled");
+                        } else {
+                            layer.msg(ret.message);
+                            mobile_lock = 0;
+                        }
+                    }, 'json');
+                    mobile_count = minute;
+                }
+            });
+            $('#btn_mobile').click(function () {
+                var link = "<{link ctl='biz/account:forgot'}>";
+                $.post(link,$("#form_post").serialize(), function (ret) {
+                    if (ret.error == 0) {
+                        layer.msg(ret.message);
+                        setTimeout(function () {
+                            window.location.href="<{link ctl='biz/account:login'}>";
+                        }, 1000)
+                        BtnCount();
+                    } else {
+                        layer.msg(ret.message);
+                    }
+                }, 'json');
+            })
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<{assign var='tpl_title' value=L("订单详情")}>
+<{include file="weidian/block/header.html"}>
+<section class="page_center_box"> 
+	<!-- 主要内容部分 -->
+	<div class="order_nr mb10">
+		<div class="list_box1 pub_align1 mb10">
+                    <div class="pub_color1"><{if $order.order_status == -1}>订单已取消<{elseif $order.online_pay == 0 && $order.order_status == 0}>订单待确认<{elseif $order.order_status == 0&&$order.pay_status == 0}>等待付款<{elseif $order.order_status == 0&&$order.pay_status == 1}>订单已支付<{elseif $order.order_status == 1}>商家已确认<{elseif $order.order_status == 3}><{if $order.pei_type == 2}>等待自提<{else}>订单已发货<{/if}><{elseif $order.order_status == 4}><{if $order.pei_type == 2}>已自提<{else}>订单配送完成<{/if}> <{elseif $order.order_status == 8&&$order.comment_status == 0}>订单已完成<{elseif $order.order_status == 8&&$order.comment_status == 1}>订单已评价<{/if}></div>
+		</div>
+		<div class="order_address mb10">
+                    <{if $order.pei_type == 2}>
+                        <div>店铺名称：<{$shop.title}></div>
+                        <div>
+                            <p>店铺地址：<{$shop.addr}></p>
+			</div>
+                        <{else}>
+                        <div>收货人：<{$order.contact}>  <{$order.mobile}></div>
+			<div>
+                            <p><{$order.addr}><{$order.house}></p>
+			</div>
+                        <{/if}>
+		</div>
+                <{if $order.pei_type == 2}>
+                <div class="list_box1 list_box3 pub_align1 mb10">
+			<div>自提时间</div>
+			<div><{if $order.pei_time == 0}>立即自提<{else}><{$order.pei_time|format:'Y-m-d H:i:s'}><{/if}></div>
+		</div>
+                <{/if}>
+		<div class="nr_box mb10">
+			<div class="tit"><i class="listIco"></i>购物清单</div>
+                        <{foreach $orderproducts as $item}>
+                            <div class="pad10">
+                                <div class="fl img"><img src="<{$pager.img}>/<{$products[$item['product_id']]['photo']}>"/></div>
+                                    <div class="item-inner">
+                                            <h3 class="pub_color2"><{$item.product_name}></h3>
+                                            <p class="black9"><{$item.stock_real_name}>数量：<{$item.product_number}></p>
+                                            <div class="price">￥<{$item.product_price}></div>
+                                    </div>
+                                    <div class="clear"></div>
+                            </div>
+                        <{/foreach}>
+			<div>
+				<ul class="list_box1 list_box2">
+					<li class="pub_align1 border_b">
+						<div>配送方式</div>
+						<div><{if $order.pei_type == 2}>客户自提<{else}>快递 <{if $order.freight>0}>配送费￥<{$order.freight}><{else}>免配送费<{/if}><{/if}></div>
+					</li>
+                                        <{if $order.coupon >0}>
+					<li class="pub_align1 border_b">
+						<div>优惠活动</div>
+						<div>-￥<{$order.coupon}></div>
+					</li>
+                                        <{/if}>
+					<li class="txt_right list"><em>共计 <{$order.product_number}> 件商品</em> 实付：<span class="pub_color1">￥<{$order.amount}></span></li>
+				</ul>
+			</div>
+		</div>
+		<ul class="list_box1 list_box2">
+			<li class="border_b">订单编号：<{$order.order_id}></li>
+			<{if $order.pay_status == 1}><li class="border_b">支付方式：<{if $log['payment'] == 'money'}>余额支付<{elseif $log['payment'] == 'wxpay'}>微信支付<{elseif $log['payment'] == 'alipay'}>支付宝支付<{/if}></li><{/if}>
+			<li>下单时间：<{$order.dateline|format:'Y-m-d H:i:s'}></li>
+		</ul>
+	</div>
+	<!-- 主要内容部分结束 --> 
+</section>
+<footer class="order_status">
+	<div class="order_btn"> 
+                <{if $order.order_status == -1}>
+                    <a href="javascript:void(0);" class="btn2">已取消</a>
+                    <{elseif $order.online_pay == 0&&$order.order_status == 0}>
+                    <a href="javascript:void(0);" class="btn2">订单待确认</a>
+                <{elseif $order.order_status == 0&&$order.pay_status == 0}>
+                <a href="javascript:void(0);" rel="<{$order.order_id}>" class="btn2 jq_cancel">取消订单</a><a href="<{link ctl='ucenter/order/pay' args=$order.order_id}>" class="btn1">付款</a>
+                    <{elseif $order.order_status == 0&&$order.pay_status == 1}>
+                    <a href="javascript:void(0);" rel="<{$order.order_id}>" class="btn2 jq_cancel">取消订单</a>
+                    <{if $order.pei_type ==2}>
+                    <a href="javascript:void(0);" class="btn1 zitiCode">自提码</a>
+                    <{/if}>
+                    <{elseif $order.order_status == 1}>
+                    <{if $order.pei_type == 1}>
+                    <{if $order.cui_time >0}>
+                    <a href="javascript:void(0);" class="btn2">已提醒</a>
+                    <{else}>
+                    <a href="javascript:void(0);" rel="<{$item.order_id}>" class="btn1 tips">提醒发货</a>
+                    <{/if}>
+                    <{/if}>
+                    <{if $order.pei_type ==2}>
+                    <a href="javascript:void(0);" class="btn1 zitiCode">自提码</a>
+                    <{/if}>
+                    <{elseif $order.order_status == 3}>
+                    <{if $item.pei_type == 2}>
+                    <a href="javascript:void(0);" class="dan-how quxiao-dan">等待自提</a>
+                    <{else}>
+                    <a href="<{link ctl='ucenter/order/confirm' args=$order.order_id}>" class="btn1">确认收货</a>
+                    <{/if}> 
+                    <{elseif $order.order_status == 4}>
+                    <{if $item.pei_type == 2}>
+                    <a href="<{link ctl='ucenter/order/complete' args=$order.order_id}>" class="btn1">完成订单</a>
+                    <a href="javascript:void(0);" class="btn2">已自提</a>
+                    <{else}>
+                    <a href="<{link ctl='ucenter/order/complete' args=$order.order_id}>" class="btn1">完成订单</a>
+                    <{/if}> 
+                    <{elseif $order.order_status == 8&&$order.comment_status == 0}>
+                    <a href="<{link ctl='ucenter/order/comment' args=$order.order_id}>" class="btn1">去评价</a>
+                    <{elseif $order.order_status == 8&&$order.comment_status == 1}>
+                    <a href="javascript:void(0);" class="btn2">已评价</a>
+                <{/if}>
+	</div>
+</footer>
+<footer>
+    <div class="order_btn" style="text-align: center;"> 
+        <a href="<{$weidian.url}>" class="btn1">店铺主页</a><a href="<{link ctl='ucenter/index'}>" class="btn2">个人中心</a>
+    </div>
+</footer>
+
+<div class="mask_box">
+    <div class="maskOne zitiCode_mask">
+        <div class="title">自提码</div>
+        <div class="cont">
+            <p class="fontcl1"><{$order.spend_number}></p>
+            <div id="qrcodeTable" ></div>
+            <p><{if $order.spend_status==1}>商家已核销<{/if}><{if $order.spend_status==0}>待商家核销<{/if}></p>
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+<script src="/themes/default/static/js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $(document).ready(function() {
+        $(".tips").click(function(){
+               var order_id = $(this).attr("rel");
+               var link = "<{link ctl='ucenter/order/remind'}>";
+               $.post(link,{"order_id":order_id},function(ret){
+                   if(ret.error>0){
+                       layer.open({content: ret.message});
+                   }else{
+                       layer.open({content: ret.message});
+                       setTimeout(function(){
+                           window.location.reload(true);
+                       },'1000')
+                   }
+               },'json')
+           })
+        
+        
+      $(".jq_cancel").click(function(){
+          var order_id = $(this).attr("rel");
+          layer.open({
+            title: '温馨提示',
+            content: '您确定要取消订单吗？',
+            btn: ['确认', '取消'],
+            shadeClose: false,
+            yes: function () {
+                var link = "<{link ctl='ucenter/order/cancel' args=oooo}>";
+                $.post(link.replace('oooo',order_id),{},function(ret){
+                    if(ret.error == 0){
+                        layer.open({content: ret.message, time: 2});
+                        window.location.reload(true);
+                    }else{
+                        layer.open({content: ret.message, time: 2});
+                    }
+                },'json')
+            }, no: function () {
+            }
+        });
+      })  
+        
+        
+    $(".zitiCode").click(function(){
+        $(".zitiCode_mask").show();
+        $(".zitiCode_mask").parent().find(".mask_bg").show();
+    });
+    $(".zitiCode_mask").parent().find(".mask_bg").click(function(){
+        $(".zitiCode_mask").hide();
+        $(".zitiCode_mask").parent().find(".mask_bg").hide();
+    });//自提码弹出层结束
+
+    // 生成二维码
+    $('#qrcodeTable').qrcode({
+        render: "canvas",            //渲染方式 table 和 canvas两种
+        width: 128,                  //设置宽度  
+        height: 128,                 //设置高度  
+        typeNumber: -1,              //计算模式 
+        correctLevel: 2,             //纠错等级  0,1,2,3 默认为2
+        background: "#ffffff",       //背景颜色  
+        foreground: "#000000",       //前景颜色 
+        text    : '2<{$order.spend_number}>'  //识别微店首位是2
+    }); 
+});
+
+    $(function(){
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.location.href="/ucenter/order";
+                var hashLocation = location.hash;
+                var hashSplit = hashLocation.split("#!/");
+                var hashName = hashSplit[1];
+                if (hashName !== '') {
+                    var hash = window.location.hash;
+                    if (hash === '') {
+                        window.location.href="/ucenter/order/index/";
+                    }
+                }
+            });
+//            /ucenter/order/detail-2085.html
+            window.history.pushState('forward', null, '/ucenter/order/detail-<{$order.order_id}>.html/#forward');
+        }
+    });
+</script>
+<{include file="weidian/block/footer.html"}>

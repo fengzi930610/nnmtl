@@ -1,0 +1,14 @@
+<{foreach $items as $k=>$v}>
+<li><a href="<{link ctl='webview/bills/bills/detail' arg0=$v.bills_id}>">
+    <div class="fl">
+        <h3><{$v.day}></h3>
+        <{if $v.status==0}> <P class="fontcl3">未结算</P><{else}><P class="black9">已结算</P><{/if}>
+    </div>
+    <div class="fr">
+        <big>￥<{$v.amount}></big>
+        <P class="fontcl3"></P>
+    </div>
+    <div class="clear"></div>
+    <i class="linkico"></i>
+</a></li>
+<{/foreach}>

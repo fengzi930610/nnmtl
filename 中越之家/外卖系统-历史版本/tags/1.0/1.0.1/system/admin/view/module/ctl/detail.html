@@ -1,0 +1,76 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right">&nbsp;<{link ctl="module/ctl:index" class="button"}><td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?module/ctl-save.html" mini-form="ctl-batch" method="post">
+	<input type="hidden" name="batch" value="module" />
+	<table width="100%" border="0" cellspacing="0" class="table-data list">
+		<tr>
+			<th class="w-100">模型标题:</th>
+			<th class="w-100">控制器</th>
+			<th class="w-100">Action</th>
+			<th class="w-100">排序</th>
+			<th class="w-100">父级菜单:</th>
+			<th class="w-100"><a href="###" batch="add_new_line">新增一行</a></th>
+		</tr>
+		<{foreach $modules as $mod}>
+		<tr id="mod-ctl-<{$mod.mod_id}>">
+			<td><input type="text" name="module[<{$mod.mod_id}>][title]" class="input w-100" value="<{$mod.title}>"></td>
+			<td><input type="text" name="module[<{$mod.mod_id}>][ctl]" class="input w-100" value="<{$mod.ctl}>"></td>
+			<td><input type="text" name="module[<{$mod.mod_id}>][act]" class="input w-100" value="<{$mod.act}>"></td>
+			<td><input type="text" name="module[<{$mod.mod_id}>][orderby]" class="input w-30" value="<{$mod.orderby}>"></td>
+			<td>
+				<select name="module[<{$mod.mod_id}>][parent_id]">
+				<{foreach $menu_tree as $v}><optgroup label="<{$v.title}>"><{foreach $v.menu as $vv}><option value="<{$vv.mod_id}>"<{if $vv.mod_id==$mod.parent_id}> selected="selected"<{/if}>><{$vv.title}></option><{/foreach}></optgroup><{/foreach}>
+				</select>
+				<label style="padding-left:10px;"><input type="checkbox" name="module[<{$mod.mod_id}>][visible]" value="1" <{if $mod.visible}>checked="checked"<{/if}> />显示</label>
+			</td>
+			<td><a href="?module/ctl-remove-<{$mod.mod_id}>.html" mini-act="remove:mod-ctl-<{$mod.mod_id}>">删除</a></td>
+		</tr>
+		<{/foreach}>
+		<tr batch="tool_bar">
+			<td colspan="5" class="table-button-td right">
+				<input type="submit" class="bt-big"  id="button2" value="提 交 数 据" />
+			</td>
+			<td class="table-button-td"></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<script type="text/paint" id="module_tmpl">
+	<tr>
+		<td><input type="text" size="50" name="data[{index}][title]" class="input w-100" value=""></td>
+		<td><input type="text" name="data[{index}][ctl]" class="input w-100" value=""></td>
+		<td><input type="text" name="data[{index}][act]" class="input w-100" value=""></td>
+		<td><input type="text" name="data[{index}][orderby]" class="input w-30" value="50"></td>
+		<td>
+			<select name="data[{index}][parent_id]">
+			<{foreach $menu_tree as $v}><optgroup label="<{$v.title}>"><{foreach $v.menu as $vv}><option value="<{$vv.mod_id}>"<{if $pager.PID==$vv.mod_id}>selected="selected"<{/if}>><{$vv.title}></option><{/foreach}></optgroup><{/foreach}>
+			</select>
+			<label style="padding-left:10px;"><input type="checkbox" name="data[{index}][visible]" value="1"/>显示</label>
+		</td>
+		<td><a href="###" batch="remove_item_line">取消</a></td>
+	</tr>
+</script>
+<script type="text/javascript">
+(function(K, $){
+$(document).ready(function(){
+	var tmpl = $("#module_tmpl").html();
+	$("a[batch='add_new_line']").click(function(){
+		var k = K.Guid();
+		$("[batch='tool_bar']").before(tmpl.replace(new RegExp("{index}","gm"),k));
+	}).click();
+	$(document).off("click","a[batch='remove_item_line']").on('click', "a[batch='remove_item_line']",function(){
+		$(this).parent().parent('tr').remove();
+	});
+});
+})(window.KT, window.jQuery)
+</script>
+<{include file="admin:common/footer.html"}>

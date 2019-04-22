@@ -1,0 +1,61 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+	.clientIndexSet_style ul li{ height: 346px;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right">
+        	
+        </td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<!-- 内容-开始 -->
+	<div class="clientIndexSet_style">
+		<ul>
+			<{foreach $items as $item}>
+			<li theme-id="<{$item.theme_id}>" title="<{$item.title}>" imgPhoto="<{$item.photo}>">
+				<div class="pic">
+					<img src="<{$item.photo}>">
+					<div class="box">
+						<div class="btn_box">
+							<button class="btn preview" link="?adv/export-preview-<{$item.theme_id}>"><i class="ico_yl"></i>预览</button>
+							<{link ctl="adv/export:export" arg0=$item.theme_id act="mini:导入" confirm="mini:确定要导入此风格吗？" title="导入" class="btn"}>
+						</div>
+					</div>
+				</div>
+				<div class="tit"><{$item.title}></div>
+			</li>
+			<{/foreach}>
+		</ul>
+		<div class="clear"></div>
+	</div>
+	<!-- 内容-结束 -->
+
+	<!--预览弹层-开始-->
+	<div class="clientIndexSet_phone_mask" style="display: none;">
+		<div class="clientIndexSet_phone" style="width: 375px; height: 667px;">
+			<iframe class="clientIndexSet_iframe" id="clientIndexSet_iframe" name="clientIndexSet_iframe" width="100%" height="100%" src="" frameborder="0"></iframe>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".preview").click(function(){
+				var link = $(this).attr('link');
+				$('#clientIndexSet_iframe').attr('src', link);
+				$(".clientIndexSet_phone_mask").show();
+			});
+			$(".clientIndexSet_phone_mask").click(function(){
+				$(this).hide();
+			});
+		});
+	</script>
+	<!--预览弹层-结束-->	
+</div>
+
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,247 @@
+<{assign var="page_title" value="跑腿订单列表"}>
+<{assign var='tpl_title' value=L("跑腿订单列表")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+        <{include file="pchome/ucenter/block/left.html"}>
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="myOrder_nr">
+                <div class="top">
+                    <h2 class="fl bt">跑腿订单</h2>
+                    <div class="fl tab">
+                        <a href="<{link ctl='ucenter/paotui/index' date=$date}>" <{if $st==0}>class="on"<{/if}> >全部<{if $total_count>0}><em class="fontcl1 ml5"><{$total_count}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=1 date=$date}>" <{if $st==1}>class="on"<{/if}> >待付款<{if $count_1>0}><em class="fontcl1 ml5"><{$count_1}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=2 date=$date}>" <{if $st==2}>class="on"<{/if}> >待接单<{if $count_2>0}><em class="fontcl1 ml5"><{$count_2}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=3 date=$date}>" <{if $st==3}>class="on"<{/if}> >等待服务<{if $count_3>0}><em class="fontcl1 ml5"><{$count_3}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=4 date=$date}>" <{if $st==4}>class="on"<{/if}> >正在服务<{if $count_4>0}><em class="fontcl1 ml5"><{$count_4}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=5 date=$date}>" <{if $st==5}>class="on"<{/if}> >已取消<{if $count_5>0}><em class="fontcl1 ml5"><{$count_5}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=6 date=$date}>" <{if $st==6}>class="on"<{/if}> >待评价<{if $count_6>0}><em class="fontcl1 ml5"><{$count_6}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=7 date=$date}>" <{if $st==7}>class="on"<{/if}> >已评价<{if $count_7>0}><em class="fontcl1 ml5"><{$count_7}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/paotui/index' arg0=8 date=$date}>" class="last <{if $st==8}>on<{/if}>">已退款<{if $count_8>0}><em class="fontcl1 ml5"><{$count_8}></em><{/if}></a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="box">
+                    <table border="0" width="100%">
+                        <tr class="tit">
+                            <th>
+                        <div class="ml10 fl">
+                            <select name="jq_date" id="jq_date">
+                                <option <{if $date==0}>selected="selected"<{/if}> value="0">全部订单</option>
+                                <option <{if $date==1}>selected="selected"<{/if}> value="1">近一周订单</option>
+                                <option <{if $date==2}>selected="selected"<{/if}> value="2">近一月订单</option>
+                                <option <{if $date==3}>selected="selected"<{/if}> value="3">近三月订单</option>
+                                <option <{if $date==4}>selected="selected"<{/if}> value="4">近一年订单</option>
+                            </select>
+                        </div>
+                        <span class="fl">订单内容</span>
+                        </th>
+                        <th>跑腿费用</th>
+                        <th>订单状态</th>
+                        <th>操作</th>
+                        </tr>
+                        <{foreach $items as $item}>
+                            <!-- 订单 -->
+                            <tr class="no">
+                                <td colspan="6"><!--中间间隔勿删--></td>
+                            </tr>
+                            <tr class="state_box">
+                                <td colspan="6">
+                                    <p class="fl black9 ml10 mr30">下单时间：<{$item.dateline|format:'Y-m-d H:i:s'}></p>
+                                    <p class="fl black9">订单号：<span class="black3"><{$item.order_id}></span></p>
+                                    <div class="clear"></div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="cont_box">
+                                <td>
+                                    <div class="img_wz ml10">
+                                        <div class="img fl"><img src="/admin/<{$item.order.icon}>"/></div>
+                                        <div class="wz_box">
+                                            <span class="bq bgc1"><{$item.order.type_title}></span>
+                                            <p class="black9">备注：<{$item.intro}></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <P class="black6">￥<{$item.amount}></P>
+                                </td>
+                                <td>
+                                    <P class="fontcl2"><{$item.order_status_label}></P>
+                                    <a href="<{link ctl='ucenter/paotui/detail' args=$item.order_id}>">订单详情</a>
+                                </td>
+                                <td>
+                                    <{if $item.order_status == 0 && $item.pay_status == 0}>
+                                        <a href="<{link ctl='payment/pay' args=$item.order_id}>" class="btn_warning btn_outline mr10">立即支付</a>
+                                    <{elseif $item.order_status == 5}>
+                                        <a href="javascript:void(0);" class="btn_warning btn_outline mr10">补差价</a>
+                                    <{elseif $item.order_status == 8 && $item.comment_status == 0}>
+                                        <a href="javascript:void(0);" rel="<{$item.order_id}>" class="btn_warning btn_outline mr10 dianping_btn">立即评价</a>
+                                        
+                                    <{else}>
+                                        <{$item.order_status_warning}>
+                                    <{/if}>
+                                    <{if $item.order_status == 0}>
+                                    <a href="javascript:void(0);" rel="<{$item.order_id}>" class="btn_lineno mr10 jq_cancel">取消订单</a>
+                                    <{/if}>
+                                </td>
+                            </tr> 
+                            <tr class="no">
+                                <td colspan="6"><!--中间间隔勿删--></td>
+                            </tr>
+                            <!-- 订单结束 -->
+                        <{/foreach}>             
+                    </table>
+                </div>
+                <!--分页-->
+                <div class="pageNum_box mt10 mb10">
+                    <{$pager.pagebar}>     
+                </div>
+                <!--分页end-->
+
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--评价弹出层-->
+    <div class="mask_bg"></div>
+    <div class="shangjia_evlt_mask shangjia_evlt_mask_box">
+    	<div class="tit">评价</div>
+        <div class="cont">
+        <form action="<{link ctl='ucenter/order/staff_comment_handle' }>" mini-form="car-form" id="comment_form" method="post">
+            <script>
+                function fileSelected(obj, type) {
+                    var files = obj.files;
+                    for (var i = 0; i < files.length; i++) {
+                        var tag = '';
+                        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                        if (!rFilter.test(files[i].type)) {
+                            alert("只允许上传JPG、PNG、GIF格式图片");
+                            return false;
+                        }
+                        var reader = new FileReader();
+                        reader.onloadstart = function (e) {
+                            $(".loading").show();
+                        }
+                        reader.onload = function (e) {
+                            $('#photo' + type).hide();
+                            $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                        }
+                        reader.readAsDataURL(files[i]);
+                    }
+                }
+            </script>
+            	<div class="star_box mb20">
+                	<span class="fl">总体评价</span>
+                    <div class="starCz_bg fl">
+                    	<div class="starCz_bar" style="width:60%;"></div>
+                        <div class="click">
+                            <a href="javascript:void(0);" rel="1"></a>
+                            <a href="javascript:void(0);" rel="2"></a>
+                            <a href="javascript:void(0);" rel="3"></a>
+                            <a href="javascript:void(0);" rel="4"></a>
+                            <a href="javascript:void(0);" rel="5"></a>
+                            <input type='hidden' name="data[score]" id="score" value="3">
+                        </div>
+                    </div>
+                </div>
+                <div class="textarea_box mb20">
+                    <textarea name="data[content]" id="content" placeholder="您对Ta的的印象"></textarea>
+                </div>
+                <div class="img_box mb10">
+                	<a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo1" id="photo1" onchange="fileSelected(this, 1)" value="上传"   />
+                            <img src="" id="img1" style="display:none;" width="100%" height="100%" />
+                        </a>
+                        <a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo2" id="photo2" onchange="fileSelected(this, 2)" value="上传"   />
+                            <img src="" id="img2" style="display:none;" width="100%" height="100%" />
+                        </a>
+                        <a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo3" id="photo3" onchange="fileSelected(this, 3)" value="上传"   />
+                            <img src="" id="img3" style="display:none;" width="100%" height="100%" />
+                        </a>
+                        <a href="javascript:void(0);" class="img_upload">
+                            <input type="file" name="photo4" id="photo4" onchange="fileSelected(this, 4)" value="上传"   />
+                            <img src="" id="img4" style="display:none;" width="100%" height="100%" />
+                        </a>
+                </div>
+                <div class="btn_box">
+                    <input type="hidden" name="data[order_id]" id="order_id" value="<{$detail.order_id}>"/>
+                    <input type="button" class="btn cancel" value="取消">
+                    <input type="submit" class="btn" id="comment_submit" value="确认评价">
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var evlt_h = $('.shangjia_evlt_mask_box').height();
+            $('.shangjia_evlt_mask_box').css("margin-top",-evlt_h/2 + 'px');
+
+            $(".dianping_btn").click(function(){
+                    $("#order_id").val($(this).attr("rel"));
+                    $('.shangjia_evlt_mask_box').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+            });
+            $(".shangjia_evlt_mask .cancel,.mask_bg").click(function(){
+                    $('.shangjia_evlt_mask').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+            });
+            
+            $('.click a').click(function () {
+                var rel = $(this).attr('rel');
+                $(this).parent().find('input').val(rel);
+                $(".starCz_bar").css('width', rel * 20 + '%');
+            })
+            $("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+                if (ret.error == 0) {
+                    layer.open({content: ret.message, time: 2});
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 1500);
+                } else {
+                    layer.open({content: ret.message, time: 2});
+                    return false;
+                }
+            }});
+            
+        });
+    </script>
+    <!--评价弹出层end-->
+<script>
+    $(document).ready(function(){
+        $("#jq_date").change(function () {
+            var date = $(this).val();
+            var link = "<{link ctl='ucenter/paotui/index' arg0=$st date=oooo}>";
+            var url = "";
+            if (date > 0) {
+                url = link.replace("oooo", date);
+            } else {
+                url = "<{link ctl='ucenter/paotui/index' arg0=$st}>";
+            }
+            window.location.href = url;
+        })
+        
+        
+        
+        $(".jq_cancel").click(function(){
+            var order_id = $(this).attr("rel");
+            var link = "<{link ctl='ucenter/order/cancel' args=oooo}>";
+            $.post(link.replace("oooo",order_id),{},function(ret){
+                layer.msg(ret.message);
+                if(ret.error == 0){
+                    window.location.reload(true);
+                }
+            },'json')
+        })
+    })
+</script>
+
+<{include file="pchome/block/footer.html"}>

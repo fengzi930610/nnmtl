@@ -1,0 +1,50 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"><{link ctl="block/item:so" load="mini:搜索内容" width="mini:400" class="button" title="搜索"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">ID</th><th>推荐位</th><th>标题</th><th class="w-100">城市</th>
+        <th class="w-100">原itemId</th><th class="w-100">排序</th><th class="w-100">过期时间</th><th class="w-150">推荐时间</th><th class="w-100">操作</th>
+    </tr>    
+    <{foreach $items as $item}>
+    <tr>
+		<td class="left"><label><input type="checkbox" value="<{$item.item_id}>" name="item_id[]" CK="PRI"/><{$item.item_id}><label></td>
+		<td><a href="?block/block-detail-<{$item.block_id}>.html"><{$block_list[$item.block_id].title}>(ID:<{$item.block_id}>)</a></td>
+        <td><{$item.title}></td><td><{$item.city_name}></td><td><{$item.itemId}></td>
+        <td><input type="text" name="orderby[<{$item.item_id}>]" value="<{$item.orderby}>" class="input w-50"/></td>
+        <td><{if $item.expire_time}><b class="red"><{$item.expire_time|format:"Y-m-d"}></b><{else}><b class="blue">永不过期</b><{/if}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+            <{link ctl="block/item:edit" args=$item.item_id title="修改" load="mini:修改推荐内容" width="mini:500" class="button"}>
+            <{link ctl="block/item:delete" args=$item.item_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+		</td>
+	</tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left">
+                <{link ctl="block/item:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+                <{link ctl="block/item:update" type="button" submit="mini:#items-form" priv="hide" value="更新排序"}>
+            </td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

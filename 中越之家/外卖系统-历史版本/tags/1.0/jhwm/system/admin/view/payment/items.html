@@ -1,0 +1,43 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"><{link ctl="payment/payment:install" load="mini:安装新支付接口" width="mini:500" class="button" title="安装新支付接口"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr><th class="w-50">ID</th><th class="w-100">logo</th><th class="w-100">接口标识</th><th>接口标题</th><th class="w-50">接口状态</th><th class="w-150">操作</th></tr>
+    <{foreach $items as $item}>
+    <tr>
+    	<td><label><input type="checkbox" value="<{$item.payment_id}>" name="payment_id[]" CK="PRI"/><{$item.payment_id}><label></td>
+		<td><img src="<{$pager.img}>/<{$item.logo}>" class="w-50" /></td>
+		<td><b class="blue"><{$item.payment}></b></td>
+		<td><{$item.title}></td>
+		<td><{if $item.status}><b class="blue">开启</b><{else}>关闭<{/if}></td>
+		<td>
+			<{link ctl="payment/payment:config" args=$item.payment_id title="配置" class="button"}>
+			<{link ctl="payment/payment:uninstall" args=$item.payment_id act="mini:删除" confirm="mini:确定要删除吗？" title="卸载" class="button"}>
+		</td>
+	</tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left"><{link ctl="payment/payment:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

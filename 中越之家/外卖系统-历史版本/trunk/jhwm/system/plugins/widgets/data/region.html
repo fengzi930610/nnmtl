@@ -1,0 +1,13 @@
+<region id="<{$widget.GUID}>">
+<select class="<{$data.class|default:'w-150'}>" province="<{$data.province_id}>" name="<{$data.name_province|default:'province_id'}>"><{html_options options=$data.provinces selected=$data.province_id}></select>
+<{if $data.level>1}>
+<select class="<{$data.class|default:'w-150'}>" city="<{$data.city_id}>" name="<{$data.name_city|default:'data[city_id]'}>"><{html_options options=$data.citys selected=$data.city_id}></select>
+<{/if}>
+<{if $data.level>2}>
+<select class="<{$data.class|default:'w-150'}>" area="<{$data.area_id}>" name="<{$data.name_area|default:'data[area_id]'}>"><{html_options options=$data.areas selected=$data.area_id}></select>
+<{/if}>
+<{if $data.level>3}>
+<select class="<{$data.class|default:'w-150'}>" area="<{$data.business_id}>" name="<{$data.name_business|default:'data[business_id]'}>"><{html_options options=$data.business_list selected=$data.business_id}></select>
+<{/if}>
+</region>
+<script type="text/javascript">(function(K, $){Widget.Region("<{$widget.GUID}>");})(window.KT, window.jQuery);</script>

@@ -1,0 +1,92 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='shop/shop:index'}>">店铺管理</a></li>
+        <li class="active">系统设置</li>
+    </ol>
+</div>
+<div class="wrapper wrapper-content">
+   	<!--表单-->
+    <div class="">
+        <div class="dianpu_tab_tit">常规设置 </div>
+        <table class="form_table mb20" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="form_table_t">消息提示方式：</p></td>
+                <td>
+                    <div class="form_table_nr">
+                        <select class="form_table_int form_table_intw1 fl">
+                            <option>语音提示并自动弹出窗口</option>
+                            <option>仅语音提示</option>
+                            <option>关闭所有提示</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="form_table_t">消息提示音量：</p></td>
+                <td>
+                    <div class="form_table_nr">
+                        <table class="volumeBar_table" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="20"><em class="ico ico_1"></em></td>
+                                <td class="mid">
+                                    <div class="volumeBar">
+                                        <input type="hidden" class="single-slider" value="0" />
+                                        <!-- <button id="g1">获取值</button> -->
+                                    </div>
+                                </td>
+                                <td width="20"><em class="ico ico_2"></em></td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="dianpu_tab_tit">播放频率 </div>
+        <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="120"><p class="form_table_t">接单：</p></td>
+                <td>
+                   <div class="form_table_nr"><label class="mr30"><input type="radio" name="jd" checked class="check_box" />播放三遍</label><label class="mr30"><input type="radio" name="jd" class="check_box" />播放一遍</label> <label class="mr30"><input type="radio" name="jd" class="check_box" />循环播放</label></div> 
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="form_table_t">退单：</p></td>
+                <td>
+                   <div class="form_table_nr"><label class="mr30"><input type="radio" name="td" checked class="check_box" />播放三遍</label><label class="mr30"><input type="radio" name="td" class="check_box" />播放一遍</label> <label class="mr30"><input type="radio" name="td" class="check_box" />循环播放</label></div> 
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="form_table_t">催单：</p></td>
+                <td>
+                   <div class="form_table_nr"><label class="mr30"><input type="radio" name="cd" checked class="check_box" />播放三遍</label><label class="mr30"><input type="radio" name="cd" class="check_box" />播放一遍</label> <label class="mr30"><input type="radio" name="cd" class="check_box" />循环播放</label></div> 
+                </td>
+            </tr>
+        </table>
+        <div class="form_table_btn_box text_c">
+            <a class="btn btn-primary btn-w-m" href="#">保存</a>
+            <a class="btn btn-default btn-w-m" href="#">取消</a>
+        </div>
+    </div>
+    <!--表单end-->
+    <script src="%THEME%/static/js/jquery.range.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+    $(function(){
+        $('.single-slider').jRange({
+            from: 0,
+            to: 100,
+            step: 1,
+            scale: [0,25,50,75,100],
+            format: '%s',
+            width: '100%',
+            showLabels: true,
+            showScale: true
+        });
+        $("#g1").click(function(){
+            var aa = $(".single-slider").val();
+            alert(aa);
+        });
+    });
+    </script>
+<{include file="block/footer.html"}>

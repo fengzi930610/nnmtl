@@ -1,0 +1,39 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/shop/verify:index'}>" class="on">店铺认证</a>
+	<a href="<{link ctl='biz/shop/verify:dianzhu'}>">店主认证</a>
+	<a href="<{link ctl='biz/shop/verify:yyzz'}>">企业认证</a>
+	<a href="<{link ctl='biz/shop/verify:canyin'}>">餐饮认证</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr><th>类别</th>
+            <th>状态</th>
+            <th class="w-200">操作</th>
+        </tr>
+        <tr>
+            <td>店主认证</td>
+            <td><{if $detail.verify_dianzhu ==1}><font color="#5cb85c">已认证</font><{else}><font color="red">未认证</font><{/if}></td>
+            <td><a href="<{link ctl='biz/shop/verify:dianzhu'}>" class="btn btn-success">查看</a></td>
+        </tr>
+        <tr>
+            <td>企业认证</td>
+            <td><{if $detail.verify_yyzz ==1}><font color="#5cb85c">已认证</font><{else}><font color="red">未认证</font><{/if}></td>
+            <td><a href="<{link ctl='biz/shop/verify:yyzz'}>" class="btn btn-success">查看</a></td>
+        </tr>
+        <tr>
+            <td>餐饮认证</td>
+            <td><{if $detail.verify_cy ==1}><font color="#5cb85c">已认证</font><{else}><font color="red">未认证</font><{/if}></td>
+            <td><a href="<{link ctl='biz/shop/verify:canyin'}>" class="btn btn-success">查看</a></td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

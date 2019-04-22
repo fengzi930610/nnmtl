@@ -1,0 +1,33 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="system/emailtmpl:index" class="button" title="邮件模版"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">如果您选择了采用服务器内置的 Mail 服务，您不需要填写下面的内容。</h4>
+<form action="?system/config-mail.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="mail" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>发件人地址：</th><td><input type="text" name="config[sender]" value="<{$config.sender}>" class="input w-200"/></td></tr>
+<tr>
+	<th>邮件发送模式：</th>
+	<td>
+		<label><input type="radio" name="config[mode]" <{if $config.mode=='mail'}>checked="checked"<{/if}> value="mail"/>系统Mail函数</label>&nbsp;&nbsp;
+		<label><input type="radio" name="config[mode]" <{if $config.mode=='smtp'}>checked="checked"<{/if}> value="smtp"/>SMTP 模块发送 </label>
+	</td>
+</tr>
+<tr><th>SMTP 服务器：</th><td><input type="text" name="config[smtp][host]" value="<{$config.smtp.host}>" class="input w-200"/></td></tr>
+<tr><th>SMTP 端口：</th><td><input type="text" name="config[smtp][port]" value="<{$config.smtp.port}>" class="input w-200"/></td></tr>
+<tr><th>SMTP 帐号：</th><td><input type="text" name="config[smtp][uname]" value="<{$config.smtp.uname}>" class="input w-200"/></td></tr>
+<tr><th>SMTP 密码 ：</th><td><input type="password" name="config[smtp][passwd]" value="<{$config.smtp.passwd}>" class="input w-200"/></td></tr>
+<tr><th>管理员接收邮件的账号 ：</th><td><input type="text" name="config[email]" value="<{$config.email}>" class="input w-200"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

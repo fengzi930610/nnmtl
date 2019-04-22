@@ -1,0 +1,273 @@
+<{assign var="page_title" value="小区物业"}>
+<{assign var='tpl_title' value=L("小区物业")}>
+<{include file="pchome/block/header.html"}>
+<script>
+jQuery(function ($) {
+	var slider = $('.mis-stage').miSlider({
+		stageHeight: 580,
+		slidesOnStage:3,
+		slidePosition: 'center',
+		slideScaling: 110,
+		offsetV: 0,
+		centerV: true,
+		navButtonsOpacity: 1,
+		navButtons: false,
+		pause: 40000000,
+	});
+});
+</script>
+<!-- 顶部导航 -->
+<div class="w_fix-nav">
+	<div class="w_topNav wy_topNav">
+		<div class="pagewd">
+            <a href="<{link ctl='index'}>" class="fl link home"><i class="ico"></i>返回商圈主站</a>
+			<div class="fl maincl phone"><i class="ico"></i>手机版</div>
+            <{if !$MEMBER}>
+                <a href="<{link ctl='passport/login'}>" class="fl maincl link">请登录</a>
+                <a href="<{link ctl='passport/register'}>" class="fl black6 link">免费注册</a>
+                <{else}>
+                你好，<a href="<{link ctl='ucenter'}>"><{$MEMBER.nickname}></a>
+            <{/if}>
+			<div class="fr link_box">
+				<a href="<{link ctl='ucenter/tuan'}>">我的订单</a> 
+				<span>|</span> 
+				<a href="<{link ctl='ucenter/collectshop'}>">我的收藏</a> 
+				<span>|</span> 
+				<a href="<{link ctl='apply'}>">申请入驻</a>
+				<span>|</span> 
+				<a href="<{link ctl='help'}>">帮助中心</a>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!-- 顶部导航结束 -->
+	<div class="wy_navBar">
+		<div class="pagewd">
+            <img src="/themes/default/pchome/static/images/ztcode/wy_logo.png" class="fl"/>
+			<div class="fl city"><i class="ico"></i><{if $city.city_name}><{$city.city_name}><{/if}><a href="<{link ctl='city'}>">[ <{if $city.city_name}>切换城市<{else}>选择城市<{/if}> ]</a></div>
+			<div class="fr r_anchor">
+				<ul>
+					<li class="active"><a href="javascript:;">首页</a></li>
+					<li><a href="javascript:;">关于小区</a></li>
+					<li><a href="javascript:;">小区功能</a></li>
+					<li><a href="javascript:;">核心亮点</a></li>
+					<li><a href="javascript:;">软件下载</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<div class="w_fix-nav_h"></div>
+<!-- banner -->
+<div class="action">
+	<div class="wy_banner">
+		<div class="pagewd">
+			<div class="box">
+				<h2>江湖社区——小区物业</h2>
+				<h3>您的社区生活服务家</h3>
+				<div class="code_box">
+					<div class="code"><img src="<{$pager.img}>/<{$site.weixinqr}>"/></div>
+					<p>扫二维码关注即可体验</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- baner结束 -->
+<!-- 内容部分 -->
+<div class="pagewd">
+	<!-- 关于小区 -->
+	<div class="action">
+		<div class="wy_cont1">
+			<div class="text_c wy_wzBox">
+				<h2><span>居民生活困扰的问题，这里都能解决</span></h2>
+				<p>最全面、贴心的一站式社区生活服务平台</p>
+			</div>
+			<div class="img"><img src="/themes/default/pchome/static/images/ztcode/wy_cont1_pic.png"/></div>
+		</div>
+	</div>
+	<!-- 小区功能 -->
+	<div class="action">
+		<div class="wy_cont2">
+			<div class="text_c wy_wzBox">
+				<h2><span>小区功能体系</span></h2>
+				<p>便捷您的衣食住行</p>
+			</div>
+			<div class="box">
+				<ul>
+					<li>
+						<div class="list">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont2_pic1.jpg"/>
+							<h3>到家服务</h3>
+							<div class="line"><span></span></div>
+							<p class="wz1">Home service</p>
+							<p class="wz2">小区周边商家优惠多多生鲜，水果，点餐，为您配送上门</p>
+						</div>
+						<div class="bot"></div>
+					</li>
+					<li>
+						<div class="list">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont2_pic2.jpg"/>
+							<h3>社区邻里</h3>
+							<div class="line"><span></span></div>
+							<p class="wz1">Community neighborhood</p>
+							<p class="wz2">与邻居语音，聊天，分享兴趣，发表动态，让友邻不再陌生</p>
+						</div>
+						<div class="bot"></div>
+					</li>
+					<li>
+						<div class="list">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont2_pic3.jpg"/>
+							<h3>物业服务</h3>
+							<div class="line"><span></span></div>
+							<p class="wz1">Property services</p>
+							<p class="wz2">在线缴纳物业费，物业报修，投诉，新方式享受生活</p>
+						</div>
+						<div class="bot"></div>
+					</li>
+					<li>
+						<div class="list">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont2_pic4.jpg"/>
+							<h3>便民服务</h3>
+							<div class="line"><span></span></div>
+							<p class="wz1">Convenience services</p>
+							<p class="wz2">一站式生活缴费，足不出户全搞定。民众解决问题的好帮手</p>
+						</div>
+						<div class="bot"></div>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<!-- 核心亮点 -->
+	<div class="action">
+		<div class="wy_cont3">
+			<div class="text_c mb10 wy_wzBox">
+				<h2><span>核心亮点</span></h2>
+				<p>致力于用户体验设计</p>
+			</div>
+			<div class="mis-stage">
+				<ol class="mis-slider">
+					<li class="mis-slide">
+						<a href="#" class="mis-container">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont3_pic1.png">
+						</a>
+					</li>
+					<li class="mis-slide">
+						<a href="#" class="mis-container">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont3_pic2.png">
+						</a>
+					</li>
+					<li class="mis-slide">
+						<a href="#" class="mis-container">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont3_pic3.png">
+						</a>
+					</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<!-- 软件下载 -->
+	<div class="action">
+		<div class="wy_cont4">
+			<div class="text_c wy_wzBox">
+				<h2><span>软件下载</span></h2>
+				<p>根据手机选择下载</p>
+			</div>
+			<div class="box">
+				<ul>
+					<li>
+						<a href="#">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont4_pic1.png"/>
+							<p class="black9">Iphone</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="/themes/default/pchome/static/images/ztcode/wy_cont4_pic2.png"/>
+							<p class="maincl">Android</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<img src="<{$pager.img}>/<{$site.weixinqr}>" width='130' />
+							<p class="black6">扫一扫</p>
+						</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 内容部分结束 -->
+<!-- 底部 -->
+<div class="footer_one wy_footer">
+	<div class="smallpage">
+		<div class="footer_nav"><a href="#">网站首页</a> / <a href="#">加入我们</a> / <a href="#">关于我们</a> / <a href="#">下载APP</a> / <a href="#">帮助中心</a> / <a href="#">申请入驻</a></div>
+		<div class="footer_link"><a href="#">O2O解决方案</a> <a href="#">O2O网站系统</a> <a href="#">一团网</a> <a href="#">软件商城</a> <a href="#">江湖网站</a> <a href="#">baocms系统</a> <a href="#">江湖家居系统</a></div>
+		<div class="footer_copy">
+			<P>All Rights Reserved ICP备案：皖ICP备13010842号</P>
+			<P>合肥江湖信息科技有限公司</P>
+		</div>
+	</div>
+</div>
+
+<!-- 底部结束 -->
+<script type="text/javascript">
+//快捷导航
+$(document).ready(function() {
+	$(".r_anchor li").click(function(){
+		var index 	= $(this).index(),
+			_this 	= $(".action").eq(index),
+			sc_top	= _this.offset().top-100,
+			t   	= 300;
+		if( index == 2){
+			sc_top = sc_top+0;
+		}else if(index == 3){
+			sc_top = sc_top+0;
+		}else if(index == 9){
+			sc_top = sc_top+0;
+		}
+		$("html,body").animate({
+			scrollTop:sc_top
+		},t);
+	});
+	var arr	= [];
+	$(".action").each(function(i){
+		arr[i] = $(".action").eq(i).offset().top;
+	});
+	$(window).resize(function(){
+		$(".action").each(function(i){
+			arr[i] = $(".action").eq(i).offset().top;
+		});
+	})
+	$(window).scroll(function(){
+		var top = $(document).scrollTop(),
+			t   = 100;
+		for (var i = 0 ; i < arr.length; i++) {
+			if(top >= arr[i]-300 && top < arr[i] + 150){
+				$(".r_anchor li").removeClass("active");
+				$(".r_anchor li").eq(i).addClass("active");
+			}
+		};
+	});
+	var fast_nav_height = $(".r_anchor").height();
+	var window_height	= $(window).height();
+	$(".r_anchor").css({
+		top:(window_height-fast_nav_height)/2
+	})
+	$(window).resize(function(){
+		fast_nav_height = $(".r_anchor").height();
+		window_height   = $(window).height();
+		$(".r_anchor").stop(true,false).animate({
+			top:(window_height-fast_nav_height)/2
+		},300);
+	});
+});
+</script>
+</body>
+</html>

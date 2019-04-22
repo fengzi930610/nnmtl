@@ -1,0 +1,58 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="system/seotmpl:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <h4 class="tip-notice">如果您不是开发人员，请不要修改这里</h4>
+    <form action="?system/smstmpl-edit.html" mini-form="smstmpl-form" method="post" >
+    <input type="hidden" name="systmpl_id" value="<{$detail.systmpl_id}>"/>
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th><span class="red">*</span>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+        <tr><th><span class="red">*</span>KEY：</th><td><input type="text" name="data[key]" value="<{$detail.key|default:''}>" class="input w-300"/><span class="tip-comment">key</span></td></tr>
+    </table>
+	<table width="100%" border="0" cellspacing="0" class="table-data table">
+		<tr>
+			<th class="w-200">变量</th><th class="w-200">说明</th>
+			<th class="w-100"><a href="###" batch="add_new_line">新增一行</a></th>
+		</tr>
+		<{foreach $detail.config as $k=>$v}>
+		<tr item="seo" id="mod-ctl-<{$mod.mod_id}>">
+			<td><input type="text" name="config[<{$v@index}>][k]" class="input w-200" value="<{$k}>"></td>
+			<td><input type="text" name="config[<{$v@index}>][v]" class="input w-200" value="<{$v}>"></td>
+			<td><a href="###" batch="remove_item_line">删除</a></td>
+		</tr>
+		<{/foreach}>
+		<tr batch="tool_bar">
+			<td colspan="2" class="table-button-td right"><input type="submit" class="bt-big"  id="button2" value="提 交 数 据" /></td><td class="table-button-td"></td></tr>
+	</table>
+    </form>
+</div>
+<script type="text/paint" id="module_tmpl">
+	<tr>
+		<td><input type="text" name="config[{index}][k]" class="input w-200" value=""></td>
+		<td><input type="text" name="config[{index}][v]" class="input w-200" value=""></td>
+		<td><a href="###" batch="remove_item_line">取消</a></td>
+	</tr>
+</script>
+<script type="text/javascript">
+(function(K, $){
+$(document).ready(function(){
+	var tmpl = $("#module_tmpl").html();
+	$("a[batch='add_new_line']").click(function(){
+		var k = K.Guid();
+		$("[batch='tool_bar']").before(tmpl.replace(new RegExp("{index}","gm"),k));
+	}).click();
+	$("a[batch='remove_item_line']").die().live('click',function(){
+		$(this).parent().parent('tr').remove();
+	});
+});
+})(window.KT, window.jQuery)
+</script>
+<{include file="admin:common/footer.html"}>

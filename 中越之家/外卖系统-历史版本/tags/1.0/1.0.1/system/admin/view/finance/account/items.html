@@ -1,0 +1,89 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?finance/account-index-1-<{$st}>.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="商户名称、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="finance/account:so" arg0=0 arg1=$st load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--向导--> 
+    <div class="guide_list_box mgb10">
+        <ul>
+            <h4 class="tip-notice">提示：一键转账只支持转账到支付宝账号</h4>
+            <li><a href="?finance/account-index-1-0.html" <{if !$st}>class="on"<{/if}>>全部</a></li>
+            <!-- <li><a href="?finance/account-index-1-1.html" <{if $st==1}>class="on"<{/if}>>已通过</a></li> -->
+            <li><a href="?finance/account-index-1-2.html" <{if $st==2}>class="on"<{/if}>>待审核</a></li>
+            <li><a href="?finance/account-index-1-3.html" <{if $st==3}>class="on"<{/if}>>已拒绝</a></li>
+            <li><a href="?finance/account-index-1-1.html" <{if $st==1}>class="on"<{/if}>>已通过</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <{if !$st||$st==2}>
+    <div class="enterInfo_step_tit mb10 mgt10">
+        <h2 class="float-l">待提现金额：<big class="red"><{$total}></big>元</h2>
+    </div>
+    <{/if}>
+    <form id="items-form">
+    <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <th>提现编号</th>
+            <th>提现商家</th>
+            <th class="w-200">提现账户</th>
+            <th>提现金额</th>
+            <th>申请时间</th>
+            <th>审核状态</th>
+            <th class="w-150">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.tixian_id}>" name="tixian_id[]" CK="PRI"/><{$item.tixian_id}><label></td>
+            <td><!-- <{$shops[$item['shop_id']]['title']}> --><{$item['title']}>(<{$item.shop_id}>:<{$item['mobile']}>)</td>
+            <td><{$item.account_info}></td>
+            <td><{$item.money}></td>
+            <td><{$item.dateline|format}></td>
+            <td><{if $item.status == 4}><span class="green">已转账</span><{elseif $item.status == 2}><span class="red">已拒绝<{elseif $item.status == 1}><span class="green">待转账<{elseif $item.status == 5}><span class="red">转账失败</span><{elseif !$tiem.status}><span class="red">待审核</span><{/if}></td>
+            <td>
+                <{if $item.status == 0}>
+            	<{link ctl="finance/account:agree" args=$item.tixian_id act="mini:同意申请" confirm="mini:确定要同意申请吗？" title="同意申请" class="button"}>
+                <{link ctl="finance/account:refund" args=$item.tixian_id width="mini:450" load="mini:拒绝申请" title="拒绝申请" class="button"}>
+                <{elseif $item.status == 1}>
+                <span class="green">等待打款</span>
+                <{elseif $item.status == 4}>
+                <span class="green">已经打款</span>
+                <{elseif $item.status == 2}>
+                <span class="red">已拒绝</span>
+                <{/if}>
+            </td>
+        </tr>
+        <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tbody>
+                <tr>
+                    <{if $st==0 || $st==2}>
+                    <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>                    
+                    <td colspan="10" class="left">
+                        <{link ctl="finance/account:agree" type="button" submit="mini:#items-form" confirm="mini:确定要批量同意选中的提现申请吗?" priv="hide" value="批量同意"}>
+                    </td>
+                    <{/if}>
+                    <td class="page-list"><{$pager.pagebar}></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+</div>
+<{include file="admin:common/footer.html"}>

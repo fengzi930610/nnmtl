@@ -1,0 +1,155 @@
+<{assign var='tpl_title' value='登录'}>
+<!DOCTYPE HTML>
+<html>
+<head>
+<{include file="block/sheader.html"}>
+</head>
+<body>
+
+<header>
+	<i class="left"><a id="icon_goback" href="<{link ctl='passport/login'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">绑定微信</div>
+</header>
+
+<section class="page_center_box">
+	<div class="loginModiy mt10"  >
+    	<table width="100%">
+            <tr>
+                <th>手机号</th>
+                <td><input type="tel" id="mobile" placeholder="请输入手机号"><div class="get_yzm"  login="sendsms">获取验证码</div>
+                </td>
+            </tr>
+            <tr>
+                <th>验证码</th>
+                <td><input type="number" id="yzm" maxlength="6" placeholder="请输入手机验证码"></td>
+            </tr>
+            <{if $reg_yzm == 'on'}>
+            <tr>
+                <th>验证码</th>
+                <td>
+                    <input type="number" maxlength="6" id="verifycode" placeholder="请输入验证码"  style='width:50%'>
+                    <span style='width:50%;text-align:right;'>
+                        <img verify="#pass-verify" src="<{link ctl='magic:verify' http='ajax'}>&_=<{$pager.dateline}>" id="pass-verify" />
+                    </span>
+                </td>
+            </tr>
+            <{/if}>
+
+        </table>
+            <div class="long_btn_box">
+                <a class="long_btn" href="javascript:wx_bind();">立即绑定</a>
+            </div>
+    </div>
+
+
+</section>
+
+<script type="text/javascript">
+
+/*判断浏览器是否支持placeholder开始*/
+$(function(){
+if(!placeholderSupport()){   // 判断浏览器是否支持 placeholder
+    $('[placeholder]').focus(function() {
+        var input = $(this);
+        if (input.val() == input.attr('placeholder')) {
+            input.val('');
+            input.removeClass('placeholder');
+        }
+    }).blur(function() {
+        var input = $(this);
+        if (input.val() == '' || input.val() == input.attr('placeholder')) {
+            input.addClass('placeholder');
+            input.val(input.attr('placeholder'));
+        }
+    }).blur();
+};
+})
+function placeholderSupport() {
+    return 'placeholder' in document.createElement('input');
+}
+/*判断浏览器是否支持placeholder结束*/
+
+$(document).ready(function(){
+    $('#pass-verify').click(function(){
+        var time = new Date();
+        $('#pass-verify').attr('src','<{link ctl="magic:verify" http="ajax"}>'+'?'+time);
+    })
+
+    var minute = 60;
+    var mobile_timeout;
+    var mobile_count = minute;
+    var mobile_lock = 0;
+
+    BtnCount = function () {
+        if (mobile_count == 0) {
+	$(".get_yzm").addClass("on");
+            $('.get_yzm').removeAttr("disabled");
+            $('.get_yzm').text("重新获取");
+            mobile_lock = 0;
+            clearTimeout(mobile_timeout);
+	$('.get_yzm').removeClass("on");
+        }else {
+            mobile_count--;
+            $('.get_yzm').text( + mobile_count.toString() + "秒...");
+            mobile_timeout = setTimeout(BtnCount, 1000);
+        }
+    };
+
+    $("[login]").click(function () {
+        if (mobile_lock == 0) {
+            var mobile = $('#mobile').val();
+            var link = "<{link ctl='passport/sendsms'}>";
+             $.post(link,{mobile:mobile},function(ret){
+                if(ret.error == 0){
+                    BtnCount();
+                    mobile_lock = 1;
+                    $(".get_yzm").addClass("on");
+                    $('.get_yzm').attr("disabled", "disabled");
+                    layer.open({content:ret.message,time:2});
+                    console.log(ret.message);
+               }else{
+
+                    layer.open({
+                        content: ret.message,
+                        time: 2 //2秒后自动关闭
+                    });
+                    mobile_lock = 0;
+
+               }
+           },'json');
+
+
+            mobile_count = minute;
+        }
+    });
+
+})
+
+function wx_bind() {
+    var mobile = $('#mobile').val();
+    var yzm = $('#yzm').val();
+    if(mobile=='') {layer.open({content: '手机号不能为空',time: 2});return false;}
+    if(yzm=='') {layer.open({content: '验证码不能为空',time: 2});return false;}
+    jQuery.ajax({
+        url: "<{link ctl='passport:wxbind'}>",
+        async: true,
+        dataType: 'json',
+        data: {"mobile": mobile,"yzm": yzm},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                layer.open({content: ret.message,time: 2});
+            }else{
+                setTimeout(function(){window.location.href="<{link ctl='ucenter/info'}>";},1000);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+
+    });
+}
+</script>
+<{include file="block/sfooter.html"}>
+</body>
+</html>

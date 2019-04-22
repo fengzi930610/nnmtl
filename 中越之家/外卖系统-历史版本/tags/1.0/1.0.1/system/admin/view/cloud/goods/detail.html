@@ -1,0 +1,33 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="product/product:shop" arg0=$detail.shop_id priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>商品ID：</th><td><{$detail.product_id}></td></tr>
+        <tr><th>商家：</th><td><{$shop.title}></td></tr>
+        <tr><th>分类：</th><td><{$cates[$detail['cate_id']]['title']}></td></tr>
+        <tr><th>标题：</th><td><{$detail.title}></td></tr>
+        <tr><th>图片：</th><td><img src="<{$pager.img}>/<{$detail.photo}>" class="w-100" /></td></tr>
+        <tr><th>价格：</th><td><{$detail.price}></td></tr>
+        <tr><th>打包价：</th><td><{$detail.package_price}></td></tr>
+        <tr><th>销量：</th><td><{$detail.sales}></td></tr>
+        <tr><th>类型：</th><td><{if $detail['sale_type']==1}>限量<{else}>普通<{/if}></td></tr>
+        <{if $detail['sale_type']==1}>
+        <tr><th>限购数：</th><td><{$detail.sale_sku}></td></tr>
+        <tr><th>已购数：</th><td><{$detail.sale_count}></td></tr>
+        <{/if}>
+        <tr><th>简介：</th><td><{$detail.intro}></td></tr>
+        <tr><th>排序：</th><td><{$detail.orderby}></td></tr>
+        <tr><th>是否删除：</th><td><{if $detail['closed'] ==0}>正常<{else}>已删除<{/if}></td></tr>
+        <tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+        <tr><th>创建IP：</th><td><{$detail.clientip}></td></tr>
+        
+    </table></div>
+<{include file="admin:common/footer.html"}>

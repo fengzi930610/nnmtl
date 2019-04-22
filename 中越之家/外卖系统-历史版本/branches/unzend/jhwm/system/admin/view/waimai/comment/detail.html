@@ -1,0 +1,75 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?waimai/comment-detail-<{$detail.comment_id}>.html" mini-form="comment-form" method="post" >
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th>评价ID：</th><td class="w-300"><{$detail.comment_id}></td>
+            <th>订单ID：</th><td><{$detail.order_id}>&nbsp;&nbsp;<{link ctl="waimai/order:detail" arg0=$detail.order_id title="查看订单详情" class="button"}></td>
+        </tr>
+        <tr>
+            <th>商家：</th><td><span class="red"><{$detail.shop.title}>(ID:<{$detail.shop_id}>)</span></td>
+            <th>会员：</th><td><{$detail.user.nickname}>(UID:<{$detail.uid}>)</td>
+        </tr>
+        <tr><th>综合总评分：</th><td><{$detail.score}></td><th>服务评分：</th><td><{$detail.score_fuwu}></td></tr>
+        <tr><th>口味评分：</th><td><{$detail.score_kouwei}></td><th>是否有图：</th><td><{if $detail.have_photo == 1}><b class="red">有图</b><{else}>无图<{/if}></td></tr>
+        <{if $detail.photos}>
+        <tr><th>评论图片：</th></tr>
+            <tr>
+                <th>&nbsp;</th>
+                <td colspan="3">
+                    <{foreach $detail['photos'] as $photo}>
+                        <img src="<{$pager.img}>/<{$photo.photo}>" width="100" class="see" height="100"/>
+                    <{/foreach}>
+                </td>
+            </tr>
+        <{/if}>
+        <tr><th>评论内容：</th><td colspan="3"><p class="tip-notice"><{$detail.content|nl2br}></p></td></tr> 
+        <tr><th>配送时间：</th><td><{$detail.pei_time}></td><th>是否删除：</th><td><{if $detail.closed == 1}><b class="red">删除</b><{else}>正常<{/if}></td></tr>
+        <tr>
+            <th>评论时间：</th><td><{$detail.dateline|format}></td>
+            <th>评论IP：</th><td><{$detail.clientip}></td>
+        </tr>
+        <{if $detail.reply}>
+        <tr>
+            <th>回复时间：</th><td><{$detail.reply_time|format}></td>
+            <th>回复IP：</th><td><{$detail.reply_ip}></td>
+        </tr>
+        <{/if}>
+        <tr><th>回复：</th><td colspan="3"><textarea name="reply_content" class="textarea w-400"><{$detail.reply}></textarea><br /></td></tr>
+        <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+        
+    </table>
+    </form>
+</div>
+<div id="preview" class="none" style="display:none"><img class="jq_preview" src="" width="800" height="800"/></div>
+
+<script>
+    $(document).on("click",".see",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("src") == ""||$(this).attr("src")==0||$(this).attr("src")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("src"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '800px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+</script>
+<{include file="admin:common/footer.html"}>

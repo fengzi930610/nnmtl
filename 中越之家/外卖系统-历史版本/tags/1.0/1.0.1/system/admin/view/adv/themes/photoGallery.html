@@ -1,0 +1,283 @@
+<{include file="admin:common/header.html"}>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+	html,body{height: 100%; width: 100%; overflow: hidden;}
+	.clientIndexSetCate_mask{position: relative; left: auto; top: auto; transform: translate(0,0); -webkit-transform: translate(0,0);}
+	.clientIndexSetCate_mask .cont_box{position: relative; left: auto; top: auto; transform: translate(0,0); -webkit-transform: translate(0,0); width: 780px; overflow: hidden;}
+	.clientIndexSetCate_mask .title{position: relative;}
+	.clientIndexSetCate_mask .cont_box .cate_box{max-height:unset; overflow: hidden; box-sizing:border-box;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l{ width: 180px; box-sizing: border-box;}
+	.clientIndexSetCate_mask .cont_box .photo_box_r{ margin-left: 180px; box-sizing: border-box;}
+	.clientIndexSetCate_mask .cont_box .photo_box_r ul li{margin: 10px 9px;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l ul li.on { color: #35b8eb;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l ul li .num{ width: 30px;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l ul li .bt{ width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+	.clientIndexSetCate_mask .cont_box .photo_box_r ul li p{ width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+	.page-bar{position: static !important; margin: 15px 0px 0;}
+</style>
+
+<!--//系统图库-开始//-->
+<div class="clientIndexSetCate_mask" style="display: ;">
+	<div class="cont_box">
+		<div class="title">
+			<div class="tab fl">
+				<{link ctl="adv/themes:photoGallery" title="图片库" class="list on"}>
+				<{link ctl="adv/themes:iconGallery" title="图标库" class="list"}>
+				<!-- <span class="list on">图标库</span>
+				<span class="list">我的图片</span> -->
+			</div> 
+			<!-- <span class="close"></span> -->
+			<button class="btn-primary fr mt10">本地上传<input type="file" name="" class="upload"></button>
+		</div>
+		<div class="cont">
+			<div class="change_list" style="display: ;">
+				<div class="photo_box">
+					<div class="photo_box_l">
+						<ul>
+							<li <{if !$cate_id}>class='on'<{/if}>>
+								<a href="?adv/themes-photoGallery-0">
+									<div class="num"><{$count[0]['count']}></div>
+									<div class="bt" title="未分组">未分组</div>
+								</a>
+							</li>
+							<{foreach $cates as $cate}>
+							<li <{if $cate_id == $cate.cate_id}>class='on'<{/if}>>
+								<a href="?adv/themes-photoGallery-<{$cate.cate_id}>">
+									<div class="num"><{$count[$cate.cate_id]['count']}></div>
+									<div class="bt" title="<{$cate.title}>"><{$cate.title}></div>
+								</a>
+							</li>
+							<{/foreach}>
+						</ul>
+					</div>
+					<div class="photo_box_r">
+						<ul>
+							<{foreach $photos as $k=>$photo}>
+							<li img="<{$photo.photo}>">
+								<div class="pic" style="background-image:url('<{$pager.img}>/<{$photo.photo}>');"><i class="ico"></i></div>
+								<p title="<{$photo.name}>"><{$photo.name}></p>
+							</li>
+							<{/foreach}>
+						</ul>
+						<div class="page-bar">
+							<table width="100%" height="50" border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<td class="w-100 left"></td>
+									<td class="left">
+									</td>
+									<td class="page-list"><{$pager.pagebar}></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="text_c" style="padding: 12px 0;">
+					<button class="btn-primary-big confirm" id="">确定</button>
+					<!-- <button class="btn-primary-big testPhoto"  width="200" height="100">测试截取图片大小</button> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".clientIndexSetCate_mask .close").click(function(){
+		$(".clientIndexSetCate_mask").fadeOut(100);
+	});
+	/*$(".clientIndexSetCate_mask .tab .list").click(function(){
+		var index = $(this).index();
+		$(this).addClass("on").siblings().removeClass("on");
+		$(this).parents(".cont_box").find(".change_list").eq(index).show().siblings(".change_list").hide();
+	});*/
+
+	$(".clientIndexSetCate_mask .photo_box_l li").click(function(){
+		$(this).addClass("on").siblings().removeClass("on");
+	});
+
+	$(".clientIndexSetCate_mask .photo_box_r li").click(function(){
+		$(this).addClass("on").siblings().removeClass("on");
+	});
+
+	var pagerImg = '<{$pager.img}>/';
+	$('.text_c .confirm').click(function(){
+		var image;
+		var cropper = JSON.parse(localStorage["cropper"] || "{}") || {};
+		var clipWidth = cropper.clipWidth || 0;
+		var clipHeight = cropper.clipHeight || 0;
+		$('.photo_box_r li').each(function (k, v){
+			if($(this).hasClass('on')){
+				image = $(this).attr('img');
+				return false;
+			}
+		});
+		if(!image){
+			Widget.MsgBox.error('请选择图片');
+		}else if(clipWidth > 0 && clipHeight > 0){
+			clipPhoto(clipWidth, clipHeight, pagerImg+image);
+		}else{
+			window.parent.fillImage(pagerImg+image, image);
+			window.parent.closeLayer();
+		}
+	});
+
+	function clipPhoto(clipWidth, clipHeight, image){
+		var html = '';
+		html += '<div class="photoClip_mask">' +
+					'<div class="cont_box">' +
+						'<div class="title">图片裁剪 <span class="close"></span></div>' +
+						'<div class="cont">' +
+							'<div class="img-container">' +
+    							'<img id="image" src="'+image+'" alt="Picture">' +
+    						'</div>' +
+    						'<div class="btn_box">' +
+								'<button class="btn-primary ml10" id="getCroppedCanvas">截取图片</button>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+		$("body").append(html);
+
+        $('#image').cropper({
+	        aspectRatio: clipWidth / clipHeight,
+	        viewMode:1,
+	        dragMode:'move',
+	        checkCrossOrigin:true
+	    });
+	}
+	$(document).on('click','.photoClip_mask .close',function () {
+		$(".photoClip_mask").remove();
+	});
+	$(document).on('click','#getCroppedCanvas',function () {
+	    var cas=$('#image').cropper('getCroppedCanvas', true);
+	    cas.toBlob(function (e) {
+            var formData = new FormData();
+			formData.append('photo', e, "file_"+Date.parse(new Date())+".png");
+			formData.append('from', 'theme');
+			$.ajax('?upload/photo-upload', {
+			    method: "POST",
+			    data: formData,
+			    processData: false,
+			    contentType: false,
+			    dataType: "json",
+			    success: function (ret) {
+			      	if(ret.error > 0){
+						Widget.MsgBox.error(ret.message);
+					}else{
+	            		window.parent.fillImage(pagerImg+ret.data.photo, ret.data.photo);
+						window.parent.closeLayer();
+					}
+			    },
+			    error: function (res) {
+			      	Widget.MsgBox.error('数据提交失败');
+			    }
+			  });
+        })
+        /*var base64url=cas.toDataURL('image/png');
+        if(!base64url){
+        	Widget.MsgBox.error('图片裁剪失败');
+        }else{
+        	var link = "?upload/photo-upload_by_data";
+			$.post(link, {data: base64url}, function (e){
+				if(e.error > 0){
+					Widget.MsgBox.error(e.message);
+				}else{
+            		window.parent.fillImage(pagerImg+e.data.photo, e.data.photo);
+					window.parent.closeLayer();
+				}
+			},'json');
+        }*/
+	});
+
+	function upload(){
+        $('.upload').on('change',function(){
+            var h = $(this);
+            var files = $(this)[0]['files'];
+            var params = {"photo" : files[0], 'from' : 'photoGallery'};
+            var cate_id = "<{$cate_id}>";
+            var link = "?upload/photo-upload-#cate_id#.html";
+            Widget.UploadFile(link.replace('#cate_id#', cate_id), params, function (ret){
+                if(ret.error==0){
+                    Widget.MsgBox.success('上传成功');
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 2000);
+                }else{
+                    Widget.MsgBox.error(ret.message);
+                }
+            });
+        })
+    }
+    upload();
+</script>
+<!--//系统图库-结束//-->
+
+
+<!--//系统图库-开始//-->
+<script type="text/javascript">
+	var canvas = document.createElement("canvas");
+	function getBase64Image(img) {
+	    canvas.width = img.width;
+	    canvas.height = img.height;	 
+	    var ctx = canvas.getContext("2d");
+	    ctx.drawImage(img, 0, 0, img.width, img.height);
+	    var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+	    var dataURL = canvas.toDataURL("image/"+ext);
+	    return dataURL;
+	}
+
+	$(document).on('click','.clientIndexSetCate_mask li img',function () {
+		var src = $(this).attr('src');
+		var image = new Image();
+		image.crossOrigin = '';
+		image.src = src;
+		image.onload = function(){
+		    var base64 = getBase64Image(image);
+		}		
+	});
+</script>
+<!--//系统图库-结束//-->
+
+<!-- 图片裁剪事件 -->
+<link rel="stylesheet" href="./script/cropper/cropper.css">
+<script src="./script/cropper/cropper.js"></script>
+<script src="./script/cropper/jquery-cropper.js"></script>
+<!--<script>
+	var clipWidth = 200;
+	var clipHeight = 100;
+    $(".testPhoto").on("click", function () {
+    	var that = $(this);
+    	var clipWidth = parseInt(that.attr("width"));
+		var clipHeight = parseInt(that.attr("height"));
+		var html = '';
+		html += '<div class="photoClip_mask">' +
+					'<div class="cont_box">' +
+						'<div class="title">图片裁剪 <span class="close"></span></div>' +
+						'<div class="cont">' +
+							'<div class="img-container">' +
+    							'<img id="image" src="https://fengyuanchen.github.io/jquery-cropper/images/picture.jpg" alt="Picture">' +
+    						'</div>' +
+    						'<div class="btn_box">' +
+								'<a class="btn-primary ml10" id="getCroppedCanvas">截取图片</a>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+		$("body").append(html);
+
+        $('#image').cropper({
+	        aspectRatio: clipWidth / clipHeight,
+	        viewMode:1,
+	        dragMode:'move',
+	        checkCrossOrigin: false
+	    });
+    });
+    $(document).on('click','.photoClip_mask .close',function () {
+		$(".photoClip_mask").remove();
+	});
+	$(document).on('click','#getCroppedCanvas',function () {
+		console.log($('#image').cropper('getCroppedCanvas'));
+	    var cas=$('#image').cropper('getCroppedCanvas');
+        var base64url=cas.toDataURL('image/jpeg');
+        alert(base64url); //生成base64图片的格式
+	});-->
+</script>
+<{include file="admin:common/footer.html"}>

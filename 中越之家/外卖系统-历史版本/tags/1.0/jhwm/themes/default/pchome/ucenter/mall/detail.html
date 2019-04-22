@@ -1,0 +1,178 @@
+<{assign var="page_title" value="订单详情"}>
+<{assign var='tpl_title' value=L("订单详情")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+    <div class="minePage_bg bg_grey">
+    	<div class="pagewd">
+            <{include file="pchome/ucenter/block/left.html"}>
+            <div class="minePage_cont fr">
+            	<!--内容start-->
+            	<div class="store-orderParticulars mq-orderParticulars">
+                    <div class="top-title">
+                        商城订单&gt;<span class="maincl">订单详情</span>
+                    </div> 
+                    <div class="top-lg-box">
+                        <div class="box-left fl">
+                            <p class="haoma">订单号：<{$detail.order_id}></p>
+                            <p class="status"><{$detail.order_status_label}></p>
+                            <p class="sm-tip black9">（<{$detail.dateline|format:'Y-m-d H:i'}>下单）</p>
+                            <{if $detail.order_status == 0&&$detail.pay_status == 0}>
+                            <a href="<{link ctl='payment/pay' args=$detail.order_id}>" class="btn pay-btn active">立即付款</a>
+                            <a href="javascript:void(0);" class="btn quxiao-btn jq_cancel">取消订单</a>
+                            <{else}>
+                            <{$detail.order_status_warning}>
+                            <{/if}>
+                        </div>
+                        <div class="box-right fl">
+                            <div class="process">
+                                <div class="box box-first">
+                                    <div class="cir active">1</div>
+                                    <div class="text txt-active">
+                                        <p>提交订单</p>
+                                        <p><{$detail.dateline|format:'Y-m-d'}></p>
+                                        <p><{$detail.dateline|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <{if $detail.pay_time>0}>
+                                <div class="box">
+                                    <div class="cir active">2</div>
+                                    <div class="text txt-active">
+                                       <p>已付款</p> 
+                                       <p><{$detail.pay_time|format:'Y-m-d'}></p>
+                                       <p><{$detail.pay_time|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="cir active">3</div>
+                                    <div class="text txt-active">
+                                       <p>待发货</p> 
+                                    </div>
+                                </div>
+                                    <{if $detail.order_status == 3}>
+                                        <div class="box box-last">
+                                            <div class="cir active">4</div>
+                                            <div class="text txt-active">
+                                                <p>已完成</p>
+                                                <p><{$detail.lasttime|format:'Y-m-d'}></p>
+                                                <p><{$detail.lasttime|format:'H:i:s'}></p>
+                                            </div>
+                                        </div>
+                                    <{elseif $detail.order_status == -1}>
+                                        <div class="box box-last">
+                                            <div class="cir active">4</div>
+                                            <div class="text txt-active">
+                                                <p>已取消</p>
+                                                <p><{$detail.lasttime|format:'Y-m-d'}></p>
+                                                <p><{$detail.lasttime|format:'H:i:s'}></p>
+                                            </div>
+                                        </div>
+                                    <{else}>
+                                        <div class="box box-last">
+                                            <div class="cir">4</div>
+                                            <div class="text">
+                                                <p>已完成</p>
+                                            </div>
+                                        </div>
+                                    <{/if}>
+                                <{else}>
+                                    <div class="box">
+                                        <div class="cir">2</div>
+                                        <div class="text">
+                                           <p>等待付款</p> 
+                                        </div>
+                                    </div>
+                                    <div class="box">
+                                        <div class="cir">3</div>
+                                        <div class="text">
+                                           <p>待发货</p> 
+                                        </div>
+                                    </div>
+                                    <{if $detail.order_status == 3}>
+                                        <div class="box box-last">
+                                            <div class="cir active">4</div>
+                                            <div class="text txt-active">
+                                                <p>已完成</p>
+                                                <p><{$detail.lasttime|format:'Y-m-d'}></p>
+                                                <p><{$detail.lasttime|format:'H:i:s'}></p>
+                                            </div>
+                                        </div>
+                                    <{elseif $detail.order_status == -1}>
+                                        <div class="box box-last">
+                                            <div class="cir active">4</div>
+                                            <div class="text txt-active">
+                                                <p>已取消</p>
+                                                <p><{$detail.lasttime|format:'Y-m-d'}></p>
+                                                <p><{$detail.lasttime|format:'H:i:s'}></p>
+                                            </div>
+                                        </div>
+                                    <{else}>
+                                        <div class="box box-last">
+                                            <div class="cir">4</div>
+                                            <div class="text">
+                                                <p>已完成</p>
+                                            </div>
+                                        </div>
+                                    <{/if}>
+                                <{/if}>
+                                
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div> 
+                    <div class="mid-box">
+                        <div class="sm-tit">订单详情</div>
+                        <div class="information">
+                            <p>收货地址：<span class="black6"><{$detail.addr}><{$detail.house}></span></p>
+                            <p class="last">收货人：<{$detail.contact}>  <{$detail.mobile}></p>
+                        </div>
+                    </div>
+                    <div class="bottom-box">
+                        <div class="tit">订单详情</div>
+                        <table>
+                            <tr>
+                                <th class="mingcheng">商品名称</th>
+                                <th class="jifen">价格积分</th>
+                                <th class="num">数量</th>
+                                <th class="zong">合计</th>
+                            </tr>
+                            <{foreach $order_products as $item}>
+                                <tr>
+                                    <td class="maincl"><{$item.product_name}></td>
+                                    <td class="black6">￥<{$item.product_price}>&nbsp;&nbsp;<{$item.product_jifen}>积分</td>
+                                    <td>x<{$item.product_number}></td>
+                                    <td class="black6 jifen-detail"><span>¥<{$item['product_price']*$item['product_number']}></span>&nbsp;&nbsp;<{$item['product_jifen']*$item['product_number']}>积分</td>
+                                </tr>
+                            <{/foreach}>
+                            <tr>
+                                <td colspan="3">&nbsp;</td>
+                                <td class="black6 jifen-detail">运费：<span>¥<{$mall_order.freight}></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="heji">
+                        <p class="black3 jifen fr"><span><{$mall_order.product_jifen}></span>积分</p><p class="price black9 fr">合计：<span>￥<span><{$mall_order.product_price + $mall_order.freight}></span></span></p>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <!--内容end-->
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+   
+    <script>
+	$(document).ready(function() {
+            $(".jq_cancel").click(function(){
+                var order_id = "<{$detail.order_id}>";
+                var link = "<{link ctl='ucenter/order/cancel' args=oooo}>";
+                $.post(link.replace("oooo",order_id),{},function(ret){
+                    layer.msg(ret.message);
+                    if(ret.error == 0){
+                        window.location.reload(true);
+                    }
+                },'json')
+            })        
+        });
+    </script>
+<{include file="pchome/block/footer.html"}>

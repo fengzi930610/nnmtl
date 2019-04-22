@@ -1,0 +1,61 @@
+<{assign var='tpl_title' value=L("切换城市")}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='index'}>"  link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        切换城市
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<section class="page_center_box">
+
+    <div class="city_box">
+        <ul>
+            <li class="box_list">
+                <p>当前定位城市</p>
+                <ul class="city_list_inline">
+                    <li><a href="#"><em class="ico lctIco"></em><span class="maincl">合肥</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="city_fixed">
+        <ul>
+            <{foreach $city_list as $k => $v}>
+            <li><a href="#a<{$k}>"><{$k}></a></li>
+            <{/foreach}>
+        </ul>
+    </div>
+
+    <{foreach $city_list as $k => $v}>
+    <div class="cities_wrapper">
+    	<h4 class="title"><{$k}><small class="">（按字母排序）</small></h4>
+        <div class="cities" id="a<{$k}>">
+                <{foreach $v as $kk => $vv}>
+                <a class="city" href="javascript:void(0);" val='<{$vv.city_name}>' cityid='<{$vv.city_id}>'><{$vv.city_name}></a>
+                <{/foreach}>
+        </div>
+    </div>
+    <{/foreach}>
+</section>
+    <script>
+       $(document).ready(function(){
+           var now_city_name = Cookie.get("UxCity");
+           if(!now_city_name){
+               now_city_name = '请选择城市';
+           }
+           $('.maincl').text(now_city_name);
+           $('.city').click(function(){
+
+               var cityname = $(this).attr('val');
+               var cityid = $(this).attr('cityid');
+               localStorage.setItem('UxCity', cityname);
+               localStorage.setItem('UxCityId', cityid);
+               Cookie.set("UxCityId",cityid, 86400*30);
+               location.href = "<{link ctl='position'}>";
+           })
+       })
+    </script>
+<{include file="block/footer.html"}>

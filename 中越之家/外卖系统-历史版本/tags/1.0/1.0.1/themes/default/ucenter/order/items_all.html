@@ -1,0 +1,139 @@
+<{assign var='tpl_title' value='我的全部订单'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='ucenter/order/index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的全部订单
+    </div>
+    <i class="right"><a href="javascript:void(0);" class=""></a></i>
+</header>
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list on"><a href="<{link ctl='ucenter/order:items_all'}>">全部</a></li>
+        <li class="switchTab_list"><a href="<{link ctl='ucenter/order'}>">按分类</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+
+<section class="page_center_box">
+    <div id="index_goods_items">
+        
+    </div>
+    <div class="loadding">
+            
+    </div>
+</section>
+    
+<script>
+
+    $(document).ready(function(){
+        var link = "<{link ctl='ucenter/order/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+        params.order_type = <{$order_type}>;
+        loaddata(link,page,params);
+        
+        $(document).on("click",".next",function(){
+            page++;
+            loaddata(link,page,params);
+        })
+      
+    })
+
+
+    $(document).on("click",".cancel_order",function(){    
+    var order_id = $(this).attr('val');
+    var link = "<{link ctl='ucenter/order:chargeback' arg1='__order_id'}>";
+
+    if(confirm("确定要取消吗？")){
+        $.post(link.replace("__order_id", order_id), {}, function(ret) {
+            if (ret.error == 0) {
+                layer.open({
+                    content: ret.message,
+                    time: 2
+                });
+                location.reload(true);
+            } else {
+                layer.open({
+                    content: ret.message,
+                    time: 2
+                });
+            }
+        }, 'json');
+    }
+
+})
+
+
+
+$(document).on("click",".go_pay",function(){
+    var order_id = $(this).attr("rel");
+    var link_storage = "<{link ctl='ucenter/order:detail' arg0='temp0' }>";
+    localStorage['order_pay'] = link_storage.replace('temp0', order_id);
+    var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+    setTimeout(function () {
+        window.location.href = link.replace('temp1', order_id);
+    }, 1000);
+})
+
+$(document).on("click",".finish",function(){
+    var order_id = $(this).attr("rel");
+    var link = "<{link ctl='waimai/order:finish' args='__order_id'}>";
+    jQuery.ajax({  
+        url: link.replace("__order_id", order_id), 
+        async: true,  
+        dataType: 'json',  
+        type: 'POST',   
+        success: function (ret) { 
+            if(ret.error > 0){
+                layer.open({content: ret.message,time: 2});  
+            }else{
+                layer.open({content: ret.message,time: 2});  
+                setTimeout(function(){window.location.reload();},1000);
+            }
+        } 
+    });
+})
+
+
+$(document).on("click",".onemore",function(){
+    var order_id = $(this).attr("rel");
+    var shop_id = $(this).attr("shop_id");
+    jQuery.ajax({  
+        url: "<{link ctl='waimai/order:onemore'}>", 
+        async: true,  
+        dataType: 'json',  
+        data: {"order_id": order_id},
+        type: 'POST',   
+        success: function (ret) { 
+            if(ret.error > 0){
+                layer.open({content: ret.message,time: 2});
+            }else{
+                var ecart = new ECart(parseInt(shop_id));
+                ecart.clear();
+                if(ret.product_list) {
+                    $.each(ret.product_list,function(index,value){
+                        ecart.add(index, value.product_number, value);
+                    });
+                    setTimeout(function(){
+                        window.location.href="<{link ctl='waimai/order/order-"+shop_id+"'}>";
+                    },1000);    
+                } 
+            }
+        }, 
+        error: function (XMLHttpRequest, textStatus, errorThrown) { 
+            alert(errorThrown); 
+        },  
+    });
+})
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('#l3').addClass('on');
+    })
+</script>
+    
+<{include file="block/sfooter.html"}>
+</body>
+</html>

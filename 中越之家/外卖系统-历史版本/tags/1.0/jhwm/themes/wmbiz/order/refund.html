@@ -1,0 +1,375 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='order/index:index'}>">订单管理</a></li>
+        <li class="active">待处理订单</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">    	
+    	<div class="dispatch_tab">
+            <ul>
+                <li><a href="<{link ctl='order/index:receive'}>?SO[orderby]=<{$pager['SO']['orderby']}>">待接单</a></li>
+                <li><a href="<{link ctl='order/index:pei'}>?SO[orderby]=<{$pager['SO']['orderby']}>">待配送</a></li>
+                <li><a href="<{link ctl='order/index:delivery'}>?SO[orderby]=<{$pager['SO']['orderby']}>">配送中</a></li>
+                <li class="on"><a href="<{link ctl='order/index:refund'}>?SO[orderby]=<{$pager['SO']['orderby']}>">退单</a></li>
+                <li><a href="<{link ctl='order/index:reminder'}>?SO[orderby]=<{$pager['SO']['orderby']}>">催单</a></li>
+                <li><a href="<{link ctl='order/index:ziti'}>?SO[orderby]=<{$pager['SO']['orderby']}>">自提单</a></li>
+                <li><a href="<{link ctl='order/index:yuding'}>?SO[orderby]=<{$pager['SO']['orderby']}>">预订单</a></li>
+            </ul>
+        </div>
+
+        <form action="<{link ctl='order/index:refund'}>" method="post">
+            <div class="dispatch_serch">
+                <div class="clearfix list_box">
+                    <div class="fl" id="data_5">
+                        <span class="input-daterange" id="datepicker">选择日期：<input type="text" name="SO[dateline][]" value="" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[dateline][]" value="" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm fl" value="搜 索">
+                </div>
+                <div class="clearfix list_box">
+                    订单排序：<label class="ml10"><input type="radio" <{if !$pager['SO'] || $pager['SO']['orderby'] == 0}>checked<{/if}> name="SO[orderby]" value="0">期望送达时间</label> <label class="ml30"><input type="radio" <{if $pager['SO']['orderby'] == 1}>checked<{/if}> name="SO[orderby]" value="1">下单时间</label>
+                </div>
+            </div>
+        </form>
+
+        <!--订单列表-->
+        <div class="ord_list_box">
+            <!--退单-->
+            <{foreach $items as $v}>
+            <div class="ord_list">
+                <div class="top_box">
+                    <div class="num pull-left"><{if $v.first_shop_order > 0}><span class="style">首单用户</span><{/if}><{if $v.pei_time>0}><span class="style">预定单</span><{/if}>订单编号：<span class="fontcl1"><{$v.dateline|format:"Ymd"}>#<{$v.day_num}></span><small class="ml10 black6">（送达时间：<{$v.pei_time_label}>）</small></div>
+                    <div class="state pull-right">
+                        <span class="black9"><{$v.order_status_label}></span>
+                        <span class="pointcl">申请退单</span>
+                    </div>
+                </div>
+                <div class="mid_box">
+                    <div class="reason">退款理由：<{$v['refund_info']['reflect']}></div>
+                    <h3><{$v.contact}><small><span class="ml10 black9">#第<{$v.count_order}>次下单</span><span class="ml10 black9"></span><{if $v.count_order>1}><a href="javascript:;" rel="<{$v.uid}>" data-id="<{$v.order_id}>" class="fr maincl seeOrd">查看用户历史订单&gt;</a><{/if}></small></h3>
+                    <p><span class="black3">订单ID：</span><{$v.order_id}></p>
+                    <p><span class="black3">联系方式：</span><{$v.mobile}></p>
+                    <p><span class="black3">地址：</span><{$v.addr}> <{if $v.house != ''}>(<{$v.house}>)<{/if}></p>
+                    <p><span class="black3">骑手信息：</span><{if $v.staff}><{$v.staff.mobile}>&nbsp;(<{$v.staff.name}>)<{else}>----<{/if}></p>
+                    <p><span class="black3">下单时间：</span><span class="fontcl2"><{$v.dateline|format:'Y-m-d H:i'}>下单</span><span class="ml30 maincl"><span class="black3">支付方式：</span><{if $v.online_pay == 1}>在线支付<{elseif $v.online_pay == 0}>货到付款<{/if}></span></p>
+                    <div class="delt_box">
+                        <div class="bt_box on">
+                            <div class="bt"><b>订单信息</b> <a href="javascript:;" class="pull-right open">展开<i class="ml5 fa fa-angle-down"></i></a></div>
+                            <div class="remark"><span class="fontcl2">备注：</span><{$v.intro}></div>
+                        </div>
+                        <div class="open_box none">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <!-- <{foreach $v['products'] as $product}>
+                                <tr>
+                                    <td><{$product.product_name}><{$product.shuxin}></td>
+                                    <td>¥<{$product.product_price}></td>
+                                    <td>x<{$product.product_number}></td>
+                                    <td class="text_r">¥<{$product.product_number * $product.product_price}></td>
+                                </tr>
+                            <{/foreach}> -->
+                            <{foreach $v['products'] as $product}>
+                                <{if count($v['products']) > 1}>
+                                <tr>
+                                    <td colspan="4" style="font-weight: bold"><span style="width: 10px; height: 10px; background: #<{$product.color}>; float: left; margin: 5px 5px 5px 0;"></span><{$product.basket_title}></td>
+                                </tr>
+                                <{/if}>
+                                <{foreach $product.product as $p}>
+                                <tr>
+                                    <td><{$p.product_name}></td>
+                                    <td>¥<{$p.product_price}></td>
+                                    <td>x<{$p.product_number}></td>
+                                    <td class="text_r">¥<{$p.product_number * $p.product_price}></td>
+                                </tr>
+                                <{/foreach}>
+                            <{/foreach}>
+                            </table>
+                            <div class="border_b border_t">
+                                <div class="cost_box black6">餐盒费 <span class="pull-right">¥<{$v.package_price}></span></div>
+                                <div class="cost_box black6">用户支付配送费 <span class="pull-right">¥<{$v.freight}></span></div>
+                                <{if $v['staff_id']&&$v['pei_type']==1}>
+                                <div class="cost_box black6">骑手配送费 <span class="pull-right">-¥<{$v.pei_amount}></span></div>
+                                <{/if}>
+                                <div class="cost_box black6">平台服务费<span class="pull-right">-¥<{$v.fee.fee}></span></div>
+                                <div class="cost_box black6">商家活动款<span class="pull-right">-¥<{$v.waimai_order.shop_amount+$v.waimai_order.first_shop+$v.coupon}></span></div>
+                                <div class="cost_box black6">平台补贴<span class="pull-right">+¥<{$v.waimai_order.roof_amount+$v.waimai_order.first_roof+$v.hongbao+$v.peicard_youhui}></span></div>
+                            </div>
+                            <div class="cost_box"><b>小计：</b> <span class="pull-right fontcl1">¥<{$v.total_price}></span></div>
+                            <{if $v.first_youhui > 0}>
+                            <div class="cost_box black6">首单优惠： <span class="pull-right">-¥<{$v.first_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.order_youhui > 0}>
+                            <div class="cost_box black6">满减优惠： <span class="pull-right">-¥<{$v.order_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.hongbao > 0}>
+                            <div class="cost_box black6">红包抵扣： <span class="pull-right">-¥<{$v.hongbao}></span></div>
+                            <{/if}>
+                            <{if $v.money > 0}>
+                            <div class="cost_box black6">余额抵扣： <span class="pull-right">-¥<{$v.money}></span></div>
+                            <{/if}>
+                            <{if $v.coupon > 0}>
+                            <div class="cost_box black6">优惠劵： <span class="pull-right">-¥<{$v.coupon}></span></div>
+                            <{/if}>
+                            <{if $v.discount_youhui > 0}>
+                            <div class="cost_box black6">折扣优惠： <span class="pull-right">-¥<{$v.discount_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.huangou_youhui > 0}>
+                            <div class="cost_box black6">换购优惠： <span class="pull-right">-¥<{$v.huangou_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.peicard_youhui > 0}>
+                            <div class="cost_box black6">配送会员卡： <span class="pull-right">-¥<{$v.peicard_youhui}></span></div>
+                            <{/if}>
+                            <div class="cost_box maincl"><b>预计收入：</b> <b class="pull-right">¥<{$v.fee.shop_amount-$v.fee.fee}></b></div>
+                        </div>                       
+                    </div>
+                </div>
+                <div class="bottom_box">
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='order/index:yunprint' arg0='#order_id#' arg1='#num#' arg2='#plat_id#'}>" onclick="go_print(this);">打印订单</a>
+                    <{if $v.refund_status==1&&($v.order_status==1||$v.order_status==2||$v.order_status==3||$v.order_status==4)}>
+                    <a  mini-act="" href="<{link ctl='order/index:refund_agree' args=$v.order_id}>" class="btn btn-sm btn-primary">同意</a>
+                    <a  href="javascript:;" class="btn btn-sm btn-default btn-outline tab_btn_refuse" rel="<{$v.order_id}>">拒绝</a>
+                    <{else}>
+
+                    <{if $v.refund_status == 2}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">商家已接受退款</a>
+                    <{elseif $v.refund_status == -1}>
+                    <a href="javascript:;" rel="<{$v.refund_info.reply}>"  class="btn btn-sm btn-default view_reminder2">商家已拒绝退款</a>
+                    <{elseif $v.refund_status == 3&&$v.order_status!=8&&$v.order_status!=-2}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">平台处理纠纷</a>
+                    <{elseif $v.refund_status==3&&$v.order_status==8}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">平台拒绝退款</a>
+                    <{elseif $v.refund_status==3&&$v.order_status==-2}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">平台同意退款</a>
+                    <{/if}>
+
+                    <{/if}>
+
+                    <{if $v.order_status==8&&$v.comment_status==1}>
+                    <a href="javascript:;" rel="<{$v.order_id}>"   class="see_comment btn btn-sm btn-primary">查看评价</a>
+                    <{/if}>
+                </div>
+            </div>
+            <{foreachelse}>
+            <div class="smallpage">
+                <div class="noDingdan-cont">
+                    <img src="%THEME%/static/images/order-no.png" class="mb20">
+                    <p class="black6">暂无指定订单</p>
+                    <p class="black9">暂时没有该筛选条件的订单，稍后再来看看吧！</p>
+                </div>
+            </div>
+            <{/foreach}>
+        </div>
+        <!--订单列表end-->
+        <!--页码-->
+        <div class="paging">
+            <{$pager.pagebar}>
+        </div>
+        <!--页码end-->
+        <script>
+        $(document).ready(function() {
+        	$(".ord_list .delt_box .bt .open").click(function(){
+        		$(this).parents(".delt_box").find(".open_box").slideToggle(300);
+        		if($(this).parents(".bt_box").hasClass("on")){
+        			$(this).parents(".bt_box").removeClass("on");
+        			$(this).html("收起<i class='ml5 fa fa-angle-up'></i>");
+        		}else{
+        			$(this).parents(".bt_box").addClass("on");
+        			$(this).html("展开<i class='ml5 fa fa-angle-down'></i>");
+        		}
+        	});
+        });
+        </script>
+        <!--拒绝-->
+        <div class="mask_cont spec_mask refuse_mask">
+        	<div class="mask_cont_tit">拒绝退单 <a href="javascript:;" class="close fr">×</a></div>
+            <div class="cont">
+            	<textarea placeholder="请输入拒绝原因" id="refused_reason"></textarea>
+                <div class="text_c mt20">
+                	<a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+                    <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="refused">确定</a>
+                </div>
+            </div>
+        </div>
+        <script>
+        $(document).ready(function() {
+            var evlt_h = $('.refuse_mask').height();
+        	var evlt_w = $('.refuse_mask').width();
+        	$('.refuse_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+        	$('.refuse_mask').css("margin-left",-evlt_w/2 + 'px');
+        	
+        	$(".tab_btn_refuse").click(function(){
+        		$('.refuse_mask').fadeIn(100);
+        		$('.mask_bg').fadeIn(100);
+                $('#refused').attr('rel', $(this).attr('rel'));
+        	});
+        	
+        	$(".refuse_mask .cancel,.refuse_mask .close,.mask_bg").click(function(){
+        		$('.refuse_mask').fadeOut(100);
+        		$('.mask_bg').fadeOut(100);
+        	});       	
+        });
+        </script>
+        <!--拒绝end-->
+
+        <script>
+            $(document).ready(function () {
+                $("#refused").click(function () {
+                    var order_id = $("#refused").attr('rel');
+                    var reply = $("#refused_reason").val();
+                    $.post("<{link ctl='order/index:refused'}>", {order_id: order_id, reply: reply}, function (ret) {
+                        if (ret.error == 0) {
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='order/index:refund'}>";
+                            }, 2000);
+                        }
+                        layer.msg(ret.message);
+                    },'json');
+                })
+            })
+        </script>
+        </div>
+    </div>
+<div class="mask_cont seeOrd_mask">
+    <div class="mask_cont_tit" id="guke"><a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody class="append_html">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.seeOrd_mask').height();
+        var evlt_w = $('.seeOrd_mask').width();
+        $('.seeOrd_mask').css("margin-top",-(evlt_h/2 + 200) + 'px');
+        $('.seeOrd_mask').css("margin-left",-evlt_w/2 + 'px');
+
+        $(".seeOrd").click(function(){
+            var uid = $(this).attr('rel');
+            var order_id = $(this).attr('data-id');
+            var url = "<{link ctl='order/index:get_uid_order' arg1='#uid#' arg2='#order_id#'}>".replace('#uid#',uid).replace('#order_id#',order_id);
+            $('.append_html').html(' <tr class="tit "> <td>单号</td> <td>明细</td> <td>金额</td> <td>支付方式：</td> <td>时间</td> </tr>');
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    var html = '';
+                    var pay_type = '';
+                    $.each(e.data.order,function(k,v){
+                        if (v.online_pay == 1) {
+                            pay_type = '在线支付';
+                        }else if (v.online_pay == 0) {
+                            pay_type = '货到付款'
+                        };
+                        html+='<tr> <td>'+v.order_id+'</td><td>';
+                        $.each(v.products,function(kk,vv){
+                            html+='<p>'+vv.product_name+'<span class="ml5 mr5">'+vv.product_number+'</span>份</p>'
+                        });
+                        html+='</td>'+'<td>'+v.total_price+'</td>'+'<td>'+pay_type+'</td>'+'<td>'+v.format_time+'</td></tr>';
+                    });
+                    $('.append_html').append(html);
+                    $('.seeOrd_mask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                    $('#guke').text('顾客:'+e.data.member.nickname+'  最近十条订单记录');
+
+                }else{
+                    Widget.MsgBox.error('未找到数据');
+                }
+            },'json');
+        });
+
+        $(".seeOrd_mask .cancel,.seeOrd_mask .close,.mask_bg").click(function(){
+            $('.seeOrd_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+    });
+</script>
+<!--评价详情弹层-开始-->
+<style type="text/css">
+    .evltMask{display: none; width: 600px;}
+</style>
+<div class="mask_cont evltMask" >
+    <div class="mask_cont_tit">订单评价 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <div class="elvt_list">
+            <div class="">
+                <div class="fl">
+                    <h4 id="score_nickname"></h4>
+                </div>
+                <div class="fr right">
+                    <p class="black9" id="score_time">2017-08-29 21:34</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="left black6">
+                <div class="fl mr20">商家 <span class="starBg"><span class="star" id="score" style="width:60%;"></span></span></div>
+                <div class="fl mr20">配送 <span class="starBg"><span class="star" id="score_peisong" style="width:60%;"></span></span></div>
+                <div class="fl" id="score_avg"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="right mt20">
+                <p class="nr" id="content"></p>
+                <div class="replay_form" style="display: block;">
+                    <div id="reply">回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容</div>
+                </div>
+                <div class="mt10" id="photo_list">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.evltMask').height();
+        var evlt_w = $('.evltMask').width();
+        $('.evltMask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+        $('.evltMask').css("margin-left",-evlt_w/2  + 'px');
+        $(".evltMask .close,.mask_bg").click(function(){
+            $('.evltMask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+        $('.see_comment').on('click',function(){
+            var order_id  = $(this).attr('rel');
+            var url = "<{link ctl='order/index:get_common_detail' http='wmbiz' arg0='__ORDER_ID__'}>";
+            var link = url.replace('__ORDER_ID__',order_id);
+            $.post(link,{},function(e){
+                if(e.error==0){
+
+                    $('#score_nickname').text(e.data.member.nickname);
+                    $('#score_time').text(e.data.time);
+                    $('#score').css('width',e.data.score+"%");
+                    $('#score_peisong').css('width',e.data.score_peisong+"%");
+                    $('#score_avg').text('综合评价:'+e.data.score_avg+'星');
+                    if(e.data.content){
+                        $('#content').text('用户评价内容:'+e.data.content);
+                    }else{
+                        $('#content').text('该用户没有填写评价内容');
+                    }
+                    if(e.data.reply){
+                        $('#reply').text('商家回复:'+e.data.reply);
+                    }else{
+                        $('#reply').text('暂未回复');
+                    }
+                    var html = "";
+                    var pre = "<{$pager.img}>/";
+                    if(e.data.photo){
+                        $.each(e.data.photo,function(kk,vv){
+                            html+='<img src="'+pre+vv.photo+'"  width="100" height="100">';
+                        });
+                    }
+                    $('#photo_list').html(html);
+                    $('.evltMask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                }else{
+                    layer.msg(e.message);
+                }
+            },'json');
+        })
+    });
+</script>
+
+<{include file="block/footer.html"}>

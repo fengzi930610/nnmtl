@@ -1,0 +1,42 @@
+<{assign var='tpl_title' value=L("兑换红包")}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="mynickname-cont">
+                        <div class="mt20 nick-kuang">
+                            <input class="long_int exchange" style="padding-left: 0px;" type="text" placeholder="请输入兑换码">
+                            <div class="clear"></div>
+                        </div>
+                        <p class="black9 text_c mt20">*输入正确的兑换码可获得红包，在支付结算中使用红包获得优惠</p>
+                        <div class="mt20">
+                            <input class="long_btn my-own-queding-btn text_c" type="button" value="兑换" onclick="exchange_sn()">
+                        </div>
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+function exchange_sn()
+{
+    var v = $('.exchange').val();
+    if(($.trim(v).length<4)){
+        layer.open({content:"兑换码不正确",time:1.5});
+    }else{
+        $.post("<{link ctl='ucenter/hongbao/exchange'}>",{hongbao_sn:v},function(respone){
+            if(!respone.error){
+                layer.open({content:respone.message,time:1.5,end:function(){
+                    window.location.href="<{link ctl='ucenter/hongbao/index'}>";
+                }});
+            }else{
+                layer.open({content:respone.message,time:1.5});
+            }
+        },'json');
+    }
+
+}
+</script>
+</body>
+</html>

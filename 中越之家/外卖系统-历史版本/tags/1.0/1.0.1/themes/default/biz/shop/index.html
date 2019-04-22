@@ -1,0 +1,105 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/shop:index'}>" class="on">基本资料</a>
+	<a href="<{link ctl='biz/shop:passwd'}>">安全设置</a>
+	<a href="<{link ctl='biz/shop:mobile'}>">更换手机</a>
+	<a href="<{link ctl='biz/shop:account'}>">提现帐号</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <{if !$shop.audit}>
+    <h3 class="alert alert-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;您的店铺正在审核中，请耐心等待</h3>
+    <{/if}>
+    <form action="<{link ctl='biz/shop:index'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr><th><span class="red">*</span>店铺名称：</th><td><input type="text" name="data[title]" value="<{$shop.title|default:''}>" class="input w-300"/></td></tr>
+            
+            <tr>
+            <th>区县：</th>
+            <td>
+                <select name="data[area_id]" id="area" class="select select_td  input w-100">
+                <{foreach $areas as $v}>
+                <option value="<{$v.area_id}>" <{if $shop.area_id==$v.area_id}>selected="selected"<{/if}>><{$v.area_name}></option>
+                <{/foreach}></select>
+            </td>
+        </tr>
+        <tr>
+            <th>商圈：</th>
+            <td>
+                <select name="data[business_id]" id="business" class="select select_td  input w-100">
+                <{foreach $busis as $v}>
+                <option value="<{$v.business_id}>" <{if $shop.business_id==$v.business_id}>selected="selected"<{/if}>><{$v.business_name}></option>
+                <{/foreach}></select>
+            </td>
+        </tr>
+        <tr>
+            <th>分类：</th>
+            <td><select name="data[cate_id]" class="select select_td  input w-100">
+                    <{foreach $cate_tree as $k => $v}>
+                    <option value="<{$v.cate_id}>" <{if $shop.cate_id == $v.cate_id}>selected<{/if}> ><{$v.title}></option>
+                    <{foreach $v.childrens as $kk => $vv}>
+                        <option value="<{$vv.cate_id}>" <{if $shop.cate_id == $vv.cate_id}>selected<{/if}> >&nbsp;┗━<{$vv.title}></option>
+                    <{/foreach}>
+                    <{/foreach}>
+                </select>
+            </td>
+        </tr>
+        
+            <tr>
+                <th>logo：</th>
+                <td>
+                    <input type="text" name="data[logo]" class="input w-300" id="file_photo"  value="<{$shop.logo}>" photo="<{$pager.img}>/<{$shop.logo|default:''}>" />
+                    <input type="button" uploadbtn="#file_photo"class="ke-upload_lay" value=" 选择文件 " />
+                    <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Banner：</th>
+                <td>
+                    <input type="text" name="data[banner]" class="input w-300" id="file_photo1"  value="<{$shop.banner}>" photo="<{$pager.img}>/<{$shop.banner|default:''}>" />
+                    <input type="button" uploadbtn="#file_photo1"class="ke-upload_lay" value=" 选择文件 " />
+                    <a preview="#file_photo1" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+                </td>
+            </tr>
+            <tr><th><span class="red">*</span>联系人：</th><td><input type="text" name="data[contact]" value="<{$shop.contact|default:''}>" class="input w-300"/></td></tr>
+            <tr><th><span class="red">*</span>联系电话：</th><td><input type="text" name="data[phone]" value="<{$shop.phone|default:''}>" class="input w-300"/></td></tr>
+            <tr><th><span class="red">*</span>地址：</th><td><input type="text" name="data[addr]" value="<{$shop.addr|default:''}>" class="input w-300"/></td></tr>
+            <tr><th>地图坐标：</th>
+                <td>
+                    <label>经度:<input type="text" name="data[lng]" value="<{$shop.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+                    <label>纬度:<input type="text" name="data[lat]" value="<{$shop.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>   
+                    <span class="tip-comment"><a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="btn btn-success"><b>拾取工具</b></a></span>
+                </td>
+            </tr>
+            <tr><th></th><td><input type="submit" value="保存数据" class="btn btn-primary" /></td></tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+    $(document).on("change", "#area", function(){
+        var area_id = $(this).val();
+        $.getJSON("/biz/shop-get_business-"+area_id+".html", function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                var html = '';
+                for(var i in ret.options){
+                    html += "<option value="+i+">"+ret.options[i]+"</option>";
+                }
+                $("#business").html(html);
+            }
+        });        
+    });
+       
+})(window.KT, window.jQuery)
+</script>
+
+<!-- <script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script> -->
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

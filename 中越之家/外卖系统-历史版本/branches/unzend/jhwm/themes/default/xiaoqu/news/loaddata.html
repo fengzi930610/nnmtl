@@ -1,0 +1,35 @@
+<{foreach $list as $k => $v}>
+
+    <div class="wuyeInform_list">
+
+            <div class="time_box txt_center"><{$v.dateline|format}></div>
+
+        <div class="box">
+
+            <div class="top black6">
+
+                <{if $v.from == 'notice'}><i class="ico ico1"></i>小区公告<{/if}>
+
+                <{if $v.from == 'news'}><i class="ico ico2"></i>小区咨询<{/if}>
+
+            </div>
+
+            <div class="nr black6">
+
+                <a href="<{link ctl='xiaoqu/news/detail' arg1=$v.news_id }>">
+
+                <{$v.title}>:<br>
+
+                <{$v.content}>
+
+                </a>
+
+            </div>
+
+            <a href="<{link ctl='xiaoqu/news/detail' arg1=$v.news_id }>" class="link black6">阅读全文<i class="ico fr"></i></a>
+
+        </div>
+
+    </div>
+
+<{/foreach}>

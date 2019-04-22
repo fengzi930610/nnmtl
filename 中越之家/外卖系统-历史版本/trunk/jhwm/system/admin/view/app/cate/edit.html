@@ -1,0 +1,100 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+  <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+    <tr>
+      <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+      <th><{$MOD.title}></th>
+      <td align="right"></td>
+      <td width="15"></td>
+    </tr>
+  </table>
+</div>
+<div class="page-data">
+  <form action="?app/cate-edit.html" mini-form="member-form" method="post" ENCTYPE="multipart/form-data">
+  <input type="hidden" name="cate_id" value="<{$detail.cate_id}>" />
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+      <tr>
+        <th>分类名称：</th>
+        <td><input type="text" name="data[cate_name]" value="<{$detail.cate_name|default:''}>" class="input w-300"/></td>
+      </tr>
+      <tr><th>分类图标：</th>
+        <td>
+            <input type="hidden" name="data[cate_photo]" value="<{$detail.cate_photo}>" />
+            <input type="file" name="data[cate_photo]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+            <{if $detail.cate_photo}><img src="<{$pager.img}>/<{$detail.cate_photo}>" photo="<{$pager.img}>/<{$detail.cate_photo}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+        </td>
+    </tr>
+    <tr><th>分类类型：</th>
+        <td>
+            <label><input type="radio" class="cate_type" name="data[cate_type]" <{if $detail.cate_type == 1}>checked="checked"<{/if}> value="1" >网页</label>
+            <label style="margin-left:30px;"><input type="radio"  class="cate_type" name="data[cate_type]" <{if $detail.cate_type == 0}>checked="checked"<{/if}> value="0" >APP内调</label>
+        </td>
+    </tr>
+      <tr class="web">
+        <th>网页地址：</th>
+        <td>
+            <input type="text" name="data[cate_link]" id="cate_link" value="<{$detail.cate_link|default:''}>" class="input w-300"/>
+            * 如果是网页，直接填写地址。
+        </td>
+      </tr>
+      
+      <tr class="app">
+        <th>APP规则：</th>
+        <td>
+            <input type="text" name="data[cate_link2]" id="cate_link2" value="<{$detail.cate_link|default:''}>" class="input w-300"/>
+            * 规则列表如下。
+        </td>
+      </tr>
+      
+      <tr class="app">
+        <th>类型设置：</th>
+        <td>
+            <input type="radio" name="app_rule" class="app_rule" rule_id="1" <{if $detail.rule_id == 1}>checked<{/if}> value="ijh://shop/list?cate_id=" /> 商户列表
+            <input type="radio" name="app_rule" class="app_rule" rule_id="2" <{if $detail.rule_id == 2}>checked<{/if}> value="ijh://waimai/list?cate_id=" /> 外卖列表
+            <input type="radio" name="app_rule" class="app_rule" rule_id="3" <{if $detail.rule_id == 3}>checked<{/if}> value="ijh://tuan/list" /> 团购列表
+            <input type="radio" name="app_rule" class="app_rule" rule_id="4" <{if $detail.rule_id == 4}>checked<{/if}> value="ijh://paotui/map" /> 跑腿地图
+            <input type="radio" name="app_rule" class="app_rule" rule_id="5" <{if $detail.rule_id == 5}>checked<{/if}> value="ijh://weixiu/list" /> 维修列表
+            <input type="radio" name="app_rule" class="app_rule" rule_id="6" <{if $detail.rule_id == 6}>checked<{/if}> value="ijh://house/list" /> 家政列表
+        </td>
+      </tr>
+      <input type="hidden" id="rule" name="data[rule_id]" value="1" />
+      <tr>
+        <th class="clear-th-bottom"></th>
+        <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+      </tr>
+    </table>
+  </form>
+</div>
+<script>
+    $(document).ready(function(){
+        
+        var tval = $("input[name='data[cate_type]']:checked").val();
+        $('.web').hide();
+        $('.app').hide();
+        if(tval == 1){
+            $('.web').show();
+        }else{
+            $('.app').show();
+        }
+        
+        $(".cate_type").change(function(){
+            var val = $("input[name='data[cate_type]']:checked").val();
+            $('.web').hide();
+            $('.app').hide();
+            if(val == 1){
+                $('.web').show();
+            }else{
+                $('.app').show();
+            }
+        })
+        
+        $(".app_rule").click(function(){
+            var val = $(this).val();
+            var rule_id = $(this).attr('rule_id');
+            $('#rule').val(rule_id);
+            $('#cate_link2').val(val)
+        })
+    })
+</script>
+
+<{include file="admin:common/footer.html"}>

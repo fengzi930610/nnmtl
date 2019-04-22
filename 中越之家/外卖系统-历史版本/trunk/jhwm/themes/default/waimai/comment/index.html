@@ -1,0 +1,66 @@
+<{assign var='tpl_title' value=L("评价")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='waimai/shop:index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	<{$detail['title']}>
+    </div>
+</header>
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list switch"><a href="<{link ctl='waimai/product/index' args=$detail.shop_id}>" onclick="switchs();">菜单</a></li>
+        <li class="switchTab_list  on"><a>评价</a></li>
+        <li class="switchTab_list"><a href="<{link ctl='waimai/shop/seller' arg0=$shop_id}>">商家</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+<section class="page_center_box">
+    <div class="evaluate_list_box">
+    	<h3 class="border_t mt10">总体评价:<span class="starBg ml10 mr10"><span class="star" style="width:<{$detail.avg_score*20}>%;"></span></span><span class="black9"><{$detail.avg_score}>&nbsp;分</span></h3>
+        <ul>
+            <{foreach $items as $item}>
+            <li class="evaluate_list">
+            	<div class="tx fl"><img src="/attachs/<{$item['user']['face']}>" width="100" height="100" /></div>
+                <div class="wz">
+                	<p><{$item['user']['mobile']}></p>
+                    <div><span class="starBg"><span class="star" style="width:<{$item['score']*20}>%;"></span></span></div>
+                    <p><{$item['content']}></p>
+                    <{if $item['photos']}>
+                    <div class="img_list">
+                    	<ul>
+                            <{foreach $item['photos'] as $img}>
+                        	<li><img src="/attachs/<{$img}>" width="100" height="100" /></li>
+                            <{/foreach}>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <{/if}>
+                    <p class="black9"><{$item['dateline']|format:'Y-m-d'}></p>
+                    <{if $item['reply_time'] && $item['reply']}>
+                    <div class="evaluate_reply">
+                    	<p><{$item['reply']}></p>
+                        <p class="time black9"><{$item['reply_time']|format:'Y-m-d'}></p>
+                    </div>
+                    <{/if}>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <{/foreach}>
+        </ul>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        if(localStorage['switchTab_list'] == 'marketgoods') {
+            var html = '<a href="<{link ctl='waimai/product:index' args=$shop_id}>">商品</a>';
+            $('.switchTab_list.switch').html(html);
+            $('.ico.headerIco.headerIco_3').attr('href', "<{link ctl='waimai/product:index' args=$shop_id}>");
+        }
+    });
+
+    function switchs() {
+        localStorage.removeItem("switchTab_list");
+    }
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,12 @@
+<{foreach $items as $v}>
+<a href="<{link ctl='bills/get_mouth_bills' arg0=$v.parmas}>"><li class="pub_list">
+    <div class="time">
+        <big><{$v.mouth}></big>
+        <P><{$v.year}>年</P>
+    </div>
+    <div class="pub_list_bd">
+        <P class="price"><small>￥</small><{$v.amount}></P>
+        <P>订单共<span class="fontcl3 ml5 mr5"><{$v.order}></span>笔</P>
+    </div>
+</li></a>
+<{/foreach}>

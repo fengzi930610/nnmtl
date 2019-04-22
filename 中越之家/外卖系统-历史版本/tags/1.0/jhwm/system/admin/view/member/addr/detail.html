@@ -1,0 +1,29 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/addr:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>ID：</th><td><{$detail.addr_id}></td></tr>
+<tr><th>用户ID：</th><td><{$detail.uid}></td></tr>
+<tr><th>联系人：</th><td><{$detail.contact}></td></tr>
+<tr><th>联系电话：</th><td><{$detail.mobile}></td></tr>
+<tr><th>收货地址：</th><td><{$detail.addr}></td></tr>
+<tr><th>是否为默认地址：</th><td>
+<{if $detail.is_default==1}>
+是
+<{else}> 
+否
+<{/if}>
+</td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+<tr><th>纬度：</th><td><{$detail.lat}></td></tr>
+<tr><th>经度：</th><td><{$detail.lng}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,59 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='shop/shop:index'}>">店铺管理</a></li>
+        <li class="active">配送设置</li>
+    </ol>
+</div>
+<div class="wrapper wrapper-content">
+   	<!--表单-->
+    <{if $detail.pei_type == 1}>
+    <form id="myform" action="<{link ctl='shop/deliver:edit'}>" mini-form="wmbiz" ENCTYPE="multipart/form-data" method="post">
+        <div class="dispchSet_list mb30">
+            <div class="check_box">自己送
+                <div class="dispchSet_btn_box fr">
+                    <a href="javascript:;" class="btn btn-primary btn-outline btn-w-m" id="edit_submit">保存</a>
+                    <a href="<{link ctl='shop/deliver:index'}>" class="btn btn-default btn-w-m">取消</a>
+                </div>
+            </div>
+            <div class="int_list_box">
+                <div class="int_list ">
+                    <span class="mr20">起送金额：<input type="text" class="text form_table_intw2" name="data[min_amount]" value="<{$detail.min_amount|default:''}>">&nbsp;元</span>
+                </div>
+                <{if count($detail['freight_stage']) >= 1}>
+                    <{foreach $detail['freight_stage'] as $v}>
+                    <div class="int_list clearfix">
+                        <span class="mr20">公里数：<input type="text" class="text" name="data[fkm][]" value="<{$v['fkm']}>" />&nbsp;km内</span>
+                        <span class="mr20">配送费：<input type="text" class="text" name="data[fm][]" value="<{$v['fm']}>" />&nbsp;元</span>
+                        <{if count($detail['freight_stage']) > 1}>
+                        <a href="javascript:;" class="fa fa-times-circle clear_btn"></a>
+                        <{/if}>
+                    </div>
+                    <{/foreach}>
+                <{/if}>
+            </div>
+            <a href="javascript:;" class="btn btn-primary btn-sm btn-outline add_btn">增加</a>
+        </div>
+    </form>
+    <{/if}>
+    <!--表单end-->
+    <script>
+    $(document).ready(function() {
+        $(".dispchSet_list .int_list .clear_btn").click(function(){
+            $(this).parent(".int_list").remove();
+        });
+        
+        $(".dispchSet_list .add_btn").click(function(){
+            $(this).parent(".dispchSet_list").find(".int_list_box").append('<div class="int_list clearfix"> <span class="mr20">公里数：<input type="text" class="text" name="data[fkm][]" value="" />&nbsp;km内</span> <span class="mr20">配送费：<input type="text" class="text" name="data[fm][]" value="" />&nbsp;元</span> <a href="javascript:;" class="fa fa-times-circle clear_btn"></a></div>');
+            $(".dispchSet_list .int_list .clear_btn").click(function(){
+                $(this).parent(".int_list").remove();
+            });
+        });
+
+        $("#edit_submit").click(function () {
+            $("#myform").submit();
+        })
+    });
+    </script>
+<{include file="block/footer.html"}>

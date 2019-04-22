@@ -1,0 +1,222 @@
+<{assign var='tpl_title' value='我的余额'}>
+<{include file="block/header.html"}>
+
+
+<!--<header>
+    <i class="left"><a href="<{link ctl='ucenter:index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        我的余额
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>-->
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+			
+				<div class="mineIntegralPage_top text_c mb10">
+					<div class="fl border_r">
+						<p class="black9">当前余额</p>
+						<p class="num pointcl1">￥<{$MEMBER['money']}><small class="black9"></small></p>
+					</div>
+					<div class="fr">
+						<a href="<{link ctl='ucenter/money/recharge' rebackurl=$rebackurl http='waimai'}>" class="pub_btn" style="background:#fc5151;">充值</a>
+						<{if $is_allow}><a href="javascript:;" class="pub_btn tuikuan_btn" style="background:#20AD20;">申请提现</a><{/if}>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<h3 class="mineIntegralPage_bt">我的余额记录</h3>
+				<ul class="mineIntegralPage_list">
+					<ul id="index_goods_items">
+						<{if $data.html}>
+						<{$data.html}>
+						<{else}>
+						<div class="pubnodata_box"><div class="img"></div><div class="text">没有相关数据</div></div>
+						<{/if}>
+
+					</ul>
+					<div class="loadding">
+			
+					</div>
+					<div class="clear"></div>
+
+
+				</ul>
+				<{if $data.html}>
+				<div style="margin: 10px">
+					<button  class="btn btn-primary" id="add" style="width: 100%; height: 44px; line-height: 44px; border: none; background: #20AD20; color: #fff; font-size: 16px; border-radius: 4px;display: block">加载更多</button>
+				</div>
+				<{/if}>
+
+			</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--弹窗-->
+<div class="orderTakeOut">
+    <div class="cancel_popup refund_popup" style="z-index: 99;">
+        <div class="havepad">
+            <div class="cancel_tit">
+                申请退款
+            </div>
+            <textarea id="reasons_refund" name="extend" placeholder="请输入银行卡号或支付宝微信账号"></textarea>
+
+        </div>
+		<div class="havepad">
+			<textarea id="money" name="extend" style="height: 30px;" placeholder="请输入申请退款金额"></textarea>
+		</div>
+        <div class="btns mt10 border_t">
+            <a href="javascript:;" class="giveup_btn ">取消</a>
+            <a href="javascript:;" class="confirm_btn border_l" rel="<{$order.order_id}>" id="confirm_refund_btn">确定</a>
+        </div>
+    </div>
+    <div class="orderTakeOut_mask" style="z-index: 98;"></div>
+</div>
+<script type="text/javascript">
+	window.__LOCK__TIAN = true;
+
+	$('.tuikuan_btn').on('click',function(){
+        $('.cancel_popup').show();
+        $('.orderTakeOut_mask').show();
+        $('.giveup_btn,.orderTakeOut_mask').on('click',function(){
+            $('.cancel_popup').hide();
+            $('.orderTakeOut_mask').hide();
+        })
+		$('#confirm_refund_btn').on('click',function(){
+		    if(window.__LOCK__TIAN ){
+                window.__LOCK__TIAN = false;
+                $('.orderTakeOut_mask').show();
+                Widget.MsgBox.load('处理中。。。。。');
+                var intro = $('#reasons_refund').val();
+                var money = $('#money').val();
+                var data = {
+                    "intro":intro,
+                    'money':money
+                }
+                $('.cancel_popup').hide();
+                // $('.orderTakeOut_mask').hide();
+                $.post("<{link ctl='ucenter/money:apply'}>",{data:data},function(e){
+                    if(e.error==0){
+                        window.__LOCK__TIAN = true;
+                        Widget.MsgBox.success(e.message);
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        },1500);
+                    }else{
+                        window.__LOCK__TIAN = true;
+                        Widget.MsgBox.error(e.message);
+                        $('.orderTakeOut_mask').hide();
+
+                    }
+                },'json');
+			}
+
+		})
+
+
+
+	})
+
+
+	/*function tui(obj) {
+        var order_id =obj.getAttribute('rel');
+        var link = '<{link ctl="ucenter/order:payback" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+        $('.cancel_popup').show();
+        $('.orderTakeOut_mask').show();
+        $('.giveup_btn,.orderTakeOut_mask').on('click',function(){
+            $('.cancel_popup').hide();
+            $('.orderTakeOut_mask').hide();
+        })
+        $('#confirm_refund_btn').off("click touchend touchstart").on('click',function(){
+
+            var reason = $('#reasons_refund').val();
+            if(!reason){
+                Widget.MsgBox.error('请输入退款理由');
+            }
+            var parmas =
+            {reason:reason,order_id:order_id}
+            ;
+            $.post(link,parmas,function(e){
+                if(e.error>0){
+                    Widget.MsgBox.error(e.message)
+                }else{
+                    Widget.MsgBox.error(e.message)
+                     setInterval("reload()",2000);
+                }
+
+            },'json')
+        });
+    };*/
+
+</script>
+<!--弹窗-->
+
+
+<script>
+    $(document).ready(function () {
+
+
+        var page = 2;
+        var params = {};
+        var __LOCK__ = false;
+		//loadpage(link,params,page,'index_goods_items');
+		//scroll(link,params,page,'.container_mid','#index_goods_items','');
+		$('#add').on('click',function(){
+			if(__LOCK__){
+				return false;
+			}else{
+				var link = "<{link ctl='ucenter/money/loaditems' arg0='#page#'}>";
+				var url = link.replace("#page#",page);
+				showLoader('加载中......',true);
+				__LOCK__ = true;
+			    $.post(url,{},function(e){
+			    	if(e.error==0){
+						if(e.html){
+							__LOCK__ = false;
+							$('#index_goods_items').append(e.html);
+							hideLoader();
+							page++;
+						}else{
+							hideLoader();
+							showLoader('没有更多了',false);
+							$('#add').hide();
+						}
+					}else{
+                       layer.msg();
+					}
+
+
+				},'json')
+			}
+
+		})
+    })
+
+	function showLoader(msg, st) {
+		if(st){
+			var message = '<div class="weui-loadmore"><i class="weui-loading"></i><span class="weui-loadmore__tips">' + msg + '</span></div>';
+		}else{
+			var message = '<div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">' + msg + '</span></div>';
+		}
+		$(".loadding").html(message).show();
+	}
+
+	function hideLoader()
+	{
+		$(".loadding").hide();
+	}
+
+
+
+</script>
+</body>
+</html>

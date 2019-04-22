@@ -1,0 +1,38 @@
+<{include file="admin:common/header.html"}>
+<div class="page-data">	
+	<form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table left">
+        <tr>
+            <th>ID</th>        
+    		<th>城市</th>
+            <th>名称</th>
+            <th>联系人</th>
+            <th>状态</th>
+            <th><{link ctl="group/group:so" arg0="dialog" arg1=$pager.multi class="button" title="搜索配送站" load="mini:搜索" width="mini:500"}></th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+    		<td>		
+    		<label><input type="radio" name="itemId" value="<{$item.group_id}>" data="{'itemId':'<{$item.group_id}>','title':'<{$item.group_name}>'}" CK="PRI"/><{$item.group_id}></label>
+            </td>		
+    		<td><{$citys[$item.city_id].city_name}></td>
+    		<td><{$item.group_name}></td>
+            <td><{$item.contact}>(<{$item.mobile}>)</td>
+            <td colspan="2"><{if $item.closed}><b class="red">关闭</b><{else}><b class="green">正常</b><{/if}></td>
+    	</tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><p class="text-align">没有数据</p></td></tr>
+        <{/foreach}>
+        </table>
+	</form>   
+	<div class="page-bar">
+		<table>
+            <{if $pager.pagebar }> 
+            <tr>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+            <{/if}>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

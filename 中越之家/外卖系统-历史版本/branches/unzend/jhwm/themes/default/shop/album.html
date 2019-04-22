@@ -1,0 +1,39 @@
+<{assign var='tpl_title' value=L("商家相册")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='shop:detail' args=<{$shop_id}>}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	商家相册
+    </div>
+    <!-- <i class="right"><a href="javascript:;" class="ico headerIco headerIco_4"></a><a href="javascript:;" class="ico headerIco headerIco_5 ml10"></a></i> -->
+</header>
+
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list <{if $type==0}>on<{/if}>"><a href="<{link ctl='shop:album' args=<{$shop_id}>}>">全部</a></li>
+        <li class="switchTab_list <{if $type==1}>on<{/if}>"><a href="<{link ctl='shop:album' arg0=<{$shop_id}> arg1=1 }>">环境</a></li>
+        <li class="switchTab_list <{if $type==2}>on<{/if}>"><a href="<{link ctl='shop:album' arg0=<{$shop_id}> arg1=2 }>">商品</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+<section class="page_center_box">
+    <div class="shangjia_photo">
+    	<ul>
+            <{foreach $items as $v}>
+    	    <li class="shangjia_photo_list">
+                <div class="list_box">
+                	<img style="width:100%;height:1rem;" src="<{$pager.img}>/<{$v.photo}>" >
+                    <div class="pub_wz">
+                        <p class="overflow_clear">
+                        <{if $v.type == 1}>环境<{else if $v.type == 2}>商品<{else}>全部<{/if}>
+                        </p>
+                    </div>
+                </div>
+            </li>
+            <{/foreach}>
+	    </ul>
+        <div class="cl"></div>
+    </div>
+</section>
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,38 @@
+<div class="shangcheng-links-fixed" style="z-index: 9999999;display:block;" id="tuoyituo">
+    <div class="open"><img src="/themes/waimai/static/img/mall/icon-arrowR-white@2x.png">快速导航</div>
+    <div class="list_box">
+        <a href="<{link ctl='index:index' http='waimai'}>">
+            <div class="img"><img width="18" src="/themes/waimai/static/img/mall/mall_btn_back_index@3x.png"></div>
+            <p>首页</p>
+        </a>
+        <a href="<{link ctl='ucenter/order/index' http='waimai'}>">
+            <div class="img"><img width="15" src="/themes/waimai/static/img/mall/tabbar04@2x.png"></div>
+            <p>订单</p>
+        </a>
+        <a href="<{link ctl='shop/cart2' http='waimai'}>">
+            <div class="img"><img width="19" src="/themes/waimai/static/img/mall/mall_btn-car.png"></div>
+            <p>购物车</p>
+        </a>
+        <a href="<{link ctl='ucenter/member' http='waimai'}>">
+            <div class="img"><img width="18" src="/themes/waimai/static/img/mall/tabbar05@2x-white.png"></div>
+            <p>个人中心</p>
+        </a>
+    </div>
+</div>
+<div class='ShangChengMask' style="position: fixed;top:0;left:0;display: none;width:100%;height:100%;background:rgba(0,0,0,.3);z-index:9999998"></div>
+<script>
+    //快捷导航
+    $(".shangcheng-links-fixed .open").click(function(){
+        if ($(this).parent(".shangcheng-links-fixed").hasClass("on")) {
+            $(this).parent(".shangcheng-links-fixed").removeClass("on");
+            $(".ShangChengMask").hide();
+        }else{
+            $(this).parent(".shangcheng-links-fixed").addClass("on");
+            $(".ShangChengMask").show();
+        };
+    });
+    $('.ShangChengMask').on('click',function(){
+        $(".shangcheng-links-fixed ").removeClass("on");
+        $(".ShangChengMask").hide();
+    })
+</script>

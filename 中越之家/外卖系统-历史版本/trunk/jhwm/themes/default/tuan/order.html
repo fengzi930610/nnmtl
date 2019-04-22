@@ -1,0 +1,119 @@
+<{assign var='tpl_title' value=L("团购-提交订单")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='tuan/product:detail'  args=<{$detail.tuan_id}>}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        提交订单
+    </div>
+</header>
+
+<div class="page_center_box">
+	<div class="pad10 bgcolor_white border_b border_t">
+        <p class="font_size14 font_line24 clear_both"><{$detail.title}><span class="pointcl1 fr price"><{$detail.price}>元</span></p>
+    </div>
+
+    <div class="pad10 bgcolor_white border_b mb10 clear_both">
+        <p class="font_size14 font_line24 fl">数量</p>
+        <div class="num_operate fr dianpu_num" >
+    		<span class="reduce jq_jian" quantity="-">-</span>
+    		<em  class="m jq_num" style="font-size:15px;padding:0 5px;">1</em>
+    		<span class="add jq_jia" quantity="+">+</span>
+		</div>
+		<input type="hidden" value="1" id="hidden_num" name="num">
+    </div>
+    <div class="pad10 bgcolor_white border_b">
+        <p class="font_size14 font_line24 clear_both">总价<span class="pointcl1 fr total"><{$detail.price}>元</span></p>
+    </div>
+    <div class="pad10 bgcolor_white border_b border_t mb10">
+        <p class="font_size14 font_line24 clear_both">总金额&nbsp;&nbsp;<span class="pointcl1 totalprice"><{$detail.price}>元</span><a href="javascript:void(0);" class="pub_btn fr pad_l10 pad_r10">确认下单</a></p>
+    </div>
+</div>
+
+<script>
+var num  = 0
+var sale_sku = parseInt("<{$detail.stock_num}>");
+var sale_type= parseInt("<{$detail.stock_type}>");
+var min_buy = parseInt("<{$detail.min_buy}>"); 
+var max_buy = parseInt("<{$detail.max_buy}>");
+$(document).ready(function() {
+	$(".jq_jia").click(function() {
+		num = parseInt($(".jq_num").text());
+        if(sale_type == 1 && (num >= sale_sku)) {
+            layer.open({content: '商品库存不足', time: 2});
+            return false;
+        }
+        if(num >= max_buy) {
+            layer.open({content:'不能超过最大购买数', time: 2});return;
+        }
+		if (num < 99) {
+			num++;
+		}
+		$(".jq_num").text(num);
+		$("#hidden_num").val(num);
+		changetotal(num);
+	});
+	$(".jq_jian").click(function() {
+		num = parseInt($(".jq_num").text());
+        if(num <= min_buy) {
+            layer.open({content: '不能低于最小购买数', time: 2});return;
+        }
+		if (num > 1) {
+			num--;
+		}
+		$(".jq_num").text(num);
+		$("#hidden_num").val(num);
+		changetotal(num);
+	});
+	$(".jq_num").focusout(function() {
+		changetotal($(this).text());
+	});
+});
+
+function changetotal(num) {
+	var price = "<{$detail.price}>";
+	var totalprice = (price * num).toFixed(2);
+	$(".totalprice").text(totalprice + '元');
+	$(".total").text(totalprice + '元');
+}
+
+// 确认支付
+$(".pub_btn").click(function () {
+    localStorage['']
+	var numbers = $('#hidden_num').val();
+	var prices = "<{$detail.price}>";
+	var shop_id = parseInt("<{$detail.shop_id}>");
+	var tuan_id = parseInt("<{$detail.tuan_id}>");
+
+    jQuery.ajax({
+        url: "<{link ctl='tuan/order:create'}>",
+        async: true,
+        dataType: 'json',
+        data: {"shop_id": shop_id,"tuan_id": tuan_id,"numbers": numbers, "prices": prices},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                layer.open({content: ret.message, time: 2});
+                if(ret.error == 101) {
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport:login'}>";
+                    }, 1000);
+                }
+            }else{
+               Widget.MsgBox.success('订单提交成功');
+                var url = ret.url;
+                setTimeout(function () {
+                    if(ret.pay_status == 0) {
+                        window.location.href = url ;
+                    }
+                }, 1000);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+
+    });
+});
+
+</script>
+<{include file="block/footer.html"}>

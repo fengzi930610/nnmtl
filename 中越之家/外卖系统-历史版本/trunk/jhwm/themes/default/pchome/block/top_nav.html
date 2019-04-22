@@ -1,0 +1,26 @@
+<div class="topOne">
+    <div class="pagewd">
+        <div class="phone fl maincl"><i class="ico"></i>手机版</div>
+        <{if $MEMBER}>
+        <span class="ajax_login_box">
+            <a href="<{link ctl='ucenter/index'}>" class="user fl maincl"><{$MEMBER.nickname}><i class="arrow_ico"></i></a>
+            <a href="<{link ctl='ucenter/message'}>" class="message fl black6"><i class="ico"></i>消息<span class="fontcl1"><{$MEMBER.message}></span><i class="arrow_ico"></i></a>
+            <a href="<{link ctl='passport/loginout'}>" class="message fl black6" style="margin-left:10px;display:inline;">退出</a>
+        </span>
+        <{else}>
+        <span class="ajax_login_box">
+        <span id="mini_login" class="message fl black6" style="margin-left:10px;display:inline;cursor:pointer;">您还没有登录,立即登录</span>
+        </span>
+        <{/if}>
+        <div class="fr link_box"><a href="<{link ctl='ucenter/index'}>">我的订单</a> <span>|</span> <a href="<{link ctl='ucenter/collectshop'}>">我的收藏</a> <span>|</span> <a href="<{link ctl='apply'}>">申请入驻</a></div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $('#mini_login').click(function(){
+            var url = "<{link ctl='passport/mini_login'}>";
+            mini_login(url);
+        })
+    })
+</script>

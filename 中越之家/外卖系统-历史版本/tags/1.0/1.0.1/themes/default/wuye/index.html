@@ -1,0 +1,92 @@
+<{include file="wuye/block/header.html"}>
+<div class="userIndex">
+ 
+        <div class="userIndex">
+
+            <{if $wuye['xiaoqu']['title']}>
+                当前绑定小区：<{$wuye['xiaoqu']['title']}>
+                <{else}>
+                您还没有绑定小区：<a href="<{link ctl='wuye/index:bind'}>">立即绑定</a>
+            <{/if}>
+            
+            <div class="userIndex_order_box">
+            <div class="userIndex_order lt">
+                <ul>
+                    <li class="userIndex_order_list" style="border:1px solid #cccccc;margin-top:10px;">
+                        <div class="lt">
+                            <i class="lt ico ico_1"></i>
+                            <div class="wz">
+                                <p>业主数量</p>
+                                <p class="num"><{$count.yezhu}><span>位</span></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='wuye/yezhu/index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                    <li class="userIndex_order_list" style="border:1px solid #cccccc;margin-top:10px;">
+                        <div class="lt">
+                            <i class="lt ico ico_3"></i>
+                            <div class="wz">
+                                <p>未处理提现</p>
+                                <p class="num"><{$count.tixian}><span>次</span></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='wuye/tixian/index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                    <li class="userIndex_order_list" style="border:1px solid #cccccc;margin-top:10px;">
+                        <div class="lt">
+                            <i class="lt ico ico_2"></i>
+                            <div class="wz">
+                                <p>未缴费订单</p>
+                                <p class="num"><{$count.bill}><span>条</span></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='wuye/bill/index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="userIndex_order rt">
+                <ul>
+                    <li class="userIndex_order_list" style="border:1px solid #cccccc;margin-top:10px;">
+                        <div class="lt">
+                            <i class="lt ico ico_4"></i>
+                            <div class="wz">
+                                <p>便民服务数量</p>
+                                <p class="num"><{$count.bianmin}><span>条</span></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='wuye/bianmin/index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                    <li class="userIndex_order_list" style="border:1px solid #cccccc;margin-top:10px;">
+                        <div class="lt">
+                            <i class="lt ico ico_5"></i>
+                            <div class="wz">
+                                <p>未处理投诉</p>
+                                <p class="num"><{$count.report}><span>条</span></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='wuye/report/index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                    <li class="userIndex_order_list" style="border:1px solid #cccccc;margin-top:10px;">
+                        <div class="lt">
+                            <i class="lt ico ico_6"></i>
+                            <div class="wz">
+                                <p>未处理报修</p>
+                                <p class="num"><{$count.baoxiu}><span>条</span></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='wuye/baoxiu/index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="cl"></div>
+        </div>
+
+        </div>
+</div>
+<{include file="wuye/block/footer.html"}>

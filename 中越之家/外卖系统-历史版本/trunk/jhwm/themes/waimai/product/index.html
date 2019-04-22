@@ -1,0 +1,612 @@
+<{assign var='tpl_title' value=L("商品/商家")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+    #idx_serch_container .page { display: block; transition: all 0.3s; height: 100%; width: 100%; left: -100%; }
+    #idx_serch_container.on .page{ left: 0;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <!--头部搜索-->
+            <div class="topSerch_box pub_list">
+                 <div class="pub_list_bd">
+                     <input type="search" class="int" id="idx_serch_container_show" value="<{$pager.title}>" placeholder="搜索商家、 商品"/>
+                </div>
+                <!-- <input type="button" value="" class="btn"> -->
+            </div>
+            <!--头部搜索end-->
+            <!--头部tab切换-->
+            <!-- <div class="topTab_box border_b">
+                <div class="list list_product on" rel="product"><a href="javascript:void(0);">商品</a></div>
+                <div class="list list_shop" rel="shop"><a href="javascript:void(0);">商家</a></div>
+            </div> -->
+            <!--头部tab切换end-->
+            <!--头部下拉-->
+            <{if $pager.title==''}>
+            <div class="takeout-list-title border_b mb10">
+                <a class="list" href="javascript:void(0);">分类</a>
+                <span class="line"></span>
+                <a class="list" href="javascript:void(0);">区域</a>
+                <span class="line"></span>
+                <a class="list" href="javascript:void(0);">排序</a>
+                <span class="line"></span>
+                <a href="javascript:;" class="see_style"></a>
+            </div>
+            <{/if}>
+
+            <div class="takeout-list-mask" style="padding-top:128px;">
+                <div class="mask-list">
+                    <div class="list">
+                        <div class="left fl">
+                            <ul>
+                                <{if $cid}>
+                                <li <{if !$scate_id}>class="on"<{/if}>><a href="<{link ctl='product/index' cid=$cid http='waimai'}>">全部分类<span>(<{$count}>)</span></a></li>
+                                <{/if}>
+                                <{foreach $scates as $cate}>
+                                    <li class="jq_cat_<{$cate.cate_id}> <{if $scate_id == $cate.cate_id}>on<{/if}>" ><a <{if $cate.children}>href="javascript:void(0);"<{else}>href="javascript:setloadparams('cat_id','<{$cate.cate_id}>');"<{/if}>><{$cate.title}><span>(<{$cate.count|default:0}>)</span></a><{if $cate.children}><i></i><{/if}></li>
+                                <{/foreach}>
+                                <!--<li><a href="#">品牌馆<span>(7)</span></a></li>-->
+                            </ul>
+                        </div>
+                        <div class="right fr">
+                            <ul>
+                                <{if $cid}><li class="right_list takeout_wu">当前为全部外卖类目</li><{/if}>
+                                <{foreach $scates as $cate}>
+                                    <li class="right_list">
+                                        <ul>
+                                            <li class="jq_cat_<{$cate.cate_id}> <{if $cate.cate_id == $scate_id || ($cate.cate_id != $scate_id&&$cate.count==0)}>on<{/if}>"><a class="display" href="javascript:setloadparams('cat_id','<{$cate.cate_id}>');">全部</a></li>
+                                            <{foreach $cate.children as $cat}>
+                                            <li class="jq_cat_<{$cat.cate_id}> <{if $pager.cat_id == $cat.cate_id}>on<{/if}>"><a class="display" href="javascript:setloadparams('cat_id','<{$cat.cate_id}>');"><{$cat.title}></a></li>
+                                            <{/foreach}>
+                                        </ul>
+                                    </li>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="takeout_mask-bg"></div>
+                </div>
+                <div class="mask-list">
+                    <div class="list">
+                        <div class="left fl">
+                            <ul>
+                                <li class="on"><a class="display" href="javascript:setloadparams('area_id',0,'biz_id',0);">全部地区</a></li>
+                                <{foreach $areas as $area}>
+                                    <{if $area.bizs}>
+                                        <li><a href="javascript:void(0);"><{$area.area_name}></a><i></i></li>
+                                    <{else}>
+                                    <li><a class="display" href="javascript:setloadparams('area_id','<{$area.area_id}>','biz_id',0);"><{$area.area_name}></a><i></i></li>
+                                    <{/if}>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                        <div class="right fr">
+                            <ul>
+                                <li class="right_list takeout_wu">当前为全部地区</li>
+                                <{foreach $areas as $area}>
+                                    <{if $area.bizs}>
+                                    <li class="right_list">
+                                        <ul>
+                                            <li><a class="display" href="javascript:setloadparams('area_id','<{$area.area_id}>','biz_id',0);">全部商圈</a></li>
+                                            
+                                            <{foreach $area.bizs as $biz}>
+                                            <li><a class="display" href="javascript:setloadparams('area_id','<{$area.area_id}>','biz_id','<{$biz.business_id}>');"><{$biz.business_name}></a></li>
+                                            <{/foreach}>
+                                        </ul>
+                                    </li>
+                                    <{else}>
+                                    <li class="right_list takeout_wu">暂无商圈</li>
+                                    <{/if}>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="takeout_mask-bg"></div>
+                </div>
+                <div class="mask-list">
+                    <div class="order">
+                        <ul class="list_order_product paixu_change">
+                            <li class="on"><a class="display" href="javascript:setloadparams('order','d');">默认排序</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','sales');">销售最高</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','price');">价格最低</a><i class="ico_on"></i></li>
+                        </ul>
+                        <ul class="list_order_shop none paixu_change">
+                            <li class="on"><a class="display" href="javascript:setloadparams('order','d');">智能排序</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','j');">距离最近</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','f');">评分最高</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','s');">销售最高</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','q');">起送价最低</a><i class="ico_on"></i></li>
+                            <li><a class="display" href="javascript:setloadparams('order','p');">配送最快</a><i class="ico_on"></i></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="takeout_mask-bg"></div>
+                </div> 
+            </div>
+            <!--头部下拉end-->
+            <div class="container_mid">
+                <div class="list_change_cont list_cont_product">
+                    <!--产品列表-->
+                    <!-- <div class="goods_list_box mb10">
+                        <ul id="index_goods_items">
+                            
+                        </ul>
+                        <div class="loadding">
+
+                        </div>
+                        <div class="clear"></div>
+                    </div> -->
+                    <div class="searchShopGoods">
+                        <ul>
+                            <li class="shopList">
+                               <div class="logo"></div> 
+                               <div class="right_box">
+                                   <h3 class="overflow_clear">士林便当（琳琅街店）</h3>
+                                   <div class="bq_box">
+                                       <span>22减13</span>
+                                       <span>22减13</span>
+                                       <span>22减13</span>
+                                       <span>22减13</span>
+                                   </div>
+                                   <div class="productList">
+                                       <ul>
+                                           <li>
+                                               <div class="pic"></div>
+                                               <div class="wz_box">
+                                                   <h3 class="overflow_clear">红烧狮子头米<span class="light">饭</span>+赠饮</h3>
+                                                   <div class="txt">月售200 赞0</div>
+                                                   <div class="price"><small>￥</small>25.80</div>
+                                               </div>
+                                           </li>
+                                           <li>
+                                               <div class="pic"></div>
+                                               <div class="wz_box">
+                                                   <h3 class="overflow_clear">红烧狮子头米<span class="light">饭</span>+赠饮</h3>
+                                                   <div class="txt">月售200 赞0</div>
+                                                   <div class="price"><small>￥</small>25.80</div>
+                                               </div>
+                                           </li>
+                                       </ul>
+                                       <div class="more">展开更多商品 4个<i class="ico"></i></div>
+                                   </div>
+                               </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <script type="text/javascript">
+                        $('.searchShopGoods .productList .more').on("click", function () {
+                            if($(this).parent().find("ul").hasClass("on")){
+                                $(this).parent().find("ul").removeClass("on");
+                            }else{
+                                $(this).parent().find("ul").addClass("on");
+                            };
+                        });
+                    </script>
+                    <!--产品列表end-->
+                </div>
+                <div class="list_change_cont none list_cont_shop">
+                    <div class="take-out_tuijian idx_take-out_tuijian">
+                        <div class="store_lists">
+                            <ul id="index_goods_items2">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="loadding">
+
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="goto_top"></a>
+<!--搜索弹出-->
+<div class="container <{if $search=='1'}>on<{/if}> " id="idx_serch_container">
+    <div class="page js_show">
+    	<div class="page_cont coupons_sousuo-cont">
+            <div class="sousuo-box pub_list">
+                <div class="pub_list_bd">
+                    <input type="text" value="<{$pager.title}>" class="shuru-inp" id="souInput"  placeholder="搜索商家" />
+                </div>
+                <!-- <input type="button" class="sou-btn"> -->
+                <a href="javascript:" class="icon-cha" id="clearCha">取消</a> 
+            </div> 
+            <div class="container_mid">  
+                <div class="hot_sou">
+                    <div class="the-tit pub_list mb10">
+                        <div><i class="ico mr5 ico-history"></i>历史搜索</div>
+                        <a href="javascript:void(0);" class="clear-btn"><i class="ico mr5 clear-ico"></i>清除</a>
+                    </div> 
+                    <div class="sou-list2">
+                        <ul id="search_history">
+                            
+                        </ul>
+                    </div>   
+                </div>           	
+                <div class="hot_sou">
+                    <div class="the-tit pub_list mb10">
+                        <div><i class="ico mr5"></i>热门搜索</div>
+                    </div> 
+                    <div class="sou-list1">
+                        <ul>
+                            <{foreach $hotwaimai as $item}>
+                            <li class="fl"><a href="<{link ctl='product/index' title=$item http='waimai'}>" class="sou-a"><{$item}></a></li>
+                            <{/foreach}>
+                            <div class="clear"></div>
+                        </ul>
+                    </div>   
+                </div>
+            </div>
+            <!--<a href="javascript:void(0);" class="close_btn"><span>×</span></a>-->
+        </div>
+    </div>
+</div>
+<!--搜索弹出end-->
+<script>
+$(function(){
+    $("#souInput").on("input",function(){
+        if($(this).val().length!=0){
+           $("#clearCha").css("display","block"); 
+        }else{
+           $("#clearCha").css("display","none");
+        }
+    });
+     $("#clearCha").on("click",function(){
+            $(this).hide();
+            $("#souInput").val('');
+            $("#souInput").focus();
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    //alert($(".activity .first").find("p").length);
+    //$(document).on("each",".activity .first",function(){
+    setTimeout(function(){
+        $(".activity .first").each(function(){
+            var num = $(this).find("p").length;
+            if(num>2){
+                $(this).find(".pull_down span").html(num+'个');
+                $(this).find(".pull_down").show();
+            }/*else{
+                $(this).find(".pull_down").remove();
+            }*/
+        })
+    },500)
+})
+   
+/*$(document).on('click','.activity .first .pull_down',function(){
+    //$(this).parents('.activity').find('.hide_show').toggle();
+    if($(this).parent().hasClass("on")){
+        $(this).parent().removeClass("on");
+    }else{
+        $(this).parent().addClass("on");
+    }
+    $('.activity .first .pull_down').removeClass('on');
+    $(this).children('i').toggleClass('on');
+});*/
+$(document).on('click','.activity .pull_down',function(){
+        var len=$(this).parents('.activity').find('.first p').length;
+        if($(this).find('i').hasClass('on')){
+            $(this).parents('.activity').find('.first').css("max-height",'40px');
+            $(this).parents('.activity').find('.first').animate({height:"40px"},300);
+            $(this).find('i').removeClass('on');
+        }else{
+            $(this).parents('.activity').find('.first').css("max-height",20*len+'px');
+            $(this).parents('.activity').find('.first').animate({height:20*len+'px'},300);
+            $(this).find('i').addClass('on');
+        }
+    })
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        // 读取历史搜索记录
+        var html = "";
+        if(localStorage['search_history']) {
+            var str = localStorage['search_history'];
+            var strs = new Array();
+            var strs = str.split(",");  
+            strs = Unique(strs); //去重复元素
+            for (var i = strs.length - 1; i >= strs.length - 5; i--) {
+                if(strs[i] != undefined) {
+                    var link_url = "<{link ctl='product/index' http='waimai'}>";
+                    var url  =   link_url+"?title="+encodeURIComponent(strs[i]);
+                    html += '<li> <a class="sou-b" href="'+url+'">'+strs[i]+'</a> </li>';
+
+                }
+            }
+            $('#search_history').html(html);
+        }
+        
+        // 搜索事件
+        $(".sou-btn").click(function(){
+            /*var search_title = $('#souInput').val(); 
+            if(localStorage['search_history']) {
+                localStorage['search_history'] = localStorage['search_history'] + ',' +search_title;
+            }else {
+                localStorage['search_history'] = search_title;
+            }
+            var link = "<{link ctl='product/index' title='tmp' http='waimai'}>";
+            var link2 = "<{link ctl='shoplist/index' http='waimai'}>";
+            if(search_title){
+                window.location.href = link.replace('tmp',search_title);
+            }else{
+                 window.location.href  = link2;
+            }*/
+            souClick();
+            
+        });
+
+        document.onkeydown=function(event){  //enter键搜索
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode == 13){
+                souClick();
+            }
+        }
+
+        // 清空输入
+        $("#clearCha").click(function(){
+            $('#souInput').val("");
+        });
+
+        // 清空搜索记录
+        $(".clear-btn").click(function(){
+            $('#souInput').val("");
+            localStorage.removeItem('search_history');
+            if(localStorage['search_history'] == undefined) {
+                $('#search_history').empty().html("");
+            }
+        });
+    });
+
+
+    function souClick(){
+        var search_title = $('#souInput').val(); 
+        if(localStorage['search_history']) {
+            localStorage['search_history'] = localStorage['search_history'] + ',' +search_title;
+        }else {
+            localStorage['search_history'] = search_title;
+        }
+        var link = "<{link ctl='product/index' title='tmp' http='waimai'}>";
+        var link2 = "<{link ctl='shoplist/index' http='waimai'}>";
+        if(search_title){
+            window.location.href = link.replace('tmp',search_title);
+        }else{
+             window.location.href  = link2;
+        }
+    }
+    
+    
+    $(function(){
+        $("#idx_serch_container_show").click(function(){
+            $("#idx_serch_container").addClass("on");
+            $(".pubnodata_box").remove();//删除无数据样式
+    	});
+    	$("#idx_serch_container .close_btn").click(function(){
+                $("#idx_serch_container").removeClass("on");
+    	});
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var cat_id = "<{$pager.cat_id}>";
+        var scate_id = "<{$scate_id}>";
+        if(cat_id){
+            $(".jq_cat_"+cat_id).addClass("on");
+            $(".right_list").hide();
+            $(".jq_cat_"+cat_id).parent().parent().show();
+        }
+        if(scate_id){
+            $(".jq_cat_"+scate_id).addClass("on");
+            if(scate_id != cat_id){
+                $(".right .jq_cat_"+scate_id).removeClass("on");
+            }
+        }
+    })
+   
+    $('.takeout-list-mask .left ul li').click(function () {
+        var tk_idx = $(this).index();
+        $(this).addClass('on').siblings().removeClass('on');
+        $(this).parents(".list").find('.right .right_list').eq(tk_idx).show().siblings().hide();
+    })
+    $('.takeout-list-mask .right .right_list li').click(function () {
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+    $('.takeout-list-title a.list').click(function () {
+        $(this).toggleClass('on').siblings().removeClass('on');
+        $('.takeout-list-mask').show();
+        var ind = $(this).index();
+        $('.takeout-list-mask .mask-list').eq(ind / 2).toggle().siblings().hide();
+        if ($(this).hasClass("on")) {
+            $('.takeout-list-mask').show();
+        } else {
+            $('.takeout-list-mask').hide();
+        }  
+    })
+    if($('.takeout-list-title').length > 0){
+        $('.takeout-list-title a.list').width(100 / $('.takeout-list-title a.list').length + '%');  
+    }
+    $('.takeout-list-mask .choose a').click(function () {
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    $('.takeout_mask-bg').click(function(){
+        $('.takeout-list-mask .mask-list').hide();
+        $('.takeout-list-title a').removeClass('on');
+    });
+    $('.mask-list li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on')
+    })
+</script>
+<script>
+$(document).ready(function () {   
+    change_type();
+    window.params = {"cat_id": "<{$pager.cat_id}>","order":"<{$pager.order}>"};
+    var title = "<{$pager.title}>";
+    if(title){
+        window.params['title'] = title;
+    }
+    var page = 1;
+    var type=  localStorage.getItem('type');
+    if(type==null){
+        var obj2 = 'list_cont_shop' ;
+    }
+    if(type=='shop'){
+        var obj2 = 'list_cont_shop';
+    }
+    if(type=='product'){
+        var obj2 = 'list_cont_product';
+    }
+
+    load(window.params,page);
+    scroll(link,window.params,page,'.container_mid', obj2,list_id);
+    
+    $('.see_style').click(function(){
+        if($(this).hasClass('see_style_none')){
+            return false;
+        }else{
+            if($(this).hasClass('singel')){
+                localStorage.setItem('switch', 0);
+                $(this).removeClass('singel');
+                $('.goods_list_box').removeClass('goods_list_box_singel');
+            }else{
+                localStorage.setItem('switch', 1);
+                $(this).addClass('singel');
+                $('.goods_list_box').addClass('goods_list_box_singel');
+            }
+        }
+    });
+    
+    $(".topTab_box .list").each(function (e) {
+        $(this).click(function () {
+            change_type();
+            localStorage.setItem('type', $(this).attr("rel"));
+            load(params,page);
+            setTimeout(function(){ //切换时候活动显示
+                $(".activity .first").each(function(){
+                    var num = $(this).find("p").length;
+                    if(num>2){
+                        $(this).find(".pull_down span").html(num+'个');
+                        $(this).find(".pull_down").show();
+                    }/*else{
+                        $(this).find(".pull_down").remove();
+                    }*/
+                })
+            },500)
+            $(this).addClass("on").siblings(".list").removeClass("on");
+            $(".list_change_cont").each(function (i) {
+                if (e == i) {
+                    $(this).removeClass("none").siblings(".list_change_cont").addClass("none");
+                } else {
+                    $(this).addClass("none")
+                }
+                if (e == 1) {
+                    $(".see_style").addClass("see_style_none");
+                    $(".see_style").removeClass('singel');
+                } else {
+                    $(".see_style").removeClass("see_style_none");
+                    var sw = localStorage.getItem('switch');
+                    if(sw == 1){
+                        $(".see_style").addClass("singel");
+                        $(".goods_list_box").addClass("goods_list_box_singel");
+                    }else{
+                        $(".see_style").removeClass("singel");
+                        $(".goods_list_box").removeClass("goods_list_box_singel");
+                    }
+                }
+            });
+            $(".paixu_change").each(function(a){
+                if(e==a){
+                    $(".paixu_change").hide();
+                    $(this).show();
+                }else{
+                   $(this).hide(); 
+                }
+            });
+        });
+    });
+    
+    
+    //切换商品、商家列表相关
+    function change_type(){
+        var type = localStorage.getItem('type')||'shop';
+        var sw = localStorage.getItem('switch');
+        $(".topTab_box .list").removeClass("on");
+        $(".list_"+type).addClass("on");
+        $(".container_mid .list_change_cont").addClass("none");
+        $(".list_cont_"+type).removeClass("none");
+        $(".order ul").addClass("none");
+        $(".list_order_"+type).removeClass("none");
+        if(type == 'shop'){
+            $(".see_style").addClass("see_style_none");
+        }else{
+            if(sw == 1){
+                $(".see_style").addClass("singel");
+                $(".goods_list_box").addClass("goods_list_box_singel");
+            }else{
+                $(".see_style").removeClass("singel");
+                $(".goods_list_box").removeClass("goods_list_box_singel");
+            }
+        }
+    }
+});
+    
+    
+    
+    
+
+        
+    function load(params,page){
+        var type = localStorage.getItem('type')||'shop';
+        if(type == 'shop'){
+            var link = "<{link ctl='product/loadshops' arg0='#page#' http='waimai'}>";
+            var list_id = "index_goods_items2";
+        }else{
+            var link = "<{link ctl='product/loaditems' arg0='#page#' http='waimai'}>";
+        }
+        //console.log(params);
+        loadpage(link,params,page,list_id);
+    }
+    
+    var page = 1;
+    window.params = {"cat_id": "<{$pager.cat_id}>","order":"<{$pager.order}>"};
+    var title = "<{$pager.title}>";
+    if(title){
+        window.params['title'] = title;
+    }
+    var type = localStorage.getItem('type')||'shop';
+    if(type == 'shop'){
+        var link = "<{link ctl='product/loadshops' arg0='#page#' http='waimai'}>";
+        var list_id = "index_goods_items2";
+        var obj2 = 'list_cont_shop' ;
+    }else{
+        var link = "<{link ctl='product/loaditems' arg0='#page#' http='waimai'}>";
+        var obj2 = 'list_cont_product' ;
+    }
+
+    
+    function setloadparams(k,v,k1,v1) {
+        var page = 1;
+        window.params[k] = v;
+        if(k1){
+            window.params[k1] = v1;
+        }
+        $('.takeout-list-mask').hide();
+        $('.takeout-list-mask .mask-list').hide();
+        $('.takeout-list-title a').removeClass('on');
+        var type = localStorage.getItem('type')||'shop';
+        if(type == 'shop'){
+            var link = "<{link ctl='product/loadshops' arg0='#page#' http='waimai'}>";
+            var list_id = "index_goods_items2";
+            var obj2 = 'list_cont_shop' ;
+        }else{
+            var link = "<{link ctl='product/loaditems' arg0='#page#' http='waimai'}>";
+            var obj2 = 'list_cont_product' ;
+        }
+        load(window.params,page);
+        scroll(link,window.params,page,'.container_mid',obj2,list_id);
+    }    
+</script>
+<{include file="waimai/block/footer.html"}>

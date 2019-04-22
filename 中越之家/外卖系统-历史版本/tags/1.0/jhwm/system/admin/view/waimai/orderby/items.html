@@ -1,0 +1,41 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">
+				<{link ctl="waimai/orderby:create" class="button" title="添加排序"}>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+		<div class="orderby_sort">商户默认排序：
+            <label><input type="radio" name="pai" checked="checked" value="-1">距离</label>&nbsp;&nbsp;
+            <label><input type="radio" name="pai" value="0">买过</label>&nbsp;&nbsp;
+            <label><input type="radio" name="pai" value="1">浏览过</label>
+            <small class="black9">优先按照时间段设置排序，时间段之外按照默认排序</small>      
+        </div>
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">序号</th>
+                <th class="w-200">时间段</th>
+                <th class="">分类排序</th>
+                <th class="w-300">操作</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>00:00 - 06:30</td>
+                <td>分类排序</td>
+                <td>
+                	<{link ctl="waimai/print:edit" args=$item.plat_id class="button" title="编辑"}>
+                    <{link ctl="waimai/print:delete" args=$item.plat_id act="mini:删除" confirm="mini:确定要删除该时间段？" title="删除" class="button"}>
+                </td>
+            </tr>
+            <tr><td colspan="4"><p class="text-align tip-notice">没有数据</p></td></tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

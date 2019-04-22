@@ -1,0 +1,157 @@
+<{assign var='tpl_title' value='换绑手机'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter/info:index'}>"  link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	换绑手机
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<section class="page_center_box">
+    <div class="loginPage" style="padding:0;">
+        <div class="mt10">
+        	<form action="" method="post">
+            <div class="loginPage_int_box border_b border_t">
+            	<div class="pub_ico fl"><em class="ico ico_1"></em></div>
+                <div class="pub_box">
+                    <input class="long_int old_passwd" type="text" value="<{$mobile}>" readonly="true">
+                </div>
+            </div>
+            <div class="loginPage_int_box border_b">
+            	<div class="pub_ico fl"><em class="ico ico_3"></em></div>
+                <div class="pub_box">
+                    <input class="long_int" id="pswd" type="password" placeholder="登录密码验证">
+                </div>
+            </div>
+            <div class="loginPage_int_box border_b">
+            	<div class="pub_ico fl"><em class="ico ico_1"></em></div>
+                <div class="pub_box">
+                    <input class="long_int" id="new_mobile" type="text" placeholder="请输入新手机号">
+                </div>
+            </div>
+            <div class="loginPage_int_box border_b">
+            	<div class="pub_ico fl"><em class="ico ico_2"></em></div>
+                <div class="pub_box">
+                    <input class="long_int" id="yzm" type="text" placeholder="请输入验证码">
+                    <a href="javascript:;" class="pub_btn get_yzm" id="send">获取验证码</a>
+                </div>
+            </div>
+            <p class="pad_l10 pad_r10 mt10 mb10 black9">若旧手机丢失请联系客服，客服热线：400-12332145</p>
+            <div class="btn_box">
+                <input class="long_btn" type="button" value="立即提交">
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="mask_box">
+        <div class="couponMoney_mask maskOne txt_center">
+            <div class="cont mt10">
+            	<p class="font_line24 font_size14">请确认输入不享受金额</p>
+                <div class="border_b">
+                    <input type="text" class="long_int" placeholder="￥请与服务员确认">
+                </div>
+            </div>
+            <div class="btn_box mb10">
+            	<input type="button" class="pub_btn cancel" style="background:#dddddd;" value="取消" />
+            	<input type="button" class="pub_btn" style="background:#ff5959;" value="确定" />
+            </div>
+        </div>
+    	<div class="mask_bg"></div>
+    </div>
+
+</section>
+<script type="text/javascript">
+
+/*判断浏览器是否支持placeholder开始*/
+$(function(){
+    if(!placeholderSupport()){   // 判断浏览器是否支持 placeholder
+        $('[placeholder]').focus(function(){
+            var input = $(this);
+            if (input.val() == input.attr('placeholder')) {
+                input.val('');
+                input.removeClass('placeholder');
+            }
+        }).blur(function(){
+            var input = $(this);
+            if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                input.addClass('placeholder');
+                input.val(input.attr('placeholder'));
+            }
+        }).blur();
+    }
+});
+function placeholderSupport() {
+    return 'placeholder' in document.createElement('input');
+}
+/*判断浏览器是否支持placeholder结束*/
+
+$(document).ready(function(){
+    var minute = 60;
+	var mobile_timeout;
+    var mobile_count = minute;
+    var mobile_lock = 0;
+    BtnCount = function () {
+        if (mobile_count == 0) {
+		    $(".get_yzm").addClass("on");
+            $('.get_yzm').removeAttr("disabled");
+            $('.get_yzm').text("重新获取");
+            mobile_lock = 0;
+            clearTimeout(mobile_timeout);
+		    $('.get_yzm').removeClass("on");
+        }else {
+            mobile_count--;
+            $('.get_yzm').text( + mobile_count.toString() + "秒...");
+            mobile_timeout = setTimeout(BtnCount, 1000);
+        }
+    };
+    $("#send").click(function () {
+        if (mobile_lock == 0) {
+            var new_mobile = $('#new_mobile').val();
+            var link = "<{link ctl='passport/sendsms'}>";
+            $.post(link,{mobile:new_mobile},function(ret){
+                console.log(ret);
+                if(ret.error == 0){
+                    BtnCount();
+                    mobile_lock = 1;
+                    $('#send').css({background:'#AAAAAA'});
+                    $('.get_yzm').attr("disabled", "disabled");
+               }else{
+                    $('#send').css({background:'#59C181'});
+                    layer.open({
+                        content: ret.message,
+                        time: 2 //2秒后自动关闭
+                    });
+                    mobile_lock = 0;
+               }
+           },'json');
+            mobile_count = minute;
+        }
+    });
+    $('.long_btn').click(function(){
+        var new_mobile = $('#new_mobile').val();
+        var yzm = $('#yzm').val();
+        var pswd = $('#pswd').val();
+        var link = "<{link ctl='ucenter/info/set_mobile' }>";
+        $.post(link, {yzm:yzm, pswd:pswd,new_mobile:new_mobile}, function (ret) {
+            if (ret.error == 0) {
+                layer.open({
+                    content: ret.message,
+                    time: 2 //2秒后自动关闭
+                });
+                setTimeout(function(){
+                   window.location.href=ret.forward;
+                },1000)
+                BtnCount();
+            } else {
+                layer.open({
+                    content: ret.message,
+                    time: 2 //2秒后自动关闭
+                });
+                return ;
+            }
+        }, 'json');
+    });
+})
+</script>
+<{include file="block/sfooter.html"}>
+<{include file="block/footer.html"}>

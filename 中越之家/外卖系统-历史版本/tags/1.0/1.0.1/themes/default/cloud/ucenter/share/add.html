@@ -1,0 +1,99 @@
+<{include file="cloud/block/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/jquery.form.js"></script>
+<div class="page page-current"> 
+    <!--头部-->
+    <form action="<{link ctl='cloud/ucenter/share/handle' }>" mini-form="car-form" id="comment_form" method="post">
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco back headerIco2"></a>
+            <h1 class="title">我的晒单</h1>
+
+            <!--<span class="button pull-right"><input type="submit" value="发表" id="comment_submit" class="" style="background: none; border: none; margin-top: 0.05rem;" /></span>-->
+        </header>
+        <script>
+            function fileSelected(obj, type) {
+                var files = obj.files;
+                for (var i = 0; i < files.length; i++) {
+                    var tag = '';
+                    var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                    if (!rFilter.test(files[i].type)) {
+                        alert("只允许上传JPG、PNG、GIF格式图片");
+                        return false;
+                    }
+                    var reader = new FileReader();
+                    reader.onloadstart = function (e) {
+                        $(".loading").show();
+                    }
+                    reader.onload = function (e) {
+                        $('.camera' + type).hide();
+                        //$('#photo' + type).hide();
+                        $("#img" + type).css("max-width","none");
+                        $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                    }
+                    reader.readAsDataURL(files[i]);
+                }
+            }
+        </script>
+        <!--头部结束-->
+        <div class="content">
+
+            <div class="list-block show-dan">
+                <ul>
+                    <li class="align-top">
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-input">
+                                    <textarea name="data[content]" placeholder="写下中奖体会和感受来帮助其他小伙伴~"></textarea>
+                                    <p class="txt_right black9"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="camera-box">
+                    <div class="camera-show border">
+                        <img class="camera1" src="/themes/default/cloud/static/images/camera.png">
+                        <input type="file" name="photo1" id="photo1" onchange="fileSelected(this, 1)" value="上传"   />
+                        <img src="" id="img1" style="display:none;" width="100%" height="100%" />
+                    </div>
+                </div>
+                <div class="camera-box">
+                    <div class="camera-show border">
+                        <img class="camera2" src="/themes/default/cloud/static/images/camera.png">
+                        <input type="file" name="photo2" id="photo2" onchange="fileSelected(this, 2)" value="上传"   />
+                        <img src="" id="img2" style="display:none;" width="100%" height="100%" />
+                    </div>
+                </div>
+                <div class="camera-box">
+                    <div class="camera-show border">
+                        <img class="camera3" src="/themes/default/cloud/static/images/camera.png">
+                        <input type="file" name="photo3" id="photo3" onchange="fileSelected(this, 3)" value="上传"   />
+                        <img src="" id="img3" style="display:none;" width="100%" height="100%" />
+                    </div>
+                </div>
+                <div class="camera-box">
+                    <div class="camera-show border">
+                        <img class="camera4" src="/themes/default/cloud/static/images/camera.png">
+                        <input type="file" name="photo4" id="photo4" onchange="fileSelected(this, 4)" value="上传"   />
+                        <img src="" id="img4" style="display:none;" width="100%" height="100%" />
+                    </div>
+                </div>
+                <input type='hidden' name='data[attr_id]' id='attr_id' value='<{$detail.attr_id}>'>
+            </div>
+            <div class="content-block"><input type="submit" value="确认发布" id="comment_submit" style="border: none;"  class="button button-big button-fill"></div>
+        </div>
+    </form>     
+</div>
+<script>
+    jQuery("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+            if (ret.error == 0) {
+                $.alert(ret.message);
+                setTimeout(function () {
+                    window.location.href = "<{link ctl='cloud/ucenter/share'}>";
+                }, 2000);
+            } else {
+                $.alert(ret.message);
+                return false;
+            }
+        }});
+</script>
+<{include file="cloud/block/footer.html"}>

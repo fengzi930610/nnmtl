@@ -1,0 +1,45 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/shop:waimai'}>" class="on">外卖</a>
+	<a href="<{link ctl='biz/shop:tuan'}>">团购</a>
+	<a href="<{link ctl='biz/shop:quan'}>">代金券</a>
+	<a href="<{link ctl='biz/shop:maidan'}>">买单优惠</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/shop:waimai'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">
+ <tr><th><span class="red">*</span>店铺名称：</th><td><input disabled="disabled" type="text" value="<{$shop.title|default:''}>" class="input w-300"/></td></tr>
+    <tr><th>店铺LOGO：</th>
+        <td>
+        <input disabled="disabled" type="text" class="input w-300" id="file_photo" value="<{$shop.logo}>" <{if $shop.logo}>photo="<{$pager.img}>/<{$shop.logo}>"<{/if}> />
+    </tr>
+    <tr><th><span class="red">*</span>手机号：</th><td><input disabled="disabled" type="text"  value="<{$shop.mobile|default:''}>" class="input w-300"/></td></tr>
+    <tr><th><span class="red">*</span>联系电话：</th><td><input disabled="disabled" type="text"  value="<{$shop.phone|default:''}>" class="input w-300"/></td></tr>
+<tr>
+<th><span class="red">*</span>选择显示模板：</th>
+    <td>
+        <label><input type="radio" name="data[tmpl_type]" value="waimai" <{if $waimai.tmpl_type == 'waimai'}>checked="checked"<{/if}>/>外卖模板</label>
+        <label><input type="radio" name="data[tmpl_type]" value="market" <{if $waimai.tmpl_type == 'market'}>checked="checked"<{/if}>/>商超模板</label>
+    </td>
+</tr>
+<th><span class="red">*</span>申请外卖：</th>
+    <td>
+        <label><input type="radio" name="data[have_waimai]" value="3" <{if $shop.have_waimai == 1}>checked="checked"<{/if}>/>开启</label>
+        <label><input type="radio" name="data[have_waimai]" value="4" <{if $shop.have_waimai == 0}>checked="checked"<{/if}>/>关闭</label>
+        <{if $shop.have_waimai == 3 || $shop.have_waimai == 4}><label><input type="radio" checked="checked"/>待审核</label><{/if}>
+    </td>
+</tr>
+
+    <tr><th></th><td><input type="submit" value="提交申请" class="btn btn-primary" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

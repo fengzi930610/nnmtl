@@ -1,0 +1,63 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th>文档编辑</th>
+        <td align="right"></td><td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+    <tr>
+        <th class="w-150" rowspan="3"><img  src="../themes/<{$detail.theme}>/<{$detail.thumb}>" photo="../themes/<{$detail.theme}>/<{$detail.thumb}>" class="wh-100"/></th>
+        <td><{$nowtmpl}></td>
+    </tr>
+    <tr><td><{$detail.title}>(<{$detail.theme}>)</td></tr>
+    <tr>
+        <td>
+            <{if $tmpldir != $theme }>
+            <{link ctl="system/theme:detail" arg0=$theme_id arg1=$uptheme class="button" title="上一级"}>
+            <{link ctl="system/theme:detail" arg0=$theme_id class="button" title="回到首页"}>
+            <{else}>
+            <{link ctl="system/theme:index" class="button" title="更换模板"}>
+            <{/if}>
+        </td>
+    </tr>
+</table>    
+<form action="/admin/?system/theme-tmplsave.html" mini-form="theme-form" method="post">
+<input type="hidden" name="theme_id" value="<{$theme_id}>" />
+    <input type="hidden" name="tmpl" value="<{$nowtmpl}>" />
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+      
+        <tr><th>内容：</th>
+            <td>
+                <textarea name="content" id="theme-tmpl-editor" style="width:800px; height:500px;"></textarea>
+            </td>
+        </tr>
+        <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+    </table>
+</form>
+</div>
+<link rel="stylesheet" href="<{$pager.url}>/script/codemirror/lib/codemirror.css">
+<script src="<{$pager.url}>/script/codemirror/lib/codemirror.js"></script>
+<script src="<{$pager.url}>/script/codemirror/mode/xml/xml.js"></script>
+<script src="<{$pager.url}>/script/codemirror/mode/css/css.js"></script>
+<script src="<{$pager.url}>/script/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="<{$pager.url}>/script/codemirror/addon/edit/matchbrackets.js"></script>
+<style type="text/css">.CodeMirror {height: 500px; }</style>
+<script type="text/javascript">
+(function(K, $){
+	var content = <{$content}>
+    $("#theme-tmpl-editor").val(content.content);
+    var editor = CodeMirror.fromTextArea(document.getElementById("theme-tmpl-editor"), {
+      lineNumbers: true,
+      mode: "text/html",
+      matchBrackets: true,
+      textWrapping: true,
+      height : "700"
+    });    
+})(window.KT, window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

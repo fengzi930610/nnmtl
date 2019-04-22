@@ -1,0 +1,21 @@
+<{foreach $collect as $items }>
+<div class="collectTip">
+    <div class="pub_list">
+        <div class="left pub_list_bd">
+            <div class="pic fl">
+                <a href="<{link ctl='shop:detail' arg0=$items.shop_id}>"><img src="<{$pager.img}>/<{$items.logo}>"></a>
+            </div>
+            <div class="txt black9">
+                <a href="<{link ctl='shop:detail' arg0=$items.shop_id}>" class="black3"><{$items.title}></a>
+                <div class="sale"><div class="starBg mr10"><span class="star" style="width: <{round($items['score']*20,1)}>%;"></span></div>售<{$items.orders}>单</div>
+                <p>￥<{if $items.min_amount}><{$items.min_amount}><{else}>0<{/if}>起送 / <{if $items.freight}>配送费￥<{$items.freight}><{else}>免配送费<{/if}></p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="bg"><a href="javascript:;" class="black6 guanzhu"  data-id="<{$items.shop_id}>" onclick="guanzhu(this)">取消收藏</a></div >
+            <p class="time"><{$items.pei_time}>分钟</p>
+            <p class="black9"><{$items.juli_label}></p>
+        </div>
+    </div>
+</div>
+<{/foreach}>

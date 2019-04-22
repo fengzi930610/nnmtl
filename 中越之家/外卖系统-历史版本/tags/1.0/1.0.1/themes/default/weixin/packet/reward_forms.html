@@ -1,0 +1,44 @@
+<{include file="weixin/packet/block/header.html"}>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+<title>兑换红包</title>
+</head>
+<body>
+<div class="grayBg">
+	<div class="bagList">
+		<div class="duiForm">
+			<p>总额：<{$detail.prize_name}></p>
+			<form>
+			<input type="text" disabled  class="text" value="线下兑换">
+            <input type="text" name="mobile" id='mobile' class="text" placeholder="请输入手机号码">
+			<input type="password" name="pwd" id='pwd' class="text" placeholder="请输入密码">
+			<!--<select class="text">
+				<option>
+				单个红包
+				</option>
+			</select>-->
+			<input type="button" id='sub' class="btn" value="立即兑换">
+			</form>
+		</div>
+	</div>
+
+</div>
+<script>
+jQuery(document).ready(function($) {
+	$('#sub').click(function(){
+		var link = "<{link ctl='weixin/packet:reward_sub' arg0=$detail.id arg1=$detail.packet_id arg2='#pwd#' arg3='#mobile#' http='base'}>";
+		var pwd = $('#pwd').val();
+		var mobile = $('#mobile').val();
+		 $.getJSON(link.replace("#pwd#", pwd).replace("#mobile#", mobile), function(ret){
+            $('#txt').html(ret.info)
+        });
+
+		$('.theme-popover-mask').fadeIn(100);
+		$('.theme-popover').slideDown(200);
+	})
+	$('.theme-poptit .close').click(function(){
+		$('.theme-popover-mask').fadeOut(100);
+		$('.theme-popover').slideUp(200);
+	})
+})
+</script>
+<{include file="weixin/block/footer.html"}>

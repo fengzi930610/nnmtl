@@ -1,0 +1,28 @@
+<{foreach $items as $k => $v}>
+<li class="recSeller_list">
+    <a href="<{link ctl='shop/detail' arg0=$v.shop_id}>" class="overflow_clear">
+        <div class="pub_img fl"><img src="<{$pager.img}>/<{$v.logo}>" width="100" height="100" /></div>
+        <div class="pub_wz">
+            <p class="bt"><{$v.title}>
+                <{if $v.have_waimai==1}>
+                <em style="background:#3ecb41;">外</em>
+                <{/if}><{if $v.have_tuan==1}>
+                <em style="background:#ff6900;">团</em>
+                <{/if}><{if $v.have_quan==1}>
+                <em style="background:#ffaa1e;">券</em>
+                <{/if}>
+            </p>
+            <div class="nr">
+                <div class="fl">
+                    <div><span class="starBg"><span class="star" style="width:<{$v.score*20}>%;"></span></span></div>
+                    <p class="black9"><{$v.cate_title}></p>
+                </div>
+                <div class="fr">
+                    <p class="black9 price">人均：<span class="pointcl1">￥<{$v.avg_amount|default:0}></span></p>
+                    <p class="black9 range"><em class="ico"></em><{$v.juli_label}></p>
+                </div>
+            </div>
+        </div>
+    </a>
+</li>
+<{/foreach}>

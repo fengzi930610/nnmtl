@@ -1,0 +1,27 @@
+<{foreach $items as $item}>
+    <li class="sunOrd_list">
+        <div class="cont">
+            <div class="img fl"><img src="<{$pager.img}>/<{$MEMBER.face|default:'face.png'}>"></div>
+            <div class="wz_box">
+                <div class="name maincl"><{$MEMBER.nickname}></div>
+                <p class="small black9">(第<{$attrs[$item['attr_id']]['cloud_num']}>期)<{$goods[$item['goods_id']]['title']}></p>
+                <p><{$item.content}></p>
+                <{if $item.photos}>
+                    <div class="img_list">
+                        <{foreach $item['photos'] as $pic}>
+                            <img src="<{$pager.img}>/<{$pic}>">
+                        <{/foreach}>
+                    </div>
+                <{/if}>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <div class="card-footer">
+            <p class="time fontcl2"><{$item.dateline|format}></p>
+            <!--<div class="state_box">
+                <a class="zan black6"><i class="ico ico1"></i>0</a>
+                <a class="news black6"><i class="ico ico2"></i>0</a>
+            </div>-->
+        </div>
+    </li>
+<{/foreach}>

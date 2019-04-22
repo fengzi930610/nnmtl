@@ -1,0 +1,61 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="payment/payment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?payment/payment-config.html" mini-form="payment-form" method="post" ENCTYPE="multipart/form-data">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="payment_id" value="<{$detail.payment_id}>"/>
+<tr><th>接口介绍：</th><td><div style="padding:10px;"><{$payment_config.content}></div></td></tr>
+<tr><th>支付接口：</th>
+    <td>
+        <input type="text" name="data[title]" value="<{$detail.title|default:$payment_config.name}>" class="input w-300"/>
+    </td>
+</tr>
+<tr><th>接口标识：</th><td><b class="blue"><{$detail.payment|default:$payment_config.code}></b></td></tr>
+<tr><th>接口Logo：</th><td><input type="text" name="data[logo]" value="<{$detail.logo}>" <{if $detail.logo}>photo="<{$pager.img}>/<{$detail.logo}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="payment_logo" class="input w-100" /></td></tr>
+<{foreach $payment_config.config as $key=>$config}>
+<{if $config.type=='password'}>
+<tr><th><{$config.text}>：</th>
+    <td><input type="password" name="data[config][<{$key}>]" value="<{$detail.config[$key]}>" class="input w-300"/><span class="tip-comment"><{$config.desc}></span></td>
+</tr>
+<{elseif $config.type=='select'}>
+<tr><th><{$config.text}>：</th>
+    <td>
+        <select name="data[config][<{$key}>]" class="select w-200"><{html_options options=$config.items selected=$detail.config[$key]}></select>
+        <span class="tip-comment"><{$config.desc}></span>
+    </td>
+</tr>
+<{elseif $config.type=='radio'}>
+<tr><th><{$config.text}>：</th>
+    <td>
+        <{foreach $config.items as $k=>$v}>
+        <label><input type="radio" name="data[config][<{$key}>]" value="<{$k}>" <{if $detail.config[$key] == $k}>checked<{/if}>/><{$v}></label>
+        <{/foreach}>
+        <span class="tip-comment"><{$config.desc}></span>
+    </td>
+</tr>
+<{elseif $config.type == 'text'}>
+<tr><th><{$config.text}>：</th>
+    <td><input type="text" name="data[config][<{$key}>]" value="<{$detail.config[$key]}>" class="input w-300"/><span class="tip-comment"><{$config.desc}></span></td>
+</tr>
+<{/if}>
+<{/foreach}>
+<tr>
+	<th>状态：</th>
+	<td>
+		<label><input type="radio" name="data[status]" <{if $detail.status}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[status]" <{if isset($detail.status) && empty($detail.status)}>checked="checked"<{/if}> value="0"/>关闭</label>
+	</td>
+</tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

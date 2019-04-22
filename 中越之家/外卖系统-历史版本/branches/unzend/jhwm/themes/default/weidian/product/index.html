@@ -1,0 +1,242 @@
+<{assign var='tpl_title' value=L("全部商品")}>
+<{include file="weidian/block/header.html"}>
+<section class="panel-left-reveal">
+    <section class="page-cont">
+        <header>
+            <i class="left"><a href="javascript:void(0);" class="panel_left_show"><em class="ico headerIco headerIco1"></em></a></i>
+            <!--搜索-->
+            <div class="idx_sousuo">
+                <form action="<{link ctl='product:index'}>" method="post">
+                    <input name="title" value="<{$pager.title}>" type="text" placeholder="搜索店铺内商品"><input type="submit" class="btn" value="搜索">
+                </form>
+            </div>
+            <!--搜索结束-->
+            <i class="right"><a href="javascript:void(0);" class="ico headerIco headerIco2 switchViewtype"></a></i>
+        </header>
+        <!--头部筛选-->
+        <div class="topShaixuan">
+            <ul>
+                <li class="list list2 list_default on "><a href="javascript:void(0);" onclick="setloadparams('order','default');">综合</a></li>
+                <li class="list list2 list_sales"><a href="javascript:void(0);" onclick="setloadparams('order','sales');">销量</a></li>
+                <li class="list list2 list_new"><a href="javascript:void(0);" onclick="setloadparams('order','new');">新品</a></li>
+                <li class="list last"><a href="javascript:void(0);">价格<span class="price_box"><i class="ico up"></i><i class="ico down"></i></span></a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <!--头部筛选结束-->
+        <section class="page_center_box">
+            <!--内容-->
+            <!--商品列表-->
+            <div class="shangpin_list_box mt10">
+                <ul id="index_goods_items">
+
+                </ul>
+                <div class="loadding">
+
+                </div>
+                <div class="clear"></div>
+            </div>
+            <!--商品列表结束-->
+            <!--内容结束-->
+        </section>
+        <{include file="weidian/block/nav.html"}>
+    </section>
+    <!--左边侧栏-->
+    <section class="panel_left">
+        <div class="cont">
+            <a href="<{link ctl='product:index'}>" class="all" <{if !$pager.cate_id}>style="color:#59c181;"<{/if}> >全部商品</a>
+            <{foreach $cates as $k => $v}>
+            <div class="list_box">
+                <{if $v.parent_id == 0}>
+                <div class="bt <{if $pager.cate_id == $v.cate_id}>on<{/if}>"><a href="<{link ctl='product:index' cate_id=$v.cate_id}>"><{$v.title}></a></div>
+                <ul>
+                    <{foreach $cates as $k1 => $v1}>
+                        <{if $v1.parent_id == $v.cate_id}>
+                           <li <{if $pager.cate_id == $v1.cate_id}>class="on"<{/if}>><a href="<{link ctl='product:index' cate_id=$v1.cate_id}>"><{$v1.title}></a></li>
+                        <{/if}>
+                    <{/foreach}>
+                </ul>
+                <{/if}>
+            </div>
+            <{/foreach}>
+        </div>
+    </section>
+    <div class="mask_bg"><a href="javascript:_touch();" style="position:absolute; top:0; right:0; left:0; bottom:0;"></a></div>
+    <!--左边侧栏结束-->
+</section>
+<script>
+$(document).ready(function () {
+     var sw = localStorage.getItem('switch');
+     if(sw == 1){
+         $(".switchViewtype").addClass("on");
+         $(".shangpin_list_box").addClass("switch");
+     }else{
+         $(".switchViewtype").removeClass("on");
+         $(".shangpin_list_box").removeClass("switch");
+     }
+    $('.topShaixuan .last').click(function(){
+        $('.topShaixuan .list2').removeClass("on");
+        $(this).addClass("on");
+        if($(this).find('.price_box .up').hasClass('on')){
+            $(this).find('.price_box .up').removeClass('on');
+            $(this).find('.price_box .down').addClass('on');
+            setloadparams('order','price_b');
+        }else{
+            $(this).find('.price_box .up').addClass('on');
+            $(this).find('.price_box .down').removeClass('on');
+            setloadparams('order','price_a');
+        }
+    });
+    
+    var now_order = localStorage.getItem("order");
+    var norder = "";
+    if("<{$pager.order}>"){
+        norder = "<{$pager.order}>";
+    }else if(now_order){
+        norder = now_order; 
+    }else{
+        norder ='default';
+    }
+    //alert(norder);
+    if(norder == 'default'||norder == 'sales'||norder == 'new'){
+        $(".list").removeClass("on");
+        $(".list2.list_"+norder).addClass("on");
+    }
+    if(norder == 'price_b' ||norder == 'price_a'){
+        $(".list").removeClass("on");
+        $(".list.last").addClass("on");
+        if(norder=='price_a'){
+            $(".price_box i").removeClass("on");
+            $(".price_box .up").addClass("on");
+        }else{
+            $(".price_box i").removeClass("on");
+            $(".price_box .down").addClass("on");
+        }
+    }
+    
+    
+    $('.topShaixuan .list2').click(function(){
+        $('.topShaixuan .list').removeClass("on");
+        $(this).addClass("on");
+    });
+    
+    $('.switchViewtype').click(function(){
+        if($(this).hasClass('on')){
+            localStorage.setItem('switch', 0);
+            $(this).removeClass('on');
+            $('.shangpin_list_box').removeClass('switch');
+        }else{
+            localStorage.setItem('switch', 1);
+            $(this).addClass('on');
+            $('.shangpin_list_box').addClass('switch');
+        }
+    });
+
+});
+</script>
+<script>
+$(document).ready(function () {
+    $('.panel_left_show').click(function(){
+        $('.panel_left').addClass('on');
+        $('.page-cont').addClass('moved');
+        $('.mask_bg').show();
+    });
+});
+</script>
+<script>
+    var _lock = false;
+    var _order = localStorage.getItem("order");
+    var order = "";
+    if("<{$pager.order}>"){
+        order = "<{$pager.order}>";
+    }else if(_order){
+        order = _order; 
+    }
+    var params = {"cate_id": "<{$pager.cate_id}>","order":order};
+    var title = "<{$pager.title}>";
+    if(title){
+        params['title'] = title;
+    }
+    var page = 1;
+    var link = "<{link ctl='product:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k,v) {
+        page = 1;
+        params[k] = v;
+        localStorage.setItem('order', v);
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        msg = '<div class="preloader txt_center"><img src="/themes/default/weidian/static/images/home_logo@2x.png" width="28"><p class="black9 font_size14 font_line30 mt10">'+msg+'</p></div>';
+        $(".loadding").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".loadding").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });
+    }
+
+    $("section").scroll(function () {//监听滚动条改变
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+            if (_lock) {
+                return false;
+            }
+            _lock = false;
+             page++;
+            loaddata();
+            _lock = true;
+        }
+    });
+
+</script>
+<script>
+$(".mask_bg").on("touchstart", function(e) {
+    e.preventDefault();
+    startX = e.originalEvent.changedTouches[0].pageX,
+    startY = e.originalEvent.changedTouches[0].pageY;
+});
+$(".mask_bg").on("touchmove", function(e) {
+    e.preventDefault();
+    moveEndX = e.originalEvent.changedTouches[0].pageX,
+    moveEndY = e.originalEvent.changedTouches[0].pageY,
+    X = moveEndX - startX,
+    Y = moveEndY - startY;
+    if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {
+        $('.panel_left').removeClass('on');
+        $('.mask_bg').hide();
+        $('.page-cont').removeClass('moved');
+    }
+});
+$(".mask_bg").click(function() {
+    $('.panel_left').removeClass('on');
+	$('.mask_bg').hide();
+	$('.page-cont').removeClass('moved');
+});
+</script>
+<{include file="weidian/block/footer.html"}>

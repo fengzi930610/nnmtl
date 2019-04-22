@@ -1,0 +1,488 @@
+<{include file="admin:common/header.html"}>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td><label id="OnlyMine"><input type="checkbox" value="1" <{if $only_mine}>checked="checked"<{/if}>>仅显示我关注的订单</label></td>
+            <td align="right" id="SearchForm">
+                <form class="search_inp mr10" method="post">
+                    <input type="text" id="SearchKeyword" class="inp" placeholder="订单ID、收货人名称、手机号、备注" value="">
+                    <input type="button" class="submit SearchBtn" value="">
+                </form>
+                <a href="javascript:void(0);" mini-width="500" class="button SearchBtn" title="高级搜索">高级搜索</a>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--向导-->
+    <div class="guide_list_box mb25">
+        <ul id="SetCloseFilter">
+            <li><a href="javascript:void(0);" class="on">全部</a></li>
+            <li><a href="javascript:void(0);">未关闭</a></li>
+            <li><a href="javascript:void(0);">已关闭</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <table width="100%" border="0" cellspacing="0" class="table-data table" id = "ListTable">
+        <tr>
+            <th class="w-50">订单编号</th>
+            <th class="w-100">用户名</th>
+            <th class="w-100">手机号</th>
+            <th class="w-100">商家</th>
+            <th class="w-100">管理员</th>
+            <th class="w-50">状态</th>
+            <th class="w-150">备注</th>
+            <th class="w-100">操作</th>
+        </tr>
+        <tr><td colspan="8"><p class="text-align tip-notice">Loading...</p></td></tr>
+    </table>
+    <div class="page-bar" id="ListNaviBar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" class="SelAll" />&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><button type="button" value="批量关闭" class="bt-big disabled BatchClose" disabled="disabled">批量关闭</button></td>
+                <td class="page-list"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<style type="text/css">
+#RemarkEditor{width: 310px; background-color: #FFF; border: 1px solid #CCC; box-sizing: border-box; padding:6px; box-shadow: -1px 1px 5px rgba(0,0,0,0.3); display: none; position: fixed; z-index: 10; top:0; right: 0}
+#RemarkEditor > textarea{display: block; width: 100%; height: 180px; box-sizing: border-box; margin:0; padding: 6px; margin-bottom: 6px;}
+#RemarkEditor > div{text-align: right;}
+#RemarkEditor > div .cancel{background-color: #CCC;}
+</style>
+<div id="RemarkEditor">
+    <input type="hidden" value="0">
+    <textarea></textarea>
+    <div><button class="button confirm">确认</button> &nbsp; <button class="button cancel">取消</button></div>
+</div>
+<script type="text/javascript">
+var param = {
+    page: 1,
+    linage: 20,
+    only_mine: parseInt("<{if $only_mine}>1<{else}>0<{/if}>"),
+    search_key: "",
+    close_type: 0
+};
+var listInfo = {
+    allPage: 1,
+    allCount: 0
+};
+var pageNavi = null;
+$(document).ready(function(e){
+    var scanChk = function(){
+        var chkCount = 0;
+        var itemList = $("#ListTable input[CK]");
+        for(var k in itemList)
+        {
+            if(itemList.eq(k).prop("checked"))
+                ++chkCount;
+        }
+        if(chkCount > 0)
+        {
+            $(".BatchClose").attr("disabled",null);
+            $(".BatchClose").removeClass("disabled");
+        }
+        else
+        {
+            $(".BatchClose").attr("disabled","disabled");
+            $(".BatchClose").addClass("disabled");
+        }
+        if(chkCount === itemList.length)
+            $("#ListNaviBar .SelAll[type='checkbox']").prop("checked",true);
+        else
+            $("#ListNaviBar .SelAll[type='checkbox']").prop("checked",false);
+    };
+    $("#ListTable").on("change","input[CK]",scanChk);
+    $("#ListNaviBar .SelAll").on("click",function(){
+        var sel = true;
+        if($(this).attr("type") === "checkbox")
+            sel = $(this).prop("checked")?true:false;
+        var itemList = $("#ListTable input[CK]");
+        for(var k in itemList)
+            itemList.eq(k).prop("checked",sel);
+        scanChk();
+    });
+    $(".BatchClose").on("click",function(){
+        var ids = [];
+        var itemList = $("#ListTable input[CK]");
+        for(var k in itemList)
+        {
+            if(itemList.eq(k).prop("checked"))
+                ids.push(parseInt(itemList.eq(k).val()));
+        }
+        ids = ids.join(",");
+        close(ids);
+    });
+    $("#ListTable").on("click","td .SetClose",function(){
+        close($(this).parents("tr").eq(0).attr("id").substr(8));
+    });
+    $("#ListTable").on("click","td .SetRemark",function(){
+        remark($(this).parents("tr").eq(0).attr("id").substr(8));
+    });
+    $("#SetCloseFilter a").click(function(){
+        $(this).parent().siblings().each(function(){
+            $(this).children("a").removeClass("on");
+        });
+        $(this).addClass("on");
+        param.close_type = $(this).parent().index();
+        loadList();
+    });
+    $("#OnlyMine :checkbox").click(function(){
+        param.only_mine = $(this).prop("checked")?1:0;
+        loadList();
+    });
+    $("#SearchForm form").on("submit",function(ev){
+        ev.preventDefault();
+    });
+    $("#SearchForm .SearchBtn").on("click",function(ev){
+        ev.preventDefault();
+        var searchKey = $.trim($("#SearchKeyword").val());
+        $("#SearchKeyword").val(searchKey);
+        param.page = 1;
+        param.search_key = searchKey;
+        loadList();
+    });
+    $("#SearchKeyword").on("keydown",function(ev){
+        if(ev.keyCode === 13)
+        {
+            $(this).blur();
+            $(this).siblings(".SearchBtn").click();
+        }
+    });
+    $("#RemarkEditor .confirm, #RemarkEditor .cancel").on("click",function(){
+        var click = 0;
+        if($(this).hasClass("confirm"))
+            click = 1;
+        var id = parseInt($.trim($("#RemarkEditor").children("input").val()));
+        if(isNaN(id) || id < 0)
+            id = 0;
+        var text = $("#RemarkEditor").children("textarea").val();
+        $("#RemarkEditor").children("textarea").val("");
+        $("#RemarkEditor").children("input").val(0);
+        $("#RemarkEditor").fadeOut(260);
+        if(click && id > 0)
+        {
+            $.ajax({
+                url: "?waimai/order-srv_arrival_remark.html",
+                cache: false,
+                data: {order_id:id,remark:text},
+                dataType: "json",
+                type: "POST",
+                success:function(data){
+                    if(data.error === 0)
+                        $("#ListItem"+data.data.order_id+" .ItemRemark").text(data.data.remark);
+                    else
+                        Widget.MsgBox.error(data.message);
+                },
+                error: function(){
+                    Widget.MsgBox.error("网络或数据错误");
+                }
+            });
+        }
+    });
+    pageNavi = new PageNavi("#ListNaviBar .page-list");
+    pageNavi.addEventListener("page_change",function(page){
+        param.page = page;
+        loadList();
+    });
+    loadList();
+});
+var close = function(ids){
+    var doFn = function(){
+        $.ajax({
+            url: "?waimai/order-srv_arrival_close.html",
+            cache: false,
+            data: {ids:ids},
+            dataType: "json",
+            type: "POST",
+            success:function(data){
+                if(data.error === 0)
+                    loadList();
+                else
+                    Widget.MsgBox.error(data.message);
+            },
+            error: function(){
+                Widget.MsgBox.error("网络或数据错误");
+            }
+        });
+    };
+    if(ids.indexOf(",") < 0 || confirm("您将对以下订单执行批量关闭操作，是否继续？\n"+ids))
+        doFn();
+};
+var remark = function(id){
+    id = parseInt(id);
+    if(isNaN(id) || id<=0)
+        return;
+    var tr = $("tr[id='ListItem"+id+"']");
+    if(tr.length !== 1)
+        return;
+    var oldRemark = tr.find(".ItemRemark").text();
+    $("RemarkEditor").hide();
+    var btn = tr.find(".SetRemark").eq(0);
+    var ofs = btn.offset();
+    $("#RemarkEditor").css("right",($(window).width() - ofs.left - btn.outerWidth(true))+"px");
+    $("#RemarkEditor").css("top",(ofs.top + btn.outerHeight(true))+"px");
+    $("#RemarkEditor").children("textarea").val(oldRemark);
+    $("#RemarkEditor").children("input").val(id);
+    $("#RemarkEditor").fadeIn(260);
+};
+var isLoading = false;
+var loadList = function(){
+    if(isLoading)
+        return;
+    isLoading = true;
+    $.ajax({
+        url: "?waimai/order-srv_arrival.html&_list=1",
+        cache: false,
+        data: param,
+        dataType: "json",
+        type: "POST",
+        success:function(data){
+            var nextTr = $("#ListTable tr").eq(0);
+            if(data.error === 0)
+            {
+                data = data.data;
+                if(data.all_count===0 && data.page===1)
+                {
+                    $("#ListTable tr").eq(0).nextAll().remove();
+                    nextTr.after("<tr><td colspan=\"8\"><p class=\"text-align tip-notice\">没有数据</p></td></tr>");
+                }
+                else
+                {
+                    $("#ListTable tr").eq(0).nextAll().remove();
+                    for(var k in data.list)
+                    {
+                        var item = data.list[k];
+                        var html = "<tr id=\"ListItem"+item.order_id+"\">" +
+                            "<td><label><input type=\"checkbox\" value=\""+item.order_id+"\" CK=\"PRI\"/>"+item.order_id+"<label></td>" +
+                            "<td>"+item.user_name+"</td>" +
+                            "<td>"+item.user_tel+"</td>" +
+                            "<td>"+item.shop_name+"</td>" +
+                            "<td>"+(item.admin_id>0?item.admin_name:"<span style=\"color:#F60;\">未绑定</span>")+"</td>" +
+                            "<td>"+(item.close_time>0?"<span style=\"color:#080;\">已关闭</span>":"<span style=\"color:#F60;\">未关闭</span>")+"</td>" +
+                            "<td class=\"ItemRemark\">"+item.remark+"</td>" +
+                            "<td>" +
+                                ((item.close_time===0 && ("<{$self_admin_role}>" === "system" || item.admin_id===0 || item.admin_id===parseInt("<{$self_admin_id}>")))?"<a href=\"javascript:void(0);\" class=\"button SetClose\" title=\"关闭项目\">关闭</a>":"") + 
+                                (("<{$self_admin_role}>" === "system" || item.admin_id===0 || item.admin_id===parseInt("<{$self_admin_id}>"))?"<a href=\"javascript:void(0);\" class=\"button SetRemark\" title=\"设置备注\">备注</a>":"") +
+                            "</td>";
+                        var tr = $(html);
+                        tr.insertAfter(nextTr);
+                        // nextTr = tr;
+                    }
+                }
+                param.page = data.page;
+                param.linage = data.linage;
+                listInfo.allCount = data.all_count;
+                listInfo.allPage = data.all_page;
+            }
+            else
+            {
+                if(param.page === 1 && listInfo.allCount === 0)
+                {
+                    $("#ListTable tr").eq(0).nextAll().remove();
+                    nextTr.after("<tr><td colspan=\"8\"><p class=\"text-align tip-notice\">"+data.message+"</p></td></tr>");
+                }
+                else
+                    Widget.MsgBox.error(data.message);
+            }
+        },
+        error: function(){
+            if(param.page === 1 && listInfo.allCount === 0)
+            {
+                var firstTr = $("#ListTable tr").eq(0);
+                $("#ListTable tr").eq(0).nextAll().remove();
+                firstTr.after("<tr><td colspan=\"8\"><p class=\"text-align tip-notice\">Error: 服务器返回数据错误</p></td></tr>");
+            }
+            else
+                Widget.MsgBox.error("网络或服务器返回数据错误");
+        },
+        complete: function(){
+            isLoading = false;
+            pageNavi.update(param.page,listInfo.allPage,listInfo.allCount);
+        }
+    });
+};
+var PageNavi = function(selector){
+    if(!(this instanceof PageNavi))
+        return new PageNavi(selector);
+    var ele = $(selector);
+    if(ele.length !== 1)
+        return null;
+    ele = ele.eq(0);
+    var data = {};
+    data.page = 1;
+    data.linage = 20;   //未使用
+    data.allPage = 1;
+    data.allCount = 0;
+    data.ele = ele;
+    
+    data.ele.empty();
+    ele = $("<label>&nbsp;<span>0</span>条记录&nbsp;</label>");
+    ele.appendTo(data.ele);
+    data.allCountEle = ele.children("span").eq(0);
+    data.pageItemList = $("<span></span>");
+    data.pageItemList.appendTo(data.ele);
+    $("<strong>1</strong>").appendTo(data.pageItemList);
+    ele = $("<label></label");
+    ele.appendTo(data.ele);
+    data.jumpEle = $("<input type=\"text\" style=\"width:32px;\" title=\"输入页码，按回车快速跳转\" value=\"1\">");
+    data.jumpEle.appendTo(ele);
+    data.allPageEle = $("<span> / <span>1</span> 页</span>");
+    data.allPageEle.appendTo(ele);
+    data.allPageEle = data.allPageEle.children("span").eq(0);
+    data.jumpEle.on("focus",function(){
+        this.select();
+    });
+    data.listens = {
+        page_change: []
+    };
+    data.jumpEle.on("keydown",function(ev){
+        if(ev.keyCode === 13)
+        {
+            var val = $.trim($(this).val());
+            if(val === "")
+                $(this).val(""+data.page);
+            else
+            {
+                val = parseInt(val);
+                if(isNaN(val) || val <= 0)
+                    $(this).val(""+data.page);
+                else
+                {
+                    if(val !== data.page)
+                    {
+                        for(var k in data.listens.page_change)
+                        {
+                            try
+                            {
+                                data.listens.page_change[k](val);
+                            }catch(e){ console.log(e); }
+                        }
+                    }
+                }
+            }
+            $(this).blur();
+        }
+    });
+    data.pageItemList.on("click","a",function(){
+        var tPage = data.page;
+        if($(this).hasClass("prev"))
+            tPage--;
+        else if($(this).hasClass("next"))
+            tPage++;
+        else
+        {
+            tPage = parseInt($.trim($(this).text()));
+            if(isNaN(tPage) || tPage <= 0)
+                return;
+        }
+        if(tPage < 1)
+            tPage = 1;
+        else if(tPage > data.allPage)
+            tPage = data.allPage;
+        if(tPage !== data.page)
+        {
+            for(var k in data.listens.page_change)
+            {
+                try
+                {
+                    data.listens.page_change[k](tPage);
+                }catch(e){ console.log(e); }
+            }
+        }
+    });
+    data.ele.css("visibility","hidden");
+
+    if(typeof PageNavi.prototype.__init !== "function")
+    {
+        PageNavi.prototype.__init = function(){};
+
+        PageNavi.prototype.addEventListener = function(event,cbk){
+            if(typeof event !== "string" || (event = $.trim(event))==="" || typeof data.listens[event] === "undefined" || typeof cbk !== "function")
+                return;
+            event = $.trim(event);
+            if(data.listens[event].indexOf(cbk) < 0)
+                data.listens[event].push(cbk);
+        };
+
+        PageNavi.prototype.update = function(page,allPage,allCount){
+            if(typeof allPage !== "undefined")
+            {
+                allPage = parseInt(allPage);
+                if(isNaN(allPage) || allPage<=0)
+                    allPage = 1;
+            }
+            else
+                allPage = null;
+            if(typeof allCount !== "undefined")
+            {
+                allCount = parseInt(allCount);
+                if(isNaN(allCount) || allCount<0)
+                    allCount = 0;
+            }
+            else
+                allCount = null;
+            var oldAllPage = data.allPage;
+            if(allPage !== null)
+                data.allPage = allPage;
+            if(allCount !== null)
+                data.allCount = allCount;
+
+            if(data.allCount === 0)
+                data.ele.css("visibility","hidden");
+            else
+                data.ele.css("visibility","visible");
+
+            page = parseInt(page);
+            if(isNaN(page) || page<=0)
+                page = 1;
+            else if(page > data.allPage)
+                page = data.allPage;
+            data.allCountEle.text(data.allCount);
+            data.allPageEle.text(data.allPage);
+            data.jumpEle.val(page);
+            if(page !== data.page || oldAllPage !== data.allPage)
+            {
+                if(page !== data.page)
+                    data.page = page;
+                data.pageItemList.empty();
+                if(data.page > 1)
+                    $("<a href=\"javascript:void(0);\" class=\"prev\" title=\"上一页\">上一页</a>").appendTo(data.pageItemList);
+                var maxItemNum = 7;
+                var prevItemNum = Math.floor((maxItemNum-1)/2);
+                var nextItemUseNum = Math.ceil((maxItemNum-1)/2);
+                if(data.allPage - data.page < nextItemUseNum)
+                    prevItemNum += nextItemUseNum - data.allPage + data.page;
+                var sPageNum = data.page - prevItemNum;
+                if(sPageNum < 1)
+                    sPageNum = 1;
+                for(var k=0;k<maxItemNum;++k)
+                {
+                    if(sPageNum+k > data.allPage)
+                        break;
+                    if(sPageNum+k === data.page)
+                        $("<strong>"+(sPageNum+k)+"</strong>").appendTo(data.pageItemList);
+                    else
+                        $("<a href=\"javascript:void(0);\">"+(sPageNum+k)+"</a>").appendTo(data.pageItemList);
+                }
+                if(data.page < data.allPage)
+                    $("<a href=\"javascript:void(0);\" class=\"next\" title=\"下一页\">下一页</a>").appendTo(data.pageItemList);
+                
+            }
+        };
+    }
+};
+</script>
+<style>
+.page-data .table tr.order_delt.over{ background:#f8f8f8;}
+.page-data .table tr td .order_details{ border:0; margin:0;}
+.page-data .table tr td .order_details tr{background:#fafafa;}
+</style>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,71 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco back headerIco2"></a>
+            <a class="pull-right /*headerIco headerIco5 open-about*/"></a>
+            <h1 class="title">晒单详情</h1>
+        </header>
+		<!--头部结束-->
+        <!-- 工具栏 -->
+        <!-- 工具栏结束 -->
+        <div class="content"> 
+        	<!--晒单详情-->
+            <div class="sunOrd_list sunOrd_delt_infor">
+                <div class="cont">
+                    <div class="img fl"><img src="<{$pager.img}>/<{$detail.user.face|default:'default.png'}>"></div>
+                    <div class="wz_box">
+                        <p class="black6">幸运获奖者：<span class="fontcl2"><{$detail.user.nickname}></span></p>
+                        <p class="black6">幸运夺宝号码：<span class="maincl"><{$detail.attr.win_number}></span></p>
+                        <p class="black6">本期参与：<span class="maincl"><{$detail.buy_num}></span>人次</p>
+                        <p class="black6">(第<{$detail.attr.cloud_num}>期)<{$detail.goods.title}></p>
+                        <p class="black6">揭晓时间：<{$detail.attr.lottery_time|default:'Y-m-d H:i:s'}></p>
+                    </div>
+                    <div class="cl"></div>
+                </div>                
+            </div>
+            <div class="sunOrd_list sunOrd_delt_sen">
+                <p><{$detail.content}></p>
+                <{if $detail.photos}>
+                <div class="img_list">
+                    <{foreach $detail['photos'] as $item}>
+                        <img src="<{$pager.img}>/<{$item.photo}>">
+                    <{/foreach}>
+                </div>
+                <{/if}>
+            </div>
+        	<!--晒单详情结束-->
+        </div>
+    </div>
+<!--分享弹出层-->
+<div class="popup popup-about share_mask">
+   <div class="row no-gutter list_box">
+      <div class="col-33"><img src="images/share/WeChat.png"><p class="black3">微信</p></div>
+      <div class="col-33"><img src="images/share/blogSina.png"><p class="black3">新浪微博</p></div>
+      <div class="col-33"><img src="images/share/blogTencent.png"><p class="black3">腾讯微博</p></div>
+      <div class="col-33"><img src="images/share/TencentQQ.png"><p class="black3">QQ</p></div>
+      <div class="col-33"><img src="images/share/QQZone.png"><p class="black3">QQ空间</p></div>
+      <div class="col-33"><img src="images/share/CircleFriends.png"><p class="black3">朋友圈</p></div>
+   </div>
+   <p><a href="#" class="button button-round button-cancel close-popup">取消</a></p>
+</div>
+<!--分享弹出层结束-->
+<script>
+$(document).on('click','.open-about', function () {
+  $.popup('.popup-about');
+});
+</script>
+<{if $request['IN_APP_CLIENT']}>
+<script>
+    function return_share() {
+        var share = {};
+        share.share_title = "<{$detail.goods.title}>";
+        share.share_photo = "<{$detail.goods.photo}>";
+        share.share_url = "<{link ctl='cloud/index'}>";
+        share.share_content = "我在"+"<{$site.title}>"+"云购中了"+"<{$detail.goods.title}>"+"，你也要来吗";
+        return share;
+    }
+    return_share();
+</script>
+<{/if}>
+<{include file="cloud/block/footer.html"}>

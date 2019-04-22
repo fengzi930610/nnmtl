@@ -1,0 +1,324 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+        <script src="/themes/default/static/js/jquery.fly.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/themes/default/static/js/requestAnimationFrame.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                <{$detail.title}>
+            </div>
+            <i class="right">
+                <a href="javascript:void(0);" class="ico headerIco headerIco_4"></a>
+                <a href="javascript:void(0);" class="ico headerIco collect_btn <{if $detail['collect'] == 0}>headerIco_5<{else}>headerIco_9<{/if}> ml10"></a>
+            </i>
+        </header>
+
+<section class="page_center_box" style="bottom:0px">
+    <div class="shangpin_infor">
+    	<a href="<{link ctl='shop:album' args=<{$detail.shop_id}>}>"><img src="<{$pager.img}>/<{$detail.banner}>" width="100%"></a>
+    </div>
+    <div class="shangpin_price clear_both border_b mb10">
+    	<div class="fl">
+        	<p class="bt"><{$detail.title}></p>
+            <div class="black9 mt5">
+            <span class="starBg" style="vertical-align:super;"><span class="star" style="width:<{$detail.score*20}>%;"></span></span>
+            &nbsp;&nbsp;<{$detail.score}>分<span class="ml10">人均：¥<{$detail.avg_amount}></span></div>
+        </div>
+        <div class="fr">
+            <{if $detail.have_maidan}><a href="<{link ctl='shop/youhui' arg0=$detail.shop_id}>" class="pub_btn redbg">优惠买单</a><{/if}>
+        </div>
+    </div>
+    <div class="shangjia_lineBook_link mb10">
+        <ul>
+            <{if $detail.have_paidui}><li id="goto_paidui"><a href="javascript:;"><i class="ico ico1"></i>排号</a></li><{/if}>
+            <{if $detail.have_dingzuo}><li id="goto_dingzuo"><a href="javascript:;"><i class="ico ico2"></i>订座</a></li><{/if}>
+            <{if $detail.have_weidian}><li id="goto_weidian"><a href="http://wd<{$detail.shop_id}><{$domain}>"><i class="ico ico4"></i>微店</a></li><{/if}>
+        </ul>
+        <!--<li id="goto_diancan"><a href="javascript:;"><i class="ico ico3"></i>点餐</a></li>-->
+        <div class="clear"></div>
+    </div>
+    <script>
+		$(document).ready(function() {
+			if($(".shangjia_lineBook_link").length > 0){
+				$('.shangjia_lineBook_link ul li').width(100 / $('.shangjia_lineBook_link ul li').length + '%');
+			}
+        });
+    </script>
+    <h3 class="bgcolor_white pad10 border_t border_b">商家信息</h3>
+    <div class="shangpin_seller border_b mb10">
+        <div class="addr mt10 clear_both">
+            <a href="tel:<{$detail.phone}>" class="ico telIco fr"></a>
+            <p class="black6" id="location"><em class="ico addrIco"></em><{$detail.addr}></p>
+        </div>
+    </div>
+    <!--商家活动列表开始-->
+    <{if $detail.maidan && $detail.have_maidan && !empty($detail.maidan.config)}>
+    <div class="seller_details_hdList mb10">
+        <a href="<{link ctl='shop/youhui' arg0=$detail.shop_id}>">
+            <div>
+                <div class="fl hdList_bq"><span class="listBox_tag" style="background:#ff2b79;">惠</span></div>
+                <div class="hdList_wz">
+                    <p class="bt">
+                        <{if $detail.maidan.type == 0}>
+                        <{foreach $detail['maidan']['config'] as $ck => $cv}>
+                        每满<{$cv.m}>元减<{$cv.d}>元&nbsp;&nbsp;
+                        <{if $cv@index %2 ==1}>
+                        </br>
+                        <{/if}>
+                        <{/foreach}>
+                        <{else}>
+                        <{$detail.maidan.discount/10}>折
+                        <{/if}>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <p class="black9"></p>
+            <div class="linkIco_nr black9">已售<{$detail.maidan.orders}><em class="linkIco"></em></div>
+        </a>
+    </div>
+    <{/if}>
+
+    <{if $waimai.audit==1 && $detail.have_waimai==1}>
+    <div class="seller_details_hdList mb10">
+        <a  href="<{link ctl='waimai/product/index' arg1=$detail.shop_id}>">
+            <div>
+                <div class="fl hdList_bq"><span class="listBox_tag" style="background: #f5a623;">外</span></div>
+                <div class="hdList_wz">
+                    <p class="bt">本店铺<{$waimai.pei_distance}>公里以内可以送外卖</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="linkIco_nr black9">已售<{$waimai.orders}><em class="linkIco"></em></div>
+        </a>
+    </div>
+    <{/if}>
+    <{if $quan_list || $tuan_list}>
+    <div class="seller_details_hdList">
+        <{foreach $quan_list as $k => $v}>
+        <div class="hdList_nr_border">
+            <a  href="<{link ctl='tuan/product:goodsdetail' args=$v.tuan_id}>">
+                <div class="fl hdList_bq"><span class="listBox_tag" style="background: #0598ec;">券</span></div>
+                <div class="hdList_wz">
+                    <div class="img fl"><img src="<{$pager.img}>/<{$v.photo}>" width="90" height="80"></div>
+                    <div class="wz">
+                        <em class="linkIco fr"></em>
+                        <p class="bt overflow_clear"><{$v.title}> </p>
+                        <p class="black9"><span class="price fontcl1">￥<{$v.price}></span>  <del>原价:￥<{$v.market_price}></del>  已售<{$v.virtual_sales+$v.sales}></p>
+
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </a>
+        </div>
+        <{/foreach}>
+        <{foreach $tuan_list as $k => $v}>
+        <div class="hdList_nr_border">
+            <a  href="<{link ctl='tuan/product:goodsdetail' args=$v.tuan_id}>">
+                <div class="fl hdList_bq"><span class="listBox_tag" style="background: #ff6900;">团</span></div>
+                <div class="hdList_wz">
+                    <div class="img fl"><img src="<{$pager.img}>/<{$v.photo}>" width="90" height="80"></div>
+                    <div class="wz">
+                        <em class="linkIco fr"></em>
+                        <p class="bt overflow_clear"><{$v.title}> </p>
+                        <p class="black9"><span class="price fontcl1">￥<{$v.price}></span>  <del>原价:￥<{$v.market_price}></del>  已售<{$v.virtual_sales+$v.sales}></p>
+
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </a>
+        </div>
+        <{/foreach}>
+    </div>
+    <a href="<{link ctl='tuan/shop:plist' arg1=$detail.shop_id}>" class="seller_details_hdList_more black9 mb10">更多团购&gt&gt;</a>
+    <{/if}>
+    <!--商家活动列表结束-->
+    <{if $comment_list}>
+    <h3 class="bgcolor_white pad10 border_t border_b clear_both">商家评价<span class="black9">（<{$pager.comment_total_count}>）</span><a href="<{link ctl='shop:comment' args=<{$detail.shop_id}>}>" class="black9 fr">全部&gt;&gt;</a></h3>
+	<div class="seller_details_evlt mb10">
+    	<div class="pad10"><span class="starBg" style="vertical-align:super;"><span class="star" style="width:<{$detail.score*20}>%;"></span></span><span class="ml10 black9"><{$detail.score}>&nbsp;分</span></div>
+        <ul>
+            <{foreach $comment_list as $kk => $vv}>
+            <li class="evaluate_list">
+                <div class="tx fl"><img src="<{$pager.img}>/<{$member_list[$vv.uid].face}>" width="100" height="100" /></div>
+                <div class="wz">
+                    <p><{$member_list[$vv.uid].nickname}></p>
+                    <div><span class="starBg"><span class="star" style="width:<{$vv.score*20}>%;"></span></span></div>
+                    <p><{$vv.content}></p>
+                    <div class="img_list">
+                    	<ul>
+                            <{foreach $vv.photos as $photo}>
+                            <li><img src="<{$pager.img}>/<{$photo.photo}>" width="100" height="100" /></li>
+                            <{/foreach}>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <p class="black9"><{$vv.dateline|format}></p>
+                    <{if $vv.reply}>
+                    <div class="evaluate_reply">
+                    	<p><{$vv.reply}></p>
+                        <p class="time black9"><{$vv.reply_time|format}></p>
+                    </div>
+                    <{/if}>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <{/foreach}>
+        </ul>
+    </div>
+    <{/if}>
+
+</section>
+<div class="mask_box">
+    <div class="accountInfor_headX_mask">
+        <div class="cont">
+            <label class="btn" style="color: #59c181;"><input type="button" id="share_sinablog"/>新浪微博</label>
+        </div>
+        <div class="mar10">
+            <input type="button" class="long_btn cancel" style="background:#fff; color:#59c181;" value="取消" />
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+
+
+<script>
+function collect(status,type) {
+    var link = "<{link ctl='ucenter/collect:collect' arg0='tmp1' arg1='tmp2' arg2='tmp3'}>";
+    var url = link.replace('tmp1', status).replace('tmp2', type).replace('tmp3', "<{$detail.shop_id}>");
+    $.post(url,{},function(ret){
+        console.log(ret);
+        if(ret.error > 0){
+            layer.open({content: ret.message,time: 2});
+            if(ret.error == 101) {
+                setTimeout(function(){
+                    window.location.href = "<{link ctl='passport:login'}>";
+                },1500)
+            }
+        }else{
+            layer.open({content: ret.message,time: 2});
+            setTimeout(function(){
+                window.location.reload();
+            },1000)
+        }
+    },'json')
+}
+
+// 收藏事件
+
+$('.collect_btn').click(function(){
+
+    var collect_num = "<{$detail.collect}>";
+    if(collect_num == 1){
+        collect(0,1);
+    }else{
+        collect(1,1);
+    }
+
+});
+
+$(".headerIco_4").click(function(){
+    $(".accountInfor_headX_mask").show();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+});
+$(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function(){
+    $(".accountInfor_headX_mask").hide();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+});
+
+/*分享到新浪微博*/
+$('#share_sinablog').click(function() {
+    var shareUrl = window.location.href;   //获取当前页面完整的地址栏URL
+    var sharePic = "<{$pager.img}>/<{$detail.logo}>";       // 获取商家logo图片
+    var shareTitle = '这家店不错哦，一起去吧！'+"<{$detail.title}>，"+"<{$detail.addr}>，"+"<{$detail.mobile}>。"+"@<{$CONFIG.site.title}>"; // 内容
+    window.location.href ='http://service.weibo.com/share/share.php?appkey=1550938859'+'&url='+encodeURIComponent(shareUrl)+'&content=utf-8&sourceUrl='+encodeURIComponent(shareUrl)+'&pic='+encodeURIComponent(sharePic)+'&title='+encodeURIComponent(shareTitle);
+});
+
+// 在地图上显示商家的地理位置
+$('#location').click(function(){
+    var link = "<{link ctl='shop:location' args='temp'}>";
+    window.location.href = link.replace('temp', <{$detail.shop_id}>);
+})
+
+
+// 排号按钮点击事件
+$('#goto_paidui').click(function() {
+    var shop_id = parseInt(<{$detail.shop_id}>);
+    jQuery.ajax({
+        url: "<{link ctl='yuyue/paidui:checkpaidui'}>",
+        async: true,
+        dataType: 'json',
+        data: {"shop_id":shop_id},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error == 0 ) { 
+                var paidui_id = parseInt(ret.data.paidui_id);
+                if(paidui_id > 0) {
+                    // 跳转到订单详情
+                    layer.open({content:'您已经取过号了！',time:2});
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='yuyue/paidui/detail-" + paidui_id + "'}>";
+                        }, 1000);
+                }else {
+                    // 填写订单
+                    window.location.href = "<{link ctl='yuyue/paidui:index-"+shop_id+"'}>"; 
+                }
+            }else if(ret.error==101){
+                layer.open({content: ret.message,time: 2});
+                setTimeout(function(){
+                    window.location.href = "<{link ctl='passport:login'}>";
+                },1500)
+            }else {
+                // 商家未开通
+                layer.open({content: ret.message,time: 2});
+            }
+        },
+        error: function (xhr, status, err) {
+            layer.open({content: err,time: 2});
+        },
+    });
+})
+
+// 订座点击事件
+$('#goto_dingzuo').click(function() {
+    var shop_id = parseInt(<{$detail.shop_id}>);
+    jQuery.ajax({
+        url: "<{link ctl='yuyue/dingzuo:checkdingzuo'}>",
+        async: true,
+        dataType: 'json',
+        data: {"shop_id":shop_id},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error == 0 ) { 
+                var dingzuo_id = parseInt(ret.data.dingzuo_id);
+                if(dingzuo_id > 0) {
+                    // 跳转到订单详情
+                    layer.open({content:'您已经订过座位了！',time:2});
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='yuyue/dingzuo/detail-" + dingzuo_id + "'}>";
+                        }, 1000);
+                }else {
+                    // 填写订单
+                    window.location.href = "<{link ctl='yuyue/dingzuo:index-"+shop_id+"'}>"; 
+                }
+            }else if(ret.error==101){
+                layer.open({content: ret.message,time: 2});
+                setTimeout(function(){
+                    window.location.href = "<{link ctl='passport:login'}>";
+                },1500)
+            }else {
+                // 商家未开通
+                layer.open({content: ret.message,time: 2});
+            }
+        },
+        error: function (xhr, status, err) {
+            layer.open({content: err,time: 2});
+        },
+    });
+})
+</script>
+<{include file="block/footer.html"}>

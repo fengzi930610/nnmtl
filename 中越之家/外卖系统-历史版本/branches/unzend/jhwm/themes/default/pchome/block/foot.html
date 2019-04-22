@@ -1,0 +1,37 @@
+<!--底部-->
+<div class="footer">
+    <div class="pagewd">
+        <div class="footer_bz">
+            <div class="list"><img src="/themes/default/pchome/static/images/footer_ico1.png">正品保证</div>
+            <div class="list"><img src="/themes/default/pchome/static/images/footer_ico2.png">过期退</div>
+            <div class="list"><img src="/themes/default/pchome/static/images/footer_ico3.png">随时退</div>
+            <div class="list"><img src="/themes/default/pchome/static/images/footer_ico4.png">好评如潮</div>
+            <div class="list last"><img src="/themes/default/pchome/static/images/footer_ico5.png">闪电发货</div>
+        </div>
+        <div class="footer_menu">
+            <{calldata mdl="article/cate" parent_id="11" limit=10}>
+        	<div class="list">
+            	<h4><{$item.title}></h4>
+                <ul>
+                    <{calldata mdl='article/article' from="pchelp" hidden="0" cat_id=$item.cat_id}>
+                        <{if $item.page}>
+                        <li><a href="<{link ctl='help/page' args=$item.page}>"><{$item.title}></a></li>
+                        <{else}>
+                        <li><a href="<{link ctl='help:detail' arg0=$item.article_id}>"><{$item.title}></a></li>
+                        <{/if}>
+                    <{/calldata}>
+                </ul>
+            </div>
+             <{/calldata}>
+            <div class="list">
+                <h4>服务支持</h4>
+                <ul>
+                    <li><a href="javascript:void(0);" style='cursor:text;'>客服电话 <{$site.phone}></a></li>
+                    <li><a href="javascript:void(0);">客服 QQ  <{$site.kfqq|qq}></a></li>
+                    <li><a href="javascript:void(0);" style='cursor:text;'>工作时间 9:00-18:00(周一至周六)</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!--底部end-->

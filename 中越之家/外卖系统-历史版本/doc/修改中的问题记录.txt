@@ -1,0 +1,119 @@
+外卖  》  商家列表  》 （列表项右边）设置
+
+进入商家设置页，其中有一个菜单“余额日志”无法显示
+
+原因：
+	数据表system_modules中没有配置该功能的相关模块、控制、操作信息。
+
+解决方法：
+	向数据表添加数据项：
+	字段		值		备注
+	module		module
+	level		3
+	ctl		waimai/shop
+	act		tixian
+	title		余额日志		这个名称可随意，主要显示于权限配置中
+	visible		0
+	parent_id		1966		实际上就是menu，指明其隶属于“商家管理”之下
+	orderby		50		排序值，默认为50
+	dateline				创建的时间戳，随意设定一个
+
+
+
+===========================================================
+
+
+外卖  》  商家列表  》 （列表项右边）管理
+
+跳转到商家管理后台时，页面无法打开，查错误，发现是调用了page/404.html模板，而该模板并不存在，所以smarty抛出了错误。
+
+原因：
+	跳转过来时，生成的url是http://host/wmbiz/?index
+	该模式与总后台一样，所以不能使用根目录的index.php作为入口点，否则对控制器的解释就会出错。
+
+解决方法：
+	nginx对/admin和/wmbiz两个目录的非资源访问控制都加重写，使nginx使用这两个目录下的index.php作为入口点。
+
+
+
+============================================================
+
+
+
+总后台中的相对路径资源（如CSS、JS等）无法加载，加载的都是通过index.php输出的HTML
+
+原因：
+	这些资源最显著的特点是使用"./script/...这种路径，
+	这样的路径会使得浏览器解释为使用根目录下的script，
+	而根目录下并不存在这个目录，而是存在于/admin/script中，
+	所以找不到相关资源。
+
+解决办法：
+	在入口文件中加入入口文件的基础URL常量定义：
+
+$proc = "http://";	//预留作为https扩展时的判断使用。
+define("_GATE_URL_",$proc.$_SERVER['HTTP_HOST'].preg_replace("/\/[^\/]*$/", "", $_SERVER['SCRIPT_NAME']));
+
+	然后在模板中，修改所有./script/或./images/或./style/等的前面的“.”改为：
+	<{$smarty.const._GATE_URL_}>
+	即如：
+	<{$smarty.const._GATE_URL_}>/script/.../*.js
+
+
+
+=========================================================
+
+
+
+替换/system/framework/kernel.php后出现错误为一片空白，无法知道出错的原因
+
+原因：
+	解密后的kernel.php中错误处理函数被还原为“空”函数，所以什么也不执行，所以就没有任何的错误出现了。
+
+解决办法：
+	重写kernel.php中的错误处理函数shutdown()，使其在出错时能输出错误信息：
+
+	public function shutdown()
+	{
+		$e = error_get_last();
+		if($e['type'] & ~E_NOTICE)	//如果是notice级别的错误就不显示，否则就显示
+		{
+			$errStr = "<div>Error Type:{$e['type']} <b>{$e['file']}</b></div>";
+			$errStr .= "<pre>{$e['message']}<pre>";
+			echo $errStr;
+		}
+		
+	}
+
+
+
+=========================================================
+
+
+
+总后台，上传图片后，图片显示不出来，找不到图片的地址
+
+原因：
+	事实上图片已经上传成功，只是返回图片URL时，可能因为后台参数配置的原因，造成返回的路径并不正确。
+
+解决办法：
+	总管理后台：
+	设置 》 网站设置 》 附件设置
+	其中的
+		附件URL地址
+	必须为 “/”结尾，否则就会出错！
+
+	**
+	也可以在代码中修改：
+	/system/models/magic/upload.mdl.php
+	修改函数
+		upload()
+	在第47行
+		$dir = $cfg['attachdir'].'photo'.DIRECTORY_SEPARATOR.$ym.DIRECTORY_SEPARATOR;
+	的前面加上：
+		$cfg['attachdir'] = rtrim($cfg['attachdir'],"/")."/";
+	使之强制在读取到的配置值后面加上“/”。
+
+
+
+===============================================================

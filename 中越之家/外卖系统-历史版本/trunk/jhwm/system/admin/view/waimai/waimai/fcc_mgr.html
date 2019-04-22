@@ -1,0 +1,288 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+.param_panel{
+    width: 420px;
+    margin:12px;
+    display: block;
+    float: left;
+    background-color: #FFF;
+    box-sizing: border-box;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+}
+.param_panel > .title{
+    display: block;
+    background-color: #108ee7;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 14px;
+    font-size: 14px;
+    color: #FFF;
+}
+.param_panel > .content_body{
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    padding: 14px;
+}
+.param_panel > .opt_bar{
+    height: 44px;
+    line-height: 44px;
+    border:1px solid #CCC;
+    border-top: none;
+    box-sizing: border-box;
+    padding: 0 12px 12px 12px;
+    text-align: right;
+}
+.param_panel .opt_bar .save_btn{
+    height: 28px;
+    line-height: 28px;
+    display: inline-block;
+    text-align: center;
+    background-color: #108ee7;
+    color: #FFF;
+    padding: 0 12px;
+    font-size: 12px;
+    min-width: 64px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background .26s;
+}
+.param_panel .opt_bar .save_btn:before{
+    content: "保存"
+}
+.param_panel .opt_bar .save_btn:hover{
+    background-color: #09F;
+}
+.param_panel .opt_bar .save_btn:active{
+    background-color: #06F;
+}
+.ParamList > div > .del{
+    color: #F60;
+    cursor: pointer;
+}
+.ParamList > div > .de:hover{
+    color: #F30;
+}
+.ParamList > div > .del:before{
+    content: "删除"
+}
+.ParamList > div{
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    margin:0 8px;
+}
+.ParamList > div > *{
+    display: inline-block;
+}
+.ParamList > div > *:nth-child(1){
+    width: 40%;
+    padding: 0 12px;
+    box-sizing: border-box;
+    text-align: right;
+    height: 26px;
+    line-height: 26px;
+    margin-right: 12px;
+    border-radius: 5px;
+}
+.ParamList > div > *:nth-child(2){
+    width: 40%;
+    padding: 0 12px;
+    box-sizing: border-box;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 5px;
+}
+.ParamList > div > *:nth-child(3){
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+.ParamList .add_btn{
+    color: #080;
+    cursor: pointer;
+}
+.ParamList .add_btn:before{
+    content: "添加"
+}
+.ParamList .add_btn:hover{
+    color:#0A0;
+}
+.exchange_rate_panel{
+    display: block;
+    padding: 8px 14px;
+    height: 26px;
+    line-height: 26px;
+    box-sizing: content-box;
+    background-color: #CEF;
+    border:1px solid #09F;
+    color: #F30;
+    font-size: 16px;
+}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"> </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="exchange_rate_panel">当前汇率：<{$exc_retes.VND|default:'--'}></div>
+    <div class="param_panel">
+        <div class="title">外卖配送费计算参数</div>
+        <div class="content_body">
+            <div class="ParamList">
+                <input type="hidden" value="-1" name="type">
+                <div>起步<input type="text" name="start_distance" value="<{$wm_params.start_distance}>">公里</div>
+                <div>起步公里运费<input type="text" name="start_fee" value="<{$wm_params.start_fee}>">越南盾</div>
+                <div>每公里递增运费<input type="text" name="fee_base" value="<{$wm_params.fee_base}>">越南盾</div>
+                <input type="hidden" name="distance_base" value="<{$wm_params.distance_base}>">
+
+                <{if false}><!--2019-01-24 作废-->
+                <div><span>距离(公里)</span><span>配送费(越南盾)</span></div>
+                <{if $wm_params}>
+                <{foreach $wm_params as $item}>
+                <div><input type="text" value="<{$item.distance}>"><input type="text" value="<{$item.fee}>"><a class="del"></a></div>
+                <{/foreach}>
+                <{/if}>
+                <div><a class="add_btn"></a></div>
+                <!-- 2019-01-24 --><{/if}>
+            </div>
+        </div>
+        <div class="opt_bar"><a class="save_btn"></a></div>
+    </div>
+    <div class="param_panel">
+        <div class="title">同城送配送费计算参数</div>
+        <div class="content_body">
+            <div class="ParamList">
+                <input type="hidden" value="-2" name="type">
+                <div>起步<input type="text" name="start_distance" value="<{$tcs_params.start_distance}>">公里</div>
+                <div>起步公里运费<input type="text" name="start_fee" value="<{$tcs_params.start_fee}>">越南盾</div>
+                <div>每公里递增运费<input type="text" name="fee_base" value="<{$tcs_params.fee_base}>">越南盾</div>
+                <input type="hidden" name="distance_base" value="<{$tcs_params.distance_base}>">
+
+                <{if false}><!-- 2019-01-25 因为使用与外卖一样的计算模式，所以不用这种方式-->
+                <input type="hidden" value="-2" name="type">
+                <input type="hidden" name="in_distance_base" value="<{$tcs_params.in_distance_base}>">
+                <input type="hidden" name="out_distance_base" value="<{$tcs_params.out_distance_base}>">
+                <div>配送费分级范围<input type="text" name="distance_range" value="<{$tcs_params.distance_range}>">公里</div>
+                <div>范围内每公里<input type="text" name="in_fee_base" value="<{$tcs_params.in_fee_base}>">越南盾</div>
+                <div>范围外每公里<input type="text" name="out_fee_base" value="<{$tcs_params.out_fee_base}>">越南盾</div>
+                <!-- 2019-01-25 --><{/if}>
+                <{if false}><!--2019-01-24 作废-->
+                <div><span>距离(公里)</span><span>配送费(越南盾)</span></div>
+                <{if $tcs_params}>
+                <{foreach $tcs_params as $item}>
+                <div><input type="text" value="<{$item.distance}>"><input type="text" value="<{$item.fee}>"><a class="del"></a></div>
+                <{/foreach}>
+                <{/if}>
+                <div><a class="add_btn"></a></div>
+                <!-- 2019-01-24 --><{/if}>
+            </div>
+        </div>
+        <div class="opt_bar"><a class="save_btn"></a></div>
+    </div>
+    <div style="clear: both;"></div>
+    <div class="param_panel">
+        <div class="title">配送附加费</div>
+        <div class="content_body">
+            <div class="ParamList Opt" opt-name="addone">
+                <div>
+                    启用状态：
+                    <select name="is_open">
+                        <option value="0"<{if !$fcc_addone.is_open}>selected="selected"<{/if}>>关闭</option>
+                        <option value="1"<{if $fcc_addone.is_open}>selected="selected"<{/if}>>开启</option>
+                    </select>
+                </div>
+                <div>配送费每单附加<input type="text" name="value" value="<{$fcc_addone.value}>">人民币</div>
+            </div>
+        </div>
+        <div class="opt_bar"><a class="save_btn"></a></div>
+    </div>
+    <div class="param_panel">
+        <div class="title">虚拟商家商品附加费</div>
+        <div class="content_body">
+            <div class="ParamList Opt" opt-name="goods_addone">
+                <div>
+                    启用状态：
+                    <select name="is_open">
+                        <option value="0"<{if !$goods_addone.is_open}>selected="selected"<{/if}>>关闭</option>
+                        <option value="1"<{if $goods_addone.is_open}>selected="selected"<{/if}>>开启</option>
+                    </select>
+                </div>
+                <div>每个商品单价附加<input type="text" name="value" value="<{$goods_addone.value}>">人民币</div>
+            </div>
+        </div>
+        <div class="opt_bar"><a class="save_btn"></a></div>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".ParamList").on("click",".del",function(){
+        $(this).parent().remove();
+    });
+    $(".ParamList").on("click",".add_btn",function(){
+        $("<div><input type=\"text\" value=\"\"><input type=\"text\" value=\"\"><a class=\"del\"></a></div>").insertBefore($(this).parent());
+    });
+    $(".param_panel").on("click",".save_btn",function(){
+        var type = parseInt($.trim($(this).parents(".param_panel").eq(0).find("input[name='type']").val()));
+        // var data = [];
+        // var rows = $(this).parents(".param_panel").eq(0).find(".ParamList").children("div");
+        // for(var k=0;k<rows.length;++k)
+        // {
+        //     var inputs = rows.eq(k).children("input[type='text']");
+        //     if(inputs.length === 2)
+        //     {
+        //         var dis = parseFloat($.trim(inputs.eq(0).val()));
+        //         var fee = parseFloat($.trim(inputs.eq(1).val()));
+        //         if(isNaN(dis) || isNaN(fee) || dis <= 0 || fee<0)
+        //         {
+        //             Widget.MsgBox.error("参数有误，请检查后尝试操作");
+        //             return;
+        //         }
+        //         data.push({distance:dis,fee:fee});
+        //     }
+        // }
+
+        // if(data.length === 0)
+        //     data = "empty";
+
+        var data = {};
+        var ipts = $(this).parents(".param_panel").eq(0).find(".ParamList").eq(0).find("input[name],select[name]");
+        if(ipts.length === 0)
+            return;
+        for(var k in ipts)
+        {
+            if(ipts.eq(k).attr("name") && ipts.eq(k).attr("name") !== "type")
+                data[ipts.eq(k).attr("name")] = Number($.trim(ipts.eq(k).val()));
+        }
+        var postData = {shop_id:parseInt("<{$shop_id}>"),type:type,data:data};
+        if($(this).parents(".param_panel").eq(0).find(".ParamList").eq(0).hasClass("Opt"))
+            postData.opt = $(this).parents(".param_panel").eq(0).find(".ParamList").eq(0).attr("opt-name");
+        // console.log(postData);
+        $.ajax({
+            url: "?waimai/waimai-save_fcc.html",
+            cache: false,
+            data: postData,
+            dataType: "json",
+            type: "POST",
+            success:function(data){
+                if(data.error === 0)
+                    Widget.MsgBox.success("操作成功",{},function(){
+                        //window.location.reload();
+                    });
+                else
+                    Widget.MsgBox.error(data.message);
+            },
+            error: function(){
+                Widget.MsgBox.error("网络或数据错误");
+            }
+        });
+    });
+});
+</script>
+<{include file="admin:common/footer.html"}>

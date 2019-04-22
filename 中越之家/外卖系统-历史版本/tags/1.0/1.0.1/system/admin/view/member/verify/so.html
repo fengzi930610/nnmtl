@@ -1,0 +1,38 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/verify:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?member/verify-index.html" id="SO-form" method="post">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>UID：</th><td><input type="text" name="SO[uid]" value="<{$detail.uid}>" class="input w-100"/></td></tr>
+<tr><th>姓名/企业名：</th><td><input type="text" name="SO[name]" value="<{$detail.name}>" class="input w-300"/></td></tr>
+<tr>
+    <th>审核状态：</th>
+    <td><select name="SO[verify]" class="w-100"><option value="">全部</option><option value="0">待审</option><option value="1">已通过</option><option value="2">已拒绝</option></select></td>
+</tr>
+<tr>
+    <th>认证通过时间：</th>
+    <td>
+        <input type="text" name="SO[verify_time][0]" value="" class="input w-100" date="verify_time" readonly/>~
+        <input type="text" name="SO[verify_time][1]" value="" class="input w-100" date="verify_time" readonly/>
+     </td>
+</tr>
+<tr>
+    <th>申请时间：</th>
+    <td>
+        <input type="text" name="SO[request_time][0]" value="" class="input w-100" date="request_time" readonly/>~
+        <input type="text" name="SO[request_time][1]" value="" class="input w-100" date="request_time" readonly/>
+    </td>
+</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

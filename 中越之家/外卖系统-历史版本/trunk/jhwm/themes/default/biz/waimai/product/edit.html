@@ -1,0 +1,86 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/waimai/product:index'}>">商品管理</a>
+    <a href="<{link ctl='biz/waimai/product:skunotice'}>">库存报警</a>
+    <a class="on">修改商品</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/waimai/product:edit' args=$detail.product_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th><span class="red">*</span>标题：</th>
+                <td>
+                    <input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/><span class="tip-comment">商品标题</span>
+                </td>
+            </tr>
+            <tr>
+                <th>图片：</th>
+                <td>
+                    <input type="text" name="data[photo]" class="input w-300" id="file_photo" value="<{$detail.photo}>" <{if $detail.photo}>photo="<{$pager.img}>/<{$detail.photo}>"<{/if}> />
+                    <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" 选择文件 " />
+                    <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>分类：</th>
+                <td>
+                    <select name="data[cate_id]" class="select_td select w-300">
+                        <{foreach $pcates as $k1=>$v1}>
+                            <option value="<{$v1.cate_id}>" <{if $detail.cate_id == $v1.cate_id}>selected="selected"<{/if}> ><{$v1.title}></option>
+                        <{/foreach}>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>价格：</th>
+                <td><input type="text" name="data[price]" value="<{$detail.price|default:'0.00'}>" class="input w-100"/><span class="tip-comment">价格</span></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>打包费：</th>
+                <td><input type="text" name="data[package_price]" value="<{$detail.package_price|default:'0.00'}>" class="input w-100"/><span class="tip-comment">打包费,0:免打包费</span></td>
+            </tr>
+            <tr id="tr_sale_sku1" class="">
+                <th>库存数：</th><td>
+                    <input type="text" name="data[sale_sku]" value="<{$detail.sale_sku|default:''}>" class="input w-100"/>
+                </td>
+            </tr>
+            <tr>
+                <th>上架：</th>
+                <td>
+                    <ul class="group-list">
+                        <li><label><input type="radio" name="data[is_onsale]" value="0" <{if $detail['is_onsale'] ==0}>checked="checked"<{/if}>>下架</label></li>
+                        <li><label><input type="radio" name="data[is_onsale]" value="1" <{if $detail['is_onsale'] ==1}>checked="checked"<{/if}>>上架</label></li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            <tr><th><span class="red">*</span>描述：</th><td><textarea name="data[intro]" class="textarea"><{$detail.intro}></textarea><br /></td></tr>
+			<tr><th><span class="red">*</span>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/><span class="tip-comment">排序</span></td></tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+        $("[name='data[sale_type]']").click(function () {
+            if ($(this).val() == 1) {
+                $("#tr_sale_sku1").show();
+                $("#tr_sale_sku2").show();
+            } else {
+                $("#tr_sale_sku2").hide();
+                $("#tr_sale_sku1").hide();
+            }
+        });
+        $("[name='data[sale_type]']:checked").trigger("click");
+</script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

@@ -1,0 +1,155 @@
+<{assign var='tpl_title' value=L("团购列表")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='shop/detail' arg0=$shop.shop_id}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+		<{$shop.title}>
+    </div>
+</header>
+
+<section class="page_center_box">
+	<div class="recSeller_list_box mineColct mb10" id="wrapper">
+        <ul></ul>
+    </div>
+</section>
+
+<script id="tmpl_goods_item" type="text/x-jquery-tmpl">
+    <li class="recSeller_list">
+        <a href="${url}">
+            <div class="pub_img fl"><img src="<{$pager.img}>/${photo}" width="100" height="100" /></div>
+        </a>
+        <a href="${url}">
+        <div class="pub_wz">
+            <a href="${url}"><p class="bt">${title}</p></a>
+            <a href="${url}"><p class="pointcl1 price">¥${price}<span class="black9 ml10">门市价：￥${market_price}</span></p></a>
+            <a href="${url}"><p class="black9">已售${sales}</p></a>
+        </div>
+        </a>
+    </li>
+</script>
+
+<div class="mask_box">
+    <div class="accountInfor_headX_mask">
+        <div class="cont">
+            <label class="btn" style="color: #59c181;"><input type="button" id="share_sinablog"/>新浪微博</label>
+        </div>
+        <div class="mar10">
+            <input type="button" class="long_btn cancel" style="background:#fff; color:#59c181;" value="取消" />
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+<script>
+
+$(document).ready(function () {
+    // 获取地址位置
+    getUxLocation(function (ret) {
+        if (ret.error) {
+            alert(ret.message);
+            window.location.href = "<{link ctl='position'}>";
+        } else {
+            $('#position').text(ret.addr);
+            // 加载商品列表
+            LoadData.params['page'] = 1;
+            LoadData.params['shop_id'] = parseInt("<{$shop.shop_id}>");
+            loadPageItems();
+        }
+    });
+})
+
+// 下拉加载
+function loadPageItems(params) {
+    if (LoadData.LOCK) {
+        return false;
+    }
+    LoadData.LOCK = true;
+    params = params || {};
+    LoadData.params = $.extend(LoadData.params, params);
+    Widget.MsgBox.load("加载中...");
+    var link =
+    $.post("<{link ctl='tuan/product:loadgoodsitems'}>", LoadData.params, function (ret) {
+        if (ret.error) {
+            Widget.MsgBox.error(ret.message);
+        } else {
+            console.log(ret.data.items);
+            var length = getObjLen(ret.data.items);
+            if ( length > 0) {
+                if (parseInt(LoadData.params['page'], 10) < 2) {
+                    $("#wrapper ul").html($('#tmpl_goods_item').tmpl(ret.data.items)); // 第一页全部显示
+                } else {
+                    $('#tmpl_goods_item').tmpl(ret.data.items).appendTo($("#wrapper ul")); // 第二页以及之后的加入wrapper
+                }
+            } else if (LoadData.params.page > 1) {
+                if(! $(".loading_end").length) {
+                    $('#wrapper ul').append('<div class="loading_end">没有更多了...</div>');
+                }
+                LoadData.LOAD_END = true;
+            } else {
+                //给一个没有数据的提示信息
+                $("#wrapper ul").html('<div class="nonePage txt_center"><div class="nonePage_img"><img src="/themes/default/static/images/none/none2.png" width="25%"></div><h2 class="black3">该商户暂无团购商品</h2></div>');
+                LoadData.LOAD_END = true;
+            }
+        }
+        LoadData.params.page++;
+        Widget.MsgBox.hide();
+        LoadData.LOCK = false;
+    }, "json");
+}
+
+$(window).scroll(function () {//监听滚动条改变
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+        loadPageItems();
+    }
+});
+
+function collect(status,type) {
+    var link = "<{link ctl='ucenter/collect:collect' arg0='tmp1' arg1='tmp2' arg2='tmp3'}>";
+    link = link.replace('tmp1', status).replace('tmp2', type).replace('tmp3', <{$shop.shop_id}>);
+    jQuery.ajax({
+        url: link,
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                layer.open({content: ret.message,time: 2});
+            }else{
+                layer.open({content: ret.message,time: 2});
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+
+    });
+}
+
+// 收藏事件
+var collect_num = 2;
+$('.headerIco_5').click(function(){
+    if(collect_num % 2 == 0) {
+        collect(0,1);
+    }else{
+        collect(1,1);
+    }
+    collect_num++;
+});
+
+$(".headerIco_4").click(function(){
+    $(".accountInfor_headX_mask").show();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+});
+$(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function(){
+    $(".accountInfor_headX_mask").hide();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+});
+
+/*分享到新浪微博*/
+$('#share_sinablog').click(function() {
+    var shareUrl = window.location.href;   //获取当前页面完整的地址栏URL
+    var sharePic = "<{$pager.img}>/<{$shop.logo}>";       // 获取商家logo图片
+    var shareTitle = '这家店不错哦，一起去吧！'+"<{$shop.title}>，"+"<{$shop.addr}>，"+"<{$shop.mobile}>。"+"@<{$CONFIG.site.title}>"; // 内容
+    window.location.href ='http://service.weibo.com/share/share.php?appkey=1550938859'+'&url='+encodeURIComponent(shareUrl)+'&content=utf-8&sourceUrl='+encodeURIComponent(shareUrl)+'&pic='+encodeURIComponent(sharePic)+'&title='+encodeURIComponent(shareTitle);
+});
+</script>
+<{include file="block/footer.html"}>

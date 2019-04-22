@@ -1,0 +1,128 @@
+<{include file="ditui/block/header.html"}>
+<style type="text/css">
+    .tab_fl2{display:inline-block;width:230px;border-right:2px solid #ffffff;background:#5db42f;color:#ffffff;line-height:40px;height:40px;padding:5px 0px;float:left;text-align:center;}
+</style>
+<div style="margin-left:20px;margin-bottom:20px">
+    <div class="tab_fl2"><{L('今日用户')}> &nbsp;<{if $today_uids}><{$today_uids}><{else}>0<{/if}></div>
+    <div class="tab_fl2"><{L('本周用户')}> &nbsp;<{if $seven_uids}><{$seven_uids}><{else}>0<{/if}></div>
+    <div class="tab_fl2"><{L('本月用户')}> &nbsp;<{if $month_uids}><{$month_uids}><{else}>0<{/if}></div>
+    <div class="tab_fl2"><{L('累计总用户')}> &nbsp;<{if $all_uids}><{$all_uids}><{else}>0<{/if}></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <td colspan="2">
+                <div class="tableBox">
+                    <div id="week_chart" style="margin-top:30px">
+                    </div>
+                    <div id="month_chart" style="margin-top:30px">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<{include file="ditui/block/footer.html"}>
+<script>
+$(function () {
+    $('#week_chart').highcharts({
+        chart: {
+            type: 'line'
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        title: {
+            text: '<{L("近一周推荐成功用户数曲线")}>',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: []
+        },
+        yAxis: {
+            title: {
+                text: '<{L("用户数")}> (<{L("个")}>)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '<{L("个")}>'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '<{L("用户数")}>',
+            data: [
+                <{foreach $week_data as $v1}>
+                [<{$v1.date}>,   <{if empty($v1.uids)}>0<{else}><{$v1.uids}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#month_chart').highcharts({
+        title: {
+            text: '<{L("近一月推荐成功用户数曲线")}>',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -90,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<{L("用户数")}> (<{L("个")}>)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '<{L("个")}>'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '<{L("用户数")}>',
+            data: [
+                <{foreach $month_data as $v2}>
+                [<{$v2.date}>,   <{if empty($v2.uids)}>0<{else}><{$v2.uids}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+});
+</script>

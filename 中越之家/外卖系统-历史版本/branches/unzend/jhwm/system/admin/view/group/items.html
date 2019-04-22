@@ -1,0 +1,79 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?group/group-items.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="配送站名称、联系人、联系电话" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="group/group:create" class="button" title="添加" }>
+                <{* link ctl="group/group:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索" *}></td>
+            <td width="15"></td>
+
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">配送站id</th>
+                <th class="w-100">城市</th>
+                <th class="w-100">配送站名称</th>
+                <th class="w-200">配送站地址</th>
+                <th class="w-150">联系电话</th>
+                <th class="w-150">联系人</th>
+                <!-- <th class="w-100">联系人头像</th> -->
+                <th class="w-100">派单过期时间</th>
+                <th class="w-100">配送员接单限制</th>
+                <th class="w-100">创建时间</th>
+                <th>操作</th>
+
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.group_id}>" name="group_id[]" CK="PRI"/><{$item.group_id}><label></td>
+                <td><{$item.city_name}>(ID:<{$item.city_id}>)</td>
+                <td><{$item.group_name}></td>
+                <td><{$item.dizhi}></td>
+                <td><{$item.mobile}></td>
+                <td><{$item.contact}></td>
+                <td><{$item.overtime}></td>
+                <td>
+                    <{if $item.is_used==1}>
+                    <span style="color: rgb(255,0,0)"> 限接<{$item.limit_order}>单</span>
+                    <{else}>
+                    <span style="color: #0cb79e">不限制</span>
+                    <{/if}>
+                </td>
+                <td><{$item.dateline|format:'Y-m-d H:i:s'}></td>
+
+                <td>
+                    <{link ctl="group/group:edit" args=$item.group_id class="button" priv="hide" title="设置"}>
+
+                    <{if $have_pei}>
+                    <{link ctl="group/group:manage" args=$item.group_id class="button" target="_blank group" priv="hide" title="管理"}>
+                    <{/if}>
+
+                    <{link ctl="group/group:delete" args=$item.group_id act="mini:关闭" confirm="mini:确定要关闭配送站吗？" title="关闭" class="button"}>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="group/group:delete" type="button" submit="mini:#items-form" confirm="mini:确定要关闭冻结选中的配送站吗?" priv="hide" value="批量关闭"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,29 @@
+<{foreach $items as $item}>
+<li class="pingjia-one">
+    <div class="mb5">
+        <div class="man-pic"><img src="<{$pager.img}>/<{if $item.is_anonymous || !$users[$item['uid']]['face']}>default/face.png<{else}><{$users[$item['uid']]['face']}><{/if}>"><{$count_1}></div>
+        <div class="man-good">
+            <div class="black6 mb5 overflow_clear"><{if $item.is_anonymous || !$users[$item['uid']]['nickname']}>匿名<{else}><{$users[$item['uid']]['nickname']}><{/if}> <span class="fr pay-time black9"><{$item.dateline|format:'Y/m/d H:i'}></span></div>
+            <div class="black9"><span class="starBg mr10"><span class="star" style="width:<{$item['score']*20}>%;"></span></span> <{if $item.pei_type != 3}><{$item.pei_time}>分钟送达<{/if}></div>
+        </div>
+        <div class="clear"></div> 
+    </div>
+    <div class="the-word mb5" style="word-wrap:break-word"><{$item.content}></div>
+    <{if $item.photos}>
+    <div class="goo_pics">
+        <ul class="">
+            <{foreach $item.photos as $pic}>
+            <li class="pic-one layer-photos-demo evlt" id="evlt<{$pic@index}>" rel="<{$pic@index}>" data-josn="<{$item.photo_josn}>"  style="background: url('<{$pager.img}>/<{$pic.photo}>_thumb.jpg') no-repeat center; background-size: cover;"><!--<img src="<{$pager.img}>/<{$pic.photo}>" layer-src="<{$pager.img}>/<{$pic.photo}>" alt="图片" />--></li>
+            <{/foreach}>
+            <div class="clear"></div>
+        </ul>    
+    </div> 
+    <{/if}>
+    <{if $item.reply}>
+    <div class="the-replay mb5">
+        <p>商家回复：</p>
+           <{$item.reply}>
+    </div>
+    <{/if}>
+</li>
+<{/foreach}>

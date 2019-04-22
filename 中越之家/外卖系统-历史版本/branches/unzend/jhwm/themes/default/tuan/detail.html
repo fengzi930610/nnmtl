@@ -1,0 +1,172 @@
+<{assign var='tpl_title' value=L("<{$tuan.title}>")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='tuan/product:goodsitems' args=<{$tuan.shop_id}>}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+		团购详情
+    </div>
+    <!-- <i class="right"><a href="javascript:void(0);" class="ico headerIco headerIco_4"></a><a href="javascript:void(0);" class="ico headerIco headerIco_5 ml10"></a></i> -->
+</header>
+<section class="page_center_box">
+    <form method="post" action="<{link ctl='tuan/order:sub' args=<{$tuan.shop_id}>}>">
+    	<div class="shangpin_infor">
+        	<img src="<{$pager.img}>/<{$tuan.photo}>" width="100%">
+            <div class="shangpin_infor_wz">
+            	<p class="bt"><{$tuan.title}></p>
+                <p><{$tuan.desc}></p>
+            </div>
+        </div>
+        <div class="shangpin_price clear_both border_b mb10">
+        	<div class="fl"><p class="mt5"><span class="price pointcl1 mr10">¥<{$tuan.price}></span>门市价：¥<{$tuan.market_price}><span class="ml10">已售出<{$tuan.sales}></span></p></div>
+            <input type="hidden" name="data[tuan_id]" value="<{$tuan.tuan_id}>">
+            <div class="fr">
+                 <input type="submit" class="pub_btn redbg" value="立即抢购" />
+            </div>
+        </div>
+    </form>
+    <h3 class="bgcolor_white pad10 border_t border_b">商家信息</h3>
+    <div class="shangpin_seller border_b mb10">
+        <div class="pub_box clear_both">
+            <a href="tel:<{$shop.phone}>" class="ico telIco fr"></a>
+            <div class="pub_wz">
+                <h3><{$shop.title}></h3>
+            </div>
+        </div>
+        <div class="addr mt10 clear_both">
+        	<span class="range black9 fr"></span>
+            <p class="black9"><{$shop.addr}></p>
+        </div>
+    </div>
+
+    <h3 class="bgcolor_white pad10 border_t border_b">购买须知</h3>
+    <div class="shangpin_edt mb10">
+        <div style="font-size: 0.13rem;color: #ff9900;">有效期：</div>
+        <{$tuan.stime|format:'Y-m-d'}>至<{$tuan.ltime|format:'Y-m-d'}>
+        <div style="font-size: 0.13rem;color: #ff9900;">使用规则：</div>
+        <{$tuan.notice|nl2br}></br>
+        <h3 class=""><a href="javascript:tuwendetail();" class="maincl" style=" border-top: 1px solid #e5e5e5; padding-top: 0.05rem; display: block; margin-top: 0.05rem;">图文详情&gt;&gt;</a></h3>
+    </div>
+
+    <h3 class="bgcolor_white pad10 border_t border_b">其他团购<a href="<{link ctl='tuan/product:goodsitems' args=<{$shop.shop_id}>}>" class="fr black9">全部&gt;&gt;</a></h3>
+    <div class="recSeller_list_box mineColct mb10">
+        <ul>
+            <{foreach $others as $v}>
+            <li class="recSeller_list">
+                <div class="pub_img fl"><img src="<{$pager.img}>/<{$v.photo}>" width="100" height="100" /></div>
+                <div class="pub_wz">
+                    <p class="bt"><a href="<{$v.url}>" class="overflow_clear"><{$v.title}></a></p>
+                    <p class="pointcl1 price">¥<{$v.price}><span class="black9 ml10">门市价：￥<{$v.market_price}></span></p>
+                    <p class="black9">已售<{$v.sales}></p>
+                </div>
+            </li>
+            <{/foreach}>
+        </ul>
+    </div>
+    <h3 class="bgcolor_white pad10 border_t">全部评价<a href="<{link ctl='tuan/comment:index' arg0=<{$tuan.shop_id}> arg1=<{$tuan.tuan_id}>}>" onclick="tuan('<{$tuan.tuan_id}>');" class="fr black9">全部&gt;&gt;</a></h3>
+    <ul class="mb10">
+        <{foreach $tuan.comments as $k=>$v}>
+        <li class="evaluate_list">
+            <div class="tx fl"><img src="<{$pager.img}>/<{$v.face}>" width="100" height="100" /></div>
+            <div class="wz">
+                <p><{$v.nickname}></p>
+                <div><span class="starBg"><span class="star" style="width:<{$v['score']*20}>%;"></span></span></div>
+                <p><{$v.content}></p>
+                <div class="img_list">
+                    <ul>
+                        <{foreach $v.photo as $kk=>$vv}>
+                        <li><img src="<{$pager.img}>/<{$vv.photo}>" width="100" height="100" /></li>
+                        <{/foreach}>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <{if $v.reply}>
+                <p class="black9"><{$v.dateline|format:"Y-m-d H:i:s"}></p>
+                <div class="evaluate_reply">
+                    <p><{$v.reply}></p>
+                    <p class="time black9"><{$v.reply_time|format:"Y-m-d H:i:s"}></p>
+                </div>
+                <{/if}>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <{/foreach}>
+    </ul>
+</section>
+<div class="mask_box">
+    <div class="accountInfor_headX_mask">
+        <div class="cont">
+            <label class="btn" style="color: #59c181;"><input type="button" id="share_sinablog"/>新浪微博</label>
+        </div>
+        <div class="mar10">
+            <input type="button" class="long_btn cancel" style="background:#fff; color:#59c181;" value="取消" />
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+
+<script>
+
+$(".headerIco_4").click(function(){
+    $(".accountInfor_headX_mask").show();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+});
+$(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function(){
+    $(".accountInfor_headX_mask").hide();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+});
+
+$('.range.black9.fr').text("<{$tuan.juli_label}>");
+
+/*分享到新浪微博*/
+$('#share_sinablog').click(function() {
+    var shareUrl = window.location.href;                   //获取当前页面完整的地址栏URL
+    var sharePic = "<{$pager.img}>/<{$tuan.photo}>";       // 获取团购商品图片
+    var shareTitle = '在'+"<{$CONFIG.site.title}>"+'发现一个不错的团购哦，您也来看看吧。'+"<{$tuan.desc}>"; // 内容
+    window.location.href ='http://service.weibo.com/share/share.php?appkey=1550938859'+'&url='+encodeURIComponent(shareUrl)+'&content=utf-8&sourceUrl='+encodeURIComponent(shareUrl)+'&pic='+encodeURIComponent(sharePic)+'&title='+encodeURIComponent(shareTitle);
+});
+
+
+function tuan(tuan_id) {
+    localStorage['tuandetail_tuan_id'] = parseInt(tuan_id);
+}
+
+function collect(status,type) {
+    var link = "<{link ctl='ucenter/collect:collect' arg0='tmp1' arg1='tmp2' arg2='tmp3'}>";
+    link = link.replace('tmp1', status).replace('tmp2', type).replace('tmp3', <{$tuan.tuan_id}>);
+    jQuery.ajax({
+        url: link,
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                layer.open({content: ret.message,time: 2});
+            }else{
+                layer.open({content: ret.message,time: 2});
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+
+    });
+}
+
+// 收藏事件
+var collect_num = 2;
+$('.headerIco_5').click(function(){
+    if(collect_num % 2 == 0) {
+        collect(0,3);
+    }else{
+        collect(1,3);
+    }
+    collect_num++;
+});
+
+function tuwendetail() {
+    var link = "<{link ctl='tuan/product:tuwendetail' args='temp'}>";
+    window.location.href = link.replace('temp', parseInt(<{$tuan.tuan_id}>));
+}
+
+</script>
+<{include file="block/footer.html"}>

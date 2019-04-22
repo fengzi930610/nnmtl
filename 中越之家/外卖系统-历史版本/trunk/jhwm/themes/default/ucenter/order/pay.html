@@ -1,0 +1,95 @@
+<{assign var='tpl_title' value='支付页面'}>
+<{include file="block/header.html"}>
+        <header>
+            <i class="left"><a href="javascript:history.go(-1);" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                支付页面
+            </div>
+            <i class="right"><a href="#" class=""></a></i>
+        </header>
+        <section class="page_center_box">
+            <div class="minePay">
+                <div class="pad10 bgcolor_white border_b">
+                    <p class="font_size14 font_line24 clear_both">订单编号：<{$order.order_id}></p>
+                </div>
+                <div class="pad10 bgcolor_white border_b">
+                    <a href="javascript:void(0);"><p class="font_size14 font_line24 clear_both">订单总价<span class="black9 fr" id="totalprice">￥<{if $order.is_weikuan == 1}><{$order.amount}><{else}><{$pager.total_price}><{/if}></span></p></a>
+                </div>
+                <{if $pager.youhui_amount}>
+                <div class="pad10 bgcolor_white border_b">
+                    <a href="javascript:void(0);"><p class="font_size14 font_line24 clear_both"><{$pager.payment_str}><span class="black9 fr" id="hongbao">￥<{$pager.youhui_amount}></span></p></a>
+                </div>
+                <{/if}>
+                <div class="pad10 bgcolor_white border_b mb10">
+                    <p class="font_size14 font_line24 clear_both">实际支付<span class="pointcl1 fr" id="amount">￥<{if $order.is_weikuan == 1}><{$order.amount}><{else}><{$pager.payment_amount}><{/if}></span></p>
+                </div>
+                <ul class="payWay mb10">
+                    <li><p class="bt">支付方式</p></li>
+                    <li>
+                        <label class="radioLabel">
+                            <div class="fl">
+                                <em class="ico_1"></em>
+                                <p class="overflow_clear bt">支付宝</p>
+                                <p class="overflow_clear black9">推荐使用支付宝客户端支付</p>
+                            </div>
+                            <span class="fr radioInt on"><input name="pay_code" value="alipay" type="radio"></span>
+                            <div class="clear"></div>
+                        </label>
+                    </li>
+                    <{if $weixin == 1}>
+                    <li>
+                        <label class="radioLabel">
+                            <div class="fl">
+                                <em class="ico_3"></em>
+                                <p class="overflow_clear bt">微信</p>
+                                <p class="overflow_clear black9">推荐使用微信客户端支付</p>
+                            </div>
+                            <span class="fr radioInt"><input name="pay_code" value="wxpay" type="radio"></span>
+                            <div class="clear"></div>
+                        </label>
+                    </li>
+                    <{/if}>
+                    <li>
+                        <label class="radioLabel">
+                            <div class="fl">
+                                <em class="ico_4"></em>
+                                <p class="overflow_clear bt">余额支付</p>
+                                <p class="overflow_clear black9">推荐余额足够的用户使用,您的余额￥<{$MEMBER.money}></p>
+                            </div>
+                            <span class="fr radioInt"><input name="pay_code" value="money" type="radio"></span>
+                            <div class="clear"></div>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <footer>
+            <div class="btn_box"><a href="javascript:orderpay();" class="long_btn">确认支付</a></div>
+        </footer>
+        <script>
+            $(document).ready(function () {
+                /*单选项选择开始*/
+                $('.recharge .radioLabel').click(function () {
+                    $('.recharge .radioLabel .radioInt').removeClass('on');
+                    $(this).find('.radioInt').addClass('on');
+                });
+                $('.payWay .radioLabel').click(function () {
+                    $('.payWay .radioLabel .radioInt').removeClass('on');
+                    $(this).find('.radioInt').addClass('on');
+                });
+                /*单选项选择结束*/
+                if (localStorage['order_pay']) {
+                    $('.headerIco_3').attr('href', localStorage['order_pay']);
+                }
+            });
+
+            function orderpay() {
+                var pay_code = $('.radioInt.on').find("input[name='pay_code']").val();
+                var order_id = parseInt("<{$order.order_id}>");
+                var link = "<{link ctl='trade/payment/order' arg0=paycode arg1=order_id}>";
+                window.location.href = link.replace('paycode', pay_code).replace('order_id', order_id);
+            }
+
+        </script>
+    </body>
+</html>

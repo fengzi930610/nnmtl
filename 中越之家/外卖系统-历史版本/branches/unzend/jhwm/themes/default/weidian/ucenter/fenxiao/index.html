@@ -1,0 +1,85 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<div class="fx_tweeterApply_top">
+    	<p class="big mb10">申请特权，成为推客</p>
+        <p>关注微信公众号</p>
+        <{if 1==<{$is_guanzhu}>}>
+        <a href="#" class="btn" style="background-color: #aaa;">已关注</a>
+        <{else}>
+        <a href="#" class="btn" id="guanzhu">添加关注</a>
+        <{/if}>
+
+    </div>
+
+    <div class="fx_tweeterApply_mask"><img src="<{$pager.img}>/<{$weixinqr}>" width="100" height="100"></div>
+    <div class="mask_bg"></div>
+    <script>
+        $(document).ready(function() {
+            $("#guanzhu").click(function(){
+                $(".fx_tweeterApply_mask").fadeIn(200);
+                $(".mask_bg").fadeIn(200);
+            });
+            $(".mask_bg").click(function(){
+                $(".fx_tweeterApply_mask").fadeOut(200);
+                $(".mask_bg").fadeOut(200);
+                window.location.reload();
+            });
+        });
+    </script>
+<style>.fx_tweeterApply_mask{ display:none; position:fixed; z-index:1002; width:2rem; height:2rem; background:#fff; padding:0.05rem; left:35%; top:35%; margin-left:-0.55rem; margin-top:-0.55rem;}
+.fx_tweeterApply_mask img{ width:100%; height:auto;}
+</style>
+    <div class="fx_tweeterApply_cont">
+    	<div class="tit">推客特权</div>
+        <div class="list">
+        	<i class="ico ico1"></i>
+            <div class="wz">
+            	<h4>独立微店</h4>
+                <p>拥有自己的微店及推广二维码；</p>
+            </div>
+        </div>
+        <div class="list">
+        	<i class="ico ico2"></i>
+            <div class="wz">
+            	<h4>销售拿佣金</h4>
+                <p>微店卖出商品，您可以获得佣金；</p>
+            </div>
+        </div>
+        <div class="list">
+            <p>推客的商品销售统一由厂家直接收款、直接发货，并提供产品的售后，分销佣金由厂家统一设置。</p>
+        </div>
+    </div>
+</section>
+<footer class="long_btn_box">
+    <a href="#" class="long_btn <{if 0 == $is_guanzhu}>
+    bggray
+    <{/if}>">加入推客</a>
+</footer>
+<script>
+    $(document).ready(function(){
+        $('.long_btn').click(function(){
+            <{if 1==<{$is_guanzhu}>}>
+
+            var link = "<{link ctl='ucenter/fenxiao/register'}>";
+            $.post(link,{},function(ret) {
+                layer.open({
+                    content: ret.message,
+                    time:2
+                });
+                if(ret.error == 0) {
+                    setTimeout(function(){
+                        location.href = ret.forward;
+                    },2000);
+                }
+            },'json');
+
+            <{else}>
+
+            alert('请点击"添加关注"按钮,关注官方微信号.');
+
+            <{/if}>
+
+        })
+    })
+</script>
+<{include file="fenxiao/block/footer.html"}>

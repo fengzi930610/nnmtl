@@ -1,0 +1,56 @@
+<script type="text/javascript">
+	//屏蔽自动填充表单
+	if(document.querySelector('input[type="password"]')){
+        document.querySelector('input[type="password"]').autocomplete = 'new-password';
+    };
+</script>
+<{if $request.MINI=='load'}>
+<script type="text/javascript">(function(){
+    $(".layui-layer-content .page-title").hide();
+    $(".layui-layer-content .page-data").css({margin:"0px"});
+})(window.KT, window.jQuery);</script>
+<{elseif $request.MINI=='LoadIframe'}>
+<script type="text/javascript">
+(function(T, $){
+$(document).off("click",":checkbox[CKA]").on("click",":checkbox[CKA]",function(){
+    var $cks = $(":checkbox[CK='"+$(this).attr("CKA")+"']");;
+    if($(this).prop("checked")){
+        $cks.each(function(){$(this).attr("checked",true);});
+    }else{
+        $cks.each(function(){$(this).attr("checked",false);});
+    }
+});
+$(".page-title").hide();$(".page-data").css({margin:"0px"});
+$(document).off("click", "[date],[datepicker]").on("click", "[date],[datepicker]", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});});
+$(document).off("click", "[datetime],[timepicker]").on("click", "[datetime],[timepicker]", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+window.parent.Widget.MsgBox.hide();
+if(typeof(window.parent.Dialog_Iframe) == 'object'){
+    window.parent.Dialog_Iframe.dialog({height: $("body").height()+50});
+}else{
+}
+})(window.KT, window.jQuery);
+</script>
+</body>
+</html>
+<{else}>
+<p class="s-50"></p>
+<script type="text/javascript">
+(function(T, $){
+$(document).off("click", "[date],[datepicker]").on("click", "[date],[datepicker]", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});});
+$(document).off("click", "[datetime],[timepicker]").on("click", "[datetime],[timepicker]", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+	$(document).off("click",":checkbox[CKA]").on("click",":checkbox[CKA]",function(){
+		var $cks = $(":checkbox[CK='"+$(this).attr("CKA")+"']");;
+		if($(this).prop("checked")){
+			$cks.each(function(){$(this).prop("checked",true);});
+		}else{
+			$cks.each(function(){$(this).prop("checked",false);});
+		}
+	});
+	if (window.parent == window){
+		$(".page-data").css({margin:"45px 10px 10px 10px"});
+	}
+})(window.KT, window.jQuery);
+</script>
+</body>
+</html>
+<{/if}>

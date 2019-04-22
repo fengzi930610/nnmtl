@@ -1,0 +1,73 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/bianmin/index:create'}>" class="on">添加便民服务</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='wuye/bianmin/index:create'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th>分类：</th>
+                <td>
+                    <select name="data[cate_id]" id="cate">
+                        <{foreach $cate as $k => $v}>
+                        <option value="<{$v.cate_id}>"><{$v.title}></option>
+                        <{/foreach}>
+                      </select>
+                </td>
+            </tr>
+            <tr>
+                <th>服务名称：</th>
+                <td>
+                    <input type="text" name="data[title]" value="" class="input w-500"/>
+                </td>
+            </tr>
+            <tr>
+                <th>服务介绍：</th>
+                <td>
+                    <input type="text" name="data[intro]" value="" class="input w-500"/>
+                </td>
+            </tr>
+            <tr>
+                <th>电话：</th>
+                <td>
+                    <input type="text" name="data[phone]" value="" class="input w-200"/>
+                </td>
+            </tr>
+            <tr><th>地图坐标：</th>
+                <td>
+                    <label>地址:<input type="text" name="data[addr]" value="" id="Bmap_marker_addr" class="input w-200"/></label>
+                    <label>经度:<input type="text" name="data[lng]" value="<{$shop.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+                    <label>纬度:<input type="text" name="data[lat]" value="<{$shop.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>   
+                    <span class="tip-comment"><a map-marker="#Bmap_marker_lng,#Bmap_marker_lat,#Bmap_marker_addr" class="btn btn-success"><b>拾取工具</b></a></span>
+                </td>
+            </tr>
+
+            <input type="hidden" name="data[xiaoqu_id]" value='<{$xiaoqu_id}>'  >
+            
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+
+$("[name='data[stock_type]']").click(function () {
+if ($(this).val() == 1) {
+    $("#tr_sale_sku1").show();
+} else {
+    $("#tr_sale_sku1").hide();
+}
+});
+$("[name='data[stock_type]']:checked").trigger("click");
+})(window.KT, window.jQuery);
+
+</script>  
+<{include file="wuye/block/footer.html"}>

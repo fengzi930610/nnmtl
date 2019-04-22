@@ -1,0 +1,46 @@
+<{assign var='tpl_title' value=L("满减优惠-详情")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--内容开始-->
+            	<div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动状态：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.closed == 1}>已失效<{elseif $detail.audit == 0}>待审核<{elseif $detail.stime >$nowtime}>待生效<{elseif $detail.ltime < $nowtime}>已过期<{else}>已生效<{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">创建时间：</div>
+                    <div class="pub_list_bd">
+                    	<P><{$detail.dateline|format:'Y-m-d H:i'}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动时间：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.stime == ($detail.ltime + 86399)}><{$detail.stime|format:'Y-m-d H:i'}>至<{$detail.ltime|format:'Y-m-d H:i'}><{else}><{$detail.stime|format:'Y-m-d'}>至<{$detail.ltime|format:'Y-m-d'}><{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动状态：</div>
+                    <div class="pub_list_bd">
+                    	<{foreach $config as $item}>
+                            <{if $item.order_amount>0}>
+                                <P>满<{$item.order_amount}>减<{$item.coupon_amount}>，商家承担<{$item.shop_amount}>，平台承担<{$item.roof_amount}></P>
+                            <{/if}>
+                        <{/foreach}>
+                    </div>
+                </div>
+                <!--内容结束-->
+            </div>
+            <!--底部按钮-->
+            <div class="footer_actDeltBtn">
+            	<{if $detail.closed != 1}><a href="<{link ctl='webview/huodong/manjian/close' args=$detail.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_warn tab_btn_del">撤销活动</a><{/if}>
+            </div>
+            <!--底部按钮end-->
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

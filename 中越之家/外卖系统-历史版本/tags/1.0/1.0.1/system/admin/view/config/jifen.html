@@ -1,0 +1,42 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?system/config-jifen.html" mini-form="config-form" method="post" >
+		<input type="hidden" name="K" value="jifen" />
+		<table width="100%" border="0" cellspacing="0" class="table-data form">
+			<tr>
+				<th>获取积分模块：</th>
+				<td>
+					<{foreach $jifen_modules as $key=>$mod}>
+					<label><input type="checkbox" name="config[jifen_module][]" <{if in_array($key,$config['jifen_module'])}>checked="checked"<{/if}> value="<{$key}>"/><{$mod}></label>&nbsp;&nbsp;
+					<{/foreach}>
+				</td>
+			</tr>
+			<tr>
+				<th>获取积分场景：</th>
+				<td>
+					<label><input type="radio" name="config[jifen_type]" <{if $config.jifen_type == 1}>checked="checked"<{/if}> value="1"/>订单评价后</label>&nbsp;&nbsp;
+					<label><input type="radio" name="config[jifen_type]" <{if $config.jifen_type == 2}>checked="checked"<{/if}> value="2"/>订单完成后</label>
+				</td>
+			</tr>
+    		<tr>
+    			<th>1元奖积分数：</th>
+    			<td><input type="text" name="config[jifen_ratio]" value="<{$config.jifen_ratio|default:'1'}>" class="input w-100"/><span class="tip-comment">用户下单后评价根据订单金额获取积分（1代表1元奖1积分）</span></td>
+    		</tr>
+			<tr>
+				<th class="clear-th-bottom"></th>
+				<td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

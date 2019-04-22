@@ -1,0 +1,148 @@
+<{assign var='tpl_title' value='收货地址-定位'}>
+<{include file="block/header.html"}>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+<header>
+    <i class="left"><a href="javascript:void(0);" id="back" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">地图</div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+
+<div class="lctSer">
+    <div class="box">
+        <form>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td><input type="text" class="text" id="kword" placeholder="请输入小区名称或首字母搜索"></td>
+                    <!--<td width="70"><input type="button" class="pub_btn" value="搜索"></td>-->
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<!--地图此处-->
+<div id="container" style="width:100%;height:350px;"></div>
+<style type="text/css">
+.page_center_box{top:350px !important;}
+</style>
+<section class="page_center_box">
+    <ul id="li">
+        <!--搜索结果-->
+    </ul>
+</section>
+
+<style>
+    .tangram-suggestion-main {
+        z-index: 200;
+    }
+</style>
+
+<script type="text/javascript">
+var geo = new BMap.Geolocation();
+var map = new BMap.Map("container");
+geo.getCurrentPosition(function(r){
+    k = r.address.province+r.address.city+r.address.district+r.address.street;
+    window.render(r, this);
+    window.keywords(this);
+    window.search(k);
+}, {enableHighAccuracy: true});
+
+var container = document.getElementById("container");
+var central = document.createElement("div");
+
+    central.style.top="50%";
+    central.style.margin="0 auto";
+    central.style.position="relative";
+    central.style.width="36px";
+    central.style.height="36px";
+    central.style.zIndex="100000";
+    central.innerHTML ='';
+    central.innerHTML ='<img src="/themes/default/static/images/coordinate@2x.png" />';
+    map.addEventListener("tilesloaded",function(){
+        container.appendChild(central);
+    });
+
+    /*地图拖拽事件*/
+    map.addEventListener("dragend", function(){
+        var center = map.getCenter();
+        var mPoint = new BMap.Point(center.lng, center.lat);
+        map.enableScrollWheelZoom();  //启用滚轮缩放
+        map.centerAndZoom(mPoint,17); // 设置地图显示级别
+
+        var mOption = {poiRadius : 500,numPois : 10}; //获取全部POI（该点半径为100米内有6个POI点）
+        var myGeo = new BMap.Geocoder(); //创建地址解析实例
+
+         //使用反地址解析
+        myGeo.getLocation(mPoint, function mCallback(result) {
+            var allPois = result.surroundingPois;
+            var first_dq = '';
+            str = '';
+            for( i = 0; i < allPois.length ; i++ ){
+                if(i===0) var tip = "[当前]";else  var tip = '';
+                var s = allPois[i];
+                    str += "<li onclick=\"getData(this)\" title='"+s.title+"'  addr='"+s.address+"' city='"+s.city+"' lat='"+s.point.lat+"' lng='"+s.point.lng+"' class='serveAddr_cell_list pad10 border_b bgcolor_white'><div class='ico fl'></div><div class='pub_wz'><p class='maincl'>"+tip+s.title+"</p><p class='black3'>"+s.address+"</p></div><div class='clear'></div>";
+            }
+            document.getElementById("li").innerHTML = str;
+            },mOption);
+    });
+
+
+
+//渲染地图
+window.render = function(r, context){
+    map.centerAndZoom(new BMap.Point(r.longitude, r.latitude), 15);
+    if(context.getStatus() == BMAP_STATUS_SUCCESS){
+		var mk = new BMap.Marker(r.point);
+		map.addOverlay(mk);
+		map.panTo(r.point);
+	}
+}
+//关键字输入
+window.keywords = function(){
+    auto = new BMap.Autocomplete({input: 'kword', location: map});
+	auto.addEventListener('onconfirm', function(e){
+        v = e.item.value;
+        k = v.province + v.city + v.district + v.street + v.business;
+        window.search(k);
+    });
+}
+//独立搜索,只需传入要搜的地址
+window.search = function(k){
+    local = new BMap.LocalSearch(map, {
+        onSearchComplete:function(results){
+            pp = local.getResults().getPoi(0).point;
+            map.clearOverlays();
+            map.centerAndZoom(pp, 15);
+            map.addOverlay(new BMap.Marker(pp));
+            if(local.getStatus() == BMAP_STATUS_SUCCESS){
+                str = '';
+                for(i=0;i<results.getCurrentNumPois(); i++){
+                    if(i===0) tip = "[当前]";else tip = '';
+                    s = results.getPoi(i);
+                    str += "<li onclick=\"getData(this)\" title='"+s.title+"'  addr='"+s.address+"' city='"+s.city+"' lat='"+s.point.lat+"' lng='"+s.point.lng+"' class='serveAddr_cell_list pad10 border_b bgcolor_white'><div class='ico fl'></div><div class='pub_wz'><p class='maincl'>"+tip+s.title+"</p><p class='black3'>"+s.address+"</p></div><div class='clear'></div>";
+                }
+                document.getElementById("li").innerHTML = str;
+            }
+        }
+    });
+    local.search(k);
+}
+
+
+
+function getData(o)
+{
+    if(localStorage['back_addr']){
+        var back_addr =  JSON.parse(localStorage['back_addr']);
+        var back_url = back_addr.backurl;
+    }
+    args = '?&o_lng='+o.getAttribute('lng')+'&o_lat='+o.getAttribute('lat')+'&o_addr='+encodeURIComponent(o.getAttribute('title'))+'&o_city='+encodeURIComponent(o.getAttribute('city'));
+
+    window.location.href = back_url + args;
+}
+
+$('#back').click(function(){
+    history.back(-1);
+})
+
+</script>
+<{include file="block/footer.html"}>

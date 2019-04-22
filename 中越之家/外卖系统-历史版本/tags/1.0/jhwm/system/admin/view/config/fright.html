@@ -1,0 +1,81 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li><a href="?system/config-fright.html" target="admin_main" class="on">默认配置</a></li>
+            <li><a href="?system/config-frighttime.html" target="admin_main" >其他时间配置</a></li>
+            <li><a href="?system/config-badweather.html" target="admin_main" >恶劣天气配置</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?system/config-fright.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="fright" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr><th style="text-align: left; text-indent: 10px;" colspan="2">运费设置：</th></tr>
+            <tr class="w-500">
+                <td>
+                    <table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-800">
+                        <tr>
+                            <th>距离(km)</th>
+                            <th>金额(元)</th>
+                            <th class="w-100"><a class="jq_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $config as $k=>$item}>
+                            <tr class="jq_tr" rel="<{$k}>">
+                                <td>
+                                    <input type="text" class="input w-100" name="config[fkm][]" value="<{$item.fkm}>" />
+                                </td>
+                                <td>
+                                    <input type="text" class="input w-100" name="config[fm][]" value="<{$item.fm}>" />
+                                </td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                          <{foreachelse}>
+                            <tr class="jq_tr" rel="0">
+                                <td><input type="text" class="input w-100" name="config[fkm][]" value=""></td>
+                                <td><input type="text" class="input w-100" name="config[fm][]" value=""></td>
+                            </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+            </tr>
+            <tr><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+        </table>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".jq_add").click(function () {
+            var j = $(".jq_tr:last").attr("rel");
+            var k = parseInt(j)+1;
+            $("#table_hongbao_list").append('<tr class="jq_tr" rel="'+k+'"><td><input type="text" class="input w-100" name="config[fkm][]" value=""></td><td><input type="text" class="input w-100" name="config[fm][]" value=""></td><td><a href="javascript:;" class="text-danger jq_delete">删除</a></td></tr>');
+        })
+        $("#table_hongbao_list").on('click', '.jq_delete', function () {
+            $(this).parent().parent().remove();
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    (function(K, $){
+        $("input[name='config[closed]']").on('click', function(){
+            if($(this).val() == 1){
+                $("#tr_closed_reason").show();
+            }else{
+                $("#tr_closed_reason").hide();
+            }
+        });
+    })(window.KT, window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

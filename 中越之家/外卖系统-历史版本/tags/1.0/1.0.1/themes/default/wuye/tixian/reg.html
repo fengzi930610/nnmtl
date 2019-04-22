@@ -1,0 +1,37 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/tixian/index:reg'}>" class="on">申请提现</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='wuye/tixian/index:reg'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <input type="hidden" value="<{$wuye_id}>" name="data[wuye_id]" />
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <th><span class="red">*</span>提现金额：</th>
+            <td><input type="text" name="data[money]" value="" class="input w-100"/>当前余额：<{$wuye.money}></td>
+        </tr>
+     <tr>
+        <th><span class="red">*</span>所属银行：</th>
+        <td>
+            <select name="data[account_info]" class="select select_td input" style="width:300px;">
+                <{foreach $items as $k => $v}>
+                <option value="<{$v.title}>,<{$v.name}>,<{$v.account}>"><{$v.title}>,<{$v.name}>,<{$v.account}></option>
+                <{/foreach}>
+            </select>
+        </td>
+    </tr>
+
+
+    <tr><th></th><td><input type="submit" value="提交" class="btn btn-success" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="wuye/block/footer.html"}>

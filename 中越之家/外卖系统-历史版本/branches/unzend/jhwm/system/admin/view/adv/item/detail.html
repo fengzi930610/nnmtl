@@ -1,0 +1,57 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}>  &gt; <{$detail.title}>[<span class="red"><{$detail.from_title}></span>]</th>
+        <td align="right">
+			<{link ctl="adv/item:create" class="button" args="<{$detail.adv_id}>" title="添加广告" load="mini:添加广告"}>
+			<{link ctl="adv/adv:index" class="button" title="返回广告位管理"}>
+		</td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form method="post" id="adv-detail">
+	<input type="hidden" name="adv_id" value="<{$detail.adv_id}>" />
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data list">
+		<tr>
+			<th class="w-100">编号</th>
+			<th>标题</th>
+			<{if $detail.type=='photo' || $detail.type=='product'}><th class="w-30">预览</th><{/if}>
+			<th class="w-100">排序</th>
+			<th class="w-100">点击</th>
+			<th class="w-150">操作</th>
+		</tr>
+		<{foreach $detail.items as $item}>
+		<tr id="item-<{$item.itemId}>">
+			<td class="left"><label><input type="checkbox" name="item_id[]" value="<{$item.item_id}>" CK="itemId"/><{$item.item_id}></label></td>
+			<td class="text-left">&nbsp;<{$item.title}></td>
+			<{if $detail.type=='photo' || $detail.type=='product'}>
+			<td><img src="<{$pager.img}>/<{$item.thumb}>" photo="<{$pager.img}>/<{$item.thumb}>" class="wh-30"/></td>
+			<{/if}>
+			<td><input type="text" name="orderby[<{$item.item_id}>]" value="<{$item.orderby}>" class="input w-50"/></td>
+			<td><{$item.clicks}></td>
+			<td class="left">
+				<{link ctl="adv/item:edit" args="<{$item.item_id}>" class="button" title="编辑"}>
+				<{link ctl="adv/item:delete" args="<{$item.item_id}>" act="mini:remove:item-<{$item.itemId}>" class="button" title="删除"}>
+			</td>
+		</tr> 
+		<{/foreach}>
+		<tr>
+	</table>
+	<div class="page-bar">
+		 <table width="100%" height="50" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="w-100 left"><label><input type="checkbox" CKA="itemId"/>&nbsp;&nbsp;全选</label></td>
+				<td class="left">
+					<{link ctl="adv/item:delete" type="button" submit="mini:#adv-detail" confirm="mini:确定要删除选中的广告吗?" class="bt-big"}>
+					<{link ctl="adv/item:update" type="button" submit="mini:#adv-detail" class="bt-big"}>
+				</td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,33 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tr>
+            <th class="w-300 clear-td-bottom">文件名</th>               
+            <th class="w-300 clear-td-bottom">操作者</th>
+            <th class="w-300 clear-td-bottom">备份时间</th>
+            <th class="w-300 clear-td-bottom">操作</th>
+        </tr>       
+         <{foreach from=$tmpl_bak item=item}>
+        <tr>
+            <td class="w-300 clear-td-bottom"><{$item.tmpl}></td>                 
+            <td class="w-300 clear-td-bottom"><{$item.admin}></td>
+            <td class="w-300 clear-td-bottom"><{$item.dateline|format}></td>
+            <td class="w-300 clear-td-bottom">    
+            <{link ctl="system/theme:tmplrestore" arg0="<{$item.bak_id}>"   act="mini:编辑管理员" confirm="mini:确定要还原吗？" class="button" title="还原"}>
+            <{link ctl="system/theme:tmpldelbak" arg0="<{$item.bak_id}>"  act="mini:编辑管理员" confirm="mini:确定要删除吗？" class="button" title="删除"}>
+            </td>
+         </tr> 
+         <{/foreach}>  
+    </table>    
+</div>
+<{include file="admin:common/footer.html"}>

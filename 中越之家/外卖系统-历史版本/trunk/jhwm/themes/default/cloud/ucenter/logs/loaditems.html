@@ -1,0 +1,7 @@
+<{foreach $items as $item}>
+<div class="row">
+    <div class="col50 black9 overflow_clear"><{$item.order_id}></div>
+    <div class="col35 black9"><{$item.dateline|format}></div>
+    <div class="col15 fontcl1">￥<{$item.num}></div>
+</div>
+<{/foreach}>

@@ -1,0 +1,99 @@
+<{include file="cloud/block/header.html"}>
+<div class="page page-current"> 
+    <!--头部-->
+    <header class="bar bar-nav">
+        <a class="pull-left headerIco headerIco2" href="<{link ctl='cloud/ucenter/index'}>"></a>
+        <h1 class="title">账户充值</h1>
+        <a class="pull-right" href="<{link ctl='cloud/ucenter/logs'}>">账户记录</a>
+    </header>
+    <!--头部结束-->
+    <div class="content mybins"> 
+        <h3 class="bin-tit mt10 pad10 black3">我的夺宝币:<i class="yuan-big ml5"></i><span class="fontcl1 ml5"><{$MEMBER.coin}></span></h3>
+        <div class="row pad10">
+            <{foreach $items as $k=>$item}>
+                <div class="col-33 txt_center">
+                    <div class="maincl money"><i class="yuan-small mr5"></i><span class="much"><{$k}></span>元</div>
+                    <div class="songbin">送<{$item}>个夺宝币</div>
+                    <div class="gou"></div>
+                    <i class="gou-icon"></i>
+                </div>
+            <{/foreach}>
+            <div class="col-33 txt_center coin_diy">
+                <a href="javascript:void(0);" class="black3 self-dingyi">自定义夺宝币数量</a>
+                <input id="diy" style="padding-top: 0.1rem; border: none; width: 80%; background: #fff;" disabled="disabled" type="text" name="coin" value=""/>
+                <div class="gou"></div>
+                    <i class="gou-icon"></i>
+            </div>
+            <input type="hidden" id="amount" value="0">
+        </div>
+        <div class="payPage">
+            <div class="list-block media-list">
+                <div class="item-content">选择支付方式</div>
+                <ul>
+                    <li class="pay_li" rel="alipay">
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay1.png">支付宝</div>
+                        <input class="code" type="radio" name="way" value="alipay">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>
+                    <{if $weixin == 1}>
+                    <li class="pay_li" rel="wxpay">
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay2.png">微信支付</div>
+                        <input class="code" type="radio" name="way" value="wxpay">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>
+                    <{/if}>
+                    <li class="pay_li" rel="money">
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay3.png">余额支付</div>
+                        <input class="code" type="radio" name="way" value="money">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>
+                    <input type="hidden" value="" id="pay_code" name="pay_code" />
+                    <li class="mt10"></li>
+                </ul>
+            </div>
+            <div class="content-block"> <a href="javascript:void(0);" class="button button-big button-fill">立即充值</a> </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(document).off('click', '.pay_li').on('click', '.pay_li', function () {
+            var val = $(this).attr('rel');
+            $('#pay_code').val(val);
+        })
+
+        $(".mybins .col-33").click(function () {
+            if($(this).hasClass('coin_diy') == false){
+                $("#amount").val($(this).find(".much").html());
+            }
+            $(".mybins .col-33").removeClass("on");
+            $(this).addClass("on");
+        });
+
+        $("#diy").keyup(function(){
+             $("#amount").val($(this).val());
+        })
+                
+    })
+    
+    $(document).off('click', '.button-fill').on('click', '.button-fill', function () {
+        var code =  $('#pay_code').val();
+        var amount = $("#amount").val();
+        var link = "<{link ctl='trade/payment/coin' code=codes amount=amounts}>";
+        var url = link.replace('codes',code).replace('amounts',amount);
+        window.location.href = url;
+    });
+    
+    
+    $(document).off('click', '.coin_diy').on('click', '.coin_diy', function () {
+        $("#diy").removeAttr("disabled");
+    });
+</script>
+
+<{include file="cloud/block/footer.html"}>

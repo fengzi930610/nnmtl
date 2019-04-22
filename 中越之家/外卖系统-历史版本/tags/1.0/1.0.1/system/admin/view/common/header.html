@@ -1,0 +1,253 @@
+<{if $request.MINI=='load'}>
+<style type="text/css">
+.layui-layer-content{padding:5px;}
+.layui-layer-content .page-clew {margin:50px auto; width:500px;}
+.layui-layer-content .page-clew table{ width:500px;}
+.layui-layer-content .page-data table.form{margin:0px;border-width:0px;}
+.layui-layer-content .page-data table.form th{width:120px;}
+.layui-layer-content div.ui-dialog-content{padding:0px;}
+</style>
+<{elseif $request.MINI=='LoadIframe'}>
+<!Doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<title><{$pager.title|default:'江湖CMS系统管理平台'}> Powered by IJH.CC</title>
+<link href="<{$smarty.const._GATE_URL_}>/style/style.css?<{$TMPLVER}>"rel="stylesheet" type="text/css" />
+<link href="<{$pager.res}>/style/kt.widget.css?<{$TMPLVER}>" rel="stylesheet" type="text/css" />
+<link href="<{$pager.res}>/ui/j.ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    var getMapApiKey = function(){ return "<{$smarty.const.MAP_KEY}>"; };
+    var getMapDefaultPoint = function(){
+        var ptStr = "<{$smarty.const.MAP_DEFAULT_CENTER}>";
+        var ptArr = ptStr.split(",");
+        var pt = {lng:105.834888,lat:21.020805};
+        if(ptArr.length === 2)
+        {
+            var lng = parseFloat(ptArr[0].replace(/^\s+|\s+$/g,""));
+            var lat = parseFloat(ptArr[1].replace(/^\s+|\s+$/g,""));
+            if(!isNaN(lng) && !isNaN(lat))
+            {
+                pt.lng = lng;
+                pt.lat = lat;
+            }
+        }
+        return pt;
+    };
+</script>
+<script src="<{$pager.res}>/cdn/js/jquery.min.js?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/layer/layer.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/kt.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.msgbox.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$smarty.const._GATE_URL_}>/script/kt.admin.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/My97DatePicker/WdatePicker.js?<{$TMPLVER}>"></script>
+
+<!--
+<script type="text/javascript">
+window.jQuery = window.parent.jQuery;
+window.$ = window.jQuery;
+window.KT = window.parent.KT;
+window.Widget = window.parent.Widget;
+</script>
+-->
+<style type="text/css">
+html{overflow-x:visible;overflow-y: scroll;overflow:-moz-scrollbars-vertical;}
+/* jQuery ui hack nowrap*/
+body div.ui-tooltip{border:1px solid #D7D7D7;padding:5px;}
+body div.ui-tooltip-content{white-space:normal;}
+.ui-tabs .ui-tabs-panel{display:table;border-width:1px;padding:0px;}
+.ui-tabs-anchor{outline:none;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-tabs-loading a {cursor:default;}
+.ui-tooltip{max-width:800px;overflow: hidden;border: 1px solid #D7D7D7;border-radius: 4px;background: #FFF;box-shadow: 0 1px 10px rgba(0,0,0,0.4);}
+.page-data{margin:0;}
+</style>
+</head>
+<body>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+<{else}>
+<!Doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<title><{$pager.title|default:'江湖CMS系统管理平台'}></title>
+<link href="<{$smarty.const._GATE_URL_}>/style/style.css?<{$TMPLVER}>" rel="stylesheet" type="text/css" />
+<link href="<{$pager.res}>/style/kt.widget.css?<{$TMPLVER}>" rel="stylesheet" type="text/css" />
+<link href="<{$pager.res}>/ui/j.ui.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    var getMapApiKey = function(){ return "<{$smarty.const.MAP_KEY}>"; };
+    var getMapDefaultPoint = function(){
+        var ptStr = "<{$smarty.const.MAP_DEFAULT_CENTER}>";
+        var ptArr = ptStr.split(",");
+        var pt = {lng:105.834888,lat:21.020805};
+        if(ptArr.length === 2)
+        {
+            var lng = parseFloat(ptArr[0].replace(/^\s+|\s+$/g,""));
+            var lat = parseFloat(ptArr[1].replace(/^\s+|\s+$/g,""));
+            if(!isNaN(lng) && !isNaN(lat))
+            {
+                pt.lng = lng;
+                pt.lat = lat;
+            }
+        }
+        return pt;
+    };
+</script>
+<script src="<{$pager.res}>/cdn/js/jquery.min.js?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/layer/layer.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/kt.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.msgbox.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$smarty.const._GATE_URL_}>/script/kt.admin.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/My97DatePicker/WdatePicker.js"></script>
+<style type="text/css">
+/* jQuery ui hack nowrap*/
+body div.ui-tooltip{border:1px solid #D7D7D7;padding:5px;}
+body div.ui-tooltip-content{white-space:normal;}
+.ui-tabs .ui-tabs-panel{display:table;border-width:1px;padding:0px;}
+.ui-tabs-anchor{outline:none;}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-tabs-loading a {cursor:default;}
+.ui-tooltip{max-width:800px;overflow: hidden;border: 1px solid #D7D7D7;border-radius: 4px;background: #FFF;box-shadow: 0 1px 10px rgba(0,0,0,0.4);}
+</style>
+<!-- <script type="text/javascript">window.URL={"domain":"<{$CONFIG.site.domain}>","res":"<{$pager.res}>"};</script> -->
+</head>
+<body>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+<{/if}>
+<script src="<{$pager.res}>/script/notice.js?<{$TMPLVER}>"></script>
+
+<div id="notice"></div>
+<script>
+    function notice_admin(){
+       var neworder = parseInt("<{$order_voice.neworder}>");
+        var cuiorder = parseInt("<{$order_voice.cuiorder}>");
+        var tuiorder = parseInt("<{$order_voice.tuiorder}>");
+        if(neworder==0&&cuiorder==0&&tuiorder==0){
+            return false;
+        }else{
+        var url ="?waimai/order-get_nctorder.html";
+
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    if(neworder>0){
+                        if(e.data.new>0){
+                            var url = "";
+                            var  emod = '<audio src="/static/voice/new.mp3" autoplay="autoplay"></audio>';
+                            $('#notice').html(emod);
+                            notify('订单','您有新的订单，请及时处理',url);
+                        }
+
+                    }
+                    if(cuiorder>0){
+                        if(e.data.cui>0){
+                            var url = "";
+                            var  emod = '<audio src="/static/voice/cui.mp3" autoplay="autoplay"></audio>';
+                            setTimeout(function(){
+                                $('#notice').html(emod);
+                                notify('订单','您有新的催单，请及时处理',url);
+                            },5000);
+                        }
+
+                    }
+                    if(tuiorder>0){
+                        if(e.data.tui>0){    
+                            var url = "";
+                            var  emod = '<audio src="/static/voice/tui.mp3" autoplay="autoplay"></audio>';
+                            setTimeout(function(){
+                                $('#notice').html(emod);
+                                notify('订单','您有新的退单，请及时处理',url);
+                            },10000);
+
+                        }
+
+                    }
+
+                }else{
+                    return false;
+                }
+
+            },'json');
+
+        }
+        setTimeout(function(){
+            $('#notice').html('');
+        },30000);
+
+    }
+
+    setInterval(function(){
+        notice_admin();
+    },60*1000);
+
+    var map_server_key = "<{$jh_server_key}>";
+
+    function GGUID(){
+        var guid = '';
+        for (var i = 1; i <= 32; i++) {
+            var n = Math.floor(Math.random() * 16.0).toString(16);
+            guid += n;
+        }
+        return "KT"+guid.toUpperCase();
+    }
+    function geocoder(lng, lat, callback){
+        var apiUrl = "<{K::M('helper/link')->mklink('index:srvapi')}>";
+        if(apiUrl.indexOf("?") >= 0)
+            apiUrl += "&";
+        else
+            apiUrl += "?";
+        apiUrl += "api=geocode&lng="+lng+"&lat="+lat;
+        if(typeof callback !== "function")
+            callback = function(){};
+        $.get(apiUrl,(function(data){
+            var cbkData = {error:data.error,address:""};
+            if(data.error === 0)
+                cbkData.address = (data.message.split("|"))[0];
+            this(cbkData);
+        }).bind(callback),"json");
+        return;
+
+
+        // callback = callback || function(ret){};
+        // var callfun = GGUID();
+        // window[callfun] = function(ret){callback(ret);}
+
+
+        // 修改百度根据坐标返回为更具高德返回坐标系
+        // $.getScript('//restapi.amap.com/v3/geocode/regeo?key='+map_server_key+"&radius=20"+"&location="+lng+','+lat+"&output=json"+"&callback="+callfun);
+
+        //$.getScript("http://api.map.baidu.com/geocoder/v2/?ak=824a595f958e444b737a5bc6325ad44f&callback="+callfun+"&location="+lat+","+lng+"&output=json&pois=1");
+
+    }
+    function placeapi(key, city, callback){
+        var apiUrl = "<{K::M('helper/link')->mklink('index:srvapi')}>";
+        if(apiUrl.indexOf("?") >= 0)
+            apiUrl += "&";
+        else
+            apiUrl += "?";
+        apiUrl += "api=regeocode&key="+String(key)+"&city="+String(city);
+        if(typeof callback !== "function")
+            callback = function(){};
+        $.get(apiUrl,(function(data){
+            var cbkData = {error:data.error,position:{lng:0,lat:0}};
+            if(data.error === 0)
+            {
+                var tArr = data.message.split(",");
+                cbkData.position.lng = parseFloat(tArr[0].replace(/^\s+|\s+$/ig,""));
+                cbkData.position.lat = parseFloat(tArr[1].replace(/^\s+|\s+$/ig,""));
+            }
+            this(cbkData);
+        }).bind(callback),"json");
+        return;
+
+        // city = city || localStorage['UxCity'] || Cookie.get("UxCity");
+        // callback = callback || function(ret){};
+        // var callfun = GGUID();
+        // window[callfun] = function(ret){callback(ret);}
+        // $.getScript("//restapi.amap.com/v3/place/text?key="+map_server_key+"&keywords="+key+"&city="+city+"&offset=20&page=1&output=json&callback="+callfun);
+
+        //$.getScript("http://api.map.baidu.com/place/v2/search?ak=824a595f958e444b737a5bc6325ad44f&output=json&callback="+callfun+"&query="+key+"&page_size=10&page_num=0&scope=1&region="+city);
+    }
+
+
+
+</script>

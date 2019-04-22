@@ -1,0 +1,17 @@
+<{foreach $list as $k => $v}>
+
+<li class="list pad10 border_b">
+
+    <a href="<{link ctl='xiaoqu/bianmin/detail' arg1=$v.bianmin_id}>">
+
+    <h3 class="wz"><{$v.title}><span class="name ml5"><{$v.cate_title}></span></h3>
+
+    <p class="font_size14 black9"><span class="address">地址：<{$v.addr}></span>使用：<{$v.views}>次</p>
+
+    </a>
+
+    <a href="tel:<{$v.phone}>" class="ico"></a>	
+
+</li>
+
+<{/foreach}>

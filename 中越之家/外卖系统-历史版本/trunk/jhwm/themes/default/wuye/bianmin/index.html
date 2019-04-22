@@ -1,0 +1,50 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/bianmin/index'}>" class="on">便民服务列表</a>
+        <span class="r"><a href="<{link ctl='wuye/bianmin/index:create'}>" class="btn btn-success">添加便民服务</a></span>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-60">类型</th>
+        <th class="w-120">标题</th>
+        <th class="w-250">描述</th>
+        <th class="w-150">地址</th>
+        <th class="w-150">举报情况</th>
+        <th class="w-150">时间</th>
+        <th class="w-250">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{if $item.from == 'notice'}>通知<{else}>新闻<{/if}></td>
+        <td><{$item.title}></td>        
+        <td><{$item.intro}></td>
+        <td><{$item.addr}></td>
+        <td><{if $item.report}>
+            <a href="<{link ctl='wuye/bianmin/index:detail' args=$item.bianmin_id}>">
+                <b style="color:#ff0000;">被举报<{$item.report_count}>次</b>
+            </a>
+            <{else}>--<{/if}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+        <a href="<{link ctl='wuye/bianmin/index:detail' args=$item.bianmin_id}>" class="btn btn-success" style="margin-right:2px;">详情</a>
+        <a href="<{link ctl='wuye/bianmin/index:edit' args=$item.bianmin_id}>" class="btn btn-success" style="margin-right:2px;">编辑</a>
+        <a href="<{link ctl='wuye/bianmin/index:delete' args=$item.bianmin_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-success">删除</a>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

@@ -1,0 +1,28 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="payment/log:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?payment/log-create.html" mini-form="log-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th><span class="red">*</span>log_id：</th><td><input type="text" name="data[log_id]" value="<{$detail.log_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>from：</th><td><input type="text" name="data[from]" value="<{$detail.from|default:''}>" class="input w-300"/><span class="tip-comment">类型</span></td></tr>
+<tr><th><span class="red">*</span>payment：</th><td><input type="text" name="data[payment]" value="<{$detail.payment|default:''}>" class="input w-300"/><span class="tip-comment">支付接口</span></td></tr>
+<tr><th><span class="red">*</span>trade_no：</th><td><input type="text" name="data[trade_no]" value="<{$detail.trade_no|default:''}>" class="input w-300"/><span class="tip-comment">支付流水号</span></td></tr>
+<tr>
+	<th>payed：</th>
+	<td>
+		<label><input type="radio" name="data[payed]" <{if $detail.payed}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[payed]" <{if isset($detail.payed) && empty($detail.payed)}>checked="checked"<{/if}> value="0"/>否</label><span class="tip-comment">0:未支付，1:已支付</span>
+	</td>
+</tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

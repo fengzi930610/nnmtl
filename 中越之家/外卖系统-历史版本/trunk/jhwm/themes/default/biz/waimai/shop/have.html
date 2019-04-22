@@ -1,0 +1,130 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/waimai/shop:have'}>" class="on">外卖</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/waimai/shop:have'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<{if $have_waimai == 0}>
+<h1 style="background:#ffff00;color:#ff0000;height:25px;line-height:25px;padding:5px 10px;border:1px dashed #ff55700;font-size:14px;">您还没有开通外卖店铺，请填写资料后等待管理员审核！</h1>
+<{/if}>
+
+<table cellspacing="0" cellpadding="0" class="form">
+ <tr>
+     <th>店铺名称：</th><td><input type="text" name="data[title]" value="<{$waimai.title|default:''}>" class="input w-300"/></td></tr>
+    <tr>
+        <th>店铺LOGO：</th>
+        <td>
+            <input type="text" name="data[logo]" class="input w-300" id="file_photo" value="<{$waimai.logo|default:''}>" photo="<{$pager.img}>/<{$waimai.logo|default:''}>" />
+            <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" 选择文件 " />
+            <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+        </td>
+    </tr>
+
+    <tr>
+        <th>外卖分类：</th>
+        <td>
+        <select name="data[cate_id]" id="pei_type_select" class="select select_td input w-200">
+            <{foreach $waimai_cate as $k => $v}>
+            <option value="<{$v.cate_id}>" <{if $waimai.cate_id == $v.cate_id}>selected<{/if}> ><{$v.title}></option>
+                <{if $v.children}>
+                    <{foreach $v.children as $kk => $vv}>
+                        <option value="<{$vv.cate_id}>" <{if $waimai.cate_id == $vv.cate_id}>selected<{/if}> >&nbsp;__<{$vv.title}></option>
+                    <{/foreach}>
+                <{/if}>
+            <{/foreach}>
+        </select>
+        </td>
+    </tr> 
+
+    <tr><th>客服电话：</th><td><input type="text" name="data[phone]"  value="<{$waimai.phone|default:''}>" class="input w-300"/></td></tr>
+<tr>
+<th>选择显示模板：</th>
+    <td>
+        <label><input type="radio" name="data[tmpl_type]" value="waimai" <{if $waimai.tmpl_type == 'waimai'}>checked="checked"<{/if}>/>外卖模板</label>
+        <label><input type="radio" name="data[tmpl_type]" value="market" <{if $waimai.tmpl_type == 'market'}>checked="checked"<{/if}>/>商超模板</label>
+        <span class="tip-comment">小提示：当店铺商品较多时选择商超模板更合适</span>
+    </td>
+</tr>
+
+<th width="130">到店自提：</th>
+    <td>
+        <label><input type="radio" name="data[is_ziti]" value="1" <{if $waimai.is_ziti == 1}>checked="checked"<{/if}>/>支持</label>
+        <label><input type="radio" name="data[is_ziti]" value="0" <{if $waimai.is_ziti == 0}>checked="checked"<{/if}>/>不支持</label>
+    </td>
+</tr>
+
+<tr> 
+<th width="130">付款方式：</th>
+    <td>
+        <select id="pay_type_select" class="select select_td input w-200">
+            <option value="all" <{if $waimai.is_daofu==1 && $waimai.online_pay==1}>selected="selected"<{/if}> >全部支持</option> 
+            <option value="is_daofu" <{if $waimai.is_daofu==1 && $waimai.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option> 
+            <option value="online_pay" <{if $waimai.is_daofu==0 && $waimai.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option> 
+        </select>
+        <input type="hidden" name="data[online_pay]" value="<{$waimai.online_pay}>">
+        <input type="hidden" name="data[is_daofu]" value="<{$waimai.is_daofu}>">
+		
+    </td>
+</tr>
+
+<tr>
+<th>营业状态：</th>
+    <td>
+        <label><input type="radio" name="data[yy_status]" value="1" <{if $waimai.yy_status == 1}>checked="checked"<{/if}>/>营业</label>
+        <label><input type="radio" name="data[yy_status]" value="0" <{if $waimai.yy_status == 0}>checked="checked"<{/if}>/>打烊</label>
+    </td>
+</tr>
+
+<tr>
+<th>营业时间：</th>
+    <td>
+        开始营业：<input type="text" name="data[yy_stime]"  value="<{$waimai.yy_stime}>" onfocus="WdatePicker({dateFmt:'H:mm',minDate:'0:00',maxDate:'23:59'})" class="input w-50"/>
+        打烊时间：<input type="text" name="data[yy_ltime]"  value="<{$waimai.yy_ltime}>" onfocus="WdatePicker({dateFmt:'H:mm',minDate:'0:00',maxDate:'23:59'})" class="input w-50"/>
+    </td>
+</tr>
+
+
+<tr>
+<th>店铺状态：</th>
+    <td>
+        <{if $shop.have_waimai==1}>
+        <b class="green">已开通</b>
+        <{else}>
+        <b class="red">未开通</b>
+        <{/if}>
+    </td>
+</tr>
+<!--    jh_waimai       verify_name
+        jh_shop         audit   have_waimai
+        jh_shop_vefify  verify -->
+<tr><th>店铺简介：</th><td><textarea name="data[info]" class="textarea"><{$waimai.info}></textarea><br /></td></tr>
+<tr><th>店铺公告：</th><td><textarea name="data[delcare]" class="textarea"><{$waimai.delcare}></textarea><br /></td></tr>
+<tr>
+    <th></th>
+    <td><input type="submit" value="<{if $waimai}>保存修改<{else}>提交申请<{/if}>" class="btn btn-success" /></td>
+</tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+
+$("#pay_type_select").change(function(){
+    if($(this).val() == 'is_daofu') {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(0);
+    }else if($(this).val() == 'online_pay') {
+        $("input[name='data[is_daofu]']").val(0);
+        $("input[name='data[online_pay]']").val(1);
+    }else {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(1);
+    }
+});
+</script>  
+<{include file="biz/block/footer.html"}>

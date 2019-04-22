@@ -1,0 +1,101 @@
+<{assign var='tpl_title' value=L("券码核销")}>
+<{include file="webview/qiang/block/header.html"}>
+<div class="container" id="container">
+	<div class="page js_show">
+		<div class="page_cont">  
+		    <div class="container_mid">
+		        <!-- 内容 -->
+				<div class="hexiao_top"><i></i>密码正确，是否核销此单？</div>
+                <div class="mb10 hexiao_list">
+                    <div>订单号：<{$order.order_id}></div>
+                    <div><{$order.dateline|format:'Y-m-d H:i:s'}></div>
+                    <div class="mt5 mb5 border_b"></div>
+                    <div>验证密码</div>
+                    <div class="fontcl1"><{$order.number}></div>
+                </div>
+                <div class="mb10 hexiao_list hexiao_list1">
+                    <div class="pub_list">
+                        <div class="name">客户名：</div>
+                        <div class="pub_list_bd"><{$member['nickname']}></div>
+                    </div>
+                    <div class="pub_list">
+                        <div class="name">手机号：</div>
+                        <div class="pub_list_bd"><{$member['mobile']}></div>
+                    </div>
+                    <div class="pub_list">
+                        <div class="name">备注：</div>
+                        <div class="pub_list_bd">
+                            <{foreach $order.note_label as $item}>
+                                <span class="bq"><{$item.title}></span>
+                            <{/foreach}>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb10 pub_list hexiao_list">
+                    <div class="pub_list_bd"><{$order.qiang_title}></div>
+                    <div class="ml10">x<{$order.qiang_number}></div>
+                    <div class="ml10">￥<{$order.qiang_discount_price}></div>
+                </div>
+                <div class="mb10 pub_list hexiao_list">
+                    <div class="pub_list_bd">结算价</div>
+                    <div class="ml10">￥<{$order.qiang_number*$order.qiang_discount_price}></div>
+                </div>
+		        <!-- 内容end -->
+		    </div>
+            <div class="hexiao_footer">
+                <div class="list"><a class="btn cancel_btn">取消</a></div>
+                <div class="list"><a class="btn btn1 comfirm_btn" rel="<{$order.order_id}>" number="<{$order.number}>">确定</a></div>
+            </div>
+		</div> 
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        window.__jump_status = localStorage["qiang_list_url"] || 0;
+        window.__rebackurl = '<{link ctl="webview/qiang/order/index" http="wmbiz"}>';
+        localStorage.removeItem('qiang_list_url');
+    })
+
+    // 核销订单
+    $('.comfirm_btn').on('click',function(){
+        var order_id = $(this).attr('rel');
+        var number = $(this).attr('number');
+        var link = '<{link ctl="qiang/order:setspend" http="wmbiz"}>';
+        Widget.MsgBox.confirm('确认核销该订单吗？',function(e){
+            if(e){
+                $.post(link,{order_id:order_id,number:number},function(e){
+                    if(e.error>0){
+                        layer.msg(e.message);
+                    }else{
+                        layer.msg('核销成功');
+                        setTimeout(function(){
+                            if(window.__jump_status == 1){
+                                window.location.href = window.__rebackurl;
+                            }else{
+                                back_app();
+                            }
+                        },600);
+                    }
+                },'json')
+            }
+        });
+    })
+
+    // 取消 跳出网页
+    $('.cancel_btn').on('click',function(){
+        if(window.__jump_status == 1){
+            window.location.href = window.__rebackurl;
+        }else{
+            back_app();
+        }
+    })
+
+    function back_app(){
+        if(typeof(window.JHAPP)=='object'){
+            window.JHAPP.go_back_all();
+        }else{
+            layer.msg('当前页面非APP!');
+        }
+    }
+</script>
+<{include file="webview/qiang/block/footer.html"}>

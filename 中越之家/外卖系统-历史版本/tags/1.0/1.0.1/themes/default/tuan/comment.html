@@ -1,0 +1,107 @@
+<{assign var='tpl_title' value=L("团购商家-评价")}>
+<{include file="block/header.html"}>
+<style>
+.tuan_no{ margin:0.3rem 0; text-align:center; line-height:0.3rem;}
+.tuan_no h2{ font-weight:normal; font-size:0.18rem;}
+.tuan_no .iconBg{width:0.8rem; height:0.8rem; margin:0.1rem 0; background:#F7F7F7; border:0.02rem solid #F7F7F7; display:inline-block; border-radius:0.8rem; text-align:center;}
+</style>
+<header>
+	<i class="left"><a href="#" class="ico headerIco headerIco_3" onclick="cleartuanid();"></a></i>
+    <div class="title">
+    	评价列表
+    </div>
+</header>
+
+<section class="page_center_box">
+    <div class="evaluate_list_box" id="wrapper">
+    	<h3 class="border_t mt10">总体评价:<span class="starBg ml10 mr10"><span class="star" style="width:<{$shop.star*20}>%;"></span></span><span class="black9"><{$shop.star}>分</span></h3>
+        <ul id="a"></ul>
+    </div>
+</section>
+
+<script id="tmpl_comments_item" type="text/x-jquery-tmpl">
+    <li class="evaluate_list">
+        <div class="tx fl"><img src="<{$pager.img}>/${face}" width="100" height="100" /></div>
+        <div class="wz">
+            <p>${nickname}</p>
+            <div><span class="starBg"><span class="star" style="width:${score*20}%;"></span></span></div>
+            <p>${content}</p>
+            <div class="img_list">
+                <ul>
+                    {{each(i,pic) photo}}
+                        <li><img src="<{$pager.img}>/${pic.photo}" width="100" height="100" /></li>
+                    {{/each}}
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <{if $v.reply}>
+            <p class="black9">${dateline|format:"Y-m-d H:i:s"</p>
+            <div class="evaluate_reply">
+                <p>${reply}</p>
+                <p class="time black9">${reply_time|format:"Y-m-d H:i:s"}</p>
+            </div>
+            <{/if}>
+        </div>
+        <div class="clear"></div>
+    </li>
+</script>
+
+<script>
+$(document).ready(function () {
+    LoadData.params['page'] = 1;
+    LoadData.params['shop_id'] = parseInt("<{$shop.shop_id}>");
+    loadPageItems();
+
+    if(localStorage['tuandetail_tuan_id']) {
+        var tuan_id = localStorage['tuandetail_tuan_id'];
+        var link = "<{link ctl='tuan/product:goodsdetail' arg0='temp1' arg1='temp2'}>";
+        $('.ico.headerIco.headerIco_3').attr('href',link.replace('temp1',<{$shop.shop_id}>).replace('temp2',tuan_id));
+    }
+})
+
+function cleartuanid() {
+    localStorage.removeItem("tuandetail_tuan_id");
+}
+
+function loadPageItems(params) {
+    if (LoadData.LOCK) {
+        return false;
+    }
+    LoadData.LOCK = true;
+    params = params || {};
+    LoadData.params = $.extend(LoadData.params, params);
+    Widget.MsgBox.load("加载中...");
+    $.post("<{link ctl='tuan/comment:loadcommentitems'}>", LoadData.params, function (ret) {
+        if (ret.error) {
+            Widget.MsgBox.error(ret.message);
+        } else {
+            if (ret.data.items.length > 0) {
+                if (parseInt(LoadData.params['page'], 10) < 2) {
+                    $("#wrapper ul#a").html($('#tmpl_comments_item').tmpl(ret.data.items));
+                } else {
+                    $('#tmpl_comments_item').tmpl(ret.data.items).appendTo($("#wrapper ul#a"));
+                }
+            } else if (LoadData.params.page > 1) {
+                if(! $(".loading_end").length) {
+                    $('#wrapper ul#a').append('<div class="loading_end"><{L("没有更多了")}>...</div>');
+                }
+                LoadData.LOAD_END = true;
+            } else {
+                //给一个没有数据的提示信息
+                $("#wrapper ul#a").html('<div class="tuan_no"><div class="iconBg"></div><h2>该商家暂无评价</h2></div>');
+                LoadData.LOAD_END = true;
+            }
+        }
+        LoadData.params.page++;
+        Widget.MsgBox.hide();
+        LoadData.LOCK = false;
+    }, "json");
+}
+
+$(window).scroll(function () {//监听滚动条改变
+    if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+        loadPageItems();
+    }
+});
+</script>
+<{include file="block/footer.html"}>

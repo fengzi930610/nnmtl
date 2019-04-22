@@ -1,0 +1,17 @@
+<{foreach $items as $item}>
+    <li class="goods_list">
+        <div class="box">
+            <div class="img"><a href="<{link ctl='shop/detail' arg0=$item.shop_id pid=$item.product_id http='waimai'}>"  style="background: url('<{$pager.img}>/<{$item.photo}>') no-repeat center; background-size: cover;"></a></div>
+            <div class="wz_box">
+                <h4 class="overflow_clear"><a href="<{link ctl='shop/detail' arg0=$item.shop_id pid=$item.product_id http='waimai'}>"><{$item.title|cutstr:16}></a> <span class="fr black9" style="font-weight: normal; font-size: 12px;">已售<{$item.sales}></span></h4>
+                <p class="fontcl2"><small>￥</small><{$item.price}></P>
+                <P class="black9"><{$shops[$item['shop_id']]['title']|cutstr:16}></P>
+                <a href="<{link ctl='shop/detail' arg0=$item.shop_id pid=$item.product_id http='waimai'}>" class="btn"></a>
+            </div>
+        </div>
+    </li>
+    
+<{/foreach}>
+
+
+

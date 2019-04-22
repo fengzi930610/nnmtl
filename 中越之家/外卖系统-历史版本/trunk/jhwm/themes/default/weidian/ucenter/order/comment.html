@@ -1,0 +1,159 @@
+<{include file="weidian/block/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/jquery.form.js"></script>
+<section class="page_center_box">
+<form action="<{link ctl='ucenter/order/comment_handle' }>" mini-form="car-form" id="comment_form" method="post">
+<div class="mt10 dan-pingjia-cont  bgcolor_white">
+    <{foreach $orderproducts as $item}>
+     <div class="dan-a">
+          <div class="tupian fl"><img src="<{$pager.img}>/<{$products[$item['product_id']]['photo']}>"></div>
+          <div class="wenzi">
+               <h4 class="overflow_clear"><{$item.product_name}></h4>
+               <p><{$item.stock_real_name}>数量：<{$item.product_number}></p>
+               <p>￥<{$item.product_price}></p>
+          </div>
+          
+          <div class="clear"></div>
+     </div>
+    <{/foreach}>
+    <script>
+        function fileSelected(obj, type) {
+            var files = obj.files;
+            for (var i = 0; i < files.length; i++) {
+                var tag = '';
+                var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                if (!rFilter.test(files[i].type)) {
+                    alert("只允许上传JPG、PNG、GIF格式图片");
+                    return false;
+                }
+                var reader = new FileReader();
+                reader.onloadstart = function (e) {
+                    $(".loading").show();
+                }
+                reader.onload = function (e) {
+                    $('#photo' + type).hide();
+                    $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        }
+    </script>
+     <div class="dan-write-text ml10 mr10 border_b border_t">
+          <textarea class="" name="data[content]" id="content" placeholder="写下你的购物体会和使用感受来帮助其他小伙伴吧~"></textarea>
+          <div class="mt10 imgs-up">
+              <div class="fl imgs-list">
+                  <div class="list-box border">
+              <div class="imgs-up-1">
+                  <div class="img-bo"><img src="/themes/default/weidian/static/images/evaluate_ad_img@2x.png" id="img1" width="100%" height="100%" /></div>
+                  <input type="file" name="photo1" id="photo1" class="file-up" onchange="fileSelected(this, 1)" value="上传"   /></div>
+                  </div>
+              </div>
+              <div class="fl imgs-list">
+                  <div class="list-box border">
+                      <div class="imgs-up-1"><div class="img-bo"><img src="/themes/default/weidian/static/images/evaluate_ad_img@2x.png" id="img2" width="100%" height="100%" /></div><input type="file" name="photo2" id="photo2" class="file-up" onchange="fileSelected(this, 2)" value="上传"   /></div>
+               </div>
+              </div>
+               <div class="fl imgs-list">
+                  <div class="list-box border">
+                      <div class="imgs-up-1"><div class="img-bo"><img src="/themes/default/weidian/static/images/evaluate_ad_img@2x.png" id="img3" width="100%" height="100%" /></div><input type="file" name="photo3" id="photo3" class="file-up" onchange="fileSelected(this, 3)" value="上传"   /></div>
+               </div>
+              </div>
+               <div class="fl imgs-list">
+                  <div class="list-box border">
+                      <div class="imgs-up-1"><div class="img-bo"><img src="/themes/default/weidian/static/images/evaluate_ad_img@2x.png" id="img4" width="100%" height="100%" /></div><input type="file" name="photo4" id="photo4" class="file-up" onchange="fileSelected(this, 4)" value="上传"   /></div>
+               </div>
+              </div>
+               <div class="clear"></div>
+          </div>
+     </div>
+     
+     
+     
+</div>
+<div class="star-pingjia-cont bgcolor_white mt10">
+          <div class="ml10 mr10 border_b manyi-tit">
+          <i class="ico ico-xiao"></i>满意请给5星哦
+          </div>
+          <div class="havestars">
+               <!--<p class="have-star">总体评分
+                       <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="#" class="star_clink" val="1"></a>
+                    <a href="#" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="#" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="#" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="#" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[score]" id="score" value="3">
+                </span></span>
+               </p>-->
+              
+               <p class="have-star">商品包装
+                       <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="javascript:void(0);" class="star_clink" val="1"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[packing_score]" id="packing_score" value="3">
+                </span></span>
+               </p>
+               
+               <p class="have-star">商品质量
+                   <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="javascript:void(0);" class="star_clink" val="1"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[quality_score]" id="quality_score" value="3">
+                </span></span>
+               </p>
+               <p class="have-star">物流服务
+                   <span class="starBg ml10"><span class="star" style="width:60%;">
+                    <a href="javascript:void(0);" class="star_clink" val="1"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="2" style="left:20%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="3" style="left:40%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="4" style="left:60%;"></a>
+                    <a href="javascript:void(0);" class="star_clink" val="5" style="left:80%;"></a>
+                    <input type='hidden' name="data[fuwu_score]" id="fuwu_score" value="3">
+                </span></span>
+               </p>
+          </div>
+     </div>
+<input type='hidden' name='data[order_id]' id='order_id' value='<{$order.order_id}>'>
+<div class="dizhi-add-new"><input type="submit" id="comment_submit" value="提交评论"/></div>
+</form>
+</section>
+<script>
+    $('.star a').click(function () {
+        var val = $(this).attr('val');
+        $(this).parent().find('input').val(val);
+        $(this).parent().css('width', val * 20 + '%');
+    })
+//    $("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+//        if (ret.error == 0) {
+//            layer.open({content: ret.message, time: 2});
+//            setTimeout(function () {
+//                window.location.href = "<{link ctl='ucenter/order/detail' args=$order.order_id }>";
+//            }, 2000);
+//        } else {
+//            layer.open({content: ret.message, time: 2});
+//            return false;
+//        }
+//    }});
+</script>
+<style type="text/css">
+    .star_clink{width:20%;}
+</style>
+
+<!--设为默认地址-->
+<script>
+     $(document).ready(function(){
+         $(".niming-ornot").click(function(){
+              if($(this).hasClass("on")){
+                   $(this).removeClass("on");
+              }else{
+                   $(this).addClass("on");
+              }
+         });
+     });
+</script>
+<{include file="weidian/block/footer.html"}>

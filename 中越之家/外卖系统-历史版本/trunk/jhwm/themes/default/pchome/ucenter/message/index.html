@@ -1,0 +1,27 @@
+<{assign var="page_title" value="个人中心-账户中心-我的余额"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-我的余额")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+
+<!-- 内容部分 -->
+<div class="info_nr">
+    <div class="pagewd">
+        <div class="box">
+            <{foreach $items as $k => $v}>
+            <div class="list">
+                <div class="tit">
+                    <div class="fl <{if $v.is_read == 1}>black9<{else}>maincl<{/if}>"><i class="ico1"></i><{$v.title}></div>
+                    <div class="fr black9"><{$v.dateline|format}><i class="ico2"></i></div>
+                    <div class="clear"></div>
+                </div>
+                <p><{$v.content}>！</p>
+            </div>
+            <{/foreach}>
+        </div>
+        <{$pager.pagebar}>
+    </div>
+</div>
+<!-- 内容部分结束 --> 
+
+<{include file="pchome/block/footer.html"}>

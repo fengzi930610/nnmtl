@@ -1,0 +1,36 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="cloud/member:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?cloud/member-edit.html" mini-form="member-form" method="post" ENCTYPE="multipart/form-data">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <input type="hidden" name="uid" value="<{$detail.uid}>"/>
+            <tr>
+                <th><span class="red">*</span>手机号：</th>
+                <td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-200"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>密码：</th>
+                <td><input type="text" name="data[passwd]" value="******" class="input w-200"/></td>
+            </tr>
+            <tr>
+                <th>昵称：</th>
+                <td><input type="text" name="data[nickname]" value="<{$detail.nickname|default:''}>" class="input w-200"/></td>
+            </tr>
+            <tr><th>头像：</th>
+                <td><input type="text" name="data[face]" value="<{$detail.face}>" <{if $detail.face}>photo="<{$pager.img}>/<{$detail.face}>"<{/if}> class="input w-200" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[face]" class="input w-100" /><span class="tip-comment">图片</span></td>
+            </tr>
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form></div>
+<{include file="admin:common/footer.html"}>

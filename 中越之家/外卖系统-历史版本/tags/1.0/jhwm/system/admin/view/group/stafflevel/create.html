@@ -1,0 +1,309 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .radio_box{overflow: hidden; margin: 20px 0;}
+    .radio_box .list{float: left; margin-right: 20px;}
+    .change_box{padding-bottom: 20px;}
+    .change_box .tips{line-height: 20px; color: #666; margin-bottom: 20px; color: #f30;}
+</style>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+    .spec_mask .cont { overflow: visible;}
+    .weekSelctBox{padding-bottom: 20px;}
+    .weekSelctBox label{position: relative;display: inline-block;height: 30px;padding: 0 16px;color: #555;font-size: 12px;line-height: 28px;border: 1px solid #bbb;border-radius: 2px;cursor: pointer; margin-right: 10px;}
+    .weekSelctBox label input{width: 0; height: 0;opacity: 0;}
+    .weekSelctBox label.on{border-color: #00bd9e;}
+    .weekSelctBox label.on:before{content: " ";position: absolute;right: 0;bottom: 0;width: 0;height: 0;border: 7px solid #00bd9e;border-top-color: transparent;border-left-color: transparent;}
+    .weekSelctBox label.on:after {content: " ";position: absolute;right: 1px;bottom: 3px;width: 6px;height: 3px;border: 1px solid #fff;border-top-color: transparent;border-right-color: transparent; -webkit-transform: rotate(-59deg);transform: rotate(-59deg);}
+    .btn_admin {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px; background-color: #1ab394; border-color: #1ab394;color: #FFF;
+        margin-left: 100px;
+        margin-top:10px;
+    }
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="group/stafflevel:items" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+
+    <form action="?group/stafflevel-create.html" mini-form="staff-form" method="post" >
+    <table width="100%" border="0" cellspacing="0" class="table-data form psyEdit_tableBox">
+        <tr>
+            <th>配送员等级名称</th>
+            <td>
+                <div class="pub_list int_box">
+                    <input type="text" name="data[title]" value="<{$detail.title}>" class="pub_list_bd" />
+                </div>
+            </td>
+        </tr>
+    </table>
+        <div class="guide_list_box mgb10">
+            <ul class="label_label">
+                <li><a href="javascript:;" target="admin_main" rel="base" class="on" >基础设置</a></li>
+                <li><a href="javascript:;" target="admin_main" rel="time">时间设置</a></li>
+            </ul>
+            <div class="clear-both"></div>
+        </div>
+    <table width="100%" border="0" cellspacing="0" class="table-data form psyEdit_tableBox base" style="display: block">
+
+        <tr>
+            <th>平台给配送员每单支<br/>付金额(外卖单)</th>
+            <td>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_waimai][type]" value="1" checked  class="mgl10 mgr10" />
+                    <p>每单固定</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai][fixed]" value="<{$detail.config_waimai.fixed}>" />
+                    <p>元</p>
+                </div>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_waimai][type]" value="2"  class="mgl10 mgr10"/>
+                    <p>每单按照订单配送费提成</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai][bl]" value="<{$detail.config_waimai.bl}>" />
+                    <p>%</p>
+                </div>
+                <div class="pub_list int_box">
+                    <input type="radio" name="data[config_waimai][type]" value="3"  class="mgl10 mgr10"/>
+                    <p>每单基础配送费</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai][base]" value="<{$detail.config_waimai.base}>" />
+                    <p>元，超过</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai][step]" value="<{$detail.config_waimai.step}>" />
+                    <p>公里，超过部分每公里增加</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_waimai][amplitude]" value="<{$detail.config_waimai.amplitude}>"/>
+                    <p>元，最高</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_waimai][max]" value="<{$detail.config_waimai.max}>"/>
+                    <p>元</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>平台给配送员每单支<br/>付金额(跑腿单)</th>
+            <td>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_paotui][type]" value="1" checked  class="mgl10 mgr10" />
+                    <p>每单固定</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui][fixed]" value="<{$detail.config_paotui.fixed}>" />
+                    <p>元</p>
+                </div>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_paotui][type]" value="2"  class="mgl10 mgr10"/>
+                    <p>每单按照订单配送费提成</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui][bl]" value="<{$detail.config_paotui.bl}>" />
+                    <p>%</p>
+                </div>
+                <div class="pub_list int_box">
+                    <input type="radio" name="data[config_paotui][type]" value="3"  class="mgl10 mgr10"/>
+                    <p>每单基础配送费</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui][base]" value="<{$detail.config_paotui.base}>" />
+                    <p>元，超过</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui][step]" value="<{$detail.config_paotui.step}>" />
+                    <p>公里，超过部分每公里增加</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_paotui][amplitude]" value="<{$detail.config_paotui.amplitude}>"/>
+                    <p>元，最高</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_paotui][max]" value="<{$detail.config_paotui.max}>"/>
+                    <p>元</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+    <table width="100%" border="0" cellspacing="0" class="table-data form psyEdit_tableBox time" style="display: none">
+        <tr>
+            <th>
+                时间段
+            </th>
+            <td>
+                <div class="stime_box " style="float: left">
+                    <label>开始时间<input type="text" class="input w-100 stime" name="data[stime]" value="<{$v1.stime}>" time="<{$v1.stime_time}>" /></label>&nbsp;~
+                    <ul class="time-ul"></ul>
+                </div>
+                <div class="stime_box  " style="float: left">
+                    <label>结束时间<input type="text" class="input w-100 ltime" name="data[ltime]" value="<{$v1.ltime}>" time="<{$v1.ltime_time}>" /></label>&nbsp;
+                    <ul class="time-ul"></ul>
+                </div>
+                <p>(备注：需要保存时间段配置，需要填写时间)</p>
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <th>平台给配送员每单支<br/>付金额(外卖单)</th>
+            <td>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_waimai_time][type]" value="1" checked  class="mgl10 mgr10" />
+                    <p>每单固定</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai_time][fixed]" value="<{$detail.config_waimai.fixed}>" />
+                    <p>元</p>
+                </div>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_waimai_time][type]" value="2"  class="mgl10 mgr10"/>
+                    <p>每单按照订单配送费提成</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai_time][bl]" value="<{$detail.config_waimai.bl}>" />
+                    <p>%</p>
+                </div>
+                <div class="pub_list int_box">
+                    <input type="radio" name="data[config_waimai_time][type]" value="3"  class="mgl10 mgr10"/>
+                    <p>每单基础配送费</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai_time][base]" value="<{$detail.config_waimai.base}>" />
+                    <p>元，超过</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_waimai_time][step]" value="<{$detail.config_waimai.step}>" />
+                    <p>公里，超过部分每公里增加</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_waimai_time][amplitude]" value="<{$detail.config_waimai.amplitude}>"/>
+                    <p>元，最高</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_waimai_time][max]" value="<{$detail.config_waimai.max}>"/>
+                    <p>元</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>平台给配送员每单支<br/>付金额(跑腿单)</th>
+            <td>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_paotui_time][type]" value="1" checked  class="mgl10 mgr10" />
+                    <p>每单固定</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui_time][fixed]" value="<{$detail.config_paotui.fixed}>" />
+                    <p>元</p>
+                </div>
+                <div class="mgb10 pub_list int_box">
+                    <input type="radio" name="data[config_paotui_time][type]" value="2"  class="mgl10 mgr10"/>
+                    <p>每单按照订单配送费提成</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui_time][bl]" value="<{$detail.config_paotui.bl}>" />
+                    <p>%</p>
+                </div>
+                <div class="pub_list int_box">
+                    <input type="radio" name="data[config_paotui_time][type]" value="3"  class="mgl10 mgr10"/>
+                    <p>每单基础配送费</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui_time][base]" value="<{$detail.config_paotui.base}>" />
+                    <p>元，超过</p>
+                    <input type="text" class="pub_list_bd int" name="data[config_paotui_time][step]" value="<{$detail.config_paotui.step}>" />
+                    <p>公里，超过部分每公里增加</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_paotui_time][amplitude]" value="<{$detail.config_paotui.amplitude}>"/>
+                    <p>元，最高</p>
+                    <input type="text" class="pub_list_bd int"  name="data[config_paotui_time][max]" value="<{$detail.config_paotui.max}>"/>
+                    <p>元</p>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+    <table width="100%" border="0" cellspacing="0" class="table-data form psyEdit_tableBox">
+        <tr>
+            <th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+        </tr>
+    </table>
+</form></div>
+
+
+<script type="text/javascript">
+    $('.label_label li a ').on('click',function(){
+        $('.label_label li a ').removeClass('on');
+        $(this).addClass('on');
+        $('.base,.time').hide();
+        $('.'+$(this).attr('rel')).show()
+
+    })
+    $('body').click(function(){
+        $('.time-ul').hide();
+    });
+
+    $(document).on('click', '.stime', function(){
+        var stime = $(this).attr('time');
+        var ltime = $(this).parent().parent().next().find('.ltime').attr('time');
+        var that = $(this);
+        var link = "?hongbao/hongbao-getTime.html";
+        $.post(link, {"ltime": ltime}, function (ret) {
+            if (ret.error == 0) {
+                var html = '';
+                $.each(ret.data,function(k, v){
+                    if(stime == v.time){
+                        html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                    }else{
+                        html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                    }
+                })
+
+                if(html){
+                    that.parent().next().html(html);
+                    //that.parent().nextSbiling();
+                    // that.siblings('.time-ul').html(html);
+                }
+                that.parent().next().hide();
+                that.parent().next().show();
+
+                /* $('.time-ul').hide();
+                 that.siblings('.time-ul').show();*/
+            }
+        },'json');
+    });
+
+    $(document).on('click', '.ltime', function(){
+        //var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+        var stime = $(this).parent().parent().prev().find('.stime').attr('time');
+        var ltime = $(this).attr('time');
+        var that = $(this);
+        var link = "?hongbao/hongbao-getTime.html";
+        $.post(link, {"stime": stime}, function (ret) {
+            if (ret.error == 0) {
+                var html = '';
+                $.each(ret.data,function(k, v){
+                    if(ltime == v.time){
+                        html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                    }else{
+                        html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                    }
+                })
+                if(html){
+                    that.parent().next().html(html);
+                }
+                that.parent().next().hide();
+                that.parent().next().show();
+            }
+        },'json');
+    });
+
+    $(document).on('click','.time-ul li',function(){
+        var time = $(this).attr('time');
+        var strtime = $(this).text();
+        $(this).parent().prev().children().attr('time',time)
+        $(this).parent().prev().children().val(strtime);
+        /*  $(this).parent('.time-ul').siblings('input').attr('time',time);
+          $(this).parent('.time-ul').siblings('input').val(strtime);
+          $(this).parent('.time-ul').hide();*/
+    });
+</script>
+
+
+<{include file="admin:common/footer.html"}>

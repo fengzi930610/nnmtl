@@ -1,0 +1,115 @@
+<{assign var='tpl_title' value=L("限时折扣-详情")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--内容开始-->
+            	<div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动状态：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.closed == 1}>已失效<{elseif $detail.audit == 0}>待审核<{elseif $detail.stime >$nowtime}>待生效<{elseif $detail.ltime < $nowtime}>已过期<{else}>已生效<{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                    <div class="bt black9">活动标题：</div>
+                    <div class="pub_list_bd">
+                        <P><{$detail.title}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">创建时间：</div>
+                    <div class="pub_list_bd">
+                    	<P><{$detail.dateline|format:'Y-m-d H:i'}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动时间：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.stime == ($detail.ltime + 86399)}><{$detail.stime|format:'Y-m-d H:i'}>至<{$detail.ltime|format:'Y-m-d H:i'}><{else}><{$detail.stime|format:'Y-m-d'}>至<{$detail.ltime|format:'Y-m-d'}><{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动周期：</div>
+                    <div class="pub_list_bd">
+                        
+                    	<label <{if !in_array(1,$detail.period_weeks)}>style="display:none"<{/if}>>周一&nbsp;</label>
+                        <label <{if !in_array(2,$detail.period_weeks)}>style="display:none"<{/if}>>周二&nbsp;</label>
+                        <label <{if !in_array(3,$detail.period_weeks)}>style="display:none"<{/if}>>周三&nbsp;</label>
+                        <label <{if !in_array(4,$detail.period_weeks)}>style="display:none"<{/if}>>周四&nbsp;</label>
+                        <label <{if !in_array(5,$detail.period_weeks)}>style="display:none"<{/if}>>周五&nbsp;</label>
+                        <label <{if !in_array(6,$detail.period_weeks)}>style="display:none"<{/if}>>周六&nbsp;</label>
+                        <label <{if !in_array(0,$detail.period_weeks)}>style="display:none"<{/if}>>周日&nbsp;</label>
+                        &nbsp;的&nbsp;
+                        <div><{$detail.period_times.stime}>&nbsp;至&nbsp;<{$detail.period_times.ltime}></div>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">限购设置：</div>
+                    <div class="pub_list_bd">
+                        <{if empty($detail.quota)}>
+                        <label class="mr10">不限购</label>
+                        <{else}>
+                        <label class="mr10">限购</label><span>每单商品前<{$detail.quota}>件享受优惠</span>
+                        <{/if}>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">优惠方式：</div>
+                    <div class="pub_list_bd">
+                        <{if empty($detail.discount_type)}>
+                    	<label class="mr30">打折</label>
+                        <{else}>
+                        <label class="mr30">减价</label>
+                        <{/if}>
+                    </div>
+                </div>
+                <style type="text/css">
+                    .actDelt_Goods ul li{background: #fff; padding:10px 0; border-bottom: 1px solid #e6e6e6;}
+                    .actDelt_Goods ul li:last-child{border-bottom: 0;}
+                    .actDelt_Goods ul li .img{width: 80px;height: 80px;}
+                    .actDelt_Goods ul li .wz_box {margin-left: 80px; padding: 0 10px;}
+                    .actDelt_Goods ul li .wz_box h3{font-size: 14px;line-height: 24px;color: #333;font-weight: normal; margin-bottom: 4px;}
+                    .actDelt_Goods ul li .wz_box p{line-height: 20px; font-size: 12px;}
+                    .actDelt_Goods ul li .wz_box .price{font-size: 14px; line-height: 24px;}
+                    .actDelt_Goods ul li .wz_box .price del{margin-left: 8px; font-size: 10px;}
+                </style>
+                <div class="actDelt_list">
+                	<div class="bt black9">商品：</div>
+                    <div class="actDelt_Goods">
+                    	<ul>
+                            <{foreach $products as $p}>
+                            <li>
+                                <div class="img fl"><img src="<{$pager.img}>/<{$p.photo}>" width="80" height="80"></div>
+                                <div class="wz_box">
+                                    <h3 class="overflow_clear"><{$p.title}></h3>
+                                    <p class="price fontcl1">￥<{$p.disc_price}><del class="black9"><{$p.price}></del></p>
+                                    <p class="black9"><span class="mr10">库存：<{$p.sale_sku}></span><span class="mr10">已售：<{$p.sale_count}></span><span class="mr10"><{$p.disc_label}></span></p>
+                                </div>
+                                <div class="clear"></div>
+                            </li>
+                            <{/foreach}>
+                            <!-- <li>
+                                <div class="img fl"><img src="" width="80" height="80"></div>
+                                <div class="wz_box">
+                                    <h3 class="overflow_clear">123556</h3>
+                                    <p class="price fontcl1">￥5.60<del class="black9">7.00</del></p>
+                                    <p class="black9"><span class="mr10">库存：99</span><span class="mr10">已售：2</span><span class="mr10">折扣：8.0折</span></p>
+                                </div>
+                                <div class="clear"></div>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+                
+                <!--内容结束-->
+            </div>
+            <!--底部按钮-->
+            <div class="footer_actDeltBtn">
+            	<{if $detail.closed != 1}><a href="<{link ctl='webview/huodong/discount/close' args=$detail.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_warn">撤销活动</a><{/if}>
+            </div>
+            <!--底部按钮end-->
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

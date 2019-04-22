@@ -1,0 +1,88 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/shop/coupon:index'}>">优惠券列表</a>
+    <a class="on">修改优惠券</a>
+    <div class="tishi pointcl"></div>
+</div>
+<form action="<{link ctl='biz/shop/coupon:edit' args=$detail.coupon_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<div class="ucenter_c">
+       <table cellspacing="0" cellpadding="0" class="form">
+           <{if !$member_coupon}>
+           <tr>
+                <th><span class="red">*</span>订单金额：</th>
+                <td>
+                  <{if $detail.picked>0}>
+                  <{$detail.order_amount|default:''}>
+                  <{else}>
+                  <input type="text" <{if $detail.picked>0}>	readonly	<{/if}>  name="data[order_amount]" value="<{$detail.order_amount|default:''}>" class="input w-150"/>元
+<{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>优惠金额：</th>
+                <td>
+<{if $detail.picked>0}>
+<{$detail.coupon_amount|default:''}>
+<{else}>
+                  <input type="text" <{if $detail.picked>0}>	readonly	<{/if}> name="data[coupon_amount]" value="<{$detail.coupon_amount|default:''}>" class="input w-150"/>元
+<{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>开始时间：</th>
+                <td>
+<{if $detail.picked>0}>
+<{$detail.stime|default:''}>
+<{else}>
+                  <input type="text" <{if $detail.picked>0}>	readonly	<{/if}> name="data[stime]" id="stime" value="<{$detail.stime|default:''}>" class="input w-150"   onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+<{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>结束时间：</th>
+                <td>
+<{if $detail.picked>0}>
+<{$detail.ltime|default:''}>
+<{else}>
+                  <input type="text" name="data[ltime]" id="ltime" value="<{$detail.ltime|default:''}>" class="input w-150"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+<{/if}>
+                </td>
+            </tr>
+            <{else}>
+            <tr>
+                <th><span class="red">*</span>订单金额：</th>
+                <td><{$detail.order_amount|default:''}>元</td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>优惠金额：</th>
+                <td><{$detail.coupon_amount|default:''}>元</td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>开始时间：</th>
+                <td><{$detail.stime|default:''}></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>结束时间：</th>
+                <td><{$detail.ltime|default:''}></td>
+            </tr>
+           <{/if}>
+
+            <tr>
+                <th><span class="red">*</span>库存：</th>
+                <td><input type="text" name="data[sku]" value="<{$detail.sku|default:''}>" class="input w-50">张</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存修改" class="btn btn-success" /></td>
+            </tr>
+        </table>
+</div>
+</form>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

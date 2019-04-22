@@ -1,0 +1,54 @@
+<{include file="biz/block/header.html"}>
+
+
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/order:tuan'}>" >正在抢购</a>
+        <a href="<{link ctl='biz/order:t_manager'}>" class="on">订单管理</a>
+        <a href="<{link ctl='biz/order:t_quan'}>">券管理</a>
+    </ul>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+        <table cellspacing="0" cellpadding="0" class="table">
+            <tr class="alt">
+                <th class="w-70">订单ID</th>
+                <th class="w-70">抢购图片</th>
+                <th class="w-100">抢购产品</th>
+                <th class="w-60">订单金额</th>
+                <th class="w-80">商品数量</th>
+                <th class="w-80">使用时间</th>
+                <th class="w-80">订单状态</th>
+                <th class="w-120">创建时间</th>
+                <th class="w-100">创建IP</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><{$item.order_id}></td>    
+                <td><img src="<{$pager.img}>/<{$item.photo}>" class="wh-50" /></td>    
+                <td><{$item.tuan_title}></td>
+                <td><{$item.tuan_price}></td>
+                <td><{$item.tuan_number}></td>    
+                <td><{$item.use_time}></td>     
+                <td><{$status[$item['order_status']]}></td>
+                <td><{$item.dateline|format:'Y-m-d H:i:s'}></td>  
+                <td><{$item.clientip}></td>  
+            </tr>
+
+            <{foreachelse}>
+            <tr><td colspan="20"><div class="alert alert-info">暂无抢购券</div></td></tr>
+            <{/foreach}>
+            <tr>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td><div class="page"><{$pager.pagebar}></div></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<{include file="biz/block/footer.html"}>
+       

@@ -1,0 +1,123 @@
+<{include file="biz/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='biz/tuan:tuan'}>" class="on">商品管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/tuan/tuan:edit' args=$detail.tuan_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th>标题：</th>
+                <td>
+                    <input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>类型：</th>
+                <td>
+                    <ul class="group-list">
+                        <{if $shop.have_tuan==1}>
+                        <li><label><input type="radio" name="data[type]" value="tuan" <{if $detail.type == 'tuan'}>checked="checked"<{/if}> >团购券</label></li>
+                        <{/if}>
+                        <{if $shop.have_quan==1}>
+                        <li><label><input type="radio" name="data[type]" value="quan" <{if $detail.type == 'quan'}>checked="checked"<{/if}> >代金券</label></li>
+                        <{/if}>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>描述：</th>
+                <td>
+                    <input type="text" name="data[desc]" value="<{$detail.desc|default:''}>" class="input w-300"/><span class="tip-comment">副标题用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>图片：</th>
+                <td>
+                    <input type="text" name="data[photo]" class="input w-300" id="file_photo" value="<{$detail.photo|default:''}>" <{if $detail.photo}>photo="<{$pager.img}>/<{$detail.photo}>"<{/if}>/>
+                    <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" 选择文件 " />
+                    <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+                </td>
+            </tr>
+            <tr>
+                <th>门店价：</th>
+                <td>
+                    <input type="text" name="data[market_price]" value="<{$detail.market_price|default:'0.00'}>" class="input w-100"/>
+                </td>
+            </tr>
+            <tr>
+                <th>优惠价：</th>
+                <td>
+                    <input type="text" name="data[price]" value="<{$detail.price|default:'0.00'}>" class="input w-100"/>
+                </td>
+            </tr>
+            
+            <tr>
+                <th>有效时间开始：</th>
+                <td>
+                    <input type="text" name="data[stime]" id="d4311"   value="<{$detail.stime|format:'Y-m-d H:i:s'}>"  class="input w-150 Wdate"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'d4312\',{d:-1})}'})"/>
+                </td>
+            </tr>
+            <tr>
+                <th>有效时间截至：</th>
+                <td>
+                    <input type="text" name="data[ltime]" id="d4312"  value="<{$detail.ltime|format:'Y-m-d H:i:s'}>" class="input w-150 Wdate"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'d4311\',{d:1})}'})"/>
+                </td>
+            </tr>
+            
+            <tr>
+                <th>最小购买数：</th>
+                <td><input type="text" name="data[min_buy]" value="<{$detail.min_buy|default:1}>" class="input w-100"/><span class="tip-comment">每单最少购买数量</span>
+            </tr>
+            <tr>
+                <th>最大购买数：</th>
+                <td><input type="text" name="data[max_buy]" value="<{$detail.max_buy|default:99}>" class="input w-100"/><span class="tip-comment">每单最多购买数量</span>
+            </tr>
+           <!--  <tr>
+                <th>销量：</th>
+                <td><input type="text" name="data[sale_count]" value="<{$detail.sale_count|default:'0'}>" class="input w-100"/><span class="tip-comment">销量</span></td>
+            </tr> -->
+            <tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/><span class="tip-comment">排序</span></td></tr>
+            <!-- <tr>
+                <th>是否多券合一：</th>
+                <td>
+                    <ul class="group-list">
+                        <li><label><input type="radio" name="data[ticket_merge]" value="0" <{if $detail['ticket_merge'] ==0}>checked="checked"<{/if}>>不启用</label></li>
+                        <li><label><input type="radio" name="data[ticket_merge]" value="1" <{if $detail['ticket_merge'] ==1}>checked="checked"<{/if}>>启用</label></li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr> 
+            <tr>
+                <th>是否库存限购：</th>
+                <td>
+                    <ul class="group-list">
+                        <li><label><input type="radio" name="data[stock_type]" value="0" <{if $detail['stock_type'] ==0}>checked="checked"<{/if}>>不限购</label></li>
+                        <li><label><input type="radio" name="data[stock_type]" value="1" <{if $detail['stock_type'] ==1}>checked="checked"<{/if}>>限购</label></li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            -->
+            <tr>
+                <th>库存数量：</th><td><input type="text" name="data[stock_num]" value="<{$detail.stock_num|default:'0'}>" class="input w-100"/></td></tr>
+            <tr><th><span class="red">*</span>使用规则：</th><td><textarea name="data[notice]" class="textarea w-500"><{$detail.notice}></textarea><br /></td></tr>
+            <tr><th><span class="red">*</span>图文详情：</th><td><textarea name="data[detail]" kindeditor="full" style="width:500px;height:350px;"><{$detail.detail}></textarea><br /></td></tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>
+

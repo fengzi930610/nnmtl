@@ -1,0 +1,172 @@
+<{include file="weidian/block/header.html"}>
+<section class="page_center_box">
+	<!--内容-->
+    <div class="cartSelct_all">
+    	<div><label class="check_box"><input type="checkbox"></label>全选</div>
+        <div><a href="javascript:;" class="del shanchu-dan"></a></div>
+    </div>
+    <div class="cartSelct_list_box">
+    	<ul>
+            <{foreach $products as $k=>$item}>
+        	<li class="cartSelct_list">
+            	<div class="shangpin_box">
+                    <div class="img fl"><img src="<{$pager.img}>/<{$item.photo}>"></div>
+                    <div class="wz_box">
+                        <h3><{$item.title}></h3>
+                        <p class="black9"><{$item.stock_real_name}>数量:<span class="s_num"><{$item.num}></span></p>
+                        <div class="price">￥<{$item.price}></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="num_operate">
+                        <span quantity="-" stock_id="<{$k}>" class="min"></span>
+                        <input type="text" readonly="readonly" class="ordernum" stock="<{$item.stock}>" value="<{$item.num}>">
+                        <span quantity="+" stock_id="<{$k}>" class="add"></span>
+                    </div>
+                </div>
+                    <label class="check_box" num="<{$item.num}>" price="<{$item.price}>" stock_name="<{$item.product_id}>-<{$item.stock_name}>"><input type="checkbox"></label>
+            </li>
+            <{/foreach}>
+        </ul>
+    </div>
+    <!--内容结束-->
+</section>
+<footer>
+	<div class="footer_orderBtn">
+    	<div class="left">
+        	<p>合计：<span class="fontcl1" id="total_price">￥0</span></p>
+                <small class="black9">（共计<span id="total_num">0</span>件，不含运费）</small>
+        </div>
+	<a id="jq_jiesuan" href="javascript:void(0);" class="gray_btn">去结算</a>
+	</div>
+</footer>
+<!--删除订单弹出-->
+<div>
+     <div class="shanchu-tanchu-cont bgcolor_white">
+         <div class="tit">您确定将选中商品移除购物车？</div>
+         <div>
+             <div rel="1" class="confirm-or-not fl">确定</div>
+             <div rel="0" class="confirm-or-not fl">取消</div>
+             <div class="clear"></div>
+         </div>
+     </div>
+     <div class="mask_bg"></div>
+</div>
+<!--删除购物车弹出-->
+<script type="text/javascript">
+    var weicart = new window.WeiCart("<{$shop_id}>");
+       $(document).ready(function(){
+           $(".shanchu-dan").click(function(){
+               var len = $(".cartSelct_list_box .check_box.on").length;
+               if(len==0){
+                    layer.open({content: "请选择要删除的商品", skin: 'msg', time: 2 });
+               }else{
+                    $(".shanchu-tanchu-cont").show();
+                    $(".shanchu-tanchu-cont").parent().find(".mask_bg").show();
+                }
+           });
+           $(".confirm-or-not").click(function(){
+               var len = $(".cartSelct_list_box .check_box.on").length;
+               $(this).parents().find(".shanchu-tanchu-cont").hide();
+               $(this).parents().find(".mask_bg").fadeOut();
+               if($(this).attr("rel")==1){
+                   for(var i=0;i<len;i++){
+                       weicart.remove($(".cartSelct_list_box .check_box.on").eq(i).attr("stock_name"));
+                   }
+                   layer.open({content: "删除成功", skin: 'msg', time: 2 });
+                   setTimeout(function(){
+                       window.location.reload(true);
+                   },1000)
+               }
+
+           });
+
+           $(document).on("click", '[quantity]', function(){
+            var num = parseInt($(this).parent().find(".ordernum").val());
+            var stock_id = $(this).attr("stock_id");
+            var stock = parseInt($(this).parent().find(".ordernum").attr("stock"));
+            if($(this).attr("quantity") == '-'){
+                if(num <=1){
+                    return false;
+                }else{
+                    num--;
+                    $(this).parents(".shangpin_box").find(".s_num").html(num);
+                    weicart.add(stock_id,-1);
+                    $(this).parent().find(".ordernum").val(num);
+                    $(this).parent().parent().parent().find(".check_box").attr("num",num);
+                }
+            }else{
+                if(num < stock){
+                    num++;
+                    $(this).parents(".shangpin_box").find(".s_num").html(num);
+                    weicart.add(stock_id,1);
+                    $(this).parent().find(".ordernum").val(num);
+                    $(this).parent().parent().parent().find(".check_box").attr("num",num);
+                }else{
+                    layer.open({content: "商品库存不足22", skin: 'msg', time: 2 });return false;
+                }
+            }
+            get_change_attr();
+        });
+
+        $(document).on("click", ".right", function(){
+            var stock_names = "";
+            var len = $(".cartSelct_list_box .check_box.on").length;
+            var link = "<{link ctl='product/order' stock_names=oooo}>";
+            for(var i=0;i<len;i++){
+                if(i==0){
+                    stock_names += $(".cartSelct_list_box .check_box.on").eq(i).attr("stock_name");
+                }else{
+                    stock_names += ","+$(".cartSelct_list_box .check_box.on").eq(i).attr("stock_name");
+                }
+            }
+            //alert(link.replace("oooo",stock_names));return false;
+            window.location.href = link.replace("oooo",stock_names);
+        });
+
+       })
+</script>
+<!--删除购物车弹出结束-->
+<script>
+    function get_change_attr(){
+        var num = total_price = 0;
+        var len = $(".cartSelct_list_box .check_box.on").length;
+        if(len >0){
+            $("#jq_jiesuan").removeClass("gray_btn");
+            $("#jq_jiesuan").addClass("right");
+        }else{
+            $("#jq_jiesuan").removeClass("right");
+            $("#jq_jiesuan").addClass("gray_btn");
+        }
+
+        for(var i=0;i<len;i++){
+            num += parseInt($(".cartSelct_list_box .check_box.on").eq(i).attr("num"));
+            total_price += parseInt($(".cartSelct_list_box .check_box.on").eq(i).attr("num"))*$(".cartSelct_list_box .check_box.on").eq(i).attr("price");
+        }
+        $("#total_price").html("￥"+parseFloat(total_price).toFixed(2));
+        $("#total_num").html(num);
+    }
+
+
+$(document).ready(function(){
+   $(".cartSelct_list .check_box input").click(function(){
+        if($(this).parent('.check_box').hasClass('on')){
+             $(this).parent('.check_box').removeClass('on');
+        }else{
+             $(this).parent('.check_box').addClass('on');
+        }
+        get_change_attr();
+   });
+   $(".cartSelct_all .check_box input").click(function(){
+        if($(this).parent('.check_box').hasClass('on')){
+            $(this).parent('.check_box').removeClass('on');
+            $(".cartSelct_list .check_box").removeClass('on');
+        }else{
+            $(this).parent('.check_box').addClass('on');
+            $(".cartSelct_list .check_box").addClass('on');
+        }
+        get_change_attr();
+   });
+   $(".cartSelct_all .check_box input").trigger("click");
+});
+</script>
+<{include file="weidian/block/footer.html"}>

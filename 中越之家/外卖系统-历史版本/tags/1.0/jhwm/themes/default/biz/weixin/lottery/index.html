@@ -1,0 +1,32 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li class="on"><a href="<{link ctl='biz/weixin/lottery:index'}>"><{L('大转盘')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weixin/lottery:create'}>" class="pbtn">添加大转盘</a></span>
+</div>
+<div class="ucenter_c">
+    <table width="100%" border="0" cellspacing="0" class="table">
+   <tr><th class="w-100">大转盘ID</th><th>关键字</th><th>封面图片</th><th>活动名称</th><th>活动开始时间</th><th>活动结束时间</th><th class="w-100">创建时间</th><th class="w-220">操作</th></tr>
+    <{foreach $items as $item}>
+        <tr><td><{$item.id}></td>
+        <td><{$item.keyword}></td>
+        <td><img src="<{$pager.img}>/<{$item.photo}>" class="wh-50" /></td>
+        <td><{$item.title}></td>
+        <td><{$item.stime|format:'Y-m-d'}></td>
+        <td><{$item.ltime|format:'Y-m-d'}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+        	 <a href="<{link ctl='biz/weixin/lottery:sn' arg0=$item.id}>" class="btn btn-success">中奖</a>
+			 <a href="<{link ctl='biz/weixin/lottery:preview' arg0=$item.id  http='ajax'}>" mini-width='500' mini-load="扫描二维码" class="btn btn-success">预览</a>
+            <a href="<{link ctl='biz/weixin/lottery:edit' arg0=$item.id}>" class="btn btn-success">修改</a>
+            <a href="<{link ctl='biz/weixin/lottery:delete' arg0=$item.id}>" mini-act="删除" mini-confirm="确定要删除吗？" class="btn btn-success">删除</a>
+        </td></tr>
+       
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="tips"><span class="notice">没有数据</span></p></td></tr>
+    <{/foreach}>
+    <tr><td colspan="10"><div class="page"><{$pager.pagebar}></div></td></tr>
+    </table>
+</div>
+<{include file="biz/block/footer.html"}>

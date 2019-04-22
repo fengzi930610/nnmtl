@@ -1,0 +1,3 @@
+<{foreach $data.items as $item}>
+    <div><a href="<{$item.link}>" <{if $item.target}> target="<{$item.target}>"<{/if}>><img src="<{$pager.img}>/<{$item.thumb}>" alt="<{$item.title}>" text="<{$item.title}>"<{if $data.width}> width="<{$data.width}>"<{elseif $data.adv.config.width}> width="<{$data.adv.config.width}>"<{/if}><{if $data.height}>height="<{$data.height}>"<{elseif $data.adv.config.height}> height="<{$data.adv.config.height}>"<{/if}>/></a></div>
+<{/foreach}>

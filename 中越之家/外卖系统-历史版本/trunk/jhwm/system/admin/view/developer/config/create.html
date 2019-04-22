@@ -1,0 +1,100 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form id="create-config">
+		<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th style="width:50px">配置名称：</th>
+			<td class="w-200"><input type="text" name="config[title]" class="input w-200" value=""/></td>
+			<th style="width:50px">父级菜单:</th>
+			<td class="w-150">
+				<select name="config[module_id]">
+				<{foreach $menu_tree as $v}><optgroup label="<{$v.title}>"><{foreach $v.menu as $vv}><option value="<{$vv.mod_id}>"><{$vv.title}></option><{/foreach}></optgroup><{/foreach}>
+				</select>			
+			</td>
+			<th style="width:50px">标识KYE:</th>
+			<td class="w-300"><input type="text" name="config[k]" class="input w-150" value=""/><span class="tip-comment">不可重复</span></td>			
+		</tr>
+	</table>
+	<table width="100%" border="0" cellspacing="0" class="table-data list" id="config-item-table">
+		<tr>
+			<th class="w-100">标题</th>
+			<th class="w-100">变量名</th>
+			<th class="w-100">类型</th>
+			<th class="w-100">默认值</th>
+			<th>说明</th>
+			<th class="w-50"><label><input type="checkbox" value="1" CKA="EMPTY" />允许空</label></th>
+			<th class="w-50"><label><input type="checkbox" value="1" CKA="HTML" />HTML</label></th>
+			<th class="w-100"><a href="###" batch="add_new_line" >新增一行</a></th>
+		</tr>
+	</table>
+	<div class="page-bar">
+		<table>
+			<tr>
+				<td></td>
+				<td colspan="10"></td>
+				<td class="w-100">					
+					<label><input type="checkbox" name="module[schema]" checked value="Y" />创建Schema</label>
+					<label><input type="checkbox" name="module[cfg]" checked value="Y" />创建Config</label>
+					<label><input type="checkbox" name="module[view]" checked value="Y" />创建View</label>
+				</td>
+				<td class="w-100"><{link ctl="tools/developer:config" type="button" submit="mini:#create-config"  title="创建配置"}></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+<script type="text/paint" id="config-item-tmpl">
+	<tr>
+		<td><input type="text" size="50" name="data[{index}][label]" class="input w-100" value=""></td>
+		<td><input type="text" name="data[{index}][field]" class="input w-100" value=""></td>
+		<td>
+			<select name="data[{index}][type]">
+				<option value="text">文本</option>
+				<option value="boolean">布尔型</option>
+				<option value="number">数字</option>
+				<option value="date">日期</option>
+				<option value="phone">电话</option>
+				<option value="mobile">手机</option>
+				<option value="mail">邮箱</option>
+				<option value="photo">图片</option>
+				<option value="textarea">文本框</option>
+				<option value="city">城市</option>
+				<option value="area">地区</option>
+				<option value="select">下接列表</option>
+				<option value="checkbox">复选框</option>
+				<option value="radio">单选框</option>
+				<option value="editor">编辑器</option>
+				<option value="dateline">UNIXTIME</option>
+			</select>		
+		</td>
+		<td><input type="text" name="data[{index}][default]" class="input w-100" value=""></td>
+		<td><input type="text" name="data[{index}][comment]" class="input w-300" value=""></td>
+		<td><label><input type="checkbox" name="data[{index}][empyt]" CK="EMPTY" value="1" />允许空</label></td>
+		<td><label><input type="checkbox" name="data[{index}][html]" CK="HTML" value="1" />HTML</label></td>
+		<td><a href="###" batch="remove_item_line">移除</a></td>
+	</tr>
+</script>
+<script type="text/javascript">
+(function(K, $){
+$(document).ready(function(){
+	var tmpl = $("#config-item-tmpl").html();
+	$("a[batch='add_new_line']").click(function(){
+		var k = K.Guid();
+		$("#config-item-table").append(tmpl.replace(new RegExp("{index}","gm"),k));
+	}).click();
+	$("a[batch='remove_item_line']").die().live('click',function(){
+		$(this).parent().parent('tr').remove();
+	});
+});
+})(window.KT, window.jQuery)
+</script>
+<{include file="admin:common/footer.html"}>

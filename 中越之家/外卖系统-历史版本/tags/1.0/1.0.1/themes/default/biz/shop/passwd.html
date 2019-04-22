@@ -1,0 +1,31 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/shop:index'}>">基本资料</a>
+    <a href="<{link ctl='biz/shop:passwd'}>" class="on">安全设置</a>
+    <a href="<{link ctl='biz/shop:mobile'}>">更换手机</a>
+    <a href="<{link ctl='biz/shop:account'}>">提现帐号</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/shop:passwd'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th><span class="red">*</span>旧密码：</th>
+                <td><input type="password" name="data[passwd]" value="" class="input w-150"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>新密码：</th>
+                <td><input type="password" name="data[new_passwd]" value="" class="input w-150"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>确认新密码：</th>
+                <td><input type="password" name="data[new_passwd2]" value="" class="input w-150"/></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<{include file="biz/block/footer.html"}>

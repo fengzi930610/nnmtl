@@ -1,0 +1,84 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li class="on"><a href="<{link ctl='biz/weixin/coupon:index'}>"><{L('优惠券')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/scratch:index'}>"><{L('刮刮卡')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/lottery:index'}>"><{L('大转盘')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/goldegg:index'}>"><{L('砸金蛋')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/packet:index'}>"><{L('红包')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/card:index'}>"><{L('卡券')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/shake:index'}>"><{L('摇一摇')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/help:index'}>"><{L('微助力')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/relay:index'}>"><{L('微接力')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weixin/coupon:index'}>" class="pbtn">优惠券</a></span>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/weixin/coupon:create'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>关键字：</th><td><input type="text" name="data[keyword]" value="<{$detail.keyword|default:''}>" class="input w-300"/></td></tr>
+<tr><th>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+<tr><th>封面简介：</th><td><textarea name="data[intro]" class="textarea"><{$detail.intro}></textarea><br /></td></tr>
+
+<tr><th>发布时间：</th><td> <input type="text" name="data[stime]" value="<{if $detail.stime}><{$detail.stime|format:'Y-m-d'}><{/if}>" class="input w-100" date="stime" readonly/> </td></tr>
+<tr><th>结束时间：</th><td> <input type="text" name="data[ltime]" value="<{if $detail.ltime}><{$detail.ltime|format:'Y-m-d'}><{/if}>" class="input w-100" date="ltime" readonly/></td></tr>
+<tr><th>优惠金额：</th><td><input type="text" name="data[end_tips]" value="<{$detail.end_tips|default:''}>" class="input w-300"/></td></tr>
+<tr><th>使用说明：</th><td><input type="text" name="data[use_tips]" value="<{$detail.use_tips|default:''}>" class="input w-300"/></td></tr>
+
+<tr><th>优惠券数量：</th><td><input type="text" name="data[num]" value="<{$detail.num|default:''}>" class="input w-100"/><span class="tip-comment">数量</span></td></tr>
+<tr><th>每人最多允许数：</th><td><input type="text" name="data[max_count]" value="<{$detail.max_count|default:''}>" class="input w-100"/></td></tr>
+<tr><th>已领取数：</th><td><input type="text" name="data[down_count]" value="<{$detail.down_count|default:''}>" class="input w-100"/></td></tr>
+<tr><th>已使用：</th><td><input type="text" name="data[use_count]" value="<{$detail.use_count|default:''}>" class="input w-100"/></td></tr>
+<tr><th>浏览量：</th><td><input type="text" name="data[views]" value="<{$detail.views|default:''}>" class="input w-100"/></td></tr>
+<tr>
+	<th>粉丝状态</th>
+	<td>
+	<ul class="group-list">
+        	<label><input type="radio" name="data[follower_condtion]" checked="checked" value="1"/>关注</label>&nbsp;&nbsp;
+            <label><input type="radio" name="data[follower_condtion]" value="0"/>不关注</label>
+        </li>
+		<div class="clear-both"></div>
+	</ul>
+	</td>
+</tr>
+<tr>
+	<th>是否平台会员</th>
+	<td>
+	<ul class="group-list">
+        	<label><input type="radio" name="data[member_condtion]" <{if $detail.member_condtion == 1}>checked="checked" <{/if}>value="1"/>已注册</label>&nbsp;&nbsp;
+            <label><input type="radio" name="data[member_condtion]" <{if !$detail.member_condtion}>checked="checked" <{/if}> value="0"/>不限</label>
+        </li>
+		<div class="clear-both"></div>
+	</ul>
+	</td>  
+</tr>     
+    <tr><th></th><td><input type="submit" value="保存" class="green_btn" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$("input[name='data[type]']").click(function(){
+    $("tr[wxtype]").hide();
+    $("tr[wxtype='"+$(this).val()+"']").show();
+});
+$("#weixin_reply_btn").click(function(e){
+    e.stopPropagation(); e.preventDefault();
+    var link = $(this).attr("action") || $(this).attr("href");
+    Widget.Dialog.Select(link, 'N', function(ret){
+        $("#weixin_reply_id").val(ret[0]);
+        $("#weixin_reply_title").html(ret[1].title);
+        $("#weixin_reply_photo").attr("src", "<{$pager.img}>/"+ret[1].photo);
+        $(".weixin-preview").show();
+    }, {title:"选择微信素材",width:720});
+});
+})(window.KT, window.jQuery);
+</script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '?magic/upload-editor.html', extraFileUploadParams:{OATOKEN:"<{$OATOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

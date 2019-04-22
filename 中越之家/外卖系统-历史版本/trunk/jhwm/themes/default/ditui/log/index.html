@@ -1,0 +1,31 @@
+<{include file="ditui/block/header.html"}>
+<div class="ucenter_t">
+	<ul>
+            <li class="on"><a href="<{link ctl='ditui/log:index'}>"><{L('日志管理')}></a></li>
+	</ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50"><{L('日志编号')}></th>
+        <th class="w-100"><{L('金额')}></th>
+        <th><{L('日志')}></th>
+        <th class="100"><{L('管理员')}></th>
+        <th class="w-150"><{L('时间')}></th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.log_id}></td>
+        <td><{$item.mone}></td>        
+        <td><{$item.intro}></td>
+        <td><{$item.admin}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info"><{L('没有数据')}></div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="ditui/block/footer.html"}>

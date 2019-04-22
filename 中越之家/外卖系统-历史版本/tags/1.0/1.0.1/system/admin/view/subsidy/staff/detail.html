@@ -1,0 +1,73 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <td><{$MOD.title}></td>
+            <td align="right">
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--补贴会员详情-->
+    <div>
+        <div class="mrkt_tit mgb10 mgt10">
+            <span class="bt"><{$day}>--<{$staff.name}>(骑手等级:<{$level.title|default:"暂未绑定"}>)</span>
+        </div>
+        <div class="mgb10">
+            <style type="text/css">
+                .page-data .table{border-spacing: 0; border-collapse: collapse;}
+                .page-data .table th{text-align: center; border: 1px solid #e6e6e6;}
+                .page-data .table td{text-align: center;}
+            </style>
+            <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <th>订单ID</th>
+                    <th>补贴金额</th>
+                    <th>用户支付配送费</th>
+                    <th>骑手应得</th>
+                    <th>平台抽成</th>
+                    <th>订单详情</th>
+                </tr>
+                <{foreach $items as $k=>$v}>
+                <tr>
+                    <td><{$v.order_id}></td>
+                    <td><{$v.diff_amount}></td>
+                    <td><{$v.pei_amount}></td>
+                    <td><{($v.staff_amount*(100-$v.bl))/100}></td>
+                    <td><{($v.staff_amount*$v.bl)/100}></td>
+                    <td>
+                        <{if $v.from=='waimai'}>
+                           <{link ctl='waimai/order:detail' title='详情' class='button' arg0=$v.order_id http='admin' priv='hide'}>
+                        <{elseif $v.from=='paotui'}>
+                        <{link ctl='paotui/order:detail' title='详情' class='button' arg0=$v.order_id http='admin' priv='hide'}>
+                        <{else}>
+                         ----
+                        <{/if}>
+                    </td>
+                </tr>
+                <{/foreach}>
+
+
+
+            </table>
+        </div>
+        <div class="page-bar">
+
+            <table>
+                <tbody>
+                <tr>
+                    <td class="page-list" colspan="10"><{$pager.pagebar}></td>
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!--补贴订单详情-->
+
+</div>
+
+<{include file="admin:common/footer.html"}>

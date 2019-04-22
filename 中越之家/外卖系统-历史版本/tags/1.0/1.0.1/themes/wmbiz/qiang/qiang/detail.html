@@ -1,0 +1,125 @@
+<{include file="block/header.html"}>
+<link rel="stylesheet" type="text/css" href="<{$pager.res}>/cdn/sweetalert/sweetalert.css?<{$TMPLVER}>"/>
+<script src="<{$pager.res}>/cdn/sweetalert/sweetalert.min.js?<{$TMPLVER}>"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='qiang/qiang:index'}>">抢购管理</a></li>
+        <li class="active">抢购详情</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <div class="dispatch_tab">
+            <ul>
+                <li><a href="<{link ctl='qiang/qiang:index' http='wmbiz'}>">抢购详情</a></li>
+                <li class="on"><a href="<{link ctl='qiang/qiang:detail' arg0=$detail.order_id http='wmbiz'}>">抢购详情</a></li>
+            </ul>
+        </div>
+        <div class="tabnr_change show">
+            <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="120"><p class="form_table_t">名称：</p></td>
+                    <td><div class="form_table_nr"><{$detail.title}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">类型：</p></td>
+                    <td><div class="form_table_nr"><{$detail['product_type_name']}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">图片：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+                            <div class="fl">
+                                <div class="form_table_sjimg">
+                                    <img src="<{$pager.img}>/<{$detail.photo|default:'product.png'}>" class="kannimabi" rel="<{$pager.img}>/<{$detail.photo}>" width="78" height="78"/>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">折扣价：</p></td>
+                    <td><div class="form_table_nr">￥<{$detail.discount_price}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">原价：</p></td>
+                    <td><div class="form_table_nr">￥<{$detail.price}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">运费：</p></td>
+                    <td><div class="form_table_nr">￥<{$detail.freight}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">库存：</p></td>
+                    <td><div class="form_table_nr"><{$detail.sku}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">销量：</p></td>
+                    <td><div class="form_table_nr"><{$detail.sales}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">平台佣金比例：</p></td>
+                    <td><div class="form_table_nr"><{$detail.bl}>%</div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">备注：</p></td>
+                    <td><div class="form_table_nr">
+                        <{foreach $detail['notes_label'] as $k=>$v}>
+                            <label><input type="checkbox" checked="checked" disabled="disabled"/><{$v['title']}></label>&nbsp;&nbsp;
+                        <{/foreach}>
+                    </div></td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">规则：</p></td>
+                    <td><div class="form_table_nr"><{$detail.rules}></div></td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">商品详情：</p></td>
+                    <td><div class="form_table_nr"><{$detail.info}></div></td>
+                </tr>
+                 <tr>
+                    <td width="120"><p class="form_table_t">抢购截止时间：</p></td>
+                    <td><div class="form_table_nr"><{$detail['qiang_ltime']|format:'Y-m-d'}></div></td>
+                </tr>
+                 <tr>
+                    <td width="120"><p class="form_table_t">消费截止时间：</p></td>
+                    <td><div class="form_table_nr"><{$detail.use_ltime_label}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">状态：</p></td>
+                    <td><div class="form_table_nr"><{$detail.onsale_status}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">排序：</p></td>
+                    <td><div class="form_table_nr"><{$detail.orderby}></div></td>
+                </tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">添加时间：</p></td>
+                    <td><div class="form_table_nr"><{$detail.dateline|format}></div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="preview" class="none"><img class="jq_preview" src="" width="800" height="800"/></div>
+</div>
+<script type="text/javascript">
+    $(document).on("click",".kannimabi",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("rel") == ""||$(this).attr("rel")==0||$(this).attr("rel")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("rel"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '800px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+</script>
+<{include file="block/footer.html"}>

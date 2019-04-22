@@ -1,0 +1,150 @@
+<{assign var='tpl_title' value='我的'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='index'}>" link-load="" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的
+    </div>
+        <i class="right"><{if $MEMBER.uid}><a class="" href="<{link ctl='passport/loginout'}>">退出</a><{/if}></i>
+</header>
+
+
+<section class="page_center_box">
+	<div class="mineHome">
+    	<div class="mineHome_infor mb10">
+            <div class="infor">
+                <a href="<{link ctl='ucenter/info:index'}>"  link-load=""><span class="headX"><img src="<{$pager.img}>/<{$MEMBER.face}>" width="100" height="100"/></span><{$MEMBER.nickname}><em class="linkIco"></em></a>
+            </div>
+
+            <ul class="list_box">
+                <li class="list">
+                    <a href="<{link ctl='ucenter/money:index'}>"  link-load="">
+                        <p style="color:#ff7200;"><big><{$MEMBER.money}></big>元</p><p>余额</p>
+                    </a>
+                </li>
+
+                <li class="list">
+                    <a href="<{link ctl='ucenter/hongbao'}>"  link-load="">
+                        <p style="color:#47b9fa;"><big><{$pager.hongbao_count}></big>个</p><p>红包</p>
+                    </a>
+                </li>
+
+                <li class="list">
+                    <a href="<{link ctl='ucenter/integral'}>" link-load="">
+                        <p style="color:#fd4646;"><big><{$MEMBER.jifen}></big>分</p><p>积分</p>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+        <ul class="form_list_box">
+            <li class="mineHome_list border_t">
+                <a href="<{link ctl='ucenter/order:index'}>" link-load="" onclick="javascript:goorderwell();">
+                <p class="fl"><em class="ico_1"></em>我的订单</p>
+                <div class="fr"><span class="black9">查看全部订单</span><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mb10">
+            <style type="text/css">
+                    .circle{background:#FD4646;border-radius:50px;color:#ffffff;font-size:12px;display:block !important;width:20px;height:20px;line-height:20px;;float:right;}
+            </style>
+                <ul class="mineHome_ord">
+                    <li class="mineHome_ord_list"><a href="<{link ctl='ucenter/order:items_all' arg1=1}>"><em class="ico ico_1"><{if $pager.wait_payment_count}><span class="circle" ><{$pager.wait_payment_count}></span><{/if}></em></a><P class="black9">待付款</P></li>
+                    <li class="mineHome_ord_list"><a href="<{link ctl='ucenter/coupon'}>"><em class="ico ico_2"><{if $pager.wait_ticket_count}><span class="circle" ><{$pager.wait_ticket_count}></span><{/if}></em></a><P class="black9">待使用</P></li>
+                    <li class="mineHome_ord_list"><a href="<{link ctl='ucenter/order:items_all' arg1=2}>"><em class="ico ico_3"><{if $pager.wait_comment_count}><span class="circle" ><{$pager.wait_comment_count}></span><{/if}></em></a><P class="black9">待评价</P></li>
+                    <li class="mineHome_ord_list"><a href="<{link ctl='ucenter/order:items_all' arg1=3}>"><em class="ico ico_4"></em></a><P class="black9">已取消</P></li>
+                </ul>
+            </li>
+            <li class="mineHome_list border_t">
+            	<a href="<{link ctl='ucenter/addr:index'}>"  link-load="">
+            	<p class="fl"><em class="ico_2"></em>收货地址</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list">
+                <a href="<{link ctl='ucenter/collect:items' arg0=1}>"  link-load="">
+            	<p class="fl"><em class="ico_3"></em>我的收藏</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list">
+                <a href="<{link ctl='ucenter/msg/index'}>" link-load="">
+            	<p class="fl"><em class="ico_4"></em>我的消息</p>
+                <div class="fr" ><span id="bellnum" class="circle" style="float:left;margin-top:0.07rem;margin-right:0.06rem;text-align:center;"><{$pager.new_msg_count}></span><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list">
+                <a href="<{link ctl='cloud/ucenter/index'}>">
+            	<p class="fl"><em class="ico_4"></em>我的云购</p>
+                <div class="fr" ><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+			<li class="mineHome_list">
+                <a href="<{link ctl='yuyue/paidui/items'}>" link-load="">
+                <p class="fl"><em class=""></em>我的预约</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list">
+                <a href="<{link ctl='mall/index'}>" link-load="">
+            	<p class="fl"><em class="ico_5"></em>积分商城</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list">
+                <a href="<{link ctl='ucenter/share/index'}>" link-load="">
+                <p class="fl"><em class=""></em>分享有奖</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list">
+                <a href="<{link ctl='ucenter/info/update_passwd'}>" link-load="">
+            	<p class="fl"><em class="ico_6"></em>修改密码</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+            <li class="mineHome_list last">
+                <a href="<{link ctl='about'}>" link-load="">
+            	<p class="fl"><em class="ico_7"></em>申请合作</p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+			<li class="mineHome_list last">
+                <a href="<{link ctl='about'}>" link-load="">
+            	<p class="fl"><em class="ico_8"></em><a href="<{link ctl='about/about'}>">关于我们</a></p>
+                <div class="fr"><em class="linkIco"></em></div>
+                <div class="clear"></div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <{if $MEMBER.uid}>
+    <input type="submit" value="退出登录" class="btn login_out" style="width:100%;background:#ff5757;font-size:0.16rem;color:#ffffff;border:none;border-radius:0.05rem;">
+    <{/if}>
+</section>
+<{include file="block/sfooter.html"}>
+<script>
+$(document).ready(function() {
+    $('#l4').addClass('on');
+    $('.login_out').click(function(){
+        window.location.href='<{link ctl="passport/loginout"}>';
+    })
+});
+
+function goorderwell() {
+    localStorage['waitcommment'] = 'waitcommment';
+}
+
+</script>
+</body>
+</html>

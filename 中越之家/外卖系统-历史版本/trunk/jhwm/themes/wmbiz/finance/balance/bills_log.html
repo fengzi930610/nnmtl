@@ -1,0 +1,65 @@
+<{assign var='tpl_title' value=L("home")}>
+<{include file="block/header.html"}>
+<body>
+<div class="wrapper wrapper-content">
+	<div class="mrkt_tit mb10"><span class="bt"><{$bills.bills_sn}>订单明细</span></div>
+    <div class="finance_ord_delt mb20">
+    	<table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>当日账单总金额</td>
+                <td>平台服务费</td>
+                <td>今日订单数</td>
+            </tr>
+            <tr>
+                <td><p class="maincl"><{$bills.amount}></p></td>
+                <td><{$bills.fee}></td>
+                <td><{$pager.count}></td>
+            </tr>
+        </table>
+
+    </div>
+    <div class="finance_table">
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+           <!-- <tr class="tit">
+                <td>帐单编号</td>
+                <td>订单日期</td>
+                <td>入账状态</td>
+                <td>总金额</td>
+                <td>手续费</td>
+                <td>时间</td>
+            </tr>-->
+            <tr class="tit">
+                <td rowspan="2">订单编号</td>
+                <td rowspan="2">入账状态</td>
+                <td rowspan="2">商家应得</td>
+                <td colspan="5">金额详情</td>
+                <td rowspan="2">时间</td>
+            </tr>
+            <tr class="tit">
+
+                <td>用户支付</td>
+                <td>平台手续费</td>
+                <td>活动款（平台补贴）</td>
+                <td>配送费</td>
+                <td>平台配送费</td>
+            </tr>
+            <{foreach $items as $k => $v}>
+            <tr>
+                <td><{$v.bills_number}></td>
+                <td><{if $v.status == 0}><span class="pointcl">未入账</span><{/if}><{if $v.status == 1}><span class="maincl">已入账</span><{/if}></td>
+                <td><{$v.amount}></td>
+                <td><{$v.user_amount|default:0}></td>
+                <td>-<{$v.fee|default:0}></td>
+                <td>+<{$v.roof_amount|default:0}></td>
+                <td>-<{$v.freight|default:0}></td>
+                <td>-<{$v.sys_freight+$v.freight_addone|default:0}></td>
+                <td><{$v.dateline|format:'Y-m-d H:i'}></td>
+            </tr>
+            <{/foreach}>
+            <tr>
+                <td colspan="9"> <div class="paging"><{$pager.pagebar}></div></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="block/footer.html"}>

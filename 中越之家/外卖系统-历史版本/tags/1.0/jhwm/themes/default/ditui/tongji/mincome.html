@@ -1,0 +1,80 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<ul id='tab_1'>
+		<a href="<{link ctl='ditui/tongji:mincome'}>" class="on"><{L('用户渠道')}> </a>
+		<a href="<{link ctl='ditui/tongji:sincome'}>" ><{L('商家渠道')}> </a>
+	</ul>
+</div>
+<style type="text/css">
+    .tab_fl2{display:inline-block;width:230px;border-right:2px solid #ffffff;background:#5db42f;color:#ffffff;line-height:40px;height:40px;padding:5px 0px;float:left;text-align:center;}
+</style>
+<div style="margin-left:20px;margin-bottom:20px">
+    <div class="tab_fl2"><{L('今日收入')}> ¥&nbsp;<{if $today_income}><{$today_income}><{else}>0<{/if}></div>
+    <div class="tab_fl2"><{L('本周收入')}> ¥&nbsp;<{if $week_income}><{$week_income}><{else}>0<{/if}></div>
+    <div class="tab_fl2"><{L('本月收入')}> ¥&nbsp;<{if $month_income}><{$month_income}><{else}>0<{/if}></div>
+    <div class="tab_fl2"><{L('累计总收入')}> ¥&nbsp;<{if $all_money}><{$all_money}><{else}>0<{/if}></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <td colspan="2">
+                <div class="tableBox">
+                    <div id="month_chart" style="margin-top:30px;">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<{include file="ditui/block/footer.html"}>
+<script>
+$(function () {
+    $('#month_chart').highcharts({
+        title: {
+            text: '<{L("近一月推荐用户收入曲线")}>',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -90,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '<{L("收入")}> (<{L("元")}>)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '<{L("元")}>'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '<{L("收入")}>',
+            data: [
+                <{foreach $month_data as $v2}>
+                [<{$v2.date}>,   <{if empty($v2.money)}>0<{else}><{$v2.money}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+});
+</script>

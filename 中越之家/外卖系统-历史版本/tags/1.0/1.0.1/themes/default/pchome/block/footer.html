@@ -1,0 +1,81 @@
+<div class="footer_one">
+    <div class="smallpage">
+        <div class="footer_nav"><a href="<{link ctl='index/index'}>">网站首页</a> / <a href="<{link ctl='help/page' args=apply}>">加入我们</a> / <a href="<{link ctl='help/page' args=contact}>">关于我们</a> / <a href="<{link ctl='help/page' args=app}>">下载APP</a> / <a href="<{link ctl='help/index'}>">帮助中心</a> / <a href="<{link ctl='apply'}>">申请入驻</a></div>
+        <div class="footer_link">
+            <{calldata mdl="links/links" audit=1 closed=0 limit=10}>
+            <a target="_blank" href="http://<{$item.link}>"><{$item.title}></a>
+            <{/calldata}>
+        </div>
+        <div class="footer_copy">
+            <P>All Rights Reserved ICP备案：<{$site.icp}></P>
+            <P><{$site.title}></P>
+        </div>
+    </div>
+</div>
+<!--返回顶部-->
+<div class="gotoUp">
+    <a href="javascript:void(0);" class="weixin animated">
+        <div class="weixin_code">
+            <img src="<{$pager.img}>/<{$site.weixinqr}>" width="100" height="100"/>
+            <p>扫描下载客户端</p>
+        </div>
+    </a>
+    <a href="<{link ctl='help/us_book'}>" class="edit animated"></a>
+    <a href="javascript:void(0);" class="up animated"></a>
+</div>
+<script>
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 100) {
+                $(".gotoUp").show();
+            } else {
+                $(".gotoUp").hide();
+            }
+        });
+        $(".gotoUp .up").click(function () {
+            $("html,body").animate({scrollTop: 0}, 800);
+        });
+    });
+</script>
+<!--头部导航菜单-->
+<script>
+    $(document).ready(function () {
+        $(".topNav_menu .list_one").hover(function (e) {
+            var ul_wd = $(this).find("ul").width() + 20;
+            var ul_lgh = $(this).find("ul").length;
+            $(this).find(".list_two").width(ul_wd * ul_lgh);
+        });
+    });
+</script>
+<!--头部导航菜单end-->
+<script type="text/javascript">
+    //选中导航JS
+    var urlstr = location.href;
+    var urlstatus = false;
+    $('#cate_nav li').each(function () {
+        if ((urlstr + '/').indexOf($(this).find('a').attr('href')) > 0 && $(this).find('a').attr('href') != '/index' && $(this).find('a').attr('href') != '/index/index'){
+            $(this).find('a').addClass('on');
+            urlstatus = true;
+        } else {
+            $(this).find('a').removeClass('on');
+        }
+    });
+    //个人中心左导航
+    $('.left_menu li').each(function () {
+        if ((urlstr + '/').indexOf($(this).find('a').attr('href')) > 0 && $(this).find('a').attr('href') != '/index' && $(this).find('a').attr('href') != '/index/index'){
+            $(this).find('a').addClass('on');
+            urlstatus = true;
+        } else {
+            $(this).find('a').removeClass('on');
+        }
+    });
+    
+    var link_str = "<{$request.ctl}>"+"/"+"<{$request.act}>";
+    if(link_str == 'index/index'){
+        $('#cate_nav li').find('a').removeClass('on');
+        $('#cate_nav li').eq(0).find('a').addClass('on');
+    }
+</script>
+<!--返回顶部end-->
+</body>
+</html>

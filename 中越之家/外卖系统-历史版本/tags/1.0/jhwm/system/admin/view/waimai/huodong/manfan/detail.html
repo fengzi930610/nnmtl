@@ -1,0 +1,51 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <{link ctl="waimai/huodong:shop" args=$detail.shop_id priv="hidden" class="button" title="商家活动"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tbody>
+            <tr>
+                <th>活动状态：</th>
+                <td><{if $detail.closed == 1}>已失效<{elseif $detail.audit == 0}>待审核<{elseif $detail.stime >$nowtime}>待生效<{elseif $detail.ltime < $nowtime}>已过期<{else}>已生效<{/if}></td>
+            </tr>
+            <tr>
+                <th>活动时间：</th>
+                <td><{if $detail.stime == ($detail.ltime + 86399)}><{$detail.stime|format:'Y-m-d H:i'}>至<{$detail.ltime|format:'Y-m-d H:i'}><{else}><{$detail.stime|format:'Y-m-d'}>至<{$detail.ltime|format:'Y-m-d'}><{/if}></td>
+            </tr>
+            <tr>
+                <th>优惠券：</th>
+                <td>
+                    <{foreach $detail.config as $item}>
+                        <{if $item.paid_amount>0}>
+                            <div class="coupon_list">
+                                <div class="left fl float-l">
+                                    <p>实付满<{$item.paid_amount}>即返</p>
+                                    <big class="pointcl red">￥<{$item.coupon_amount}></big>
+                                    <p>满<{$item.order_amount}>可用</p>
+                                </div>
+                                <div class="right">
+                                    <p>领券后<{$item.day}>天内有效</p>
+                                </div>
+                            </div>
+                        <{/if}>
+                    <{/foreach}>
+                </td>
+            </tr>
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><{if $detail.audit == 0}><{link ctl="waimai/huodong:audit" arg0=$detail.huodong_id arg1='manfan' act="mini:同意活动" confirm="mini:确定要同意吗？" title="同意活动" class="button"}><{/if}><{link ctl="waimai/huodong:delete" arg0=$detail.huodong_id arg1='manfan' act="mini:撤销活动" confirm="mini:确定要撤销活动吗？" title="撤销活动" class="button"}> <{link ctl="waimai/huodong:shop" args=$detail.shop_id priv="hidden" class="button" title="返回"}></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<{include file="admin:common/footer.html"}>

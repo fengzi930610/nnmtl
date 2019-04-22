@@ -1,0 +1,59 @@
+<{assign var="page_title" value="个人中心-账户中心-我的积分"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-我的积分")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+
+        <{include file="pchome/ucenter/block/left.html"}>
+
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="account-jifen">
+                <div class="tit">
+                    <span class="ml10">我的积分</span>                         
+                </div>
+                <div class="jifen-cont">
+                    <div class="jifen-lists">
+                        <div class="jifen-top">
+                            <div class="fl"><div class="jifen-ico"></div></div>
+                            <div class="wenzi fl">
+                                <p class="black9 mb10">当前积分</p>
+                                <div><span class="duoshao-fen"><{$MEMBER.jifen}></span>分</div>
+                            </div>
+                            <div class="fl to-duihuan"><a href="<{link ctl='mall'}>" class="dui-huan btn">兑换商品</a></div>
+                            <div class="clear"></div>  
+                        </div>  
+                        <div class="jifen-bottom mt20 mb30">
+                            <div class="biao-ti">
+                                <span class="col-a">来源</span><span class="col-c">类型</span><span class="col-b">时间</span><span class="col-d ">积分数</span>
+                                <div class="clear"></div>
+                            </div>
+                            <{foreach $items as $k => $v}>
+                            <div class="mt20 tiaomu">
+                                <span class="col-a overflow_clear"><{$v.intro}></span>
+                                <span class="col-c">支出</span>
+                                <span class="col-b"><{$v.dateline|format}></span>
+                                <span class="col-d <{if $v.number > 0}>maincl<{else}>fontcl1<{/if}>"><{$v.number}></span>
+                                <div class="clear"></div>
+                            </div>
+                            <{/foreach}>                       
+                        </div>                            
+                    </div> 
+                    <!--分页-->
+                    <div class="pageNum_box mt10 mb10">
+                        <{$pager.pagebar}>
+                    </div>
+                    <!--分页end--> 
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+</div>
+<{include file="pchome/block/footer.html"}>

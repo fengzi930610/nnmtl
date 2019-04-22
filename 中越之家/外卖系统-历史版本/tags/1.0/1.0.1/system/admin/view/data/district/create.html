@@ -1,0 +1,20 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="data/district:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?data/district-create.html" mini-form="district-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th class="w-100"><span class="red">*</span>城市：</th><td><select name="data[city_id]"  class="w-150"><{widget id="data/city" value=$detail.city_id}></select></td></tr>
+<tr><th><span class="red">*</span>区县名称：</th><td><input type="text" name="data[district_name]" value="<{$detail.district_name|default:''}>" class="input w-200"/></td></tr>
+<tr><th><span class="red">*</span>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

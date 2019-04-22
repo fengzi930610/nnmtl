@@ -1,0 +1,61 @@
+<{assign var="page_title" value="服务人员收藏列表"}>
+<{assign var='tpl_title' value=L("服务人员收藏列表")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+        <{include file="pchome/ucenter/block/left.html"}>
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="collect_box">
+                <h2 class="tit">人员收藏</h2>
+                <div class="box staff">
+                    <div class="tag">
+                        <ul>
+                            <li class="list1">人员</li>
+                            <li class="list2">评价星级</li>
+                            <li class="list3">服务次数</li>
+                            <li class="list4">技能</li>
+                            <li class="list5">操作</li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <{foreach $items as $item}>
+                        <div class="list_box">
+                            <ul>
+                                <li class="list1">
+                                    <a href="javascript:void(0);">
+                                        <div class="fl img"><img src="<{$pager.img}>/<{$staffs[$item['can_id']]['face']|default:'face.png'}>"/></div>
+                                        <div class="wz">
+                                            <h3 class="overflow_clear"><{$staffs[$item['can_id']]['name']}></h3>
+                                            <p><{if $staffs[$item['can_id']]['from'] == 'house'}>家政<{elseif $staffs[$item['can_id']]['from'] == 'weixiu'}>维修<{elseif $staffs[$item['can_id']]['from'] == 'paotui'}>跑腿<{/if}></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </a>
+                                </li>
+                                <li class="list2">
+                                    <span class="starBg"><span class="star" style="width:<{round($staffs[$item['can_id']]['score']*20/$staffs[$item['can_id']]['comments'],2)}>%;"></span></span>
+                                </li>
+                                <li class="list3"><{$staffs[$item['can_id']]['orders']}></li>
+                                <li class="list4">
+                                    <{foreach $staffs[$item['can_id']]['skill'] as $sk}>
+                                        <span><{$sk}></span>
+                                    <{/foreach}>
+                                </li>
+                                <li class="list5"><a href="<{link ctl='ucenter/collectshop/collect' arg0=0 arg1=2 arg2=$item.can_id}>" class="btn_primary btn_outline">取消收藏</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                    <{/foreach}>
+                    <div class="pageNum_box">
+                        <{$pager.pagebar}>
+                    </div>
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<{include file="pchome/block/footer.html"}>

@@ -1,0 +1,24 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="article/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?article/comment-index.html" id="SO-form" method="post">
+<table width="100%" border="0" cellspacing="0" class="table-data form"><tr><th>ID：</th><td><input type="text" name="SO[comment_id]" value="<{$detail.comment_id}>" class="input w-100"/></td></tr><tr><th>文章ID：</th><td><input type="text" name="SO[article_id]" value="<{$detail.article_id}>" class="input w-100"/></td></tr><tr><th>用户ID：</th><td><input type="text" name="SO[uid]" value="<{$detail.uid}>" class="input w-100"/></td></tr><tr><th>评论内容：</th><td><input type="text" name="SO[content]" value="<{$detail.content}>" class="input w-300"/></td></tr><tr><th>状态：</th><td><input type="text" name="SO[closed]" value="<{$detail.closed}>" class="input w-300"/></td></tr>
+<tr>
+	<th>发表时间：</th>
+	<td>
+		<input type="text" name="SO[dateline][0]" value="" class="input w-100" date="dateline" readonly/>~
+		<input type="text" name="SO[dateline][1]" value="" class="input w-100" date="dateline" readonly/>
+	</td>
+</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

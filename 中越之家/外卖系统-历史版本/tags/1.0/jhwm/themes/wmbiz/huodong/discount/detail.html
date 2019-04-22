@@ -1,0 +1,160 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+.divideGroups{overflow: hidden; pointer-events: none;}
+.divideGroups .add_btn{display: inline-block;margin-right: 20px;margin-bottom: 20px;color: #555;font-size: 12px;line-height: 28px;height: 30px;width: 80px;text-align: center;border: 1px dashed #bbb;cursor: pointer;}
+.divideGroups .list_box label{position: relative;display: inline-block;height: 30px;padding: 0 16px;color: #555;font-size: 12px;line-height: 28px;border: 1px solid #bbb;border-radius: 2px;cursor: pointer; margin-right: 10px;}
+.divideGroups .list_box label input{width: 0; height: 0;}
+.divideGroups .list_box label input[type="checkbox"]{opacity: 0;}
+.divideGroups .list_box label.on{border-color: #00bd9e;}
+.divideGroups .list_box label.on:before{content: " ";position: absolute;right: 0;bottom: 0;width: 0;height: 0;border: 7px solid #00bd9e;border-top-color: transparent;border-left-color: transparent;}
+.divideGroups .list_box label.on:after {content: " ";position: absolute;right: 1px;bottom: 3px;width: 6px;height: 3px;border: 1px solid #fff;border-top-color: transparent;border-right-color: transparent; -webkit-transform: rotate(-59deg);transform: rotate(-59deg);}
+.divideGroups_mask .cont{padding: 30px 20px 10px;}
+.divideGroups_mask .cont .int{width: 100%; height: 34px; border: 1px solid #e6e6e6; background: none; border-radius: 3px; padding-left: 10px; outline: 0; font-size: 14px;}
+
+.product_popup .products .search .sear { line-height: 0px; }
+.product_popup .products .content .lists { padding: 5px;}
+.product_popup .products .product-close { float: right; color: #ccc; font-size: 20px;}
+.createDiscount table .discount input, .createDiscount table .sku_num input {text-align: center;}
+
+</style>
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='product/huodong/shop'}>">营销管理</a></li>
+        <li>折扣活动</li>
+        <li class="active">活动详情</li>
+    </ol>
+</div>
+
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content createDiscount">
+        <!--表单-->
+        <div class="tabnr_change show divideGroups">
+            <form action="<{link ctl='huodong/discount/create'}>" mini-form="discount" method="post" target="miniframe" name="discount-form" id="discount-form">
+                <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">                   
+                    <tr>
+                        <td width="120"><p class="form_table_t"><em>·</em>活动名称：</p></td>
+                        <td><div class="form_table_nr"><input type="text" name="data[title]" class="form_table_int form_table_intw1" value="<{$detail.title}>" readonly/></div></td>
+                    </tr>
+                    <tr>
+                        <td width="120"><p class="form_table_t"><em>·</em>活动时间：</p></td>
+                        <td>
+                            <div class="form_table_nr choosedata input-daterange" id="datepicker" disabled>
+                                <div class="fl">
+                                    <input type="text" placeholder="选择开始时间 " name="data[stime]" class="fl" value="<{$detail.stime|format:'Y-m-d'}>" readonly>
+                                    <i class="fl"></i>
+                                </div>
+                                <span class="ml10 fl mr10">至</span>
+                                <div class="fl">
+                                    <input type="text" placeholder="选择结束时间 " name="data[ltime]" class="fl" value="<{$detail.ltime|format:'Y-m-d'}>" readonly>
+                                    <i class="fl"></i>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="list_box">
+                        <td width="120"><p class="form_table_t"><em>·</em>循环周期：</p></td>
+                        <td class="form_table_nr">                          
+                            <label <{if in_array(1,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="1">周一</label>
+                            <label <{if in_array(2,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="2">周二</label>
+                            <label <{if in_array(3,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="3">周三</label>
+                            <label <{if in_array(4,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="4">周四</label>
+                            <label <{if in_array(5,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="5">周五</label>
+                            <label <{if in_array(6,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="6">周六</label>
+                            <label <{if in_array(0,$detail.period_weeks)}>class="on"<{/if}>><input type="checkbox" name="data[period_weeks][]" value="0">周日</label>
+                            <span>的</span>
+                            <label class="ml10 noborder">
+                                <input type="text" name="data[period_times][stime]" value="<{$detail.period_times.stime}>" onclick="WdatePicker({dateFmt:'H:mm',minDate:'00:00',maxDate:'23:59'})" style="width:50px; display: inline; height:100%; border:none; text-align:center" class="input" readonly/>
+                            </label>
+                            <span>至</span>
+                            <label class="ml10 noborder">
+                                <input type="text" name="data[period_times][ltime]" value="<{$detail.period_times.ltime}>" onclick="WdatePicker({dateFmt:'H:mm',minDate:'00:00',maxDate:'23:59'})" style="width:50px; display: inline; height:100%; border:none; text-align:center" class="input" readonly/>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr class="limitnum">
+                        <td><p class="form_table_t ">限购设置：</p></td>
+                        <td>
+                            <div class="form_table_nr">
+                                <label class="mr30">
+                                    <input type="radio" name="quota" value="0" class="check_box" <{if empty($detail.quota)}>checked="checked"<{/if}>/>不限购
+                                </label>
+                                <label class="mr30">
+                                    <input type="radio" name="quota" value="1" class="check_box fl" style="margin-top: 12px;" <{if $detail.quota}>checked="checked"<{/if}>/>
+                                    <span class="fl">每单商品前</span>
+                                    <div><input type="text" class="fl" value="<{$detail.quota|default:0}>" name="data[quota]" style="text-align:center">件</div>享受优惠
+                                    <!-- <a class="tips" href="javascript:;"></a> -->
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td><p class="form_table_t ">优惠方式：</p></td>
+                        <td>
+                            <div class="form_table_nr">
+                                <label class="mr30"><input type="radio" name="data[discount_type]" value="0" class="check_box" <{if empty($detail.discount_type)}>checked="checked"<{/if}> />打折</label>
+                                <label class="mr30"><input type="radio" name="data[discount_type]" value="1" class="check_box" <{if $detail.discount_type==1}>checked="checked"<{/if}>/>减价</label>
+                            </div>
+                        </td>
+                    </tr>                    
+                    <tr class="activitygoods">
+                        <td><p class="form_table_t">活动商品：</p></td>
+                        <td>
+                            <div class="form_table_nr ">
+                                <!-- <div class="chooseproduct" style="cursor:pointer">选择商品</div> -->
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="dispatch_table">
+                                    <tr class="tit">
+                                        <td>促销商品</td>
+                                        <td>原价</td>
+                                        <td>优惠</td>
+                                        <td>优惠后</td>
+                                        <td>活动库存</td>
+                                        <td>已售</td>
+                                        <!-- <td>操作</td> -->
+                                    </tr>
+                                    <{foreach $products as $k=>$pro}>
+                                    <tr class="product-tr">
+                                        <td>
+                                            <img src="<{$pager.img}>/<{$pro.photo}>">
+                                            <span><{$pro.title}></span>
+                                            <input type="hidden" name="products[product_id][]" value="<{$pro.product_id}>">
+                                        </td>
+                                        <td>￥<span class="money"><{$pro.price}></span></td>
+                                        <{if $detail.discount_type==1}>
+                                        <td class="discount"><span class="fl mr5">减价</span><div class="fl" style="width:100px"><input type="text" class="fl" name="products[discount_value][]" value="<{$pro.discount_value}>"><span>元</span></div></td>
+                                        <{else}>
+                                        <td class="discount"><span class="fl mr5">打折</span><div class="fl" style="width:100px"><input type="text" class="fl" name="products[discount_value][]" value="<{$pro.discount_value}>"><span>折</span></div></td>
+                                        <{/if}>
+
+
+                                        <td class="fontcl1">￥<span class="disc-price"><{$pro.disc_price}></span></td>
+                                        <td><div class="sku_num"><input type="text" name="products[sale_sku][]" value="<{$pro.sale_sku}>">件</div></td>
+                                        <td><{$pro.sale_count}>件</td>
+                                        <!-- <td class="right btns">
+                                            <input type="button" class="btn edit" value="删除">
+                                        </td> -->
+                                    </tr>
+                                    <{foreachelse}>
+                                    <tr class="nodata-tr">
+                                        <td colspan="7" style="text-align:center; padding:20px">没有更多数据了！</td>
+                                    </tr>
+                                    <{/foreach}>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p class="form_table_t">支持场景：</p></td>
+                        <td><div class="form_table_nr">外卖</div></td>
+                    </tr>
+                </table>
+           
+            </form>
+        </div>
+        <!--表单end-->
+    </div>
+    <div id="preview" class="none"><img class="jq_preview" src="" width="200" height="200"/></div>
+</div>
+
+<{include file="block/footer.html"}>

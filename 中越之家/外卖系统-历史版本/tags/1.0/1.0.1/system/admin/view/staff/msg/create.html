@@ -1,0 +1,29 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="staff/msg:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?staff/msg-create.html" mini-form="msg-form" method="post" >
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr><th><span class="red">*</span>选择服务人员：</th>
+                <td>
+                    <input type="hidden" name="data[staff_id]" value="0" id="export_staff_id" />
+                    <input type="text" value="" id="export_staff_title" class="input w-150"/>
+                    <{link ctl="staff/staff:dialog" title="选择服务人员" select="mini:#export_staff_id,#export_staff_title/N/选择服务人员" class="button"}>
+                </td>
+            </tr>
+            <tr><th><span class="red">*</span>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+            <tr><th><span class="red">*</span>内容：</th><td><textarea name="data[content]" class="textarea w-300"><{$detail.content|default:''}></textarea></td></tr>
+            <tr><th>推送：</th><td><label><input type="checkbox" name="jpush_app" value="1" class="" />同步推送到APP</label></td></tr>
+            <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

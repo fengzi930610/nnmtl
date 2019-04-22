@@ -1,0 +1,95 @@
+<{assign var='tpl_title' value=L("配送范围")}>
+<{include file="newblock/header.html"}>
+
+<div class="wrapperMain">
+    <div  id="container" style="width: 800px;height: 450px;">
+
+    </div>
+</div>
+
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=<{$map_key}>&plugin=AMap.PolyEditor,AMap.Geocoder"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js"></script>
+
+<script>
+    var editor = {};
+    var lng = '<{$group.lng}>'||"";
+    var lat = '<{$group.lat}>' || '';
+
+    $(function(){
+        var point = '<{$point}>';
+        var polygon_point = JSON.parse(point);
+
+
+        window.__map= new AMap.Map('container',{
+            resizeEnable: true,
+            center: [lng, lat],
+            zoom:13
+        });
+        window.__map.plugin(["AMap.ToolBar"], function() {//缩放控件
+            window.__map.addControl(new AMap.ToolBar());
+            window.__map.setStatus({scrollWheel:true});
+        });
+        //window.__map.setFitView();
+        AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
+            //图层切换控件
+            window.__map.addControl(new BasicControl.LayerSwitcher({
+                position: 'lb'
+            }));
+        });
+
+        /*if(polygon_point.length>0){
+            editor._polygon=(function(){
+                var arr = [];
+                $.each(polygon_point,function(k,v){
+                    arr.push([v.lng,v.lat])
+                });
+                return new AMap.Polygon({
+                    map:  window.__map,
+                    path: arr,
+                    strokeColor: "green",
+                    strokeOpacity: 1,
+                    strokeWeight: 2,
+                    fillColor: "green",
+                    fillOpacity: 0.1,
+                    draggable:false,
+                    strokeStyle: "dashed",
+                });
+
+            })();
+            editor._polygonEditor= new AMap.PolyEditor( window.__map,editor._polygon);
+            //editor._polygonEditor.open();
+        }*/
+
+        var lng1 = parseFloat('<{$order.lng}>');
+        var lat1 = parseFloat('<{$order.lat}>');
+        var o_lng1 = parseFloat('<{$order.o_lng}>');
+        var o_lat1 = parseFloat('<{$order.o_lat}>');
+
+        var  polygonArr = [];
+        marker1 = new AMap.Marker({
+            icon: "//webapi.amap.com/theme/v1.3/markers/n/end.png",
+            position: [lng1,lat1]
+        });
+        polygonArr.push([lng1,lat1]);
+        marker1.setMap(window.__map);
+        marker2 = new AMap.Marker({
+            icon:  "//webapi.amap.com/theme/v1.3/markers/n/start.png",
+            position: [o_lng1,o_lat1]
+        });
+        polygonArr.push([o_lng1,o_lat1]);
+        marker2.setMap(window.__map);
+        var polyline = new AMap.Polyline({
+            path: polygonArr,          //设置线覆盖物路径
+            strokeColor: "#F00000", //线颜色
+            strokeOpacity: 1,       //线透明度
+            strokeWeight: 4,        //线宽
+            strokeStyle: "dashed",   //线样式
+            strokeDasharray: [10, 5], //补充线样式,
+            zIndex:110
+        });
+        polyline.setMap(window.__map);
+        window.__map.setFitView();
+    });
+</script>
+
+<{include file="newblock/footer.html"}>

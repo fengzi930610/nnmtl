@@ -1,0 +1,75 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">注册访问</h4>
+<form action="?system/config-access.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="access" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<{*
+<tr><th>注册限制：</th>
+    <td>
+        <input type="text" name="config[signup_count]" value="<{$config.signup_count|default:'10'}>" class="input w-100"/>
+        <span class="tip-comment">同一IP24小时可以注册的帐户数, 0:不限制</span>
+    </td>
+</tr>
+<tr><th>注册间隔：</th>
+    <td>
+        <input type="text" name="config[signup_time]" value="<{$config.signup_time|default:'10'}>" class="input w-100"/>
+        <span class="tip-comment">同一IP注册帐户的时间隔(分钟), 0:不限制</span>
+    </td>
+</tr>
+*}>
+<tr><th>限制访问IP：</th>
+    <td>
+        <textarea name="config[denyip]" class="textarea w-300"><{$config.denyip}></textarea>
+        <span class="tip-comment">限制访问IP，一行一个，支持通配符(*)</span>
+    </td>
+</tr>
+<tr><th>短信限制：</th>
+    <td>
+        <input type="text" name="config[mobile_count]" value="<{$config.mobile_count|default:'10'}>" class="input w-100"/>
+        <span class="tip-comment">同一IP24小时可以接收短信数，0:不限制</span>
+    </td>
+</tr>
+<tr><th>短信间隔：</th>
+    <td>
+        <input type="text" name="config[mobile_time]" value="<{$config.mobile_time|default:'10'}>" class="input w-100"/>
+        <span class="tip-comment">同一IP接收短信的时间隔(分钟), 0:不限制</span>
+    </td>
+</tr>
+<tr>
+    <th>关闭站点：</th>
+    <td>
+        <label><input type="radio" name="config[closed]" <{if $config.closed}>checked="checked"<{/if}> value="1" >是</label>
+        <label style="margin-left:30px;"><input type="radio" name="config[closed]" <{if !$config.closed}>checked="checked"<{/if}> value="0" >否</label>
+    </td>
+</tr>
+<tr id="tr_closed_reason"<{if !$config.closed}>style="display:none;"<{/if}>>
+    <th>关闭原因：</th>
+    <td><textarea name="config[closed_reason]" class="textarea"><{$config.closed_reason}></textarea></td>
+</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+    $("input[name='config[closed]']").on('click', function(){
+        if($(this).val() == 1){
+            $("#tr_closed_reason").show();
+        }else{
+            $("#tr_closed_reason").hide();
+        }
+    });
+})(window.KT, window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

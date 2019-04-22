@@ -1,0 +1,72 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="system/config:tmplsms" class="button" title="短息模版"}></td>
+		<td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">您需要在网站设置->基本设置中开启UCenter这里的设置才有效</h4>
+<form action="?system/config-ucenter.html" mini-form="config-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>UC 编码：</th>
+	<td>
+		<label><input type="radio" name="data[CHARSET]" <{if $UCENTER.CHARSET=='UTF-8'}>checked="checked" <{/if}> value="UTF-8" />UTF-8</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[CHARSET]" <{if $UCENTER.CHARSET=='GBK'}>checked="checked" <{/if}>value="GBK" />GBK</label>
+	</td>
+</tr>
+<tr><th>UC 应用ID：</th><td><input type="text" name="data[APPID]" value="<{$UCENTER.APPID}>" class="input w-100"/></td></tr>
+<tr><th>UC 通信密钥：</th><td><input type="text" name="data[KEY]" value="<{$UCENTER.KEY}>" class="input w-200"/></td></tr>
+<tr>
+	<th>UC API地址：</th>
+	<td>
+		<input type="text" name="data[API]" value="<{$UCENTER.API}>" class="input w-200"/>
+		<span class="tip-comment">格式: http://www.ijh.cc/uc_server (最后不要加'/')</span>
+	</td>
+</tr>
+<tr>
+	<th>UC IP地址：</th>
+	<td>
+		<input type="text" name="data[IP]" value="<{$UCENTER.IP}>" class="input w-200"/>
+		<span class="tip-comment">如果您的服务器无法通过域名访问 UCenter，可以输入 UCenter 服务器的 IP 地址</span>
+	</td>
+</tr>
+<tr><th>UC 连接方式：</th>
+	<td>
+		<label><input type="radio" name="data[CONNECT]" <{if $UCENTER.CONNECT=='mysql'}>checked="checked" <{/if}>value="mysql" />Mysql连接</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[CONNECT]" <{if $UCENTER.CONNECT!='mysql'}>checked="checked" <{/if}>value="" />Http接口方式</label>
+	</td>
+</tr>
+<tr>
+	<th>UC 数据库服务器：</th>
+	<td>
+		<input type="text" name="data[DBHOST]" value="<{$UCENTER.DBHOST}>" class="input w-200"/>
+		<span class="tip-comment">可以是本地也可以是远程数据库服务器，如果 MySQL 端口不是默认的 3306，请填写如下形式：127.0.0.1:3306</span>
+	</td>
+</tr>
+<tr>
+	<th>UC 数据库帐号：</th>
+	<td><input type="text" name="data[DBUSER]" value="<{$UCENTER.DBUSER}>" class="input w-200"/></td>
+</tr>
+<tr>
+	<th>UC 数据库密码：</th>
+	<td><input type="password" name="data[DBPW]" value="<{$UCENTER.DBPW}>" class="input w-200"/></td>
+</tr>
+<tr><th>UC 数据库编码：</th>
+	<td>
+		<label><input type="radio" name="data[DBCHARSET]" <{if $UCENTER.DBCHARSET=='UTF8'}>checked="checked" <{/if}> value="UTF8" />UTF8</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[DBCHARSET]" <{if $UCENTER.DBCHARSET=='GBK'}>checked="checked" <{/if}>value="GBK" />GBK</label>
+	</td>
+</tr>
+<tr>
+	<th>UC 数据库表前缀：</th>
+	<td><input type="text" name="data[DBTABLEPRE]" value="<{$UCENTER.DBTABLEPRE}>" class="input w-200"/></td>
+</tr>
+ <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

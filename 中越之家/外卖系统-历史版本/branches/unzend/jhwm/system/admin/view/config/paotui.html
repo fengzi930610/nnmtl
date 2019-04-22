@@ -1,0 +1,248 @@
+<{include file="admin:common/header.html"}>
+<style>
+	.page-data .from input{ text-align: center;}
+	.page-data .from th{background: rgb(240,243,250);}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?system/config-paotui.html" mini-form="config-form" method="post" >
+		<input type="hidden" name="K" value="paotui" />
+		<table width="100%" border="0" cellspacing="0" class="table-data from">
+			<tr>
+				<th class="w-100">里程设置：</th>
+				<td class="w-500">
+					<table border="0" cellspacing="0" class="table-data list w-500" id="table-mileage-list" style="float:left; margin-left:10px;">
+                        <tr>
+                            <th>距离(km)</th>
+                            <th>金额(元)</th>
+                            <th>起步重量(kg)</th>
+                            <th>超过起步重量每KG的价格</th>
+                            <th class="w-100"><a class="m_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $config.mileage as $k=>$item}>
+                            <tr class="m_tr" rel="<{$k}>">
+                                <td>
+                                    <input type="text" class="input w-100" name="config[mileage][<{$k}>][fkm]" value="<{$item.fkm}>" />
+                                </td>
+                                <td>
+                                    <input type="text" class="input w-100" name="config[mileage][<{$k}>][fm]" value="<{$item.fm}>" />
+                                </td>
+                                <td>
+                                    <input type="text" class="input w-100" name="config[mileage][<{$k}>][wkg]" value="<{$item.wkg}>" />
+                                </td>
+                                <td>
+                                    <input type="text" class="input w-100" name="config[mileage][<{$k}>][wm]" value="<{$item.wm}>" />
+                                </td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                          <{foreachelse}>
+                            <tr class="m_tr" rel="0">
+                                <td><input type="text" class="input w-100" name="config[mileage][0][fkm]" value=""></td>
+                                <td><input type="text" class="input w-100" name="config[mileage][0][fm]" value=""></td>
+                                <td><input type="text" class="input w-100" name="config[mileage][0][wkg]" value="" /></td>
+                                <td><input type="text" class="input w-100" name="config[mileage][0][wm]" value="" /></td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                        <{/foreach}>
+			        </table>
+				</td>
+			</tr>
+            <tr>
+                <th class="w-100">重量设置：</th>
+                <td class="w-500">
+                    <table border="0" cellspacing="0" class="table-data list w-500" id="table-weight-list" style="float:left; margin-left:10px;">
+                        <tr>
+                            <th>千克(kg)</th>
+                            <th class="w-100"><a class="w_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $config.weight as $k=>$item}>
+                        <tr class="w_tr" rel="<{$k}>">
+                            <td>
+                                <input type="text" class="input w-100" name="config[weight][<{$k}>][fkg]" value="<{$item.fkg}>" />
+                            </td>
+                            <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                        </tr>
+                        <{foreachelse}>
+                        <tr class="w_tr" rel="0">
+                            <td><input type="text" class="input w-100" name="config[weight][0][fkg]" value=""></td>
+                            <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                        </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+            </tr>
+			<tr>
+				<th class="w-100">时间设置：</th>
+				<td class="w-500">
+					<table border="0" cellspacing="0" class="table-data list w-500" id="table-time-list" style="float:left; margin-left:10px;">
+			            <tr>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>加收(%)</th>
+                            <th class="w-100"><a class="t_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $config.time as $k=>$item}>
+                            <tr class="t_tr" rel="<{$k}>">
+                                <td>
+                                    <input type="text" class="input w-100" name="config[time][<{$k}>][stime]" value="<{$item.stime}>" />
+                                </td>
+                                <td>
+                                    <input type="text" class="input w-100" name="config[time][<{$k}>][ltime]" value="<{$item.ltime}>" />
+                                </td>
+                                <td>
+                                    <input type="text" class="input w-100" name="config[time][<{$k}>][ratio]" value="<{$item.ratio}>" />
+                                </td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                          <{foreachelse}>
+                            <tr class="t_tr" rel="0">
+                                <td><input type="text" class="input w-100" name="config[time][0][stime]" value=""></td>
+                                <td><input type="text" class="input w-100" name="config[time][0][ltime]" value=""></td>
+                                <td><input type="text" class="input w-100" name="config[time][0][ratio]" value=""></td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                        <{/foreach}>
+			        </table>
+				</td>
+				<td class="w-200"><span style="color:grey;">说明：00:00-07:00时间段，加收跑腿40%；（请按照00:00-23:59格式填写时间，加收百分比为整数）</span></td>
+			</tr>
+
+            <tr>
+                <th class="w-100">小费设置：</th>
+                <td class="w-500">
+                    <table border="0" cellspacing="0" class="table-data list w-500" id="table-tip-list" style="float:left; margin-left:10px;">
+                        <tr>
+                            <th>金额(元)</th>
+                            <th class="w-100"><a class="tip_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $config.tip as $k=>$item}>
+                            <tr class="tip_tr" rel="<{$k}>">
+                                <td>
+                                    <input type="text" class="input w-100" name="config[tip][<{$k}>]" value="<{$item}>" />
+                                </td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                          <{foreachelse}>
+                            <tr class="tip_tr" rel="0">
+                                <td><input type="text" class="input w-100" name="config[tip][0]" value=""></td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <th class="w-100">物品价值设置：</th>
+                <td class="w-500">
+                    <table border="0" cellspacing="0" class="table-data list w-500" id="table-price-list" style="float:left; margin-left:10px;">
+                        <tr>
+                            <th>金额(元)</th>
+                            <th class="w-100"><a class="p_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $config.price as $k=>$item}>
+                            <tr class="p_tr" rel="<{$k}>">
+                                <td>
+                                    <input type="text" class="input w-100" name="config[price][<{$k}>]" value="<{$item}>" />
+                                </td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                          <{foreachelse}>
+                            <tr class="p_tr" rel="0">
+                                <td><input type="text" class="input w-100" name="config[price][0]" value=""></td>
+                                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                            </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+            </tr>
+			<tr>
+		    	<th class="clear-th-bottom"></th>
+		    	<td class="clear-td-bottom" colspan="2"><input type="submit" class="bt-big" value="提交数据" /></td>
+		    </tr>
+
+		</table>
+
+	</form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".m_add").click(function () {
+            var j = $(".m_tr:last").attr("rel");
+            if(!$(".m_tr:last").attr("rel")){
+                j = -1;
+            }
+            var k = parseInt(j)+1;
+            $("#table-mileage-list").append('<tr class="m_tr" rel="'+k+'"><td>' +
+                    '<input type="text" class="input w-100" name="config[mileage]['+k+'][fkm]" value=""></td>' +
+                    '<td><input type="text" class="input w-100" name="config[mileage]['+k+'][fm]" value=""></td>' +
+                    '<td><input type="text" class="input w-100" name="config[mileage]['+k+'][wkg]" value=""></td>' +
+                    '<td><input type="text" class="input w-100" name="config[mileage]['+k+'][wm]" value=""></td>' +
+                    '<td><a href="javascript:;" class="text-danger jq_delete">删除</a></td>' +
+                    '</tr>');
+        })
+        $(".w_add").click(function () {
+            var j = $(".w_tr:last").attr("rel");
+            if(!$(".w_tr:last").attr("rel")){
+                j = -1;
+            }
+            var k = parseInt(j)+1;
+            $("#table-weight-list").append('<tr class="w_tr" rel="'+k+'"><td><input type="text" class="input w-100" name="config[weight]['+k+'][fkg]" value=""></td><td><a href="javascript:;" class="text-danger jq_delete">删除</a></td></tr>');
+        })
+
+        $(".t_add").click(function () {
+            var j = $(".t_tr:last").attr("rel");
+            if(!$(".t_tr:last").attr("rel")){
+                j = -1;
+            }
+            var k = parseInt(j)+1;
+            $("#table-time-list").append('<tr class="t_tr" rel="'+k+'"><td><input type="text" class="input w-100" name="config[time]['+k+'][stime]" value=""></td><td><input type="text" class="input w-100" name="config[time]['+k+'][ltime]" value=""></td><td><input type="text" class="input w-100" name="config[time]['+k+'][ratio]" value=""></td><td><a href="javascript:;" class="text-danger jq_delete">删除</a></td></tr>');
+        })
+
+        $(".tip_add").click(function () {
+            var j = $(".tip_tr:last").attr("rel");
+            if(!$(".tip_tr:last").attr("rel")){
+                j = -1;
+            }
+            var k = parseInt(j)+1;
+            $("#table-tip-list").append('<tr class="tip_tr" rel="'+k+'"><td><input type="text" class="input w-100" name="config[tip]['+k+']" value=""></td><td><a href="javascript:;" class="text-danger jq_delete">删除</a></td></tr>');
+        })
+
+        $(".p_add").click(function () {
+            var j = $(".p_tr:last").attr("rel");
+            if(!$(".p_tr:last").attr("rel")){
+                j = -1;
+            }
+            var k = parseInt(j)+1;
+            $("#table-price-list").append('<tr class="p_tr" rel="'+k+'"><td><input type="text" class="input w-100" name="config[price]['+k+']" value=""></td><td><a href="javascript:;" class="text-danger jq_delete">删除</a></td></tr>');
+        })
+
+        $("#table-mileage-list,#table-weight-list,#table-time-list,#table-tip-list,#table-price-list").on('click', '.jq_delete', function () {
+            $(this).parent().parent().remove();
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    (function(K, $){
+        $("input[name='config[closed]']").on('click', function(){
+            if($(this).val() == 1){
+                $("#tr_closed_reason").show();
+            }else{
+                $("#tr_closed_reason").hide();
+            }
+        });
+    })(window.KT, window.jQuery);
+</script>
+
+<{include file="admin:common/footer.html"}>

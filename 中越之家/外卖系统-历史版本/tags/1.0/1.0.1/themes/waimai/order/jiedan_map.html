@@ -1,0 +1,90 @@
+
+
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>-->
+<!-- <script src="//webapi.amap.com/maps?v=1.4.2&key=<{$jh_map_key}>"></script> -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<{$jh_map_key}>&language=zh-CN"></script>
+
+<div class="orderMap">
+    <!--<a class="tipNum" href="tel:<{$order.staff.mobile}>">骑手：<{$order.staff.name}>  <{$order.staff.mobile}> <i class="ico_phone fr"></i></a>-->
+   <div id="map" style="height: 240px;width: 100%;z-index: 999"></div>
+    <div class="" style="position: absolute; z-index: 1000; right: 0; bottom: 0; background: rgba(0,0,0,0.60); width: 24px; height: 24px; padding: 5px;" onclick="map_tiao();"><img src="/themes/waimai/static/img/map_ico.png" width="100%;"></div>
+</div>
+
+<script type="text/javascript">
+
+
+    var shopPos = {lng:Number('<{$order.o_lng}>'),lat:Number('<{$order.o_lat}>')};
+    var staffPos = {lng:Number('<{$staff.lng}>'),lat:Number('<{$staff.lat}>')};
+    var personPos = {lng:Number('<{$order.lng}>'),lat:Number('<{$order.lat}>')};
+    var msg = '<{$msg}>';
+    var map = new google.maps.Map(
+        document.getElementById("map"),
+        {
+            zoom: 13, 
+            center: staffPos,
+            fullscreenControl: false,
+            streetViewControl: false,
+            mapTypeControl: false,
+            gestureHandling: "greedy",
+            zoomControl: false
+        }
+    );
+
+    var staffMaker = new google.maps.Marker({
+        position: staffPos,
+        icon:{
+            url:"/themes/v3/static/img/icon_servicer.png",
+            scaledSize:{
+                width:40,
+                height:40
+            }
+        },
+        title:"骑手",
+        map:map
+    });
+    var shopMarker = new google.maps.Marker({
+        position: shopPos,
+        icon:{
+            url:"/themes/v3/static/img/icon_shop.png",
+            scaledSize:{
+                width:40,
+                height:40
+            }
+        },
+        title:"店铺",
+        map:map
+    });
+    var personMarker = new google.maps.Marker({
+        position: personPos,
+        title:"您",
+        map:map
+    });
+    var infowindow = new google.maps.InfoWindow({
+        content: msg
+    });
+    staffMaker.addListener("click",function(){
+        infowindow.open(map,staffMaker);
+    });
+    infowindow.open(map,staffMaker);
+    
+    
+    function map_tiao() {
+        var url = "<{link ctl='ucenter/order/order_map' http='waimai' arg0='__ORDER_ID__'}>";
+        window.location.href = url.replace("__ORDER_ID__",'<{$order.order_id}>');
+        
+    }
+
+    //每30秒更新信息
+    var linkUrl = "<{K::M('helper/link')->mklink('ucenter/order:order_dispatch_status',['order_id'=>$order['order_id']])}>";
+    window.setInterval(function(){
+        $.get(linkUrl,function(data){
+            if(data.error === 0)
+            {
+                staffPos.lng = Number(data.data.staff_lng);
+                staffPos.lat = Number(data.data.staff_lat);
+                staffMaker.setPosition(staffPos);
+                infowindow.setContent(data.data.msg);
+            }
+        },"json");
+    },30000);
+</script>

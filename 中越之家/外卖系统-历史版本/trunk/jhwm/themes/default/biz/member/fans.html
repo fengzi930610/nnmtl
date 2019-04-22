@@ -1,0 +1,34 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<ul>
+		<a href="<{link ctl='biz/member:index'}>">我的客户</a>
+		<a href="<{link ctl='biz/member:fans'}>" class="on">我的粉丝</a>
+	</ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50">粉丝ID</th>
+        <th class="w-150">昵称</th>
+        <th class="w-300">手机号</th>
+        <th class="w-100">图像</th>
+        <th>最后登录时间</th>
+        <th>操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.uid}></td>       
+        <td><{$members[$item['uid']]['nickname']}></td>
+        <td><{$members[$item['uid']]['mobile']}></td>
+        <td><img src="<{$pager.img}>/<{$members[$item['uid']]['face']}>" class="wh-50" /></td>
+        <td><{$members[$item['uid']]['lastlogin']|format}></td>
+        <td><a href="<{link ctl='biz/member:detail' arg0=$item.uid}>" class="btn btn-success" title="查看">查看</a></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

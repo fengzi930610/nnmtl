@@ -1,0 +1,79 @@
+<{assign var="page_title" value="登录"}>
+<{assign var='tpl_title' value=L("登陆")}>
+<{include file="weidian/block/header.html"}>
+<script src="/themes/default/static/js/kt.js" type="text/javascript" charset="utf-8"></script>
+<section class="page_center_box" style=" background:#fff;">
+    <div class="login_box">
+        <h3 class="mb10">手机号码快捷登录</h3>
+        <form action="<{link ctl='passport/login'}>" id="login-form" mothed="post">
+            <div class="box">
+                <div class="login_list">
+                    <div class="fl"><i class="ico phoneIco"></i></div>
+                    <div class="int1"><input type="text" name="data[mobile]" id="data-mobile" placeholder="请输入11位手机号码" class="login_txt"/></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="login_list">
+                    <div class="fl"><i class="ico yzmIco"></i></div>
+                    <a id="send_sms_code" class="fr login_yzm">获取验证码</a>
+                    <div class="int1 int2"><input type="text" name="data[sms_code]" placeholder="验证码" class="login_txt"/></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </form>
+        <div class="login_btn"><a mini-submit="#login-form" class="btn">登录</a>
+
+
+        </div>
+
+        <div class="login_or">
+
+            <a href="<{link ctl='passport/register'}>" class="other">
+                <p>没有账号? 注册</p>
+            </a>
+
+        </div>
+
+        <div class="login_or">
+            <h2><span>or</span></h2>
+            <a href="<{link ctl='passport/wxlogin'}>" class="other">
+                <p>微信登录</p>
+                <img src="/themes/default/weidian/static/images/login_weixin@2x.png"/>
+            </a>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    (function(K, $){
+        window.__SMS_SEND_LOCK = false;
+        window.__SMS_LOCK_TIME = 60;
+        window.__SMS_LOCK_TIMER = 60;
+        $("#send_sms_code").on("click", function(){
+            var mobile = $("#data-mobile").val();
+            if(!checkMobile(mobile)){
+                Widget.MsgBox.error('手机号码不正确');
+            }else if(!window.__SMS_SEND_LOCK){
+                // alert(mobile);
+                $.post("<{link ctl='passport/sendsms'}>", {"mobile":mobile}, function(ret){
+                    if(ret.error){
+                        Widget.MsgBox.error(ret.message);
+                    }else{
+                        window.__SMS_SEND_LOCK = true;
+                        Widget.MsgBox.success('发送验证码成功');
+                        window.__SMS_LOCK_TIMER = setInterval(function(){
+                            if(window.__SMS_LOCK_TIME -- <= 0){
+                                window.__SMS_LOCK_TIME = 60;
+                                window.__SMS_SEND_LOCK = false;
+                                $("#send_sms_code").text("获取验证码");
+                                window.clearInterval(window.__SMS_LOCK_TIMER);
+                            }else{
+                                $("#send_sms_code").text(window.__SMS_LOCK_TIME + "s");
+                            }
+                        }, 1000)
+                    }
+                }, "json");
+            }
+        });
+    })(window.KT, window.jQuery);
+
+</script>
+<{include file="weidian/block/footer.html"}>

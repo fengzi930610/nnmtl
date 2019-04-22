@@ -1,0 +1,32 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/yuyue/zhuohao:cate'}>" class="on">桌号分类</a>
+	<span class="r"><a href="<{link ctl='biz/yuyue/zhuohao:cate_create'}>" class="btn btn-success">添加分类</a></span>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+	    <tr>
+	        <th class="w-100">分类ID</th>
+	        <th class="w-100">分类名称</th>
+	        <th class="w-100">排序</th>
+	        <th class="w-200">操作</th>
+	    </tr>
+    	<{foreach $items as $v}>
+        <tr id="cat-<{$v.cate_id}>">
+        	<td class="left"><{$v.cate_id}></td>
+            <td class="left"><{$v.title}></td>
+            <td class="left"><{$v.orderby}></td>
+            <td>
+                <a href="<{link ctl='biz/yuyue/zhuohao/cate_edit' args=$v.cate_id}>" class="btn btn-success">修改</a>
+                <a href="<{link ctl='biz/yuyue/zhuohao/cate_delete' args=$v.cate_id}>" mini-act="del"  mini-confirm="确定要删除吗？" title="删除" class="btn btn-success" >删除</a>
+            </td>
+        </tr>
+    	<{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    	<{/foreach}>
+    </table>
+    </form>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

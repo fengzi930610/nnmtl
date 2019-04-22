@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='mall/product/items'}>" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                商品详情
+            </div>
+            <i class="right"></i>
+        </header>
+        <section class="page_center_box">
+            <img src="<{$pager.img}>/<{$detail.photo}>" width="100%" height="200" />
+            <div class="mineIntegral_details">
+                <div class="mineIntegral_details_infor mb10">
+                    <div class="infor">
+                        <p class="bt mb5"><{$detail.title}></p>
+                        <div>
+                            <p class="fl black9">积分:<span class="black3"><{$detail.jifen}></span><span class="sheng">剩余数量：<span class="black3"><{$detail.sku}></span></span></p>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="xiangqing-number">
+                        <p class="fl black9"><span class="fontcl1">￥<em class="num"><{$detail.price}></em></span></p>
+                        <div class="fr num_operate">
+                            <span class="reduces" pid="<{$detail.product_id}>" quantity="-">-</span>
+                            <input class="text_box" readonly type="text" value="<{$this_count|default:'0'}>">
+                            <span class="adds" pid="<{$detail.product_id}>" quantity="+">+</span>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <h2>商品详情</h2>
+                <div class="details">
+                    <p><{$detail.info}></p>
+                </div>
+            </div>
+        </section>
+        <footer style="z-index:10;">
+            <div class="shcheng-liebiao-foot">
+                <div class="fl">
+                    <div class="fl go-car"><i class="num" id="total_count"><{$total.count|default:0}></i></div>
+                    <div class="fl jia-ge"><span class="fontcl1" id="total_price">￥<{$total.price|default:0}></span></div>
+                    <div class="fl ji-fen" id="total_jifen"><{$total.jifen|default:0}><span class="black9">分</span></div>
+                </div>
+                <div class="fr"><a href="<{link ctl='mall/order:cart'}>" class="gou-btn" style="width:0.8rem;">立即购买</a></div>
+                <div class="clear"></div>
+            </div>
+        </footer>
+        <script>
+            $(document).ready(function () {
+                $('#block_footer').hide();
+            })
+            function sc_add_to_cart() {
+                var pid = $('.adds').attr('pid');
+                var link = "<{link ctl='mall/order:addcart'}>";
+                $.post(link, {pid: pid}, function (ret) {
+                    if (ret.error == 0) {
+                        $('#total_count').html(ret.data.count);
+                        $('#total_price').html("￥" + ret.data.price);
+                        $('#total_jifen').html(ret.data.jifen + "<span class='black9'>分</span>");
+                        var val = $('.text_box').val();
+                        val = parseInt(val, 10) + 1;
+                        $('.text_box').attr('value', val);
+                        $('#choose').css("display", "block");
+                        $('.cartAdd_btn').css("display", "none");
+                    } else if (ret.error == 101) {
+                        layer.open({content: ret.message, time: 2});
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='passport/login'}>";
+                        }, 2000);
+                    } else {
+                        layer.open({content: ret.message, time: 2});
+                    }
+                }, 'json');
+            }
+            $('.adds').click(function () {
+                sc_add_to_cart();
+            });
+
+            $('.cartAdd_btn').click(function () {
+                sc_add_to_cart();
+            });
+
+
+            $('.reduces').click(function () {
+                var pid = $(this).attr('pid');
+                var link = "<{link ctl='mall/order:addcart'}>";
+                var val = $('.text_box').val();
+                val = parseInt(val, 10) - 1;
+                if (val < 0) {
+
+                } else {
+                    $.post(link, {pid: pid, reduce: 1}, function (ret) {
+                        if (ret.error == 0 || ret.error == 244) {
+                            $('#total_count').html(ret.data.count);
+                            $('#total_price').html("￥" + ret.data.price);
+                            $('#total_jifen').html(ret.data.jifen + "<span class='black9'>分</span>");
+                            $('.text_box').attr('value', val);
+                        } else if (ret.error == 101) {
+                            layer.open({content: ret.message, time: 2});
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='passport/login'}>";
+                            }, 2000);
+                        } else {
+                            layer.open({content: ret.message, time: 2});
+                        }
+                    }, 'json');
+
+                    if (val == 0) {
+                        $('#choose').css("display", "none");
+                        $('.cartAdd_btn').css("display", "block");
+                    }
+                }
+            });
+        </script>
+        <{include file="block/sfooter.html"}>

@@ -1,0 +1,48 @@
+@charset "utf-8";
+html { background: #13152c; }
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, dl, dd, fieldset, form, input, select, textarea, figure ,div,form,img,ul,ol,li,i,b,table,tr,td,th,fieldset,label,legend{ margin:0;padding:0;}
+body { font-size: 12px; font-family: "Microsoft YaHei", "Helvetica Neue", "Hiragino Sans GB", "Segoe UI", Tahoma, Arial, STHeiti, sans-serif; _font-family: Tahoma, Arial, Helvetica, STHeiti, sans-serif; color: #333333; font-weight:normal; font-style:normal;}
+ul, ol, menu { list-style: none; margin: 0; padding: 0; }
+table { border-collapse: collapse; border-spacing: 0; }
+fieldset, a img, iframe { border: 0 none; }
+address, em, i { font-style: normal; }
+input, select, button { vertical-align: middle; }
+input, textarea, select { *font-size: 100%; outline:none 0;}
+button { overflow: visible; }
+a,img,a img{border:0px;}
+a{text-decoration:none;cursor:pointer;transition:all 0.2s ease-in-out;-o-transition:all 0.2s ease-in-out;-webkit-transition:all 0.2s ease-in-out;-moztransition:all 0.2s ease-in-out; color:#333;}
+a:hover{text-decoration:none;}
+input.text,select.text,textarea.text{outline:none; border:1px solid #e3e3e3; height:26px; line-height:26px; padding:3px 0px 3px 5px;font-size:12px; color:#555;} 
+textarea{ outline:none; resize:none; border:1px solid #e3e3e3; font-size:12px;}
+input:-moz-placeholder{color: #999;}  
+input::-webkit-input-placeholder{color:#999;}
+input.check{ vertical-align:middle; margin-right:2px;}
+img{ vertical-align:top;}
+.fl{float:left;}
+.fr{float:right;}
+.clear{ height: 0; line-height: 0; font-size: 0; clear: both;}
+.clearfix { display: block; *zoom: 1; }
+.none{ display:none;}
+
+.maincl{ color:#;}
+.fontcl1{ color:#99dcff;}
+.pointcl{ color:#fd0202;}
+.whitecl{ color:#fff;}
+.blackcl{ color:#000;}
+.blackcl3{ color:#333;}
+.blackcl6{ color:#666;}
+.blackcl9{ color:#999;}
+
+.pagewd{ width:1200px; margin:0px auto;min-width:1200px;}
+
+.mb10{ margin-bottom:10px;}
+.mb20{ margin-bottom:20px;}
+
+.unline{ border-bottom:1px solid #eee;}
+
+.indent { text-indent: 2em; }
+p{line-height:30px; font-size: 14px; font-family: "Microsoft Yahei"; }
+.pub_btn{ border:1px solid #6eb430; border-radius:3px; color:#6eb430; font-size:16px; display:inline-block;text-decoration:none; cursor:pointer;transition:all 0.2s ease-in-out;-o-transition:all 0.2s ease-in-out;-webkit-transition:all 0.2s ease-in-out;-moztransition:all 0.2s ease-in-out;  height:28px; line-height:28px; opacity:1; filter:alpha(opacity=100);}
+.pub_btn:hover{ background:#6eb430; color:#fff;}
+.overflow_clear{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}/*文字多出省略*/
+/*以上为通用样式部分*/

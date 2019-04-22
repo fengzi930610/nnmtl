@@ -1,0 +1,84 @@
+修改内容：
+1、商家子分类可设置是否为“推荐”，并可设置对应图标。
+        备注：
+                ----------（作废！原因是使用新表的话，要创建新的模型，该框架几乎不支持联表查询，如果使用新表，除了面临效率问题，还会使修改范围及难度大大增加！）使用新表模式
+                如果不设置图标，应该有一个默认的图标
+
+
+2、----------对客户、位置与配送范围（根据配送方式自动选择配送站还是商家自己的配送范围）做检测是否超出配送范围（系统本身已经支持）
+
+3、商家排序默认以距离由近到远排序
+
+================================
+修改文件记录:
+system/
+	admin/
+		view/
+			waimai/
+				cate/
+					create.html
+					edit.html
+					items.html
+				waimai/
+					create.html
+				shop/
+					one.html
+	models/
+		waimai/
+			cate.mdl.php
+	waimai/
+		controllers/
+			shoplist.ctl.php
+themes/
+	waimai/
+		shoplist/
+			index.html
+		index.html
+
+===============================
+数据库修改记录：
+1、修改数据表：jh_waimai_cate
+增加如下字段
+	字段名		类型			默认值		备注
+	is_rec		tinyint(1) unsigned		1		是否被推荐，0为不被推荐，1为被推荐
+修改字段
+	icon	修改类型为varchar255，默认值为空字符串
+
+-----SQL-----
+ALTER TABLE `jh_waimai_cate`
+    ADD COLUMN `is_rec`  tinyint(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否推荐属于该分类下的商家' AFTER `yy_weeks`,
+
+ALTER TABLE `jh_waimai_cate`
+    MODIFY COLUMN `icon`  varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' AFTER `title`;
+---------------
+
+=================================
+
+=================================
+文件修改内容记录：
+
+system/models/waimai/cate.mdl.php
+	增加is_rec字段信息到模型字段列表中
+
+system/admin/view/waimai/cate/create.html
+system/admin/view/waimai/cate/edit.html
+system/admin/view/waimai/cate/items.html
+	增加“是否显示在推荐栏（二级分类）”的相关数据编辑表单或数据显示
+	重新启用icon图标字段的表单数据及显示
+
+themes/waimai/index.html
+	将距离最近排序作为默认排序
+
+themes/waimai/shoplist/index.html
+	将页面数据对接到修改UI上
+	将距离最近排序作为默认排序
+
+system/admin/view/waimai/waimai/create.html
+	修改子分类显示，提示是否为“推荐”类型的分类
+
+system/admin/view/waimai/shop/one.html
+	修改子分类显示，提示是否为“推荐”类型的分类
+
+system/waimai/controllers/shoplist.ctl.php
+	修改loadshops()中没有指定排序时，默认使用距离排序
+

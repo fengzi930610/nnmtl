@@ -1,0 +1,33 @@
+<{assign var='tpl_title' value=L("抢购对账-历史订单")}>
+<{include file="webview/bills/block/header.html"}>
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <p class="black9 mr10 ml10 mt5 mb5"><big>历史账单</big></p>
+                <div class="duizLishi_list">
+                    <ul id="loaditems">
+
+                    </ul>
+                    <div class="loadding"></div>
+                    <div class="clear"></div>
+                </div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function(){
+        var url = "<{link ctl='webview/qiang/bills/loadbills' arg0='#page#' http='wmbiz'}>";
+        var list_id = 'loaditems';
+        loadpage(url,{},1,list_id);
+        scroll(url,{},1,"",".duizLishi_list",list_id);
+    }
+</script>
+
+<{include file="webview/bills/block/header.html"}>

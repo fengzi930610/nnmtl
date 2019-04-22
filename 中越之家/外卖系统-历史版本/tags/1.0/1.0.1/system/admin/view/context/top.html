@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<title>江湖婚庆门户系统管理中心</title>
+<meta name="Description" content="" />
+<link rel="stylesheet" rev="stylesheet" href="style/top.css?<{$TMPLVER}>" type="text/css" charset="utf-8" />
+<script type="text/javascript" src="<{$pager.res}>/script/kt.j.js?<{$TMPLVER}>"></script>
+</head>
+<body>
+<!-- nav op -->
+<div id="top-nav">
+    <div class="nav_top">
+        <div class="logo"><img src="<{$pager.url}>/images/fc/logo.png" alt="" /></div>
+		<div class="menu">
+			<ul id="menu_list">
+				<{foreach $top_menu as $v}>
+					<li><a href="?index-context-<{$v.mod_id}>.html" target="admin_left"><{$v.title}> </a></li>
+				<{/foreach}>
+			</ul>
+		</div>
+        <div class="info">
+			 <div class="content">
+				 <img class="l_pic" src="<{$pager.url}>/images/fc/logo.png" alt="">
+				 <strong class="red"><{$ADMIN.admin_name}>！</strong>
+				 <i class="icon_arrow"></i>
+			 </div>
+			 <div class="pull_box">
+				 <a href="?index-modifypasswd.html" target="admin_main">修改密码</a>
+				 <span class="green"><a href="?index-loginout.html" target="_top">注销</a></span><br />
+				 <a href="../index.php" target="_blank">网站首页</a>
+				 <a href="?index-welcome.html" target="admin_main">后台首页</a>
+				 <a href="?tools/cache-clean.html" target="admin_main">更新缓存</a>
+				 <a href="http://www.ijh.cc/jiajuhelp.html" target="_blank">帮助手册</a>
+			 </div>
+		</div>
+		<div style="clear:both;"></div>
+    </div>
+	<!--<div class="bottom-line"></div>-->
+</div>
+<!-- nav ed -->
+<script type="text/javascript">
+(function($){
+	$("#menu_list li").on("click", function(){
+		$("#menu_list li").removeClass('on');
+		$(this).addClass("on");
+	});
+})(window.jQuery);
+</script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<{include file="admin:common/header.html"}>
+<link rel="stylesheet" type="text/css" href="style/upload.css">
+<style type="text/css">
+    html,body{height: 100%; width: 100%; overflow: hidden;}
+    dl, ul{clear: none;}
+    .img_sku{ padding: 0;}
+    .sku_box .box_r .li_select{ width: 132px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .box_l_list li.on{ background: #ffffff; color: #4084FF}
+    .box_l_list li.on .li_tit{ color: #4084FF}
+    .box_l_list li.on .li_num{ color: #4084FF}
+    .sku_box .box_l_list a{ text-decoration:none}
+
+    .sku_box{height: calc(100% - 40px); width: 100%; overflow: hidden; position: relative;}
+    .sku_box .box_l{width: 180px; height: 100%; padding: 0; overflow: auto; position: relative; z-index: 1;}
+    .sku_box .box_r{padding-left:190px; width: 100%; position: absolute; left: 0; top: 0; box-sizing: border-box; height: 100%; overflow-x: visible; overflow-y: auto;}
+    .sku_box .box_r .group_float_wrap{padding-bottom: 5px;}
+    .sku_box .box_r_li{padding: 9px 10px 13px;}
+    .sku_box .box_r .li_pic{background-position: center; background-repeat: no-repeat; background-size: cover; background-color: #eee;}
+    .box_r_select .group_float_wrap{top: 38px !important;}
+    .setcate{ cursor: pointer;}
+
+    .img_sku .sku_head .l_btn{position: relative;}
+    .img_sku .sku_head .l_btn label{cursor: pointer; display: block;}
+    .img_sku .sku_head .l_btn input{position: absolute; left: 0; top: 0; opacity: 0; width: 0; height: 0;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><!-- <{link ctl="waimai/product:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}> --></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data" style="height: calc(100% - 115px);"> 
+    <div class="img_sku">
+        <!--顶部的上传图片和搜索-->
+        <div class="sku_head mb10 clearfix">
+            <span class="fl l_btn">
+                <label>上传图片
+                    <input type="file" hidden="hidden" class="upload">
+                </label>
+            </span>
+        </div>
+        <!--顶部的上传图片和搜索 end-->
+
+        <!--主体区域-->
+        <div class="sku_box clearfix">
+            <!--左边-->
+            <div class="fl box_l">
+                <ul class="box_l_list">
+                    <li <{if !$cate_id}>class='on'<{/if}>>
+                        <a href="?upload/photo-index-0">
+                            <span class="li_tit">未分组</span>
+                            <span class="li_num"><{$count[0]['count']}></span>
+                        </a>
+                    </li>
+                    <{foreach $cates as $v}>
+                    <li <{if $cate_id == $v.cate_id}>class='on'<{/if}>>
+                        <a href="?upload/photo-index-<{$v.cate_id}>">
+                            <span class="li_tit"><{$v.title}></span>
+                            <span class="li_num"><{$count[$v.cate_id]['count']}></span>
+                        </a>
+                    </li>
+                    <{/foreach}>        
+                </ul>
+                <div class="bot_wrap">
+                    <{link ctl="upload/cate:create" class="bot_add btn-default-line" load="mini:添加分组" width="mini:520" title="添加分组"}>
+                    <!-- <a class="bot_add btn-default-line">添加分组</a>
+                    <div class="bot_add_float_wrap add_float">
+                        <div class="bot_add_float">
+                            <h3 class="bot_float_tit">添加分组</h3>
+                            <input class="bot_float_inp" type="text" placeholder="不超过16个字">
+                            <div class="bot_float_btn_wrap mt10">
+                                <a class="bot_float_btn bot_float_btn_on">确认</a>
+                                <a class="bot_float_btn">取消</a>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <!--右边-->
+            <div class="box_r">
+                <div class="box_r_tit">
+                    <{$cate.title}>
+                    <{if $cate.cate_id}>
+                    <div class="r_tit_each">
+                        <{link ctl="upload/cate:edit" args=$cate.cate_id class="r_tit_link" load="mini:重命名" width="mini:520" title="重命名"}>
+                        <!-- <a class="r_tit_link">重命名</a>
+                        <div class="bot_add_float_wrap rename_float">
+                            <div class="bot_add_float">
+                                <h3 class="bot_float_tit">编辑名称</h3>
+                                <input class="bot_float_inp" type="text" placeholder="商品">
+                                <div class="bot_float_btn_wrap mt10">
+                                    <a class="bot_float_btn bot_float_btn_on">确认</a>
+                                    <a class="bot_float_btn">取消</a>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="r_tit_each">
+                        <{link ctl="upload/cate:delete" args=$cate.cate_id act="mini:删除分组" confirm="mini:仅删除分组，不删除图片，组内图片将自动归入未分组。" title="删除分组" class="r_tit_link"}>
+                        <!-- <a class="r_tit_link">删除分组</a>
+                        <div class="del_float_wrap del_group_01">
+                            <div class="del_float">
+                                <h3 class="del_float_tit">确认删除分组?</h3>
+                                <p class="del_float_desc">仅删除分组，不删除图片，组内图片将自动归入未分组。</p>
+                                <div class="bot_float_btn_wrap">
+                                    <a class="bot_float_btn bot_float_btn_on">确认</a>
+                                    <a class="bot_float_btn">取消</a>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <{/if}>
+                </div>
+
+                <form id="items-form">
+                    <div class="box_r_select">
+                        <label class="fl"><input type="checkbox" class="icon_select" CKA="PRI"></i>全选</label>
+                        <div class="bot_l fl ml10">
+                            <{link ctl="upload/photo:delete" type="button" class="bot_btn btn-default-line" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+                            <div style="display: inline-block; position: relative;">
+                                <span class="bot_btn btn-default-line setcates">修改分组</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--内容-->
+                    <div class="box_r_content" id="items-form">
+                        <ul class="box_r_list">
+                            <{foreach $items as $k=>$item}>
+                            <li class="box_r_li fl">
+                                <div class="box_r_box">
+                                    <!-- <img class="li_pic" src="<{$pager.img}>/<{$item.photo}>" alt=""> -->
+                                    <div class="li_pic" style="background-image: url(<{$pager.img}>/<{$item.photo}>);" photo="<{$pager.img}>/<{$item.photo}>"></div>
+                                    <div class="li_select" title="<{$item.name}>">
+                                        <label><input type="checkbox" class="icon_select" name="photo_ids[]" value="<{$item.photo_id}>" CK="PRI"></i></label>
+                                        <{$item.name}>
+                                    </div>
+                                    <div class="li_controls">
+                                        <div class="li_controls_each">
+                                            <a class="li_controls_link setcate" pid="<{$item.photo_id}>">分组</a>
+                                        </div>
+                                        <div class="li_controls_each">
+                                            <{link ctl="upload/photo:delete" args=$item.photo_id act="mini:删除" confirm="mini:确认删除该图片?" title="删除" class="li_controls_link"}>
+                                            <!-- <a class="li_controls_link">删除</a>
+                                            <div class="del_float_wrap del_group_02">
+                                                <div class="del_float">
+                                                    <h3 class="del_float_tit">确认删除该图片?</h3>
+                                                    <p class="del_float_desc">若删除，不会对目前已使用改图片的相关业务造成影响。</p>
+                                                    <div class="bot_float_btn_wrap">
+                                                        <a class="bot_float_btn bot_float_btn_on">确认</a>
+                                                        <a class="bot_float_btn">取消</a>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <{foreachelse}>
+                            <div class="box_r_empty">暂无数据，点击左上角“上传图片”按钮添加</div>
+                            <{/foreach}>
+                        </ul>
+                        <!-- <div class="bot_wrap mb10 clearfix">
+                            <div class="bot_l fl">
+                                <a class="bot_btn btn-default-line">修改分组</a>
+                                <a class="bot_btn btn-default-line">删除</a>
+                            </div>
+                            <div class="page fr">
+                                <em>共35条记录，每条20页</em>
+                                <strong>1</strong>
+                                <a href="">2</a>
+                                <a href="">3</a>
+                                <a href="">4</a>
+                                <a href="">5</a>
+                            </div>
+                        </div> -->
+                        <div class="cl"></div>
+                    </div>
+                    <!--内容-->
+                </form>
+            </div>
+        </div>
+        <!--主体区域 end-->
+    </div>
+    <div class="page-bar" style="margin-left: 190px;">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left">
+
+                </td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/tmpl" id="group_float_wrap">
+    <div class="group_float_wrap" style="display: block;">
+        <form class="group_float" id="setcate-form">
+            <input type="hidden" name="photo_id" value="__PHOTO_ID__">
+            <h3 class="group_float_tit">选择分组</h3>
+            <ul class="group_float_list">
+                <li class="group_float_li">
+                    <label><input type="radio" name="cate_id" value="0" <{if !$cate_id}>checked="checked"<{/if}>>未分组</label>
+                </li>
+                <{if $cates}>
+                <{foreach $cates as $k=>$cate}>
+                <li class="group_float_li">
+                    <label><input type="radio" name="cate_id" value="<{$cate.cate_id}>" <{if $cate_id==$cate.cate_id}>checked="checked"<{/if}>><{$cate.title}></label>
+                </li>
+                <{/foreach}>
+                <{/if}>
+            </ul>
+            <div class="bot_float_btn_wrap">
+                <a class="bot_float_btn bot_float_btn_on confirm">确认</a>
+                <a class="bot_float_btn cancel">取消</a>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/tmpl" id="group_float_wraps">
+    <div class="group_float_wrap" style="display: block;">
+        <div class="group_float" id="setcate-form">
+            <h3 class="group_float_tit">选择分组</h3>
+            <ul class="group_float_list">
+                <li class="group_float_li">
+                    <label><input type="radio" name="cate_id" value="0" <{if !$cate_id}>checked="checked"<{/if}>>未分组</label>
+                </li>
+                <{if $cates}>
+                <{foreach $cates as $k=>$cate}>
+                <li class="group_float_li">
+                    <label><input type="radio" name="cate_id" value="<{$cate.cate_id}>" <{if $cate_id==$cate.cate_id}>checked="checked"<{/if}>><{$cate.title}></label>
+                </li>
+                <{/foreach}>
+                <{/if}>
+            </ul>
+            <div class="bot_float_btn_wrap">
+                <a class="bot_float_btn bot_float_btn_on confirms">确认</a>
+                <a class="bot_float_btn cancel">取消</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.setcate').click(function(){
+            $('.group_float_wrap').remove();
+            var pid = $(this).attr('pid');
+            var html = $('#group_float_wrap').html();
+            html = html.replace('__PHOTO_ID__', pid)
+            $(this).after(html);
+        });
+
+        $('.setcates').click(function(){
+            $('.group_float_wrap').remove();
+            var html = $('#group_float_wraps').html();
+            $(this).after(html);
+        });
+
+        $(document).on('click', '.group_float_wrap .cancel', function(){
+            $('.group_float_wrap').remove();
+        });
+
+        $(document).on('click', '.group_float_wrap .confirm', function(){
+            var formdata = $('#setcate-form').serialize();
+            var link = "?upload/photo-setcate.html";
+            $.post(link, formdata, function (e){
+                if(e.error > 0){
+                    Widget.MsgBox.error(e.message);
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 2000);
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.group_float_wrap .confirms', function(){
+            var formdata = $('#items-form').serialize();
+            var link = "?upload/photo-setcate.html";
+            $.post(link, formdata, function (e){
+                if(e.error > 0){
+                    Widget.MsgBox.error(e.message);
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    }, 2000);
+                }
+            },'json');
+        });
+
+        function upload(){
+            $('.upload').on('change',function(){
+                var h = $(this);
+                var files = $(this)[0]['files'];
+                var params = {"photo" : files[0], 'from' : 'photoGallery'};
+                var cate_id = "<{$cate_id}>";
+                var link = "?upload/photo-upload-#cate_id#.html";
+                Widget.UploadFile(link.replace('#cate_id#', cate_id), params, function (ret){
+                    if(ret.error==0){
+                        Widget.MsgBox.success('上传成功');
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        }, 2000);
+                    }else{
+                        Widget.MsgBox.error(ret.message);
+                    }
+                });
+            })
+        }
+        upload();
+
+    });
+</script>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,57 @@
+<{assign var="min_ititle" value="选择微信素材"}>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>江湖家居</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="stylesheet" href="/static/ui/j.ui.css?201150408" type="text/css" />
+<link rel="stylesheet" href="/static/style/kt.widget.css?201150408" type="text/css" />
+<link rel="stylesheet" href="/static/style/common.css?201150408" type="text/css" />
+<link type="text/css" rel="stylesheet" href="/themes/default/static/css/style.css?201150408" />
+<link rel="stylesheet" type="text/css" href="/themes/default/static/css/append.css?201150408"/> 
+<script type="text/javascript">window.URL={"domain":"v6.jhcms.cn","url":"", "res":"/static", "img":"http://v6.jhcms.cn/./attachs","city":"http://hf.v6.jhcms.cn"};window.G={"city":"合肥"};</script>
+<script type="text/javascript"  src="/static/script/kt.j.js?201150408"></script>
+<script type="text/javascript"  src="/static/script/kt.js?201150408"></script>
+<script type="text/javascript"  src="/static/ui/j.ui.js?201150408"></script>
+<script type="text/javascript"  src="/static/script/widget.msgbox.js?201150408"></script>
+
+
+</head>
+<body>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+
+<div>
+    <ul class="group-list" style="width:auto; overflow: hidden; padding-left: 0; margin: 0;">
+        <{foreach $items as $item}>
+        <li style="margin-top:10px; float:left; width: 323px;;height:auto;padding:3px 5px; list-style: none;">        
+        <div class="weixin-preview" style="margin:2px;">
+            <div class="weixin-box">
+                <p class="weixin-title"><{$item.title}></p>
+                <div class="weixin-cover"><img class="weixin-cover-pic" src="<{$pager.img}>/<{$item.photo}>"></div>
+                <div class="weixin-mask"></div>
+                <div class="icon-wxreply-selected"></div>
+                <input type="radio" name="itemId" value="<{$item.reply_id}>" data="{'itemId':'<{$item.reply_id}>','title':'<{$item.title}>','photo':'<{$item.photo}>'}" CK="PRI" style="display:none;"/>
+            </div>
+        </div>
+        </li>
+        <{/foreach}>
+        <div class="cl"></div>
+    </ul>
+    <div class="cl"></div>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$(".weixin-box").click(function(){
+$(".weixin-box").removeClass("selected");
+$(this).addClass("selected");
+//$(".weixin-box input:radio").attr("checked", false)
+$(this).find(":radio").attr("checked", true);
+});
+})(window.KT, window.jQuery);
+</script>
+<script type="text/javascript">window.parent.Widget.MsgBox.hide();if(typeof(window.parent.Dialog_Iframe) == 'object'){window.parent.Dialog_Iframe.dialog({height: $("body").height()+60});}</script>
+        </div>
+    </body>
+</html>

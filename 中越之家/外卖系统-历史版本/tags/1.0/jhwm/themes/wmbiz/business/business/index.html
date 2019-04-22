@@ -1,0 +1,162 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='business/business:index'}>">经营分析</a></li>
+        <li class="active">营业统计</li>
+    </ol>
+</div>
+<div class="wrapper wrapper-content">
+   	<!--今日营业情况-->
+    <div class="mrkt_tit mb10"><span class="bt">今日营业情况</span></div>
+    <div class="row idx_total_box mrkt_total_box">
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big"><{$count.today_amount|default:0}></p>
+                        <p>今日预计收入</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big"><{$count.today_yyamount|default:0}></p>
+                        <p>今日营业总额</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big"><{($count.yorder-$count.norder)|default:0}></p>
+                        <p>今日有效订单</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big"><{$count.norder|default:0}></p>
+                        <p>今日无效订单</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--今日营业情况end-->
+    <div class="mrkt_tit mb10"><span class="bt" id="td_s">近一周营业统计</span>
+        <select id="select">
+            <span class="ml30">查看月营业情况
+                <{foreach $time_list as $k => $v}>
+                    <option value="<{$v|format:'Ym'}>"><{$v|format:'Y-m'}></option>
+                <{/foreach}>
+            </span>
+        </select>
+    </div>
+    <div class="row idx_total_box mrkt_total_box">
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big" id="amount"><{$count.week_amount|default:0}></p>
+                        <p>本期预计收入</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big" id="yyamount"><{$count.week_yyamount|default:0}></p>
+                        <p>本期营业总额</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big" id="yorder"><{$count.week_yorder|default:0}></p>
+                        <p>本期有效订单</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big" id="norder"><{$count.week_norder|default:0}></p>
+                        <p>本期无效订单</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="idx_total_img mb20">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content ">
+                        <div id="morris-one-line-chart" class="ye_format"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">.highcharts-credits{display: none;}</style>
+<script type="text/javascript">
+function build_chart(month){
+    var url = "<{link ctl='business/business:month' arg0='#month#'}>";
+    $.getJSON(url.replace("#month#", month), function(ret){
+        if(ret.error){
+            Widget.MsgBox.error(ret.message);
+        }else{
+            $('#td_s').text(month+" 营业统计");
+            $('#amount').text(ret.data.total_jiesuan);
+            $('#yyamount').text(ret.data.total_amount);
+            $('#yorder').text(ret.data.total_order_count-ret.data.cancel_order_count);
+            $('#norder').text(ret.data.cancel_order_count);
+             Highcharts.chart('morris-one-line-chart', {
+                title: {
+                    text: '当期营收'
+                },
+                xAxis: {categories : ret.data.day_data},
+                yAxis: {
+                    title: {
+                        text: '金额'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return "￥" + this.value;
+                        }
+                    }
+                },
+                legend: {align: 'center'},
+                tooltip: {crosshairs: true,shared: true},
+                series: [
+                    {name: '营业额',data: ret.data.amount_data},
+                    {name: '预计收入',data: ret.data.jiesuan_data},
+                ]
+            });
+        }
+    });
+}
+$(document).ready(function(){
+$("#select").change(function(){
+    build_chart($(this).val())
+}).trigger("change");
+});
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,208 @@
+<{include file="admin:common/header.html"}>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/exporting.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/series-label.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/oldie.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts-zh_CN.js"></script>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+    .spec_mask .cont { overflow: visible;}
+    .weekSelctBox{padding-bottom: 20px;}
+    .weekSelctBox label{position: relative;display: inline-block;height: 30px;padding: 0 16px;color: #555;font-size: 12px;line-height: 28px;border: 1px solid #bbb;border-radius: 2px;cursor: pointer; margin-right: 10px;}
+    .weekSelctBox label input{width: 0; height: 0;opacity: 0;}
+    .weekSelctBox label.on{border-color: #00bd9e;}
+    .weekSelctBox label.on:before{content: " ";position: absolute;right: 0;bottom: 0;width: 0;height: 0;border: 7px solid #00bd9e;border-top-color: transparent;border-left-color: transparent;}
+    .weekSelctBox label.on:after {content: " ";position: absolute;right: 1px;bottom: 3px;width: 6px;height: 3px;border: 1px solid #fff;border-top-color: transparent;border-right-color: transparent; -webkit-transform: rotate(-59deg);transform: rotate(-59deg);}
+    .btn_admin {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px; background-color: #1ab394; border-color: #1ab394;color: #FFF;
+        margin-left: 100px;
+        margin-top:10px;
+    }
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li><{link ctl='subsidy/staff:items' title='骑手补贴统计'  priv='hide' http='admin'}></li>
+            <li><{link ctl='subsidy/member:items' title='用户补贴统计' priv='hide' http='admin'}></li>
+            <li><{link ctl='subsidy/waimai:items' title='商家补贴统计' class='on' priv='hide' class='on' http='admin'}></li>
+
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?subsidy/waimai-items.html" id="SO-form" method="post">
+        <div class="guide_list_box mgb10" style="padding: 15px;">
+            <select class="jq_month" name="SO[mouth]">
+                <{foreach $bills_month as $month}>
+                <option value="<{$month}>" <{if $month==$SO['mouth']}>selected='selected'<{/if}> ><{$month}></option>
+                <{/foreach}>
+            </select>
+            <label><input type="radio" name="SO[show]" value="0" <{if  $SO.show==0||empty($SO.show)}>checked="checked"<{/if}>>按日期</label>
+            <label><input type="radio" name="SO[show]" value="1" <{if $SO.show==1}>checked="checked"<{/if}>>按时间</label>
+            <input type="hidden" name="SO[shop_id]" value="<{$SO.shop_id|default:0}>" id="export_shop_id" />
+            <input type="text" value="<{$waimai.title|default:''}>" id="export_shop_title" class="input w-150" readonly/>
+            <{link ctl="shop/shop:dialog" title="选择商家" select="mini:#export_shop_id,#export_shop_title/N/选择商家" class="button"}>
+
+            <input type="submit" class="bt-big" value="查询">
+        </div>
+        <div class="filterDefined">
+            <div class="txt">自定义列表字段<i class="ml5"></i></div>
+            <div class="filterDefined_pull">
+                <div>
+                    <div class="tit">图标显示<span></span><label></label></div>
+                    <ul>
+                        <li><label><input class="click_me" type="checkbox" name="order" value="order" checked rel="补贴订单数">补贴订单数</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="amount" value="amount" checked rel="补贴金额">补贴金额</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="sum_platform" value="sum_platform" rel="平台补贴">平台补贴</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="sum_shop" value="sum_shop" rel="商家补贴">商家补贴</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="platform_first" value="platform_first" rel="平台首单">平台首单</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="platform_mj" value="platform_mj" rel="平台满减">平台满减</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="platform_mj" value="platform_hongbao" rel="平台红包">平台红包</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="shop_first" value="shop_first" rel="商家首单">商家首单</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="shop_mj" value="shop_mj" rel="商家满减">商家满减</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="shop_coupon" value="shop_coupon" rel="商家优惠券">商家优惠券</label></li>
+                        <li><label><input class="click_me" type="checkbox" name="shop_discount" value="shop_discount" rel="商家折扣">商家折扣</label></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="mgb10" id="container" style="height: 500px;width: 100%;">
+
+    </div>
+
+    <div class="fr"><a href="?tongji/export-subsidy-waimai<{$query|default:''}>" class="button">导出</a></div>
+    <iframe src="?subsidy/waimai-load_table<{$query|default:''}>" style="width: 100%;height: 500px;border:0px;">
+
+    </iframe>
+</div>
+
+<script>
+    function create_high_char(){
+        var data = JSON.parse('<{$high_data}>');
+        var json = [];
+        $.each($('.click_me'),function(){
+            if($(this).is(':checked')){
+                var name = $(this).attr('name');
+                var val = $(this).attr('rel');
+                var json_data = data[name]
+                json.push({
+                    name:val,
+                    data:json_data
+                })
+            }
+        });
+        setTimeout(function(){
+            var chart = Highcharts.chart('container', {
+                credits: {
+                    enabled: false //不显示LOGO
+                },
+                chart: {
+                    type: 'spline'
+                },
+                title: {
+                    text: '商家补贴统计'
+                },
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: '金额/订单'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                xAxis:{
+                    categories:data.x
+                },
+                series: json,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        },200)
+    }
+    create_high_char();
+
+    $('.click_me').on('change',function(){
+        create_high_char();
+    })
+
+    //自定义列表字段
+    $(".filterDefined .txt").click(function(){
+        if($(this).hasClass("on")){
+            $(this).removeClass("on");
+            $(this).parent().find(".filterDefined_pull").slideUp(100);
+            $(this).parent().css("z-index",0);
+        }else{
+            $(this).addClass("on");
+            $(this).parent().find(".filterDefined_pull").slideDown(100);
+            $(this).parent().css("z-index",2);
+        };
+    });
+    $(".filterDefined .cancel").click(function(){
+        if($(".filterDefined .txt").hasClass("on")){
+            $(":checkbox").each(function(){
+                $(":checkbox").attr("checked", false);
+            });
+            $(".filterDefined .txt").removeClass("on");
+            $(".filterDefined .txt").parent().find(".filterDefined_pull").slideUp(100);
+            $(".filterDefined .txt").parent().css("z-index",0);
+        }
+    });
+
+</script>
+<{include file="admin:common/footer.html"}>

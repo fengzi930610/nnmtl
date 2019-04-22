@@ -1,0 +1,42 @@
+<{foreach $items as $item}>
+<li class="jq_class" rel="<{$item.product_id}>">
+    <a href="<{link ctl='product/detail' args=$item.product_id http='waimai'}>" class="">
+        <div class="img" style="background-image: url(<{$pager.img}>/<{$item.photo}>);"></div>
+        <div class="wz_box">
+            <div style="min-height: 70px;">
+                <h4><{$item.title|cutstr:24}></h4>
+                <{if $item.is_discount}>
+                <p style="font-size:10px">
+                    <span class="disctype">
+                        <label><{if $item.disctype}>减价<{else}><{$item.discval}>折<{/if}></label>
+                        <label><{if $item.quota}>限购<{$item.quota}>份<{else}>不限购<{/if}></label>
+                    </span>
+                    <span class="discsku">剩余<{$item.sale_sku}><{$item.unit}></span>
+                </p>
+                <{/if}>
+                <{if $item.intro}>
+                <p class="black9 overflow_clear"><{$item.intro}></p>
+                <{/if}>
+                <p class="black9">已售<{$item.sales}> <span class="ml10"><{$item.good}>人赞</span></p>    
+            </div>
+            <p class="price"><small>￥</small><{$item.price}><{if $item.unit}>/<{$item.unit}><{/if}><del class="black9 ml10" <{if !$item.is_discount}>style="display:none"<{/if}>>￥<{$item.oldprice}><{if $item.unit}>/<{$item.unit}><{/if}></del></p>         
+        </div>
+    </a>
+    <{if $item.is_spec}>
+    <a href="javascript:;" class="goods_guige_btn"  title="<{$item.title}>" product_id="<{$item.product_id}>" data-isspec="1" pcate_id="<{$item.pcate_id}>" sales="<{$item.sales}>" good="<{$item.good}>" photo="<{$item.photo}>" price="<{$item.price}>" data-spec='<{$item.specification}>' data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>", "oldprice":"<{$item.oldprice}>", "is_discount":"<{$item.is_discount}>", "disctype":"<{$item.disctype}>", "discval":"<{$item.discval}>", "quota":"<{$item.quota}>", "huodong_id":"<{$item.huodong_id}>", "disclabel":"<{$item.disclabel}>", "quotalabel":"<{$item.quotalabel}>"}' unit="<{$item.unit}>">可选规格<span style="display: none;height: 16px; line-height: 16px;position: absolute;right: -7px;top: -7px;border-radius: 20px;background: #ff3300;color: #fff;font-size: 12px;padding: 0 5px;" rel="<{$item.product_id}>" class="jq_num_sku"></span></a>
+    <{else if $item.is_specification&&!$item.is_spec}>
+    <a href="javascript:;" class="goods_guige_btn  shuxingbtn" id="p_<{$item.product_id}>-0"  product_id="<{$item.product_id}>" data-isspec="0" data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>", "oldprice":"<{$item.oldprice}>", "is_discount":"<{$item.is_discount}>", "disctype":"<{$item.disctype}>", "discval":"<{$item.discval}>", "quota":"<{$item.quota}>", "huodong_id":"<{$item.huodong_id}>", "disclabel":"<{$item.disclabel}>", "quotalabel":"<{$item.quotalabel}>"}' data-spec='<{$item.specification}>' unit="<{$item.unit}>">可选规格<span style="display: none;height: 16px; line-height: 16px;position: absolute;right: -7px;top: -7px;border-radius: 20px;background: #ff3300;color: #fff;font-size: 12px;padding: 0 5px;" rel="<{$item.product_id}>" class="jq_num_sku"></span></a>
+    <{else}>
+    <div class="num_operate" id="p_<{$item.product_id}>-0" pcate_id="<{$item.pcate_id}>"
+         data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>", "oldprice":"<{$item.oldprice}>", "is_discount":"<{$item.is_discount}>", "disctype":"<{$item.disctype}>", "discval":"<{$item.discval}>", "quota":"<{$item.quota}>", "huodong_id":"<{$item.huodong_id}>", "disclabel":"<{$item.disclabel}>", "quotalabel":"<{$item.quotalabel}>"}' data-spec='<{$item.specification}>' unit="<{$item.unit}>">
+        <{if ($item.sale_type == 1&&$item.sale_sku<=0) || ($item.is_discount && $item.discount.sale_sku <= 0)}>
+        <div class="over">已售馨</div>
+        <{else}>
+         <span class="jian" quantity="-" skuid="<{$item.product_id}>-0"><i></i></span>
+        <input type="text" productnum="<{$item.product_id}>-0" value="0" class="text_box" disabled>
+        <span class="add" quantity="+" skuid="<{$item.product_id}>-0"><i></i></span>
+        <{/if}>
+    </div>
+    <{/if}>
+</li>
+<{/foreach}>

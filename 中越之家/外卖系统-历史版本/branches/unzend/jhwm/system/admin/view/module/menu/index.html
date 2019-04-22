@@ -1,0 +1,61 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th>导航菜单管理</th>
+        <td align="right">&nbsp;<{link ctl="module/menu:create" class="button" priv="hide" load="mini:添加导航菜单" width="mini:400"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?module/menu-update.html" mini-form="menu-order" method="post"/>
+	<input type="hidden" name="batch" value="orderby" />
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data list">
+		<tr>
+			<th style="width:50px;padding-left:5px;text-align:left;">ID</th>
+			<th>标题</th>
+			<th class="w-150">排序</th>
+			<th class="w-200">操作</th>
+		</tr>
+		<{foreach $tree as $v}>
+		<tr id="mod-<{$v.mod_id}>">
+			<td><{$v.mod_id}></td>
+			<td style="text-align:left;">&nbsp;&nbsp;<strong><{$v.title}></strong></td>
+			<td class="left">&nbsp;<input type="text" name="orderby[<{$v.mod_id}>]" value="<{$v.orderby}>" class="input w-50" /></td>
+			<td>
+				<{link ctl="module/menu:create" args="<{$v.mod_id}>" load="mini:添加子菜单" width="mini:400" title="添加菜单" class="button"}>
+				<{link ctl="module/menu:edit" args="<{$v.mod_id}>" load="mini:编辑导航菜单" width="mini:400" title="编辑" class="button"}>
+				<{link ctl="module/menu:remove" args="<{$v.mod_id}>" act="mini:remove:mod-<{$v.mod_id}>" title="删除" class="button"}>
+			</td>
+		</tr>
+		<{foreach $v.menu as $vv}>
+		<tr id="mod-<{$vv.mod_id}>">
+			<td><{$vv.mod_id}></td>
+			<td style="text-align:left;">&nbsp;&nbsp;|----<strong><{$vv.title}></strong></td>
+			<td class="left">&nbsp;&nbsp;|----<input type="text" name="orderby[<{$vv.mod_id}>]" value="<{$vv.orderby}>" class="input w-50" /></td>
+			<td>
+				<{link ctl="module/ctl:detail" args="<{$vv.mod_id}>" width="mini:700" load="mini:管理控制模块" title="控制模块"}>
+				<{link ctl="module/menu:edit" args="<{$vv.mod_id}>" load="mini:编辑导航菜单" width="mini:400" title="编辑"}>
+				<{link ctl="module/menu:remove" args="<{$vv.mod_id}>" act="mini:remove:mod-<{$vv.mod_id}>" title="删除"}>
+		</tr>
+		<{/foreach}>
+		<{/foreach}>
+		<tr>
+			<td colspan="3" class="clear-td-border right"></td>
+			<td class="clear-td-border"></td>
+		</tr>
+	</table>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"></td>
+			<td colspan="10" class="left"></td>
+			<td class="w-200"><input type="submit" class="bt-big" value="更 新 排 序" /></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

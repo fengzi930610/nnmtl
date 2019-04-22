@@ -1,0 +1,13 @@
+<{foreach $items as $item}>
+<li class="dand_list">
+    <div class="img fl"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$item.goods.photo}>"><p>第<{$item.cloud_num}>期</p></a></div>
+    <div class="wz_box">
+        <p class="black9"><{$item.goods.title}></p>
+        <h3 class="overflow_clear">获得者：<span class="fontcl2"><{$item.users.nickname}></span></h3>
+        <p class="black9">价值：￥<{$item.price}></p>
+        <p class="black9">参与人次：<span class="fontcl1"><{$item.lottery_num}></span>人次</p>
+        <p class="black9">揭晓时间：<{$item.lottery_time|format:'Y-m-d H:i:s'}></p>
+    </div>
+    <div class="cl"></div>
+</li>
+<{/foreach}>

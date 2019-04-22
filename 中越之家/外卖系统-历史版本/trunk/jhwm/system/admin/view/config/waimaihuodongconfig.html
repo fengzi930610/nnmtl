@@ -1,0 +1,181 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?system/config-site.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="waimaihuodongconfig" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th>是否享受红包优惠：</th>
+                <td>
+                    <label><input type="radio" name="config[hongbao]" <{if $config.hongbao}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[hongbao]" <{if empty($config.hongbao)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">平台配送商家，用户使用配送员代收款时，是否享受红包</span>
+                </td>
+            </tr>
+            <tr>
+                <th>是否享受首单优惠：</th>
+                 <td>
+                   <label><input type="radio" name="config[first]" <{if $config.first}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                   <label><input type="radio" name="config[first]" <{if empty($config.first)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">平台配送商家，用户使用配送员代收款时，是否享受首单优惠</span>
+                 </td>
+            </tr>
+            <tr>
+                <th>是否享受满减优惠：</th>
+                <td>
+                    <label><input type="radio" name="config[manjian]" <{if $config.manjian}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[manjian]" <{if empty($config.manjian)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">平台配送商家，用户使用配送员代收款时，是否享受满减优惠</span>
+                </td>
+            </tr>
+            <tr>
+                <th>是否享受优惠券：</th>
+                <td>
+                    <label><input type="radio" name="config[youhui]" <{if $config.youhui}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[youhui]" <{if empty($config.youhui)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">平台配送商家，用户使用配送员代收款时，是否享受优惠券</span>
+                </td>
+            </tr>
+            <tr>
+                <th>是否享受满返券：</th>
+                <td>
+                    <label><input type="radio" name="config[manfan]" <{if $config.manfan}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[manfan]" <{if empty($config.manfan)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">平台配送商家，用户使用配送员代收款时，是否享受满返券</span>
+                </td>
+            </tr>
+            <tr>
+                <th>是否关闭店铺</th><td>
+                <label><input type="radio" name="config[closesite]" <{if $config.closesite==1}>checked="checked"<{/if}> value="1"/>平台送</label>&nbsp;&nbsp;
+                <label><input type="radio" name="config[closesite]" <{if $config.closesite==2}>checked="checked"<{/if}> value="2"/>商家送</label>&nbsp;&nbsp;
+                <label><input type="radio" name="config[closesite]" <{if $config.closesite==3}>checked="checked"<{/if}> value="3"/>全部</label>&nbsp;&nbsp;
+                <label><input type="radio" name="config[closesite]" <{if $config.closesite==4}>checked="checked"<{/if}> value="4"/>否</label>&nbsp;&nbsp;
+                <span class="tip-comment">(选择平台送，所有平台送商家全部打烊。选择商家送，所有商家送商家全部打烊。选择全部，所有商家全部打烊。选择否，根据商家自己设置。)</span>
+            </td>
+            </tr>
+            <tr>
+                <th>是否开启平台代收款功能：</th>
+                <td>
+                    <label><input type="radio" name="config[opendaofu]" <{if $config.opendaofu}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[opendaofu]" <{if empty($config.opendaofu)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">开启后，平台配送商家可以设置货到付款，由配送员代收</span>
+                </td>
+            </tr>
+            <tr>
+                <th>开启新订单语音提醒：</th>
+                <td>
+                    <label><input type="radio" name="config[neworder]" <{if $config.neworder}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[neworder]" <{if empty($config.neworder)}>checked="checked"<{/if}> value="0"/>否</label>
+                </td>
+            </tr>
+            <tr>
+                <th>开启催单语音提醒：</th>
+                <td>
+                    <label><input type="radio" name="config[cuiorder]" <{if $config.cuiorder}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[cuiorder]" <{if empty($config.cuiorder)}>checked="checked"<{/if}> value="0"/>否</label>
+                </td>
+            </tr>
+            <tr>
+                <th>开启退单语音提醒：</th>
+                <td>
+                    <label><input type="radio" name="config[tuiorder]" <{if $config.tuiorder}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[tuiorder]" <{if empty($config.tuiorder)}>checked="checked"<{/if}> value="0"/>否</label>
+                </td>
+            </tr>
+
+            <tr>
+                <th>平台拒绝退款订单流程</th>
+                <td>
+                    <label><input type="radio" name="config[go]" <{if $config.go==0||empty($config.go)}>checked="checked"<{/if}> value="0"/>直接完成</label>&nbsp;
+                    <label><input type="radio" name="config[go]" <{if $config.go==1}>checked="checked"<{/if}> value="1"/>继续流程</label>&nbsp;
+                    <span class="tip-comment">选择直接完成，平台拒绝退款以后订单将会直接完成。选择继续流程，订单会按照原来的订单流程继续进行。</span>
+                </td>
+            </tr>
+            <!-- <tr>
+                <th>列表页是否显示热销商品</th>
+                <td>
+                    <label><input type="radio" name="config[show]" <{if $config.show==0||empty($config.show)}>checked="checked"<{/if}> value="0"/>显示</label>&nbsp;
+                    <label><input type="radio" name="config[show]" <{if $config.show==1}>checked="checked"<{/if}> value="1"/>不显示</label>&nbsp;
+                    <span class="tip-comment">选择显示，如果商家设置热销商品，在列表页会显示。设置不显示,在列表页就不会显示。商家详情不收影响。</span>
+                </td>
+            </tr> -->
+            <tr>
+                <th>是否允许用户提现</th>
+                <td>
+                    <label><input type="radio" name="config[user_tixian]" <{if $config.user_tixian==0||empty($config.user_tixian)}>checked="checked"<{/if}> value="0"/>不允许</label>&nbsp;
+                    <label><input type="radio" name="config[user_tixian]" <{if $config.user_tixian==1}>checked="checked"<{/if}> value="1"/>允许</label>&nbsp;
+                    <span class="tip-comment">开启后可能存在用户恶意刷取红包的风险，请谨慎开启。</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>预订单自动发单</th>
+                <td>
+                    <label><input type="radio" name="config[autopei]" <{if $config.autopei==0||empty($config.autopei)}>checked="checked"<{/if}> value="0"/>关闭</label>&nbsp;
+                    <label><input type="radio" name="config[autopei]" <{if $config.autopei==1}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;&nbsp;
+                    <label><input type="text" name="config[autopei_time]" value="<{$config.autopei_time|default:'30'}>" class="input w-100"/></label>
+                    <span class="tip-comment">预订单提前自动发单时间（分钟）</span>
+                </td>
+            </tr>
+            <tr>
+                <th>自动入账(商户)</th>
+                <td>
+                    <label><input type="radio" name="config[autobills]" <{if $config.autobills==1}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;&nbsp;
+                    <label><input type="radio" name="config[autobills]" <{if $config.autobills==0||empty($config.autobills)}>checked="checked"<{/if}> value="0"/>关闭</label>&nbsp;
+                    <span class="tip-comment">开启后，后自动入账对账单</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>自动入账(骑手)</th>
+                <td>
+                    <label><input type="radio" name="config[autobills_staff]" <{if $config.autobills_staff==1}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;&nbsp;
+                    <label><input type="radio" name="config[autobills_staff]" <{if $config.autobills_staff==0||empty($config.autobills_staff)}>checked="checked"<{/if}> value="0"/>关闭</label>&nbsp;
+                    <span class="tip-comment">开启后，后自动入账对账单</span>
+                </td>
+            </tr>
+
+            <!-- 4.0升级 -->
+            <tr>
+                <th>商户默认排序</th>
+                <td>
+                    <label><input type="radio" name="config[shop_orderby]" <{if $config.shop_orderby == 'juli' || empty($config.shop_orderby)}>checked="checked"<{/if}> value="juli"/>距离</label>&nbsp;&nbsp;&nbsp;
+                    <label><input type="radio" name="config[shop_orderby]" <{if $config.shop_orderby == 'bought'}>checked="checked"<{/if}> value="bought"/>买过</label>&nbsp;&nbsp;&nbsp;
+                    <label><input type="radio" name="config[shop_orderby]" <{if $config.shop_orderby == 'viewed'}>checked="checked"<{/if}> value="viewed"/>浏览过</label>&nbsp;
+                    <span class="tip-comment"></span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>骑手送达距离</th>
+                <td>
+                    <label><input type="text" name="config[staff_distance]" value="<{$config.staff_distance|default:'100'}>" class="input w-100"/></label>
+                    <span class="tip-comment">骑手确认送达的最大距离(m)，超出距离骑手点确认送达提示当前为强制送达</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>首单优惠是否共享：</th>
+                 <td>
+                    <label><input type="radio" name="config[first_share]" <{if $config.first_share}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[first_share]" <{if empty($config.first_share)}>checked="checked"<{/if}> value="0"/>否</label>
+                    <span class="tip-comment">开启时，当用户享受首单时，其他优惠不能共享（满减、折扣）</span>
+                 </td>
+            </tr>
+            
+            <tr>
+                <th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

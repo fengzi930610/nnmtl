@@ -1,0 +1,35 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li class="on"><a href="<{link ctl='biz/weixin/reply:index'}>">微信素材</a></li>        
+    </ul>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/weixin/reply:edit'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<input type="hidden" name="reply_id" value="<{$detail.reply_id}>" />
+<table cellspacing="0" cellpadding="0" class="form">   
+<tr><th><span class="red">*</span>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+<tr><th>图片：</th>
+    <td><{if $detail.photo}><img src="<{$pager.img}>/<{$detail.photo}>" photo="<{$pager.img}>/<{$detail.photo}>" style="margin:5px 0;width:300px;height:120px;"/><br /><{/if}><input type="file" name="reply_photo" class="input w-300" /></td>
+</tr>
+<tr><th>描述：</th><td><textarea name="data[intro]" class="textarea w-300"><{$detail.intro}></textarea><br /></td></tr>
+<tr><th>内容：</th><td><textarea name="data[content]" kindeditor="full" style="width:600px;height:300px;"><{$detail.content}></textarea></td></tr>
+<tr>
+    <th>跳转URL：</th>
+    <td>
+        <input type="text" name="data[jumpurl]" value="<{$detail.jumpurl|default:''}>" class="input w-500"/><br />
+        <span class="tip-comment">如需跳转填写网址(记住必须有http://)如果填写了图文详细内容，这里请留空，不要设置！</span>
+    </td>
+</tr>
+<tr><th>查看数：</th><td><input type="text" name="data[views]" value="<{$detail.views|default:''}>" class="input w-100"/></td></tr>
+    <tr><th></th><td><input type="submit" value="保存" class="green_btn" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="magic:editorupload" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

@@ -1,0 +1,55 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th>活动列表</th>
+            <td align="right"><{link ctl="activity/activity:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<!---->
+<div class="page-data"><form action="?waimai/activity-edit-<{$detail.huodong_id}>.html" mini-form="activity-form"  method="post" enctype="multipart/form-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th><span class="red">*</span>活动标题：</th>
+            <td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>banner图：</th>
+            <td><input type="text" value="<{$detail.banner}>" <{if $detail.banner}>photo="<{$pager.img}>/<{$detail.banner}>"<{/if}> class="input w-200" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[banner]" class="input w-100" /><span class="tip-comment">banner图</span></td>
+        </tr>
+        <tr>
+            <th>活动模板：</th>
+            <td>
+                <select name="data[tmpl]">
+                    <option <{if $detail.tmpl == "waimai/huodong/shop.html"}>selected="selected"<{/if}> value="waimai/huodong/shop.html">活动商家模板</option>
+                    <option <{if $detail.tmpl == "waimai/huodong/product.html"}>selected="selected"<{/if}> value="waimai/huodong/product.html">活动商品模板</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>开始时间：</th>
+            <td>
+                <input type="text" name="data[stime]" value="<{$detail.stime|format:'Y-m-d'}>" class="input w-150" date="dateline" readonly="">
+            </td>
+        </tr>
+        <tr>
+            <th>结束时间：</th>
+            <td>
+                <input type="text" name="data[ltime]" value="<{$detail.ltime|format:'Y-m-d'}>" class="input w-150" date="dateline" readonly="">
+            </td>
+        </tr>
+        <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+    </table>
+</form>
+</div>
+<script type="text/javascript">
+
+
+
+
+</script>
+
+<{include file="admin:common/footer.html"}>

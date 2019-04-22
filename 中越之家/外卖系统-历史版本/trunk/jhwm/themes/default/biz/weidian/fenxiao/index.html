@@ -1,0 +1,51 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/weidian/fenxiao:index'}>" class="on">分销设置</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <div class="alert alert-info">
+    <div class="mb10"><b><i class="fa fa-info-circle"></i>&nbsp;温馨提示:</b><{if $fenxiao.level>0}>平台当前只支持<{$fenxiao.level}>级分销<{else}>平台当前不支持分销<{/if}></div>
+    </div>
+    <form action="<{link ctl='biz/weidian/fenxiao:index'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th>分销设置：</th>
+                <td>
+                    <ul class="group-list">
+                        <li>
+                            <{for $i=0; $i<=$fenxiao.level;$i++}>
+                            <label><input type="radio" name="data[have_fenxiao]" value="<{$i}>" <{if $shop.have_fenxiao==$i}>checked="checked"<{/if}>><{if $i==0}>关闭<{elseif $i==1}>一级<{elseif $i==2}>二级<{elseif $i==3}>三级<{/if}></label>
+                            <{/for}>
+                        </li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            <!--<tr>
+                <th>分销方式：</th>
+                <td>
+                    <ul class="group-list">
+                        <li>
+                            <label><input type="radio" name="data[fenxiao_type]" value="0" <{if $shop.fenxiao_type==0}>checked="checked"<{/if}>> 按金额</label>&nbsp;
+                            <label><input type="radio" name="data[fenxiao_type]" value="1" <{if $shop.fenxiao_type==1}>checked="checked"<{/if}>> 按比例</label>
+                        </li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>-->
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

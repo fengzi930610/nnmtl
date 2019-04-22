@@ -1,0 +1,22 @@
+<{foreach $items as $item}>
+<li class="recSeller_list">
+    <div class="pub_img fl"><img src="<{$pager.img}>/<{$item['face']}>" width="100" height="100" /></div>
+    <div class="pub_wz">
+        <p class="bt"><a href="javascript:void(0);" class="overflow_clear"><{$item['name']}></a></p>
+        <div class="nr">
+            <div class="fl">
+                <div><span class="starBg"><span class="star" style="width:<{round(($item['score']/$item['comments'])*20,2)}>%;"></span></span></div>
+                <p class="black9"><span><{if $item.age}><{$item['age']}>岁<{else}>保密<{/if}></span><span class="ml10">服务<{$item['orders']}>次</span></p>
+                <!--<div class="bq_box"><span class="bq" style="background:#fc7a95;"><{$item.orders}></span></div>-->
+            </div>
+            <div class="fr">
+                <{if $item['from'] == 'house'}>
+                <a href="<{link ctl='house/staff_detail' arg0=$item['staff_id']}>" class="pub_btn mt5 mb5">预约</a>
+                <{else if $item['from'] == 'weixiu'}>
+                <a href="<{link ctl='weixiu/staff_detail' arg0=$item['staff_id']}>" class="pub_btn mt5 mb5">预约</a>
+                <{/if}>
+            </div>
+        </div>
+    </div>
+</li>
+<{/foreach}>

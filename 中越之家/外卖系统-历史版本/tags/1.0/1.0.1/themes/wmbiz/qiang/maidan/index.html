@@ -1,0 +1,133 @@
+<{include file="merchant:block/header.html"}>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a  href="javascript:;" > 优惠买单设置</a>
+                    </li>
+                    <li class=""><a  href="<{link ctl='merchant/tuan/maidan:order'}>" >订单列表</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="panel-body">
+                            <form id="post_form" class="form-horizontal" action="<{link ctl='merchant/tuan/maidan:index'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">优惠类型：<br/></label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-10">
+                                            <label class="radio-inline"> 
+                                                <input type="radio" name="data[type]" value="1" <{if $type == 1}>checked="checked"<{/if}>>折扣 
+                                            </label> 
+                                            <label class="radio-inline">
+                                                <input type="radio" name="data[type]" value="0" <{if $type == 0}>checked="checked"<{/if}>>满减 
+                                            </label> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">最大优惠金额：</label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-4">
+                                            <input type="text" name="data[max_youhui]" value="<{$maidan.max_youhui|default:'0.00'}>" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="form-group jq_type_1">
+                                    <label class="col-sm-2 control-label">折扣：</label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-4">
+                                            <input type="text" name="data[discount]" value="<{($maidan.discount/10)|default:'0.0'}>" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group m-b-20 jq_type_0">
+                                    <label class="col-sm-2 control-label">满减：</label>
+                                    <div class="col-sm-10">
+                                        <div class="formitems col-sm-8">
+                                            <input type="hidden" id="attr_value" name="attr_value" value="" class="form-control"/>
+                                            <input type="hidden" id="attr_stock" name="attr_stock" value="" class="form-control"/>
+                                            <div class="form-controls guige newSet_guige ">
+                                                <{foreach $maidan.config as $item}>
+                                                <dl class="normslist  control-label">
+                                                    <dt>
+                                                        <span class="pull-left" style="padding:7px 10px 3px 3px;">满</span>
+                                                        <input type="text" name="data[m][]" value="<{$item.m}>" >
+                                                        <span class="pull-left" style="padding:7px 10px 3px 3px;">元</span>
+                                                        <span class="pull-left" style="padding:7px 10px 3px 3px;">减</span>
+                                                        <input type="text" name="data[d][]" value="<{$item.d}>" >
+                                                        <span class="pull-left" style="padding:7px 10px 3px 3px;">元</span>
+                                                        <a href="javascript:void(0);" class="j-delNorms"><i class="gicon-trash"></i>移除</a>
+                                                    </dt>
+                                                </dl>
+                                                <{/foreach}>
+                                                <a href="javascript:void(0);" class="jq_add sku-add" title="新增一行" >+</a>
+                                            </div>
+                                            <div class="cl"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">&nbsp;</label>
+                                    <div class="col-sm-10">
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-primary" type="submit">保存数据</button>
+                                        </div>
+                                    </div>
+                                </div>
+           
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<{include file="merchant:block/footer.html"}>
+<script>
+
+var type = parseInt(<{$type}>);
+if(type==1) {
+    $('.jq_type_0').hide();
+    $('.jq_type_1').show();
+    $('.btn.btn-success.jq_add').hide();
+}else {
+    $('.jq_type_1').hide();
+    $('.jq_type_0').show();
+    $('.btn.btn-success.jq_add').show();
+}
+
+$(".jq_add").click(function(){
+    var html = '';
+    // var html = '<tr class="jq_type_0">';
+    // html+='<td>每满&nbsp;&nbsp;<input type="text" style="width:80px;" class="input w-100" name="data[m][]" value="" />元&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;减</td>';
+    // html+='<td><input type="text" style="width:80px;" class="input w-100" name="data[d][]" value="" />元</td>';
+    // html+='<td><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td></tr>';
+    html += '<dl class="normslist  control-label">';
+        html += '<dt>';
+        html += '<span class="pull-left" style="padding:7px 10px 3px 3px;">满</span><input type="text" name="data[m][]" value="" ><span class="pull-left" style="padding:7px 10px 3px 3px;">元</span>';
+        html += '<span class="pull-left" style="padding:7px 10px 3px 3px;">减</span><input type="text" name="data[d][]" value="" ><span class="pull-left" style="padding:7px 10px 3px 3px;">元</span>';
+            html += '<a href="javascript:void(0);" class="j-delNorms"><i class="gicon-trash"></i>移除</a>';
+        html += '</dt>';
+    html += '</dl>';
+    $(this).before(html);
+})
+$(".table").on('click','.jq_delete', function () {
+    $(this).parent().parent().remove();
+})
+$(document).on('click','.normslist .j-delNorms',function () {
+    $(this).parents('.normslist').remove();
+})
+$("input[name='data[type]']").click(function () {
+    if ($(this).val() == 1) {
+        $('.jq_type_0').hide();
+        $('.jq_type_1').show();
+        $('.btn.btn-success.jq_add').hide();
+    } else {
+        $('.jq_type_1').hide();
+        $('.jq_type_0').show();
+        $('.btn.btn-success.jq_add').show();
+    }
+});
+
+</script>

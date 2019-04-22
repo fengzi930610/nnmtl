@@ -1,0 +1,70 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/tuan/order:index'}>">订单列表</a>
+        <a href="javascript:void(0);" class="on">订单详情</a>
+    </ul>
+</div>     
+<div class="ucenter_c">
+<table cellspacing="0" cellpadding="0" class="table">
+        <tr>
+            <th>订单ID：</th><td class="w-300"><{$detail.order_id}></td>
+            <th>用户：</th><td><{$detail.contact}></td>
+        </tr>
+        <tr>
+            <th>商家：</th><td><span class="red"><{$shop.title}></span></td>
+            <th>商品总价：</th><td><{$detail.total_price}></td>
+        </tr>
+        <tr><th>商品数量：</th><td><{$detail.tuan_number}></td><th>使用余额支付：</th><td><{$detail.money}></td></tr>
+        <tr><th>手机号：</th><td><{$detail.mobile}></td><th>订单状态：</th><td><span style="color: red"><{$detail.order_status_label}></span></td></tr> 
+        <tr><th>是否在线支付：</th><td><{if $detail.online_pay ==1}>是<{else}>否<{/if}></td><th>支付状态：</th><td><{if $detail.pay_status ==1}>已支付<{else}>未支付<{/if}></td></tr>
+        <tr>
+            <th>经纬度：</th><td>经度：<{$detail.lng}>纬度：<{$detail.lat}></td>
+            <th>团购名称：</th><td><span style="color: green"><{$detail.tuan_title}></span></td>
+        </tr>
+        <tr><th>下单时间：</th><td><{$detail.dateline|format:'Y-m-d H:i:s'}></td><th>客户IP：</th><td><{$detail.clientip|cutstr:6:"***"}>(<{$detail.clientip|iplocal}>)</td></tr>
+        <tr><th>支付时间：</th><td><span class="red"><{$detail['pay_time']|format:'Y-m-d H:i:s'}></span></td><th>过期时间：</th><td><span class="green"><{$detail['ltime']|format:'Y-m-d H:i:s'}></span></td></tr>
+        <tr><td colspan="10" class="h-10"></td></tr>
+</table>                           
+<table width="100%" border="0" cellspacing="0" class="table-data table">
+<tr>
+    <th class="w-100">日志编号</th>
+    <th>日志</th>
+    <th class="w-200">时间</th>
+</tr>
+<{foreach $log_list as $v}>
+<tr >
+    <td><{$v.log_id}></td>
+    <td><{$v.log}></td>
+    <td><{$v.dateline|format}></td>
+</tr>
+<{/foreach}>
+</table> 
+</div>
+<script>
+$(document).ready(function() {
+    var shop_msg_id = localStorage['shop_msg_id'];
+    setread(shop_msg_id);
+});
+
+function setread(shop_msg_id) {
+    var link = "<{link ctl='biz/msg:setread' arg0='temp'}>";
+    jQuery.ajax({
+        url: link.replace('temp', shop_msg_id),
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if (ret.error > 0) {
+                //Widget.MsgBox.success(ret.message);
+            } else {
+                //Widget.MsgBox.success(ret.message);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+      },
+    });
+}
+</script>
+<{include file="biz/block/footer.html"}>

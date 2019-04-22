@@ -1,0 +1,97 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="javascript:void(0);" class="on">外卖</a>
+        <!--<a href="<{link ctl='biz/tongji:t_orderfrom'}>" >团购</a>
+        <a href="<{link ctl='biz/tongji:m_orderfrom'}>">优惠买单</a>-->
+    </ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <td colspan="2">
+                <div class="tableBox">
+                    <div id="week_cicle">
+                    </div>
+                    <div id="month_cicle" style="margin-top:20px">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<{include file="biz/block/footer.html"}>
+<script>
+$(function () {
+    $('#week_cicle').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '近一周商品销量饼状图'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '商品销量',
+            data: [
+                <{foreach $week_data as $v1}>
+                ['<{$v1.title}>',   <{if empty($v1.sale_cnt)}>0<{else}><{$v1.sale_cnt}><{/if}>],
+                <{/foreach}>
+            ]
+        }],
+    });
+
+    $('#month_cicle').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '近一月商品销量饼状图'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '商品销量',
+            data: [
+                <{foreach $month_data as $v2}>
+                ['<{$v2.title}>',   <{if empty($v2.sale_cnt)}>0<{else}><{$v2.sale_cnt}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+});
+</script>

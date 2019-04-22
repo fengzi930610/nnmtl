@@ -1,0 +1,197 @@
+<{foreach $items as $item}>
+    <li>
+        <a href="<{link ctl='webview/qiang/order/detail' arg0=$item.order_id http='wmbiz'}>">
+            <div class="border_b pub_list top">
+                <div class="pub_list_bd">#<{$item.order_id}>&nbsp;&nbsp;<{$item.member.nickname}> （<{$item.member.mobile}>）</div>
+                <div class="maincl"><{$item.status_label}></div>
+            </div>
+            <div class="border_b mid">
+                <div class="pub_list">
+                    <div class="name">商品信息：</div>
+                    <div class="pub_list_bd"><{$item.qiang_order.qiang_title}></div>
+                    <div class="ml10">x<{$item.qiang_order.qiang_number}></div>
+                    <div class="ml10">￥<{$item.qiang_order.qiang_number * $item.qiang_order.qiang_discount_price}></div>
+                </div>
+                <div class="border_b pub_list">
+                    <div class="pub_list_bd">运费：</div>
+                    <div>￥<{$item.qiang_order.qiang_freight}></div>
+                </div>
+                <div class="pub_list">
+                    <div class="name">下单时间：</div>
+                    <div class="pub_list_bd"><{$item.dateline|format:'Y-m-d H:i:s'}></div>
+                </div>
+                <{if $item.qiang_order.use_ltime}>
+                    <div class="pub_list">
+                        <div class="name">过期时间：</div>
+                        <div class="pub_list_bd"><{$item.qiang_order.use_ltime|format:'Y-m-d H:i:s'}></div>
+                    </div>
+                <{/if}>
+            </div>
+            <div class="border_b pub_list bot">
+                <div class="price"><span class="maincl">￥<{$item.amount+$item.money}></span></div>
+                <div class="pub_list_bd text_r btn_box" order_id="<{$item.order_id}>">
+                    <{if $item.show_btn.ticket}>
+                        <a href="javascript:;" class="btn1 hexiao_btn">去核销</a>
+                    <{/if}>
+                    <{if $item.show_btn.delivery}>
+                        <a href="javascript:;" class="btn1 see_wuliu">发货</a>
+                    <{/if}>
+                    <{if $item.show_btn.wuliu}>
+                        <a href='<{link ctl="webview/qiang/order:wuliu" args=$item.order_id http="wmbiz"}>' class="btn1">查看物流</a>
+                    <{/if}>
+                    <{if $item.show_btn.payback}>
+                        <a href="javascript:;" class="btn1 go_payback">取消订单并退款</a>
+                    <{/if}>
+                    <{if $item.show_btn.canel}>
+                        <a href="javascript:;" class="btn1 go_canel">取消订单</a>
+                    <{/if}>
+                </div>
+            </div>
+        </a>
+    </li>
+<{/foreach}>
+<{if empty($items) && $page == 1}>
+    <div class="no_order">
+        <img src="%THEME%/webview/qiang/static/images/icon_no_data.png" />
+        <p>暂无订单</p>
+    </div>  
+<{/if}>
+<!-- 物流弹出框 -->
+<div class="wuliuPop" style="display: none;">
+    <div class="mask_bg" style="display: block;"></div>
+    <div class="cont">
+        <div class="border_b tit">查物流</div>
+        <div class="list_box">
+            <div class="border_b list pub_list">
+                <div class="pub_list_bd">快递公司</div>
+                <select id="express_name">
+                    <{foreach $express_config as $v}>
+                    <option value="<{$v}>"><{$v}></option>
+                    <{/foreach}>
+                </select>
+                <i class="r_arrow"></i>
+            </div>
+            <div class="border_b list pub_list">
+                <div class="pub_list_bd">物流单号</div>
+                <input type="text" id="express" placeholder="请输入物流单号" />
+            </div>
+        </div>
+        <div class="btn go_delivery">确定</div>
+        <i class="close"></i>
+    </div>
+</div>
+<!-- 物流弹出框end -->
+
+<!-- 验证核销弹出框 -->
+<div class="hexiaoPop" style="display: none;">
+    <div class="mask_bg" style="display: block;"></div>
+    <div class="cont">
+        <div class="tit">
+            <h3>验证提示</h3>
+            <p class="mt5">选择<span class="maincl">扫描二维码</span>或<span class="maincl">输入券码</span>进行验证</p>
+        </div>
+        <div class="int_box"><input type="text" placeholder="请输入券码" id="sk_number"/></div>
+        <div class="code_box go_scan"><i></i>扫描二维码</div>
+        <div class="border_t pub_list btn_box">
+            <a href="javascript:;" class="border_r pub_list_bd cancel">取消</a>
+            <a href="javascript:;" class="maincl pub_list_bd go_ticket">确定</a>
+        </div>
+    </div>
+</div>
+<!-- 验证核销弹出框 end-->
+
+<script type="text/javascript">
+$('.see_wuliu').click(function(){
+    $('.go_delivery').attr('rel', $(this).parents().attr('order_id'));
+    $('.wuliuPop').fadeIn(200);
+});
+$('.mask_bg,.wuliuPop .close').click(function(){
+    $('#express').val('');
+    $('.wuliuPop').fadeOut(200);
+});
+
+$('.hexiao_btn').click(function(){
+    $('.go_ticket').attr('rel', $(this).parents().attr('order_id'));
+    $('.hexiaoPop').fadeIn(200);
+});
+$('.hexiaoPop .mask_bg,.hexiaoPop .cancel').click(function(){
+    $('#sk_number').val('');
+    $('.hexiaoPop').fadeOut(200);
+});
+
+$('.go_delivery').click(function(){
+    var order_id = $(".go_delivery").attr('rel');
+    var express = $('#express').val();
+    var express_name = $('#express_name').val();
+    $.post("<{link ctl='qiang/order:delivery' http='wmbiz'}>", {order_id: order_id,express:express,express_name:express_name}, function (ret) {
+        layer.msg(ret.message);
+        if(ret.error == 0){
+            setTimeout(function(){window.location.reload();},600);
+        }
+    },'json');
+});
+
+
+$('body').on('click','.go_ticket',function(){
+    var order_id = $(".go_ticket").attr('rel');
+    var number = $('#sk_number').val();
+    $.post("<{link ctl='webview/qiang/order/order_check' http='wmbiz'}>", {order_id: order_id,number:number}, function (ret) {
+        layer.msg(ret.message);
+        if (ret.error == 0) {
+            localStorage.setItem('qiang_list_url', 1);
+            var link = "<{link ctl='webview/qiang/order/ticket' arg0='__ORDER_ID__' http='wmbiz'}>";
+            setTimeout(function(){
+                window.location.href = link.replace("__ORDER_ID__",order_id);
+            },600);
+        }
+    },'json');
+});
+
+$('.go_scan').click(function(){
+    if(typeof(window.JHAPP)=='object'){
+        localStorage.setItem('qiang_list_url', 1);
+        window.JHAPP.go_scan();
+    }else{
+        layer.msg('当前环境非APP!');
+    }
+});
+
+$('body').on('click','.go_payback',function(){
+    var order_id = $(this).parents().attr('order_id');
+    var link = '<{link ctl="qiang/order:payback" arg0="#ORDER_ID#" http="wmbiz"}>';
+    Widget.MsgBox.confirm('确认取消订单并退款吗？',function(e){
+        if(e){
+            $.get(link.replace('#ORDER_ID#',order_id),function(e){
+                if(e.error>0){
+                    layer.msg(e.message);
+                }else{
+                    layer.msg('取消成功');
+                    setTimeout(function () {
+                       window.location.reload();
+                    }, 600);
+                }
+            },'json')
+        }
+    });
+})
+
+//取消
+$('body').on('click','.go_canel',function(){
+    var order_id = $(this).parents().attr('order_id');
+    var link = '<{link ctl="qiang/order:cancel" arg0="#ORDER_ID#" http="wmbiz"}>';
+    Widget.MsgBox.confirm('确认取消订单吗？',function(e){
+        if(e){
+            $.get(link.replace('#ORDER_ID#',order_id),function(e){
+                if(e.error>0){
+                    layer.msg(e.message);
+                }else{
+                    layer.msg('取消成功');
+                    setTimeout(function () {
+                       window.location.reload();
+                    }, 600);
+                }
+            },'json')
+        }
+    });
+})
+</script>

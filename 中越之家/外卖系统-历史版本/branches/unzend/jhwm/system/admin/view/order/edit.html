@@ -1,0 +1,45 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="order/order:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?order/order-edit.html" mini-form="order-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="order_id" value="<{$detail.order_id}>"/>
+<tr><th><span class="red">*</span>订单ID：</th><td><input type="text" name="data[order_id]" value="<{$detail.order_id|default:''}>" class="input w-100"/><span class="tip-comment">订单ID</span></td></tr>
+<tr><th><span class="red">*</span>城市ID：</th><td><input type="text" name="data[city_id]" value="<{$detail.city_id|default:''}>" class="input w-100"/><span class="tip-comment">城市ID</span></td></tr>
+<tr><th><span class="red">*</span>商户ID：</th><td><input type="text" name="data[shop_id]" value="<{$detail.shop_id|default:''}>" class="input w-100"/><span class="tip-comment">商户ID</span></td></tr>
+<tr><th><span class="red">*</span>服务人员ID：</th><td><input type="text" name="data[staff_id]" value="<{$detail.staff_id|default:''}>" class="input w-100"/><span class="tip-comment">服务人员ID</span></td></tr>
+<tr><th><span class="red">*</span>用户UID：</th><td><input type="text" name="data[uid]" value="<{$detail.uid|default:''}>" class="input w-100"/><span class="tip-comment">用户UID</span></td></tr>
+<tr><th><span class="red">*</span>订单类型：</th><td><input type="text" name="data[from]" value="<{$detail.from|default:''}>" class="input w-300"/><span class="tip-comment">订单类型： tuan:团购,waimai:外卖,paotui:跑腿,weixiu:维修,maidan:买单,house:家政</span></td></tr>
+<tr><th><span class="red">*</span>订单状态：</th><td><input type="text" name="data[order_status]" value="<{$detail.order_status|default:''}>" class="input w-100"/><span class="tip-comment">订单状态</span></td></tr>
+<tr><th><span class="red">*</span>付款方式：</th><td><input type="text" name="data[online_pay]" value="<{$detail.online_pay|default:''}>" class="input w-100"/><span class="tip-comment">付款方式   0:货到付款,1:在线支付</span></td></tr>
+<tr><th><span class="red">*</span>支付状态：</th><td><input type="text" name="data[pay_status]" value="<{$detail.pay_status|default:''}>" class="input w-100"/><span class="tip-comment">支付状态 0:未支付，1:已支付</span></td></tr>
+<tr><th><span class="red">*</span>支付状态：</th><td><input type="text" name="data[trade_no]" value="<{$detail.trade_no|default:''}>" class="input w-100"/><span class="tip-comment">支付流水号</span></td></tr>
+<tr><th><span class="red">*</span>订单总金额：</th><td><input type="text" name="data[total_price]" value="<{$detail.total_price|default:''}>" class="input w-100"/><span class="tip-comment">订单总金额</span></td></tr>
+<tr><th><span class="red">*</span>红包ID：</th><td><input type="text" name="data[hongbao_id]" value="<{$detail.hongbao_id|default:''}>" class="input w-100"/><span class="tip-comment">红包ID</span></td></tr>
+<tr><th><span class="red">*</span>红包金额：</th><td><input type="text" name="data[hongbao]" value="<{$detail.hongbao|default:''}>" class="input w-100"/><span class="tip-comment">红包金额</span></td></tr>
+<tr><th><span class="red">*</span>优惠总金额：</th><td><input type="text" name="data[youhui_amount]" value="<{$detail.youhui_amount|default:''}>" class="input w-100"/><span class="tip-comment">优惠总金额</span></td></tr>
+<tr><th><span class="red">*</span>优惠总金额：</th><td><input type="text" name="data[money]" value="<{$detail.money|default:''}>" class="input w-100"/><span class="tip-comment">余额抵扣</span></td></tr>
+<tr><th><span class="red">*</span>需支付金额：</th><td><input type="text" name="data[amount]" value="<{$detail.amount|default:''}>" class="input w-100"/><span class="tip-comment">需支付金额 =product_price+freight-order_youhui-first_youhui-hongbao-money</span></td></tr>
+<tr><th><span class="red">*</span>需支付金额：</th><td><input type="text" name="data[o_lng]" value="<{$detail.o_lng|default:''}>" class="input w-100"/><span class="tip-comment">接单起点经度坐标</span></td></tr>
+<tr><th><span class="red">*</span>接单起点纬度坐标：</th><td><input type="text" name="data[o_lat]" value="<{$detail.o_lat|default:''}>" class="input w-100"/><span class="tip-comment">接单起点纬度坐标</span></td></tr>
+<tr><th><span class="red">*</span>联系人：</th><td><input type="text" name="data[contact]" value="<{$detail.contact|default:''}>" class="input w-300"/><span class="tip-comment">联系人</span></td></tr>
+<tr><th><span class="red">*</span>手机号：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-300"/><span class="tip-comment">手机号</span></td></tr>
+<tr><th><span class="red">*</span>收货地址：</th><td><input type="text" name="data[addr]" value="<{$detail.addr|default:''}>" class="input w-300"/><span class="tip-comment">收货地址</span></td></tr>
+<tr><th><span class="red">*</span>收货地小区门牌号：</th><td><input type="text" name="data[house]" value="<{$detail.house|default:''}>" class="input w-300"/><span class="tip-comment">收货地小区门牌号</span></td></tr>
+<tr><th><span class="red">*</span>收货地纬度坐标：</th><td><input type="text" name="data[lng]" value="<{$detail.lng|default:''}>" class="input w-100"/><span class="tip-comment">收货地纬度坐标</span></td></tr>
+<tr><th><span class="red">*</span>收货地经度坐标：</th><td><input type="text" name="data[lat]" value="<{$detail.lat|default:''}>" class="input w-100"/><span class="tip-comment">收货地经度坐标</span></td></tr>
+<tr><th><span class="red">*</span>订单日期：</th><td><input type="text" name="data[day]" value="<{$detail.day|default:''}>" class="input w-100"/><span class="tip-comment">订单日期格式20160220</span></td></tr>
+<tr><th><span class="red">*</span>客户IP：</th><td><input type="text" name="data[clientip]" value="<{$detail.clientip|default:''}>" class="input w-300"/><span class="tip-comment">客户IP</span></td></tr>
+<tr><th><span class="red">*</span>创建时间：</th><td><input type="text" name="data[dateline]" value="<{$detail.dateline|default:''}>" class="input w-300"/><span class="tip-comment">创建时间</span></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

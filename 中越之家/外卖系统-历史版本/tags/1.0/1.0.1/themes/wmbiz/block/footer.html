@@ -1,0 +1,33 @@
+        </div>
+    </div>
+<link href="<{$pager.res}>/cdn/bootstrap-datepicker/css/bootstrap-datepicker.min.css?<{$TMPLVER}>" rel="stylesheet">
+<script src="<{$pager.res}>/cdn/bootstrap-datepicker/js/bootstrap-datepicker.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts.js?<{$TMPLVER}>"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".navbar-static-top .userInfo_box").mousemove(function(){
+        $(".navbar-static-top .userInfo_box .userInfo").addClass("on");
+        $(".navbar-static-top .userInfo_box .dropMenu").show();
+    });
+    $(".navbar-static-top .userInfo_box").mouseleave(function(){
+        $(".navbar-static-top .userInfo_box .userInfo").removeClass("on");
+        $(".navbar-static-top .userInfo_box .dropMenu").hide();
+    });
+    $(".input-daterange").datepicker({
+        language : "zh-CN",
+        keyboardNavigation: !1,
+        forceParse: !1,
+        autoclose: !0,
+        format: "yyyy-mm-dd"
+    });
+});
+</script>
+<script type="text/javascript">
+    //屏蔽自动填充表单
+    if(document.querySelector('input[type="password"]')){
+        document.querySelector('input[type="password"]').autocomplete = 'new-password';
+    };
+</script>
+</body>
+</html>

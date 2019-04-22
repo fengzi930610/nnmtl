@@ -1,0 +1,80 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/bill/index:index'}>" class="on">编辑缴费单</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='wuye/bill/index:edit' args=$detail.bill_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            
+            <tr>
+                <th>帐单编号：</th>
+                <td>
+                    <input type="text" name="data[bill_sn]" value="<{$detail.bill_sn}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>总价：</th>
+                <td>
+                    <{$detail.total_price}>
+                </td>
+            </tr>
+            <tr>
+                <th>物业费：</th>
+                <td>
+                    <input type="text" name="data[wuye_price]" value="<{$detail.wuye_price}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>车位费：</th>
+                <td>
+                    <input type="text" name="data[chewei_price]" value="<{$detail.chewei_price}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>水费：</th>
+                <td>
+                    <input type="text" name="data[shui_price]" value="<{$detail.shui_price}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>电费：</th>
+                <td>
+                    <input type="text" name="data[dian_price]" value="<{$detail.dian_price}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>燃气费：</th>
+                <td>
+                    <input type="text" name="data[ranqi_price]" value="<{$detail.ranqi_price}>" class="input w-200"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+
+$("[name='data[stock_type]']").click(function () {
+if ($(this).val() == 1) {
+    $("#tr_sale_sku1").show();
+} else {
+    $("#tr_sale_sku1").hide();
+}
+});
+$("[name='data[stock_type]']:checked").trigger("click");
+})(window.KT, window.jQuery);
+
+</script>  
+<{include file="wuye/block/footer.html"}>
+

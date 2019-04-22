@@ -1,0 +1,103 @@
+<{assign var='tpl_title' value=L("活动商家")}>
+<{include file="waimai/block/header.html"}>
+<style>
+    .container_mid{background: #592818 !important;}
+    .store_lists .state { position: absolute; left: 0; right: 0; bottom: 0; line-height: 18px; text-align: center; background: #bbb; color: #fff; display: block; font-size: 10px;}
+
+    .activity .ico{width: 16px !important; height: 16px !important; display: inline-block; border-radius: 4px; line-height: 16px; text-align: center; color: #fff; font-size: 12px; font-style: normal; margin: 4px 4px 4px 0;}
+    
+    .ztShangjia-huodong .store_lists li .bg { float: right; display: inline-block; font-size: 10px !important; border: 1px solid #2797ff; color: #2797ff; border-radius: 5px 0 5px 0; padding: 0 3px; line-height: 16px; background: #fff}
+    .ztShangjia-huodong .store_lists li .bg2 { border-color: #ff9000; color: #ff9000;}
+
+    .activity .ico{ height: 20px;}
+    .activity .ico p{ height: 20px; line-height: 20px;}
+    .ztShangjia-huodong .store_lists .activity .box i{ vertical-align: unset;}
+</style>
+
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+                <div class="container_mid">
+                   <div class="ztShangjia-ban">
+                       <img width="100%" src="<{$pager.img}>/<{$detail.banner}>">
+                   </div> 
+                   <div class="ztShangjia-huodong">
+                        <div class="huodong-tit"><{$detail.title}></div>
+                        <div class="huodong-time mb10">活动时间：<{$detail.stime|format:'Y/m/d'}>-<{$detail.ltime|format:'Y/m/d'}></div>
+                        <div class="store_lists">
+                            <ul>
+                                <{foreach $shops as $k=>$item}>
+                                <li class="mb10"> 
+                                    <a href="<{link ctl='shop/detail' args=$item.shop_id http='waimai'}>">
+                                        <div class="">
+                                            <span class="bg <{if $item['pei_type'] == 1}>bg2<{/if}>"><{if $item['pei_type'] == 1}>平台专送<{else}>商家配送<{/if}><!-- <i></i> --></span>
+                                            <div class="pic fl">
+                                                <img width="70" height="70" src="<{$pager.img}>/<{$item.logo}>"/>
+                                                <{if $item.yyst == 0}>
+                                                <div class="state text_c"><span>打烊了</span></div>
+                                                <{/if}>
+                                            </div>
+                                            <div class="txt black9">
+                                                <p class="overflow_clear black3 tit"><{$item.title}></p>
+                                                <div class="sale"><div class="starBg"><span class="star" style="width: <{$item['avg_score']*20}>%;"></span></div><span class="fontcl3 ml10 mr10"><{$item['avg_score']}>分</span>已售<{$item['orders']}>单</div>
+                                                <div class="pub_list"><span class="pub_list_bd">￥<{$item['min_amount']}>起送 / <{if $item['freight']>0}>配送费￥<{$item['freight']}><{else}>免配送费<{/if}></span><span><{$item['juli_label']}>/<span class="fontcl1"><{$item['pei_time']}>分钟</span></span></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="activity">
+                                        <div class="pull_down" ><span></span>活动<i class="ico_xia"></i></div>
+                                        <div class="box">
+                                            <!-- <{if $item.first.first_amount}>
+                                            <p class=""><i class="ico_shou"></i><span>新用户首单优惠￥<{$item.first.first_amount}></span></p>
+                                            <{/if}>
+                                            <{if $item.manjian}>
+                                            <p><i class="ico_jian"></i><{$item.manjian.title}></p>
+                                            <{/if}>
+                                            <{if $item.manfan}>
+                                            <p><i class="ico_fan"></i><{$item.manfan.title}></p>
+                                            <{/if}>
+                                            <{if $item.coupon}>
+                                            <p><i class="ico_quan"></i><{$item.coupon}></p>
+                                            <{/if}>
+                                            <{if !empty($item.discount)}><p><i class="ico_zhe"></i><{$item.discount.title}></p><{/if}> -->
+                                            <{foreach $item.huodong as $hd}>
+                                            <p><i class="ico" style="background-color: #<{$hd.color}>"><{$hd.word}></i><{$hd.title}></p>
+                                            <{/foreach}>
+                                        </div>
+                                    </div>
+                                </li>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                   </div>
+                </div>
+    	</div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".activity .box").each(function(){
+            var num = $(this).find("p").length;
+            if(num>=2){
+                $(this).parent('.activity').find(".pull_down span").html(num+'个');
+                $(this).parent('.activity').find(".pull_down").show();
+            }else{
+                $(this).parent('.activity').find(".pull_down").remove();
+            }
+        });
+        $(".activity .pull_down").click(function(){
+            if($(this).parent().find(".box").hasClass("on")){
+                $(this).parent().find(".box").removeClass("on");
+            }else{
+                $(this).parent().find(".box").addClass("on");
+            };
+
+            if($(this).find('.ico_xia').hasClass('on')){
+                $(this).find('.ico_xia').removeClass('on')
+            }else{
+                $(this).find('.ico_xia').addClass('on')
+            }
+        });
+    });
+</script>
+<{include file="waimai/block/footer.html"}>

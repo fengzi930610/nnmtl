@@ -1,0 +1,49 @@
+<{assign var="page_title" value="忘记密码-设置成功"}>
+<{assign var='tpl_title' value=L("忘记密码-设置成功")}>
+<{include file="pchome/block/header.html"}>
+<div class="headerTop_one">
+    <div class="smallpage">
+        <div class="logo fl">
+            <img src="<{$pager.img}>/<{$site.logo2}>">
+        </div>
+        <div class="tit fl">找回密码</div>
+        <div class="fr">
+            <a href="<{link ctl='passport/login'}>" class="btn maincl">登录</a>
+            <a href="<{link ctl='passport/register'}>" class="btn">注册</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="forget_box bg_grey">
+    <div class="forget_box_small">
+        <div class="tit">
+            <ul>
+                <li>
+                    <span>1</span>验证手机号
+                </li>
+                <li class="img"><img src="/themes/default/pchome/static/images/forget_ico1.png"></li>
+                <li>
+                    <span>2</span>设置新密码
+                </li>
+                <li class="img"><img src="/themes/default/pchome/static/images/forget_ico1.png"></li>
+                <li class="on">
+                    <span>3</span>完成
+                </li>
+            </ul>
+        </div>
+        <div class="cont">
+                <div class="succeed_box">
+                    <img src="/themes/default/pchome/static/images/forget_img.png">
+                    <P>恭喜你，密码修改成功</P>
+                </div>
+                <input type="button" value="立即登陆" class="long_btn">
+        </div>
+    </div>
+</div>
+<script>
+    var link = "<{link ctl='passport/login'}>";
+    $('.long_btn').click(function(){
+        window.location.href=link;
+    })
+</script>
+<{include file="pchome/block/footer.html"}>

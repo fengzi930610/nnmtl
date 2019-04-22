@@ -1,0 +1,182 @@
+<{assign var="page_title" value="预约列表"}>
+<{assign var='tpl_title' value=L("预约列表")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+        <{include file="pchome/ucenter/block/left.html"}>
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="myOrder_nr">
+                <div class="top">
+                    <h2 class="fl bt">预约订单</h2>
+                    <div class="fl tab">
+                        <a href="<{link ctl='ucenter/ding/index' date=$date}>" <{if $st==0}>class="on"<{/if}> >全部<{if $total_count>0}><em class="fontcl1 ml5"><{$total_count}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/ding/index' arg0=1 date=$date}>" <{if $st==1}>class="on"<{/if}> >待确认<{if $count_1>0}><em class="fontcl1 ml5"><{$count_1}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/ding/index' arg0=2 date=$date}>" <{if $st==2}>class="on"<{/if}> >已确认<{if $count_2>0}><em class="fontcl1 ml5"><{$count_2}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/ding/index' arg0=3 date=$date}>" class="last <{if $st==3}>on<{/if}>">已取消<{if $count_3>0}><em class="fontcl1 ml5"><{$count_3}></em><{/if}></a>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="box">
+                    <table border="0" width="100%">
+                        <tr class="tit">
+                            <th>
+                        <div class="ml10 fl">
+                            <select name="jq_date" id="jq_date">
+                                <option <{if $date==0}>selected="selected"<{/if}> value="0">全部订单</option>
+                                <option <{if $date==1}>selected="selected"<{/if}> value="1">近一周订单</option>
+                                <option <{if $date==2}>selected="selected"<{/if}> value="2">近一月订单</option>
+                                <option <{if $date==3}>selected="selected"<{/if}> value="3">近三月订单</option>
+                                <option <{if $date==4}>selected="selected"<{/if}> value="4">近一年订单</option>
+                            </select>
+                        </div>
+                        <span class="fl">商家店铺</span>
+                        </th>
+                        <th>到店时间</th>
+                        <th>就餐人数</th>
+                        <th>订单状态</th>
+                        <th>操作</th>
+                        </tr>
+                        <{foreach $items as $item}>
+                        <!-- 订单 -->
+                        <tr class="no">
+                            <td colspan="6"><!--中间间隔勿删--></td>
+                        </tr>
+                        <tr class="state_box">
+                            <td colspan="6">
+                                <p class="fl black9 ml10 mr30"><{$item.dateline|format:'Y-m-d H:i:s'}></p>
+                                <p class="fl black9">订单号：<span class="black3"><{$item.dingzuo_id}></span></p>
+                                <p class="fl black6 phone"><i class="ico"></i><{$shops[$item['shop_id']]['phone']|default:"$shops[$item['shop_id']]['mobile']"}></p>
+                                <div class="clear"></div>
+                            </td>
+                        </tr>
+                        <tr class="cont_box">
+                            <td>
+                                <div class="img_wz ml10">
+                                    <div class="img fl"><a href="<{link ctl='shop/detail' args=$item.shop_id}>"><img src="<{$pager.img}>/<{$shops[$item['shop_id']]['logo']}>"/></a></div>
+                                    <div class="wz_box">
+                                        <h3 class="overflow_clear"><a href="<{link ctl='shop/detail' args=$item.shop_id}>"><{$shops[$item['shop_id']]['title']}></a></h3>
+                                        <p class="overflow_clear black9"><{$shops[$item['shop_id']]['addr']}></p>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </td>
+                            <td><P class="black6"><{$item.yuyue_time|format:'Y-m-d H:i'}></P></td>
+                            <td><P class="black6"><{$item.yuyue_number}></P></td>
+                            <td>
+                                <P class="fontcl2"><{$item.order_status_label}></P>
+                                <a href="<{link ctl='ucenter/ding/detail' args=$item.dingzuo_id}>">订单详情</a>
+                            </td>
+                            <td>
+                                <{if $item.order_status == 0 }>
+                                <a href="javascript:void(0);" rel="<{$item.dingzuo_id}>" class="btn_warning btn_outline mr10">点我催单</a>
+                                <a href="javascript:void(0);" rel="<{$item.dingzuo_id}>" class="btn_lineno mr10 btn_quxiao">取消订单</a>
+                                <{else}>
+                                <a href="javascript:void(0);" rel="<{$item.dingzuo_id}>" class="btn_lineno mr10 btn_delete">删除订单</a>
+                                <{/if}>
+                            </td>
+                        </tr> 
+                        <!-- 订单结束 -->
+                        <{/foreach}>                 
+                    </table>
+                </div>
+                <!--分页-->
+                <div class="pageNum_box mt10 mb10">
+                    <{$pager.pagebar}>
+                </div>
+                <!--分页end-->
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- 弹出层 -->
+<div class="mq_mask_bg" style="display:none;"></div>
+<div class="mq-orderParticulars-pop mq-orderParticulars-pop-two mq-orderParticulars-pop-quxiao">
+    <div class="quxiao-tit">请选择取消理由</div>
+    <div class="reasons">
+        <{foreach $reason_list as $v}>
+        <label><div><input type="radio" name="reason" value="<{$v}>"><{$v}></div></label>
+        <{/foreach}>
+    </div>
+    <div class="btns">
+        <a href="javascript:void(0);" class="btn cancel">放弃取消</a>
+        <a href="javascript:void(0);" rel="" class="btn pay active">确定取消</a>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- 弹出层结束 -->
+<script>
+    //弹出层
+    $(function () {
+        $('.btn_quxiao').click(function () {
+            var dingzuo_id = $(this).attr("rel");
+            $(".btns .active").attr("rel", dingzuo_id);
+            $('.mq_mask_bg').fadeIn(100);
+            $('.mq-orderParticulars-pop').fadeIn(100);
+        });
+        $('.mq-orderParticulars-pop-quxiao .cancel,.mq_mask_bg').click(function () {
+            $('.mq_mask_bg').fadeOut(100);
+            $('.mq-orderParticulars-pop').fadeOut(100);
+        });
+        $(document).ready(function () {
+            $('.mq-orderParticulars-pop .reasons div').click(function () {
+                $(this).addClass('active').parent().siblings().find('div').removeClass('active')
+            })
+        });
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#jq_date").change(function () {
+            var date = $(this).val();
+            var link = "<{link ctl='ucenter/ding/index' arg0=$st date=oooo}>";
+            var url = "";
+            if (date > 0) {
+                url = link.replace("oooo", date);
+            } else {
+                url = "<{link ctl='ucenter/ding/index' arg0=$st}>";
+            }
+            window.location.href = url;
+        })
+
+        $(".btn_warning").click(function () {  //催单
+            var dingzuo_id = $(this).attr("rel");
+            var link = "<{link ctl='ucenter/ding/cuidan'}>";
+            $.post(link, {"dingzuo_id": dingzuo_id}, function (ret) {
+                layer.msg(ret.message);
+                //if(ret.error == 0){
+                //    window.location.reload(true);
+                //}
+            }, 'json')
+        })
+
+        $(".btns .active").click(function () {  //取消
+            var dingzuo_id = $(this).attr("rel");
+            var reason = $("input[name='reason']:checked").val();
+            var link = "<{link ctl='ucenter/ding/cancel'}>";
+            $.post(link, {"dingzuo_id": dingzuo_id, "reason": reason}, function (ret) {
+                layer.msg(ret.message);
+                if (ret.error == 0) {
+                    window.location.reload(true);
+                }
+            }, 'json')
+        })
+
+        $(".btn_delete").click(function () {  //删除
+            var dingzuo_id = $(this).attr("rel");
+            var link = "<{link ctl='ucenter/ding/delete'}>";
+            $.post(link, {"dingzuo_id": dingzuo_id}, function (ret) {
+                layer.msg(ret.message);
+                if (ret.error == 0) {
+                    window.location.href = "<{link ctl='ucenter/ding/index'}>";
+                }
+            }, 'json')
+        })
+
+    })
+</script>
+<{include file="pchome/block/footer.html"}>

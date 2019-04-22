@@ -1,0 +1,544 @@
+<{include file="weidian/block/header.html"}>
+<style>
+    .starBg{width: 0.75rem !important;}
+</style>
+<section class="page_center_box">
+    <!--内容-->
+    <div class="shangpin_banner">
+        <div class="flexslider">  
+            <ul class="slides">  
+                <li><img src="<{$pager.img}>/<{$detail.photo}>" /></li>
+            </ul>  
+        </div>
+    </div>
+    <div class="shangpinInfor">
+        <div class="wz">
+            <p class="left"><{$detail.title}></p>
+            <{if $MEMBER.uid > 0}>
+            <{if $is_collect}>
+            <a href="javascript:void(0);" class="shoucang_box on" pid="<{$detail.product_id}>">
+                <i class="ico"></i>
+                <p style='color:#59c181;'>已收藏</p>
+            </a>
+            <{else}>
+            <a  href="javascript:void(0);" class="shoucang_box" pid="<{$detail.product_id}>">
+                <i class="ico"></i>
+                <p>收藏</p>
+            </a>
+            <{/if}>
+            <{/if}>
+        </div>
+        <div class="price">
+            <P class="big maincl">微信价：¥<{$detail.wei_price}></P>
+            <p class="black9">原价：<del>¥<{$detail.price}></del></p>
+            <p class="black9 justify"><span>配送：<{$detail.ship_fee}>元</span> <span>销量：<{$detail.sales}></span></p>
+        </div>
+        <!--<div class="ts"><i class="ico"></i>全场满100免配送费</div>-->
+    </div>
+    <div class="shangpinSelct mt10 mb10 cart_add" id="only_not"><span id="attr_value_chose" class="mr10">请选择<span class="ml10">规格</span><span class="ml5">属性</span></span><i class="ico linkIco fr"></i></div> 
+    <div class="shangpinDianpu">
+        <div class="infor">
+            <div class="img fl">
+                <a href="<{link ctl='index'}>"><img src='<{$pager.img}>/<{$weidian.logo}>' /></a>
+            </div>
+            <div class="wz_box">
+                <h3><a href="<{link ctl='index'}>"><{$weidian.title}></a></h3>
+                <p><i class="ico"></i>微信认证</p>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="state">
+            <ul>
+                <li class="list">
+                    <p><{$total.product}></p>
+                    <p>全部商品</p>
+                </li>
+                <li class="list">
+                    <p><{$total.new_product}></p>
+                    <p>上新宝贝</p>
+                </li>
+                <li class="list">
+                    <p><{$total.sale}></p>
+                    <p>全部销量</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="shangpinTab mt10 mb10">
+        <ul>
+            <li class="on"><a href="javascript:;">商品详情</a></li>
+            <li><a href="javascript:;">商品评价</a></li>
+        </ul>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.shangpinTab ul li').each(function (e) {
+                $(this).click(function () {
+                    $('.shangpinTab ul li').removeClass('on');
+                    $(this).addClass('on');
+                    $('.shangpinTab_list_box .list_box').each(function (i) {
+                        if (e == i) {
+                            $('.shangpinTab_list_box .list_box').hide();
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    <div class="shangpinTab_list_box mb10">
+        <div class="shangpinDelt article list_box">
+            <{$detail.intro}>
+        </div>
+        <div class="shangpinEvalut list_box" style="display:none;">
+            <div class="shangpinEvalut_tab">
+                <ul>
+                    <li class="on">全部</li>
+                    <li>好评</li>
+                    <li>中评</li>
+                    <li>差评</li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $('.shangpinEvalut_tab ul li').each(function (e) {
+                        $(this).click(function () {
+                            $('.shangpinEvalut_tab ul li').removeClass('on');
+                            $(this).addClass('on');
+                            $('.shangpinEvalut_tab_cont').each(function (i) {
+                                if (e == i) {
+                                    $('.shangpinEvalut_tab_cont').hide();
+                                    $(this).show();
+                                } else {
+                                    $(this).hide();
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+            <div class="shangpinEvalut_list_box">
+                <div class="shangpinEvalut_tab_cont">
+                    <{foreach $items as $item}>
+                        <div class="shangpinEvalut_list">
+                            <div class="top">
+                                <div class="left fl black6">
+                                    <span class="starBg"><span class="star" style="width:<{$item['score']*20}>%;"></span></span>
+                                    <{$item.dateline|format}>
+                                </div>
+                                <div class="name fr black6"><{$users[$item['uid']]['nickname']}></div>
+                            </div>
+                            <div class="wz"><{$item.content}></div>
+                            <div class="img_list">
+                                <ul>
+                                    <{foreach $photos as $photo}>
+                                        <{if $photo.comment_id == $item.comment_id}>
+                                        <li><img src="<{$pager.img}>/<{$photo.photo}>"></li>
+                                        <{/if}>
+                                    <{/foreach}>
+                                </ul>
+                            </div>
+                            <p class="sp_name">商品：<{foreach $products as $product}><{if $product.order_id == $item.order_id}><{$product.product_name}>&nbsp;&nbsp;<{/if}><{/foreach}></p>
+                        </div>
+                    <{/foreach}>
+                </div>
+                
+                <div class="shangpinEvalut_tab_cont" style="display:none;">
+                    <{foreach $items as $item}>
+                    <{if $item.score >=4}>
+                        <div class="shangpinEvalut_list">
+                            <div class="top">
+                                <div class="left fl black6">
+                                    <span class="starBg"><span class="star" style="width:<{$item['score']*20}>%;"></span></span>
+                                    <{$item.dateline|format}>
+                                </div>
+                                <div class="name fr black6"><{$users[$item['uid']]['nickname']}></div>
+                            </div>
+                            <div class="wz"><{$item.content}></div>
+                            <div class="img_list">
+                                <ul>
+                                    <{foreach $photos as $photo}>
+                                        <{if $photo.comment_id == $item.comment_id}>
+                                        <li><img src="<{$pager.img}>/<{$photo.photo}>"></li>
+                                        <{/if}>
+                                    <{/foreach}>
+                                </ul>
+                            </div>
+                            <p class="sp_name">商品：<{foreach $products as $product}><{if $product.order_id == $item.order_id}><{$product.product_name}>&nbsp;&nbsp;<{/if}><{/foreach}></p>
+                        </div>
+                    <{/if}>
+                    <{/foreach}>
+                </div>
+                
+                <div class="shangpinEvalut_tab_cont" style="display:none;">
+                    <{foreach $items as $item}>
+                    <{if $item.score <4 && $item.score>=3}>
+                        <div class="shangpinEvalut_list">
+                            <div class="top">
+                                <div class="left fl black6">
+                                    <span class="starBg"><span class="star" style="width:<{$item['score']*20}>%;"></span></span>
+                                    <{$item.dateline|format}>
+                                </div>
+                                <div class="name fr black6"><{$users[$item['uid']]['nickname']}></div>
+                            </div>
+                            <div class="wz"><{$item.content}></div>
+                            <div class="img_list">
+                                <ul>
+                                    <{foreach $photos as $photo}>
+                                        <{if $photo.comment_id == $item.comment_id}>
+                                        <li><img src="<{$pager.img}>/<{$photo.photo}>"></li>
+                                        <{/if}>
+                                    <{/foreach}>
+                                </ul>
+                            </div>
+                            <p class="sp_name">商品：<{foreach $products as $product}><{if $product.order_id == $item.order_id}><{$product.product_name}>&nbsp;&nbsp;<{/if}><{/foreach}></p>
+                        </div>
+                    <{/if}>
+                    <{/foreach}>
+                </div>
+                
+                <div class="shangpinEvalut_tab_cont" style="display:none;">
+                    <{foreach $items as $item}>
+                    <{if $item.score <3}>
+                        <div class="shangpinEvalut_list">
+                            <div class="top">
+                                <div class="left fl black6">
+                                    <span class="starBg"><span class="star" style="width:<{$item['score']*20}>%;"></span></span>
+                                    <{$item.dateline|format}>
+                                </div>
+                                <div class="name fr black6"><{$users[$item['uid']]['nickname']}></div>
+                            </div>
+                            <div class="wz"><{$item.content}></div>
+                            <div class="img_list">
+                                <ul>
+                                    <{foreach $photos as $photo}>
+                                        <{if $photo.comment_id == $item.comment_id}>
+                                        <li><img src="<{$pager.img}>/<{$photo.photo}>"></li>
+                                        <{/if}>
+                                    <{/foreach}>
+                                </ul>
+                            </div>
+                            <p class="sp_name">商品：<{foreach $products as $product}><{if $product.order_id == $item.order_id}><{$product.product_name}>&nbsp;&nbsp;<{/if}><{/foreach}></p>
+                        </div>
+                    <{/if}>
+                    <{/foreach}>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--内容结束-->
+</section>
+<footer class="shangpinFooter">
+    <a href="<{link ctl='product/cart'}>" class="cart_btn"><i class="ico"></i><p>购物车</p></a>
+    <a href="javascript:void(0);" id="add_cart" class="btn add cart_add">加入购物车</a>
+    <a href="javascript:void(0);" id="buy_now" load="true" class="btn cart_add">立即购买</a>
+</footer>
+
+<!--商品选择弹层-->
+<div class="shangpinSelct_mask">
+    <div class="cont">
+        <a href="javascript:void(0);" class="ico close"></a>
+        <div class="pad10">
+            <div class="top mb10">
+                <div class="img fl"><img src="<{$pager.img}>/<{$detail.photo}>"></div>
+                <div class="wz_box">
+                    <p id="jq_wei_price" class="maincl price">￥<{$detail.wei_price}>&nbsp;&nbsp;&nbsp;&nbsp;库存：<{$detail.stock}></p>
+                    <p style="display: none;" id="jq_attr_info" price="<{$detail.wei_price}>" stock="<{$detail.stock}>"></p>
+                    <!--<p class="black6"><del id="jq_price">￥<{$detail.price}></del></p>-->
+                    <p class="black6" id="chose_attr">选择 商品属性</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <{foreach $attrgroups as $attr}>
+                <div class="selct_box">
+                    <p><{$attr.title}></p>
+                    <div class="list_box list_box_<{$attr.attr_group_id}>">
+                        <{foreach $attr.values as $value}>
+                           <a href="javascript:void(0);" attr_id="<{$value.attr_value_id}>"  attr_value="<{$value.title}>" ><{$value.title}></a>
+                        <{/foreach}>
+                    </div>
+                </div>
+            <{/foreach}>
+            <div class="selct_box">
+                <p class="fl">数量</p>
+                <div class="fr">
+                    <div class="num_operate">
+                        <span quantity="-" class="min"></span>
+                        <input type="text" readonly="readonly" productnum="<{$detail.product_id}>" value="1">
+                        <span quantity="+" class="add"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:void(0);" id="sure_btn"  class="<{if $attrgroups}>long_gray_btn<{else}>long_btn<{/if}>">确定</a>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+    var len = "<{$length}>";
+    function check(){
+        if($('.list_box a.on').length == len){
+            return true;
+        }else{
+            $('.shangpinSelct_mask').addClass('on');
+            $('.mask_bg').show();
+        }
+    }
+    
+    function check_btn(){  //点击属性
+        if($('.list_box a.on').length == len){
+            $("#sure_btn").removeClass("long_gray_btn");
+            $("#sure_btn").addClass("long_btn");
+            select_value();
+            get_price();
+        }else{
+            $("#sure_btn").removeClass("long_btn");
+            $("#sure_btn").addClass("long_gray_btn");
+            select_value();
+        }
+    }
+    
+    function get_price(){ //获取属性商品价格及微信价
+        var params = new Array();
+        var stock_name = "";
+        <{foreach $attrgroups as $item}>
+            var id = "<{$item.attr_group_id}>";
+            var attr_id = $('.list_box_'+id+' a.on').attr('attr_id');
+            if(attr_id != undefined){
+                params.push(attr_id);
+                if("<{$item@index}>" == 0){
+                    stock_name += attr_id;
+                }else{
+                    stock_name += "_"+attr_id;
+                }
+            }
+        <{/foreach}>
+        var link = "<{link ctl='product/change_size' args=$detail.product_id}>";
+        $.post(link,{"stock_name":stock_name},function(ret){
+            if(ret.error == 0 ){
+                $("#jq_wei_price").html("￥"+ret.wei_price+"&nbsp;&nbsp;&nbsp;&nbsp;库存："+ret.stock);
+                $("#jq_attr_info").attr("price",ret.wei_price);
+                $("#jq_attr_info").attr("stock",ret.stock);
+            }
+        },'json')
+    }
+    
+    function select_value(){
+        var attr_values = get_attr_value();
+        if(attr_values){
+            $("#chose_attr").html(attr_values);
+        }else{
+            $("#chose_attr").html("请选择 商品属性");  
+        }
+    }
+    
+    function get_attr_value(flag){ //获取属性商品价格及微信价
+        if(flag==1){
+            var attr_values = "";
+        }else{
+            var attr_values = "已选择 ";
+        }
+        <{foreach $attrgroups as $item}>
+            var id = "<{$item.attr_group_id}>";
+            var attr_value = $('.list_box_'+id+' a.on').attr('attr_value');
+            if(attr_value != undefined){
+                if("<{$item@index}>" == 0){
+                    attr_values += '"'+attr_value+'"';
+                }else{
+                    attr_values += ' '+'"'+attr_value+'"';
+                }
+            }
+        <{/foreach}>
+        return attr_values;
+    }
+    
+    function get_attr_id(){ //获取属性商品id组合为购物车商品键值
+        var attr_ids = "";
+        <{foreach $attrgroups as $item}>
+            var id = "<{$item.attr_group_id}>";
+            var attr_id = $('.list_box_'+id+' a.on').attr('attr_id');
+            if(attr_id != undefined){
+                if("<{$item@index}>" == 0){
+                    attr_ids += attr_id;
+                }else{
+                    attr_ids += "_"+attr_id;
+                }
+            }
+        <{/foreach}>
+        return attr_ids;
+    }
+    
+    
+    $(document).ready(function(){
+        $('.shangpinSelct').click(function () {
+            $('.shangpinSelct_mask').addClass('on');
+            $('.mask_bg').show();
+        });
+        $(".shangpinSelct_mask .close, .long_btng").click(function () {
+            $('.shangpinSelct_mask').removeClass('on');
+            $('.mask_bg').hide();
+        });
+        $('.shangpinSelct_mask .selct_box .list_box a').click(function () {
+            $(this).parent().find('a').removeClass('on');
+            $(this).addClass('on');
+            check_btn();
+        });
+        
+        $(document).on("click",".long_btn",function(){
+            var attr_values = get_attr_value();
+            if(attr_values != "已选择"){
+                $("#attr_value_chose").html(attr_values);
+            }
+            $('.shangpinSelct_mask').removeClass('on');
+            $('.mask_bg').hide();
+            var cart_type = localStorage.getItem("cart_type");
+            //alert(cart_type);return false;
+            if(cart_type != "only_not"){
+                $("#"+cart_type).trigger("click");
+            }
+            
+        })
+        
+    })
+</script>
+
+
+<script type="text/javascript">
+    $(".cart_add").click(function(){
+        //alert($(this).attr("id"));return false;
+        localStorage.setItem('cart_type', $(this).attr("id"));
+    })            
+                
+    var weicart = new window.WeiCart("<{$detail.shop_id}>");
+    //console.log(weicart);
+    function init_shop_cart(){
+       // $("[productnum]").val(1);
+       // for(var k in weicart.product_list()){
+            //$('[productnum="'+k+'"]').val(weicart.product_num(k));
+        //}
+    }
+    $(document).ready(function(){
+        var stock = parseInt($("#jq_attr_info").attr("stock"));
+        if(stock==0){
+            $("#sure_btn").removeClass("long_btn");
+            $("#sure_btn").addClass("long_gray_btn");
+        }
+        init_shop_cart();
+        $(document).on("click", '[quantity]', function(){     
+            var now_stock = parseInt($("#jq_attr_info").attr("stock"));
+            var num = parseInt($("[productnum]").val());
+            if($(this).attr("quantity") == '-'){
+                if(num <=1){
+                    return false;
+                }else{
+                    num--;
+                    $("[productnum]").val(num);
+                }
+            }else{
+                if(num<now_stock){
+                    num++;
+                    $("[productnum]").val(num);
+                }else{
+                   layer.open({content: "商品库存不足", skin: 'msg', time: 2 });return false;
+                }
+            }
+        });
+        
+        $(document).on("click", ".btn", function(){
+            var product_id = "<{$detail.product_id}>";
+            var title = "<{$detail.title}>";
+            if(check()){
+                var attr_id = get_attr_id()||0;
+                //alert(attr_id);return false;
+                var stock_id = product_id +"-"+ attr_id;
+                var price = $("#jq_attr_info").attr("price");
+                var stock = parseInt($("#jq_attr_info").attr("stock"));
+                var attr_value = get_attr_value(1)||0;
+                //alert(attr_value);return false;
+                var num = parseInt($("[productnum]").val());
+                var info = {"price":price,"title":title,"attr_value":attr_value,"stock":stock};
+                if(num<=stock){
+                    weicart.add(stock_id,num,info);
+                    if($(this).attr("load")){
+                        //layer.open({content: "加入购物车成功", skin: 'msg', time: 2 });
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='product/cart'}>";
+                        }, 1000);
+                    }else{
+                        layer.open({content: "加入购物车成功", skin: 'msg', time: 2 });
+                    }
+                }else{
+                    layer.open({content: "商品库存不足", skin: 'msg', time: 2 });return false;
+                }
+            }
+        });
+    });
+</script>
+<!--商品选择弹层结束-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false,
+        });//首页轮播js结束
+
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.shoucang_box').click(function () {
+            var product_id = $(this).attr('pid');
+            var link = "<{link ctl='product/ajax_collect' arg1=__product_id}>";
+
+            $.post(link.replace('__product_id', product_id), {}, function (ret) {
+                if (ret.error) {
+                    layer.open({
+                        content: ret.message
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+                } else {
+                    if (ret.status == 101) {
+                        layer.open({
+                            content: ret.message
+                            , skin: 'msg'
+                            , time: 2 //2秒后自动关闭
+                        });
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='passport/login'}>";
+                        }, 2000);
+                    } else {
+                        layer.open({
+                            content: ret.message
+                            , skin: 'msg'
+                            , time: 2 //2秒后自动关闭
+                        });
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 2000);
+                    }
+                }
+            }, 'json');
+        })
+        
+        
+        function max_height()
+        {
+            var right_height = 0;
+            $(".shangpin_banner .slides li").each(function (a) {
+                var h = $(this).find('img').height();
+                if (h > right_height)
+                {
+                    right_height = h;
+                }
+            });
+            return right_height;
+        }
+        max_height = max_height();
+        $(".shangpin_banner .slides li").css("height",max_height);
+    });
+</script>
+<{include file="weidian/block/footer.html"}>

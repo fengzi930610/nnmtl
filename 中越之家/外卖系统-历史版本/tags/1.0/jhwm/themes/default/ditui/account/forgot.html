@@ -1,0 +1,90 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><{L('忘记密码')}></title>
+<link type="text/css" rel="stylesheet" href="css/style.css">
+    <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/layer/layer.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+    <link type="text/css" rel="stylesheet" href="/themes/default/biz/static/css/login.css">
+</head>
+<body>
+    <div class="login_cont">
+        <div class="login">
+        <h2><{L('忘记密码')}></h2>
+        <form id="form_post"  method="post">
+            <input type="text" name="data[mobile]" id="mobile" class="text" placeholder="<{L('请输入手机号')}>">
+        <div class="yanzheng">
+            <input type="text" name="data[code]" class="text short lt" placeholder="<{L('请输入验证码')}>">
+            <a class="hqyzm" href="javascript:void(0);" login="sendsms"><{L('获取验证码')}></a>
+            <div class="cl"></div>
+        </div>
+        <input type="password" name="data[new_passwd]" class="text" placeholder="<{L('请输入新密码')}>">
+        <input type="password" name="data[new_passwd2]" class="text" placeholder="<{L('请再次输入新密码')}>">
+        <input type="button" class="btn" id="btn_mobile" value="<{L('修改密码')}>">
+                </form>
+                <div class="bottom_link">
+                <a href="<{link ctl='ditui/account:login'}>"><{L('已有账号')}>？<{L('立即登录')}></a>
+                </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var minute = 60;
+            var mobile_timeout;
+            var mobile_count = minute;
+            var mobile_lock = 0;
+            BtnCount = function () {
+                if (mobile_count == 0) {
+                    $(".hqyzm").addClass("on");
+                    $('.hqyzm').removeAttr("disabled");
+                    $('.hqyzm').text("<{L('重新获取')}>");
+                    mobile_lock = 0;
+                    clearTimeout(mobile_timeout);
+                    $('.hqyzm').removeClass("on");
+                } else {
+                    mobile_count--;
+                    $('.hqyzm').text(+mobile_count.toString() + "秒...");
+                    mobile_timeout = setTimeout(BtnCount, 1000);
+                }
+            };
+            $("[login]").click(function () {
+                if (mobile_lock == 0) {
+                    var mobile = $('#mobile').val();
+                    var link = "<{link ctl='passport/sendsms'}>";
+                    $.post(link, {mobile: mobile}, function (ret) {
+                        if (ret.error == 0) {
+                            BtnCount();
+                            mobile_lock = 1;
+                            $(".hqyzm").addClass("on");
+                            $('.hqyzm').attr("disabled", "disabled");
+                        } else {
+                            layer.msg(ret.message);
+                            mobile_lock = 0;
+                        }
+                    }, 'json');
+                    mobile_count = minute;
+                }
+            });
+            $('#btn_mobile').click(function () {
+                var link = "<{link ctl='ditui/account:forgot'}>";
+                $.post(link,$("#form_post").serialize(), function (ret) {
+                    if (ret.error == 0) {
+                        layer.msg(ret.message);
+                        setTimeout(function () {
+                            window.location.href="<{link ctl='ditui/account:login'}>";
+                        }, 1000)
+                        BtnCount();
+                    } else {
+                        layer.msg(ret.message);
+                    }
+                }, 'json');
+            })
+        })
+
+    </script>    
+</body>
+</html>

@@ -1,0 +1,97 @@
+<{assign var='tpl_title' value=L("外卖首页")}>
+<{include file="waimai/block/header.html"}>
+<style>
+    .item-inner a {
+        color: black;
+    }
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="takeout_Mine take_outPart">
+                    <div class="mine_bg">
+                        <img src="%THEME%/static/img/waimai_my_bg@3x.png" />
+                        <div class="info-cont">
+                            <i style="background:url(<{$pager.img}>/<{$MEMBER.face}>); background-size: contain;vertical-align: middle; "></i>
+                        </div>
+                        <p class="info-cont-p"><{$MEMBER.nickname}></p>
+                    </div>
+                    <div class="Mine_detail">
+                        <div class="mine_address mt10">
+                            <div class="item-inner">
+                                <a href="<{link ctl='ucenter/addr' http='waimai'}>">
+                                    <div class="item-row">
+                                        <div class="item-title"><i class="ico_le ico_address"></i>我的收货地址</div>
+                                        <div class="item-after"><i class="ico_rightArr"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mine_address mt10">
+                            <div class="item-inner">
+                                <a href="<{link ctl='ucenter/hongbao/' http='www'}>">
+                                    <div class="item-row">
+                                        <div class="item-title"><i class="ico_le "><img src="%THEME%/static/img/hb.png" width="18" href="18" style="margin-bottom: 8px;"/></i>我的红包</div>
+                                        <div class="item-after"><i class="ico_rightArr"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mine_infor mt10">
+                            <div class="item-inner">
+                                <a href="<{link ctl='ucenter/collect' http='waimai'}>">
+                                    <div class="item-row">
+                                        <div class="item-title"><i class="ico_le ico_shoucang"></i>我的收藏</div>
+                                        <div class="item-after"><i class="ico_rightArr"></i></div>
+                                    </div>
+
+                                </a>
+
+                            </div>
+                            <div class="item-inner">
+                                <a href="<{link ctl='ucenter/coupon' http='waimai'}>">
+                                    <div class="item-row">
+                                        <div class="item-title"><i class="ico_le ico_quan"></i>我的优惠券</div>
+                                        <div class="item-after"><i class="ico_rightArr"></i></div>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div class="mine_address mt10">
+                            <div class="item-inner">
+                                <a href="<{link ctl='ucenter/jifen' http='waimai'}>">
+                                    <div class="item-row">
+                                        <div class="item-title"><i class="ico_le "><img src="%THEME%/static/img/jifen.png" width="20" href="20" style="margin-bottom: 8px;"/></i>我的积分</div>
+                                        <div class="item-after"><i class="ico_rightArr"></i></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <div class="mine_address mt10">
+                            <div class="item-inner">
+                                <{if $MEMBER.uid}><a href="<{link ctl='passport/loginout' http=$site.siteurl}>" class="tuichu-btn fontcl1" style="color: #ff3300">
+
+                                <div class="item-row" style="margin-left: 40%;margin-top: 10px;">
+                                    <div class="item-title">退出登录</div>
+                                    <div class="item-after"></div>
+                                </div>
+                            </a><{/if}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--底部导航-->
+            <{include file="waimai/block/footer_nav.html"}>
+            <!--底部导航end-->
+        </div>
+    </div>
+</div>
+
+<{include file="waimai/block/footer.html"}>

@@ -1,0 +1,60 @@
+<{foreach $items as $item}>
+    <li class="mb10">
+        <{if $item.is_new == 1}><span class="new"></span><{/if}>
+        <a href="<{link ctl='shop/detail' args=$item.shop_id http='waimai'}>">
+        <div class="pub_list">
+            <div class="left pub_list_bd">
+                <div class="pic fl mdzzcps" style="background: url(/themes/waimai/static/img/shop_logo.png) no-repeat center; background-size: cover;">
+					<div style="background: url('<{$pager.img}>/<{$item.logo}>') no-repeat center; background-size: cover; height:60px; width:60px;"></div>
+                    <{if $item.yysj_status == 1&&$item.yy_status==1}><{else}>
+                    <div class="state text_c"><span>打烊了</span></div>
+                    <{/if}>
+                    <{if $item.cart_num>0}><span class="num"><{$item.cart_num}></span><{/if}>
+                </div>
+                <div class="txt black9">666<{$item.title}>
+                    <div class="sale"><div class="starBg"><span class="star" style="width: <{round($item['avg_score']*20,1)}>%;"></span></div><span class="fontcl2 ml10 mr10"><{round($item['avg_score'],1)}>分</span>已售<{$item.orders}>单</div>
+                    <p>￥<{$item.min_amount}>起送 /<{if $item.freight=='0'}>免配送费<{else}>配送费￥<{$item.freight}><{/if}></p>
+                </div>
+            </div>
+            <div class="right">
+                <span class="bg"><{if $item.pei_type ==1}>平台专送<{else}>商家配送<{/if}><i></i></span>
+                <p class="time"><{$item.pei_time}>分钟</p>
+                <p class="black9"><{$item.juli_label}></p>
+            </div>
+        </div>
+        </a>
+        <div class="activity">
+            <div class="black6 box">
+                <div class="first">
+                    <{if $item.first.first_amount}><p class=""><i class="ico_shou"></i><span>新用户首单优惠￥<{$item.first.first_amount}></span></p><{/if}>
+                    <div class=" pull_down" style="display: none;"><span></span>活动<i class="ico_xia"></i></div>
+
+                    <{if $item.manjian}><p><i class="ico_jian"></i><{$item.manjian.title}></p><{/if}>
+
+                    <{if $item.manfan}><p><i class="ico_fan"></i><{$item.manfan.title}></p><{/if}>
+
+                    <{if $item.coupon}><p><i class="ico_quan"></i><{$item.coupon}></p><{/if}>
+
+                    <{if !empty($item.discount)}><p><i class="ico_zhe"></i><{$item.discount.title}></p><{/if}>
+                </div>
+            </div>
+        </div>
+        <{if $item.products}>
+        <div class="shopCart_list">
+            <div class="list_box">
+                <ul>
+                    <{foreach $item.products as $p}>
+                        <li>
+                            <a href="<{link ctl='shop/detail' arg0=$p.shop_id pid=$p.product_id http='waimai'}>">
+                                <div class="img"><span style="background: url('<{$pager.img}>/<{$p.photo}>_thumb.jpg') no-repeat center; background-size: cover;"></span> <div class="hot">HOT</div></div>
+                                <P class="fontcl1">￥<{$p.price}></P>
+                            </a>
+                        </li>
+                    <{/foreach}>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <{/if}>
+    </li>
+<{/foreach}>

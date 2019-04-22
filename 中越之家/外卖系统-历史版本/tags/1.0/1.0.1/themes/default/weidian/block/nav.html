@@ -1,0 +1,67 @@
+<footer>
+    <ul>
+        <li class="list">
+            <a href="<{link ctl='index'}>">
+                <i class="ico ico1"></i>
+                <P>首页</P>
+            </a>
+        </li>
+        <li class="list">
+            <a href="<{link ctl='product/index'}>">
+                <i class="ico ico2"></i>
+                <P>全部商品</P>
+            </a>
+        </li>
+        <li class="list">
+            <a href="<{link ctl='product/cart'}>">
+                <i class="ico ico3"></i>
+                <P>购物车</P>
+            </a>
+        </li>
+        <li class="list">
+            <a href="<{link ctl='pintuan'}>">
+                <i class="ico ico4"></i>
+                <P>拼团</P>
+            </a>
+        </li>
+        <li class="list">
+            <a href="<{link ctl='ucenter'}>">
+                <i class="ico ico5"></i>
+                <P>用户中心</P>
+            </a>
+        </li>
+    </ul>
+    <div class="clear"></div>
+</footer>
+
+<script type="text/javascript">
+    //选中导航JS
+    var urlstr = location.href;
+    var urlstatus = false;
+    $('footer li.list').each(function(){
+        if((urlstr + '/').indexOf($(this).find('a').attr('href')) > -1&&$(this).attr('href')!='') {
+            $(this).addClass('on');
+            urlstatus = true;
+        }else{
+            $(this).removeClass('on');
+			$('footer li.list').eq(0).removeClass('on');
+        }
+    });
+
+    <{if 1 == $is_index}>
+    $('footer li.list').eq(0).addClass('on');
+    <{/if}>
+</script>
+
+<!--回到顶部-->
+<div class="fixed_right">
+    <a class="backtop" href="" style="display:none;">
+        <i class="ico ico1"></i>
+        <p>顶部</p>
+    </a>
+    <a href="tel:<{$weidian.mobile}>" class="kefu">
+        <i class="ico ico2"></i>
+        <p>客服</p>
+    </a>
+</div>
+<!--回到顶部结束-->

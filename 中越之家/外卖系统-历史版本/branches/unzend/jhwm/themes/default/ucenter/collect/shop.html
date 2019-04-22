@@ -1,0 +1,42 @@
+<{assign var='tpl_title' value='我的收藏'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter/index'}>" link-load="" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        我的收藏
+    </div>
+    <i class="right"><a  class=""></a></i>
+</header>
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list on"><a>店铺</a></li>
+        <li class="switchTab_list"><a href="<{link ctl='ucenter/collect:items' arg0=2}>">人员</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+<section class="page_center_box">
+    <div class="recSeller_list_box mineColct_sj border_t mt10 mb10">
+        <ul id="index_goods_items">
+
+        </ul>
+        <div class="loadding">
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/collect/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var type = "<{$type}>";
+        var params = {type:type};
+        loaddata(link, page, params);
+        $(".next").click(function () {
+            page++;
+            loaddata(link, page, params);
+        })
+    })
+</script>
+<{include file = "block/sfooter.html"}>
+<{include file = "block/footer.html"}>

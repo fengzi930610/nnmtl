@@ -1,0 +1,40 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"><{link ctl="system/seotmpl:create" load="mini:添加SEO模板" class="button" title="添加模板"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">ID</th><th>标题</th><th>KEY</th><th class="w-100">创建时间</th><th class="w-150">操作</th></tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.systmpl_id}>" name="systmpl_id[]" CK="PRI"/><{$item.systmpl_id}><label></td>
+            <td><{$item.title}></td><td><{$item.key}></td><td><{$item.dateline|format}></td>
+            <td>
+                <{link ctl="system/seotmpl:config" args=$item.systmpl_id title="配置" class="button"}>
+                <{link ctl="system/seotmpl:edit" args=$item.systmpl_id load="mini:修改模板设置"  title="修改模板" class="button"}>
+            </td>
+        </tr>
+        <{foreachelse}>
+         <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"></td><td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

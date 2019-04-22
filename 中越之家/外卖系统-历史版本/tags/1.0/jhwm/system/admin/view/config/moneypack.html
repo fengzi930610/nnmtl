@@ -1,0 +1,328 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><a href="javascript:;" class="button jq_pack_add" title="新增一行">新增一行</a></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <h4 class="tip-notice">小提示：充值金额是大于0的整数，赠送金额是整数或保留两位的小数</h4>
+    <form action="?system/config-moneypack.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="moneypack" />
+        <table width="100%" border="0" cellspacing="0" id="table_package" class="table-data list">
+            <tr>
+                <th class="w-200">充值金额</th>
+                <th class="w-500">赠送红包</th>
+                <th></th>
+                <th class="w-100">操作</th>
+            </tr>
+            <{foreach $config as $k=>$v}>
+            <tr class="jq_pack_tr" rel="tr_pack_<{$k}>" style="background: none;">
+                <td>
+                    <input type="text" class="input w-100" name="config[<{$k}>][money]" value="<{$v.money}>" />&nbsp;元</div>
+                </td>
+                <td>
+                    <table id="table_hongbao_<{$k}>" style="float:left;" border="0" cellspacing="0" class="table-data list w-500">
+                        <tr>
+                            <th>使用条件(满)</th>
+                            <th>红包金额(减)</th>
+                            <th>红包期限(天)</th>
+                            <th>红包类型</th>
+                           <!-- <th>红包使用分类</th>-->
+                            <th>红包使用时间(开始时间~结束时间)</th>
+                            <th class="w-100"><a class="jq_hb_add" pack="<{$k}>" href="javascript:;"><b>+添加红包</b></a></th>
+                        </tr>
+                        <{foreach $v.hongbao as $kk=>$vv}>
+                            <tr class="jq_hb_tr" rel="tr_hb_<{$k}>_<{$kk}>" style="background: none;" style="background: none;">
+                                <td>
+                                    <input type="text" name="config[<{$k}>][hongbao][<{$kk}>][order_amount]" value="<{$vv.order_amount}>" class="input w-50" />
+                                </td>
+                                <td>
+                                    <input type="text" name="config[<{$k}>][hongbao][<{$kk}>][coupon_amount]" value="<{$vv.coupon_amount}>" class="input w-50" />
+                                </td>
+                                <td>
+                                    <select name="config[<{$k}>][hongbao][<{$kk}>][day]" class="input w-100">
+                                        <option <{if $vv.day == 1}>selected="selected"<{/if}> value="1">1天</option>
+                                        <option <{if $vv.day == 2}>selected="selected"<{/if}> value="2">2天</option>
+                                        <option <{if $vv.day == 3}>selected="selected"<{/if}> value="3">3天</option>
+                                        <option <{if $vv.day == 4}>selected="selected"<{/if}> value="4">4天</option>
+                                        <option <{if $vv.day == 5}>selected="selected"<{/if}> value="5">5天</option>
+                                        <option <{if $vv.day == 6}>selected="selected"<{/if}> value="6">6天</option>
+                                        <option <{if $vv.day == 7}>selected="selected"<{/if}> value="7">7天</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="config[<{$k}>][hongbao][<{$kk}>][type]" class="input w-100">
+                                        <{foreach $module_config as $kkk=>$vvv}>
+                                        <{if $vvv.used}>
+                                        <option value="<{$kkk}>" <{if $vv.type==$kkk}>selected="selected"<{/if}>><{$vvv.title}></option>
+                                        <{/if}>
+                                        <{/foreach}>
+                                    </select>
+                                </td>
+                                <!--<td>
+                                    <div>
+                                        <div class="list">
+                                            <select name="config[<{$k}>][hongbao][<{$kk}>][cate_id]" class="input w-100">
+                                                <option value="0">不限制</option>
+                                                <{foreach $cates as $v}>
+                                                <option value="<{$v.cate_id}>" <{if $vv.cate_id==$v.cate_id}>selected="selected"<{/if}>>|&#45;&#45;<{$v.title}></option>
+                                                <{if $v.son}>
+                                                <{foreach $v.son as $vvvs}>
+                                                <option value="<{$vvvs.cate_id}>" <{if $vv.cate_id==$vvvs.cate_id}>selected="selected"<{/if}>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvvs.title}></option>
+                                                <{/foreach}>
+                                                <{/if}>
+                                                <{/foreach}>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>-->
+                                <td>
+                                    <!-- <input type="text" style="display: inline" name="config[<{$k}>][hongbao][<{$kk}>][stime]" value="<{if $vv.stime}><{$vv.stime}><{/if}>"  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/>~
+                                    <input type="text" style="display: inline" name="config[<{$k}>][hongbao][<{$kk}>][ltime]" value="<{if $vv.ltime}><{$vv.ltime}><{/if}>"  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/> -->
+                                    <div class="stime_box">
+                                        <input type="text" style="display: inline" name="config[<{$k}>][hongbao][<{$kk}>][stime]" value="<{if $vv.stime}><{$vv.stime}><{/if}>" class="input w-100 stime" time="<{$vv.stime_time}>" readonly/>
+                                        <ul class="time-ul"></ul>
+                                    </div>
+                                        ~
+                                    <div class="ltime_box">
+                                        <input type="text" style="display: inline" name="config[<{$k}>][hongbao][<{$kk}>][ltime]" value="<{if $vv.ltime}><{$vv.ltime}><{/if}>" class="input w-100 ltime" time="<{$vv.ltime_time}>" readonly/>
+                                        <ul class="time-ul"></ul>
+                                    </div>    
+                                </td>
+                                <td class="center"><a href="javascript:;" class="jq_hb_delete" pack="<{$k}>" hb="<{$kk}>">删除</a></td>
+                            </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+                <td>&nbsp;</td>
+                <td class="w-100"><a href="javascript:void(0);" class="button jq_pack_delete" pack="<{$k}>">删除</a></td>
+            </tr>
+            <{/foreach}>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form jq_bottom">
+            <tr>
+                <td class="clear-td-bottom" colspan="3"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/tmpl" id="tmpl_tr_package">
+<tr class="jq_pack_tr" rel="tr_pack___k__" style="background: none;">
+    <td>
+        <input type="text" class="input w-100" name="config[__k__][money]" value="" />&nbsp;元</div>
+    </td>
+    <td>
+        <table id="table_hongbao___k__" style="float:left;" border="0" cellspacing="0" class="table-data list w-500 jq_hb_table">
+            <tr>
+                <th>使用条件(满)</th>
+                <th>红包金额(减)</th>
+                <th>红包期限(天)</th>
+                <th>红包类型</th>
+               <!-- <th>红包使用分类</th>-->
+                <th>红包使用时间(开始时间~结束时间)</th>
+                <th class="w-100"><a class="jq_hb_add" pack="__k__" href="javascript:;"><b>+添加红包</b></a></th>
+            </tr>
+            <tr class="jq_hb_tr" rel="tr_hb___k_____kk__" style="background: none;">
+                <td>
+                    <input type="text" name="config[__k__][hongbao][__kk__][order_amount]" value="" class="input w-50" />
+                </td>
+                <td>
+                    <input type="text" name="config[__k__][hongbao][__kk__][coupon_amount]" value="" class="input w-50" />
+                </td>
+                <td>
+                    <select name="config[__k__][hongbao][__kk__][day]" class="input w-100">
+                        <option  value="1">1天</option>
+                        <option  value="2">2天</option>
+                        <option  value="3">3天</option>
+                        <option  value="4">4天</option>
+                        <option  value="5">5天</option>
+                        <option  value="6">6天</option>
+                        <option  value="7">7天</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="config[__k__][hongbao][__kk__][type]" class="input w-100">
+                        <{foreach $module_config as $k=>$v}>
+                        <{if $v.used}>
+                        <option value="<{$k}>"><{$v.title}></option>
+                        <{/if}>
+                        <{/foreach}>
+                    </select>
+                </td>
+                <td>
+                    <div class="stime_box">
+                        <input type="text" style="display: inline" name="config[__k__][hongbao][__kk__][stime]" value="" class="input w-100 stime" time="0" readonly/>
+                        <ul class="time-ul"></ul>
+                    </div>
+                        ~
+                    <div class="ltime_box">
+                        <input type="text" style="display: inline" name="config[__k__][hongbao][__kk__][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                        <ul class="time-ul"></ul>
+                    </div>
+                 </td>
+                <td class="center"><a href="javascript:;" class="jq_hb_delete" pack="__k__" hb="__kk__">删除</a></td>
+            </tr>
+        </table>
+    </td>
+    <td></td>
+    <td class="center"><a href="javascript:;" class="jq_pack_delete button" pack="__k__" >删除</a></td>
+</tr>
+</script>
+<script type="text/tmpl" id="tmpl_tr_hongbao">
+<tr class="jq_tr_honbao" rel="tr_hb___k_____kk__" style="background: none;">
+    <td>
+        <input type="text" name="config[__k__][hongbao][__kk__][order_amount]" value="" class="input w-50" />
+    </td>
+    <td>
+        <input type="text" name="config[__k__][hongbao][__kk__][coupon_amount]" value="" class="input w-50" />
+    </td>
+    <td>
+        <select name="config[__k__][hongbao][__kk__][day]" class="input w-100">
+            <option  value="1">1天</option>
+            <option  value="2">2天</option>
+            <option  value="3">3天</option>
+            <option  value="4">4天</option>
+            <option  value="5">5天</option>
+            <option  value="6">6天</option>
+            <option  value="7">7天</option>
+        </select>
+    </td>
+    <td>
+       <select name="config[__k__][hongbao][__kk__][type]" class="input w-100">
+            <{foreach $module_config as $k=>$v}>
+            <{if $v.used}>
+            <option value="<{$k}>" <{if $vv.type==$k}>selected="selected"<{/if}>><{$v.title}></option>
+            <{/if}>
+            <{/foreach}>
+            </select>
+            </td>
+            <td>
+                <div class="stime_box">
+                    <input type="text" style="display: inline" name="config[__k__][hongbao][__kk__][stime]" value="" class="input w-100 stime" time="0" readonly/>
+                    <ul class="time-ul"></ul>
+                </div>
+                    ~
+                <div class="stime_box">
+                    <input type="text" style="display: inline" name="config[__k__][hongbao][__kk__][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                    <ul class="time-ul"></ul>
+                </div>                
+            </td>
+    <td class="center"><a href="javascript:;" class="jq_hb_delete" pack="__k__" hb="__kk__">删除</a></td>
+</tr>
+</script>
+<script type="text/javascript">
+//K.Guid();
+(function(K, $){
+    $(document).ready(function(){
+        $(".jq_pack_add").on("click", function(){
+            var tmpl = $("#tmpl_tr_package").html();
+            var k = K.Guid(), kk = K.Guid();
+            $("#table_package").append(tmpl.replace(new RegExp("__k__","gm"),k).replace(new RegExp("__kk__","gm"),kk));
+        });
+        $("#table_package").on("click", ".jq_hb_add", function(){
+            var tmpl = $("#tmpl_tr_hongbao").html();
+            var k= $(this).attr("pack"),  kk = K.Guid();
+            console.log(tmpl.replace(new RegExp("__k__","gm"),k).replace(new RegExp("__kk__","gm"),kk))
+            $("#table_hongbao_"+k).append(tmpl.replace(new RegExp("__k__","gm"),k).replace(new RegExp("__kk__","gm"),kk));
+        });
+        $("#table_package").on("click",".jq_hb_delete", function(){
+            var k= $(this).attr("pack"),  kk = $(this).attr("hb");
+            $("[rel='tr_hb_"+k+"_"+kk+"']").remove();
+        });
+        $("#table_package").on("click",".jq_pack_delete", function(){
+            if(confirm("确定要移除该行？")){
+                //var k= $(this).attr("pack");
+                $(this).parent().parent().remove();
+                //$("[rel='tr_pack_"+k+"']").remove();
+            }
+        });
+        if($("#table_package tr").size()<2){
+            $(this).find(".jq_pack_add").trigger("click");
+        }
+        $(".jq_hb_table").each(function(){
+            if($(this).find("tr").size()<2){
+                $(this).find(".jq_hb_add").trigger("click");
+            }
+        }); 
+    });
+})(window.KT, window.jQuery)
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+
+        $(document).on('click', '.stime', function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parent('.stime_box').siblings('.ltime_box').find('.ltime').attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"ltime": ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.ltime', function(){
+            var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+            var ltime = $(this).attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"stime": stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();
+        });
+    });
+</script>
+
+<{include file="admin:common/footer.html"}>

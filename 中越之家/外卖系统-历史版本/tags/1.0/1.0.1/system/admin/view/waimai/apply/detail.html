@@ -1,0 +1,349 @@
+<{include file="admin:common/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/shop:one" args=$waimai.shop_id class="button float-r"  title="修改资料"}>
+        <{link ctl="waimai/waimai:manage" args=$waimai.shop_id class="button float-r" target="_blank" title="进入门店"}>   
+        <div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <!--审核状态-->
+    <div class="tip-notice mgb10">审核状态：<{if $waimai.verify_name == 0}><b class="green">未审核</b><{elseif $waimai.verify_name == 2}><b class="red">已拒绝</b><{/if}>
+        <p class="gray"><{if !$waimai||!$verify||!$account}>资料未完善<{else}>资料已提交<{/if}></p>
+    </div>
+    <!--审核状态end-->
+    <!--详情-->
+    <div class="list_box">
+        <div class="enterInfo_step_tit mb20">
+            <span class="num float-l">1</span>
+            <h2 class="float-l">店铺信息</h2>
+            <a href="javascript:;" class="fold float-r" style="display: block;">收起<i class="ico up"></i></a>
+            <a href="javascript:;" class="open float-r" style="display: none;">展开<i class="ico"></i></a>
+        </div>
+        <hr class="enterInfo_step_nr_line" style="display:none;">
+        <div class="enterInfo_step_nr" style="display:block;">
+            <table width="100%" border="0" cellspacing="0" class="table-data form">
+                <tbody>
+                    <tr>
+                        <th>店铺名称：</th>
+                        <td><p><{$waimai.title}></p></td>
+                        <th>联系人：</th>
+                        <td><p><{$waimai.contact}></p></td>
+                    </tr>
+                    <tr>
+                        <th>手机号：</th>
+                        <td><p class=""><{$waimai.phone}></p></td>
+                        <th>店铺分类：</th>
+                        <td><p class=""><{$waimai.cate_name}></p></td>
+                    </tr>
+                    <tr>
+                        <th>店铺坐标：</th>
+                        <td>
+                            <label>经度:<input type="text" name="data[lng]" value="<{$waimai.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+                            <label>纬度:<input type="text" name="data[lat]" value="<{$waimai.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>    
+                            <span class="tip-comment">使用百度地图经纬度<a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="button"><b>查看地图</b></a></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>店铺地址：</th>
+                        <td colspan="3">
+                            <p class=""><{$waimai.addr}></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>店铺logo：</th>
+                        <td colspan="3">
+                            <div>
+                                <div class="square_img_area float-l mr10">
+                                    <div class="img"><img width="148" height="148" class="see" src="<{if $waimai.logo}><{$pager.img}>/<{$waimai.logo}><{/if}> "></div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>门头图：</th>
+                        <td colspan="3">
+                            <div>
+                                <div class="square_img_area float-l mr10">
+                                    <div class="img"><img width="376" height="200" class="see" src="<{if $waimai.banner}><{$pager.img}>/<{$waimai.banner}><{/if}>"></div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>商家环境图：</th>
+                        <td colspan="3">
+                            <div>
+                                <{foreach $env as $item}>
+                                    <div class="square_img_area float-l mr10">
+                                        <div class="img"><img width="148" height="148" class="see" src="<{$pager.img}>/<{$item.photo}>"></div>
+                                    </div>
+                                <{/foreach}>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="list_box">
+        <div class="enterInfo_step_tit mb20">
+            <span class="num float-l">2</span>
+            <h2 class="float-l">资质信息</h2>
+            <a href="javascript:;" class="fold float-r" style="display: none;">收起<i class="ico up"></i></a>
+            <a href="javascript:;" class="open float-r" style="display: block;">展开<i class="ico"></i></a>
+        </div>
+        <hr class="enterInfo_step_nr_line" style="display:block;">
+        <div class="enterInfo_step_nr" style="display: none;">
+            <table width="100%" border="0" cellspacing="0" class="table-data form">
+                <tbody>
+                    <tr>
+                        <th>法人姓名：</th>
+                        <td><{$verify.id_name}></td>
+                    </tr>
+                    <tr>
+                        <th>法人身份证号：</th>
+                        <td><{$verify.id_number}></td>
+                    </tr>
+                    <tr>
+                        <th>身份证正反面：</th>
+                        <td>
+                            <div class="square_img_list_area mgb10">
+                                <div class="float-l mgr10">
+                                    <span class="img"><img src="<{if $verify.id_photo}><{$pager.img}>/<{$verify.id_photo}><{/if}>" class="see" width="232" height="152"><p>身份证正面</p></span>
+                                </div>
+                                <div class="float-l mgr10">
+                                    <span class="img"><img src="<{if $verify.id_photo_f}><{$pager.img}>/<{$verify.id_photo_f}><{/if}>" class="see" width="232" height="152"><p>身份证反面</p></span>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>手持身份证：</th>
+                        <td>
+                            <div class="square_img_list_area mgb10">
+                                <div class="float-l mgr10">
+                                    <span class="img"><img src="<{if $verify.id_photo_s}><{$pager.img}>/<{$verify.id_photo_s}><{/if}>" class="see" width="232" height="152"><p>手持身份证照片</p></span>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>证件信息：</th>
+                        <td>营业执照</td>
+                    </tr>
+                    <tr>
+                        <th>证件照：</th>
+                        <td>
+                            <div class="square_img_list_area mgb10">
+                                <div class="float-l mgr10">
+                                    <span class="img"><img src="<{if $verify.cy_photo}><{$pager.img}>/<{$verify.yz_photo}><{/if}>" class="see" width="232" height="152"><p>手持证件照片</p></span>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>证件名称：</th>
+                        <td><{$verify.yz_name}></td>
+                    </tr>
+                    <tr>
+                        <th>证件编号/注册号：</th>
+                        <td><{$verify.yz_number}></td>
+                    </tr>
+                    <tr>
+                        <th>证件地址：</th>
+                        <td><{$verify.yz_addr}></td>
+                    </tr>
+                    <tr>
+                        <th>证件有效期至：</th>
+                        <td><{$verify.yz_time}></td>
+                    </tr>
+                    <tr>
+                        <th>餐饮服务许可证：</th>
+                        <td>
+                            <div class="square_img_list_area mgb10">
+                                <div class="float-l mgr10">
+                                    <span class="img"><img src="<{if $verify.cy_photo}><{$pager.img}>/<{$verify.cy_photo}><{/if}>" class="see" width="232" height="152"><p>餐饮服务许可证</p></span>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>许可证件名称：</th>
+                        <td><{$verify.cy_name}></td>
+                    </tr>
+                    <tr>
+                        <th>许可证件编号：</th>
+                        <td><{$verify.cy_number}></td>
+                    </tr>
+                    <tr>
+                        <th>许可证件地址：</th>
+                        <td><{$verify.cy_addr}></td>
+                    </tr>
+                    <tr>
+                        <th>许可证件有效期：</th>
+                        <td><{$verify.cy_time}></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="list_box">
+        <div class="enterInfo_step_tit mb20">
+            <span class="num float-l">3</span>
+            <h2 class="float-l">配送信息</h2>
+            <a href="javascript:;" class="fold float-r" style="display: none;">收起<i class="ico up"></i></a>
+            <a href="javascript:;" class="open float-r" style="display: block;">展开<i class="ico"></i></a>
+        </div>
+        <hr class="enterInfo_step_nr_line" style="display:block;">
+        <div class="enterInfo_step_nr" style="display: none;">
+            <table width="100%" border="0" cellspacing="0" class="table-data form">
+                <tbody>
+                    <tr>
+                        <th>配送方式：</th>
+                        <td><{if $waimai.pei_type == 0}>商家配送<{elseif $waimai.pei_type == 1}>平台配送<{/if}></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="list_box">
+        <div class="enterInfo_step_tit mb20">
+            <span class="num float-l">4</span>
+            <h2 class="float-l">结算信息</h2>
+            <a href="javascript:;" class="fold float-r" style="display: none;">收起<i class="ico up"></i></a>
+            <a href="javascript:;" class="open float-r" style="display: block;">展开<i class="ico"></i></a>
+        </div>
+        <hr class="enterInfo_step_nr_line" style="display:block;">
+        <div class="enterInfo_step_nr" style="display: none;">
+            <table width="100%" border="0" cellspacing="0" class="table-data form">
+                <tbody>
+                    <tr>
+                        <th>开户行：</th>
+                        <td><{if $account.account_type}><{$account.account_type}><{/if}><{if $account.account_branch}>-<{$account.account_branch}><{/if}></td>
+                    </tr>
+                    <tr>
+                        <th>银行卡号：</th>
+                        <td><{$account.account_number}></td>
+                    </tr>
+                    <tr>
+                        <th>开户姓名：</th>
+                        <td><{$account.account_name}></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <{if $waimai.verify_name == 0}>
+    <!--审核结果-->
+    <form action="?waimai/apply-audit-<{$waimai.shop_id}>.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tbody>
+            <tr>
+                <th>审核结果：</th>
+                <td>
+                    <label><input type="radio" name="status" checked="checked" value="1">通过</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="status" value="2">不通过</label>
+
+                    <div><textarea class="textarea" name="refuse" placeholder="请输入拒绝原因,同意不需要填写"></textarea></div>
+                    <!--通过此输入框不要-->
+                </td>
+            </tr>
+
+            <tr>
+                <th>配送站:</th>
+                <td>
+                    <select name="group_id" class="form">
+                        <option value="">请选择配送站</option>
+                        <{foreach $group_list as $v}>
+                        <option value="<{$v.group_id}>"><{$v.group_name}></option>
+                        <{/foreach}>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th></th>
+                <td>
+                    <input type="submit" class="bt-big" value="提交">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </form>
+    <{elseif $waimai.verify_name == 2}>
+    <!--以下注释部分为提交之后的结果-->
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tbody>
+
+            <tr>
+                <th>审核结果：</th>
+                <td>
+                    <P class="red">不通过</P>
+                    <p><{$verify.refuse}></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <{/if}>
+    <!--审核结果end-->
+    <!--详情end-->
+</div>
+<div id="preview" class="none" style="display:none"><img class="jq_preview" src="" width="800" height="800"/></div>
+
+<script>
+    $(document).on("click",".see",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("src") == ""||$(this).attr("src")==0||$(this).attr("src")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("src"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '800px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".enterInfo_step_tit a").click(function () {
+            if ($(this).css("display") == "block") {
+                $(this).hide().siblings("a").show();
+            } else {
+                $(this).show().siblings("a").hide();
+            }
+            $(this).parents(".list_box").find(".enterInfo_step_nr").slideToggle(200);
+            $(this).parents(".list_box").find(".enterInfo_step_nr_line").slideToggle(200);
+        });        
+    });
+</script>
+</body>
+</html>

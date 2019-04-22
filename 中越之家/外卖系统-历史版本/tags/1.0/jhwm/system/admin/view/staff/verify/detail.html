@@ -1,0 +1,43 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="staff/verify:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<form action="?staff/verify-edit-<{$detail.staff_id}>.html" mini-form="verify-form" method="post" ENCTYPE="multipart/form-data">
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>真实姓名：</th><td><{$detail.id_name}></td></tr>
+<tr><th>手机号码：</th><td><{$staff.mobile}></td></tr>
+<tr><th>服务类型：</th><td><{if $staff.from == 'weixiu'}>维修<{/if}><{if $staff.from == 'paotui'}>跑腿/外卖<{/if}><{if $staff.from == 'house'}>家政<{/if}></td></tr>
+<tr><th>身份证号：</th><td><{$detail.id_number}></td></tr>
+<tr><th>身份证图：</th><td><img src="<{$detail.id_photo}>" width="300" height="200"> </td></tr>
+<tr><th>认证状态：</th>
+    <td colspan="3">
+        <{if $detail.verify==1}>
+        <b class="green">已认证</b>
+        <{elseif $detail.verify==2}>
+        <b class="red">拒绝</b>
+        <{elseif !$detail.id_number}>
+        <b class="blue">未提交认证信息</b>
+        <{else}>
+        <label><input type="radio" name="data[verify]" <{if $detail.verify==1}>checked="checked"<{/if}> value="1"/>通过</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify]" <{if $detail.verify==2}>checked="checked"<{/if}> value="2"/>拒绝</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify]" <{if empty($detail.verify)}>checked="checked"<{/if}> value="0"/>待审</label>
+        <{/if}>
+    </td>
+</tr>
+<{if empty($detail.verify)}>
+<tr><th>拒绝原因：</th><td><textarea class="textarea w-500" name="data[refuse]"><{$detail.refuse|default:''}></textarea></td></tr>
+<{else}>
+<tr><th>审核时间：</th><td><{$detail.verify_time|format:'Y-m-d H:i:s'}></td></tr>
+<{/if}>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</div>
+</form>
+<{include file="admin:common/footer.html"}>

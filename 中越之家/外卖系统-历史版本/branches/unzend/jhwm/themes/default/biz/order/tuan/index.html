@@ -1,0 +1,54 @@
+<{include file="biz/block/header.html"}>
+
+
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/order:tuan'}>" class="on">正在抢购</a>
+        <a href="<{link ctl='biz/order:t_manager'}>">订单管理</a>
+        <a href="<{link ctl='biz/order:t_quan'}>">券管理</a>
+    </ul>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr class="alt">
+            <th class="w-70">抢购ID</th>
+            <th class="w-100">抢购图片</th>
+            <th class="w-120">抢购名称</th>
+            <th class="w-150">抢购时间</th>
+            <th class="w-80">门店价</th>
+            <th class="w-80">团购价</th>
+            <th class="w-80">销量</th>
+            <th class="w-80">浏览次数</th>
+            <th class="w-80">状态</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><{$item.tuan_id}></td>    
+            <td><img src="<{$pager.img}>/<{$item.photo}>" class="wh-50" /></td>    
+            <td><{$item.title}></td>
+            <td><{$item.stime|format:'Y-m-d'}>/<{$item.ltime|format:'Y-m-d'}></td>
+            <td><{$item.market_price}></td>    
+            <td><{$item.price}></td>     
+            <td><{$item.sales}></td>
+            <td><{$item.views}></td>  
+            <td><{if $item.audit == 1}>正常<{else}>未审核<{/if}></td>  
+        </tr>
+
+        <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">暂无抢购券</div></td></tr>
+        <{/foreach}>
+        <tr>
+            </table>
+        </form>
+        <div class="page-bar">
+            <table>
+                <tr>
+                    <td><div class="page"><{$pager.pagebar}></div></td>
+                </tr>
+            </table>
+        </div>
+
+</div>
+<{include file="biz/block/footer.html"}>
+       

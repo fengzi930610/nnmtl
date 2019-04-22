@@ -1,0 +1,183 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='index:home'}>">管理中心</a></li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+	<!--公告-->
+	<div class="topNotice mb20">
+
+        <{if $waimai.is_root}>
+        <a href="javascript:;" class="fr modify_notice"></a>
+        <div class="nr"><i class="ico"></i>系统公告：平台已设置打烊，如有问题，请联系平台</div>
+        <{else}>
+        <a href="<{link ctl='shop/shop:basic'}>" class="fr modify_notice">[ 修改 ]</a>
+        <div class="nr"><i class="ico"></i>店铺公告：<{$waimai_shop.delcare}></div>
+        <{/if}>
+
+    </div>
+    <!--公告end-->
+    <!--今日营业情况-->
+    <div class="row idx_total_box">
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total bg1">
+                <a href="javascript:;">
+                    <div class="img"><i class="ico1"></i></div>
+                    <div class="wz_box">
+                        <p class="big"><{$count.today_amount}></p>
+                        <p>今日预计收入</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total bg2">
+                <a href="javascript:;">
+                    <div class="img"><i class="ico2"></i></div>
+                    <div class="wz_box">
+                        <p class="big"><{$count.today_yyamount}></p>
+                        <p>今日营业总额</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total bg3">
+                <a href="javascript:;">
+                    <div class="img"><i class="ico3"></i></div>
+                    <div class="wz_box">
+                        <p class="big"><{$count.yorder-$count.norder}></p>
+                        <p>今日有效订单</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 list">
+            <div class="idx_total bg4">
+                <a href="javascript:;">
+                    <div class="img"><i class="ico4"></i></div>
+                    <div class="wz_box">
+                        <p class="big"><{$count.norder}></p>
+                        <p>今日无效订单</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--今日营业情况end-->
+    <div class="row idx_two">
+    	<div class="col-md-7 idx_two_box">
+                <div class="idx_total_img mb20">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>过去营业额</h5>
+                                    <div id='chart'></div>
+                                </div>
+                                <script>
+                                    $.get("<{link ctl='chart:index'}>",function(html){
+                                        $('#chart').append(html);
+                                    },'html');
+                                </script>
+                                <div class="ibox-content">
+                                    <div id="morris-one-line-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    	<div class="col-md-5 idx_two_box">
+        	<div class="idx_activity mb20">
+            	<div class="idx_tit"><span>我的活动</span>
+                <{if empty($manjian) && empty($manfan) && empty($coupons)}>
+                    <a href="<{link ctl='huodong/shop:index'}>" class="more fr black9">去添加&gt;</a>
+                <{else}>
+                    <a href="<{link ctl='huodong/shop:index'}>" class="more fr black9">查看更多&gt;</a>
+                <{/if}>
+                </div>
+                <ul>
+                <{if !empty($manjian)}>
+                    <li>
+                        <h4 class="">满减活动</h4>
+                        <p><{foreach $manjian.config as $v}>
+                            满<{$v.order_amount}>减<{$v.coupon_amount}>&nbsp;&nbsp;&nbsp;
+                        <{/foreach}></p>
+                        <p><{$manjian.stime|format:'Y-m-d'}> ~ <{$manjian.ltime|format:'Y-m-d'}></p>
+                    </li>
+                <{/if}>
+                <{if !empty($manfan)}>
+                    <li>
+                        <h4>满返券活动</h4>
+                        <p><{foreach $manfan.config as $v}>
+                            订单满<{$v.paid_amount}>元返优惠券<{$v.coupon_amount}>元&nbsp;&nbsp;&nbsp;
+                        <{/foreach}></p>
+                        <p><{$manfan.stime|format:'Y-m-d'}> ~ <{$manfan.ltime|format:'Y-m-d'}></p>
+                    </li>
+                <{/if}>
+                <{if !empty($coupons)}>
+                    <li>
+                        <h4>领取优惠券</h4>
+                        <p><{foreach $coupons.config as $v}>
+                            满<{$v.order_amount}>减<{$v.coupon_amount}>&nbsp;&nbsp;&nbsp;
+                        <{/foreach}></p>
+                        <p><{$coupons.stime|format:'Y-m-d'}> ~ <{$coupons.ltime|format:'Y-m-d'}></p>
+                    </li>
+                <{/if}>
+                    <{if !empty($first)}>
+                    <li>
+                        <h4>首单优惠</h4>
+                        <p>首单优惠<{$first.config.first_amount}> &nbsp; &nbsp;商家承担<{$first.config.shop_amount}> &nbsp; &nbsp;平台承担<{$first.config.roof_amount}></p>
+                        <p><{$first.stime|format:'Y-m-d'}> ~ <{$first.ltime|format:'Y-m-d'}></p>
+                    </li>
+                    <{/if}>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--本周热门商品-->
+    <div class="idx_hot">
+    	<div class="idx_tit"><span>本周热门商品</span> <a href="<{link ctl='business/hot:index'}>" class="more fr black9">查看更多&gt;</a></div>
+        <div class="box">
+            <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr class="tit">
+                    <td>商品ID</td>
+                    <td>商品名称</td>
+                    <td>销量</td>
+                    <td>销售额</td>
+                    <td>销量百分比</td>
+                    <td>销售额百分比</td>
+                </tr>
+                <{foreach $business_hot as $k=>$v}>
+                <tr>
+                    <td><{$k}></td>
+                    <td><{$v.product_name}></td>
+                    <td><{$v.total_product_number}></td>
+                    <td><P class="fontcl1"><{$v.total_product_amount}></P></td>
+                    <td><p class="maincl"><{$v.number_ratio}></p></td>
+                    <td><p class="maincl"><{$v.amount_ratio}></p></td>
+                </tr>
+                <{/foreach}>
+            </table>
+        </div>
+    </div>
+    <!--本周热门商品end-->
+
+    <!--库存预警弹出-->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var warn_nums = "<{$warn_nums}>";
+            if(warn_nums > 0){
+                Widget.MsgBox.confirm('您有'+warn_nums+'个商品库存不足，是否前往补充', function(){
+                    window.location.href = "<{link ctl='product/product/warnsku' http='wmbiz'}>";
+                });
+            }
+        });
+    </script>
+    <!--库存预警弹出end-->
+
+<{include file="block/footer.html"}>

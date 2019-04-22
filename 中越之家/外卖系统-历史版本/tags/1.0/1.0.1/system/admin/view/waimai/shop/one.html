@@ -1,0 +1,404 @@
+<{include file="admin:common/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<style type="text/css">
+    .page-data .form td img{margin: 0px;}
+</style>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+                <th>店铺信息</th>
+                <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+                <td width="15"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+	<!--向导-->
+    <div class="guide_list_box mgb10">
+    	<ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" class="on"}></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main" priv="hide" }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main" priv="hide"}></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+
+
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" priv="hide" target="_blank" title="进入门店"}>
+    	<div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-one-<{$shop_id}>.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <p class="form_title">店铺信息</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th>商家名称：</th>
+                    <td><input type="text" name="data[title]" value="<{$waimai.title}>" class="input w-200"></td>
+                </tr>
+                <tr>
+                    <th>联系人：</th>
+                    <td><input type="text" name="data[contact]" value="<{$waimai.contact}>" class="input w-200"></td>
+                </tr>
+                <tr>
+                    <th>手机号：</th>
+                    <td><input type="text" name="data[phone]" value="<{$waimai.phone}>" class="input w-200">
+                        <span class="tip-comment">联系人手机号码</span></td>
+                </tr>
+                <tr>
+                    <th>登录手机号：</th>
+                    <td>
+                        <input type="text" name="data[mobile]" value="<{$shop.mobile}>" class="input w-200">
+                        <span class="tip-comment">登录手机号码</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>密码：</th>
+                    <td>
+                        <input type="text" name="data[passwd]" value="******" class="input w-200"/>
+                        <span class="tip-comment">如需修改直接输入新密码</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>排序：</th>
+                    <td>
+                        <input type="text" name="data[orderby]" value="<{$waimai.orderby|default:50}>" class="input w-200"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>店铺分类：</th>
+                    <td>
+                        <!-- <select name="data[cate_id]" class="w-200">
+                            <{widget id="waimai/cate" value=$waimai.cate_id type="option"}>
+                        </select> -->
+                        <select name="data[cate_id]" class="w-200" id="cate">
+                            <{foreach $cats as $cat}>
+                                <option value="<{$cat.cate_id}>" <{if $waimai.cate_id==$cat.cate_id}>selected<{/if}>><{$cat.title}></option>
+                            <{/foreach}>
+                        </select>
+                        <div id="cates">
+                            <{foreach $cates as $cate}>
+                                <{if $cate.parent_id==$waimai.cate_id}>
+                                <label><input type="checkbox" name="data[cate_ids][]" value="<{$cate.cate_id}>" <{if in_array($cate.cate_id,$waimai.cate_ids)}>checked="checked"<{/if}> class="input"/><{$cate.title}></label>
+                                <{/if}>
+                            <{/foreach}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>店铺区域：</th>
+                    <td>
+
+                    	<select id="city" name="data[city_id]" class="w-200">
+                            <{foreach $all_city as $city}>
+                                <option value="<{$city.city_id}>" <{if $waimai.city_id==$city.city_id}>selected='selected'<{/if}>><{$city.city_name}></option>
+                            <{/foreach}>
+                        </select>
+                    	<select id="area" name="data[area_id]" class="w-200">
+                            
+                        </select>
+                        <!-- <select name="data[business_id]" id="business" class="w-200">
+                            
+                        </select> -->
+                    </td>
+                </tr>
+                <tr>
+                    <th>坐标：</th>
+                    <td>
+                        <label>经度:<input type="text" name="data[lng]" value="<{$waimai.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+                        <label>纬度:<input type="text" name="data[lat]" value="<{$waimai.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>    
+                        <span class="tip-comment">使用高德地图经纬度<a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="button"><b>拾取工具</b></a></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>地址：</th>
+                    <td><input type="text" name="data[addr]" value="<{$waimai.addr|default:''}>" class="input w-500" id="Bmap_marker_addr"/></td>
+                </tr>
+                <tr>
+                    <th>是否新店铺：</th>
+                    <td>
+                        <label><input type="radio" name="data[is_new]" value="1" <{if $waimai.is_new == 1}>checked="checked"<{/if}> class="input"/>是</label>
+                        <label><input type="radio" name="data[is_new]" value="0" <{if $waimai.is_new == 0}>checked="checked"<{/if}> class="input"/>否</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>库存预警：</th>
+                    <td><input type="text" name="data[warn_sku]" value="<{$waimai.warn_sku|default:0}>" class="input w-100" /><span class="tip-comment">当商品库存低于此值时，商户中心首页提醒</td>
+                </tr>
+
+                <!--<tr><th>商家简介：</th><td><textarea name="data[info]" class="textarea"><{$waimai.info}></textarea><br /></td></tr>-->
+                <tr>
+                    <th>商家公告：</th>
+                    <td><textarea name="data[delcare]" class="textarea"><{$waimai.delcare}></textarea><br /></td>
+                </tr>
+
+                <tr>
+                    <th>店铺logo：</th>
+                    <td>
+                    	<div>
+                            <div class="square_img_area float-l mr10">
+                                <div class="img"><img class="jq_img" yulan="logo" rel="" src="<{$pager.img}>/<{$waimai.logo}>" width="148" height="148"></div>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                        <div>
+                            <input type="hidden" name="data[logo]" val="logo" value="<{$waimai.logo}>" class="_jq_img"/>
+                            <a href="javascript:;" class=""><input type="file" name="logo" upload="logo" value="上传图片" class="scimg_int input w-100" id="jq_img">上传图片</a>
+                            <span class="tip-comment">该标志将会被展示给点餐的顾客<span class="red">(限JPG、PNG、图片清晰，单张图片小于2M。)</span></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>门头图：</th>
+                    <td>
+                    	<div>
+                            <div class="square_img_area float-l mr10">
+                                <div class="img" style="width:376px;height: 200px;"><img class="jq_img2" yulan="banner" rel="" src="<{$pager.img}>/<{$waimai.banner}>" width="374" height="198"></div>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>
+                        <div>
+                            <input type="hidden" name="data[banner]" val="banner" value="<{$waimai.banner}>" class="_jq_img2"/>
+                            <a href="javascript:;" class=""><input type="file" upload="banner" name="banner" value="上传图片" class="scimg_int input w-100" id="jq_img2">上传图片</a>
+                            <span class="tip-comment">上传所选门店的门头图，尽可能如实<span class="red">(限JPG、PNG、图片清晰，单张图片小于2M。)</span></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>商家环境图：</th>
+                    <td>
+                    	<div id="envlist">
+                            <{foreach $env as $v}> 
+                                <div class="square_img_area float-l mr10">
+                                    <div class="img">
+                                        <img src="<{$pager.img}>/<{$v.photo}>" width="148" height="148">
+                                        <input type="hidden" name="data[env][]" value="<{$v.photo}>"/>
+                                    </div>
+                                    <a href="javascript:;" class="del pointcl del2">删除</a>
+                                </div>
+                            <{/foreach}>
+                            <div class="clear-both"></div>
+                        </div>
+                        <a href="javascript:;" class=""><input class="imgUpload  env2 w-100" name="huanjing" type="file" upload="huanjing" rel="env" value="上传图片">上传图片</a><span class="tip-comment">上传所选门店的环境图，尽可能如实<span class="red">(限JPG、PNG、图片清晰，单张图片小于2M。)</span></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th>&nbsp;</th>
+                    <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    var json_qu = JSON.parse('<{$all_area}>');
+    var json_business = JSON.parse('<{$all_business}>');
+    var city_id = "<{$waimai.city_id}>";
+    if(!city_id){
+        city_id= $('#city>:first').val();
+    }
+    var sel_area_id = "<{$waimai.area_id}>";
+    var sel_business_id =  "<{$waimai.business_id}>";
+    var edit_city_html = '';
+    if(json_qu){
+        $.each(json_qu,function(k3,v3){
+            if(v3.city_id ==city_id){
+                if(v3.area_id==sel_area_id){
+                    var sel = "selected='selected'";
+                }else{
+                    var sel= '';
+                }
+                edit_city_html+='<option value="'+v3.area_id+'" '+sel+' >'+v3.area_name+'</option>';
+            }
+        });
+    }
+    
+    if(edit_city_html){
+        $('#area').html(edit_city_html);
+    }else{
+        $('#area').html("<option value=''>请选择区域</option>");
+    }
+
+
+    var area_id = "<{$waimai.area_id}>";
+    if(!area_id){
+        area_id=$('#area>:first').val();
+    }
+    if(area_id){
+        var area_edit_html1 = '';
+      
+        if(json_business){
+            $.each(json_business,function(k5,v5){
+                if(area_id == v5.area_id){
+                    if(v5.business_id==sel_business_id){
+                        var sel1="selected='selected'";
+                    }else{
+                        var sel1= "";
+                    }
+                    area_edit_html1+='<option value="'+v5.business_id+'"'+sel1+'>'+v5.business_name+'</option>'
+                }
+            });
+        }
+        if(area_edit_html1){
+            $('#business').html(area_edit_html1);
+        }else{
+            $('#business').html("<option value=''>请选择商圈</option>");
+        }
+
+    }else{
+        $('#business').html("<option value=''>请选择商圈</option>");
+    }
+
+    function city_edit(){
+        $('#city').on('change',function(){
+            var city_id = $(this).val();
+            var edit_city_html = '';
+            $.each(json_qu,function(k3,v3){
+
+                if(v3.city_id ==city_id){
+                    edit_city_html+='<option value="'+v3.area_id+'">'+v3.area_name+'</option>';
+                }
+            });
+
+            if(edit_city_html){
+                $('#area').html(edit_city_html);
+            }else{
+                $('#area').html("<option value=''>请选择区域</option>");
+            }
+            var area_id=$('#area>:first').val();
+            if(area_id){
+                var area_edit_html1 = '';
+                if(json_business){
+                    $.each(json_business,function(k5,v5){
+                        if(area_id == v5.area_id){
+                            area_edit_html1+='<option value="'+v5.business_id+'">'+v5.business_name+'</option>'
+                        }
+                    });
+                }
+                if(area_edit_html1){
+                    $('#business').html(area_edit_html1);
+                }else{
+                    $('#business').html("<option value=''>请选择商圈</option>");
+                }
+            }else{
+                $('#business').html("<option value=''>请选择商圈</option>");
+            }
+        })
+        area_edit();
+    }
+    //区联动
+    function area_edit(){
+        $('#area').off().on('change',function(){
+            var area_id = $(this).val();
+            var area_edit_html = '';
+            if(json_business){
+                $.each(json_business,function(k4,v4){
+                    if(area_id == v4.area_id){
+                        area_edit_html+='<option value="'+v4.business_id+'">'+v4.business_name+'</option>'
+                    }
+                });
+            }
+            if(area_edit_html){
+                $('#business').html(area_edit_html);
+            }else{
+                $('#business').html("<option value=''>请选择商圈</option>");
+            }
+        })
+    }
+    //市
+    city_edit();
+    //区联动
+    area_edit();
+    $("[upload]").on("change", function(){
+        var file = $(this)[0]['files'][0];
+        var key = $(this).attr('upload');
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(file['type'])) {
+            Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }else if(file['size']>2097152){
+            Widget.MsgBox.error("请选择小于2M的图片");
+            return false;
+        }
+        if(key == 'huanjing'){
+            if($("#envlist .img_box").size()>5){
+                Widget.MsgBox.error("环境图片只能上传5张");
+                return false;
+            } 
+        }
+        if(key == 'huanjing'){
+            var params = {"huanjing" : file}
+        }else if(key == 'logo'){
+            var params = {"logo": file};
+        }else{
+            var params = {"image" : file};
+        }
+        Widget.UploadFile("?waimai/shop-uploadimg.html", params, function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else if(key == 'huanjing'){
+                var html = '<div class="square_img_area float-l mr10"><div class="img"><img src="<{$pager.img}>/'+ret.data.photo+'" width="148" height="148"><input type="hidden" name="data[env][]" value="'+ret.data.photo+'"/></div><a href="javascript:;" class="del pointcl del2">删除</a></div>'
+                $('#envlist').before(html);
+            }else{
+                $("[yulan='"+key+"']").attr("src", "<{$pager.img}>/"+ret.data.photo);
+                $("[val='"+key+"']").val(ret.data.photo);
+            }
+        });
+    });
+    $(document).on("click", ".del2", function(){
+        $(this).parent().remove();
+    });
+</script>
+
+<script type="text/javascript">
+    var json_cates = <{json_encode($cates)}>;
+    
+    $('#cate').on('change',function(){
+        var cate_id = $(this).val();
+        cates_edit(cate_id);        
+    })
+
+    function cates_edit(cate_id){
+        var cates_edit_html = '';
+        var inner_lis = '';
+        var i = 0;
+        $.each(json_cates,function(k,v){
+            if(cate_id == v.parent_id){
+                cates_edit_html+='<label><input type="checkbox" name="data[cate_ids][]" value="'+v.cate_id+'" class="input"/>'+v.title+'</label>';
+            }
+        });
+
+        if(!cates_edit_html){
+            //cates_edit_html = "<option value=''>暂无二级分类</option>";
+        }
+
+        $('#cates').html(cates_edit_html);
+    }
+
+</script>
+<{include file="admin:common/footer.html"}>

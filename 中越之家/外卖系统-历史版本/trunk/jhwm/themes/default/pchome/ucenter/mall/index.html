@@ -1,0 +1,121 @@
+<{assign var="page_title" value="积分商城订单"}>
+<{assign var='tpl_title' value=L("积分商城订单")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+        <{include file="pchome/ucenter/block/left.html"}>
+            <div class="minePage_cont fr">
+                <!--内容start-->
+                <div class="myOrder_nr">
+                    <div class="top">
+                        <h2 class="fl bt">商城订单</h2>
+                        <div class="fl tab">
+                                <a href="<{link ctl='ucenter/mall/index' date=$date}>" <{if $st==0}>class="on"<{/if}> >全部<{if $total_count>0}><em class="fontcl1 ml5"><{$total_count}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/mall/index' arg0=1 date=$date}>" <{if $st==1}>class="on"<{/if}> >待付款<{if $count_1>0}><em class="fontcl1 ml5"><{$count_1}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/mall/index' arg0=2 date=$date}>" <{if $st==2}>class="on"<{/if}> >待发货<{if $count_2>0}><em class="fontcl1 ml5"><{$count_2}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/mall/index' arg0=3 date=$date}>" <{if $st==3}>class="on"<{/if}> >已取消<{if $count_3>0}><em class="fontcl1 ml5"><{$count_3}></em><{/if}></a>
+                        <a href="<{link ctl='ucenter/mall/index' arg0=4 date=$date}>" class="last <{if $st==4}>on<{/if}>">已完成<{if $count_4>0}><em class="fontcl1 ml5"><{$count_4}></em><{/if}></a>   
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="box">
+                        <table border="0" width="100%">
+                            <tr class="tit">
+                                <th>
+                                    <div class="ml10 fl">
+                                        <select name="jq_date" id="jq_date">
+                                            <option <{if $date==0}>selected="selected"<{/if}> value="0">全部订单</option>
+                                            <option <{if $date==1}>selected="selected"<{/if}> value="1">近一周订单</option>
+                                            <option <{if $date==2}>selected="selected"<{/if}> value="2">近一月订单</option>
+                                            <option <{if $date==3}>selected="selected"<{/if}> value="3">近三月订单</option>
+                                            <option <{if $date==4}>selected="selected"<{/if}> value="4">近一年订单</option>
+                                        </select>
+                                    </div>
+                                    <span class="fl">订单号</span>
+                                </th>
+                                <th>订单总额</th>
+                                <th>时间</th>
+                                <th>订单状态</th>
+                                <th>操作</th> 
+                            </tr>
+                            <{foreach $items as $item}>
+                                <!-- 订单 -->
+                                <tr class="no">
+                                    <td colspan="5"><!--中间间隔勿删--></td>
+                                </tr>
+                                <tr class="cont_box">
+                                    <td>
+                                        <P class="ml10"><{$item.order_id}></P>
+                                    </td>
+                                    <td>&yen;<{$item.total_price}></td>
+                                    <td><P class="black9"><{$item.dateline|format:'Y-m-d H:i'}></P></td>
+                                    <td>
+                                        <P class="fontcl2"><{$item.order_status_label}></P>
+                                        <a href="<{link ctl='ucenter/mall/detail' args=$item.order_id}>">订单详情</a>
+                                    </td>
+                                    <td>
+                                        <{if $item.order_status == 0&&$item.pay_status == 0}>
+                                        <a href="<{link ctl='payment/pay' args=$item.order_id}>" class="btn_warning btn_outline mr10">立即支付</a>
+                                        <a href="<{link ctl='ucenter/order/cancel' args=$item.order_id}>" class="btn_lineno mr10">取消订单</a>
+                                        <{else}>
+                                        <{$item.order_status_warning}>
+                                        <{/if}>
+                                    </td>
+                                </tr> 
+                                <tr class="list_box">
+                                    <td colspan="5">
+                                        <div class="list_tit">
+                                        <div class="fl img_wz ml10">商品</div>
+                                        <div class="fl danjia">价格积分</div>
+                                        <div class="fl num">数量</div>
+                                        <div class="fl zongjia">合计</div>
+                                    </div>
+                                        <{foreach $item.order_products as $p}>
+                                            <div class="list">
+                                                <div class="img_wz fl ml10">
+                                                    <div class="img fl"><img src="<{$pager.img}>/<{$p.product.photo}>"/></div>
+                                                    <div class="wz_box">
+                                                        <h3 class="overflow_clear"><{$p.product_name}></h3>
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="black6 fl danjia">￥<{$p.product_price}><span class="ml10"><{$p.product_jifen}>积分</span></div>
+                                                <div class="black6 fl num"><{$p.product_number}></div>
+                                                <div class="black6 fl zongjia">￥<{$p['product_price']*$p['product_number']}><span class="ml10"><{$p['product_jifen']*$p['product_number']}>积分</span></div>	
+                                            </div>
+                                        <{/foreach}>
+                                    </td>
+                                </tr>
+                                <!-- 订单结束 -->
+                            <{/foreach}>              
+                        </table>
+                    </div>
+                    <!--分页-->
+                    <div class="pageNum_box mt10 mb10">
+                        <{$pager.pagebar}>
+                    </div>
+                    <!--分页end-->
+                    </div>
+                <!--内容end-->
+            </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#jq_date").change(function (){
+            var date = $(this).val();
+            var link = "<{link ctl='ucenter/mall/index' arg0=$st date=oooo}>";
+            var url = "";
+            if (date > 0) {
+                url = link.replace("oooo", date);
+            } else {
+                url = "<{link ctl='ucenter/mall/index' arg0=$st}>";
+            }
+            window.location.href = url;
+        })
+    })
+</script>
+<{include file="pchome/block/footer.html"}>

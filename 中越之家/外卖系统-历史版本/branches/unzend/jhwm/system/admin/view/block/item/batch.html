@@ -1,0 +1,28 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="block/item:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?block/item-batch.html" mini-form="item-form" method="post" ENCTYPE="multipart/form-data">
+<input type="hidden" name="itemIds" value="<{$pager.itemIds}>" />
+<input type="hidden" name="from" value="<{$pager.from}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>推荐位：</th><td><select name="data[block_id]" class="w-200"><{widget id="block/option" from=$pager.from}></select></td></tr>
+<tr><th>城市：</th><td><{widget id="data/city" type="checkbox" name="data[city_ids]" value=$detail.city_ids}></td></tr>
+<tr><th>内容：</th>
+	<td>
+		<strong class="red">有效内容：<{$pager.total}>条</strong><br/>
+		<{foreach $items as $item}><em style="font-style:italic;"><{if $item@iteration>5}>...........<{break}><{/if}><{$item@iteration}>、<{$item.title}></em><br/><{/foreach}>
+</td></tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="50" class="input w-100"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

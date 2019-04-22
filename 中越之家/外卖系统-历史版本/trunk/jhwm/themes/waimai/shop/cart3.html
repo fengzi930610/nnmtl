@@ -1,0 +1,378 @@
+<{assign var='tpl_title' value=L("购物车")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+.shopCart_list .top {
+    background: #f9f9f9;
+}
+.shopCart_list .list_box ul li{
+    position: relative;
+    text-align: left;
+    width: 100%;
+    margin: 10px auto;
+    display: inline-block;
+}
+.shopCart_list .list_box ul li .commodity{
+    width: 100%;
+    display: inline-block;
+}
+.shopCart_list .list_box ul li .commodity .photo{
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-left: 30px;
+    display: inline-block;
+}
+.shopCart_list .list_box ul li .commodity .photo::after{
+    display: none;
+    content: "";
+    position: absolute;
+    top: 30px;
+    left: -30px;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../themes/waimai/static/img/new4.0/btn_radio@3x.png);
+    background-size: cover;
+}
+.shopCart_list .list_box ul .active .commodity .photo::after{
+    background-image: url(../../../themes/waimai/static/img/new4.0/btn_radio_selected@3x.png);
+}
+.shopCart_list .list_box ul li .commodity .sp1{
+    width: 200px;
+    font-size: 14px;
+    vertical-align: top;
+    margin: 2px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+.shopCart_list .list_box ul li .commodity .sp2{
+    position: absolute;
+    bottom: 10px;
+    left: 125px;
+    font-size: 14px;
+    color: #999;
+}
+.shopCart_list .list_box ul li .pricebox{
+    position: absolute;
+    bottom: 10px;
+    right: 5px;
+}
+.shopCart_list .list_box ul li .o_price{
+    float: right;
+    text-decoration-line:line-through;
+    font-size: 12px;
+    color: #ccc;
+    margin:3px 10px 0 0;
+}
+.shopCart_list .list_box ul li .price{
+    float: right;
+    font-size: 14px;
+    color: #F60;
+}
+.shopCart_list .list_box p{
+    width: 100%;
+    font-size: 14px;
+    display: inline-block;
+}
+.shopCart_list .list_box p .sp1{
+    float: left;
+    margin-left: 30px;
+}
+.shopCart_list .list_box p .sp2{
+    float: right;
+    color: #F60;
+    margin-right: 10px;
+}
+.opt_bar .select_all{
+    display: none;
+    position: relative;
+    float: left;
+    color: #333;
+    font-size: 14px;
+    margin-left: 30px;
+}
+.opt_bar .select_all::after{
+    content: "";
+    position: absolute;
+    top: 7px;
+    left: -25px;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../themes/waimai/static/img/new4.0/btn_radio@3x.png);
+    background-size: cover;
+}
+.opt_bar .active::after{
+    background-image: url(../../../themes/waimai/static/img/new4.0/btn_radio_selected@3x.png) !important;
+}
+.opt_bar .total{
+    float: right;
+    color: #333;
+    font-size: 14px;
+    margin-right: 20px;
+}
+.opt_bar .total strong{
+    color: #F60;
+    margin: 0 5px;
+    font-size: 16px;
+}
+.del{
+    display: inline-block;
+    margin:0 12px 0 24px;
+    color: #F60;
+}
+.del .ico{
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url(/themes/waimai/static/img/index_btn_delete@3x.png) no-repeat center;
+    background-size: contain;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.opt_bar{
+    clear: both;
+    height: 32px;
+    line-height: 32px;
+    padding-top: 5px;
+}
+.opt_bar .btn{
+    float: right;
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    margin-right: 5px;
+}
+.opt_bar .grey_bg{
+    background: #ccc !important;
+}
+.opt_bar .btn.shop{
+    background-color: #090;
+    color: #FFF;
+    margin-right: 6px;
+}
+.opt_bar .btn.buy{
+    float: right;
+    background-color: #F60;
+    color: #FFF;
+    margin-left: 6px;
+}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<div class="mt10 takeout_shopCart">
+                    
+                </div>
+            </div>
+            <{include file="waimai/block/footer_nav.html"}>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var ecarts = JSON.parse(localStorage["ECart"] || '{}') || {};
+
+        //排序后再合并成原数据
+        var sortArr = [];
+        var sortFn = function(a,b){
+            var aupt=0, bupt=0;
+            if(typeof a.upt_time !== "undefined")
+                aupt = Number(a.upt_time);
+            if(typeof b.upt_time !== "undefined")
+                bupt = Number(b.upt_time);
+            return bupt - aupt;
+        };
+        var itk = null;
+        for(itk in ecarts)
+        {
+            ecarts[itk].sid = itk;
+            sortArr.push(ecarts[itk]);
+        }
+        sortArr.sort(sortFn);
+        ecarts = sortArr;
+        sortArr = [];
+        var title_lists = JSON.parse(localStorage["title_list"] || '{}') || {};
+        var html = "";
+        var key = 0;
+        $.each(ecarts,function(k,v){
+            var sid = v.sid;
+            delete v.sid;
+            if(JSON.stringify(v) === "{}")
+                return;
+            var link = "<{link ctl='shop/detail' arg0=__shop_id__ http='waimai'}>";
+            var ecart = new window.ECart(sid);
+            var total = ecart.total_count();
+            var shtml = "";
+            var pricetotal = 0; //价格统计
+            var packageTotal = 0;   //打包费总计
+            var miniprice = 10; //最小起送费
+            html += '<div class="shopCart_list mb10"><div class="top pub_list"><a href="'+link.replace("__shop_id__",sid)+'" class="pub_list_bd"><i class="ico"></i>'+title_lists[sid]+'<i class="link_ico"></i></a><span class="num black9">共'+total+'件</span><a href="javascript:;" class="del" rel="'+sid+'"><i class="ico"></i>清空</a></div><div class="list_box"><ul>';
+            sortArr = [];
+            $.each(v,function(k1,v1){
+                if(k1 === "upt_time" || k1 === "sid")
+                    return;
+                sortArr.push(v1);
+            });
+            sortArr.sort(sortFn);
+            $.each(sortArr,function(k1,v1){
+                var img = "<{$pager.img}>"+'/'+v1.photo;
+                if(v1.spec_name && v1.spec_photo)
+                   var img = "<{$pager.img}>"+'/'+v1.spec_photo;
+                
+                var product_id = v1.product_id;
+                var url = "<{link ctl='shop/detail' arg0='#shop_id#' pid='oooo'}>".replace('#shop_id#',sid).replace('oooo',product_id);
+                var o_price = "￥" + v1.oldprice;
+                if(v1.oldprice.toString() == v1.price.toString()){
+                    o_price = "";
+                }
+                var v1Prices = parseFloat(v1.prices);
+                if(v1Prices)
+                    pricetotal += v1Prices;
+                var v1Package = parseFloat(v1.packages);
+                if(v1Package)
+                    packageTotal += v1Package;
+                //shtml += '<li><div class="img"><span><img src="'+img+'"></span></div><P class="fontcl1">￥'+v1.price+'</P></li>';
+                shtml += '<li class="active"><div class="commodity"><div class="photo" style="background: url('+img+')  no-repeat center; background-size: cover;"></div><span class="sp1">'+v1.title+'</span><span class="sp2">x'+v1.num+'</span></div><div class="pricebox"><span class="price">￥'+v1.price+'</span><span class="o_price">'+o_price+'</span></div></li>';
+            });
+            html += shtml;
+            html += '</ul>';
+            pricetotal = pricetotal + packageTotal;
+            packageTotal = Math.round(packageTotal*100)/100;
+            if(packageTotal)
+                html += '<p><span class="sp1">包装费</span><span class="sp2">￥'+ packageTotal +'</span></p>';
+            html += '<div class="opt_bar"><a class="select_all active">全选<a/><a href="'+("<{link ctl='order/order' arg0='#shop_id#' http='waimai'}>").replace('#shop_id#',sid)+'" class="btn buy">去结算</a><span class="total">总计:<strong>￥'+ Math.round(pricetotal*100)/100 +'</strong></span><input class="miniprice" type="hidden" value="'+ miniprice +'" titel="最小配送费"></div>';
+            html += '<div class="clear"></div></div></div>';
+            key ++;
+            
+        })
+        if(key==0){
+            html = '<div class="shop-car-none-cont"><img src="/themes/waimai/static/img/icon-cart-none@3x.png"><p>您的购物车空空如也</p><a href="<{link ctl='index' http="waimai"}>" class="see-around-btn">去逛逛</a></div>';
+        }
+        $(".takeout_shopCart").html(html);   
+        //console.log(html);
+        titlewidth();
+    })
+     
+    $(function(){
+        $('.shopCart_list .top .del').click(function(){
+            var shop_id = $(this).attr("rel");
+            var ecart = new window.ECart(shop_id);
+            var obj = $(this);
+            Widget.MsgBox.confirm("您确定要清空该店铺购物车吗?", function(ret){
+                if(ret){
+                    ecart.clear();
+                    obj.parents('.shopCart_list').remove();
+                    window.location.reload();
+
+                }
+            });
+
+            
+        })
+    })
+    //自动设置商品名称长度
+    function titlewidth(){
+        var bw = document.documentElement.clientWidth;
+        var w = (bw - 150);
+        $(".commodity .sp1").width(w);
+    }
+    //商品选择 价格计算
+    $(".container_mid").on("click",".shopCart_list .list_box ul li",function(){return;
+        var price = $(this).children().children(".price").text();
+        var total = $(this).parent().parent().children(".opt_bar").children(".total").children("strong").text();
+        var miniprice = $(this).parent().parent().children(".opt_bar").children(".miniprice");
+        price = price.replace("￥","");
+        total = total.replace("￥","");
+        if($(this).hasClass("active")){
+            $(this).removeClass('active');
+            total = eval(total) - eval(price);
+            total = Math.round(total*100)/100;
+            $(this).parent().parent().children(".opt_bar").children(".total").children("strong").text("￥"+total);
+            var sub = $(this).parent().children("li");
+            var num = 0;
+            if(!$(this).parent().children("li").hasClass("active")){
+                $(this).parent().parent().children(".opt_bar").children(".select_all").removeClass("active");
+                $(this).parent().parent().children(".opt_bar").children(".total").children("strong").text("￥0");
+            }
+            if(total <= miniprice.val()){
+                var differ = miniprice.val() - total;
+                differ = Math.round(differ*100)/100;
+                $(this).parent().parent().children(".opt_bar").children(".buy").addClass("grey_bg");
+                $(this).parent().parent().children(".opt_bar").children(".buy").text("差￥"+differ+"起送");
+            }
+            // for(var i=0;i<sub.length;i++){
+            //     if($(this).parent().children("li:eq("+i+")").hasClass("active")){
+            //         num = 1;
+            //     }
+            // }
+            // if(num == 0){
+            //     $(this).parent().parent().children(".opt_bar").children(".select_all").removeClass("active");
+            //     $(this).parent().parent().children(".opt_bar").children(".total").children("strong").text("￥0");
+            // }
+        }
+        else{
+            $(this).addClass('active');
+            total = eval(total) + eval(price);
+            if($(this).parent().parent().children(".opt_bar").children(".total").children("strong").text() == "￥0"){
+                var sp1 = $(this).parent().siblings("p").children(".sp2").text();
+                sp1 = sp1.replace("￥","");
+                total += eval(sp1);
+                total = Math.round(total*100)/100;
+            }
+            $(this).parent().parent().children(".opt_bar").children(".total").children("strong").text("￥"+total);
+            var li = $(this).parent().children(".active").length;
+            var act = $(this).parent().children("li").length;
+            if(li == act){
+                $(this).parent().parent().children(".opt_bar").children(".select_all").addClass("active");
+            }
+            if(total >= miniprice.val()){
+                $(this).parent().parent().children(".opt_bar").children(".buy").removeClass("grey_bg");
+                $(this).parent().parent().children(".opt_bar").children(".buy").text("去结算");
+            }
+        }
+    })
+    //结算
+    $(".container_mid").on("click",".shopCart_list .list_box .opt_bar .buy",function(e){
+        e.preventDefault();
+        var href = $(this).attr("href");
+        var total = $(this).siblings(".total").children("strong").text();
+        total = total.replace("￥","");
+        total = parseFloat(total);
+        var miniprice = $(this).siblings(".miniprice").val(); //获取最小起送费
+        if(total < miniprice){
+            alert("商品价格小于起送费用！");
+            return
+        }
+        else{
+            window.location.href=href;
+        }
+    })
+    //全选
+    $(".container_mid").on("click",".shopCart_list .list_box .opt_bar .select_all",function(e){
+        if($(this).hasClass("active")){
+            $(this).removeClass("active");
+            $(this).parent().siblings("ul").children("li").removeClass("active");
+            $(this).siblings(".total").children("strong").text("￥0");
+        }
+        else{
+            $(this).addClass("active");
+            $(this).parent().siblings("ul").children("li").removeClass("active").addClass("active");
+            var obj = $(this).parent().siblings("ul");
+            var total = 0;
+            for(var i=0;i<obj.children("li").length;i++){
+                var price = obj.children("li:eq("+ i +")").children(".pricebox").children(".price").text();
+                price = price.replace("￥","");
+                total += eval(price);
+            }
+            var sp1 = $(this).parent().siblings("p:eq(1)").children(".sp2").text();
+            sp1 = sp1.replace("￥","");
+            var sp2 = $(this).parent().siblings("p:eq(1)").children(".sp2").text();
+            sp2 = sp2.replace("￥","");
+            total += eval(sp1) + eval(sp2);
+            $(this).siblings(".total").children("strong").text("￥"+total);
+        }
+    })
+</script>
+<{include file="waimai/block/footer.html"}>

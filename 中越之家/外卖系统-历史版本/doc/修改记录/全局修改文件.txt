@@ -1,0 +1,13 @@
+index.php
+
+admin/
+	index.php
+
+system/
+	admin/
+		view/
+			common/
+				header.html
+			page/
+				index.html
+

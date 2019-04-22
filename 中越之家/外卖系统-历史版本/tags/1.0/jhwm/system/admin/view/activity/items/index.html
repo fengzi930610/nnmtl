@@ -1,0 +1,80 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="activity/activity:create" class="button" load="mini:添加" width="mini:800" title="添加"}>
+              <!--  <{link ctl="shop/shop:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>-->
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-50"></th>
+                <th class="w-100">ID</th>
+                <th class="w-100">标题</th>
+                <th class="W-100">分类</th>
+                <th class="w-150">轮播图</th>
+                <th class="w-150">轮播图</th>
+                <th class="w-150">轮播图</th>
+                <th class="w-100">创建时间</th>
+                <th class="w-200">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.active_id}>" name="shop_id[]" CK="PRI"/><{$item.shop_id}><label></td>
+                <td><{$item.active_id}></td>
+                <td><{$item.title}></td>
+                <td><{$item.type}></td>
+                <td><img src="<{$pager.img}>/<{$item.banner1|default:'default/shop_logo.png'}>" width="50" height="50"/></td>
+                <td><img src="<{$pager.img}>/<{$item.banner2|default:'default/shop_logo.png'}>" width="50" height="50"/></td>
+                <td><img src="<{$pager.img}>/<{$item.banner3|default:'default/shop_logo.png'}>" width="50" height="50"/></td>
+                <td><{$item.dateline|format}><br/></td>
+                <td>
+                    <{if $item.cate_id=='1'}>
+                    <{link ctl="activity/items:tuanshop" args=$item.active_id  class="button"  title="团购商家"}>
+                    <{else}>
+                    <{link ctl="activity/items:weidianshop" args=$item.active_id  class="button"  title="微店商家"}>
+                    <{/if}>
+
+                    <{if $item.cate_id=='1'}>
+                    <{link ctl="activity/items:tuangood" arg0=$item.active_id title="团购" class="button"}>
+                    <{else}>
+                    <{link ctl="activity/items:weidiangood" arg0=$item.active_id title="商品" class="button"}>
+                    <{/if}>
+                   <!-- <{link ctl="maidan/maidan:shop" arg0=$item.shop_id title="买单" class="button"}>-->
+                    <{link ctl="activity/activity:edit" args=$item.active_id title="修改" load="mini:添加" width="mini:800" class="button"}>
+                    <{link ctl="activity/activity:delete" args=$item.active_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="activity/activity:delete_all" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    // 管理PC商户端左侧菜单栏默认给一个不缩放的标识  by 夏玉峰 2016-11-22 15:11:52-
+    $("a[title]").click(function() {
+        if(('localStorage' in window) && window['localStorage'] !== null) {
+            localStorage['mini_navbar_status'] = 'off';
+        }
+    })
+</script>
+<{include file="admin:common/footer.html"}>

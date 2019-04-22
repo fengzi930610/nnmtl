@@ -1,0 +1,122 @@
+<{assign var='tpl_title' value='我的维修订单详情'}>
+<{include file="block/header.html"}>
+<header>
+	<!--<i class="left"><a href="<{link ctl='ucenter/order/items' arg1='weixiu'}>" class="ico headerIco headerIco_3"></a></i>-->
+        <i class="left"><a href="<{link ctl='ucenter/order/items_all'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的维修订单详情
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list"><a href="<{link ctl='ucenter/order/log' arg1=$order.order_id}>">订单状态</a></li>
+        <li class="switchTab_list on"><a href="<{link ctl='ucenter/order/detail' arg1=$order.order_id}>">订单详情</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+<section class="page_center_box">
+    <div class="order_progress_infor mb10">
+        <div class="fl">
+            <p class="black9"><span class="pointcl1"><{$order.order_status_label}></span></p>
+            <p class="black9"><{$order.order_status_warning}></p>
+        </div>
+        <{if $order.staff_id == 0}><a href="#" class="btn fr">申请退单</a><{/if}>
+        <div class="clear"></div>
+    </div>
+    <div class="jiazheng">
+        <div class="order_details_nr waimaiRun_details">
+            <ul class="form_list_box">
+                <li class="list">
+                    <div class="fl"><p>订单ID：<{$order.order_id}></p></div>
+                    <div class="fr"><p class="black9"><{$order.dateline|format}>下单</p></div>
+                </li>
+                <li class="list">
+                    <p class="black6">联系人：<{$order.contact}></p>
+                </li>
+                <li class="list">
+                    <p class="black6">联系电话：<{$order.mobile}></p>
+                </li>
+                <li class="list">
+                    <p class="black6">服务地址：<{$order.addr}><{if $order.house}>(<{$order.house}>)<{/if}></p>
+                </li>
+                <li class="list">
+                    <p class="black6">服务时间：<{$order.detail.fuwu_time|format}></p>
+                </li>
+                <li class="list">
+                    <p class="black6">服务要求：<{$order.intro}></p>
+                </li>
+                
+                <{if $order.photo}>
+                <li class="list waimaiRun_details_nr last">
+                    <ul class="img_list">
+                        <{foreach $order.photo as $k => $v}>
+                    	<li class="list"><img src="<{$pager.img}>/<{$v.photo}>" width="100" ></li>
+                        <{/foreach}>
+                    </ul>
+                </li>
+                <{/if}>
+                
+                <li class="list">
+                    <p class="">服务人员信息</p>
+                </li>
+                <li class="list">
+                    <p class="black6">联系人：<{if $order.staff}><{$order.staff.name}><{else}>等待系统指派人员<{/if}></p>
+                </li>
+
+                <li class="list <{if  $order.detail.jiesuan_price == 0}>last<{/if}>">
+                    <p class="fl">定金<span class="black9"><{if $order.pay_status == 1||$order.order_status == 5}>（已支付）<{else}>(未支付)<{/if}></span></p>
+                    <p class="fr fontcl1">￥<{$order.detail.danbao_amount}></p>
+                </li>
+                <{if $order.detail.jiesuan_price > 0}>
+                <li class="list last">
+                    <p class="fl">订单总价<{if $order.order_status == 8}><span class="black9">（已支付）</span><{else}><span class="black9">（未支付）</span><{/if}></p>
+                    <p class="fr fontcl1">￥<{$order.detail.jiesuan_price}></p>
+                </li>
+                <{/if}>
+            </ul>
+        </div>
+    </div>
+</section>
+    
+<{if $order.order_status > 1 && $order.order_status != 8}>
+<footer>
+    <div class="ord_tousu">
+    	<a href="<{link ctl='ucenter/order/complaint' arg1=$order.order_id}>" class="fl"><img src="/themes/default/static/images/tousu.png">
+            <p class="black9">投诉</p>
+        </a>
+        <a href="#" class="fr pub_btn">再来一单</a>
+    </div>
+</footer>
+<{/if}>
+    
+<{if $order.order_status == 0 && $order.pay_status == 0}>
+<footer>
+	<div class="btn_box"><a href="javascript:toPay(<{$order.order_id}>);"><input type="button" class="long_btn bgcolor1" value="立即支付"></a></div>
+</footer>
+<{/if}>
+<{if $order.order_status == 5}>
+<footer>
+    <div class="btn_box"><a href="javascript:toPay(<{$order.order_id}>);"><input type="button" class="long_btn bgcolor1" value="补差价"></a></div>
+</footer>
+<{/if}>
+
+
+
+</body>
+</html>
+
+<script>
+
+/*去支付*/
+function toPay(order_id) {
+    var order_id = parseInt(order_id);
+    var link_storage = "<{link ctl='ucenter/order:detail' arg0='temp0' }>";
+    localStorage['order_pay'] = link_storage.replace('temp0', order_id);
+    var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+    setTimeout(function () {
+        window.location.href = link.replace('temp1', order_id);
+    }, 1000);
+}
+
+</script>

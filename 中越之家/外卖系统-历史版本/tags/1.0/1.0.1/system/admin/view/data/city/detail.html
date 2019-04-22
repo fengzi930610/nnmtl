@@ -1,0 +1,25 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="data/city:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>ID：</th><td><{$detail.city_id}></td></tr>
+<tr><th>城市：</th><td><{$detail.city_name}></td></tr>
+<tr><th>城市(越南文）：</th><td><{$detail.city_name_vn}></td></tr>
+<tr><th>拼音：</th><td><{$detail.pinyin}></td></tr>
+<tr><th>城市编号：</th><td><{$detail.city_code}></td></tr>
+<tr><th>seo标题：</th><td><{$detail.seo_title}></td></tr>
+<tr><th>seo关键词：</th><td><{$detail.seo_keywords}></td></tr>
+<tr><th>seo描述：</th><td><{$detail.seo_description}></td></tr>
+<tr><th>排序：</th><td><{$detail.orderby}></td></tr>
+<tr><th>状态：</th><td><{if $detail.audit}>开启<{else}>关闭<{/if}></td></tr>
+</table>
+</div>
+<{include file="admin:common/footer.html"}>

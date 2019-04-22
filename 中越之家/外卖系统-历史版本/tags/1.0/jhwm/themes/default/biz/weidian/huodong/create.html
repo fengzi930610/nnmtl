@@ -1,0 +1,53 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/weidian/huodong:create'}>" class="on">添加活动</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/weidian/huodong:create'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th>广告标题：</th>
+                <td>
+                    <input type="text" name="data[title]" value="" class="input w-500"/>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>开始时间：</th>
+                <td><input type="text" name="data[stime]" id="stime" value="" class="input w-150"   onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'stime\',{d:-1})}'})"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>结束时间：</th>
+                <td><input type="text" name="data[ltime]" id="ltime" value="" class="input w-150"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'ltime\',{d:1})}'})"/></td>
+            </tr>
+            <tr>
+                <th>广告链接：</th>
+                <td>
+                    <input type="text" name="data[link]" value="" class="input w-500"/>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+
+$("[name='data[stock_type]']").click(function () {
+if ($(this).val() == 1) {
+    $("#tr_sale_sku1").show();
+} else {
+    $("#tr_sale_sku1").hide();
+}
+});
+$("[name='data[stock_type]']:checked").trigger("click");
+})(window.KT, window.jQuery);
+
+</script>  
+<{include file="biz/block/footer.html"}>

@@ -1,0 +1,32 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="order/order:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?order/order-dopaidan.html" mini-form="paidan-form" method="post">
+<input type="hidden" name="order_id" value="<{$order.order_id}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>单号：</th><td><{$order.order_id}></td></tr>
+<tr><th>状态：</th><td><{$order.order_status_label}></td></tr>
+<tr><th>类型：</th><td><{if $order.pei_type ==1 }>配送单<{elseif $order.pei_type == 2}>代购单<{/if}></td></tr>
+<tr><th>配送费：</th><td>￥<{$order.pei_amount}></td></tr>
+<tr><th>地址：</th><td><{$order.addr}></td></tr>
+<tr>
+    <th>配送员：</th>
+    <td>
+        <input type="hidden" name="data[staff_id]" value="0" id="select_staff_id" />
+        <input type="text" value="" id="select_staff_name" class="input w-150"/>
+        <{link ctl="staff/staff:paiorder" args=$order.order_id title="选择配送员" select="mini:#select_staff_id,#select_staff_name/N/选择配送员" class="button"}>
+    </td>
+</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form>
+</div>
+<{include file="admin:common/footer.html"}>

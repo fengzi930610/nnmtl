@@ -1,0 +1,39 @@
+<{assign var='tpl_title' value=L("<{$weidian.title}>")}>
+<{include file="weidian/block/header.html"}>
+<section class="page_center_box">
+	<div class="txt_center statusBar_box" style="padding-top:30px;">
+		<img src="/themes/default/weidian/static/images/state_1@2x.png"/>
+		<h3 class="cztsnr <{if $pager.error}>cztsnr_Failure<{/if}>">
+			<{if $pager.error}><span ><{else}><span><{/if}><{$pager.message}></span>
+		</h3>
+		<p class="czts_p" style="color:#666;">页面自动 跳转中   等待时间：<span class="czts_time" id="czts_time"></span></p>
+
+	</div>
+</section>
+<div class="page page-current">
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left  headerIco headerIco2" href="<{link ctl='index'}>"></a>
+            <h1 class="title"><{$weidian.title}></h1>
+        </header>
+		<!--头部结束-->
+
+</div>
+<script>
+    var secs = 3; //倒计时的秒数
+    var URL ;
+    function Load(url){
+        URL = "<{if $pager.link}><{$pager.link}><{else}><{link ctl='index'}><{/if}>";
+        for(var i=secs;i>=0;i--) {
+            window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);
+        }
+    }
+    function doUpdate(num)  {
+        document.getElementById('czts_time').innerHTML = num;
+        if(num == 0) { window.location=URL; }
+    }
+</script>
+<script language="javascript">
+    Load(""); //要跳转到的页面
+</script>
+<{include file="weidian/block/footer.html"}>

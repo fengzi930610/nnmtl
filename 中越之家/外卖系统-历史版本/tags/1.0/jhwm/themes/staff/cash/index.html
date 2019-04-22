@@ -1,0 +1,42 @@
+<{assign var='tpl_title' value=L("配送员对账-资金流水")}>
+<{include file="block/header.html"}>
+
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <p class="black9 mr10 ml10 mt5 mb5"><big>对账单</big></p>
+                <div class="duizZdan_list duizYuE_list">
+                    <ul id="index_goods_items">
+
+                    </ul>
+                </div>
+                <div class="loadding"></div>
+                <div class="clear"></div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function(){
+        var url = '<{link ctl="cash/loaditems" arg0="#page#" http="staff"}>';
+        var list_id = 'index_goods_items';
+        loadpage(url,{},1,list_id);
+        scroll(url,{},1,"","#index_goods_items",list_id);
+    }
+</script>
+
+
+
+
+
+
+
+
+
+<{include file="block/footer.html"}>

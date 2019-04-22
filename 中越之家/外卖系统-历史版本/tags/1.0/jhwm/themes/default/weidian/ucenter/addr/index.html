@@ -1,0 +1,60 @@
+<{assign var='tpl_title' value=L("收货地址")}>
+<{include file="weidian/block/header.html"}>
+<div class="get-address-cont">
+    
+    <{foreach $addr as $k => $v}>
+     <div class="address-one mb10">
+          <div class="cont1" address='{"addr_id":"<{$v.addr_id}>","lng":"<{$v.lng}>","lat":"<{$v.lat}>","address":"<{$v.addr}><{$v.house}>", "contact":"<{$v.contact}>", "mobile":"<{$v.mobile}>", "addr":"<{$v.addr}>", "house":"<{$v.house}>"}'>
+               <div class="dizhi1"><{$v.contact}> <span class="ml10"><{$v.mobile}></span><i class="ico ic-gou fr"></i></div><div class="clear"></div>
+               <div class=""><{$v.addr}></div>
+          </div>
+          <div class="caozuo">
+              <a class="caozuo-1" href="<{link ctl='ucenter/addr/edit' arg1=$v.addr_id}>"><i class="ico ic-edit"></i>编辑</a>
+               <a class="caozuo-1 del" href="javascript:void(0);" shref="<{link ctl='ucenter/addr/delete' arg1=$v.addr_id}>"><i class="ico ic-cancel"></i>删除</a>
+               <div class="clear"></div>
+          </div>
+     </div>
+    <{/foreach}>
+
+</div>
+<div class="dizhi-add-new" style="text-align:center;"><a href="<{link ctl='ucenter/addr:create'}>" class="" style="color:#ffffff;font-size:0.18rem;height:0.5rem;line-height:0.5rem;">新增收货地址</a></div>
+<!--收货地址选择-->
+<script>
+     $(document).ready(function(){
+         $(".address-one  .cont1").click(function(){
+              $(".address-one .cont1").removeClass("on");
+              if($(this).hasClass("on")){
+                $(this).removeClass("on");
+              }else{
+                $(this).addClass("on");
+              }
+         });
+         $('.del').click(function(){
+             var link = $(this).attr('shref');
+             layer.open({
+                content: '您确定要删除吗？'
+                ,btn: ['确定','取消']
+                ,yes: function(index){
+                  window.location.href=link;
+                  layer.close(index);
+                }
+              });
+         });
+         // 所有类型订单下单选择地址统一处理
+            $('.cont1').click(function () {
+                if(localStorage['select_address'] != undefined) {
+                    var addrJSON = JSON.parse(localStorage['select_address']);
+                }
+                var backurl = addrJSON.backurl;  
+                var is_ziti = addrJSON.is_ziti;
+                var address = JSON.parse($(this).attr('address'));
+                address.is_ziti = is_ziti;
+                address.backurl = backurl;
+                localStorage['select_address'] = JSON.stringify(address);
+                setTimeout(function () {
+                    window.location.href = backurl;
+                }, 500);
+            })
+     });
+</script>
+<{include file="weidian/block/footer.html"}>

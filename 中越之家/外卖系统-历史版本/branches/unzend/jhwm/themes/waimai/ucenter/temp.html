@@ -1,0 +1,279 @@
+<{assign var='tpl_title' value=L("个人中心")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont mycenter-index-cont">
+            <div class="container_mid" style="background: #fff;">
+                <!--<a href="<{link ctl='ucenter/info:index' http='home'}>" class="top-who mt10 pub_list border_b">
+                    <div class="who-pic" style="line-height: 0px;"><img src="<{$pager.img}>/<{$MEMBER.face}>" width="54" height="54"></div>
+                    <div class="pub_list_bd">
+                        <p class="the-name mb5"><{$MEMBER.nickname}></p>
+                        <p class="black9"><i class="ico-phone mr5"></i><{substr_replace($MEMBER['mobile'], '****', 3, 4)}>  </p>
+                    </div>
+                </a>-->
+
+                <!--<div class="xinxi-box mb10">
+                    <ul>
+                        <li class="xinxi-li border_r">
+                            <a href="<{link ctl='ucenter/money:index' http='waimai'}>">
+                                <p class="mb5 the-num num-color1"><{$MEMBER.money}></p>
+                                <p class="black9">余额(￥)</p>
+                            </a>
+                        </li>
+                        <li class="xinxi-li border_r">
+                            <a href="<{link ctl='ucenter/hongbao/' http='waimai'}>">
+                                <p class="mb5 the-num fontcl1"><{$pager.hongbao_count}></p>
+                                <p class="black9">红包(个)</p>
+                            </a>
+                        </li>
+                      <{link ctl='ucenter/integral'}>
+                        <li class="xinxi-li">
+                            <a href="<{link ctl='ucenter/jifen' http='waimai'}>">
+                                <p class="mb5 the-num num-color2"><{$MEMBER.jifen}></p>
+                                <p class="black9">积分(分)</p>
+                            </a>
+                        </li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>-->
+                <!--<div class="link-one">
+                    <a href="<{link ctl='ucenter/addr:index' http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">收货地址</div>
+                    </a>
+                </div>
+                <div class="link-one">
+                    <a href="<{link ctl='ucenter/collect:index' arg0=1 http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">我的收藏</div>
+                    </a>
+                </div>
+
+                <div class="link-one ">
+                    <a href="<{link ctl='ucenter/msg/index' http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">我的消息</div>
+                    </a>
+                </div>-->
+                <!--<div class="link-one ">
+                    <a href="<{link ctl='ucenter/jifen' http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">我的积分</div>
+                    </a>
+                </div>-->
+                <!--<div class="link-one ">
+                    <a href="<{link ctl='ucenter/coupon' http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">我的优惠券</div>
+                    </a>
+                </div>-->
+
+                <!--<div class="link-one">
+                     <a href="<{link ctl='mall/index'}>" class="pub_list link-a border_b">
+                         <div class="pub_list_bd">积分商城</div>
+                     </a>
+                 </div>-->
+                 <!--<div class="link-one">
+                     <a href="<{link ctl='coupon'}>" class="pub_list link-a border_b">
+                         <div class="pub_list_bd">优惠券</div>
+                     </a>
+                 </div>-->
+                 <!-- <div class="link-one mb10">
+                     <a href="<{link ctl='card'}>" class="pub_list link-a">
+                         <div class="pub_list_bd">会员卡</div>
+                     </a>
+                 </div>   -->
+                <!--<div class="link-one">
+                    <a href="<{link ctl='ucenter/peicard/mycard' http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">我的配送会员卡</div>
+                    </a>
+                </div>
+
+                <div class="link-one">
+                    <a href="<{link ctl='ucenter/share/index' http='waimai'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">邀请好友</div>
+                    </a>
+                </div>
+                <div class="link-one ">
+                    <a href="<{link ctl='page/about' http='www'}>" class="pub_list link-a border_b">
+                        <div class="pub_list_bd">关于我们</div>
+                    </a>
+                </div>
+
+                <div class="text_c mt10 mb10">
+                    <{if $MEMBER.uid}><a href="<{link ctl='passport/loginout'}>" class="tuichu-btn fontcl1">退出登录</a><{/if}>
+                </div>-->
+                <!--个人中心Personal center-->
+                <div class="PC_top">
+                	<a href="<{link ctl='ucenter/info:index' http='home'}>" class="PC_data">
+                		<div class="userPhoto"><img src="<{$pager.img}>/<{$MEMBER.face}>" /></div>
+                		<div class="userNameOrTel">
+                			<h2><{$MEMBER.nickname}></h2>
+                            <{if false}><!-- ===== 20181129 新增，如果用户未绑定手机号，则不显示 --><{/if}>
+                			<p><{if $MEMBER.mobile==$MEMBER.uid}><{else}><{$MEMBER['mobile']}><{/if}></p>
+                            <{if false}><!-- ============================================================ --><{/if}>
+                		</div>
+                	</a>
+                	<div class="top_list">
+                		<ul>
+                			<li>
+                				<a href="<{link ctl='ucenter/money:index' http='waimai'}>">
+                					<p><span><{$MEMBER.money}></span>元</p>
+                					<p>余额</p>
+                				</a>
+                			</li>
+                			<li>
+                				<a href="<{link ctl='ucenter/hongbao/' http='waimai'}>">
+                					<p><span><{$pager.hongbao_count}></span>个</p>
+                					<p>红包</p>
+                				</a>
+                			</li>
+                			<li>
+                				<a href="<{link ctl='ucenter/coupon' http='waimai'}>">
+                					<p><span><{$pager.coupon_count}></span>张</p>
+                					<p>优惠券</p>
+                				</a>
+                			</li>
+                			<li>
+                				<a href="<{link ctl='ucenter/jifen' http='waimai'}>">
+                					<p><span><{$MEMBER.jifen}></span>个</p>
+                					<p>积分</p>
+                				</a>
+                			</li>
+                		</ul>
+                		<div class="clear"></div>
+                	</div>
+                </div>
+                
+                <div class="PC_func_list">
+                	<ul>
+                        <{foreach $customModule as $k=>$mod}>
+                        <li>
+                            <a href="<{if $mod.phone}>tel:<{$mod.phone}><{else}><{$mod.link}><{/if}>">
+                                <div class="PC_listIcon">
+                                    <img src="<{$mod.photo}>"/>
+                                </div>
+                                <p><{$mod.title}></p>
+                            </a>
+                        </li>
+                        <{/foreach}>
+                		<!-- <li>
+                            <a href="<{link ctl='ucenter/addr:index' http='waimai'}>">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_01@3x.png"/>
+                                                        </div>
+                                                        <p>收货地址</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<{link ctl='ucenter/collect:index' arg0=1 http='waimai'}>">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_02@3x.png"/>
+                                                        </div>
+                                                        <p>我的收藏</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<{link ctl='ucenter/share/index' http='waimai'}>">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_03@3x.png"/>
+                                                        </div>
+                                                        <p>邀请好友</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<{link ctl='mall/index'}>">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_04@3x.png"/>
+                                                        </div>
+                                                        <p>积分商城</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_05@3x.png"/>
+                                                        </div>
+                                                        <p>商家入驻</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_06@3x.png"/>
+                                                        </div>
+                                                        <p>骑手入驻</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<{link ctl='ucenter/msg/index' http='waimai'}>">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_07@3x.png"/>
+                                                        </div>
+                                                        <p>我的消息</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_08@3x.png"/>
+                                                        </div>
+                                                        <p>意见反馈</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_09@3x.png"/>
+                                                        </div>
+                                                        <p>帮助中心</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_10@3x.png"/>
+                                                        </div>
+                                                        <p>在线客服</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<{link ctl='page/about' http='www'}>">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_11@3x.png"/>
+                                                        </div>
+                                                        <p>关于我们</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="PC_listIcon">
+                                <img src="/themes/waimai/static/img/new4.0/nav_12@3x.png"/>
+                                                        </div>
+                                                        <p>版本更新</p>
+                            </a>
+                        </li> -->
+                	</ul>
+                </div>
+            </div>
+            <{include file="waimai/block/footer_nav.html"}>
+        </div>
+    </div>
+</div>
+<!--根据当前时间改变背景图-->
+<script>
+	var now = new Date();
+	var nowHour = now.getHours();
+	if(7<=nowHour && nowHour<=19){
+	
+	}else{
+		$(".PC_top").addClass("PC_top2");
+	}
+</script>
+<{if false}><!-- ===== 20181129 新增，如果用户未绑定手机号，则提示跳转进行绑定 --><{/if}>
+<{if $MEMBER.mobile==$MEMBER.uid || empty($MEMBER.mobile)}>
+<script type="text/javascript">
+    Widget.MsgBox.confirm("您未绑定手机号，是否现在绑定？",function(ret){
+        if(ret)
+            document.location.href = "<{link ctl='ucenter/info:bind_mobile' http='home'}>";
+    });
+</script> 
+<{/if}>
+<{if false}><!-- ================================================= --><{/if}>
+
+<{include file="block/footer.html"}>

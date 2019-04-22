@@ -1,0 +1,148 @@
+文件路径
+system/
+	config.php（不可直接上传覆盖，需要手动修改相关内容）
+
+static/
+	baidu/
+		gaode.html
+	script/
+		widget.bmap.js
+
+system/
+	admin/
+		controllers/
+			data/
+				city.ctl.php
+			index.ctl.php
+		view/
+			common/
+				header.html
+			data/
+				city/
+					create.html
+					detail.html
+					edit.html
+					items.html
+			group/
+				eidt.html
+				create.html
+				set_map.html
+				setarea.html
+	models/
+		data/
+			city.mdl.php
+		magic/
+			baidu.mdl.php
+	waimai/
+		controllers/
+			ucenter/
+				order.ctl.php
+themes/
+	wmbiz/
+		shop/
+			deliver/
+				gaode.html
+	waimai/
+		shop/
+			map.html
+		order/
+			jiedan_map.html
+			order_map.html
+		block/
+			header.html
+		ucenter/
+			gaodemap.html
+		static/
+			js/
+				common.js
+		position.html
+
+数据库
+	*_data_city
+
+
+system/config.php
+	修改地图密钥
+	增加常量MAP_DEFAULT_CENTER，表示地图默认中心点坐标
+
+system/admin/view/common/header.html
+	在所有脚本引所之前，添加一个脚本，定义getMapApiKey()函数，
+	使得后台管理所有子页面中使用到static/script/widget.bmap.js时，
+	static/script/widget.bmap.js可以通过这个函数获得system/config.php
+	中配置的地图KEY
+	
+	定义getMapDefaultPoint()函数，获取地图默认中心点！
+
+	geocoder()、placeapi()两个函数不再使用地图API，修改为使用系统新增查询接口，以尽量维持原代码结构不变，同时也缩小系统地图使用位置的离散度
+	
+	注意共有两处相同的代码！！
+
+system/admin/view/group/edit.html
+system/admin/view/group/create.html
+system/admin/view/group/set_map.html
+system/admin/view/group/setarea.html
+	修改地图为谷歌地图
+
+static/script/widget.bmap.js
+	在打开坐标拾取器时，会使用getMapApiKey()获取地图KEY，如果获取不取，则提示拾取器无法使用！
+	如果没有设置初始点，使用getMapDefaultPoint()获取默认心点
+
+static/baidu/gaode.html
+	修改jquery脚本为使用谷歌CDN
+	修改各种地图接口为使用谷歌地图接口。
+	删除旧有不再使用的代码。
+
+数据表 *_data_city
+	增加字段city_name_vn
+	ALTER TABLE `wms_data_city` ADD COLUMN `city_name_vn`  varchar(255) NULL DEFAULT '' AFTER `city_name`
+
+system/admin/view/data/city/create.html
+system/admin/view/data/city/detail.html
+system/admin/view/data/city/edit.html
+system/admin/view/data/city/items.html
+	增加越南城市名称显示位置或输入表单项
+
+system/models/data/city.mdl.php
+	将字段名city_name_vn添加到模型中。
+
+system/admin/controllers/data/city.ctl.php
+	修改index()，将城市名搜索条件修改为包含越南名称一起搜索
+
+system/admin/controllers/index.ctl.php
+	增加接口srvapi()，提供数据查询服务
+
+system/models/magic/baidu.mdl.php
+	修改四个接口函数为使用谷歌地图API
+
+themes/wmbiz/shop/deliver/gaode.html
+	修改地图为谷歌地图
+
+themes/waimai/shop/map.html
+	修改地图为谷歌地图
+	
+themes/waimai/order/jiedan_map.html
+themes/waimai/order/order_map.html
+	修改地图为谷歌地图
+	增加每30秒更新一次骑手位置及提示信息
+
+system/waimai/controllers/ucenter/order.ctl.php
+	增加接口order_dispatch_status()，用于获取指定订单配送状态的信息（主要是骑手位置、提示信息）
+
+themes/waimai/block/header.html
+	去掉高德地图API脚本的引入标签
+
+themes/waimai/ucenter/gaodemap.html
+	修改地图为谷歌地图
+	增加点击地图在点击位置查找附近地址功能
+	去除原来选择地点后立即跳回地址设置页功能，改为点击地点后，在地图上预览地点位置。
+
+themes/waimai/position.html
+	修改地址搜索逻辑为适应新的地图函数
+	去除城市选择按键及当前城市的显示（因为谷歌地图没有直接以城市名进行搜索的功能，要使用该功能，要先使用城市名检索出城市的矩形范围，再把搜索范围限制在这个矩形范围内，而在检索城市的过程中可能会失败，从而使整个搜索失败，所以暂时去掉这个功能）
+
+themes/waimai/static/js/common.js
+	将定位后由地址转为坐标，或由地址搜索坐标的函数实现修改为使用谷歌地图。
+	增加谷歌地图所需要的将place_id转为真实物理坐标的函数
+
+
+

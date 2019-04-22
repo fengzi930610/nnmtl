@@ -1,0 +1,26 @@
+<{foreach $items as $item}>
+<div class="luckyNumber_box pastKaijiang_box mb10">
+    <div class="card">
+        <div class="card-header">
+            <a href="<{link ctl='cloud/index/lottery' args=$item.attr_id}>"><div class="black3"><{if $item.win_uid == $MEMBER.uid}><em class="me mr5">me</em><{/if}>第<{$item.cloud_num}>期<span class="ml5 black6" style=" font-size:0.75rem;"><{$item.lottery_time|format:'Y-m-d'}><span class="ml10"><{$item.lottery_time|format:'H:i:s'}></span></span></div></a>
+        </div>
+        <div class="card-content">
+            <div class="card-content-inner">
+                <div class="fl img"><img width="70" height="70" src="<{$pager.img}>/<{$item.users.face|default:'face.png'}>"/></div>
+                <div class="wz_nr">
+                    <div class="wz_nr_row black6">
+                        <div>获奖者：<a href="javascript:void(0);"><{$item.users.nickname}></a></div>
+                        <{if $MEMBER['uid']}><a href="<{link ctl='cloud/order/code' arg0=$detail.attr_id arg1=$item.attr_id arg2=$MEMBER['uid']}>">我的号码</a><{/if}>
+                    </div>
+                    <div class="black6">幸运号码：<span class="maincl"><{$item.win_number}></span></div>
+                    <div class="wz_nr_row black6">
+                        <div>本期参与：<{$item.lottery_num}>人次</div>
+                        <{if $item.win_uid != $MEMBER.uid}><a href="<{link ctl='cloud/order/code' arg0=$detail.attr_id arg1=$item.attr_id  arg2=$item.win_uid}>">查看ta的号码</a><{/if}>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<{/foreach}>

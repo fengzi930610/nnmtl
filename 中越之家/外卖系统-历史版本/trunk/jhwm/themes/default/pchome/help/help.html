@@ -1,0 +1,68 @@
+<{assign var="page_title" value="帮助中心"}>
+<{assign var='tpl_title' value=L("帮助中心")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+   <div class="headerTop_one green">
+        <div class="pagewd">
+            <div class="logo fl">
+                <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo}>"></a>
+            </div>
+            <div class="tit fl">帮助中心</div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="helpPage_bg bg_grey">
+    	<div class="pagewd">
+            <{include file="pchome/help/left.html"}>
+            <div class="helpPage_cont fr">
+            	<div class="helpPage_idx_list_box mb10">
+                	<ul>
+                    	<li>
+                            <a href="<{link ctl='help/page' args=problem}>">
+                            	<i class="ico fr"></i>
+                            	<div class="fl img"><img src="/themes/default/pchome/static/images/help/img1.png"></div>
+                                <P>常见问题</P>
+                            </a>
+                        </li>
+                        <li>
+                        	<a href="<{link ctl='help/page' args=pay}>">
+                            	<i class="ico fr"></i>
+                            	<div class="fl img"><img src="/themes/default/pchome/static/images/help/img2.png"></div>
+                                <P>支付方式</P>
+                            </a>
+                        </li>
+                        <li>
+                        	<a href="<{link ctl='help/page-quan'}>">
+                            	<i class="ico fr"></i>
+                            	<div class="fl img"><img src="/themes/default/pchome/static/images/help/img3.png"></div>
+                                <P>代金券使用</P>
+                            </a>
+                        </li>
+                        <li>
+                        	<a href="<{link ctl='help/page' args=refund}>">
+                            	<i class="ico fr"></i>
+                            	<div class="fl img"><img src="/themes/default/pchome/static/images/help/img4.png"></div>
+                                <P>退款说明</P>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="helpPage_idx_cntct">
+                	<div class="list fl">
+                    	<h4>在线客服</h4>
+                        <P>在线解答您的咨询，高效、便捷</P>
+                        <a href="<{link ctl='help/page' args=contact}>" class="btn btn1">点击咨询</a>
+                    </div>
+                    <div class="list fl">
+                    	<h4>提建议</h4>
+                        <P>对平台提建议|邮件留言service@jhcms.com</P>
+                        <a href="<{link ctl='help/page' args=suggest}>" class="btn btn2">我要留言</a>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+<{include file="pchome/block/footer.html"}>

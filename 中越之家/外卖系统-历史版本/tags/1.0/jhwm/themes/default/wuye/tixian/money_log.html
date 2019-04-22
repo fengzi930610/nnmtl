@@ -1,0 +1,35 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/tixian/index:money_log'}>" class="on">余额日志</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50">编号</th>
+        <th class="w-80">余额变动</th>
+        <th class="w-250">变动原因</th>
+        <th class="w-120">时间</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.log_id}></td> 
+        <td><{$item.money}></td>
+        <td><{$item.intro}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="wuye/block/footer.html"}>

@@ -1,0 +1,36 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="aunt/aunt:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?aunt/aunt-edit.html" mini-form="aunt-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="id" value="<{$detail.id}>"/>
+<tr><th><span class="red">*</span>帐号：</th><td><input type="text" name="data[username]" value="<{$detail.username|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>密码：</th><td><input type="password" name="data[password]" value="<{$detail.password|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>名字：</th><td><input type="text" name="data[name]" value="<{$detail.name|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>手机：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>收款银行：</th><td>
+    
+        <select name="data[bank_name]" id="select">
+            <{foreach $bank as $item}>
+            <option value="<{$item}>" <{if $item == $detail.bank_name}>selected="selected"<{/if}>><{$item}></option>
+            <{/foreach}>
+        </select>
+        
+    </td></tr>
+<tr><th><span class="red">*</span>卡号：</th><td><input type="text" name="data[bank_card]" value="<{$detail.bank_card|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>姓名：</th><td><input type="text" name="data[bank_use]" value="<{$detail.bank_use|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>开户行：</th><td><input type="text" name="data[bank_addr]" value="<{$detail.bank_addr|default:''}>" class="input w-300"/>
+    <span class="red">* 支付宝、财付通可跳过不填写。</span>
+    </td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

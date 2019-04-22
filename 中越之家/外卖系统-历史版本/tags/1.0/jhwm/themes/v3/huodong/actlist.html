@@ -1,0 +1,59 @@
+<{assign var='tpl_title' value=L("活动")}>
+<{include file="v3block/header.html"}>
+
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--列表-->
+                <div class="activ_lists">
+                    <ul>
+                        <{foreach $huodong_ing as $v1}>
+                        <li>
+                            <a href="<{link ctl='huodong/detail' arg0=$v1.active_id}>">
+                                <img src="<{$pager.img}>/<{$v1.banner1}>" height="180">
+                                <p class="overflow_clear"><{$v1.title}></p>
+                                <span class="state state1">进行中</span>
+                            </a>
+                        </li>
+                        <{/foreach}>
+                        <{foreach $huodong_end as $v2}>
+                        <li>
+                            <a href="<{link ctl='huodong/detail' arg0=$v2.active_id}>">
+                                <img src="<{$pager.img}>/<{$v2.banner1}>" height="180">
+                                <p class="overflow_clear"><{$v2.title}></p>
+                                <span class="state state2">已结束</span>
+                            </a>
+                        </li>
+                        <{/foreach}>
+                    </ul>
+                </div>
+                <!--列表结束-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+       /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+               window.location.href = '/';
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>
+
+
+
+
+
+
+<{include file="v3block/footer.html"}>

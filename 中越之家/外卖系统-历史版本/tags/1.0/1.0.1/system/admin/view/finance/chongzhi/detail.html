@@ -1,0 +1,43 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <th>账单日期</th>
+            <th>充值金额</th>
+            <th>充值用户</th>
+            <th>充值原因</th>
+        </tr>
+        <{foreach $items as $k => $v}>
+        <tr>
+            <td><{$v.dateline|format:'Y/m/d'}></td>
+            <td><{$v.amount}></td>
+            <td><{$v.member.nickname}></td>
+            <td><{$v.reason}></td>
+
+
+        </tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+    </table>
+    <div class="page-bar">
+        <table>
+            <tbody>
+            <tr>
+                <td class="page-list" colspan="10"><{$pager.pagebar}></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

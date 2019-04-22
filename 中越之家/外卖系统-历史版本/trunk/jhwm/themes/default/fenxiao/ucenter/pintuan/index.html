@@ -1,0 +1,137 @@
+<{include file="fenxiao/block/header.html"}>
+<!--头部筛选-->
+<div class="topShaixuan">
+    <ul>
+        <li class="list on"><a href="<{link ctl='weidian/ucenter/pintuan:index'}>">全部</a></li>
+        <li class="list"><a href="<{link ctl='weidian/ucenter/pintuan:index' arg0=1}>">组团中</a></li>
+        <li class="list"><a href="<{link ctl='weidian/ucenter/pintuan:index' arg0=2}>">已成团</a></li>
+        <li class="list"><a href="<{link ctl='weidian/ucenter/pintuan:index' arg0=3}>">组团失败</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<!--头部筛选结束-->
+<section class="page_center_box">
+<div class="mytuan-cont mt10">
+    <ul id="index_goods_items"></ul>
+    <div class="loadding"></div>
+</div>
+</section>
+<script>
+    var _lock = false;
+    var params = {"status": "<{$status}>"};
+    var page = 1;
+    var link = "<{link ctl='weidian/ucenter/pintuan:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k,v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        msg = '<div class="preloader txt_center"><img src="/themes/default/weidian/static/images/home_logo@2x.png" width="28"><p class="black9 font_size14 font_line30 mt10">'+msg+'</p></div>';
+        $(".loadding").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".loadding").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });
+    }
+    
+    $("section").scroll(function () {//监听滚动条改变
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+            if (_lock) {
+                return false;
+            }
+            _lock = false; 
+             page++;
+            loaddata();
+            _lock = true;
+        }
+    });
+    
+    
+    $(document).ready(function(){
+            // 确认送达
+            $(document).on('click','#arrived ',function() {
+                $.ajax({
+                    url: "<{link ctl='weidian/pintuan/arrived '}>",
+                    async: true,
+                    dataType: 'json',
+                    data: {"order_id":order_id},
+                    type: 'POST',
+                    success: function (ret) {
+                        if(ret.error > 0){
+                            Widget.MsgBox.success(ret.message);
+                        }else{
+                            Widget.MsgBox.error(ret.message);
+                            setTimeout(function(){window.location.reload();},1000);
+                        }
+                    },
+                    error: function (xhr, status, err) {
+                        $.alert(err);
+                    },
+                });
+            })
+            
+            //取消订单
+            $(document).on('click','#cancel',function(){
+                var order_id = $(this).attr('oid');
+                $.ajax({  
+                    url: "<{link ctl='weidian/pintuan/order_cancel'}>", 
+                    async: true,  
+                    dataType: 'json',  
+                    data: {"order_id":order_id},
+                    type: 'POST',   
+                    success: function (ret) { 
+                        //提示
+                        layer.open({
+                          content: ret.message
+                          ,skin: 'msg'
+                          ,time: 2 //2秒后自动关闭
+                        });
+                        if(ret.error == 0 ) {
+                            setTimeout(function(){window.location.reload();},2000);
+                        }else {
+                            return false;
+                        }
+                    },
+                    error: function (xhr, status, err) { 
+                        layer.open({
+                          content:err
+                          ,skin: 'msg'
+                          ,time: 2 //2秒后自动关闭
+                        });
+                    },
+                });
+            })
+
+    })
+   
+</script>
+<{include file="fenxiao/block/footer.html"}>

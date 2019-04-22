@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><{if $seo_sub_title}><{$seo_sub_title}>_<{/if}><{if $seo_title}><{$seo_title}><{elseif $SEO.title}><{$SEO.title}><{else}><{L('地推管理')}>-<{$CONFIG.site.title}><{/if}></title>
+<link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css" type="text/css" />
+<link rel="stylesheet" href="<{$pager.res}>/script/jBox/jBox.css?<{$VER}>" type="text/css" />
+<link rel="stylesheet" href="<{$pager.res}>/style/kt.widget.css?<{$VER}>" type="text/css" />
+<link rel="stylesheet" href="<{$pager.res}>/style/common.css?<{$VER}>" type="text/css" />
+<link type="text/css" rel="stylesheet" href="/themes/default/ditui/static/css/public.css?<{$VER}>" />
+<link type="text/css" rel="stylesheet" href="/themes/default/ditui/static/css/style.css?<{$VER}>" />
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/alerts.css?<{$VER}>"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/forms.css?<{$VER}>"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/tables.css?<{$VER}>"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/buttons.css?<{$VER}>"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/gicons.css?<{$VER}>"/>
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/append.css?<{$VER}>"/>
+<script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+<script type="text/javascript"  src="<{$pager.res}>/layer/layer.js?<{$VER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/kt.j.js"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/highcharts/modules/exporting.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/highcharts/modules/no-data-to-display.js"></script>
+<script src="/themes/default/static/js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<style type="text/css">
+.ucenter_c table input.input,.ucenter_c table .select { height:34px; line-height:30px; }
+.ucenter_c table .input, .ucenter_c table .select{height:34px; line-height:30px; }
+.ucenter_c table input[type="file"] { display:inline; }
+a.pbtn,
+a.pbtnc { height:26px; }
+.btn-xs, .btn-group-xs>.btn {
+padding: 2px 8px;
+font-size: 12px;
+line-height: 1.5;
+border-radius: 3px;
+}
+</style>
+</head>
+<body class="smallpage" style="background:#E7E8EB;">
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+<!--头部内容开始-->
+<div class="wheader">
+	<div class="mainwd">
+		<div class="lt"> <a href="javascript:void(0)"><img src="<{$pager.theme}>/default/ditui/static/images/ucenter/tuilogo.png" ></a> </div>
+		<div class="header_nav lt">
+			<ul>
+				<li><a href="<{link ctl='ditui/index'}>"<{if $ctlgroup=='index'}> class="current"<{/if}>><{L('首页')}></a></li>
+			</ul>
+		</div>
+		<div class="rt header_name"> <span class="in lt"><{$ditui.name}>，<{L('欢迎回来')}></span>
+			<div class="adminBox lt">
+				<div class="adminBox_re"><span class="login_ico denglu_ico"></span><{L('账户')}></div>
+				<div class="adminBox_po">
+					<ul>
+                                            <li><a href="<{link ctl='ditui/index'}>"><{L('首页')}></a></li>
+                                            <li><a href="<{link ctl='ditui/base:index'}>"><{L('设置')}></a></li>
+                                            <li><a href="<{link ctl='ditui/account:loginout'}>"><{L('退出')}></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="cl"></div>
+	</div>
+</div>
+<link rel="stylesheet" type="text/css" href="/themes/default/ditui/static/css/ucenter.css">
+<div id="wrap">
+<div class="content" id="ucenter_main_lay">
+<div class="cont_lt lt" id="ucenter_left_lay">
+	<ul class="menu_lay">
+		<{foreach $menu_list as $menu}>
+        <{if $menu.menu}>
+		<li class="hasChild"> 
+			<a href="javascript:;"><span class="icon iconOpen"></span><{$menu.title}></a>
+			<ul class="menu_children">
+				<{foreach $menu.items as $item}>
+				<{if $item.menu}>
+				<li><a href="<{link ctl=$item.ctl}>"<{if $request.ctlmap.ctl==$item.ctl}> class="on"<{/if}>><{$item.title}></a></li>
+				<{/if}>
+				<{/foreach}>
+			</ul>
+		</li>
+        <{/if}>
+		<{/foreach}>
+	</ul>
+</div>
+<script type="text/javascript">
+    (function(K, $){
+        $("menu_lay li.menu").click(function(){
+            if($(this).hasClass("open")){
+                $(this).removeClass("open").addClass("close");
+                $(this).next("ul.sub_menu").slideUp("fast");
+            }else{
+                $(this).removeClass("close").addClass("open");
+                $(this).next("ul.sub_menu").slideDown("fast");    
+            }
+        });
+		
+		$(".header_name .adminBox").mouseover(function(){
+                $(this).find(".adminBox_re").addClass("adminBox_on");
+                $(this).find(".adminBox_po").show();
+            }).mouseleave(function(){
+                $(this).find(".adminBox_re").removeClass("adminBox_on");
+                $(this).find(".adminBox_po").hide();
+        });
+    })(window.KT, window.jQuery);
+    </script>
+<div class="cont_rt rt" id="ucenter_right_lay">

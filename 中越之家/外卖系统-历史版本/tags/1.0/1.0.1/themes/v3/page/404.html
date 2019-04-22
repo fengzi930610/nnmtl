@@ -1,0 +1,65 @@
+<{assign var='tpl_title' value=L("404 页面不存在")}>
+<{include file="v3block/header.html"}>
+<{if $request.IN_APP_CLIENT}>
+<style type="text/css">
+    header {
+        display: none;
+    }
+
+    .page_center_box {
+        top: 0;
+    }
+</style>
+<{/if}>
+<header>
+    <i class="left">
+        <a class="bell_prompt" href="javascript:void(0);"><{if $msgnum > 0}><span class="num"><{$msgnum}></span><{/if}></a>
+    </i>
+    <div class="title"> 404 页面不存在</div>
+    <i class="right"></i>
+</header>
+<section class="page_center_box">
+    <div class="czts">
+        <div class="cztsnr cztsnr_Failure">
+            失误了，再试试吧！<br>
+            <{if $pager.error}><span style="color:red;"><{else}><span><{/if}><{$pager.message}></span><br>
+                    <{if $pager.timer>0}>如果您不做出选择，<br>将在 <strong id="notice-timer"
+                                                                 style="color:red;"><{$pager.timer}></strong> 秒后跳转到第一个链接地址。<{else}>请选择以下操作。<{/if}>
+                    <p class="czts_p">
+                        <{foreach $pager.url_list as $link}>
+                        <img src="<{$pager.res}>/images/icon/link.gif" align="absmiddle" style="margin-right:5px;"/><a
+                            href="<{$link.url}>" style="color: #006699"><{$link.title}></a>
+                        <{foreachelse}>
+                        <img src="<{$pager.res}>/images/icon/link.gif" align="absmiddle" style="margin-right:5px;"/><a
+                            href="<{if $pager.link}><{$pager.link}><{else}><{link ctl='index'}><{/if}>"
+                            style="color: #006699">点击立即跳转</a>
+                        <{/foreach}>
+                    </p>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var timer = "<{$pager.timer}>";
+        var timer = 3000;
+        var link = "<{if $pager.link}><{$pager.link}><{else}><{link ctl='index'}><{/if}>";
+        window.onload = function () {
+            if (link == 'javascript:history.go(-1)' && window.history.length == 0) {
+                document.getElementById('notice-msg').innerHTML = '';
+                return;
+            }
+            window.setInterval(function () {
+                if (timer < 1) {
+                    window.clearInterval();
+                    window.location.href = link;
+                    return;
+                }
+                timer--;
+                document.getElementById("notice-timer").inserHTML = timer;
+            }, 1000);
+        }
+    })
+</script>
+
+
+<{include file="v3block/footer.html"}>

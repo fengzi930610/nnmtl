@@ -1,0 +1,37 @@
+<{include file="admin:common/header.html"}>
+<{if empty($register_id)}>
+<div style="width:570px;height:200px;">
+无法推送,该用户设备号无效
+</div>
+<{else}>
+<form action="?tools/tuisong-index.html" method="POST" onsubmit="return check(this);">
+    <textarea name="content" class="textarea" style="height:200px;width:570px;" id="msg"></textarea>
+    <input type="hidden" value="<{$register_id}>" id="to">
+    <br/>
+    <input type="submit" class="bt-big" value="推送消息">
+</form>
+<{/if}>
+<script>
+function check(o){
+    msg = $('#msg').val();
+    to  = $('#to').val();
+    action = o.action;
+    if(msg.length<5){
+        layer.open({content:'推送内容字少5个字符'});
+        return false;
+    }
+    if(to.length<5){
+        layer.open({content:'推送对象不能为空'});
+        return false;
+    }
+    $.post(action, {data:{register:to, content:msg, range:3}}, function(respone){
+        if(respone.status == 200){
+            layer.open({content:"推送成功"});
+        }else{
+            layer.open({content:"未知错误"});
+            console.log(respone);
+        }
+    },'json');
+    return false;
+}
+</script>

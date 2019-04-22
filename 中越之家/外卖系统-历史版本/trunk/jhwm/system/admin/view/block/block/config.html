@@ -1,0 +1,79 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="block/block:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?block/block-edit.html" mini-form="block-form"  method="post" >
+<input type="hidden" name="block_id" value="<{$detail.block_id}>"/>
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+    <th>名称：</th>
+        <td>
+            <input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-200"/>
+            <span class="tip-comment">唯一供模板标签调用</span>
+        </td>
+    </tr>
+<tr><th class="w-100">页面：</th><td><select name="data[page_id]" class="w-150"><{widget id="block/page" value=$detail.page}></select></td></tr>
+<tr><th>模型：</th><td><{$detail.from_title}></td></tr>
+<{if $detail.from == 'article'}>
+<tr><th>分类：</th>
+    <td>
+        <select name="data[config][cat_id][]" class="w-200" multiple="multiple" style="height:auto" size="10"><{widget id="article/cate" from='article' value=$detail.config.cat_id}></select>
+        <span class="tip-comment">不选表示全部,按ctrl键可多选</span>
+    </td>
+</tr>
+<{elseif $detail.from == 'company'}>
+<tr><th>分类：</th>
+    <td>
+        <select name="data[config][cat_id][]" class="w-200" multiple="multiple" style="height:auto" size="10"><{widget id="company/cate" level="3" value=$detail.config.cat_id}></select>
+        <span class="tip-comment">不选表示全部,按ctrl键可多选</span>
+    </td>
+</tr>
+<tr><th>分类：</th>
+    <td>
+        <select name="data[config][cat_id][]" class="w-200" multiple="multiple" style="height:auto" size="10"><{widget id="company/cate" level="3" value=$detail.config.cat_id}></select>
+        <span class="tip-comment">不选表示全部,按ctrl键可多选</span>
+    </td>
+</tr>
+<{/if}>
+<{if $detail.from == 'company' || $detail.from == 'designer'}>
+<tr><th class="w-100">口碑值：</th>
+    <td>
+        <input name="data[config][score]" type="text" class="input w-100" value="<{$detail.config.score}>"/>
+        <span class="tip-comment">口碑值高于多少, 0:不限</span>   
+    </td>
+</tr>
+<{/if}>
+<tr><th class="w-100">调用：</th>
+    <td><select name="data[type]" class="w-150">
+        <option value="default">默认排序</option>
+        <option value="hot" <{if $detail.type=='hot'}>selected="selected"<{/if}>>热度优先</option>
+        <option value="new" <{if $detail.type=='new'}>selected="selected"<{/if}>>最新有限</option>
+        <option value="recommend" <{if $detail.type=='recommend'}>selected="selected"<{/if}>>只接受推荐位</option>
+        </select>
+        <span class="tip-comment">当推荐的数据不够时，补充数据方式</span>
+    </td>
+</tr>
+<tr><th class="w-100">调用条数：</th>
+    <td>
+        <input name="data[limit]" type="text" class="input w-100" value="<{$detail.limit}>"/>
+        <span class="tip-comment">最多调用内容条数</span>   
+    </td>
+</tr>
+<!--
+<tr><th>描述：</th><td><textarea name="data[desc]" class="textarea w-400"><{$detail.desc}></textarea><br /></td></tr>
+<tr><th>配置：</th><td><textarea name="data[config]" class="textarea"><{$detail.config}></textarea><br /><span class="tip-comment">配置是否取关联用户信息,用户统计信息等</span></td></tr>
+-->
+<tr><th>缓存周期：</th><td><select name="data[ttl]" class="w-100"><{widget id="data/ttl" value=$detail.ttl}></select></td></tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-50"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

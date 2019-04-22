@@ -1,0 +1,249 @@
+<{assign var='tpl_title' value=L("收货地址")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .addrMap{height: 100%; width: 100%; position: relative; overflow: hidden;}
+    .addrMap .shangjiaDelt_goods_search_int{position: sticky; left: 0; top: 0; right: 0; height: 50px;}
+    .addrMap .map{width: 100%; height: 260px; background: #fff; border-bottom: 1px solid #e6e6e6; position: sticky; left: 0; top: 50px; right: 0;}
+    .addrMap .cate{ width:100%; padding:10px 0; z-index:1; text-align:center; background:#fff; overflow:hidden; position:sticky; left: 0; top: 310px; right: 0; line-height:20px; height: 20px; border-bottom: 1px solid #e6e6e6;}
+    .addrMap .cate .swiper-wrapper {position: relative;width: 100%;z-index: 1;display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-transition-property: -webkit-transform;-moz-transition-property: -moz-transform;-o-transition-property: -o-transform;-ms-transition-property: -ms-transform;transition-property: transform;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;-webkit-transform: translate3d(0,0,0);-moz-transform: translate3d(0,0,0);-o-transform: translate(0,0);-ms-transform: translate3d(0,0,0);transform: translate3d(0,0,0);}
+    .addrMap .cate .swiper-slide{-webkit-flex-shrink: 0;-ms-flex: 0 0 auto;flex-shrink: 0;height: 100%;position: relative;text-align: center;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center; display:block; font-size:14px; height:20px; line-height:20px; color:#333;}
+    .addrMap .cate .swiper-slide a{ color:#333;}
+    .addrMap .cate .swiper-slide.on a{ color:#20AD20;}
+    .addrMap .list_box{width: 100%; height: calc(100% - 360px); overflow: auto;}
+    .addrMap .list_box ul li{background: #fff; position: relative; border-bottom: 1px solid #e6e6e6; padding: 10px 10px 10px 38px;}
+    .addrMap .list_box ul li .ico{position: absolute; left: 0;  top: 50%; width: 38px; height: 20px; transform: translate(0,-50%); -webkit-transform: translate(0,-50%); background: url(https://m.amap.com/picker/images/poi_icon.png) no-repeat center; background-size: contain;}
+    .addrMap .list_box ul li h3,.addrMap .list_box ul li p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .addrMap .list_box ul li h3{font-weight: normal;}
+    .addrMap .list_box ul li p{color: #666;}
+
+</style>
+<script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=<{$map_key}>&plugin=AMap.ToolBar,AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js"></script>
+<div class="addrMap">
+    <!--搜索框-开始-->
+    <div class="shangjiaDelt_goods_search_int">
+
+            <div class="int_box"><input type="text" name="title" id="tipinput" value="" class="int" placeholder="搜索地址"></div>
+        <div class="clear"></div>
+    </div>
+    <!--搜索框-结束-->
+    <div class="map" id="map"></div>
+
+    <!--分类-->
+    <div class="cate">
+        <div class="swiper-container1">
+            <div class="swiper-wrapper">
+                <div class="box swiper-slide on" rel="1" data="全部"><a href="javascript:;">全部</a></div>
+                <div class="box swiper-slide" rel="2" data="写字楼"><a href="javascript:;">写字楼</a></div>
+                <div class="box swiper-slide" rel="2" data="小区"><a href="javascript:;">小区</a></div>
+                <div class="box swiper-slide" rel="2" data="学校"><a href="javascript:;">学校</a></div>
+                <div class="box swiper-slide" rel="2" data="医院"><a href="javascript:;">医院</a></div>
+            </div>
+        </div>
+    </div>
+    <!--分类end-->
+    <!--列表-开始-->
+    <div class="list_box">
+        <ul id="addr_list">
+
+        </ul>
+    </div>
+    <!--列表-结束-->
+</div>
+<script>
+    var swiper = new Swiper('.swiper-container1', {
+        pagination: '.swiper-pagination1',
+        slidesPerView: 4,
+        paginationClickable: true,
+        /*spaceBetween: 30,*/
+        freeMode: true
+    });
+
+    var map = new AMap.Map("map", {resizeEnable: true,scrollWheel:true});
+    var positionPicker;
+    /* var lng = null;
+     var lat = null;*/
+
+    var lng = parseFloat('<{$location.lng}>');
+    var lat = parseFloat('<{$location.lat}>');
+
+    AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+
+        positionPicker = new PositionPicker({
+            mode: 'dragMap',
+            map: map,
+        });
+
+        positionPicker.on('success', function(e) {
+            lng = e.position.getLng();
+            lat = e.position.getLat();
+            getAddress([lng,lat]);
+
+        });
+
+        positionPicker.on('fail', function(e) {
+            console.log("fail:",e);
+        });
+        if(lng && lat){
+            positionPicker.start();
+        }
+    });
+
+    if(lng && lat){
+        var lnglatXY = [lng,lat];
+        map.setZoom(17);
+        map.setCenter(lnglatXY);
+        getAddress(lnglatXY);
+    }else{
+        map.plugin('AMap.Geolocation', function() {
+            var geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                timeout: 60000,          //超过60秒后停止定位，默认：无穷大
+                buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                zoomToAccuracy: true,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                buttonPosition:'RB',
+                extensions:'all'
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition();
+            AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+            AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+        });
+    }
+
+
+    function onComplete(data) {
+        lng = data.position.getLng();
+        lat = data.position.getLat();
+        setTimeout(function(){
+            positionPicker.start();
+        },50);
+
+
+    }
+    //解析定位错误信息
+    function onError(data) {
+
+        alert("获取不到你的地址");
+
+        window.location.href = "<{link ctl='position' http='waimai'}>";
+    }
+
+
+
+    function getAddress(lnglatXY){
+        if($('.swiper-wrapper .on').attr('rel')==1){
+            var geocoder = new AMap.Geocoder({
+                radius: 500,
+                extensions: "all",
+            });
+            geocoder.getAddress(lnglatXY, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    build_html(result.regeocode.pois);
+                }
+            });
+        }else if($('.swiper-wrapper .on').attr('rel')==2){
+            geocoderss(lnglatXY[0],lnglatXY[1],$('.swiper-wrapper .on').attr('data'),function(e){
+               if(e.infocode=="10000"){
+                   $.each(e.pois,function(k,v){
+                       var location = v.location.split(',');
+                       var loc = {
+                           'lng':location[0],
+                           'lat':location[1]
+
+                       };
+                       e.pois[k]['location'] = loc;
+                   });
+                   build_html(e.pois);
+               }
+            });
+        }else{
+            var geocoder = new AMap.Geocoder({
+                radius: 500,
+                extensions: "all",
+            });
+            geocoder.getAddress(lnglatXY, function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    build_html(result.regeocode.pois);
+                }
+            });
+        }
+
+    }
+
+    function build_html(data){
+        var html = "";
+       if(data.length>0){
+            $.each(data,function(k,v){
+                var json = {
+                    'name':v.name,
+                    'address':v.address,
+                    'lng':v.location.lng,
+                    'lat':v.location.lat
+                }
+                html+="  <li data='"+JSON.stringify(json)+"' onclick='getData(this);'>\n" +
+                    "                <i class=\"ico\"></i>\n" +
+                    "                <h3>"+v.name+"</h3>\n" +
+                    "                <p>"+v.address+"</p>\n" +
+                    "            </li>";
+
+            });
+
+       }
+       $('#addr_list').html(html);
+
+
+    }
+
+    function getData(o)
+    {
+        var back_url = "<{link ctl='ucenter/addr/create'}>"
+        if(localStorage['back_addr']){
+            var back_addr =  JSON.parse(localStorage['back_addr']);
+             back_url = back_addr.backurl;
+        }
+        var data = JSON.parse(o.getAttribute('data'));
+        args = '?&o_lng='+data.lng+'&o_lat='+data.lat+'&o_addr='+encodeURIComponent(data.name+'-'+data.address);
+        localStorage.removeItem('back_addr')
+        window.location.href = back_url + args;
+    }
+
+    $('.swiper-wrapper div a').on('click',function(){
+        $('.swiper-wrapper div').removeClass('on');
+        $(this).parent().addClass('on');
+        getAddress([lng,lat]);
+    })
+
+    var now_city_name = localStorage['UxCity'] || Cookie.get("UxCity") || "全国";
+    var autoOptions = {
+        input: "tipinput",
+        city: now_city_name
+    };
+    
+    var auto = new AMap.Autocomplete(autoOptions);
+    var placeSearch = new AMap.PlaceSearch({map: map});  //构造地点查询类
+    AMap.event.addListener(auto, "select", select);//注册监听，当选中某条记录时会触发
+    function select(e) {
+
+        if(e.poi.location){
+            var lnglatXY = [e.poi.location.lng,e.poi.location.lat];
+            map.setZoom(17);
+            map.setCenter(lnglatXY);
+        }else{
+            map.setCity(e.poi.adcode);
+        }
+    }
+    function geocoderss(lng, lat,keyword, callback){
+
+        callback = callback || function(ret){};
+        var callfun = GGUID();
+        window[callfun] = function(ret){callback(ret);}
+        var key = "<{$map_key}>";
+        // 修改百度根据坐标返回为更具高德返回坐标系
+        $.getScript('https://restapi.amap.com/v3/place/around?location='+lng+','+lat+'&s=rsv3&children=&key='+key+'&radius=500&offset=50&page=1&language=zh_cn&callback='+callfun+'&platform=JS&logversion=2.0&sdkversion=1.3&appname=https%3A%2F%2Fm.amap.com%2Fpicker%2F%3Fcenter%3D117.307159%2C31.825080%26key%3D942f0ec4d152d1f3d163168d43916de6%26radius%3D1000%26total%3D50&csid=96AAB86B-4F61-4DBF-9395-3D062B74520B&keywords='+encodeURIComponent(keyword));
+    }
+
+
+
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,200 @@
+<{assign var='tpl_title' value=L("申请入驻")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+body{ background: #f5f7f9; }
+.loginTop{ background: none; }
+</style>
+<!--<div class="loginTop"><img src="%THEME%/static/images/logo1.png"></div>-->
+<div class="loginTop">
+    <img src="<{$pager.img}>/<{$site.logo_shop}>" width="174" height="42">
+    <span class="loginTip">商家后台</span>
+</div>
+<div class="login_box">
+	<div class="login_form_box">
+        <div class="cont">
+        	<div class="newEnter_form_tit">商家注册</div>
+        	<div class="change_box">
+            	<form id="signupForm">
+                	<div class="enter_int_box">
+                        <div class="int_box form-group">
+                            <div class="box">
+                                <input type="text" id="phone" name="phone" aria-required="true" aria-invalid="true" class="form-control error" placeholder="请输入手机号">
+                                <a href="javascript:;" class="clear_ico"></a>
+                            </div>
+                        </div>
+                        <div class="int_box form-group getyzm_int_box">
+                            <div class="box">
+                                <input type="text" id="img_code" name="data[img_code]"  required aria-required="true" class="form-control" placeholder="图形验证码">
+                                <a href="javascript:;" class="clear_ico"></a>
+                            </div>
+                            <div class="getyzm_box hqyzm"><img id="shuaxingyanzm" src="<{link ctl='login/verify' http='wmbiz'}>"/></div>                        </div>
+                        <div class="int_box form-group" style="margin-right: 132px;">
+                            <div class="box">
+                                <input type="text" id="yzm" name="yzm" required aria-required="true" class="form-control" placeholder="请输入验证码">
+                                <a href="javascript:;" class="clear_ico"></a>
+                            </div>
+                            <div class="getyzm_box getyzm"><span class="message_ye">获取验证码</span></div>
+                        </div>
+                    </div>
+                    <div class="enter_int_box">
+                        <div class="int_box form-group">
+                            <div class="box">
+                                <input type="password" id="password" name="password" aria-required="true" aria-invalid="true" class="form-control error" placeholder="请设置密码">
+                                <a href="javascript:;" class="clear_ico"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="caozuo_box">
+                        <div class="fl"><input type="checkbox" checked>我已阅读并已同意 <a href="<{link ctl='page:protocolbiz' http='www'}>" class="black6" target="_blank">《入驻协议》</a></div>
+                    </div>
+                    <input type="submit" value="立即入驻" class="long_btn">
+                </form>
+            </div>                    
+        </div>
+        <div class="foot">已有账号？<a href="<{link ctl='login/index'}>" class="maincl">立即登录</a></div>
+    </div>
+</div>
+<script>
+	$(document).ready(function() {
+		
+		var input = $(".login_form_box .int_box .box input");
+		
+		$(input).focus(function() {
+			$(".login_form_box .int_box .box .clear_ico").hide();
+			$(this).parent().find(".clear_ico").show();
+			
+			$(this).parents(".int_box").css("border-color","#00bd9e");
+			
+		}).blur(function() {
+			if (input.val() != "") {
+				$(this).parent().find(".clear_ico").show();
+			}else{
+				
+				$(this).parent().find(".clear_ico").hide();
+			}
+			$(this).parents(".int_box").css("border-color","");
+		});
+		
+		$(".login_form_box .int_box .box .clear_ico").click(function(){
+			$(this).parent().find("input").val("");
+		});
+		
+		
+		
+		var unSelected = "#999";
+		var selected = "#333";
+		$(function () {
+			$("select").css("color", unSelected);
+			$("option").css("color", selected);
+			$("select").change(function () {
+			var selItem = $(this).val();
+			if (selItem == $(this).find('option:first').val()) {
+				$(this).css("color", unSelected);
+			} else {
+				$(this).css("color", selected);
+			}
+			});
+		});
+
+	});
+</script>
+
+<script>
+    $('#signupForm').on('submit',function(){
+        if (!$("input[type='checkbox']").is(':checked')) {
+           Widget.MsgBox.error('请先同意协议再注册');
+            return false;
+        }
+        var username = $('#username').val();
+        var mobile = $('#phone').val();
+        var code = $('#yzm').val();
+        var passwd = $('#password').val();
+        var data = {
+            mobile:mobile,
+            passwd:passwd,
+            code:code,
+        };
+        var url = '<{login/signup}>';
+        $.post(url,{data:data},function(e){
+          if(e.error>0){
+              Widget.MsgBox.error(e.message);
+          }else{
+              Widget.MsgBox.success('注册成功，请完善资料');
+              var url = '<{link ctl="newreg/one"}>';
+              setTimeout(function(){
+                  window.location.href = url;
+              },2000);
+          }
+
+        },'json');
+        return false;
+
+
+
+    })
+    $('#shuaxingyanzm').on('click',function(){
+        var url = "<{link ctl='login/verify' http='wmbiz'}>";
+        var link =url+Math.random();
+        $(this).attr('src',link);
+    });
+
+    $('.message_ye').on('click',function(){
+        var mobile = $('#phone').val();
+        var text = $(this).text();
+        var img_code = $('#img_code').val();
+        if(!parseInt(img_code)){
+            layer.msg('请输入图形验证码');
+            return false;
+        }
+        if(text=='获取验证码'){
+            if(validatemobile(mobile)){
+                var url ='<{link ctl="login/sendsms" http="wmbiz"}>';
+                $.post(url,{mobile:mobile,img_code:img_code},function(e){
+                    if(e.error>0){
+                        Widget.MsgBox.error('验证失败，验证码已刷新，请重新填写');
+                        var url = "<{link ctl='login/verify' http='wmbiz'}>";
+                        var link =url+Math.random();
+                        $('#shuaxingyanzm').attr('src',link);
+                    }else{
+                        Widget.MsgBox.success(e.message);
+                        var time = 60;//倒计时秒数
+                        var djs = setInterval(function () {
+                            time = time - 1;
+                            $('.message_ye').text(time + '秒');
+                            if (time < 1) {
+                                clearInterval(djs);
+                                $('.message_ye').text('获取验证码');
+                            }
+                        }, 1000);
+                    }
+
+                },'json');
+
+            }
+        }
+
+    })
+    function validatemobile(mobile)
+    {
+        if(mobile.length==0)
+        {
+            Widget.MsgBox.error('请输入有效的手机号码');
+            return false;
+        }
+        if(mobile.length!=11)
+        {
+            Widget.MsgBox.error('请输入有效的手机号码');
+            return false;
+        }
+
+        var myreg = /^1[3-8]\d{9}$/;
+        if(!myreg.test(mobile))
+        {
+            Widget.MsgBox.error('请输入有效的手机号码');
+            return false;
+        }
+        return true;
+    }
+
+</script>
+<{include file="block/footer.html"}>

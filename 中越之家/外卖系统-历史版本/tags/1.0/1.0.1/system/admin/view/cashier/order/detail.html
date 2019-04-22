@@ -1,0 +1,25 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="cashier/order:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>订单号：</th><td><{$detail.po_id}></td></tr>
+<tr><th>商铺id：</th><td><{$detail.shop_id}></td></tr>
+<tr><th>订单类型：</th><td><{$detail.order_type}></td></tr>
+<tr><th>微信支付二维码：</th><td><img src="/qrcode?data=<{$detail.wx_url}>" id="wxpay_qrcode" /></td></tr>
+<tr><th>支付宝支付二维码：</th><td><img src="/qrcode?data=<{$detail.ali_url}>" id="wxpay_qrcode" /></td></tr>
+<tr><th>支付金额：</th><td><{$detail.amount}></td></tr>
+<tr><th>支付状态：</th><td><{$detail.pay_status}></td></tr>
+<tr><th>收款理由：</th><td><{$detail.pay_desc}></td></tr>
+<tr><th>收款方：</th><td><{$detail.pay_shop}></td></tr>
+<tr><th>clientip：</th><td><{$detail.clientip}></td></tr>
+<tr><th>dateline：</th><td><{$detail.dateline}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

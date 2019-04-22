@@ -1,0 +1,63 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th>活动列表</th>
+            <td align="right"><{link ctl="activity/activity:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<!---->
+<div class="page-data"><form action="?activity/activity-edit.html" mini-form="activity-form"  method="post" enctype="multipart/form-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th>活动名称：</th>
+            <input type="hidden" name="data[active_id]" value="<{$detail.active_id}>"/>
+            <td><input type="text" name="data[title]" value="<{$detail.title}>" class="input w-300"/></td>
+        </tr>
+        <tr><th>轮播图：</th><td><{if $detail.banner1}><img src="<{$pager.img}>/<{$detail.banner1}> " width="50" height="50" /><{/if}>&nbsp;&nbsp;&nbsp;<input type="file" name="banner1" class="input w-100" /></td></tr>
+        <tr><th>轮播图：</th><td><{if $detail.banner2}><img src="<{$pager.img}>/<{$detail.banner2}> " width="50" height="50" /><{/if}>&nbsp;&nbsp;&nbsp;<input type="file" name="banner2" class="input w-100" /></td></tr>
+        <tr><th>轮播图：</th><td><{if $detail.banner3}><img src="<{$pager.img}>/<{$detail.banner3}> " width="50" height="50" /><{/if}>&nbsp;&nbsp;&nbsp;<input type="file" name="banner3" class="input w-100" /></td></tr>
+        <tr>
+            <th>分类：</th>
+            <td>
+                <select name="data[cate_id]">
+                    <{foreach $cate as $k=>$v}>
+                    <option value="<{$k}>" <{if $detail.cate_id==$k}>selected="selected"<{/if}>><{$v}></option>
+                    <{/foreach}>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>描述：</th>
+            <td>
+                <textarea name="data[intro]" class="textarea"><{$detail.intro}></textarea>
+                <br /><span class="tip-comment">活动描述</span>
+            </td>
+        </tr>
+        <tr>
+            <th>开始时间：</th>
+            <td>
+                <input type="text" name="data[stime]" class="input w-100" date="dateline" value="<{$detail.stime|format}>"/>
+            </td>
+        </tr>
+        <tr>
+            <th>结束时间：</th>
+            <td>
+                <input type="text" name="data[ltime]"  class="input w-100" date="dateline" value="<{$detail.ltime|format}>"/>
+            </td>
+        </tr>
+        <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+    </table>
+</form>
+</div>
+<script type="text/javascript">
+
+
+
+
+</script>
+
+<{include file="admin:common/footer.html"}>

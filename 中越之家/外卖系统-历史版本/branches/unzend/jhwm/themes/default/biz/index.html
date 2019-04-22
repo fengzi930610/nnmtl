@@ -1,0 +1,349 @@
+<{include file="biz/block/header.html"}>
+<div class="userIndex">
+        <div class="userIndex_order_box" >
+            <div class="userIndex_order lt">
+                <ul>
+                    <li class="userIndex_order_list">
+                        <div class="lt">
+                            <i class="lt ico ico_1"></i>
+                            <div class="wz">
+                                <p>待接订单</p>
+                                <p class="num"><{if $wait_accept>0}><{$wait_accept}><{else}>0<{/if}></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='biz/waimai/order:index'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                    <li class="userIndex_order_list">
+                        <div class="lt">
+                            <i class="lt ico ico_2"></i>
+                            <div class="wz">
+                                <p>待配送订单</p>
+                                <p class="num"><{if $wait_peisong>0}><{$wait_peisong}><{else}>0<{/if}></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='biz/waimai/order:pei'}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="userIndex_order rt">
+                <ul>
+                    <li class="userIndex_order_list">
+                        <div class="lt">
+                            <i class="lt ico ico_3"></i>
+                            <div class="wz">
+                                <p>今日完成订单</p>
+                                <p class="num"><{if $today_order>0}><{$today_order}><{else}>0<{/if}></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='biz/waimai/order:complete' arg0=1 arg1=<{$today}> }>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                    <li class="userIndex_order_list">
+                        <div class="lt">
+                            <i class="lt ico ico_4"></i>
+                            <div class="wz">
+                                <p>总完成订单</p>
+                                <p class="num"><{if $all_order>0}><{$all_order}><{else}>0<{/if}></p>
+                            </div>
+                        </div>
+                        <div class="rt"><a href="<{link ctl='biz/waimai/order:complete' arg0=1}>" class="btn">立即查看</a></div>
+                        <div class="cl"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <div class="userIndex">
+
+            
+            <div class="userIndex_table">
+                <div class="userIndex_table_tab_box mb20">
+                    <ul class="userIndex_table_tab">
+                        <li class="list on">收入统计</li>
+                        <li class="list">订单统计</li>
+                    </ul>
+                </div>
+                <div class="userIndex_table_box">
+                    <div class="userIndex_table_list">
+                        <div class="userIndex_table_bt mb20">
+                            <div class="lt bt">收入统计</div>
+                            <div class="rt">
+                                <a href="" class="tab_list on"><em></em>近一周</a>
+                                <a href="" class="tab_list"><em></em>近一月</a>
+                            </div>
+                            <div class="cl"></div>
+                        </div>
+                        <div class="userIndex_table_cont_box">
+                            <div class="userIndex_table_cont" id="week_in_chart">一周</div>
+                            <div class="userIndex_table_cont" id="month_in_chart" style="display:none;">一月</div>
+                        </div>
+                    </div>
+                    <div class="userIndex_table_list" style="display:none;">
+                        <div class="userIndex_table_bt mb20">
+                            <div class="lt bt">订单统计</div>
+                            <div class="rt">
+                                <a href="" class="tab_list on"><em></em>近一周</a>
+                                <a href="" class="tab_list"><em></em>近一月</a>
+                            </div>
+                            <div class="cl"></div>
+                        </div>
+                        <div class="userIndex_table_cont_box">
+                            <div class="userIndex_table_cont" id="week_order_chart"></div>
+                            <div class="userIndex_table_cont" id="month_order_chart" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $(".userIndex_table_tab .list").each(function(a){
+        $(this).mouseover(function(){
+            $(this).parent().find(".list").removeClass("on");
+            $(this).addClass("on");
+            $(".userIndex_table_box .userIndex_table_list").each(function(b){
+                if(a==b){
+                    $(this).parent().find(".userIndex_table_list").hide();
+                    $(this).show();
+                }
+                else{
+                    $(this).hide();
+                }
+            });
+        });
+    });
+    
+    $(".userIndex_table_list").each(function(a){
+        var obj = $(this);
+        obj.find(".userIndex_table_bt .tab_list").mouseover(function(i) {
+            obj.find(".userIndex_table_bt .tab_list").removeClass('on');
+            $(this).addClass('on');
+            var index = $(this).index();
+            if( obj.find(".userIndex_table_cont_box .userIndex_table_cont").length >0){
+                obj.find(".userIndex_table_cont_box .userIndex_table_cont").hide();
+                obj.find(".userIndex_table_cont_box .userIndex_table_cont").eq(index).show();
+            }
+         }); 
+     });
+});
+</script>
+
+
+
+<script type="text/javascript">
+(function(K, $){
+
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>
+
+
+<script>
+$(function () {
+    $('#week_in_chart').highcharts({
+        chart: {
+            type: 'line'
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        title: {
+            text: '近一周收入曲线',
+            x: -20 //center
+        },
+
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: []
+        },
+        yAxis: {
+            title: {
+                text: '收入 (元)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' 元'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '收入',
+            data: [
+                <{foreach $week_in as $v1}>
+                [<{$v1.date}>,   <{if empty($v1.money)}>0<{else}><{$v1.money}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#month_in_chart').highcharts({
+        title: {
+            text: '近一月收入曲线',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -90,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '收入 (元)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' 元'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '收入',
+            data: [
+               <{foreach $month_in as $v2}>
+                [<{$v2.date}>,   <{if empty($v2.money)}>0<{else}><{$v2.money}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#week_order_chart').highcharts({
+        chart: {
+            type: 'line'
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        title: {
+            text: '近一周订单量曲线',
+            x: -20 //center
+        },
+
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: []
+        },
+        yAxis: {
+            title: {
+                text: '订单量 (个)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' 个'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '订单量',
+            data: [
+                <{foreach $week_order as $v1}>
+                [<{$v1.date}>,   <{if empty($v1.day_order)}>0<{else}><{$v1.day_order}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#month_order_chart').highcharts({
+        title: {
+            text: '近一月订单量曲线',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -90,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '订单量 (个)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' 个'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '订单量',
+            data: [
+                <{foreach $month_order as $v2}>
+                [<{$v2.date}>,   <{if empty($v2.day_order)}>0<{else}><{$v2.day_order}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+});
+</script>

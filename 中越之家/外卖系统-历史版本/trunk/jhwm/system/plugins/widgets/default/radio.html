@@ -1,0 +1,3 @@
+<ul class="group-list">
+	<{foreach $data.options as $k=>$v}><li<{if $data.style}> style="<{$data.style}>"<{/if}>><label><input type="radio" name="<{$data.name}>[<{$k}>]"  <{if $k==$data.value}> checked="checked"<{/if}>value="<{$k}>"/><{$v}></label></li><{/foreach}>
+</ul>

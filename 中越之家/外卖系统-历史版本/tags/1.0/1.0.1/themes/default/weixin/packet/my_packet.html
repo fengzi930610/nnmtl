@@ -1,0 +1,31 @@
+
+		<h3>我的红包</h3>
+		<table>
+			<tr>
+				<th>红包金额</th>
+				<th>中奖时间</th>
+				<th>红包状态</th>
+				<th>操作</th>
+			</tr>
+            <{foreach $items as $item}>
+            	<tr>
+                    <td><{$item.prize_name}></td>
+                    <td><{$item.add_time|format}></td>
+                    <td>
+                    	<{if $item.is_reward == 1}>
+							已兑换
+                        <{else}>	
+                            未领取
+                        <{/if}>
+                    
+                    </td>
+                    <td>
+                    <{if $item.is_reward == 1}>
+                        兑奖已完成
+                   <{else}>
+                        <a href="<{link ctl='weixin/packet:reward_forms' arg0=$item.id http='ajax'}>" mini-width='300' mini-load="兑换红包">兑换红包</a>
+                    <{/if}>
+                    </td>
+                </tr>
+            <{/foreach}>
+		</table>

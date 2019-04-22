@@ -1,0 +1,33 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="data/city:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?data/city-create.html" mini-form="city-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th class="w-100">省份：</th><td><select name="data[province_id]"  class="w-150"><{widget id="data/province" value=$detail.province_id}></select></td></tr>
+<tr><th class="w-100">城市：</th><td><input type="text" name="data[city_name]" value="<{$detail.city_name}>" class="input w-200"/></td></tr>
+<tr><th class="w-100">城市：</th><td><input type="text" name="data[city_name_vn]" value="<{$detail.city_name_vn}>" class="input w-200"/><span class="tip-comment">城市越南名称</span></td></tr>
+<tr><th class="w-100">拼音：</th><td><input type="text" name="data[pinyin]" value="<{$detail.pinyin}>" class="input w-200"/><span class="tip-comment">城市首字母</span></td></tr>
+<tr>
+    <th class="w-100">城市编号：</th>
+    <td>
+        <input type="text" name="data[city_code]" value="<{$detail.city_code}>" class="input w-200"/>
+        <span class="tip-comment">高德地图对应的城市编码&nbsp;&nbsp;&nbsp;<a href="https://lbs.amap.com/api/webservice/download/" target="_blank">城市编码对照表下载</a>
+    </td>
+</tr>
+<tr><th>状态：</th><td>
+	<label><input type="radio" name="data[audit]" value="1" checked/> 开启</label>&nbsp;&nbsp;
+	<label><input type="radio" name="data[audit]" value="0" /> 关闭</label>&nbsp;&nbsp;
+</td></tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

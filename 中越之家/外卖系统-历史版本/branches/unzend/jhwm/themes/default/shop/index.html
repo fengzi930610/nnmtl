@@ -1,0 +1,466 @@
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        <a href="<{link ctl='position'}>" link-load="" class="shangquan"><em class="addrIco"></em><span id="position">定位中...</span><em
+                class="downIco"></em></a>
+    </div>
+    <i class="right"><a class="ico headerIco headerIco_1" href="javascript:tosearch();" link-load=""></a></i>
+</header>
+<div class="saixuan_pull_box" id="downOption">
+    <div class="saixuan_pull">
+        <ul>
+            <li class="saixuan_pull_list">
+                <div class="click"><a href="javascript:;"
+                                      filter="cate"><{$pager.cate.title|default:'全部商家'}><em></em></a></div>
+                <div class="saixuan_pull_child_box saixuan_fenlei" style="display:none;">
+
+                    <ul class="scroll_box">
+                        <li class="saixuan_pull_child select_all"><a href="javascript:;" cate_id="0" cat="0"><i
+                                class="ico ico<{$v@index+1}>"></i>全部商家</a></li>
+                        <{foreach $cate_tree as $v}>
+                        <{if !$v.parent_id && $v.childrens}>
+                        <li class="saixuan_pull_child"
+                        <{if $pager.cate_id==$v.cate_id || $pager.cate.parent_id==$v.cate_id}>class="on" <{/if}>
+                        rel="<{$v.cate_id}>"><a href="javascript:;"><img src="<{$pager.img}>/<{$v.icon}>"/><{$v.title}></a><span
+                            class="linkIco"></span></li>
+                        <{elseif !$v.parent_id}>
+                        <li class="saixuan_pull_child"
+                        <{if $pager.cate_id==$v.cate_id || $pager.cate.parent_id==$v.cate_id}>class="on" <{/if}>
+                        rel="<{$v.cate_id}>"><a href="javascript:;"><img src="<{$pager.img}>/<{$v.icon}>"/><{$v.title}></a><span
+                            class="linkIco"></span></li>
+                        <{/if}>
+                        <{/foreach}>
+                    </ul>
+                    <div class="saixuan_fenlei_list_box">
+                        <{foreach $cate_tree as $item}>
+                        <{if $item.childrens}>
+                        <ul class="saixuan_fenlei_list_nr" id="a<{$item.cate_id}>">
+                            <li class="saixuan_fenlei_list"><a href="javascript:;" <{if !$pager.cate_id}>class="on"
+                                <{/if}> cate_id="<{$item.cate_id}>" cat_id="0" data="" >全部<{$item.title}></a></li>
+                            <{foreach $item.childrens as $child}>
+                            <{if $child.parent_id == $item.cate_id}>
+                            <li class="saixuan_fenlei_list">
+                                <a href="javascript:;" <{if $pager.cate_id==$item.cate_id}>class="on"
+                                <{/if}>cate_id="<{$child.cate_id}>" cat_id="<{$child.parent_id}>" >
+                                <{$child.title}>
+                                </a>
+                            </li>
+                            <{/if}>
+                            <{/foreach}>
+                        </ul>
+                        <{/if}>
+                        <{/foreach}>
+                    </div>
+                </div>
+            </li>
+            <li class="saixuan_pull_list">
+                <div class="click"><a href="javascript:;" filter="area" id="near_first">附近<em></em></a></div>
+                <div class="saixuan_pull_child_box saixuan_fenlei_area" style="display:none;">
+
+                    <ul class="scroll_box">
+                        <li class="saixuan_pull_child" class="on" rel="0" near="1"><a href="javascript:;">附近</a><span
+                                class="linkIco"></span></li>
+                        <{foreach $area as $k => $v}>
+                        <li class="saixuan_pull_child" rel="<{$v.area_id}>" near="1"><a href="javascript:;"><{$v.area_name}></a><span
+                                class="linkIco"></span></li>
+                        <{/foreach}>
+                    </ul>
+                    <div class="saixuan_fenlei_list_box">
+                        <ul class="saixuan_fenlei_list_nr" id="big_near">
+                            <li class="saixuan_fenlei_list"><a href="javascript:;" near="1">附近</a></li>
+                            <li class="saixuan_fenlei_list"><a href="javascript:;" near="1">1km</a></li>
+                            <li class="saixuan_fenlei_list"><a href="javascript:;" near="3">3km</a></li>
+                        </ul>
+                        <{foreach $area as $v}>
+                        <ul class="saixuan_fenlei_list_nr" id="area<{$v.area_id}>" style="display:none;">
+                            <li class="saixuan_fenlei_list" rel="<{$v.area_id}>" filter="areas"><a near="9"
+                                                                                                   rel="<{$v.area_id}>">全部<{$v.area_name}></a>
+                            </li>
+                            <{foreach $business as $vv}>
+                            <{if $v.area_id == $vv.area_id}>
+                            <li class="saixuan_fenlei_list" rel="<{$vv.business_id}>" filter="business"><a near="8"
+                                                                                                           rel="<{$vv.business_id}>"><{$vv.business_name}></a>
+                            </li>
+                            <{/if}>
+                            <{/foreach}>
+                        </ul>
+                        <{/foreach}>
+                    </div>
+                </div>
+            </li>
+
+            <li class="saixuan_pull_list">
+                <div class="click">
+                    <a href="javascript:;" filter="orderby">智能排序<em></em></a>
+                </div>
+                <div class="saixuan_pull_child_box" style="display:none;">
+                    <ul id='filter_order' class="border1">
+                        <li
+                        <{if !$pager.order}>class="on" <{/if}>order=""><a href="javascript:;"><i class="ico ico1"></i>智能排序</a></li>
+
+                        <li
+                        <{if $pager.order=='juli'}>class="on" <{/if}>order="juli"><a href="javascript:;"><i
+                            class="ico ico2"></i>离我最近</a></li>
+                        <!--
+                        <li <{if $pager.order=='time'}>class="on" <{/if}>order="time"><a href="javascript:;">送餐速度最快</a></li>
+                        <li <{if $pager.order=='sales'}>class="on" <{/if}>order="sales"><a href="javascript:;">销量最好</a></li> -->
+                        <li
+                        <{if $pager.order=='score'}>class="on" <{/if}>order="score"><a href="javascript:;"><i
+                            class="ico ico3"></i>好评优先</a></li>
+                        <li
+                        <{if $pager.order=='price'}>class="on" <{/if}>order="price"><a href="javascript:;"><i
+                            class="ico ico4"></i>人均最低</a></li>
+
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+<section class="page_center_box">
+    <div class="recSeller_list_box border_t mt10 mb10" id="wrapper">
+        <ul></ul>
+    </div>
+</section>
+<{include file="block/sfooter.html"}>
+
+<script id="tmpl_shop_item" type="text/x-jquery-tmpl">
+    <li class="recSeller_list">
+        <div class="pub_img fl"><a href="${url}" link-load="" ><img src="<{$pager.img}>/${logo}" width="100" height="100" /></a></div>
+        <div class="pub_wz">
+            <a href="${url}" link-load="" >
+            <p class="bt">
+            <a href="${url}" class="overflow_clear">${title}</a>
+                {{if have_paidui == 1}}<em style="background:#00cdda;">排</em>{{/if}}
+                {{if have_dingzuo == 1}}<em style="background:#7ed321;">订</em>{{/if}}
+                {{if have_waimai==1}}<em style="background:#f5a623;">外</em>{{/if}}
+                {{if have_weidian==1}}<em style="background:#ff6600;">店</em>{{/if}}
+            </p>
+            <div class="nr">
+                <div class="fl">
+                    <a href="${url}" link-load="">
+                    <div><span class="starBg"><span class="star" title="${avg_score}" style="width:${avg_score*20}%;"></span></span><span class="ml10 black9">${avg_score}分</span></div>
+                    <p class="black9">${cate_title}</p>
+                    </a>
+                </div>
+                <div class="fr">
+                    <a href="${url}" link-load="">
+                    <p class="black9 price">人均：<span class="pointcl1">￥${avg_amount}</span></p>
+                    <p class="black9 range"><em class="ico"></em>${juli_label}</p>
+                    </a>
+                </div>
+            </div>
+            <div class="tag_box">
+                {{if have_tuan==1}}
+                    {{if tuan_title}}
+                    <p class="overflow_clear black6"><em class="tag" style="background:#f46007;">团</em>${tuan_title}</p>
+                    {{/if}}
+                {{/if}}
+                {{if have_maidan==1}}
+                    {{if coupon_title}}
+                    <p class="overflow_clear black6"><em class="tag" style="background:#ff2b79;">惠</em>${coupon_title}</p>
+                    {{/if}}
+                {{/if}}
+                {{if have_quan==1}}
+                    {{if quan_title}}
+                    <p class="overflow_clear black6"><em class="tag" style="background:#0598ec;">券</em>${quan_title}</p>
+                    {{/if}}
+                {{/if}}
+            </div>
+            </a>
+        </div>
+    </li>
+
+</script>
+
+<script type="text/javascript">
+    var arr = "<{$pager.cate_id}>";
+    function loadPageItems(params) {
+        if (LoadData.LOCK || LoadData.LOAD_END) {
+            return false;
+        }
+        LoadData.LOCK = true;
+        params = params || {};
+        LoadData.params = $.extend(LoadData.params, params);
+        Widget.MsgBox.load("加载中...");
+        $.post("<{link ctl='shop:loaditems'}>", LoadData.params, function (ret) {
+            if (ret.error) {
+                Widget.MsgBox.error(ret.message);
+            } else {
+                if (ret.data.items.length > 0) {
+                    if (parseInt(LoadData.params['page'], 10) < 2) {
+                        $("#wrapper ul").html($('#tmpl_shop_item').tmpl(ret.data.items));
+                    } else {
+                        $('#tmpl_shop_item').tmpl(ret.data.items).appendTo($("#wrapper ul"));
+                    }
+                } else if (LoadData.params.page > 1) {
+                    if (!$(".loading_end").length) {
+                        $('#wrapper ul').append('<div class="loading_end">没有更多了...</div>');
+                    }
+                    LoadData.LOAD_END = true;
+                } else {
+                    //给一个没有数据的提示信息
+                    $("#wrapper ul").html('<div class="nonePage txt_center"><div class="nonePage_img"><img src="/themes/default/static/images/none/none2.png" width="25%"></div><h2 class="black3">商户进驻中,敬请期待</h2></div>');
+                    LoadData.LOAD_END = true;
+                }
+            }
+            LoadData.params.page++;
+            Widget.MsgBox.hide();
+            LoadData.LOCK = false;
+        }, "json");
+    }
+    $(document).ready(function () {
+        //$('.saixuan_fenlei_list_box').hide();
+        /*头部下拉开始*/
+        if ($('.saixuan_pull').length > 0) {/*判断是否存在这个html代码*/
+            $('.saixuan_pull .saixuan_pull_list').width(100 / $('.saixuan_pull .saixuan_pull_list').length + '%');
+            $('.page_center_box').css('top', '0.91rem');
+        }
+
+        $(".saixuan_pull_list .click").click(function () {
+            if ($(this).hasClass("on")) {
+                $(".saixuan_pull_list .click").removeClass("on");
+                $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+                $(".saixuan_pull_box .mask_bg").hide();
+            } else {
+                $(".saixuan_pull_list .click").removeClass("on");
+                $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+                $(this).addClass("on");
+                $(this).parent().find(".saixuan_pull_child_box").show();
+                $(".saixuan_pull_box .mask_bg").show();
+            }
+        });
+
+        //商家下拉
+        $('.saixuan_fenlei .saixuan_pull_child').click(function () {
+            var rel = $(this).attr('rel');
+            $(this).parent().find(".saixuan_pull_child").removeClass("on");
+            $(this).addClass("on");
+            $('.saixuan_fenlei_list_nr').hide();
+            LoadData.params['cate_id'] = rel;
+            if (rel == 0) {
+                $('#big_near').show();
+            } else if ($('#a' + rel).length == 0) {
+                $('.saixuan_pull_child_box').hide();
+                $('.mask_bg').hide();
+                LoadData.params['page'] = 1;
+                loadPageItems();
+            } else {
+                $('#a' + rel).show();
+            }
+        });
+
+        // 附近下拉
+        $('.saixuan_fenlei_area .saixuan_pull_child').click(function () {
+            var rel = $(this).attr('rel');
+            $(this).parent().find(".saixuan_pull_child").removeClass("on");
+            $(this).addClass("on");
+            $('.saixuan_fenlei_list_nr').hide();
+            LoadData.params['area_id'] = rel;
+            if (rel == 0) {
+                $('#big_near').show();
+            } else if ($('#area' + rel).length == 0) {
+                $('.saixuan_pull_child_box').hide();
+                $('.mask_bg').hide();
+                LoadData.params['page'] = 1;
+                loadPageItems();
+            } else {
+                $('#area' + rel).show();
+            }
+        });
+
+        /*头部下拉结束*/
+    });
+
+    $(document).ready(function () {
+        $(".peisong_way label").click(function () {
+            $(this).parent().find("label").removeClass("on");
+            $(this).addClass("on");
+            var rel = $(this).attr('rel');
+            $('#pei_type').val(rel);
+        });
+
+        $("#tb1").click(function () {
+            if ($(this).hasClass("on")) {
+                $('#online_pay').val(0);
+                $(this).removeClass("on");
+            }
+            else {
+                $('#online_pay').val(1);
+                $(this).addClass("on");
+            }
+        });
+        $("#tb2").click(function () {
+            if ($(this).hasClass("on")) {
+                $('#is_new').val(0);
+                $(this).removeClass("on");
+            }
+            else {
+                $('#is_new').val(1);
+                $(this).addClass("on");
+            }
+        });
+        $("#tb3").click(function () {
+            if ($(this).hasClass("on")) {
+                $('#youhui_first').val(0);
+                $(this).removeClass("on");
+            }
+            else {
+                $('#youhui_first').val(1);
+                $(this).addClass("on");
+            }
+        });
+        $("#tb4").click(function () {
+            if ($(this).hasClass("on")) {
+                $('#youhui_order').val(0);
+                $(this).removeClass("on");
+            }
+            else {
+                $('#youhui_order').val(1);
+                $(this).addClass("on");
+            }
+        });
+        /*头部下来分类开始*/
+        $('.cancel').click(function () {
+            $('.saixuan_pull_child_box').hide();
+            $('.mask_bg').hide();
+            $(this).parent().parent().parent().parent().parent().find(".click").removeClass("on");
+        })
+        /*头部下来分类开始*/
+
+        $('#position').text() == '定位中...';
+        window.LoadData.params = {
+            "cate_id": "<{$pager.cate_id}>",
+            "cat_id": "<{$pager.cat_id}>",
+            "title": "<{$pager.title}>",
+            "orderby": "<{$pager.orderby}>",
+            "is_new": "<{$pager.is_new}>",
+            "online_pay": "<{$pager.online_pay}>",
+            "first_youhui": "<{$pager.first_youhui}>",
+            "youhui_order": "<{$pager.youhui_order}>",
+            "pei_type": "<{$pager.pei_type}>",
+            "page": 1
+        };
+        getUxLocation(function (ret) {
+            if (ret.error) {
+                alert(ret.message);
+                window.location.href = "<{link ctl='position'}>";
+            } else {
+                $('#position').text(ret.addr);
+                loadPageItems();
+            }
+        });
+
+        $(".saixuan_pull_child").click(function () {
+            var near = $(this).attr('near');
+            if (!near) {
+                $(".saixuan_pull_list [filter='cate']").html($(this).text() + "<em></em>");
+            } else {
+                $('#near_first').text($(this).text());
+            }
+            $(".saixuan_pull_child_box li").removeClass("on");
+            if (!$(this).hasClass('select_all')) {
+                $(this).addClass("on");
+            }
+            $(this).parent().parent().parent().parent().find(".click").removeClass("on");
+        });
+
+
+        $(".select_all a").click(function () {
+            LoadData.params['page'] = 1;
+            LoadData.params['cate_id'] = $(this).attr('cate_id');
+            $('.saixuan_pull_child_box').hide();
+            $('.mask_bg').hide();
+            $(this).parent().parent().parent().parent().find(".click").removeClass("on");
+            loadPageItems();
+        });
+
+
+        //level 2 click
+        $(".saixuan_fenlei_list a,saixuan_fenlei_list_nr a").click(function () {
+            LoadData.params['page'] = 1;
+            LoadData.params['cate_id'] = $(this).attr('cate_id');
+            var id = $(this).attr('rel');
+            var near = $(this).attr('near');
+            if ($(this).text() == '全部') {
+                if (!near) {
+                    $(".saixuan_pull_list [filter='cate']").html($(this).attr('data') + "<em></em>");
+                    LoadData.params['title'] = $(this).attr('data');
+                } else if (near == 9) {
+                    $(".saixuan_pull_list [filter='area']").html($(this).attr('data') + "<em></em>");
+                    LoadData.params['area_id'] = id;
+                } else if (near == 8) {
+                    $(".saixuan_pull_list [filter='area']").html($(this).attr('data') + "<em></em>");
+                    LoadData.params['business_id'] = id;
+                } else if (near == 1 || near == 3) {
+                    $(".saixuan_pull_list [filter='area']").html($(this).attr('data') + "<em></em>");
+                    LoadData.params['range'] = id;
+                    LoadData.params['area_id'] = 0;
+                }
+
+            } else {
+                if (!near) {
+                    $(".saixuan_pull_list [filter='cate']").html($(this).text() + "<em></em>");
+                    LoadData.params['title'] = $(this).text();
+                } else if (near == 9) {
+                    $(".saixuan_pull_list [filter='area']").html($(this).text() + "<em></em>");
+                    LoadData.params['area_id'] = id;
+                } else if (near == 8) {
+                    $(".saixuan_pull_list [filter='area']").html($(this).text() + "<em></em>");
+                    LoadData.params['business_id'] = id;
+                } else if (near == 1 || near == 3) {
+                    $(".saixuan_pull_list [filter='area']").html($(this).text() + "<em></em>");
+                    LoadData.params['range'] = near;
+                    LoadData.params['area_id'] = 0;
+                }
+
+            }
+
+            $('.saixuan_pull_child_box').hide();
+            $('.mask_bg').hide();
+
+            $(this).parent().parent().parent().parent().parent().find(".click").removeClass("on");
+            $(this).parents(".saixuan_pull_list").find(".saixuan_fenlei_list a").removeClass("on");
+            $(this).addClass("on");
+
+            loadPageItems();
+        });
+
+        $("#filter_order li").click(function () {
+            LoadData.params['page'] = 1;
+            LoadData.params['order'] = $(this).attr('order');
+            $('.saixuan_pull_child_box').hide();
+            $('.mask_bg').hide();
+            $(".saixuan_pull_list [filter='orderby']").html($(this).text() + "<em></em>");
+            $(".saixuan_pull_list .click").removeClass("on");
+            $("#filter_order li").removeClass("on");
+            $(this).addClass("on");
+            loadPageItems();
+        });
+
+        $(".saixuan_pull_box .mask_bg").click(function (e) {
+            $(this).hide();
+            $(".saixuan_pull_list .click").removeClass("on");
+            $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+        });
+
+    });
+
+    $(".page_center_box").scroll(function () {//监听滚动条改变
+        if ($(".page_center_box").scrollTop() >= $(".recSeller_list_box").height() - $(".page_center_box").height()) {//滚动条是否滚到底部
+            loadPageItems();
+        }
+    });
+    function tosearch() {
+        localStorage['search_index'] = window.location.href;
+        localStorage['search_from'] = 'shop';
+        window.location.href = "<{link ctl='search'}>";
+    }
+    $(document).ready(function () {
+        $('#l2').addClass('on');
+    })
+</script>
+<{include file="block/footer.html"}>

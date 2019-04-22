@@ -1,0 +1,21 @@
+<{foreach $cates as $cate}>
+    <{if $cate@index <= 10}>
+        <div class="list_one">
+            <h3><a href="<{link ctl='shop/index' args=$cate.cate_id}>"><{$cate.title}><i class="linkico fr"></i></a></h3>
+            <div class="list_two">
+                <!--此处每个ul里限定十个li-->
+                <{foreach $cate.childrens as $c}>
+                <{if $c@index%10 == 0}>
+                <ul>
+                    <li><a href="<{link ctl='shop/index' args=$c.cate_id}>"><{$c.title}></a></li>
+                    <{elseif $c@index%10 == 9}>
+                    <li><a href="<{link ctl='shop/index' args=$c.cate_id}>"><{$c.title}></a></li>
+                </ul>	
+                <{else}>
+                <li><a href="<{link ctl='shop/index' args=$c.cate_id}>"><{$c.title}></a></li>
+                <{/if}>
+                <{/foreach}>
+            </div>
+        </div>
+    <{/if}>
+<{/foreach}>

@@ -1,0 +1,1192 @@
+<{assign var="page_title" value="云购首页"}>
+<{include file="pchome/block/header.html"}>
+<style>body{background: #f5f5f5;}</style>
+<{include file="pchome/cloud/top.html"}>
+<!-- 头部main_head -->
+<div class="yungou_main_head">
+    <div class="pagewd head-top">
+        <div class="fl">
+            <a href="<{link ctl='cloud/items'}>"><img src="/themes/default/pchome/static/images/yungou/yg_logo.png"></a>	
+        </div>
+        <div class="fr">
+            <div class="search_box">
+                <form action="" name="" method="">
+                    <input type="text" name="" value="搜索商品" class="fl input-shuru"  placeholder="搜索商品">
+                    <input type="submit" name="" value="" class="fr submit-btn">
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+        <div class="clear"></div>	
+    </div>
+    <div class="main-nav">
+        <div class="pagewd main-nav_cont">
+            <div class="fl">
+                <div class="nav_list">
+                    <ul>
+                        <li class="nav_all-lei"><a href="<{link ctl='cloud/index'}>">全部商品分类</a></li>
+                        <li class="current nav_li"><a href="<{link ctl='cloud/items'}>" class="nav_li-a">首页</a></li><span class="the-line fl">|</span>
+                        <li class="nav_li"><a href="" class="nav_li-a">精品商品</a></li><span class="the-line fl">|</span>
+                        <li class="nav_li"><a href="#" class="nav_li-a">最新揭晓</a></li><span class="the-line fl">|</span>
+                        <li class="nav_li"><a href="#" class="nav_li-a">晒单分享</a></li>
+                    </ul>
+                </div>		
+            </div>
+            <div class="fr"><a href="#" class="fl yungou_maincl to_shouye"><i class="ico"></i>江湖社区首页</a></div>
+            <div class="clear"></div>		
+        </div>
+    </div>	
+</div>
+<!-- 头部main_head结束-->
+<!-- banner部分-->
+<div class="yungou_banner-inner pagewd">
+    <div class="ban_left-list fl">
+        <ul>
+            <{foreach $cates as $cate}>
+            <li class="cate-li <{if $cate@index == 12}>last-li<{/if}>"><a href="<{link ctl='cloud/index' arg0=$cate.cate_id}>"  class="cate-a"><{$cate.title}></a></li>
+            <{/foreach}>
+        </ul>
+
+    </div>
+    <div class="ban_center fl">
+        <div class="top-flexslider">
+            <ul class="slides">
+                <{adv id="11" name="PC云购首页轮播广告位" city_id=$city_id}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="bottom-list">
+            <ul>
+                <li class="fl list_item">
+                    <a href="#" class="item_link">
+                        <div class="item_pic-box fl"><img src="/themes/default/pchome/static/pic/yg_ban-pic1.png" class="item_pic"></div>	
+                        <div class="item-wenzi">
+                            <h3 class="mt15">（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                            <p class="black6">价值：¥2799.00</p>
+                            <div class="jiexiao">
+                                <h4 class="text_c jiexiao-tit">揭晓倒计时</h4>
+                                <div class="time_box mt5 text_c"><span class="daojishi" id="daojishi2" rel='7353648'></span></div>
+                            </div>		
+                        </div>
+                        <div class="jiexiao_rank"></div>
+                    </a>
+                </li>
+                <li class="fl list_item">
+                    <a href="#" class="item_link">
+                        <div class="item_pic-box  fl"><img src="/themes/default/pchome/static/pic/yg_ban-pic1.png" class="item_pic"></div>
+                        <div class="item-wenzi">
+                            <h3 class="mt15">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                            <p class="black6">价值：¥2799.00</p>
+                            <div class="jiexiao">
+                                <h4 class="text_c jiexiao-tit">揭晓倒计时</h4>
+                                <div class="time_box mt5 text_c"><span class="daojishi" id="daojishi3" rel='7353649'></span></div>
+                            </div>		
+                        </div>
+                        <div class="jiexiao_rank"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>	
+    </div>
+    <div class="ban_right fl">
+        <div class="ban_right-top">
+            <div class="jiexiao_rank-now"></div>
+            <a href="#" class="top_link"><img src="/themes/default/pchome/static/pic/yg_ban-pic2.png" class="top_pic"></a>
+            <div class="progress-box">
+                <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                <div class="num_box mt5">
+                    <div class="fl text_l">
+                        <p>8980</p>
+                        <p>总需</p>
+                    </div>
+                    <div class="fr text_r">
+                        <p class="yungou_maincl">4545</p>
+                        <p>剩余</p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <a href="#" class="duobao_now-btn text_c">立即1元夺宝</a>
+        </div>
+        <div class="ban_right-bot">
+            <a href="#" class="bot_link">
+                <div class="bot_pic-box"><img src="/themes/default/pchome/static/pic/yg_ban-xinpic1.png" class="bot_pic"></div>
+                <div class="bot_txt mt5">
+                    <h3 class="overflow_clear">【预售】华为（HUAWEI）荣耀</h3>
+                    <p class="black6">颜色随机</p>
+                </div>
+                <div class="tuijian_rank"></div>
+            </a>
+        </div>		
+    </div>
+    <div class="clear"></div>	
+</div>
+<!-- banner部分结束-->
+<!-- 最新揭晓 -->
+<div class="yungou_index-part1 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>最新揭晓</h1>	
+        <a href="#" class="fr tit_right">共揭晓27899890个<span class="black9">&gt;&gt;</span></a>
+        <div class="clear"></div>
+    </div>	
+    <div class="part1_list">
+        <ul>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div class="part1-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic1.png" class="part1-pic"></div>
+                    <div class="item_infor">
+                        <h3 class="mb5">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="jishi-box"><span class="mr10">揭晓倒计时</span><span class="daojishi" id="daojishi8" rel='7353654'></span></div>
+                    <div class="jiexiao-rank"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div class="part1-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic1.png" class="part1-pic"></div>
+                    <div class="item_infor">
+                        <h3 class="mb5">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="jishi-box"><span class="mr10">揭晓倒计时</span><span class="daojishi" id="daojishi4" rel='7353650'></span></div>
+                    <div class="jiexiao-rank"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div class="part1-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic1.png" class="part1-pic"></div>
+                    <div class="item_infor">
+                        <h3 class="mb5">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="jishi-box"><span class="mr10">揭晓倒计时</span><span class="daojishi" id="daojishi5" rel='7353651'></span></div>
+                    <div class="jiexiao-rank"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div class="part1-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic1.png" class="part1-pic"></div>
+                    <div class="item_infor">
+                        <h3 class="mb5">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="jishi-box"><span class="mr10">揭晓倒计时</span><span class="daojishi" id="daojishi6" rel='7353652'></span></div>
+                    <div class="jiexiao-rank"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div class="part1-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic1.png" class="part1-pic"></div>
+                    <div class="item_infor">
+                        <h3 class="mb5">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="jishi-box"><span class="mr10">揭晓倒计时</span><span class="daojishi" id="daojishi7" rel='7353653'></span></div>
+                    <div class="jiexiao-rank"></div>
+                </a>	
+            </li>							
+            <div class="clear"></div>					
+        </ul>	
+    </div>
+
+</div>
+<!-- 最新揭晓end -->
+<!-- 热门商品-->
+<div class="yungou_index-part2 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>热门商品</h1>	
+        <a href="#" class="fr tit_right"><span class="black9">查看更多&gt;&gt;</span></a>
+    </div>
+    <div class="part2_list">
+        <ul>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part2-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="#" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+
+        </ul>
+    </div>
+    <div class="clear"></div>	
+</div>
+<!-- 热门商品end -->
+<!-- 即将揭晓 -->
+<div class="yungou_index-part3 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>即将揭晓</h1>	
+        <div class="fr tit_list">
+            <ul>
+                <li class="fl on"><a href="javascript:;" class="tit_li-a">手机数码</a></li>
+                <li class="fl"><a href="javascript:;" class="tit_li-a">电脑办公</a></li>
+                <li class="fl"><a href="javascript:;" class="tit_li-a">家用电器</a></li>
+                <li class="fl"><a href="javascript:;" class="tit_li-a">钟表首饰</a></li>
+                <li class="fl"><a href="javascript:;" class="tit_li-a">潮流新品</a></li>
+                <li class="fl"><a href="javascript:;" class="tit_li-a">家用电器</a></li>
+                <li class="fl"><a href="javascript:;" class="tit_li-a">全部商品</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="part3_list">
+        <ul>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box" id="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box" id="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box" id="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box" id="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box" id="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box" id="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a href="#" class="part3-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>
+                </div>	
+            </li>
+
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- 即将揭晓end -->
+<!-- 精品推荐 -->
+<div class="yungou_index-part4 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>精品推荐</h1>	
+        <a href="#" class="fr tit_right"><span class="black9">查看更多&gt;&gt;</span></a>
+    </div>
+    <div class="clear"></div>
+    <div class="part4_list">
+        <ul>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  href="#" class="part4-pic-box"><img src="/themes/default/pchome/static/pic/yg_part-pic2.png" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a href="#"><h3 class="overflow_clear biaoti">（第30期）华为（HUAWEI）荣耀NOTE8（第30期）华为（HUAWEI）荣耀NOTE8</h3></a>
+                        <p class="black6">价值：¥2799.00</p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p>8980</p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl">4545</p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a href="javascript:void(0);" class="duobao_now-btn text_c tanchu_btn">立即1元夺宝</a>
+                    <div class="erweima_box">
+                        <div class="code-img-box"><img src="/themes/default/pchome/static/pic/yg_part3_code.png" class="code-img"></div>	
+                        <p>（微信扫一扫，去下单）</p>
+                    </div>					
+                </div>	
+            </li>
+
+            <div class="clear"></div>								
+        </ul>
+    </div>		
+</div>
+<!-- 精品推荐end -->
+<!-- 晒单分享 -->
+<div class="yungou_index-part5 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>晒单分享</h1>	
+        <a href="#" class="fr tit_right"><span class="black9">查看更多&gt;&gt;</span></a>
+        <div class="clear"></div>
+    </div>	
+    <div   class="part5_list">
+        <ul>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+
+            <div class="clear"></div>			
+        </ul>
+        <div class="line-you"></div>
+        <div class="line-bottom"></div>
+    </div>
+</div>
+
+<!-- 晒单分享end -->
+<!-- 底部-->
+<div class="yungou_index-foot">
+    <div class="pagewd">
+        <div class="foot-top">
+            <ul>
+                <li class="text_l fl link-li">
+                    <h4>新手上路</h4>
+                    <p><a href="#" class="black6">购物流程</a></p>
+                    <p><a href="#" class="black6">会员政策</a></p>
+                    <p><a href="#" class="black6">常见问题</a></p>
+                    <p><a href="#" class="black6">积分政策</a></p>
+                </li>
+                <li class="text_l fl link-li">
+                    <h4>配送支付</h4>
+                    <p><a href="#" class="black6">支付方式</a></p>
+                    <p><a href="#" class="black6">配送方式</a></p>
+                    <p><a href="#" class="black6">配送说明</a></p>
+                    <p><a href="#" class="black6">代金券使用</a></p>
+                </li>
+                <li class="text_l fl link-li">
+                    <h4>售后服务</h4>
+                    <p><a href="#" class="black6">退款说明</a></p>
+                    <p><a href="#" class="black6">物流服务</a></p>
+                    <p><a href="#" class="black6">取消订单</a></p>
+                </li>
+                <li class="text_l fl link-li">
+                    <h4>联系我们</h4>
+                    <p><a href="#" class="black6">申请入驻</a></p>
+                    <p><a href="#" class="black6">投诉建议</a></p>
+                    <p><a href="#" class="black6">联系客服</a></p>
+                </li>
+                <li class="text_l fl link-li">
+                    <h4>服务支持</h4>
+                    <p class="black6">售前咨询 0551-64278115</p>
+                    <p class="black6">售后咨询 0551-68156253</p>
+                    <p class="black6">客服 QQ  800026911</p>
+                    <p class="black6">工作时间 9:00-18:00(周一至周六)</p>
+                </li>
+                <div class="clear"></div>
+            </ul>	
+        </div>
+        <div class="foot-center">
+            <ul>
+                <li class="center-li fl">
+                    <div class="li-cont">
+                        <img src="/themes/default/pchome/static/images/yungou/yg_foot-ico1.png" class="foot-ico fl">
+                        <div class="txt">
+                            <h4 class="mb10">100%公平公正</h4>
+                            <p class="black9">参与过程公开透明，用户可随时查看</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="center-li fl">
+                    <div class="li-cont">
+                        <img src="/themes/default/pchome/static/images/yungou/yg_foot-ico2.png" class="foot-ico fl">
+                        <div class="txt">
+                            <h4 class="mb10">100%正品保证</h4>
+                            <p class="black9">精心挑选优质商家，100%品牌正品</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="center-li fl the-last">
+                    <div class="li-cont">
+                        <img src="/themes/default/pchome/static/images/yungou/yg_foot-ico3.png" class="foot-ico fl">
+                        <div class="txt">
+                            <h4 class="mb10">全国免运费</h4>
+                            <p class="black9">全国包邮（港澳台及特殊商品除外）</p>
+                        </div>
+                    </div>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>	
+
+    </div>
+</div>
+<!-- 底部end -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.yungou_banner-inner .top-flexslider').flexslider({
+            directionNav: false,
+            pauseOnAction: false
+        });
+    });
+</script>  
+<script type="text/javascript">
+    $(document).ready(function (e) {
+
+        function yiyuan_time(id) {
+            var t = Math.floor($("#" + id).attr('rel'));
+            t--;
+            var d = Math.floor(t / 60 / 60 / 24);
+            var h = Math.floor(t / 60 / 60 % 24);
+            var m = Math.floor(t / 60 % 60);
+            var s = Math.floor(t % 60);
+            $("#" + id).attr('rel', t);
+            if (h <= 9) {
+                h = '0' + h
+            }
+            if (m <= 9) {
+                m = '0' + m
+            }
+            if (s <= 9) {
+                s = '0' + s
+            }
+            $("#" + id).html('<span class="shijian">' + h + '</span>' + '<span class="maohao">:</span>' + '<span class="shijian">' + m + '</span>' + '<span class="maohao">:</span>' + '<span class="shijian">' + s + '</span>');
+        }
+        setInterval(function () {
+            for (i = 1; i < 100; i++) {
+                yiyuan_time("daojishi" + i);
+            }
+        }, 1000);//倒计时js部分结束
+
+    });
+</script> 
+<!-- 夺宝按钮弹出-->
+<script type="text/javascript">
+    $(function () {
+        $(".tanchu_btn").click(function () {
+            $(this).parent(".li_item-a").find(".erweima_box").addClass("on");
+        });
+        $(".erweima_box").click(function () {
+            $(this).removeClass("on");
+        });
+    });
+</script>
+<!-- 夺宝按钮弹出 -->
+<{include file="pchome/block/footer.html"}>

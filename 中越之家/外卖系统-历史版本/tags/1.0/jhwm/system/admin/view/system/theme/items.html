@@ -1,0 +1,36 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th><td align="right"></td><td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"> 
+    <form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr><th class="w-100">ID</th><th class="w-100">预览图</th><th class="w-150">模板</th><th class="w-150">名称</th><th>作者</th><th class="w-100">默认</th><th class="w-150">操作</th></tr>
+    <{foreach $themes as $item}>
+    <tr>
+        <td><label><input type="checkbox" <{if $item.theme_id}> value="<{$item.theme_id}>" name="theme_id[]" CK="PRI"<{else}>disabled="disabled"<{/if}>/><{$item.theme_id|default:"new"}><label></td>
+        <td><img src="../themes/<{$item.theme}>/<{$item.thumb}>"  photo="../themes/<{$item.theme}>/<{$item.thumb}>" class="wh-50"/></td>
+        <td><{$item.theme}></td><td><{$item.title}></td><td><a href="<{$item.site}>" target="_blank"><{$item.author}></a></td>
+        <td><{if $item.default}><b class="red">是</b><{else}>否<{/if}></td>
+        <td>
+            <{if $item.default}>
+                <{link ctl="system/theme:detail" arg0=$item.theme_id title="管理" class="button"}>
+            <{elseif $item.theme_id}>
+                <{link ctl="system/theme:detail" arg0=$item.theme_id title="管理" class="button"}>
+                <{link ctl="system/theme:uninstall" args=$item.theme_id act="mini:confirm:您确定要卸载该模板" title="卸载" class="button"}>
+                <{link ctl="system/theme:setdefault" args=$item.theme_id title="设为默认" act="mini:设置默认模板" class="button"}>
+            <{else}>
+                <{link ctl="system/theme:install" args=$item.theme act="mini:安装模板" title="安装" class="button"}>
+            <{/if}>
+        </td>
+    </tr>
+    <{/foreach}>
+    </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

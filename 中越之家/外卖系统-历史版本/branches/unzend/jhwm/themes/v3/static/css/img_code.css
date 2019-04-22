@@ -1,0 +1,13 @@
+/*验证码弹层代码开始*/
+.identifycode_mask_box{ position:fixed; z-index:99; left:50%; top:50%; margin-left:-135px; width:270px; background:#fff; overflow:hidden; box-shadow:0 0 5px #ccc;transform: translate(0,-50%);-webkit-transform: translate(0,-50%);}
+.identifycode_mask_box .tit{ border-bottom:1px solid #e6e6e6; line-height:40px; text-align:center; font-size:15px; color:#666;}
+.identifycode_mask_box .btn_box{ border-top:1px solid #e6e6e6; padding:10px 0; text-align:center;}
+.identifycode_mask_box .btn_box .btn{ display:inline-block; width:74px; height:30px; margin:0 12px; text-align:center;  line-height:30px; font-size:14px; color:#fff;}
+.identifycode_mask_box .btn_box .btn.cancel{ background:#ccc;}
+.identifycode_mask_box .btn_box .btn.confirm{ background:#f70;}
+.identifycode_mask_box .cont{ padding:15px 20px;}
+.identifycode_mask_box .cont .int_box{ overflow:hidden;}
+.identifycode_mask_box .cont .int_box input{ margin:0; padding:0; appearance:none; -webkit-appearance:none; border:1px solid #ccc; height:30px; float:left; width:142px; line-height:30px; vertical-align:middle; background:none; font-size:14px; color:#333;}
+.identifycode_mask_box .cont .int_box .yzm_img{ float:right; width:80px; height:32px;}
+.identifycode_mask_bg{ position:fixed; z-index:98; left:0; top:0; width:100%; height:100%; background:#000; opacity:0.7;}
+/*验证码弹层代码结束*/

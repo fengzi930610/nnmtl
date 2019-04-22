@@ -1,0 +1,9 @@
+<{foreach $items as $v}>
+<li class="list clear_both border_t">
+    <div class="fl">
+        <p><{$v['intro']}></p>
+        <small class="black9"><{$v['dateline']|format}></small>
+    </div>
+    <div class="fr maincl mt10"><{$v['number']}></div>
+</li>
+<{/foreach}>

@@ -1,0 +1,49 @@
+<{assign var='tpl_title' value=L("我的收藏")}>
+<{include file="waimai/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="colleatTips" id="index_goods_items">
+
+                </div>
+                <div class="loadding">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function(){
+        var url = '<{link ctl="ucenter/collect:loadcollect" arg0="#page#" http="waimai"}>'
+        loadpage(url,{uid: "<{$uid}>"},1);
+        scroll(url,{uid: "<{$uid}>"},1);
+    }
+    function Hide(obj){
+        obj.click(function(){
+            $('.delPopup').hide();
+            $('.delMaskBg').hide();
+        })
+    }
+    var delIndex;
+    function guanzhu(e) {
+        var can_id = e.getAttribute('data-id');
+        Widget.MsgBox.confirm('确认取消收藏？',function(a){
+            if(a){
+                var url="<{link ctl='ucenter/collect:collect' arg0=0 arg1='waimai' arg2='#can_id#' http='waimai'}>".replace('#can_id#',can_id);
+                $.post(url,{},function (e) {
+                    if(e.error>0){
+                        Widget.MsgBox.error(e.message);
+                    } else {
+                        Widget.MsgBox.error(e.message);
+                        setTimeout(function(){
+                            window.location.reload();
+                        },2000);
+                    }
+                },'json')
+            }
+        });
+    }
+</script>
+<{include file="block/footer.html"}>

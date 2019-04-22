@@ -1,0 +1,96 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='business/business:index'}>">经营分析</a></li>
+        <li class="active">热门商品</li>
+    </ol>
+</div>
+<div class="wrapper wrapper-content">
+    <form action="<{link ctl='business/hot:index'}>" method="post">
+       	<div class="dispatch_serch">
+            <div class="clearfix list_box">
+                <div class="fl" id="data_5">
+                    <span class="input-daterange" id="datepicker">选择日期：<input type="text" name="SO[time][]" value="<{$pager['SO']['time'][0]}>"  class="tuan_topser tuan_topserw3">至<input type="text" name="SO[time][]" value="<{$pager['SO']['time'][1]}>" p class="tuan_topser tuan_topserw3"></span>
+                </div>
+            </div>
+            <div class="clearfix list_box">
+                排序按照：<label class="ml10"><input type="radio" <{if !$pager['SO'] || $pager['SO']['orderby'] == 0}>checked<{/if}> name="SO[orderby]" value="0">销量</label> 
+                <label class="ml20"><input type="radio" <{if $pager['SO']['orderby'] == 1}>checked<{/if}> name="SO[orderby]" value="1">销售额</label>
+                <input type="submit" class="btn btn-primary btn-xs ml20" value="查 询">
+            </div>
+        </div>
+    </form>
+    <div class="mb20">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div id="morris-donut-chart"></div>
+            </div>
+        </div>
+    </div>
+    <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr class="tit">
+            <td>商品ID</td>
+            <td>商品名称</td>
+            <td>销量</td>
+            <td>销售额</td>
+            <td>销量百分比</td>
+            <td>销售额百分比</td>
+        </tr>  
+        <{foreach $items as $k=>$v}>
+        <tr>
+            <td><{$k}></td>
+            <td><{$v.product_name}></td>
+            <td><{$v.total_product_number}></td>
+            <td><{$v.total_product_amount}></td>
+            <td><{$v.number_ratio}></td>
+            <td><{$v.amount_ratio}></td>
+        </tr>
+        <{/foreach}>
+
+    </table>
+    <!--页码-->
+    <div class="paging"><{$pager.pagebar}></div>
+    <!--页码end-->
+<style type="text/css">.highcharts-credits{display: none;}</style>
+<script type="text/javascript">
+$(function(){
+Highcharts.chart('morris-donut-chart', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '销量排行'
+    },
+    xAxis: {
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '销量 (份)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y} 份</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [
+       <{foreach $items as $k => $v}>
+        {name: "<{$v.product_name}>",data: [<{$v.total_product_number}>]},
+        <{/foreach}>
+    ]
+});
+})
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,66 @@
+<{assign var="page_title" value="个人中心-账户中心-更换手机"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-更换手机")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+
+        <{include file="pchome/ucenter/block/left.html"}>
+
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <form id="form_post" method="post">
+                <div class="account-set_keycode">
+                    <div class="set-tit"><span class="ml10">账号绑定 &gt; <span class="maincl">密码设置</span></span></div>
+                    <div class="set-cont">
+                        <div class="set-cont-form">
+                            <p class="black6 mb5">手机号</p>
+                            <div class="inp-box mb20">
+                                <input type="text" value="" id='mobile' name="data[mobile]" placeholder="请输入您的手机号" class="inp1">
+                                <a href="javascript:;" class="get_yzcode text_c" id='sendsms'>获取验证码</a>
+                            </div>           					
+                            <p class="black6 mb5">验证码</p>
+                            <div class="inp-box mb20">
+                                <input type="text" value="" name="data[code]" placeholder="请确认您的验证码" class="inp2">
+                            </div>
+                            <p class="black6 mb5">新密码（最小长度为6个字符）</p>
+                            <div class="inp-box mb20">
+                                <input type="password" value="" name="data[passwd]"  placeholder="请输入您的新密码" class="inp2">
+                            </div>	
+                            <p class="black6 mb5">确认新密码（最小长度为6个字符）</p>
+                            <div class="inp-box mb20">
+                                <input type="password" value="" name="data[passwd2]" placeholder="请确认您的新密码" class="inp2">
+                            </div>
+                            <input class="btn queding-btn text_c" type="button" id="sub_btn" value="提  交">
+                        </div>	
+                    </div>
+                </div>
+            </form>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            //获取验证码
+            get_yzm('#sendsms', '#mobile', "<{link ctl='passport/sendsms'}>");
+            $('#sub_btn').click(function(){
+                var link = "<{link ctl='ucenter/passwd:index'}>";
+                    $.post(link, $('#form_post').serialize(), function (ret) {
+                        if (ret.error == 0) {
+                            layer.msg(ret.message);
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='ucenter/account'}>";
+                            }, 1000)
+                        } else {
+                            layer.msg(ret.message);
+                            return;
+                        }
+                }, 'json');
+            });
+        });
+    </script>
+</div>
+<{include file="pchome/block/footer.html"}>

@@ -1,0 +1,38 @@
+<{assign var='tpl_title' value=L("通知:<{$detail.title}>")}>
+<{include file="block/xiaoqu_header.html"}>
+<!--头部-->
+<{if !$request['IN_APP_CLIENT']}>
+<header class="bar bar-nav">
+    <a href="" class="pull-left headerIco back"></a>
+    <a class="pull-right share_show">分享</a>
+    <h1 class="title">通知详情</h1>
+</header>
+<{/if}>
+<!--头部结束-->
+<div class="content"> 
+    <!--物业通知-->
+    <div class="wuyeInform_delt">
+        <h1><{$detail.title}>：</h1>
+        <div class="small black9"><span class="mr10"><{$detail.dateline|format}></span><span class="mr10">来源：小区物业</span></div>
+        <div class="nr">
+            <p><{$detail.content}></p>
+        </div>
+    </div>
+
+    <!--物业通知结束-->
+</div>
+<script>
+    $(document).on('click', '.share_show', function () {
+        var modal = $.modal({
+            afterText: "<div class='share_mask'><ul><li class='list'><img src='/themes/default/xiaoqu/static/images/notify_share_1@2x.png'><p>QQ</p></li><li class='list'><img src='/themes/default/xiaoqu/static/images/notify_share_2@2x.png'><p>QQ空间</p></li><li class='list'><img src='/themes/default/xiaoqu/static/images/notify_share_3@2x.png'><p>微信</p></li><li class='list'><img src='/themes/default/xiaoqu/static/images/notify_share_4@2x.png'><p>朋友圈</p></li></ul><div class='cl'></div></div>",
+            buttons: [
+                {
+                    text: "<div class='share_btn_box'><a href='#' class='button button-light'>取消</a></div>"
+                }
+            ]
+        })
+        $.swiper($$(modal).find('.swiper-container'), {pagination: '.swiper-pagination'});
+    });
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

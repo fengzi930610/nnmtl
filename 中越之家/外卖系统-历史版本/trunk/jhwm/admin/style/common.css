@@ -1,0 +1,127 @@
+@charset "utf-8";
+* { margin: 0px; padding: 0px; }
+body { background: #FFFFFF; margin: 0px; padding:0;  /* text-align: center; */ }
+/*body { font-family: verdana, simsun, Lucida Grande, "Microsoft YaHei", '宋体', sans-serif;  font-size: 12px; color: #555; line-height: 180%;white-space: nowrap;}*/
+body { font-family: "Microsoft YaHei";  font-size: 12px; color: #555; line-height: 180%;white-space: nowrap;}
+div,form,img { padding: 0px; border: 0px; margin: 0px; }
+dl,dt,dd,ul,ol,li { list-style-type: none; list-style-position: outside; padding: 0px; border: 0px; margin: 0px; }
+dl,ul { clear: left; text-align: left; }
+dt,dd,li { display: block; }
+h1,h2,h3,h4,h5 { margin: 0px; }
+select,input,textarea { font-size: 9pt; outline:none;border:1px solid #CCC;}
+select:focus, input:focus, textarea:focus, input.input:focus{border-color:#377bcb;}
+select { border:1px solid #86A1C0; }
+/*去掉chrome记住密码后自动填充表单的黄色背景*/
+input{overflow: hidden; vertical-align: middle;}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+/* td,p { text-align: left; } */
+em { font-style: normal; }
+a { text-decoration: none; }
+a:link    { color: #333; }
+a:visited { color: #333; }
+a:hover   { color: #108ee7; text-decoration: underline; }
+a:active  { color: #108ee7; }
+/* ///////////////////////////////////////////// */
+.center { margin: 0 auto; }
+.left   { margin: 0 auto 0 0; }
+.right  { margin: 0 0 0 auto; }
+.b { font-weight: bold; }
+.float-l { float: left; }
+.float-r { float: right; }
+.clear-both { clear: both; height: 0; overflow: hidden; }
+.white { color:#FFFFFF; }
+.red { color: #FF0000; }
+.gray { color:#999999; }
+.orange { color:#D96D03; }
+.blue { color:#014CCC; }
+.green { color:#157c10; }
+.copyright { width:98%; margin:15px auto 0 auto; padding:7px 0 15px 0; border-top:1px solid #c0c0c0; text-align:center; font-size:11px; line-height:15px; color:#999; }
+.copyright a:link,.copyright a:visited { color: #999; text-decoration: underline; }
+.copyright a:hover,.copyright a:active { color: #555; text-decoration: underline; }
+/* ///////////////////////////////////////////// */
+.space8 { clear:both; width:100%; height:8px; font-size:0; overflow:hidden; }
+.space15 { clear:both; width:100%; height:15px; font-size:0; overflow:hidden; }
+.space20{ clear:both; width:100%; height:20px; font-size:0; overflow:hidden; }
+/* ///////////////////////////////////////////// */
+.bt-samll { height:20px; line-height:17px; text-align:center; color:#333333; background:url(../images/small-bt-bak.gif) repeat-x; border:1px solid #86A1C0; padding:0 6px; cursor:pointer; letter-spacing:2 px;margin:3px 10px;}
+.bt-mid { height:25px; line-height:25px; text-align:center; color:#333333; background:url(../images/bt-mid-bak.gif) repeat-x; border:1px solid #86A1C0; font-weight:bolder; cursor:pointer; letter-spacing:3px;margin:3px 10px;}
+.bt-big {min-width:100px;height:26px; line-height:26px; padding:0 7px; text-align:center; color:#333333; background:url(../images/bt-big-bak.gif) repeat-x; border:1px solid #86A1C0; font-weight:bolder; cursor:pointer; letter-spacing:5px;margin:3px 10px;font-family: "Microsoft YaHei";}
+.bt-big2 { width:159px; height:47px; line-height:47px; text-align:center; color:#106CAB; background:url(../images/bt-big-bak2.gif) no-repeat center; border:none; font-size:16px; font-weight:bolder; }
+.bt-clew { width:92px; height:31px; line-height:20px; text-align:center; font-size:14px; font-weight:bold; color:#FFFFFF; background:url(../images/clew-bt-bak.gif) no-repeat center; border:0px; letter-spacing:4px;}
+/* ///////////////////////////////////////////// */
+/* ///////////////////////////////////////////// */
+.form .input, .input { height:25px; padding:2px 3px; line-height:25px; color:#333333; background:url(../images/input-bak.gif) repeat-x; border:1px solid #CCC; font-family:'Microsoft YaHei', sans-serif; }
+select{height:29px; line-height:29px; padding:2px 3px; border:1px solid #86A1C0;color:#333333;}
+.form input.title, input.title{background: url("../images/ruler.gif") repeat-x scroll 0 16px rgba(0, 0, 0, 0);}
+textarea{margin:5px 0; padding:5px; color:#333333; background:#FFFFFF url(../images/input-bak.gif) repeat-x; /*border:1px solid #86A1C0;*/ font-size:12px; overflow-y:auto;width:500px;height:150px;resize:none;}
+.textarea {width:500px;height:100px;}
+textarea.small{width:400px;height:60px;}
+textarea.mini{width:300px;height:50px;}
+label checkbox{margin-left:5px;vertical-align: middle;}
+label input{margin:auto 5px;vertical-align: middle;}
+label{vertical-align: middle;}
+
+/* login ///////////////////////////////////////////// */
+.login_enter { position:absolute; width:552px; height:310px; top:50%; left:50%; margin:-155px 0 0 -276px; background:url(../images/passport_login_bak.gif) no-repeat top; }
+.login_enter table { float:right; margin:30px 0 0 auto; }
+.login_enter table th { font-size:18px; font-weight:bolder; text-align:left; color:#425C68; vertical-align:top}
+.login_enter table td { height:35px; line-height:35px; }
+.login_input { height:15px !important; *height:20px !important; height:20px; padding:5px !important; *padding:3px !important; padding:2px; line-height:20px; border:1px solid #86A1C0; }
+.login_button{ width:130px; height:37px; line-height:37px;; font-size:16px; color:#344F26; border:none; background:url(../images/login_bt.gif) no-repeat; font-weight:bolder; cursor:pointer; }
+.login_foot { width:100%; clear:both; float:right; text-align:right; margin:25px 3px 0 0; color:#AEC4CB; }
+.login_foot a:link,.login_foot a:visited { color: #AEC4CB; text-decoration: none; }
+.login_foot a:hover,.login_foot a:active { color: #555; text-decoration: underline; }
+/*select{ vertical-align:middle;background:none repeat scroll 0 0 #F9F9F9;color:#333;padding:2px;}*/
+
+/* by shzhrui */
+.mgr10{margin-right:10px;}
+.mgl10{margin-left:10px;}
+.mgt10{margin-top:10px;}
+.mgb10{margin-bottom:10px;}
+.w-20 {width:20px;}
+.w-30 {width:30px;}
+.w-50 {width:50px;}
+.w-100{width:100px;}
+.w-180{width:180px;}
+.w-150{width:150px;}
+.w-200{width:200px;}
+.w-240{width:240px;}
+.w-280{width:280px;}
+.w-300{width:300px;}
+.w-400{width:400px;}
+.w-500{width:500px;}
+.w-600{width:600px;}
+.w-700{width:700px;}
+.w-800{width:800px;}
+.wh-20{display:block;width:20px;height:20px;}
+.wh-30{display:block;width:30px;height:30px;}
+.wh-50{display:block;width:50px;height:50px;}
+.wh-100{display:block;width:100px;height:100px;}
+.wh-150{display:block;width:150px;height:150px;}
+.wh-200{display:block;width:200px;height:200px;}
+.wh-300{display:block;width:300px;height:300px;}
+.wh-400{display:block;width:400px;height:400px;}
+.s-5 { clear:both; width:100%; height:5px; font-size:0; overflow:hidden; }
+.s-8 { clear:both; width:100%; height:8px; font-size:0; overflow:hidden; }
+.s-10 { clear:both; width:100%; height:10px; font-size:0; overflow:hidden; }
+.s-15 { clear:both; width:100%; height:15px; font-size:0; overflow:hidden; }
+.s-20 { clear:both; width:100%; height:20px; font-size:0; overflow:hidden; }
+.s-30 { clear:both; width:100%; height:23px; font-size:0; overflow:hidden; }
+.s-50 { clear:both; width:100%; height:50px; font-size:0; overflow:hidden; }
+.s-100 { clear:both; width:100%; height:100px; font-size:0; overflow:hidden; }
+.s-150 { clear:both; width:100%; height:150px; font-size:0; overflow:hidden; }
+.pbtn, a.pbtn, .pbtnc,a.pbtnc, .button, a.button, .mpbtn, a.mpbtn,.mpbtnc, a.mpbtnc{text-decoration:none;
+    vertical-align: middle;overflow: hidden;margin-right: 3px;padding: 0;height: 23px;border: 1px solid #999;text-align: center;
+    background: #E5E5E5 url(../images/button.png) repeat-x 0 0;cursor: pointer;-moz-box-shadow: 0 1px 0 #E5E5E5;border-radius:1px;
+    -webkit-box-shadow: 0 1px 0 #E5E5E5;box-shadow: 0 1px 0 #E5E5E5;letter-spacing:1px;padding:1px 10px;display: inline-block;color:#444;
+}
+.pbtn:active,.button:active{background-position:0 -23px;}
+a.pbtn,a.pbtnc,.button, a.button{height:21px;line-height:21px;color:#444 !important;}
+.mpbtn, a.mpbtn,.mpbtnc, a.mpbtnc{height:26px;color:#444 !important;font-weight: bold;}
+a.mpbtn,a.mpbtnc{line-height:26px;}
+a.pbtn:hover,a.mpbtn:hover,a.pbtnc:hover,a.mpbtnc:hover{text-decoration:none;}
+.pbtnc,a.pbtnc,.mpbtnc,a.mpbtnc{border-color:#235994;background-color:#06C;background-position:0 -48px;color:#FFF !important;}
+.pbtnc:active{background-position:0 -71px;}
+

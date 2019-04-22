@@ -1,0 +1,252 @@
+<{assign var='tpl_title' value=L("发布二手")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav"> <a href="" class="pull-left headerIco back"></a>
+
+    <h1 class="title">发布二手</h1>
+
+</header>
+
+<!--头部结束--> 
+
+<!-- 主要内容部分 -->
+
+<div class="content">
+
+    <form action="<{link ctl='xiaoqu/tieba/create'}>"  method="post" enctype="multipart/form-data">
+
+        <input type="hidden" name="data[from]" value="trade" />
+
+        <div class="community_fabu">
+
+            <div class="fabu_form">
+
+                <div class="list-block">
+
+                    <ul>
+
+                        <li>
+
+                            <div class="item-content">
+
+                                <div class="item-inner">
+
+                                    <div class="item-input">
+
+                                        <input type="text" name="data[title]" placeholder="标题">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="align-top">
+
+                            <div class="item-content">
+
+                                <div class="item-inner">
+
+                                    <div class="item-input">
+
+                                        <textarea placeholder="描述下你的宝贝" name="data[content]"></textarea>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+
+            </div>
+
+
+
+            <div class="mineSet_feedback" style='margin:1rem 0;'>
+
+                <div class="img_upload">
+
+                    <script type="text/javascript">
+
+                        // HTML5图片上传
+
+                        function fileSelected(obj, num) {
+
+                            var files = obj.files;
+
+                            for (var i = 0; i < files.length; i++) {
+
+                                var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+
+                                if (!rFilter.test(files[i].type)) {
+
+                                    alert("只允许上传JPG、PNG、GIF格式图片");
+
+                                    return;
+
+                                }
+
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+
+                                    $(".face_img_" + num).attr('src', e.target.result);
+
+                                }
+
+                                reader.readAsDataURL(files[i]);
+
+                            }
+
+                        }
+
+                    </script>
+
+                    <div class="upload_int fl">
+
+                        <input type="file" name="data[image_file_1]" id="photo1" onchange="fileSelected(this, 1)">
+
+                        <div class="img"><img class="face_img_1" src="" width="70" height="70"></div>
+
+                    </div>
+
+                    <div class="upload_int fl">
+
+                        <input type="file" name="data[image_file_2]" id="photo2" onchange="fileSelected(this, 2)">
+
+                        <div class="img"><img class="face_img_2" src="" width="70" height="70"></div>
+
+                    </div>
+
+                    <div class="upload_int fl">
+
+                        <input type="file" name="data[image_file_3]" id="photo3" onchange="fileSelected(this, 3)">
+
+                        <div class="img"><img class="face_img_3" src="" width="70" height="70"></div>
+
+                    </div>
+
+                    <div class="upload_int fl">
+
+                        <input type="file" name="data[image_file_4]" id="photo4" onchange="fileSelected(this, 4)">
+
+                        <div class="img"><img class="face_img_4" src="" width="70" height="70"></div>
+
+                    </div>
+
+                    <div class="cl"></div>
+
+                </div>
+
+            </div>
+
+            
+
+
+
+            <div class="fabu_list">
+
+                <div class="list-block">
+
+                    <ul>
+
+                        <li>
+
+                            <div class="item-content">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title label">价格</div>
+
+                                    <div class="item-input">
+
+                                        <input type="text" name="data[price]" placeholder="￥0.00">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li>
+
+                            <div class="item-content">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title label">联系方式</div>
+
+                                    <div class="item-input">
+
+                                        <input type="text" name="data[mobile]" placeholder="填写联系方式可以方便转让哦">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li>
+
+                            <a href="<{link ctl='xiaoqu/index/items' arg1='tieba__create_trade'}>" style="display:block;">
+
+                                <div class="item-content">
+
+                                    <div class="item-inner">
+
+                                        <div class="item-title label">所在小区</div>
+
+                                        <div class="item-input">
+
+                                            <input type="text" value="<{$xiaoqu.title}>" placeholder="可勾选显示所在小区">
+
+                                            <input type="hidden" value="<{$xiaoqu.xiaoqu_id}>" name="data[xiaoqu_id]" />
+
+                                        </div>
+
+                                        <i class="ico"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            
+
+            
+
+            <div class="content-block"> <input type='submit' class="button button-big button-fill" value='发布'></div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- 主要内容部分结束 --> 
+
+<{include file="block/xiaoqu_footer.html"}>

@@ -1,0 +1,54 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco back headerIco2" href="<{link ctl='cloud/index/lottery' args=$detail.attr_id}>"></a>
+            <a class="pull-right headerIco headerIco3" href="<{link ctl='cloud/index'}>"></a>
+            <h1 class="title">计算详情</h1>
+        </header>
+		<!--头部结束-->
+        <!-- 主要内容部分 -->
+        <div class="content">
+        	<div class="sp_jisuanDetail">
+                <div class="border_b bgcolor_white pad10 box1 mb10">
+                    <div class="jisuanJieguo">
+                    	<div style=" margin:0.5rem 2rem 0;">
+                            <div class="jieguo">
+                                <span class="maincl"><{$detail.win_number}></span>
+                                <span class="black6" style=" font-size:0.75rem;">最终计算结果</span>
+                            </div>
+                        </div>
+                        <img src="/themes/default/cloud/static/images/eqIco.png" class="eqIco">
+                        <div class="mb5">
+                        	<p class="txt_center font_size14 maincl">（<{$last_times}><span class="black9 ml5 mr5">%</span><{$detail.price}>）<span class="black9">+</span>10000001</p>
+                            <p class="txt_center font_size14 black9">（时间取值之和<span class="maincl ml5 mr5">%</span>商品总需人数）<span class="maincl">+</span>固定数值</p>
+                        </div>
+                    </div>
+                    <a href="javascript:void(0);" class="txt_right" style=" display:block; font-size:0.75rem;">计算公式</a>
+                </div>
+                <div class="pad10 txt_center bgcolor_white maincl border_t border_b" style=" font-size:0.75rem;">
+                	<p>截止该商品最后购买时间【<{$last_item.dateline|format:'Y-m-d'}><em class="ml10"><{$last_item.dateline|format:'H:i:s'}>.<{$last_item.microtime}></em>】</p>
+                    <p>该商品的最后50条购买时间取值之和</p>
+                </div>
+                <div class="nr pad_t10 black6">
+                    <div class="content-padded grid-demo">
+                        <div class="row no-gutter">
+                          <div class="col-75 txt_center">参与时间</div>
+                          <div class="col-25 txt_center">会员</div>
+                        </div>
+                    </div>
+                    <{foreach $items as $item}>
+                    <div class="content-padded grid-demo">
+                        <div class="row no-gutter">
+                          <div class="col-75 txt_left overflow_clear"><{$item.dateline|format:'Y-m-d'}><span class="ml5"><{$item.dateline|format:'H:i:s'}>.<{$item.microtime}></span><span class="maincl">（<{$item.dateline|format:'His'}>.<{$item.microtime}>）</span></div>
+                          <div class="col-25 txt_right overflow_clear"><{$users[$item['uid']]['nickname']}></div>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                </div>
+            </div>
+        </div>
+        <!-- 主要内容部分结束 --> 
+    </div>
+
+<{include file="cloud/block/footer.html"}>

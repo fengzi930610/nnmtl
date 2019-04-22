@@ -1,0 +1,266 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?member/member-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="昵称、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{if false}><{link ctl="member/member:create" class="button" title="添加"}>&nbsp;&nbsp;&nbsp;<{/if}>
+                <{link ctl="member/member:so" load="mini:搜索内容" width="mini:400" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="enterInfo_step_tit mb10 mgt10">
+        <h2 class="float-l">用户余额：<big class="red"><{$total}></big>元</h2>
+    </div>
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">UID</th>
+                <th class="w-100">头像</th>
+                <th class="w-100">昵称</th>
+                <th class="w-100">手机号</th>
+                <th class="w-100">余额</th>
+                <th class="w-100">积分</th>
+                <th class="w-100">订单数</th>                
+                <th class="w-100">微信</th>
+                <th class="w-100">登录时间</th>
+                <th class="w-100">注册时间</th>
+                <th class="w-150">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <{if $item.closed == 0}>
+                <tr>
+                    <td><label><input type="checkbox" value="<{$item.uid}>" name="uid[]" CK="PRI"/><{$item.uid}><label></td>
+                    <td><img src="<{$pager.img}>/<{$item.face}>" onerror="javascript:this.src='<{$pager.img}>/default/face.png';" class="wh-50" /></td>
+                    <td><{$item.nickname|default:'--'}></td>
+                    <td><{$item.mobile}></td>
+                    <td><b class="red">￥<{$item.money}></b></td>
+                    <td><b class="blue"><{$item.jifen}></b></td>
+                    <td><b class="green"><{$item.orders|default:'--'}></b></td>                                
+                    <td><{if $item.wx_openid}><b class="green">已绑定</b><{else}><b>未绑定</b><{/if}></td>
+                    <td><{if $item.lastlogin}><{$item.lastlogin|format}><br /><{$item.loginip}>(<{$item.loginip|iplocal}>)<{else}>未登录<{/if}></td>
+                    <td><{$item.dateline|format}><br /><{$item.regip}>(<{$item.regip|iplocal}>)</td>
+                    <td>
+                        <{link ctl="member/member:money" args=$item.uid class="button" title="余额"}>
+                        <{link ctl="member/member:detail" args=$item.uid class="button" title="查看"}>
+                        <{link ctl="member/member:edit" args=$item.uid title="修改" class="button"}>
+                        <{link ctl="member/member:delete" args=$item.uid act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+                    </td>
+                </tr>
+            <{/if}>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left">
+                    <{link ctl="member/member:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>&nbsp;&nbsp;&nbsp;
+                    <{link ctl="member/member:doaudit" type="button" submit="mini:#items-form" confirm="mini:确定要批量审核选中的内容吗?" priv="hide" value="批量审核"}>&nbsp;&nbsp;&nbsp;
+                    <button class="bt-big" id="hbsend">批量发红包</button>
+                </td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- 添加红包弹出框 -->
+<style type="text/css">
+.mask_bg{ position: fixed; z-index: 1000; top: 0; right: 0; left: 0; bottom: 0; background: rgba(0, 0, 0, 0.3); }
+.addRed_pop .cont{ position: fixed; z-index: 5000; width: 600px; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); background-color: #fff; border-radius: 5px; border: 6px solid rgba(0,0,0,.6);}
+.addRed_pop .cont .tit{ font-size: 14px; font-weight: bold; color: #000; line-height: 20px; padding: 10px; border-bottom: 1px solid #eee; }
+.addRed_pop .colse_ico{ position: absolute; right: 10px; top: 10px; font-size: 24px; cursor: pointer; }
+
+.stime_box,.ltime_box{display: inline-block; position: relative;}
+.stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999; }
+.stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+.stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+
+.page-data .table-data{ border: none; margin: 0; }
+.page-data .form th{ background: none; border-right: none; border-bottom: none; }
+.page-data .form td{ border-bottom: none; }
+</style>
+<div class="addRed_pop" style="display: none;">
+    <div class="mask_bg"></div>
+    <div class="cont">
+        <i class="colse_ico">×</i>
+        <h3 class="tit">添加红包</h3>
+        <div class="page-data" style="margin:10px;">
+            <form id="hongbao-form" method="post" >
+                <table width="100%" border="0" cellspacing="0" class="table-data form">
+                    <tr class="uids"></tr>
+                    <tr>
+                        <th><span class="red">*</span>标题：</th>
+                        <td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-150"/></td>
+                    </tr>
+                    <tr>
+                        <th><span class="red">*</span>满多少使用：</th>
+                        <td><input type="text" name="data[min_amount]" value="<{$detail.min_amount|default:''}>" class="input w-150"/><span class="tip-comment">满足使用条件</span></td>
+                    </tr>
+                    <tr>
+                        <th><span class="red">*</span>红包价值：</th>
+                        <td><input type="text" name="data[amount]" value="<{$detail.amount|default:''}>" class="input w-150"/><span class="tip-comment">红包价值</span></td>
+                    </tr>
+                    <tr><th>失效时间：</th>
+                        <td>
+                            <input type="text" name="data[ltime]" value="<{if $detail.ltime}><{$detail.ltime|format:'Y-m-d'}><{/if}>" datetime="ltime" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});" class="input w-150"/>
+                            <span class="tip-comment">红包过期时间</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>红包类型：</th>
+                        <td>
+                            <div>
+                                <div class="list">
+                                    <select name="data[from]" class="input w-100">
+                                        <{foreach $module_config as $kkk=>$vvv}>
+                                        <{if $vvv.used}>
+                                        <option value="<{$kkk}>"><{$vvv.title}> </option>
+                                        <{/if}>
+                                        <{/foreach}>
+                                    </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>红包使用时间：</th>
+                        <td>
+                            <div class="stime_box">
+                                <input type="text" style="display: inline" name="data[limit_stime]" value="" class="input w-100 stime" time="0" readonly/>
+                                <ul class="time-ul"></ul>
+                            </div>
+                                ~
+                            <div class="ltime_box">
+                                <input type="text" style="display: inline" name="data[limit_ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                                <ul class="time-ul"></ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="clear-th-bottom"></th>
+                        <td class="clear-td-bottom" colspan="10"><input type="button" class="bt-big save" value="提交数据" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+
+        $(document).on('click', '.stime', function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parent('.stime_box').siblings('.ltime_box').find('.ltime').attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"ltime": ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.ltime', function(){
+            var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+            var ltime = $(this).attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"stime": stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();
+        });
+    });
+</script>
+<!-- 添加红包弹出框end -->
+
+<script type="text/javascript">
+    $(function(){
+        $('#hbsend').click(function(){
+            var html = '';           
+            $('input[type="checkbox"]:checked').each(function(){
+                var uid = $(this).val();
+                html += '<input type="hidden" value="'+uid+'" name="data[uid][]"/>'
+            });
+            
+            if(html){
+                $('#hongbao-form .table-data .uids').html(html);
+                $('.addRed_pop').fadeIn(200);
+            }else{
+                Widget.MsgBox.error('请选择用户！');
+            }                       
+        });
+
+        $('.save').click(function(){
+            var form = $('#hongbao-form').serialize();
+            var link = '?hongbao/hongbao-multipy_send.html';
+            $.post(link,form,function(ret){
+                if(ret.error > 0){
+                    Widget.MsgBox.error(ret.message);
+                }else{
+                    Widget.MsgBox.success(ret.message);
+                    setTimeout(function(){
+                        $('.addRed_pop').fadeOut(200);
+                    },3000);
+                }
+            },'json');
+        });
+
+        $('.addRed_pop .colse_ico,.mask_bg').click(function(){
+            $('.addRed_pop').fadeOut(200);
+        });
+
+    });
+</script>
+
+<{include file="admin:common/footer.html"}>

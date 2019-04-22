@@ -1,0 +1,1669 @@
+<{assign var='tpl_title' value=L("订单提交")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .sysubmit-order .item-inner .item-after .mr_zdy { margin-right: 20px; }
+.sysubmit-order .item-inner .item-img{
+    width: 48px;
+    height: 48px;
+    background-color: #F8F8F8;
+    display: block;
+    margin:3px 6px;
+    box-sizing: content-box;
+    flex-shrink: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+.sysubmit-order .item-inner .item-title{
+    white-space:pre-wrap;
+}
+.notice{
+    font-size: 14px;
+    background-color: #FFF;
+    padding: 12px;
+    margin:12px 0; 
+    vertical-align: baseline;
+}
+.notice .list{
+    margin-bottom: 6px;
+    height: 24px; 
+    font-size: 14px;
+    line-height: 24px;
+    display: inline-block;
+}
+.notice i{
+    display: inline-block;
+    width: 14px; 
+    height:14px; 
+    border:1px solid #DDD; 
+    border-radius: 50%; 
+    margin: 6px 8px 0 5px;
+    background: none center center no-repeat;
+    background-size: cover;
+    vertical-align: text-bottom;
+}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <!-- 弹出层 -->
+            <div class="order_tanchu">                
+                <div class="order-mask_bg order-time_bg"></div>
+                <div class="order-mask_bg order-payway_bg"></div>
+                <div class="order-mask_bg order-hongbao_bg"></div>
+                <div class="order-mask_bg order-youhuiquan_bg"></div>
+                <div class="order-mask_bg order-fukuan_bg"></div>
+                <div class="order-mask_bg order-peicard_bg"></div>
+                <div class="order-mask_bg order-card_bg"></div>
+
+                <!-- 时间弹出层 -->
+                <div class="ordertime_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">选择送达时间</div>
+                    <div class="content">
+                        <ul class="day fl">
+                            <{foreach $day_dates as $day}>
+                            <li date="<{$day.date}>" <{if $day@index == 0}>class="on"<{/if}> rel="<{$day@index}>" ><{$day.day}></li>
+                            <{/foreach}>
+                        </ul>
+                        <ul class="time time_0 fl">
+                            <li class="now on" data="0">尽快送达<i></i></li> 
+                            <{foreach $set_time_date['set_time'] as $time}>
+                            <li data="<{$time}>"><{$time}><i></i></li> 
+                            <{/foreach}>
+                        </ul>
+                        <ul class="time time_1 fl" style="display: none;">
+                            <{foreach $set_time_date['nomal_time'] as $time}>
+                            <li data="<{$time}>" <{if $time@index == 0}>class="on"<{/if}> ><{$time}><i></i></li> 
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 时间弹出层结束 -->
+
+                <!-- 支付方式弹出层 -->
+                <div class="orderpay_way_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">选择支付方式</div>
+                    <div class="content">
+                        <ul>
+                            <li><{if $detail.online_pay == 1}><label class="on" rel="1">在线支付<i></i></label><{else}>在线支付(商家不支持在线支付)<{/if}></li>
+                            <li><{if $detail.is_daofu == 1}><label <{if $detail.online_pay == 0}>class="on"<{/if}> rel="0">货到付款<span class="black9"></span><i></i></label><{else}>货到付款(商家不支持货到付款)<{/if}></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 支付方式弹出层结束 -->
+
+                <!-- 红包弹出层 -->                
+                <div class="orderhongbao_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">选择红包</div>
+                    <div class="content content_200">
+                        <ul id="hongbao_items">
+
+                           <{if $hongbaos}>
+                            <{foreach $hongbaos as $var}>
+                            <li><label <{if $var@index==0}>class="on"<{/if}> rel="<{$var.hongbao_id}>" num="<{$var.amount}>">￥<{$var.amount}>红包(满￥<{$var.min_amount}>可用)<i></i></label></li>
+                            <{/foreach}>
+                            <li><label rel="-1" num="0">不使用红包<i></i></label></li>
+                            <{else}>
+                            <li><label rel="-1" num="0" class="on">暂无可用红包<i></i></label></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 优惠券弹出层 -->
+                <div class="orderyouhuiquan_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">选择优惠券</div>
+                    <div class="content content_200">
+                        <ul>
+                            <{if $coupons}>
+                            <{foreach $coupons as $var}>
+                            <li><label <{if $var@index==0}>class="on"<{/if}> rel="<{$var.coupon_id}>" num="<{$var.coupon_amount}>">￥<{$var.coupon_amount}>优惠券(满￥<{$var.order_amount}>可用)<i></i></label></li>
+                            <{/foreach}>
+                            <li><label rel="-1" num="0">不使用优惠券<i></i></label></li>
+                            <{else}>
+                            <li><label rel="-1" num="0" class="on">暂无可用优惠券<i></i></label></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                </div>  
+
+                <!--配送会员卡弹出层-->
+                <div class="orderpeicard_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">选择配送会员卡</div>
+                    <div class="content content_200">
+                        <ul>
+                            <{if $peicards}>
+                            <{foreach $peicards as $var}>
+                            <li>
+                                <label <{if $var@index==0}>class="on"<{/if}> rel="<{$var.cid}>" num="<{$var.reduce}>"><i></i>
+                                    <h3><{$var.title}></h3>
+                                    <p>今日可减免配送单数：<span><{$var.limits}>单</span></p>
+                                    <p>本单最多减免配送费：<span>￥<{$var.reduce}></span></p>
+                                </label>
+                            </li>
+                            <{/foreach}>
+                            <li><label rel="-1" num="0">不使用<i></i></label></li>
+                            <{else}>
+                            <li><label rel="-1" num="0" class="on">暂无可用配送会员卡<i></i></label></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--会员卡弹出层-->
+                <div class="ordercard_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">选择会员卡</div>
+                    <div class="content content_200">
+                        <ul>
+                            <{if $cards}>
+                            <li><label rel="-1" num="0">不购买<i></i></label></li>
+                            <{foreach $cards as $var}>
+                            <li>
+                                <label <{if $var@index==0}>class="on"<{/if}> rel="<{$var.card_id}>" num="<{$var.reduce}>" data='{"days":"<{$var.days}>","title":"<{$var.title}>","amount":"<{$var.amount}>","reduce":"<{$var.reduce}>","limits":"<{$var.limits}>"}'><i></i>
+                                    <h3><{$var.title}><span>￥<{$var.amount}></span></h3>
+                                    <p>单日可减免配送单数：<span><{$var.limits}>单</span></p>
+                                    <p>每单最多减免配送费：<span>￥<{$var.reduce}></span></p>
+                                </label>
+                            </li>
+                            <{/foreach}>                           
+                            <{else}>
+                            <li><label rel="-1" num="0" class="on">暂无可购买会员卡<i></i></label></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                </div>  
+
+                <!-- 支付弹出 -->
+                <div class="orderfukuan_popup order-pop">
+                    <div class="close"></div>
+                    <div class="title">应支付金额<span>￥30</span></div>
+                    <div class="content">
+                        <ul id="pay_code">
+                            <li><label class="on"><i class="ico"></i><i class="zhifu zhifubao"></i>支付宝支付<input type="radio" name="code" value="payway"></label></li>
+                            <li> <label><i class="ico"></i><i class="zhifu weixin"></i>微信支付<input type="radio" name="code" value="payway"></label></li>
+                            <li> <label><i class="ico"></i><i class="zhifu yue"></i>余额支付<input type="radio" name="code" value="payway"></label></li>
+                        </ul>
+                    </div>
+                    <div class="btn">去支付<span id="daojishi" class="ml10"></span></div>
+                </div>
+            </div>
+            
+            <div class="container_mid">
+                <form action="" method="post" id="order_form">
+                <input type="hidden" name="params[products]" value="<{$products}>"/>
+                <input type="hidden" name="params[shop_id]" value="<{$detail.shop_id}>"/>
+                <input type="hidden" name="params[pei_type]" id="pei_type" value="0"/>
+                <{if $detail.is_ziti}>
+                <div class="sysubmitZiti border_b">
+                    <div class="item-inner">
+                        <div class="item-row">
+                            <div class="item-title fl">是否自提</div>
+                            <div class="item-after"><i class="ico_switch"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <{/if}>
+                <div class="sysubmit-order">
+                    <div id="addrsssss">
+                        <{if empty($maddr)}>
+                        <a class="address" href="javascript:selectAddr();">
+                            <i class="ico_address fl"></i>
+                            <i class="ico_right fr"></i>
+                            <p class="name">您还没有设置地址</p>
+                            <p class="addr">点击立即添加地址</p>
+                            <i class="clear"></i>
+                        </a>
+                        <{else}>
+                        <a class="address" href="javascript:selectAddr();" id="addr_info">
+                            <input type="hidden" id="addr_id" name="params[addr_id]" value="<{$maddr.addr_id}>"/>
+                            <input type="hidden" id="addr_lng" value="<{$maddr.lng}>"/>
+                            <input type="hidden" id="addr_lat" value="<{$maddr.lat}>"/>
+                            <i class="ico_address fl"></i>
+                            <i class="ico_right fr"></i>
+                            <p class="name">收货人：<span class="contact"><{$maddr.contact}></span> <span class="mobile"><{$maddr.mobile}></span></p>
+                            <p class="addr">收货地址：<span class="house"><{$maddr.addr}><{$maddr.house}></span></p>
+                            <i class="clear"></i>
+                        </a>
+                        <{/if}>
+                    </div>
+                    
+                    <a href="javascript:void(0);" class="addressZi border_b">
+                        <div class="item-inner">
+                            <div class="item-row"  id="tiaosini" rel="<{link ctl='shop/map' arg0=$detail.shop_id http='waimai'}>">
+                                <div class="item-title fl">自提地址</div>
+                                <div class="item-after">
+                                    <p class="fr">
+                                        <!-- <a href="<{link ctl='shop/map' arg0=$detail.shop_id http='waimai'}>" style="color: black"> -->
+                                        <span class="black9"><{$detail.addr}></span>
+                                        <i class="ico_right"></i>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>  
+                    </a>
+                    <div class="order_choose mt10">
+                        <label class="choose order-time">
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title fl">送达时间</div>
+                                    <input type="hidden" name="params[pei_time]" id="pei_time" value="0"/>
+                                    <div class="item-after"><p class="fr"><span>尽快送达</span><i class="ico_right"></i></p></div>
+                                </div>
+                            </div>  
+                        </label>
+                        <label class="choose order-payway">
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title fl">支付方式</div>
+                                    <input type="hidden" name="params[online_pay]" id="online_pay" value="<{if $detail.online_pay == 1}>1<{elseif $detail.online_pay==0&&$detail.is_daofu == 1}>0<{/if}>">
+                                    <div class="item-after"><p class="fr"><span><{if $detail.online_pay == 1}>在线支付<{elseif $detail.online_pay==0&&$detail.is_daofu == 1}>货到付款<{/if}></span><i class="ico_right"></i></p></div>
+                                </div>
+                            </div> 
+                        </label>
+                        <label class="choose order-hongbao">
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title fl">红包</div>
+                                    <input type="hidden" name="params[hongbao_id]" id="hongbao_id" value="-1"/>
+                                    <div class="item-after"><p class="fr"><span><{if $hongbao}>-￥<{$hongbao.amount|default:0}><{else}><font style="color: #dedede;">暂无可用红包</font><{/if}></span><i class="ico_right"></i></p></div>
+                                </div>
+                            </div> 
+                        </label>
+                        <label class="choose order-youhuiquan">
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title fl">优惠券</div>
+                                    <input type="hidden" name="params[coupon_id]" id="coupon_id" value="<{$coupon.coupon_id}>"/>
+                                    <div class="item-after"><p class="fr"><span><{if $coupon}>-￥<{$coupon.coupon_amount|default:0}><{else}><font style="color: #dedede;">暂无可用优惠券</font><{/if}></span><i class="ico_right"></i></p></div>
+                                </div>
+                            </div>
+                        </label>
+                        <{if $have_peicard || $peicards}>
+                        <label class="choose order-peicard" style="border-bottom: 0;">
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title fl">配送会员卡</div>
+                                    <input type="hidden" name="params[peicard_id]" id="peicard_id" value=""/>
+                                    <div class="item-after">
+                                        <p class="fr">
+                                            <span>
+                                            <{if $peicards}>
+                                                -￥<{$peicard_amount|default:0}>
+                                            <{else}>
+                                                <font style="color: #dedede;">暂无可用配送会员卡</font>
+                                            <{/if}>
+                                            </span><i class="ico_right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        <{/if}>
+                        
+                        <{if !$have_peicard && $cards}>
+                        <label class="choose order-card"> 
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title fl">配送会员卡</div>
+                                    <input type="hidden" name="params[pcard_id]" id="pcard_id" value=""/>
+                                    <div class="item-after">
+                                        <p class="fr">
+                                            <span>
+                                            <{if $peicard_amount}>
+                                                -￥<{$peicard_amount|default:0}>
+                                            <{else if $cards}>
+                                                <font style="color: #dedede;">未购买</font>
+                                            <{else}>
+                                                <font style="color: #dedede;">暂无可购买配送会员卡</font>
+                                            <{/if}>
+                                            </span><i class="ico_right"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+                        <!--会员卡-开始-->
+                        <div class="cardShow" style="display: none;">
+                            <div class="pub_list">
+                                <div class="pub_list_bd">
+                                    <h3 class="card_title">购买15天卡</h3>
+                                    <p class="card_days">有效期限30天</p>   
+                                </div>
+                                <div class="price">￥0.00</div>
+                                <i class="ico"></i>
+                            </div>
+                        </div>
+                        <!--会员卡-结束-->
+                        <{/if}>
+                    </div>
+
+                    <{if $first_youhui > 0 && !$first_share}>
+                    <div class="youhui_switch">
+                        <div class="item-inner">
+                            <div class="item-row">
+                                <div class="item-title fl">是否享受首单优惠</div>
+                                <div class="item-after item-afterOn"><i class="ico_switch"></i></div>
+                                <input type="hidden" name="params[is_first]" id="is_first" value="1"/>
+                            </div>
+                        </div>
+                    </div>
+                    <{/if}>
+
+                    <div class="order_xiangqing">
+                        <div class="shop_name border_b">
+                            <a style="color: #333;" href="<{link ctl='shop/detail' arg0=$detail.shop_id http='waimai'}>">
+                                <i class="ico_shop mr10"></i>
+                                <{$detail.title}><i class="ico_right ml10"></i>
+                            </a>
+                        </div>
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-inner caidan">
+                                    <{foreach $product_list as $item}>
+                                    <div class="item-row">
+                                        <div class="item-img" style="background-image:url(<{$pager.img}>/<{$item.photo}>)"></div>
+                                        <div class="item-title"><{$item.title}><{if $item.spec_name}>(<{$item.spec_name}>)<{/if}><{$item.shuxin}></div>
+                                        <div class="item-after" style="width:120px; text-align: right; overflow: hidden;">
+                                            <span class="mr_zdy fl">x<{$item.num}></span>
+                                            <!-- ￥<{$item.prices}><{if $item.unit}>/<{$item.unit}><{/if}> -->
+                                            <{if $item.is_discount && $item.prices!=$item.oldprices}><del class="black9 fl">￥<{$item.oldprices}></del><{/if}>
+                                            ￥<{$item.prices}>
+                                        </div>
+                                    </div>
+                                    <{/foreach}>
+                                </div>
+                            </li>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-row">
+                                        <div class="item-title">配送费<{if $detail.freight_calc_type!=0}> (总公里数: <span id="FreightDistance"><{$freight_distance|default:'--'}></span> km)<{/if}></div>
+                                        <div class="item-after" id="freight">￥<{$freight_stage|default:'免配送费'}></div>
+                                    </div>
+                                </div>  
+                            </li>
+                            <{if $package_price}>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-row">
+                                        <div class="item-title">餐盒打包费</div>
+                                        <div class="item-after" id="packer_price" data-price="<{$package_price}>">￥<{$package_price|default:0}></div>
+                                    </div>
+                                </div>  
+                            </li>
+                            <{/if}>
+
+                            <li class="item-content first jq_first" style="display:<{if $first_youhui && $detail.online_pay==1}>block<{else}>none<{/if}>">
+                                <div class="item-inner">
+                                    <div class="item-row">
+                                        <div class="item-title black6"><i class="ico_first mr5"></i><label>首次下单立减</label></div>
+                                        <div class="item-after">-￥<{$first_youhui|default:0}></div>
+                                    </div>
+                                </div>  
+                            </li>
+
+                            <li class="item-content manjian jq_manjian" style="display:<{if $youhui && $detail.online_pay==1}>block<{else}>none<{/if}>">
+                                <div class="item-inner">
+                                    <div class="item-row">
+                                        <div class="item-title black6"><i class="ico_jian mr5"></i><label>满<{$youhui['order_amount']}>减<{$youhui['youhui_amount']}></label></div>
+                                        <div class="item-after">-￥<{$youhui['youhui_amount']|default:0}></div>
+                                    </div>
+                                </div>  
+                            </li>
+
+                            <li class="item-content zhekou jq_zhekou" style="display:<{if $have_discount}>block<{else}>none<{/if}>">
+                                <div class="item-inner">
+                                    <div class="item-row">
+                                        <div class="item-title black6"><i class="ico_zhe mr5"></i><label><{$discount_title}></label></div>
+                                        <div class="item-after">-￥<{$discount_amount|default:0}></div>
+                                    </div>
+                                </div>  
+                            </li>
+
+                            <li class="item-content">
+                                <div class="item-inner heji">
+                                    <div class="item-after fr">
+                                        共<{$product_number}>件商品<span class="ml20">合计：￥<span class="jq_total"><{$total_price}></span></span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--超值换购-开始-->
+                    <{if $huangous}>
+                    <div class="buyChange mb10">
+                        <h2 class="title">超值换购</h2>
+                        <div class="list_box border_b">
+                            <ul>
+                                <{foreach $huangous as $k=>$item}>
+                                <li skuid="<{$item.product_id}>" data='{"product_id":"<{$item.product_id}>","title":"<{$item.title}>","price":"<{$item.price}>", "package":"<{$item.package_price}>","sale_sku":"<{$item.sale_sku}>","oldprice":"<{$item.oldprice}>"}'>
+                                    <div class="pic" style="background-image: url('<{$item.photo}>')"></div>
+                                    <div class="txt_box">
+                                        <h3><{$item.title}></h3>
+                                        <div class="price"><small>￥</small><{$item.price}><del>￥<{$item.oldprice}></del></div>
+                                    </div>
+                                    <div class="right_box">
+                                        <div class="btn btn_hg">换购</div>
+                                        <!--加减框操作-开始-->
+                                        <div class="num_operate" style="display: none">
+                                            <span class="jian" quantity="-"><i></i></span>
+                                            <input type="text" value="0" class="text_box" readonly>
+                                            <span class="add" quantity="+"><i></i></span>
+                                        </div>
+                                        <!--加减框操作-结束-->
+                                    </div>
+                                </li>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                        <div class="pub_list nr_li border_b">
+                            <div class="bt">餐盒费</div>
+                            <div class="pub_list_bd text_r fontcl2 total_package">￥0.00</div>
+                        </div>
+                        <div class="total">
+                            <small>共<span class="total_num">0</span>件商品</small>
+                            <big>合计：<span class="fontcl2 total_price">￥0.00</span></big>
+                        </div>
+                    </div>
+                    <{/if}>
+                    <!--超值换购-结束-->
+                    <div class="order_liuyan mb10">
+                        <span>买家留言</span>
+                        <input type="text" name="params[intro]" id="note" placeholder="点击输入（选填）" class="black9 ml10">
+                    </div>
+                    <div class="notice">
+                        <div style="margin-bottom:6px">外卖送到后是否需要中文到货通知？</div>
+                        <div class="list" onclick="noticeclick(1)"><i></i>我不会越南语，需要中文电话通知我收货！</div>
+                        <div class="list" onclick="noticeclick(0)"><i></i>我会越南语（身边有人会说），不需要客服介入！</div>
+                        <input type="hidden" name="params[use_arrival_srv]" id="use_arrival_srv" value="-1" />
+                    </div>
+                    <{if false}><!-- 2019-01-29 修改为选择模式-->
+                    <div class="youhui_switch mb10">
+                        <div class="item-inner">
+                            <div class="item-row">
+                                <div class="item-title fl">中文到货提醒服务 &nbsp;&nbsp; <a href="javascript:void(0);" style="font-size: 12px; color: #09F;"  onclick="$('#ArrialSrvHelpLayer .help_board').hide();$('#ArrialSrvHelpLayer').show();$('#ArrialSrvHelpLayer .help_board').fadeIn(260);">这是什么？</a></div>
+                                <div class="item-after"><i class="ico_switch"></i></div>
+                                <input type="hidden" name="params[use_arrival_srv]" id="use_arrival_srv" value="0" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 2019-01-29 --><{/if}>
+                </div>
+                
+                <div class="sy-submit_pay">
+                    <a href="javascript:void(0);" class="btn fr pub_btn">立即下单</a>
+                    <p class="fr">待支付：<span>￥<big class="jq_total"><{$total_price}></big></span></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 到货提醒说明 开始 -->
+<style type="text/css">
+#ArrialSrvHelpLayer{display:none;width: 100%; height: 100%; position: fixed; top:0; left: 0; box-sizing: border-box; background-color: rgba(0,0,0,0.6); z-index: 20;}
+#ArrialSrvHelpLayer .help_board{width: 85%; height: 60%; background-color: #FFF; box-sizing: border-box; padding-top: 12px; border-radius: 6px; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); overflow-y: hidden;}
+#ArrialSrvHelpLayer .help_board .help_content{padding-bottom: 46px; width:100%; height: 100%;  padding: 12px; overflow-y: scroll; overflow-x: hidden; box-sizing: border-box;}
+#ArrialSrvHelpLayer .help_board .opt_bar{height: 40px; display: block; position: absolute; bottom: 0; background-color: #FFF; width: 100%; padding-top: 6px;}
+#ArrialSrvHelpLayer .help_board .opt_bar .close_btn{display: block; margin: 0 auto; height: 32px; line-height: 32px; text-align: center; background-color: #09F; color: #FFF; font-size: 14px; width: 180px; border-radius: 5px;}
+</style>
+<div id="ArrialSrvHelpLayer">
+    <div class="help_board">
+        <div class="help_content">
+            <h2 style="text-align: center; margin-bottom: 12px;">中文到货提醒服务说明</h2>
+            <p>
+                中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>中文到货提醒是....<br>
+            </p>
+        </div>
+        <div class="opt_bar"><a href="javascript:void(0);" class="close_btn" onclick="$('#ArrialSrvHelpLayer').fadeOut(260);">知道了</a></div>
+    </div>
+</div>
+<!-- 到货提醒说明 结束 -->
+
+<script type="text/javascript">
+    $('.youhui_switch .item-after').click(function () {
+        $(this).toggleClass("item-afterOn");
+        var idStr = $(this).siblings("input[type='hidden']").attr("id");
+        if(idStr !== "")
+        {
+            if($(this).hasClass('item-afterOn')) {
+                $('#'+idStr).val(1);
+                if(idStr === "is_first")
+                    localStorage['is_first'] = 1;
+            }else{
+                $('#'+idStr).val(0);
+                if(idStr === "is_first")
+                    localStorage['is_first'] = 0;
+            }
+            if(idStr === "is_first")
+                order_preinfo();
+        }
+    });
+
+    var have_peicard = "<{$have_peicard}>";
+    var peicards = <{json_encode($peicards)}>;
+    var cards = <{json_encode($cards)}>;
+    var freight_stage = "<{$freight_stage|default:0}>";
+
+    //点击mask层隐藏
+    $(function () {
+       var tmp_is_online_pay = "<{$detail.online_pay}>";
+       var tmp_is_daofu = "<{$detail.is_daofu}>";
+        if(tmp_is_online_pay=='1'){
+            localStorage.setItem('online_pay',1)
+        }else if(tmp_is_online_pay=='0'&&tmp_is_daofu=='1'){
+            localStorage.setItem('online_pay',0)
+        }
+        localStorage.removeItem('hongbao_id');
+
+        $('.order-mask_bg').click(function () {
+            $('.order-mask_bg').hide();
+        })
+        $('.order-pop .close').click(function () {
+            $('.order-mask_bg').hide();
+        })
+    })
+    //class切换
+    function toggClass(object) {
+        object.click(function () {
+            $(this).addClass('on').parent().siblings().find('label').removeClass('on')
+        })
+    }
+    function toggClass2(object) {
+        $(document).on("click",object,function(){
+            $(this).addClass('on').parent().siblings().find('label').removeClass('on')
+        })
+    }
+    $('#tiaosini').on('click',function(){
+        window.location.href= $(this).attr('rel')
+    })
+    
+    //运费计算
+    function order_preinfo() {
+        setTimeout(function(){
+            Widget.MsgBox.load();
+            if (localStorage['select_address']) {
+                var addr = JSON.parse(localStorage['select_address']);
+                var addr_id = parseInt(addr.addr_id, 10);
+            } else {
+                var addr_id = parseInt(localStorage['addr_id']) || parseInt("<{$maddr.addr_id}>");
+            }
+            var hongbao_id = parseInt(localStorage['hongbao_id'], 10);
+            var package_price = $('#packer_price').attr('data-price');
+            var format_packprice  = parseFloat(package_price);
+            //alert(hongbao_id);
+            var coupon_id = parseInt(localStorage['coupon_id'], 10);
+            var total_price = parseFloat("<{$total_price}>", 10);
+            var product_price = parseFloat("<{$product_price}>", 10);
+            //var product_price = parseFloat("<{$product_price}>"-"<{$discount_amount}>", 10);
+            var discount_amount = parseFloat("<{$discount_amount}>", 10);
+            var package_price = parseFloat("<{$package_price}>", 10);
+            var online_pay = localStorage.getItem('online_pay');
+            var is_ziti = localStorage.getItem('is_ziti');
+            auto_ziti = '<{$is_ziti}>';
+            if(auto_ziti=='1'&&$('.sysubmitZiti .item-after').hasClass('item-afterOn')){
+                is_ziti = 1;
+            }
+
+            var is_first = localStorage.getItem('is_first') || 0;
+            if($('.youhui_switch .item-after').hasClass('item-afterOn')){
+                is_first = 1;
+            }
+
+            var pcard_id = parseInt((localStorage['pcard_id'] || 0), 10);
+            var peicard_id = parseInt((localStorage['peicard_id'] || 0), 10);
+
+            $.post("<{link ctl='order:preinfo' http='waimai'}>", {"addr_id": addr_id, "online_pay": online_pay,'is_ziti':is_ziti, 'hongbao_id': hongbao_id,'coupon_id':coupon_id, 'total_price': total_price, 'product_price': product_price, 'shop_id': "<{$detail.shop_id}>",'package':package_price,'discount_amount':discount_amount, 'pcard_id':pcard_id, 'peicard_id':peicard_id,'is_first':is_first}, function (ret) {
+                //console.log(ret);return false;
+                if(ret.error==998){
+                    localStorage.removeItem('select_address');
+                    $('#addrsssss').html(' <a class="address" href="javascript:selectAddr();"> <i class="ico_address fl"></i> <i class="ico_right fr"></i> <p class="name">您还没有设置地址</p><p class="addr">点击立即添加地址</p><i class="clear"></i></a>');
+                }
+                Widget.MsgBox.hide();
+                if (ret.error) {
+                    Widget.MsgBox.error(ret.message);
+                } else {
+                    var freight = ret.data.freight;
+                    if (is_ziti == 0 || is_ziti == null) {
+                        $("#freight").html("￥" + freight);
+                    } else {
+                        freight = 0;
+                        $("#freight").html("￥" + freight);
+                    }
+
+                    //2019-01-29
+                    if($("#FreightDistance").length > 0 && typeof ret.data.freight_distance !== "undefined")
+                        $("#FreightDistance").text(ret.data.freight_distance);
+
+                    //2019-02-22
+                    if(typeof ret.data.freight_time !== "undefined")
+                    {
+                        var freightTime = parseInt(ret.data.freight_time);
+                        if(!isNaN(freightTime) && freightTime > 0)
+                        {
+                            freightTime = Math.ceil(freightTime/60);
+                            if($('.order_choose .order-time .fr span').text() == "尽快送达")
+                            {
+                                var rowTitle = $('.order_choose .order-time .fl');
+                                if(rowTitle.length)
+                                {
+                                    rowTitle = rowTitle.get(0);
+                                    rowTitle.normalText = "送达时间 (预计"+freightTime+"分钟送达)"
+                                    $(rowTitle).text(rowTitle.normalText);
+                                }
+                            }
+                            //重新调整送达时间列表
+                            var curTime = new Date().getTime() + freightTime * 60 * 1000;
+                            $(".ordertime_popup ul.time_0 li[data]").each(function(){
+                                var itemTime = new Date("<{date('Y/m/d')}> "+$(this).attr("data")).getTime();
+                                if(itemTime < curTime)
+                                    $(this).hide();
+                                else
+                                    $(this).show();
+                            });
+                        }
+                    }
+
+                    var total_price = product_price + package_price + parseFloat(freight, 10);
+                    //alert(total_price);
+                    var total_youhui = 0;
+                    //localStorage['coupon_id'] = ret.data.coupon_id;
+                    //localStorage['hongbao_id'] = ret.data.hongbao_id;
+                    if(is_ziti == 0){
+                        localStorage['addr_id'] = ret.data.addr_id;
+                        $("#addr_info").find(".contact").html(ret.data.addr.contact);
+                        $("#addr_info").find(".mobile").html(ret.data.addr.mobile);
+                        $("#addr_info").find(".house").html(ret.data.addr.addr + ret.data.addr.house);
+                    }
+                    //if (online_pay == 1) { //在线支付
+                    if(ret.data.first_youhui > 0){ //首单
+                        $('.jq_first').show().find('.item-after').text('-￥'+ret.data.first_youhui);
+                        total_youhui += parseFloat(ret.data.first_youhui, 10); //.toFixed(2);
+                    }else{
+                        $('.jq_first').hide();
+                    }
+
+                    if(ret.data.youhui_amount > 0){ //满减
+                        if(ret.data.discount_amount > 0){
+                            $(".jq_zhekou").show().find('.item-after').text('-￥'+ret.data.youhui_amount).siblings('.item-title').find('label').text(ret.data.discount_title);
+                        }else{
+                            $(".jq_manjian").show().find('.item-after').text('-￥'+ret.data.youhui_amount).siblings('.item-title').find('label').text('满'+ret.data.youhui.order_amount+'减'+ret.data.youhui.youhui_amount);
+                        }
+                        
+                        total_youhui += parseFloat(ret.data.youhui_amount, 10); //.toFixed(2);
+                    }else{
+                        $(".jq_manjian").hide();
+                        $(".jq_zhekou").hide();
+                    }
+
+                    if(ret.data.coupon_id > 0){
+                        get_coupon();
+                        if(ret.data.coupon_id >0){
+                            total_youhui += parseFloat(ret.data.coupon.coupon_amount, 10);
+                        }
+                    }else{
+                        get_coupon();
+                    }
+
+                    if(ret.data.hongbao_id > 0){
+                        get_hongbao_items(ret.data.hongbaos);
+                        get_hongbao(ret.data.hongbao_count);
+                        if(ret.data.hongbao_id >0){
+                            total_youhui += parseFloat(ret.data.hongbao_amount, 10);
+                        }
+                    }else{
+                        html = "<font style='color:#dedede;'>暂无可用红包</font>";
+                        $('.order_choose .order-hongbao .fr span').html(html);
+                    }
+
+                    var card_amount = 0;
+                    freight_stage = freight;
+                    if(ret.data.pcard_id > 0){
+                        get_pcard();
+                        if(ret.data.pcard_id > 0){
+                            total_youhui += parseFloat(ret.data.peicard_amount, 10);
+                            card_amount = parseFloat(ret.data.card_amount, 10)
+                        }
+                    }else if(cards.length > 0){
+                        get_pcard();
+                    }
+
+                    if(ret.data.peicard_id > 0){
+                        get_peicard();
+                        if(ret.data.peicard_id > 0){
+                            total_youhui += parseFloat(ret.data.peicard_amount, 10);
+                        }
+                    }else if(have_peicard == 1){
+                        get_peicard();
+                    }
+
+                    //4.1处理商品显示（首单共享处理）
+                    putProducts(ret.data.product_list);
+
+                    var true_total_youhui = parseFloat(ret.data.total_youhui||0);
+                    if((product_price + package_price - true_total_youhui + card_amount)<=0){
+
+                        var tmp1 = accAdd(product_price,package_price);
+                        tmp1 = accAdd(tmp1,card_amount);
+                        //var tmp2 = accSub(tmp1,true_total_youhui);
+                        var tmp2 = tmp1-true_total_youhui;
+                        var _total = tmp2>0?tmp2:0.01;
+                        var total = accAdd(_total,parseFloat(freight, 10));
+
+                        //var _total = (product_price + package_price - true_total_youhui).toFixed(2) >0 ? (product_price + package_price - true_total_youhui).toFixed(2):0.01;
+                        //-var total = (_total +  parseFloat(freight, 10)).toFixed(2);
+                        $(".jq_total").html(total.toFixed(2));
+                    }else{
+                        //var total1 = (product_price + package_price-true_total_youhui+parseFloat(freight, 10)).toFixed(2);
+                        //var tmp_string = total1*1000;
+                        //var tmp_float = tmp_string.toString();
+                        //var tmp_folat1 = parseFloat(tmp_float)/1000;
+
+                        var tmp11 = accAdd(product_price,package_price);
+                        tmp11 = accAdd(tmp11,card_amount);
+                        //var tmp22 = accSub(tmp11,true_total_youhui);
+                        var tmp22 = tmp11-true_total_youhui;
+                        var tmp33 = accAdd(tmp22,parseFloat(freight, 10));
+                        $(".jq_total").html(tmp33.toFixed(2));                        
+                    }
+                    init_hg_cart();
+                    cardTypeByZiti(is_ziti);
+                }
+            }, "json");
+        },50);
+    }
+
+    // 跳转到地址列表选择地址
+    function selectAddr() {
+        var backurl = "<{link ctl='order/order' args=$detail.shop_id}>";
+        localStorage['select_address'] = JSON.stringify({"backurl": backurl});
+        //localStorage['select_address'] = JSON.stringify({"backurl": window.location.href});
+        window.location.href = "<{link ctl='ucenter/sladdr:index' arg0=$detail.shop_id http='waimai'}>";
+    }
+
+    // 读取缓存收货地址
+    function readAddr() {
+        if (localStorage['select_address']) {
+            var addr = JSON.parse(localStorage['select_address']);
+            $("#addr_id").val(addr.addr_id);
+            $(".contact").text(addr.contact);
+            $(".mobile").text(addr.mobile);
+            $(".house").text(addr.address);
+            $('#addr_lng').val(addr.lng);
+            $('#addr_lat').val(addr.lat);
+            // localStorage.removeItem('select_address');
+        }
+    }
+    function saveInfo() {
+        localStorage['this_shop_id'] = parseInt("<{$detail.shop_id}>");
+        localStorage['coupon_id'] = localStorage.getItem('coupon_id') || "<{$coupon.coupon_id}>";
+        localStorage['coupon_amount'] = localStorage.getItem('coupon_amount') || "<{$coupon.coupon_amount}>";
+        localStorage['hongbao_id'] = localStorage.getItem('hongbao_id') || "<{$hongbao.hongbao_id}>";
+        localStorage['hongbao_amount'] = localStorage.getItem('hongbao_amount') || "<{$hongbao.amount}>";
+        localStorage['online_pay'] = localStorage.getItem('online_pay') || $("#online_pay").val();
+
+        localStorage['pcard_id'] = localStorage.getItem('pcard_id') || "<{$pcard_id|default:-1}>";
+        localStorage['peicard_id'] = localStorage.getItem('peicard_id') || "<{$peicard_id|default:-1}>";
+        localStorage['peicard_amount'] = localStorage.getItem('peicard_amount') || "<{$peicard_amount|default:0}>";
+
+        if(!localStorage['is_first']){
+            localStorage['is_first'] = $('#is_first').val() || 0;
+        }
+    }
+
+    function removeInfo() {
+        if (window.localStorage) {
+            localStorage.removeItem('this_shop_id');
+            localStorage.removeItem('hongbao_id');
+            localStorage.removeItem('amount');
+            localStorage.removeItem('addr_id');
+            localStorage.removeItem('contact');
+            localStorage.removeItem('mobile');
+            localStorage.removeItem('house');
+            localStorage.removeItem('note');
+            localStorage.removeItem('online_pay');
+            localStorage.removeItem('pei_time');
+            localStorage.removeItem('content');
+            localStorage.removeItem('remark');
+            localStorage.removeItem('is_ziti');
+            localStorage.removeItem('select_address');
+            localStorage.removeItem('pei_time_day');
+            localStorage.removeItem('pei_time_hour');
+            localStorage.removeItem('hongbao_amount');
+            localStorage.removeItem('coupon_id');
+            localStorage.removeItem('coupon_amount');
+
+            localStorage.removeItem('pcard_id');
+            localStorage.removeItem('peicard_id');
+            localStorage.removeItem('peicard_amount');
+        }
+    }
+
+    //自提点击
+    function ziti(obj) {
+        var is_zt = 0;
+        var pei_type = "<{$detail.pei_type}>";
+
+        var total_price  = parseFloat('<{$package_price_product_price}>');
+        var can_zero_ziti = parseInt('<{$detail.can_zero_ziti}>');
+        var min_amount = parseFloat('<{$detail.min_amount}>');
+        obj.toggleClass('item-afterOn');
+        if ($('.sysubmitZiti .item-after').hasClass('item-afterOn')) { //自提
+            is_zt = 1;
+            $("#pei_type").val(3);
+            $('.sysubmit-order .address').hide();
+            $('.sysubmit-order .addressZi').show();
+            $('.order-time .item-title').text('自提时间');
+            $(".ordertime_popup .title").text("选择自提时间");
+            $(".time .now").html("立即自提<i></i>");
+            $('.order_choose .order-time .fr span').text("立即自提");
+            localStorage.setItem('is_ziti', is_zt);
+            order_preinfo();
+            get_time();
+            get_status();
+
+            cardTypeByZiti(1);
+        } else {
+            if(can_zero_ziti==1&&(total_price<min_amount)){
+                obj.toggleClass('item-afterOn');
+                layer.open({
+                    content: '切换后不满足起送价，是否去添加商品？'
+                    ,btn: ['是', '否']
+                    ,yes: function(index){
+                      window.location.href = "<{link ctl='shop/detail' arg0=$detail.shop_id http='waimai'}>"
+                    },
+                    no:function(){
+                        return false;
+                    }
+                });
+            }else{
+                is_zt = 0;
+                $("#pei_type").val(pei_type);
+                $('.sysubmit-order .address').show();
+                $('.sysubmit-order .addressZi').hide();
+                $('.order-time .item-title').text('送达时间');
+                $(".ordertime_popup .title").text("选择送达时间");
+                $(".time .now").html("尽快送达<i></i>");
+                $('.order_choose .order-time .fr span').text("尽快送达");
+                localStorage.setItem('is_ziti', is_zt);
+                order_preinfo();
+                get_time();
+                get_status();
+
+                cardTypeByZiti(0);
+            }
+        }
+    }
+
+    function get_time() {
+        var a = $('.ordertime_popup .day .on').text();
+        //alert(a);
+        var d = $('.ordertime_popup .day .on').attr("date");
+        if ($(".day li.on").attr("rel") == 0) {
+            var b = $('.ordertime_popup .time_0 .on').text();
+            var t = $('.ordertime_popup .time_0 .on').attr("data");
+        } else {
+            var b = $('.ordertime_popup .time_1 .on').text();
+            var t = $('.ordertime_popup .time_1 .on').attr("data");
+        }
+        var pei_time = 0;
+        if (t == 0) {
+            pei_time = 0;
+        } else {
+            pei_time = d + " " + t;
+        }
+
+        localStorage.setItem('pei_time', pei_time);
+        var rowTitle = $('.order_choose .order-time .fl');
+        if(rowTitle.length)
+        {
+            rowTitle = rowTitle.get(0);
+            if(typeof rowTitle.normalText !== "string")
+                rowTitle.normalText = $(rowTitle).text();
+        }
+        $("#pei_time").val(pei_time);
+        if (b == '尽快送达' || b == '立即自提') {
+            $('.order_choose .order-time .fr span').text(b);
+            localStorage.setItem('pei_time_hour', b);
+            if(b == '尽快送达' && rowTitle)
+                $(rowTitle).text(rowTitle.normalText);
+        } else {
+            $('.order_choose .order-time .fr span').text(a + b);
+            localStorage.setItem('pei_time_day', a);
+            localStorage.setItem('pei_time_hour', b);
+            if(rowTitle)
+            {
+                var is_ziti = localStorage.getItem('is_ziti') || 0;
+                auto_ziti = '<{$is_ziti}>';
+                if(auto_ziti=='1'){
+                    is_ziti = 1;
+                }
+                if(is_ziti)
+                    $(rowTitle).text("自提时间");
+                else
+                    $(rowTitle).text("送达时间");
+            }
+        }
+    }
+
+    function get_status(){  //支付方式
+        var online_pay = localStorage.getItem('online_pay') || $("#online_pay").val();
+        //修改部分js 代码
+        var huodong_cfg = JSON.parse('<{$huodong_cfg}>');
+        var pei_type = parseInt("<{$detail.pei_type}>");
+        var tmp_isziti = parseInt(localStorage.getItem('is_ziti')||0);
+        if(online_pay == 1){
+            $(".order-hongbao").show();
+            $(".order-youhuiquan").show();
+            $(".manjian").show();
+            $(".first").show();
+        } else{
+            if(pei_type==1&&tmp_isziti==0&&huodong_cfg.hongbao=='1'){
+                $(".order-hongbao").show();
+            }else{
+                $(".order-hongbao").hide();
+            }
+            if(pei_type==1&&tmp_isziti==0&&huodong_cfg.youhui=='1'){
+                $(".order-youhuiquan").show();
+            }else{
+                $(".order-youhuiquan").hide();
+            }
+            if(pei_type==1&&tmp_isziti==0&&huodong_cfg.manjian=='1'){
+                $(".manjian").show();
+            }else{
+                $(".manjian").hide();
+            }
+            if(pei_type==1&&tmp_isziti==0&&huodong_cfg.first=='1'){
+                $(".first").show();
+            }else{
+                $(".first").hide();
+            }
+
+            //$(".order-hongbao").hide();
+            //$(".order-youhuiquan").hide();
+            //$(".manjian").hide();
+            //$(".first").hide();
+        }
+    }
+
+    function get_hongbao_items(hongbaos){ //重建红包列表
+        if(hongbaos){
+            var html = "";
+            $.each(hongbaos, function (k, value) {
+                html += '<li><label rel="'+value.hongbao_id+'" num="'+value.amount+'" >￥'+value.amount+'红包(满￥'+value.min_amount+'可用)<i></i></label></li>'
+            })
+            html += '<li><label rel="-1" num="0">不使用红包<i></i></label></li>';
+            $("#hongbao_items").html(html);
+        }else{
+            return false;
+        }
+    }
+
+    function get_hongbao(number){ //红包预处理
+        var hongbao_id = localStorage.getItem('hongbao_id')||"<{$hongbao.hongbao_id}>";
+        var hongbao_amount = localStorage.getItem('hongbao_amount')||"<{$hongbao.amount}>";
+        if(hongbao_id <= -1 || hongbao_id == "null" || hongbao_id == '' || hongbao_id == 0){
+            var number = number||"<{$hongbao.count}>";
+            if(number>0){
+                html = number+"个红包可用";
+                $(".orderhongbao_popup label").removeClass("on");
+                $(".orderhongbao_popup label").each(function(){
+                    if($(this).attr("rel") == hongbao_id){
+                        $(this).addClass("on");
+                    }
+                })
+            }else{
+                html = "<font style='color:#dedede;'>暂无可用红包</font>";
+            }
+            $('.order_choose .order-hongbao .fr span').html(html);
+        }else{
+            if(hongbao_amount!=undefined){
+                $('.order_choose .order-hongbao .fr span').html("-￥"+hongbao_amount);
+                $(".orderhongbao_popup label").removeClass("on");
+                $(".orderhongbao_popup label").each(function(){
+                    if($(this).attr("rel") == hongbao_id){
+                        $(this).addClass("on");
+                    }
+                })
+            }
+        }
+        $("#hongbao_id").val(hongbao_id);
+    }
+
+    function get_coupon(){ //优惠券预处理
+        var coupon_id = localStorage.getItem('coupon_id')||"<{$coupon.coupon_id}>";
+        var coupon_amount = localStorage.getItem('coupon_amount')||"<{$coupon.coupon_amount}>";
+        if(coupon_id <= 0 || coupon_id == "null" || coupon_id == ''){
+            var number = "<{$coupon.count}>";
+            if(number>0){
+                html = number+"个优惠券可用";
+                $(".orderyouhuiquan_popup label").removeClass("on");
+                $(".orderyouhuiquan_popup label").each(function(){
+                    if($(this).attr("rel") == coupon_id){
+                        $(this).addClass("on");
+                    }
+                })
+            }else{
+                html = "<font style='color:#dedede;'>暂无可用优惠券</font>";
+            }
+            $('.order_choose .order-youhuiquan .fr span').html(html);
+        }else{
+            $('.order_choose .order-youhuiquan .fr span').html("-￥"+coupon_amount);
+            $(".orderyouhuiquan_popup label").removeClass("on");
+            $(".orderyouhuiquan_popup label").each(function(){
+                if($(this).attr("rel") == coupon_id){
+                    $(this).addClass("on");
+                }
+            })
+        }
+        $("#coupon_id").val(coupon_id);
+    }
+
+    function get_remark(){
+        var note = localStorage.getItem('note');
+        $("#note").val(note);
+    }
+
+    function set_way(){
+        var online_pay = localStorage.getItem('online_pay') || $("#online_pay").val();
+        $(".orderpay_way_popup li label").removeClass("on");
+        $(".orderpay_way_popup li label").each(function () {
+            if ($(this).attr("rel") == online_pay) {
+                $(this).addClass("on");
+            }
+        })
+        var set_onlinepay = '<{$detail.online_pay}>';
+        var set_daofu = '<{$detail.is_ziti}>';
+
+        $("#online_pay").val(online_pay);
+        if (online_pay == 1&&set_onlinepay=='1') {
+
+            $('.order_choose .order-payway .fr span').text("在线支付");
+        }
+
+        if(online_pay==0&&set_daofu=='1'){
+            $('.order_choose .order-payway .fr span').text("货到付款");
+        }
+    }
+
+    function get_pcard(number){ //配送会员卡预处理(未购买)
+        var pcard_id = localStorage.getItem('pcard_id') || 0;
+        var peicard_amount = localStorage.getItem('peicard_amount') || 0;
+        if(pcard_id <= -1 || pcard_id == "null" || pcard_id == '' || pcard_id == 0){
+            var number = number || cards.length;
+            if(number > 0){
+                html = "<font style='color:#dedede;'>未购买</font>";
+                $(".ordercard_popup label").removeClass("on");
+                $(".ordercard_popup label").each(function(){
+                    if($(this).attr("rel") == pcard_id){
+                        $(this).addClass("on");
+                    }
+                })
+            }else{
+                html = "<font style='color:#dedede;'>暂无可购买会员卡</font>";
+            }
+            $('.order_choose .order-card .fr span').html(html);
+        }else{
+            if(peicard_amount!=undefined){
+                $('.order_choose .order-card .fr span').html("-￥"+peicard_amount);
+                $(".ordercard_popup label").removeClass("on");
+                $(".ordercard_popup label").each(function(){
+                    if($(this).attr("rel") == pcard_id){
+                        $(this).addClass("on");
+                        var data = $(this).attr('data');
+                        cardShow(JSON.parse(data));
+                    }
+                })
+            }
+        }
+        $("#pcard_id").val(pcard_id);
+    }
+
+    function get_peicard(number){ //配送会员卡预处理
+        var peicard_id = localStorage.getItem('peicard_id') || 0;
+        var peicard_amount = localStorage.getItem('peicard_amount') || 0;
+        if(peicard_id <= -1 || peicard_id == "null" || peicard_id == '' || peicard_id == 0){
+            var number = number || peicards.length;
+            if(number > 0){
+                html = number + '张会员卡可用';
+                $(".orderpeicard_popup label").removeClass("on");
+                $(".orderpeicard_popup label").each(function(){
+                    if($(this).attr("rel") == peicard_id){
+                        $(this).addClass("on");
+                    }
+                })
+            }else{
+                html = "<font style='color:#dedede;'>暂无可用会员卡</font>";
+            }
+            $('.order_choose .order-peicard .fr span').html(html);
+        }else{
+            if(peicard_amount!=undefined){
+                $('.order_choose .order-peicard .fr span').html("-￥"+peicard_amount);
+                $(".orderpeicard_popup label").removeClass("on");
+                $(".orderpeicard_popup label").each(function(){
+                    if($(this).attr("rel") == peicard_id){
+                        $(this).addClass("on");
+                    }
+                })
+            }
+        }
+        $("#peicard_id").val(peicard_id);
+    }
+
+    function cardShow(data){
+        $('.cardShow .card_title').text('购买'+data.title);
+        $('.cardShow .card_days').text('有效期限'+data.days+'天');
+        $('.cardShow .price').text('￥'+data.amount);
+        $('.cardShow').show();
+    }
+
+    function cardHide(){
+        $('.cardShow').hide();
+    }
+
+    function cardTypeByZiti(is_ziti){
+        var pcard_id = localStorage.getItem('pcard_id') || 0;
+        var peicard_id = localStorage.getItem('peicard_id') || 0;
+        if(is_ziti == 1){
+            $('.order-card').hide();
+            $('.cardShow').hide();
+            $('.order-peicard').hide();
+        }else{
+            if(have_peicard == 1){
+                $('.order-card').hide();
+                $('.order-peicard').show();
+            }else if(cards.length > 0){
+                $('.order-card').show();
+                $('.order-peicard').hide();
+                if(pcard_id > 0){
+                    $('.cardShow').show();
+                }
+            }
+        }
+    }
+
+    function putProducts(product_list){
+        var html = '';
+        if(typeof(product_list) == 'object' && product_list.length > 0){
+            $.each(product_list, function (k, v){
+                var title = v.title;
+                if(v.spec_name){
+                    title += v.spec_name;
+                }
+                title += v.shuxin;
+                html += '<div class="item-row">';
+                html +=      '<div class="item-img" style="background-image:url(<{$pager.img}>/'+v.photo+')"></div>';
+                html +=      '<div class="item-title">'+title+'</div>';
+                html +=     '<div class="item-after" style="width:120px; text-align: right; overflow: hidden;">';
+                html +=         '<span class="mr_zdy fl">x'+v.num+'</span>';
+                if(v.is_discount && v.prices != v.oldprices){
+                    html +=     '<del class="black9 fl">￥'+v.oldprices+'</del>';
+                }
+                html +=         '￥'+v.prices;
+                html +=     '</div>';
+                html += '</div>';
+            });
+            if(html != ''){
+                $('.order_xiangqing .caidan').html(html);
+            }
+        }        
+    }
+
+    $('.sysubmitZiti .item-after').click(function () {
+        ziti($(this));
+    })
+
+    $(document).ready(function () {
+        //支付方式初始化
+        saveInfo();
+        get_status();
+        get_hongbao();
+        get_coupon();
+        get_remark();
+        set_way();
+
+        if(have_peicard == 1){
+            get_peicard();
+        }else if(cards.length > 0){ 
+            get_pcard();
+        }
+        //是否自提初始化
+        $('.sysubmit-order .address').show();
+        $('.sysubmit-order .addressZi').hide();
+        $('.order-time .item-title').text('送达时间');
+        $(".ordertime_popup .title").text("选择送达时间");
+        $(".time .now").html("尽快送达<i></i>");
+        $('.order_choose .order-time .fr span').text("尽快送达");
+        var is_ziti = localStorage.getItem('is_ziti') || 0;
+        auto_ziti = '<{$is_ziti}>';
+        if(auto_ziti=='1'){
+            is_ziti = 1;
+        }
+        if (is_ziti == 1) {
+            $('.sysubmitZiti .item-after').toggleClass('item-afterOn');
+            $("#pei_type").val(3);
+            $('.sysubmit-order .address').hide();
+            $('.sysubmit-order .addressZi').show();
+            $('.order-time .item-title').text('自提时间');
+            $(".ordertime_popup .title").text("选择自提时间");
+            $(".time .now").html("立即自提<i></i>");
+            $('.order_choose .order-time .fr span').text("立即自提");
+        }
+
+        //默认自提/配送时间
+        if (localStorage.getItem('pei_time') != 0 && localStorage.getItem('pei_time') != null) {
+           $('#pei_time').val(localStorage.getItem('pei_time'));
+            var day = localStorage.getItem('pei_time_day');
+            var hour = localStorage.getItem('pei_time_hour');
+            $(".day li").removeClass("on");
+            $(".day li").each(function () {
+                if ($(this).text() == day) {
+                    $(this).addClass("on");
+                }
+            })
+
+            if (day.indexOf("今天") > 0) {
+                $(".time").hide();
+                $(".time_0 li").removeClass("on");
+                $(".time_0 li").each(function () {
+                    if ($(this).attr("data") == hour) {
+                        $(this).addClass("on");
+                    }
+                })
+                $(".time_0").show();
+            } else {
+                $(".time").hide();
+                $(".time_1 li").removeClass("on");
+                $(".time_1 li").each(function () {
+                    if ($(this).attr("data") == hour) {
+                        $(this).addClass("on");
+                    }
+                })
+                $(".time_1").show();
+            }
+            $('.order_choose .order-time .fr span').text(day + hour);
+        } else {
+            var pei_title = "尽快送达";
+            if(is_ziti == 1){
+                pei_title  = "立即自提";
+            }
+            var hour = localStorage.getItem('pei_time_hour')||pei_title;
+            $('.order_choose .order-time .fr span').text(hour);
+        }
+
+        //4.1首单处理
+        var first_share = "<{$first_share}>";
+        var first_youhui = "<{$first_youhui}>";
+        var is_first = localStorage['is_first'] || 0;
+        if(first_youhui > 0 && first_share){
+            if(is_first == 0){
+                $('.youhui_switch .item-after').toggleClass('item-afterOn');
+                $('#is_first').val(0);
+            }
+        }
+
+        readAddr();
+        order_preinfo();
+
+        cardTypeByZiti(is_ziti);
+    });
+
+    //时间弹出层
+    $(function () {
+        $('.ordertime_popup .day li').click(function () {
+            if ($(this).attr("rel") > 0) {
+                $(".content .time").hide();
+                $(".content .time_1").show();
+            } else {
+                $(".content .time").hide();
+                $(".content .time_0").show();
+            }
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+        $('.ordertime_popup .time li').click(function () {
+            $(this).addClass('on').siblings().removeClass('on');
+        })
+        $('.order-time').click(function () {
+            $('.order-time_bg').show();
+            $('.ordertime_popup').addClass('orderTime');
+        })
+        $('.order-time_bg, .ordertime_popup .close').click(function () {
+            $('.ordertime_popup').removeClass('orderTime');
+            get_time();
+        })
+
+        //支付方式弹出层
+        $('.order_choose .order-payway').click(function () {
+            $('.order-payway_bg').show();
+            $('.orderpay_way_popup').addClass('orderPay');
+        })
+        toggClass($('.orderpay_way_popup li label'));
+        $('.order-payway_bg, .orderpay_way_popup .close').click(function () {
+            $('.orderpay_way_popup').removeClass('orderPay');
+            var value = $('.orderpay_way_popup .on').text();
+            var online_pay = $('.orderpay_way_popup .on').attr("rel");
+            $('.order_choose .order-payway .fr span').text(value);
+            localStorage.setItem('online_pay', online_pay);
+            get_status();
+            order_preinfo();
+            set_way();
+        })
+
+        //红包弹出层
+        $('.order_choose .order-hongbao').click(function () {
+            $('.order-hongbao_bg').show();
+            $('.orderhongbao_popup').addClass('orderHong');
+        })
+        toggClass2('.orderhongbao_popup li label');
+        $('.order-hongbao_bg, .orderhongbao_popup .close').click(function () {
+            $('.orderhongbao_popup').removeClass('orderHong');
+            var value = $('.orderhongbao_popup .on').attr("num");
+            if(value==0){
+                var number = "<{$hongbao.count}>";
+                if(number>0){
+                    html = number+"个红包可用";
+                }else{
+                    html = "<font style='color:#dedede;'>暂无可用红包</font>";
+                }
+            }else{
+                html = "-￥"+value;
+            }
+            var hongbao_id = $('.orderhongbao_popup .on').attr("rel");
+            $('.order_choose .order-hongbao .fr span').html(html);
+            setTimeout(function(){
+                localStorage.setItem('hongbao_id',hongbao_id);
+                localStorage.setItem('hongbao_amount',value);
+                order_preinfo();
+            },100);
+        })
+
+        //优惠券弹出层
+        $('.order_choose .order-youhuiquan').click(function () {
+            $('.order-youhuiquan_bg').show();
+            $('.orderyouhuiquan_popup').addClass('orderYou');
+        })
+        toggClass($('.orderyouhuiquan_popup li label'));
+        $('.order-youhuiquan_bg, .orderyouhuiquan_popup .close').click(function () {
+            $('.orderyouhuiquan_popup').removeClass('orderYou');
+            var value = $('.orderyouhuiquan_popup .on').attr("num")|| 0;
+            if(value==0){
+                var number = "<{$coupon.count}>";
+                if(number>0){
+                    html = number+"个优惠券可用";
+                }else{
+                    html = "<font style='color:#dedede;'>暂无可用优惠券</font>";
+                }
+            }else{
+                html = "-￥"+value;
+            }
+            var coupon_id = $('.orderyouhuiquan_popup .on').attr("rel")||0;
+            $('.order_choose .order-youhuiquan .fr span').html(html);
+            localStorage.setItem('coupon_id',coupon_id);
+            localStorage.setItem('coupon_amount',value);
+            order_preinfo();
+        });
+
+        //配送会员卡弹层
+        $('.order_choose .order-card').click(function () {
+            $('.order-card_bg').show();
+            $('.ordercard_popup').addClass('show');
+        });
+        toggClass($('.ordercard_popup li label'));
+        $('.order-card_bg, .ordercard_popup .close').click(function () {
+            $('.order-card_bg').hide();
+            $('.ordercard_popup').removeClass('show');
+            var value = $('.ordercard_popup .on').attr("num");
+            value = Math.min(value, freight_stage);
+            if(value==0){
+                var number = "<{count($cards)}>";
+                if(number > 0){
+                    html = "<font style='color:#dedede;'>未购买</font>";
+                }else{
+                    html = "<font style='color:#dedede;'>暂无可购买会员卡</font>";
+                }
+                cardHide();
+            }else{
+                html = "-￥"+value;
+                var data = $('.ordercard_popup .on').attr("data");
+                data = JSON.parse(data);
+                cardShow(data);
+            }
+            var pcard_id = $('.ordercard_popup .on').attr("rel");
+            $('.order_choose .order-card .fr span').html(html);
+            setTimeout(function(){
+                localStorage.setItem('pcard_id',pcard_id);
+                localStorage.setItem('peicard_amount',value);
+                order_preinfo();
+            },100);
+        });
+
+        $('.order_choose .order-peicard').click(function () {
+            $('.order-peicard_bg').show();
+            $('.orderpeicard_popup').addClass('show');
+        });
+        toggClass($('.orderpeicard_popup li label'));
+        $('.order-peicard_bg, .orderpeicard_popup .close').click(function () {
+            $('.order-peicard_bg').hide();
+            $('.orderpeicard_popup').removeClass('show');
+            var value = $('.orderpeicard_popup .on').attr("num");
+            value = Math.min(value, freight_stage);
+            if(value==0){
+                var number = "<{count($peicards)}>";
+                if(number > 0){
+                    html = number + "张会员卡可用";
+                }else{
+                    html = "<font style='color:#dedede;'>暂无可用会员卡</font>";
+                }
+            }else{
+                html = "-￥"+value;
+            }
+            var peicard_id = $('.orderpeicard_popup .on').attr("rel");
+            $('.order_choose .order-peicard .fr span').html(html);
+            setTimeout(function(){
+                localStorage.setItem('peicard_id',peicard_id);
+                localStorage.setItem('peicard_amount',value);
+                order_preinfo();
+            },100);
+        });
+
+        //支付
+        /*$('.sy-submit_pay .btn').click(function () {
+            $('.orderfukuan_popup').addClass('orderFukuan')
+            $('.order-fukuan_bg').show();
+        })
+        toggClass($('.orderfukuan_popup li label'));
+        $('.order-fukuan_bg').click(function () {
+            $('.orderfukuan_popup').removeClass('orderFukuan');
+            var value = $('.orderfukuan_popup .on').text();
+            //$('.order_choose .order-youhuiquan .fr span').text(value);
+        })
+        $('.orderfukuan_popup .close').click(function () {
+            $('.orderfukuan_popup').removeClass('orderFukuan');
+            var value = $('.orderfukuan_popup .on').text();
+            //$('.order_choose .order-youhuiquan .fr span').text(value);
+        })*/
+
+        $("#note").keyup(function(){
+            var note = $(this).val();
+            localStorage.setItem('note', note);
+        })
+    })
+    
+    var ecart = new window.ECart("<{$detail.shop_id}>");
+    window.__MINI_LOAD = false;
+    $(".pub_btn").click(function () {
+        if(parseInt($("#use_arrival_srv").val()) < 0)
+        {
+            Widget.MsgBox.alert("请选择是否需要中文到货通知服务");
+            return false;
+        }
+        if (window.__MINI_LOAD){
+            return true;
+        }
+        window.__MINI_LOAD = true;
+        var url = "<{link ctl='order:ordercreate' http='waimai'}>";
+        $.post(url, $("#order_form").serialize(), function (ret) {
+        if (ret.error > 0) {
+            layer.open({content: ret.message, time: 2,end:function(){
+                window.__MINI_LOAD = false;
+            }});
+            if (ret.error >= 221 && ret.error <= 224) {
+                setTimeout(function () {
+                    window.__MINI_LOAD = false;
+                    window.location.href = "<{link ctl='index' http='www'}>";
+                }, 1000);
+            }
+            if (ret.error == 101) {
+                setTimeout(function () {
+                    window.__MINI_LOAD = false;
+                    window.location.href = "<{link ctl='passport:login' http='www'}>";
+                }, 1000);
+            }
+        } else {
+            layer.open({content: "下单成功"});
+            removeInfo();
+            var order_id = ret.order_id;
+            var pay_status = ret.pay_status;
+            var online_pay = ret.online_pay;
+            //alert(online_pay);return false;
+            var link = "<{link ctl='ucenter/order:pay' args=oooo }>";
+            var link2 = "<{link ctl='ucenter/order:detail' args=oooo http='waimai'}>";
+            //下单成功清空购物车
+            ecart.clear();
+            setTimeout(function () {
+                window.__MINI_LOAD = false;
+                if (online_pay == 0){
+                // 货到付款支付
+                    window.location.href = link2.replace('oooo', order_id);
+                    return false;
+                } else if (pay_status == 0 && online_pay == 1) {
+                    var back_url = "<{link ctl='ucenter/order:detail' arg0=__order_id__ http='waimai'}>";
+                    var backurl = back_url.replace('__order_id__', order_id);
+                    var pay_url = "<{link ctl='trade/payment:order' arg0=__order_id__ rebackurl=__back_url__ http='www'}>";
+                    var payurl = pay_url.replace('__order_id__', order_id).replace('__back_url__', backurl);
+                    window.location.href = payurl;
+                }
+            }, 200);
+        }
+        }, 'json')
+    })   
+</script>
+
+<script type="text/javascript">
+    var json_huangou = JSON.parse('<{$json_huangou}>');   //折扣活动   
+    var ecart_hg = new window.ECart_hg("<{$shop_id}>",json_huangou);
+
+    $('.buyChange .btn_hg').click(function(){
+        var skuid = $(this).parents('li').attr('skuid');
+        var data = JSON.parse($(this).parents('li').attr('data'));           
+        ecart_hg.add(skuid, 1, data);
+        init_hg_cart();
+    });
+
+    $('[quantity]').click(function(){
+        var skuid = $(this).parents('li').attr('skuid');
+        var data = JSON.parse($(this).parents('li').attr('data'));
+        if($(this).attr("quantity") == '-'){
+            ecart_hg.add(skuid, -1, data);
+        }else{
+            ecart_hg.add(skuid, 1, data);
+        }
+        init_hg_cart();
+    });
+    /*$(document).ready(function(){
+        $(document).on('click', '.buyChange .btn_hg', function(){
+            var skuid = $(this).parents('li').attr('skuid');
+            var data = JSON.parse($(this).parents('li').attr('data'));           
+            ecart_hg.add(skuid, 1, data);
+            init_hg_cart();
+        });
+        
+        $(document).on("click", '[quantity]', function(){
+            var skuid = $(this).parents('li').attr('skuid');
+            var data = JSON.parse($(this).parents('li').attr('data'));
+            if($(this).attr("quantity") == '-'){
+                ecart_hg.add(skuid, -1, data);
+            }else{
+                ecart_hg.add(skuid, 1, data);
+            }
+            init_hg_cart();
+        });
+    });*/
+
+    function init_hg_cart(){
+        $('[skuid]').find('.btn_hg').show();
+        $('[skuid]').find('.num_operate').hide().find('input').val(0);
+        for(var k in ecart_hg.product_list()){
+            if(ecart_hg.product_num(k) > 0){
+                $('[skuid="'+k+'"]').find('.btn_hg').hide();
+                $('[skuid="'+k+'"]').find('.num_operate').show().find('input').val(ecart_hg.product_num(k));
+            }
+        }
+        var num = ecart_hg.total_count();
+        var total_price = ecart_hg.total_price();
+        var total_package = ecart_hg.total_package();
+        var jq_total = parseFloat($('.order_xiangqing .jq_total').text());
+        jq_total = accAdd(jq_total,total_price);
+        $(".total_num").html(num);
+        $(".total_price").html('￥'+total_price);
+        $('.total_package').html('￥'+total_package);
+        $('.sy-submit_pay .jq_total').html(jq_total);
+    }
+</script>
+
+<script language="javascript" type="text/javascript">
+    var interval = 1000;
+    function ShowCountDown(year, month, day, divname)
+    {
+        var now = new Date();
+        var endDate = new Date(year, month - 1, day);
+        var leftTime = endDate.getTime() - now.getTime();
+        var leftsecond = parseInt(leftTime / 1000);
+        //var day1=parseInt(leftsecond/(24*60*60*6)); 
+        var day1 = Math.floor(leftsecond / (60 * 60 * 24));
+        var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600);
+        var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60);
+        var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60);
+        var cc = document.getElementById(divname);
+        cc.innerHTML = "<span class='box'>" + minute + "</span>" + ":" + "<span class='box'>" + second + "</span>";
+    }
+    window.setInterval(function () {
+        ShowCountDown(2016, 8, 13, 'daojishi');
+    }, interval);
+
+    function noticeclick(val){
+        $("#use_arrival_srv").val(val);
+        if(val == 1){
+            $(".notice .list:eq(1)").children('i').css('background-image','none');
+            $(".notice .list:eq(0)").children('i').css('background-image','url(/themes/waimai/static/img/new4.0/btn_radio_selected@3x.png)');
+        }
+        else{
+            $(".notice .list:eq(0)").children('i').css('background-image','none');
+            $(".notice .list:eq(1)").children('i').css('background-image','url(/themes/waimai/static/img/new4.0/btn_radio_selected@3x.png)');
+        }
+    }
+</script>
+
+<!--<script>
+    //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+        /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                var url = "<{link ctl='shop/detail' arg0=$detail.shop_id http='waimai'}>";
+                removeInfo();
+                window.location.href = url;
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>-->
+<{include file="block/footer.html"}>

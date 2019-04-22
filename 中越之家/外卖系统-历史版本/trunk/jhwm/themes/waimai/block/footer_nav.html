@@ -1,0 +1,69 @@
+<style type="text/css">
+	.footer_nav .list .order_num {position: absolute;margin-left:14% ;margin-top:-2% ;line-height: 16px;text-align: center;padding: 0 4px;border-radius: 100%;background-color: red;font-size: 12px;color: #fff;}
+	.footer_nav .list.on .ico.ico1 { background-image: url("<{$footerNav.content[0].icon_checked|default:'../img/tabbar01-pre@2x.png'}>");}
+    .footer_nav .list .ico.ico1 { background-image: url("<{$footerNav.content[0].icon_nochecked|default:'../img/tabbar01@2x.png'}>");}
+    .footer_nav .list.on .ico.ico3 { background-image: url("<{$footerNav.content[1].icon_checked|default:'../img/tabbar03-pre@2x.png'}>");}
+    .footer_nav .list .ico.ico3 { background-image: url("<{$footerNav.content[1].icon_nochecked|default:'../img/tabbar03@2x.png'}>");}
+    .footer_nav .list.on .ico.ico4 { background-image: url("<{$footerNav.content[2].icon_checked|default:'../img/tabbar04-pre@2x.png'}>");}
+    .footer_nav .list .ico.ico4 { background-image: url("<{$footerNav.content[2].icon_nochecked|default:'../img/tabbar04@2x.png'}>");}
+    .footer_nav .list.on .ico.ico5 { background-image: url("<{$footerNav.content[3].icon_checked|default:'../img/tabbar05-pre@2x.png'}>");}
+    .footer_nav .list .ico.ico5 { background-image: url("<{$footerNav.content[3].icon_nochecked|default:'../img/tabbar05@2x.png'}>");}
+    .footer_nav .list.on p { color: #20AD20;}
+    .footer_nav .list p { font-size: 10px; color: #999999; line-height: 14px;}
+</style>
+<div class="footer_nav">
+    <a href="<{link ctl='index:index' http='waimai'}>" class="list">
+        <i class="ico ico1"></i>
+        <P><{$footerNav.content[0].title}></P>
+    </a>
+
+    <{if $footerNav.content[1].open}>
+    <a href="<{if $footerNav.content[1].link}><{$footerNav.content[1].link}><{else}><{link ctl='shop/cart2' http='waimai'}><{/if}>" class="list">
+        <i class="ico ico3"></i>
+        <P><{$footerNav.content[1].title}></P>
+    </a>
+    <{/if}>
+
+    <a href="<{link ctl='ucenter/order/index' http='waimai'}>" class="list">
+	<div class="order_num"></div>
+        <i class="ico ico4"></i>
+        <P><{$footerNav.content[2].title}></P>
+    </a>
+    <a href="<{link ctl='ucenter/member' http='waimai'}>" class="list">
+        <i class="ico ico5"></i>
+        <P><{$footerNav.content[3].title}></P>
+    </a>
+</div>
+<script type="text/javascript">
+	// setTimeout(function(){alert("Hello")},3000);
+	order_num();
+	function order_num(){
+		$.post("http://www.waimai.com/waimai/ucenter/order/uid_order_total.html",function(data){
+			var data = JSON.parse(data);
+			// console.log(data.data.data.total_num);
+			$(".list .order_num").text(data.data.data.total_num);
+			// alert(result.message);
+		});
+	}
+	setInterval("order_num()",15000);
+    //选中导航JS
+    var urlstr = location.href;
+    var urlstatus = false;
+
+    $('.footer_nav a ').each(function () {
+        var index =  $('.footer_nav a ').index($(this));
+        if($(this).attr('href')==urlstr||$(this).attr('href')==urlstr+'/index.html'){
+            $('.footer_nav').children('a').eq(index).addClass('on');
+        }
+    });
+    var sitruel = "<{$site.siteurl}>"+'/';
+    if(urlstr == sitruel){
+        $('.footer_nav').children('a').eq(0).addClass('on');
+    }
+
+    var color_checked = "#"+"<{$footerNav.color_checked|default:'20AD20'}>";
+    var color_nochecked = "#"+"<{$footerNav.color_nochecked|default:'999999'}>";
+    $('.footer_nav .list p').css({'color':color_nochecked});
+    $('.footer_nav .list.on p').css({'color':color_checked});
+
+</script>

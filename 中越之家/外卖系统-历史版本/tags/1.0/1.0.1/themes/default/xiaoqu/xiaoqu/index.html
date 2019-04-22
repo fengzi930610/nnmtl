@@ -1,0 +1,116 @@
+<{assign var='tpl_title' value=L("小区")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<div class="page-group">
+
+    <div class="page page-current"> 
+
+        <!--头部-->
+
+        <header class="bar bar-nav">
+
+            <a href="<{link ctl='xiaoqu/yezhu/create'}>" class="pull-left headerIco"></a>
+
+            <a class="pull-right"><span class="city_name">城市</span><span class="dianji-down ml5"></span></a>
+
+            <h1 class="title">所在小区</h1>
+
+        </header>
+
+        <!--头部结束-->
+
+        <div class="content"> 
+
+            <div class="pad10 bgcolor_white">
+
+                <div class="searchbar city-sou" style='position:relative;'>
+
+                    <form action="<{link ctl='xiaoqu/index/search'}>" method="get">
+
+                        <div class="search-input">
+
+                            <label class="icon icon-search" for="search"></label>
+
+                            <input type="search" id='search' name='keyword' placeholder='请输入小区名称'/>
+
+                        </div>
+
+                        <input type="submit" value="搜索" class="sub" />
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class="pad10 font_size14 black9">猜你住在</div>
+
+            <div class="">
+
+                <{foreach $address as $k => $v}>
+
+                <div class="pad10 cont-one bgcolor_white border_b addr_list" val="<{$v.xiaoqu_id}>">
+
+                    <p class="xiaoqu-name"><{$v.title}></p>
+
+                    <p class="black9 font_size14"><{$v.address}></p>
+
+                </div>
+
+                <{/foreach}>
+
+            </div>
+
+        </div>
+
+<script>
+
+    //针对小区列表的点击事件处理begin
+
+    $('.addr_list').click(function () {
+
+        //如果是创建地址的话，单独处理
+
+        var from = "<{$from}>";
+
+        if (from) {
+
+            var xiaoqu_id = $(this).attr('val');
+
+            from = from.replace('__', '/'); //替换url为所需要的格式
+
+            location.href = "<{link ctl='xiaoqu/" + from + "' arg1='" + xiaoqu_id + "'}>";
+
+        } else {
+
+            var xiaoquname = $(this).find('.xiaoqu-name').text();
+
+            var xiaoquid = $(this).attr('val');
+
+            localStorage['UxXiaoqu'] = xiaoquname;
+
+            localStorage['UxXiaoquId'] = xiaoquid;
+
+            Cookie.set("UxXiaoqu", xiaoquname, 86400 * 30);
+
+            Cookie.set("UxXiaoquId", xiaoquid, 86400 * 30);
+
+            location.href = "<{link ctl='xiaoqu'}>";
+
+        }
+
+    })
+
+    $('.city_name').click(function () {
+
+        var link = "<{link ctl='xiaoqu/city'}>";
+
+        window.location.href = link;
+
+    })
+
+    //end
+
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

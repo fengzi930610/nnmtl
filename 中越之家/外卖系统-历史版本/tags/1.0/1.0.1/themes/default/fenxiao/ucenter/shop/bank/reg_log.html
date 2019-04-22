@@ -1,0 +1,20 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<div class="fx_tixianDelt">
+    	<ul>
+            <li class="ts black9">明细（最近30天内的提现明细） <!--<span class="fr">合计：￥<{$total_money}></span>--></li>
+            <{foreach $tixian_log as $k => $v}>
+    	    <li class="list border_b">
+                <div style="width: 100%;">
+                    <p class="bt">提现至：<{$v.account_info}></p>
+                    <small class="black9"><{$v.dateline|format:'Y-m-d H:i:s'}></small>
+                    <p class="bt"><span style="float: left; display: inline-block;">状态：<{if $v.status == 0}><span style="color:#b86607;">提现待处理</span><{elseif $v.status == 1}><span style="color: green;">提现提通过</span><{else}><span style="color: red;">提现已拒绝</span><{/if}></span>
+                    <span style="float: right; display: inline-block; ">￥<{$v.money}></span>
+                    </p>
+                </div>
+            </li>
+            <{/foreach}>
+	</ul>
+    </div>
+</section>
+<{include file="fenxiao/block/footer.html"}>

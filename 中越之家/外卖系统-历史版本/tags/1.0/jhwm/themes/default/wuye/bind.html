@@ -1,0 +1,23 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/index:bind'}>" class="on">绑定申请小区</a>
+	<div class="tishi pointcl"></div>
+</div>
+<form action="<{link ctl='wuye/index:bind_sub'}>" mini-form="ucenter" method="post" enctype="multipart/form-data">
+<div class="ucenter_c">
+	<div class="alertPage">
+        <div class="alert alert-warning">
+            <i class="fa fa-exclamation-circle"></i>账号还没有绑定小区, 请联系管理员.
+        </div>
+    </div>
+    
+</div>
+</form>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="wuye/block/footer.html"}>

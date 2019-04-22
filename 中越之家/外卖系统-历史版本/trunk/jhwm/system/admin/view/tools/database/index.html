@@ -1,0 +1,48 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><label class="left">数据库管理</label>
+            <div class="item-menu">
+                <a href="?tools/database-index.html" class="on">备份</a>
+                <a href="?tools/database-backlist.html">还原</a>
+                <a href="?tools/database-optimize.html">优化</a>
+            </div>  
+            </td>
+            <td align="left"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">    
+    <form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+    <tr>
+        <th colspan="10"><label class="left"><input type="checkbox" checked CKA="PRI"/>&nbsp;&nbsp;全选</label><span class="right">总大小：<{$pager.totalsize|format:"size"}></span></th>
+    </tr>
+    <tr>
+        <td colspan="10">
+        <ul class="group-list" style="width:100%">
+            <{foreach $table_list as $table}>
+                <li style="width:190px;"><label><input type="checkbox" name="tables[]" value="<{$table.Name}>" checked  CK="PRI"/><{$table.Name}></label></li>
+            <{/foreach}>
+        </ul>
+        </td>
+    </tr>    
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+            <td class="w-100"><label><input type="checkbox" checked CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+            <td colspan="10" class="left">
+                <{link ctl="tools/database:backup" type="button" submit="mini:#items-form"  priv="hide" value="备份数据"}>
+                <{link ctl="tools/database:optimize" type="button" submit="mini:#items-form"  priv="hide" value="优化表"}>
+            </td>
+            <td class="page-list"><{$pager.pagebar}></td>
+        </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

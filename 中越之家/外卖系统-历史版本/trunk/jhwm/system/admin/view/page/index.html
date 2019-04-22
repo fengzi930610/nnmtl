@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<meta name="copyright" content="ijh.cc" />
+<meta name="url" content="http://www.ijh.cc" />
+<meta name="Description" content="江湖外卖O2O系统管理平台" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" rev="stylesheet" href="<{$smarty.const._GATE_URL_}>/style/top.css?<{$TMPLVER}>" type="text/css" charset="utf-8" />
+<link rel="stylesheet" rev="stylesheet" href="<{$smarty.const._GATE_URL_}>/style/menu.css?<{$TMPLVER}>" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" src="<{$pager.res}>/script/kt.j.js?<{$TMPLVER}>"></script>
+<title><{$CONFIG.site.title}>系统管理平台 - Powered by IJH.CC</title>
+</head>
+<body>
+<!--<br /><br /><br /><br />您的浏览器不支持框架！-->
+    <div id="wrapbox">
+        <!-- nav op -->
+        <div id="top-nav">
+            <div class="nav_top">
+                <a class="logo" href="?index-welcome" target="admin_main"><img src="<{$pager.url}>/images/fc/logo.png" alt="" /></a>
+                <div class="menu">
+                    <ul id="menu_list">
+                        <li class="on"><a href="?index-welcome" target="admin_main"><img src="<{$pager.url}>/images/fc/topNav_home.png">首页</a></li>
+                        <{foreach $top_menu as $v}>
+                        <li rel="3" mod="mod_<{$v.mod_id}>"><a href="javascript:;" target="admin_main">
+                            <{if $v.mod_id == 601}><img src="<{$pager.url}>/images/fc/topNav_system.png"><{/if}>
+                            <{if $v.mod_id == 1}><img src="<{$pager.url}>/images/fc/topNav_set.png"><{/if}>
+                            <{if $v.mod_id == 1962}><img src="<{$pager.url}>/images/fc/topNav_waimai.png"><{/if}>
+                            <{if $v.mod_id == 71}><img src="<{$pager.url}>/images/fc/topNav_user.png"><{/if}>
+                            <{if $v.mod_id == 1523}><img src="<{$pager.url}>/images/fc/topNav_money.png"><{/if}>
+                            <{if $v.mod_id == 5}><img src="<{$pager.url}>/images/fc/topNav_operate.png"><{/if}>
+                            <{if $v.mod_id == 127}><img src="<{$pager.url}>/images/fc/topNav_toll.png"><{/if}>
+                            <{$v.title}> </a></li>
+                        <{/foreach}>
+                    </ul>
+                </div>
+                <div class="info">
+                    <div class="content">
+                        <img class="l_pic" src="<{$pager.url}>/images/fc/logo_solid.png" alt="">
+                        <strong class="red"><{$ADMIN.admin_name}>！</strong>
+                        <i class="icon_arrow"></i>
+                    </div>
+                    <div class="pull_box">
+                        <a href="../index.php" target="_blank">网站首页</a>
+                        <a class="pull_link" href="?index-welcome.html" target="admin_main">后台首页</a>
+                        <a class="pull_link" href="?tools/cache-clean.html" target="admin_main">更新缓存</a>
+                        <a class="pull_link" href="?index-modifypasswd.html" target="admin_main">修改密码</a>
+                        <a href="https://www.jhcms.com/article/" target="_blank">帮助手册</a>
+                        <a href="?index-loginout.html" target="_top">注销</a>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+        <!-- nav ed -->
+
+
+        <div class="wrapMainBox">
+            <!--左侧的menu-->
+            <div class="frame_l_box">
+                <{foreach $top_menu as $item}>
+                <ul class="page-menu mod_<{$item.mod_id}>">
+                    <{foreach from=$item.menu item=menu}>
+                    <li class="menu close" rel="menu_tree"><strong title="<{$menu.title}>"><{$menu.title}></strong>
+                        <ul class="menu-item">
+                            <{foreach $menu.menu as $v}>
+                            <li title="<{$v.title}>"><a href="?<{$v.ctl}>-<{$v.act}>.html" target="admin_main" title="<{$v.title}>"><{$v.title}></a></li>
+                            
+                            <{if false}><!-- 2019-03-04 添加 增加参数型菜单--><{/if}>
+                            <{if $param_menu[$v.mod_id]}>
+                            <{foreach $param_menu[$v.mod_id] as $vv}>
+                            <{if $vv['visible']}>
+                            <li title="<{$vv.title}>"><a href="?<{$v.ctl}>-<{$v.act}><{$vv.arg_str}>.html&<{$vv.query_str}>" target="admin_main" title="<{$vv.title}>"><{$vv.title}></a></li>
+                            <{/if}>
+                            <{/foreach}>
+                            <{/if}>
+                            <{if false}><!-- 2019-03-04 添加 增加参数型菜单 结束 --><{/if}>
+
+                            <{/foreach}>
+                        </ul>
+                    </li>
+                    <{/foreach}>
+                </ul>
+                <{/foreach}>
+            </div>
+            <!--左侧的menu end-->
+
+            <!--右侧的frame-->
+            <div class="frame_r_box">
+                <iframe src="?index-welcome" name="admin_main" frameborder="no" scrolling="auto" id="admin_main"></iframe>
+            </div>
+            <!--右侧的frame end-->
+        </div>
+    </div>
+    <div id="notice"></div>
+</body>
+<!--</noframes>-->
+<script src="<{$pager.res}>/script/notice.js?<{$TMPLVER}>"></script>
+
+<script>
+    function notice_admin(){
+       var neworder = parseInt("<{$order_voice.neworder}>");
+        var cuiorder = parseInt("<{$order_voice.cuiorder}>");
+        var tuiorder = parseInt("<{$order_voice.tuiorder}>");
+        if(neworder==0&&cuiorder==0&&tuiorder==0){
+            return false;
+        }else{
+        var url ="?waimai/order-get_nctorder.html";
+
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    if(neworder>0){
+                        if(e.data.new>0){
+                            var url = "";
+                            var  emod = '<audio src="/static/voice/new.mp3" autoplay="autoplay"></audio>';
+                            $('#notice').html(emod);
+                            notify('订单','您有新的订单，请及时处理',url);
+                        }
+
+                    }
+                    if(cuiorder>0){
+                        if(e.data.cui>0){
+                            var url = "";
+                            var  emod = '<audio src="/static/voice/cui.mp3" autoplay="autoplay"></audio>';
+                            setTimeout(function(){
+                                $('#notice').html(emod);
+                                notify('订单','您有新的催单，请及时处理',url);
+                            },5000);
+                        }
+
+                    }
+                    if(tuiorder>0){
+                        if(e.data.tui>0){    
+                            var url = "";
+                            var  emod = '<audio src="/static/voice/tui.mp3" autoplay="autoplay"></audio>';
+                            setTimeout(function(){
+                                $('#notice').html(emod);
+                                notify('订单','您有新的退单，请及时处理',url);
+                            },10000);
+
+                        }
+
+                    }
+
+                }else{
+                    return false;
+                }
+
+            },'json');
+
+        }
+        setTimeout(function(){
+            $('#notice').html('');
+        },30000);
+
+    }
+    setInterval(notice_admin,15000);
+    
+    (function($){
+        $("#menu_list li").on("click", function(){
+            $("#menu_list li").removeClass('on');
+            $(this).addClass("on");
+
+            if ($(this).attr("rel") && $(this).attr("rel") == 3) {
+                $(".frame_l_box").find('.'+$(this).attr('mod')).show().siblings('.page-menu').hide();             
+                $(".frame_l_box").addClass("frame_l_box_max");
+                $(".frame_r_box").addClass("frame_r_box_min");
+                $(".frame_l_box .menu:first-child").addClass("open").siblings(".menu").removeClass("open");
+                $(".frame_l_box .menu:first-child .menu-item").show().siblings(".menu-item").hide();
+                $(".frame_l_box").find('.'+$(this).attr('mod')).find(".menu:first-child .menu-item li:first-child a")[0].click();
+            }else{
+                $(".frame_l_box").removeClass("frame_l_box_max");
+                $(".frame_r_box").removeClass("frame_r_box_min");
+                $(".frame_l_box .menu").removeClass("open");
+                $(".frame_l_box .menu-item").hide();
+            };
+        });
+
+        $(".pull_link").click(function () {
+            $(".frame_l_box").removeClass("frame_l_box_max");
+            $(".frame_r_box").removeClass("frame_r_box_min");
+            $(".frame_l_box .menu").removeClass("open");
+            $(".frame_l_box .menu-item").hide();
+        });
+
+        /*
+         * 点击logo
+         * */
+        $(".nav_top .logo").click(function () {
+            $(".frame_l_box").removeClass("frame_l_box_max");
+            $(".frame_r_box").removeClass("frame_r_box_min");
+            $(".frame_l_box .menu").removeClass("open");
+            $(".frame_l_box .menu-item").hide();
+        });
+
+
+        var pull_show = false;
+        $(".nav_top .content").click(function (e) {
+            e.stopPropagation();
+            if (pull_show) {
+                $(".nav_top .pull_box").hide();
+            } else {
+                $(".nav_top .pull_box").show();
+            }
+            pull_show = !pull_show;
+        });
+
+        $('.pull_box a').click(function(){
+            pull_show = false;
+            $(".nav_top .pull_box").hide();
+        });
+
+        $(document).click(function(){
+            pull_show = false;
+            $(".nav_top .pull_box").hide();
+        });
+
+        $('#admin_main').load(function(){
+            $("#admin_main").contents().find('body').click(function(){
+                pull_show = false;
+                $(".nav_top .pull_box").hide();
+            });
+        });
+        
+    })(window.jQuery);
+
+    //左侧菜单
+    $(document).ready(function(){
+        // 点击左侧menu和子menu
+        $(".page-menu li").click(function () {
+            $(this).addClass("open");
+            $(this).siblings().removeClass("open");
+
+            if ($(this).find(".menu-item")) {
+                $(this).find(".menu-item").show();
+                $(this).siblings().find(".menu-item").hide();
+                $(window.parent.document.getElementsByClassName("frame_l_box")[0]).addClass("frame_l_box_max");
+                $(window.parent.document.getElementsByClassName("frame_r_box")[0]).addClass("frame_r_box_min");
+            };
+
+        });
+
+        $(".page-menu strong").click(function () {
+             $(this).parent().find(".menu-item li:first-child a")[0].click();
+        });
+
+        $(".menu-item li").click(function () {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        });
+    });
+</script>
+
+</html>

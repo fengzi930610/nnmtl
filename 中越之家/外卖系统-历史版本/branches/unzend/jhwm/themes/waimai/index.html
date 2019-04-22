@@ -1,0 +1,750 @@
+<{include file="block/header.html"}>
+<style>
+    .take-out_tuijian .store_lists>ul>li:after{ content:''; display:block; left:12px; right:12px; bottom:0; height:0px; background:#e6e6e6;}
+    .cateNav,.bannerBg_box{ background-repeat: no-repeat; background-position: center; background-size: cover;}
+    .idxTitle{ background-size: cover;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="WMhome">
+                <!--头部搜索与下拉定位-开始-->
+                <a href="<{link ctl='shoplist/search' arg0=1 http='waimai'}>" class="searchBox searchBox_fixed" style="display: none;">
+                    <input type="text" name="" placeholder="请输入商家名称或商品名称" disabled="disabled">
+                </a>
+                <!--筛选排序-开始-->
+                <div class="screenTab_fixed" style="display: none;">
+                    <div class="screenTab">
+                        <div class="list">全部分类<i class="dwon_ico"></i></div>
+                        <div class="list">排序<i class="dwon_ico"></i></div>
+                        <div class="list">筛选<i class="screen_ico"></i></div>
+                    </div>
+                    <div class="change_list">
+                        <div class="allCates">
+                            <div class="left">
+                                <ul>
+                                    <li class="on" onclick="setloadparams('cat_id','0');" cat-id="0">全部分类</li>
+                                    <{foreach $cates as $cate}>
+                                    <{if $cate.childrens}>
+                                    <li cat-id="<{$cate.cate_id}>"><{$cate.title}></li>
+                                    <{else}>
+                                    <li onclick="setloadparams('cat_id','<{$cate.cate_id}>');" cat-id="<{$cate.cate_id}>"><{$cate.title}></li>
+                                    <{/if}>
+                                    <{/foreach}>
+                                </ul>
+                            </div>
+                            <div class="right">
+                                <ul cat-id="0">
+                                    <li class="on" cate-id="0">当前为全部类目</li>
+                                </ul>
+                                <{foreach $cates as $cate}>
+                                <ul style="display: none;" cat-id="<{$cate.cate_id}>">
+                                    <li onclick="setloadparams('cat_id','<{$cate.cate_id}>');" cate-id="0" <{if !$cate.childrens}>class="on"<{/if}>>全部</li>
+                                    <{foreach $cate.childrens as $v}>
+                                    <li onclick="setloadparams('cate_id','<{$v.cate_id}>');" cate-id="<{$v.cate_id}>"><{$v.title}></li>
+                                    <{/foreach}>
+                                </ul>
+                                <{/foreach}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="change_list">
+                        <div class="pais">
+                            <ul>
+                                <li class="on" onclick="setloadparams('orderby','default');" orderby="default">智能排序</li>
+                                <li onclick="setloadparams('orderby','juli');" orderby="juli">距离最近</li>
+                                <li onclick="setloadparams('orderby','pingfen');" orderby="pingfen">评分最高</li>
+                                <li onclick="setloadparams('orderby','sales');" orderby="sales">销售最高</li>
+                                <li onclick="setloadparams('orderby','minprice');" orderby="minprice">起送价最低</li>
+                                <li onclick="setloadparams('orderby','song');" orderby="song">最早送达</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="change_list">
+                        <div class="screen">
+                            <div class="cont">
+                                <div class="tit">配送方式</div>
+                                <ul class="peitype">
+                                    <li onclick="setParams('pei_type', 0)" pei-type="0">不限</li>
+                                    <li onclick="setParams('pei_type', 2)" pei-type="2">平台送</li>
+                                    <li onclick="setParams('pei_type', 1)" pei-type="1">商家送</li>
+                                </ul>
+                                <div class="tit">优惠信息</div>
+                                <ul class="youhui">
+                                    <li onclick="setParams('youhui', 'mj')" youhui="mj">满减优惠</li>
+                                    <li onclick="setParams('youhui', 'mf')" youhui="mf">满返优惠</li>
+                                    <li onclick="setParams('youhui', 'sd')" youhui="sd">首单优惠</li>
+                                    <li onclick="setParams('youhui', 'yhj')" youhui="yhj">进店领券</li>
+                                </ul>
+                                <div class="tit">商家特色</div>
+                                <ul class="ts">
+                                    <li onclick="setParams('ts', 'is_new')" ts="is_new">新店开业</li>
+                                    <li onclick="setParams('ts', 'online_pay')" ts="online_pay">在线支付</li>
+                                    <li onclick="setParams('ts', 'mian')" ts="mian">免费配送</li>
+                                    <li onclick="setParams('ts', 'zero')" ts="zero">0元起送</li>
+                                </ul>    
+                            </div>
+                            <div class="btn_box">
+                                <div class="btn" id="clear">清空</div>
+                                <div class="btn btn2" id="confirm" onclick="setloadparams();">确定</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mask_bg" style="z-index: 10;"></div>
+                <!--筛选排序-结束-->
+                <!--头部搜索与下拉定位-结束-->
+            </div>
+            <div class="container_mid">
+                <!--内容-开始-->
+                <div class="WMhome">
+                    <div class="WMhome_scroll" id="WMhome_scroll" style="background-image: url('<{if $config[0].background}><{$config[0].background}><{/if}>'); background-color:<{if $config[0].background_color}>#<{$config[0].background_color}><{/if}>;">
+                        <{foreach $config as $k=>$module}>
+                            <{if $module.module=='module1'}>
+                            <div class="topBg_box" style="background-image: url(''); background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>; color:<{if $module.color}>#<{$module.color}><{/if}>;">
+                                <{if $module.type==2}>
+                                <div class="topState" id="searchBox" style="height: 44px;">
+                                    <a href="<{link ctl='shoplist/search' arg0=1 http='waimai'}>" class="right_search fr"><input type="text" name="" placeholder="搜索词" disabled="disabled"></a>
+                                    <div class="location"><i class="addr_ico" style="background-image: url('<{$module.icon_location}>')"></i><span id="position">定位中</span><i class="down_ico" style="background-image: url('<{$module.icon_down}>')"></i></div>
+                                </div>
+                                <{else if $module.type==3}>
+                                <div style="height: 84px;">
+                                    <div class="topState">
+                                        <div class="weather">
+                                            <div class="fl"><i class="ico_weather" style="background-image: url('<{$module.weather.icon}>')"></i><{$module.weather.temperature}></div>
+                                            <div class="fl ml10">
+                                                <p><{$module.weather.indicator}></p>
+                                                <p><{$module.weather.title}></p>
+                                            </div>
+                                        </div>
+                                        <div class="location overflow_clear"><i class="addr_ico" style="background-image: url('<{$module.icon_location}>')"></i><span id="position">定位中</span><i class="down_ico" style="background-image: url('<{$module.icon_down}>')"></i></div>
+                                    </div>
+                                    <a href="<{link ctl='shoplist/search' arg0=1 http='waimai'}>" class="searchBox" id="searchBox">
+                                        <input type="text" name="" placeholder="请输入商家名称或商品名称" disabled="disabled">
+                                    </a>
+                                </div>
+                                <{else}>
+                                <div style="height: 84px;">
+                                    <div class="topState">
+                                        <div class="location overflow_clear"><i class="addr_ico" style="background-image: url('<{$module.icon_location}>')"></i><span id="position">定位中</span><i class="down_ico" style="background-image: url('<{$module.icon_down}>')"></i></div>
+                                    </div>
+                                    <a href="<{link ctl='shoplist/search' arg0=1 http='waimai'}>" class="searchBox" id="searchBox">
+                                        <input type="text" name="" placeholder="请输入商家名称或商品名称" disabled="disabled">
+                                    </a>
+                                </div>
+                                <{/if}>
+                                <{if $module.searchBox.open}>
+                                <div class="searchWord" style="height: 31px;">
+                                    <ul>
+                                    <{foreach $module.searchBox.keywords as $key}>
+                                        <li class="list"><a style="color:<{if $module.searchBox.color}>#<{$module.searchBox.color}><{/if}>;" href="<{link ctl='shoplist/search' title=$key}>"><{$key}></a></li>
+                                    <{/foreach}>
+                                    </ul>
+                                </div>
+                                <{/if}>
+                            </div>
+                            <{/if}>
+                            <{if $module.module=='module2'}>
+                            <div class="bannerBg_box" style="background-image: url(''); background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+                                <!--轮播图-开始-->
+                                <{if $module.type==1}>
+                                <div class="idxBanner">
+                                    <div class="swiper-container" ref="idxBanner">
+                                        <div class="swiper-wrapper">
+                                            <{foreach $module.content as $kk=>$vv}>
+                                            <div class="swiper-slide">
+                                                <a style="background-image: url('<{$vv.photo}>');" title="" href="<{$vv.link|default:'javascript:;'}>"></a>
+                                            </div>
+                                            <{/foreach}>
+                                        </div>
+                                        <!-- 如果需要分页器 -->
+                                        <{if count($module.content) > 1}>
+                                        <div class="swiper-pagination"></div>
+                                        <{/if}>
+                                    </div>
+                                </div>
+                                <{else if $module.type==2}>
+                                <div class="idxBanner" style="background-color: transparent">
+                                    <div class="swiper-container" ref="idxBanner">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <a style="background-color: transparent" title="" href="<{$module.link|default:'javascript:;'}>"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <{/if}>
+                                <!--轮播图-结束-->
+                            </div>
+                            <{/if}>
+                            <!--分类导航-开始-->
+                            <{if $module.module=='module3'}>
+                            <div class="cateNav <{if $module.type==1 || !$module.type}>col5<{/if}>" style="background-image: url(''); background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>; height: 205px;">
+                                <div class="swiper-container" ref="cateNav" style="background: transparent;">
+                                    <div class="swiper-wrapper">
+                                        <{foreach $module.content as $kk=>$vv}>
+                                            <{if ($module.type==1 && $kk%10==0) || ($module.type==2 && $kk%8==0)}>
+                                            <div class="swiper-slide">
+                                                <ul>
+                                            <{/if}>
+                                                    <li>
+                                                        <a href="<{$vv.link|default:'javascript:;'}>" onclick="clearShopListStorage()">
+                                                            <img src="<{$vv.photo}>">
+                                                            <p style="<{if $module.color}>color: #<{$module.color}><{/if}>"><{$vv.title}></p>
+                                                        </a>
+                                                    </li>
+                                            <{if ($module.type==1 && (count($module.content)==$kk+1 || ($kk+1)%10==0)) || ($module.type==2 && (count($module.content)==$kk+1 || ($kk+1)%8==0))}>
+                                                </ul>
+                                            </div>
+                                            <{/if}>
+                                        <{/foreach}>
+                                    </div>
+                                    <!-- 如果需要分页器 -->
+                                    <{if ($module.type==1 && count($module.content)>10) || ($module.type==2 && count($module.content)>8)}>
+                                    <div class="swiper-pagination"></div>
+                                    <{/if}>
+                                </div>
+                            </div>
+                            <{/if}>
+                            <!--分类导航-结束-->
+                            <!--订单提示浮动-开始-->
+                            <{if $module.module=='module4'}>
+                            <a href="" class="orderTips_fixed" style="display: none">
+                                <div class="pic" style="background-image: url();"></div>
+                                <i class="linkico"></i>
+                                <div class="txt overflow_clear">某某某1秒前下了单</div>
+                            </a>
+                            <{/if}>
+                            <!--订单提示浮动-结束-->
+                            <!--优惠专区-开始-->
+                            <{if $module.module=='module5' || $module.module=='module6'}>
+                            <div style="background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+                                <a class="idxTitle" style="background-image: url('<{$module.photo}>');" href="<{$module.link|default:'javascript:;'}>">
+                                    <!-- <h1>优惠专区</h1> -->
+                                </a>
+                                <!--左右滑动-->
+                                <{if $module.type==1 || !$module.type}>
+                                <div class="preferentialAarea preferentialAarea1 mb10">
+                                <{else if $module.type==2}>
+                                <div class="preferentialAarea preferentialAarea2 mb10">
+                                <{else if $module.type==3}>
+                                <div class="preferentialAarea preferentialAarea3 mb10">
+                                <{else if $module.type==4}>
+                                <div class="preferentialAarea preferentialAarea4 mb10">
+                                <{else if $module.type==5}>
+                                <div class="preferentialAarea preferentialAarea5 mb10">
+                                <{else if $module.type==6}>
+                                <div class="preferentialAarea preferentialAarea6 mb10">
+                                <{else if $module.type==7}>
+                                <div class="preferentialAarea preferentialAarea7 mb10">
+                                <{else}>
+                                <div class="preferentialAarea preferentialAarea1 mb10">
+                                <{/if}>
+                                    <ul>
+                                        <{foreach $module.content as $kk=>$vv}>
+                                        <li style="background-image: url('<{$vv.photo}>');"><a href="<{$vv.link|default:'javascript:;'}>"></a></li>
+                                        <{/foreach}>
+                                    </ul>
+                                </div>
+                            </div>
+                            <{/if}>
+                            <!--优惠专区-结束-->
+                            <!-- <div class="grey_h"></div> -->
+                            <!--大牌甄选-开始-->
+                            <{if $module.module=='module7'}>
+                            <div style="background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+                                <a class="idxTitle" style="background-image: url('<{$module.photo}>');" href="<{$module.link|default:'javascript:;'}>">
+                                    <!-- <h1>大牌甄选</h1>
+                                    <div class="more">更多<i class="right_ico"></i></div> -->
+                                </a>
+                                <{if $module.type==1 || !$module.type}>
+                                <div class="largeSelection1">
+                                    <ul>
+                                        <{foreach $module.content as $kk=>$vv}>
+                                        <{if $kk<=5}>
+                                        <li>
+                                            <a href="<{$vv.link|default:'javascript:;'}>">
+                                                <div class="pic" style="background-image: url('<{$vv.photo}>');"></div>
+                                                <!-- <h3 class="overflow_clear"><{$vv.title}></h3> -->
+                                            </a>
+                                        </li>
+                                        <{/if}>
+                                        <{/foreach}>
+                                    </ul>
+                                </div>
+                                <{/if}>
+                                <{if $module.type==2}>
+                                <div class="largeSelection2">
+                                    <ul>
+                                        <{foreach $module.content as $kk=>$vv}>
+                                        <{if $kk<=3}>
+                                        <li>
+                                            <a href="<{$vv.link|default:'javascript:;'}>">
+                                                <div class="pic" style="background-image: url('<{$vv.photo}>');"></div>
+                                                <!-- <div class="logo_box">
+                                                    <div class="logo" style="background-image: url('');"></div>
+                                                    <h3 class="overflow_clear">商家名称</h3>
+                                                </div> -->
+                                            </a>
+                                        </li>
+                                        <{/if}>
+                                        <{/foreach}>
+                                    </ul>
+                                </div>
+                                <{/if}>
+                            </div>
+                            <{/if}>
+                            <!--大牌甄选-结束-->
+                            <{if $module.module=='module8'}>
+                            <div style="background-color:<{if $module.background_color}>#<{$module.background_color}><{else}>transparent<{/if}>;">
+                                <div class="preferentialAarea preferentialAarea3 mb10">
+                                    <ul>
+                                        <li style="background-image: url('<{$module.photo}>');"><a href="<{$module.link|default:'javascript:;'}>"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <{/if}>
+                        <{/foreach}>
+                        <div style="background: #FFFFFF">
+                            <div class="idxTitle">
+                                <h1>附近商家</h1>
+                            </div>
+                            <div class="screenTab" id="screenTab">
+                                <div class="list">全部分类<i class="dwon_ico"></i></div>
+                                <div class="list">排序<i class="dwon_ico"></i></div>
+                                <div class="list">筛选<i class="screen_ico"></i></div>
+                            </div>
+                            <!--商家列表-开始-->
+                            <div class="shopLists_h">
+                                <div class="shoplists_box" id="index_goods_items">
+                                </div>
+                            </div>
+                            <!--商家列表-结束-->
+                        </div>
+                    </div>
+                </div>
+                <!--内容-结束-->
+            </div>
+            <!--底部导航-->
+            <{include file='waimai/block/footer_nav.html'}>
+            <!--底部导航end-->
+        </div>
+    </div>
+</div>
+<!--右侧购物车浮动-开始-->
+<a href="<{link ctl='shop/cart2' http='waimai'}>" class="cart_rightFixed">
+    <div class="num">2</div>
+</a>
+<!--右侧购物车浮动-结束-->
+
+<!--订单提示浮动-开始-->
+<!-- <div class="orderTips_fixed">
+    <div class="pic" style="background-image: url();"></div>
+    <i class="linkico"></i>
+    <div class="txt overflow_clear">某某某1秒前下了单</div>
+</div> -->
+<!--订单提示浮动-结束-->
+
+<script type="text/javascript">
+    //穿透事件js------------------------------------------------------------
+    /*注释：两个入口可选其一,引用的js包必须放到标签上边*/
+    //入口1：原生入口
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function(){
+            FastClick.attach(document.body);
+        }, false);
+    }
+    //入口2：jquery入口（如果使用jquery的话，使用以下入口即可）
+    $(function() {
+        FastClick.attach(document.body);
+    });
+    //点击效果
+    document.querySelector("body").addEventListener("click",function(){
+
+    },false)
+
+    //购物车数量js-------------------------------------------------
+    var ecarts = JSON.parse(localStorage["ECart"] || '{}') || {};
+    var ecarts2 = ecart_num = {};
+    var total_num = 0;
+    $.each(ecarts,function(i,item){
+        if(typeof(item) == 'object' && Object.getOwnPropertyNames(item).length > 0){
+            ecarts2[i] = item;
+        }
+    })
+    $.each(ecarts2,function(k,v){
+        var ecart = new window.ECart(k);
+        var total = ecart.total_count();
+        ecart_num[k] = total;
+        total_num += total;
+    })
+    $('.cart_rightFixed .num').text(total_num);
+
+    //4.1添加商家购物车数量气泡
+    function shopCartNum(){
+        $('.shoplists').each(function (){
+            var shopid = $(this).attr('shop-id');
+            var num = '';
+            if(ecart_num[shopid]){
+                num = ecart_num[shopid];
+            }
+            $(this).find('.num').text(ecart_num[shopid]);
+        });
+    }
+
+    $(document).ready(function(){
+        // 轮播图-------------------------------------------------------------
+        var mySwiper1 = new Swiper ('.WMhome .idxBanner .swiper-container', {
+            autoplay: 3000,//可选选项，自动滑动
+            autoplayDisableOnInteraction : false,//设置为false，用户操作swiper之后自动切换不会停止，每次都会重新启动autoplay
+            loop : true,
+            pagination: '.WMhome .idxBanner .swiper-pagination',
+        });
+
+        // 分类菜单-------------------------------------------------------------
+        var mySwiper2 = new Swiper ('.WMhome .cateNav .swiper-container', {
+            autoplay: false,//可选选项，自动滑动          
+            pagination: '.WMhome .cateNav .swiper-pagination',
+        });
+
+        //滚动事件-------------------------------------------------------------
+        $(".container_mid").scroll(function () {
+            var _scroll = $(".container_mid").scrollTop();
+            var _top = $("#searchBox").offset().top;
+            var _top2 = $("#screenTab").offset().top;
+            //判断搜索框是否滚动到顶部
+            if(_top < 0){
+                $(".searchBox_fixed").show();
+            }else{
+                $(".searchBox_fixed").hide();
+            };
+            //判断下拉筛选是否滚动到顶部
+            if(_top2 <= 53){
+                $(".screenTab_fixed").show();
+            }else{
+                $(".screenTab_fixed").hide();
+            };
+
+            // scroll监听购物车隐藏或出现事件
+            /*let t1 = 0,t2 = 0,timer = null; // 定时器
+            clearTimeout(timer);
+            timer = setTimeout(function(){
+                t2 = _scroll;
+                if(t2 == t1){
+                    $(".cart_rightFixed").removeClass("right");
+                };
+            }, 500);
+            t1 = _scroll;
+            $(".cart_rightFixed").addClass("right");*/
+        });
+
+        //头部下拉事件-------------------------------------------------------------
+        $(".screenTab .list").click(function(){
+            var index = $(this).index();
+            if($(".screenTab .list").eq(index).hasClass("on")){
+                $(".screenTab .list").removeClass("on");
+                $(".screenTab_fixed .change_list").removeClass("on");
+                $(".mask_bg").hide();
+                $(".container_mid").css("overflow","auto");
+            }else{
+                $(".screenTab .list").eq(index).addClass("on").siblings(".list").removeClass("on");
+                $(".screenTab_fixed .change_list").eq(index).addClass("on").siblings(".change_list").removeClass("on");
+                $(".mask_bg").show();
+                $(".container_mid").css("overflow","hidden");
+            };
+            var sc_stop  = $(".container_mid").scrollTop(),
+                sc_top  = $("#screenTab").offset().top;
+            if(!(sc_top <= 53)){
+                $(".container_mid").animate({
+                    scrollTop:sc_stop + sc_top
+                }, 200);
+            };
+        });
+
+        $(".mask_bg").click(function(){
+            $(".screenTab .list").removeClass("on");
+            $(".container_mid").css("overflow","auto");
+            $(".screenTab_fixed .change_list").removeClass("on");
+            $(".mask_bg").hide();
+        });
+
+        //全部分类事件-------------------------------------------------------------
+        $(".allCates .left li").click(function(){
+            var index = $(this).index();
+            $(this).addClass("on").siblings("li").removeClass("on");
+            $(this).parents(".allCates").find(".right ul").hide();
+            $(this).parents(".allCates").find(".right ul").eq(index).show();
+        });
+        $(".allCates .right li").click(function(){
+            $(".screenTab .list").removeClass("on");
+            $(".container_mid").css("overflow","auto");
+            $(".screenTab_fixed .change_list").removeClass("on");
+            $(".allCates .right li").removeClass('on');
+            $(this).addClass('on');
+            $(".mask_bg").hide();
+        });
+
+        //排序事件-------------------------------------------------------------
+        $(".pais li").click(function(){
+            var index = $(this).index();
+            $(this).addClass("on").siblings("li").removeClass("on");
+            $(".screenTab .list").removeClass("on");
+            $(".container_mid").css("overflow","auto");
+            $(".screenTab_fixed .change_list").removeClass("on");
+            $(".mask_bg").hide();
+        });
+
+        //筛选事件-------------------------------------------------------------
+        $(".screen ul li").click(function(){
+            $(this).addClass("on").siblings("li").removeClass("on");
+        });
+        $("#clear").click(function(){
+            $(".screen ul li").removeClass("on");
+            parmas['pei_type'] = '';
+            parmas['youhui'] = '';
+            parmas['ts'] = '';
+        });
+        $("#confirm").click(function(){
+            $(".screenTab .list").removeClass("on");
+            $(".container_mid").css("overflow","auto");
+            $(".screenTab_fixed .change_list").removeClass("on");
+            $(".mask_bg").hide();
+        });
+
+        //商家列表高度-------------------------------------------------------------
+        $(".shopLists_h").css("min-height",($(window).height() - 146) + 'px');
+        $('.location').click(function(){
+            var link = "<{link ctl='position/index' http='waimai'}>";
+            window.location.href = link;
+        });
+
+        //商家列表活动展开与折叠-------------------------------------------------------------
+        $(document).on('touchstart','.WMhome .shoplists .hd .right',function(){
+            if($(this).hasClass('on')){
+                $(this).parents(".hd").find("ul").removeClass('on');
+                $(this).removeClass('on');
+            }else{
+                $(this).parents(".hd").find("ul").addClass('on');
+                $(this).addClass('on');
+            };
+        });
+
+        if($('.container_id').find('.orderTips_fixed')){
+            getOrders();
+        }
+    })
+    
+    //订单弹幕-------------------------------------------------------------
+    /*if($('.container_id').find('.orderTips_fixed')){
+        getOrders();
+        setInterval(function () {
+            getOrders();
+        }, 60000);
+    }*/
+
+    function getOrders(){
+        var link = "<{link ctl='index/getOrders' http='waimai'}>";
+        $.post(link, {}, function (e){
+            if(e.error==0 && e.data.items.length > 0){
+                orderTips(e.data.items);
+            }
+            setTimeout(function(){getOrders();}, 60000);
+        },'json');
+    }
+
+    var __New_order_Tips = null;
+    function orderTips(orderData){
+        clearInterval(__New_order_Tips);
+        __New_order_Tips = setInterval(function () {
+            $('.orderTips_fixed').fadeOut(200, function(){
+                var order = orderData.shift();
+                var href = "<{link ctl='shop/detail' arg0=__shop_id__ http='waimai'}>";
+                var shop_id = order.shop_id;
+                var logo = order.shop.logo;
+                var nickname = order.member.nickname;
+                //var timer = formatTime(order.dateline);
+                var txt  = nickname+order.timer+'前下了单';
+                $('.orderTips_fixed').attr('href', href.replace("__shop_id__", shop_id)).find('.pic').css({'background-image': 'url("'+logo+'")'}).siblings('.txt').text(txt);
+                $('.orderTips_fixed').fadeIn(200);
+                if(orderData.length == 0){
+                    $('.orderTips_fixed').fadeOut(200);
+                    clearInterval(__New_order_Tips);
+                }
+            });
+        }, 6000);
+    }
+
+    //商家列表输出-------------------------------------------------------------
+    var _PAGE_INDEX_REBACKTOP = JSON.parse(sessionStorage['page_index_rebacktop'] || '{"page":1, "top":0}');
+    var show_huodong = "<{$show_huodong}>";
+    var parmas = JSON.parse(sessionStorage['page_index_parmas'] || '{"order": "d", "index": 1}');
+    var link = "<{link ctl='shoplist/loadshops' arg0='#page#'}>";
+    var page = 1; //_PAGE_INDEX_REBACKTOP.page;
+
+    if(_PAGE_INDEX_REBACKTOP['page'] > 1){
+        page = page+'-'+_PAGE_INDEX_REBACKTOP['page'];
+        parmas['pagelimit'] = _PAGE_INDEX_REBACKTOP['page'];
+    }
+
+    addClassOn();
+
+    //已加载页数，用于返回回到上一次浏览位置
+
+    function loadshopsdata(lng, lat){
+        parmas['uxlocal'] = lng+","+lat;
+        loadpage(link, parmas, page, 'index_goods_items','index_goods_items', function (e){
+            $(".container_mid").scrollTop(_PAGE_INDEX_REBACKTOP['top']);
+            _PAGE_INDEX_REBACKTOP['page'] = 1;
+            sessionStorage['page_index_rebacktop'] = JSON.stringify(_PAGE_INDEX_REBACKTOP);
+            parmas['pagelimit'] = 1;
+
+            shopCartNum();
+            scroll(link, parmas ,page, ".container_mid", "#index_goods_items", 'index_goods_items', null, function (e){
+                _PAGE_INDEX_REBACKTOP['page'] = 1;
+                sessionStorage['page_index_rebacktop'] = JSON.stringify(_PAGE_INDEX_REBACKTOP);
+                shopCartNum();
+            });
+        });        
+    }
+
+    function setloadparams(k, v){
+        _PAGE_INDEX_REBACKTOP['page'] = 1;
+        _PAGE_INDEX_REBACKTOP['top'] = $('.shopLists_h')[0].offsetTop-52;
+        sessionStorage['page_index_rebacktop'] = JSON.stringify(_PAGE_INDEX_REBACKTOP);
+        parmas['pagelimit'] = 1;
+
+        $(".screenTab .list").removeClass("on");
+        $(".container_mid").css("overflow","auto");
+        $(".screenTab_fixed .change_list").removeClass("on");
+        $(".mask_bg").hide();
+        page = 1;
+        if(k=='cat_id'){
+            parmas['cate_id'] = '';
+        }
+        if(k){
+            parmas[k] = v;
+        }
+        if(parmas['uxlocal']){
+            loadpage(link, parmas, page, 'index_goods_items','index_goods_items',function (e){
+                $(".container_mid").scrollTop(_PAGE_INDEX_REBACKTOP['top']);
+                shopCartNum();
+                scroll(link, parmas, page, ".container_mid","#index_goods_items",'index_goods_items',function (e){
+                    _PAGE_INDEX_REBACKTOP['page'] = 1;
+                    sessionStorage['page_index_rebacktop'] = JSON.stringify(_PAGE_INDEX_REBACKTOP);
+                    shopCartNum();
+                });
+            });
+            
+        }
+    }
+
+    function setParams(k, v){
+        parmas[k] = v;
+    }
+
+    function addClassOn(){
+        var catid = parmas['cat_id'] || 0;
+        var cateid = parmas['cate_id'] || 0;
+        var orderby = parmas['orderby'] || 'default';
+        var pei_type = parmas['pei_type'] || 0;
+        var youhui = parmas['youhui'] || '';
+        var ts = parmas['ts'] || '';
+
+        $('.change_list .allCates .left li').each(function(){            
+            if($(this).attr('cat-id') == catid){
+                $(this).addClass('on').siblings('li').removeClass('on');
+                $('.change_list .allCates .right ul[cat-id="'+catid+'"]').show().siblings('ul').hide();
+            }
+        });
+
+        $('.change_list .allCates .right li').removeClass('on');
+        $('.change_list .allCates .right li').each(function(){            
+            if($(this).attr('cate-id') == cateid){
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });
+        $('.change_list .pais li').each(function(){           
+            if($(this).attr('orderby') == orderby){ 
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });        
+        $('.change_list .screen .peitype li').each(function(){
+            if($(this).attr('pei-type') == pei_type){ 
+                $(this).addClass('on');
+            }
+        });
+        $('.change_list .screen .youhui li').each(function(){
+            if($(this).attr('youhui') == youhui){ 
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });
+        $('.change_list .screen .ts li').each(function(){
+            if($(this).attr('ts') == ts){ 
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });
+    }
+    
+    function clearShopListStorage(){
+        sessionStorage.removeItem('page_shoplist_parmas');
+    }
+
+    //定位-------------------------------------------------------------
+    var now_city_name = localStorage['UxCity'] || Cookie.get("UxCity") ||"选择城市";
+    $('.this_city').text(now_city_name);
+    $('#position').text()=='定位中...';
+    if(Cookie.get("ask_demo_uxlocation")!=1 && false){
+        ask_demo_uxlocation();
+    }else{
+        auto_uxlocation();
+    }
+
+    function ask_demo_uxlocation(){
+        layer.open({
+            content: '为了更好的体验程序功能，建议您切换地址为【合肥.华润五彩国际】？',
+            btn: ['立即切换', '任性继续'],
+            shadeClose: false,
+            yes: function(){
+                var demo_uxlocation = {"lng":"117.257186","lat":"31.835828","addr":"华润五彩国际"};
+                setUxLocation(demo_uxlocation);
+                Cookie.set("UxCityId", 1,"","/");
+                //Cookie.set("UxCity", encodeURI("合肥"),"","/");
+                Cookie.set("ask_demo_uxlocation", 1,"","/");
+                window.location.reload(true);
+            }, no: function(){
+                Cookie.set("ask_demo_uxlocation", 1,"","/");
+                auto_uxlocation();
+                //window.location.href = "<{link ctl='position' http='waimai'}>";
+            }
+        });
+    }
+    function auto_uxlocation(){
+        Widget.MsgBox.load();
+        var LocTimer = setTimeout(function(){
+            alert("获取不到你的地址");
+            window.location.href = "<{link ctl='position' http='waimai'}>";
+        }, 10000);
+        getUxLocation(function(ret){
+            Widget.MsgBox.hide();
+            var uxl = ret || {};
+            clearTimeout(LocTimer);
+            if(ret.error){
+                alert(ret.message);
+                window.location.href = "<{link ctl='position' http='waimai'}>";
+            }else{
+                $('#position').text(decodeURI(uxl.addr));
+                loadshopsdata(uxl.lng, uxl.lat);
+                
+            }
+        });
+    }
+
+    /*返回上次浏览位置*/
+    window.onunload = function(){
+        sessionStorage['page_index_rebacktop'] = JSON.stringify({"page":pages, "top":$(".container_mid").scrollTop()});
+        sessionStorage['page_index_parmas'] = JSON.stringify(parmas);
+    }
+    /*返回上次浏览位置*/
+</script>
+
+<{include file="block/footer.html"}>

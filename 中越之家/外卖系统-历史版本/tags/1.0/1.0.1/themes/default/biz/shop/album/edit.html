@@ -1,0 +1,41 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/shop/album:index'}>" class="on">相册设置</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/shop/album:edit' args=<{$detail.photo_id}>}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th>类型：</th>
+                <td>
+                    <ul class="group-list">
+                        <li><label><input type="radio" name="data[type]" value="1" <{if $detail.type==1}>checked="checked"<{/if}>>环境</label></li>
+                        <li><label><input type="radio" name="data[type]" value="2" <{if $detail.type==2}>checked="checked"<{/if}>>商品</label></li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>图片：</th>
+                <td>
+                    <input type="text" name="data[photo]" class="input w-300" id="file_photo" value="<{$detail.photo}>" photo="<{$pager.img}>/<{$detail.photo|default:''}>"/>
+                    <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" 选择文件 " />
+                    <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

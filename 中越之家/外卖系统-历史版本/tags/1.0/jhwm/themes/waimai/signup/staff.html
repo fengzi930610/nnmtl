@@ -1,0 +1,170 @@
+<{assign var='tpl_title' value=L("骑手入驻")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+	.newApplyForm .pub_list{background: #fff; margin-bottom: 1px; padding: 10px 0; height: 20px;}
+	.newApplyForm .bt{width: 70px; font-size: 15px; line-height: 20px;padding-left: 12px;}
+	.newApplyForm .pub_list_bd input{width: 100%; font-size: 15px; line-height: 20px; height: 20px; background: none; border: 0; outline: 0; color: #333;}
+	.newApplyForm .getyzm{width: 90px; border-left: 1px solid #eee; font-size: 12px; line-height: 20px; height: 20px; color: #FF8A12; text-align: center;position: relative;}
+	.newApplyForm .show{width: 24px; height: 20px; background: url(/themes/waimai/static/img/new/icon_eyes_hidded@2x.png) no-repeat center; background-size: contain; margin-right: 12px;}
+	.newApplyForm .show.on{background-image: url(/themes/waimai/static/img/new/icon_eyes_show.png);}
+	.newApplyForm .linkico{width: 7px; height: 20px; background: url(/themes/waimai/static/img/icon-arrowR-gray@2x.png) no-repeat center; background-size: contain; margin-right: 12px;}
+	.newApplyForm .protocol{font-size: 14px; line-height: 14px; color: #999; margin: 15px 15px;}
+	.newApplyForm .protocol a{color: #1B82D2;}
+	.newApplyForm .protocol input[type="checkbox"]{width: 14px; height: 14px;  background: url(/themes/waimai/static/img/new/btn_radios@2x.png) no-repeat center; background-size: contain; margin-right: 6px; vertical-align: middle;}
+	.newApplyForm .protocol input[type="checkbox"]:checked{background-image: url(/themes/waimai/static/img/new/btn_radio_checked@2x.png);}
+	.newApplyForm .btn_box{margin: 20px 12px;}
+	.newApplyForm .submit{background: #C9C9C9;border-radius: 4px; width: 100%; height: 44px; line-height: 44px; font-size: 15px; color: #fff; text-align: center; border: 0; outline: 0;}
+	.newApplyForm .submit.on{background: #FF725C;}
+    .select {height: 20px; line-height: 20px; border: none;width: 95%; font-size: 15px; color: #333;}
+    .select option{ color: #333;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容-开始 -->
+                	<form class="newApplyForm">
+                		<div class="pub_list">
+                			<div class="bt">用户名</div>
+                			<div class="pub_list_bd">
+                				<input type="text" name="data[name]" placeholder="请输入用户名">
+                			</div>
+                		</div>
+                        <div class="pub_list">
+                            <div class="bt">手机号</div>
+                            <div class="pub_list_bd">
+                                <input type="text" name="data[mobile]" placeholder="请输入手机号">
+                            </div>
+                        </div>
+						<div class="pub_list">
+                			<div class="bt">验证码</div>
+                			<div class="pub_list_bd">
+                				<input type="text" name="data[code]" placeholder="请输入验证码">
+                			</div>
+                			<div class="getyzm">获取验证码</div>
+                		</div>
+                		<div class="pub_list">
+                			<div class="bt">密码</div>
+                			<div class="pub_list_bd">
+                				<input type="password" name="data[passwd]" placeholder="请输入密码（不少于6位）" id="password">
+                			</div>
+                			<div class="show" id="show"></div>
+                		</div>
+						<div class="pub_list">
+                			<div class="bt">城市</div>
+                			<div class="pub_list_bd">
+                				<!-- <input type="text" name="data[city_id]" placeholder="请选择所在城市" disabled="disabled"> -->
+                                <select class="select" id="city" name="data[city_id]">
+                                    <{foreach $citys as $city}>
+                                    <option value="<{$city.city_id}>"><{$city.city_name}></option>
+                                    <{/foreach}>
+                                </select>
+                			</div>
+                			<!-- <div class="linkico"></div> -->
+                		</div>
+                		<div class="protocol"><input type="checkbox" name="">我已阅读并同意<a href="<{link ctl='page:protocolstaff' http='www'}>">《骑手入驻协议》</a></div>
+                		<div class="btn_box">
+                			<button type="button" class="submit">立即入驻</button>
+                		</div>
+                	</form>
+                <!-- 内容-结束 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+    	//查看密码
+    	$("#show").click(function(){
+    		if($(this).hasClass("on")){
+    			$(this).removeClass("on");
+    			$("#password").attr('type', 'password');
+    		}else{
+    			$(this).addClass("on");
+    			$("#password").attr('type', 'text');
+    		};
+    	});
+
+        $(".pub_list_bd input").focus(function () {
+            $('.pub_list_bd input').on('input', function () {                
+                addClassOn();
+            });
+        }); 
+
+        $(".pub_list_bd input").blur(function(){
+                   
+        });
+
+        $('.pub_list_bd select, .protocol input').change(function (){
+            addClassOn();
+        });
+
+        function addClassOn(){
+            var addClassOn = false;
+            var l = 0;
+            $('.pub_list_bd input').each(function (k, v){
+                if($(this).val().length > 0){
+                    l ++;
+                }
+            });
+            if(l == $('.pub_list_bd input').length && $('.pub_list_bd select').val().length > 0 && $(".protocol input").is(':checked')){
+                $('.submit').addClass('on');
+            }else{
+                $('.submit').removeClass('on');
+            }
+        } 
+
+        var minute = 60;
+        var mobile_timeout;
+        var mobile_count = minute;
+        var mobile_lock = 0;
+        BtnCount = function () {
+            if (mobile_count == 0) {
+                $('.getyzm').text("重新获取");
+                mobile_lock = 0;
+                clearTimeout(mobile_timeout);
+            } else {
+                mobile_count--;
+                $('.getyzm').text(+mobile_count.toString() + "秒...");
+                mobile_timeout = setTimeout(BtnCount, 1000);
+            }
+        };
+
+        $(".getyzm").click(function () {
+            if(mobile_lock == 0){
+                var mobile = $('input[name="data[mobile]"]').val();
+                var link = "<{link ctl='passport/sendsms' http='www'}>";
+                Widget.SendSms(link,{mobile:mobile},function(e){
+                    if(e){
+                        mobile_lock = 1;
+                        mobile_count = minute;
+                        BtnCount();
+                    }
+                });
+            }
+        });
+
+        $('.submit').click(function(){
+            if(!$(this).hasClass('on')){
+                Widget.MsgBox.error('请完善信息');
+            }else{
+                var formdata = $('form').serialize();
+                var url = "<{link ctl='signup/staff' http='waimai'}>";
+                $.post(url, formdata, function (e){
+                    if(e.error > 0){
+                        Widget.MsgBox.error(e.message);
+                    }else{
+                        Widget.MsgBox.success(e.message);
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        }, 2000);
+                    }
+                }, 'json');
+            }
+        });
+
+    })
+</script>
+<{include file="waimai/block/footer.html"}>

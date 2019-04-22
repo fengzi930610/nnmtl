@@ -1,0 +1,180 @@
+<{assign var='tpl_title' value=L("配送员对账-资金流水")}>
+<{include file="block/header.html"}>
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="import-detail mb10">
+                    <div class="border_b money">
+                        <div><{if $detail.money>0}>+<{$detail.money}><{else}>-<{$detail.money}><{/if}>元</div>
+                        <p><{if $detail.money>0}>余额返回<{else}>余额提现<{/if}></p>
+                    </div>
+                    <div class="info">
+                        <div class="list" id="tiao_click">
+                            <div class="fl black9 l-wz">汇入账户</div>
+                            <div class="r-wz">
+                                <p><{$account.name}></p>
+                                <p><{$account.title}><span class="ml10"><{$account.number}></span><i class="ico ml5" style=" margin-bottom: 3px;"></i></p>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">类型</div>
+                            <div class="r-wz"><{if $detail.money>0}>余额返回<{else}>余额提现<{/if}></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">创建时间</div>
+                            <div class="r-wz"><{$detail.dateline|format:'Y.m.d H:i:s'}></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">流水单号</div>
+                            <div class="r-wz"><{$detail.tixian_id}></div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="list">
+                            <div class="fl black9 l-wz">备注</div>
+                            <div class="r-wz"><{$detail.intro|default:'----'}></div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-box">
+                    <div class="tit border_b">提现进度</div>
+                    <ul class="box">
+                        <{if $detail.status==0}>
+                        <li class="on">
+                            <div class="fl dot">1</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">提现申请已提交</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+
+                        </li>
+                        <li class="">
+                            <div class="fl dot">2</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核中</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+
+                        <{/if}>
+                        <{if $detail.status==1}>
+                        <li class="on">
+                            <div class="fl dot">1</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">提现申请已提交</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">2</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核中</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">3</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核通过</p>
+                                <p class="black9"><{$detail.updatetime|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+
+                        <{/if}>
+                        <{if $detail.status==2}>
+                        <li class="on">
+                            <div class="fl dot">1</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">提现申请已提交</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">2</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核中</p>
+                                <p class="black9"><{$detail.updatetime|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">3</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核被拒绝</p>
+                                <p class="black9"><{$detail.updatetime|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+
+                        <{/if}>
+                        <{if $detail.status==4}>
+                        <li class="on">
+                            <div class="fl dot">1</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">提现申请已提交</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">2</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核中</p>
+                                <p class="black9"><{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">3</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">审核通过</p>
+                                <p class="black9"><{$detail.updatetime|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+                        <li class="on">
+                            <div class="fl dot">4</div>
+                            <div class="line"></div>
+                            <div class="cont">
+                                <p class="maincl">打款完成</p>
+                                <p class="black9"><{$detail.updatetime|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </li>
+
+
+                        <{/if}>
+
+                    </ul>
+                </div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    window.onload = function(){
+        //  webview/bills/tixian/account.html
+        $('#tiao_click').on('click',function(){
+            var url = "<{link ctl='tixian/index' http='staff'}>";
+            window.location.href = url;
+        })
+    }
+</script>
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,62 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='huodong/shop'}>">营销管理</a></li>
+        <li class="active">满返券活动</li>
+        <li class="active">历史活动</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+<!--列表-->
+<div class="dianpuActv_list">
+    <div class="top_box">
+        <big class="maincl">满返券优惠</big>
+    </div>
+    <div class="box">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+                <td width="200">状态</td>
+                <td width="400">时间</td>
+                <td width="560">内容</td>
+                <td>操作</td>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td>
+                    <{if $item.closed==1}>
+                    已撤销
+                    <{/if}>
+                    <{if $item.closed==0&&$item.stime >$nowtime}>
+                    待生效
+                    <{/if}>
+                    <{if $item.closed==0&&$item.ltime <$nowtime}>
+                    已过期
+                    <{/if}>
+                    <{if $item.audit == 0&&$item.closed==0}>
+                    未审核
+                    <{/if}>
+
+                </td>
+                <td><{if $item.stime == ($item.ltime + 86399)}><{$item.stime|format:'Y-m-d H:i'}>至<{$item.ltime|format:'Y-m-d H:i'}><{else}><{$item.stime|format:'Y-m-d'}>至<{$item.ltime|format:'Y-m-d'}><{/if}></td>
+                <td>
+                    <{foreach $item.config as $v}>
+                        <{if $v.paid_amount>0}>
+                    订单满<{$v.paid_amount}>元送优惠券：满<{$v.order_amount}>元减<{$v.coupon_amount}>元<br/>
+                       <{/if}>
+
+                    <{/foreach}>
+                </td>
+                <td>
+                    <a href="<{link ctl='huodong/manfan/detail' args=$item.huodong_id}>" class="btn">查看详情</a>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="4">暂无数据</td></tr>
+            <{/foreach}>
+        </table>
+    </div>
+</div>
+<!--列表end-->
+<{include file="block/footer.html"}>

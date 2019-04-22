@@ -1,0 +1,32 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="system/seotmpl:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="tip-notice" style="word-wrap:break-word;">
+        <b>全局</b>:<label>网站标题:<em>{site_title}</em></label> <label>官网电话:<em>{site_phone}</em></label> <label>网站简介:<em>{site_desc}</em></label><label>城市名:<em>{city_name}</em></label> 
+        <label>城市分站seo_title:<em>{city_seo_title}</em></label> <label>城市分站seo_keywords:<em>{city_seo_keywords}</em></label> <label>城市分类站seo_description:<em>{city_seo_description}</em></label>
+    </div>
+    <div class="tip-notice" style="word-wrap:break-word;margin-top:5px;">
+        <b class="blue" style="float:left;">当前页:</b><{foreach $detail.config as $k=>$v}><label style="float:left;"><{$v}>:<em>{<{$k}>}</em></label><{foreachelse}><label>无可用变量</label><{/foreach}>
+        <div style="clear: both;"></div>
+    </div>
+    <form action="?system/seotmpl-config.html" mini-form="seotmpl-form" method="post" >
+    <input type="hidden" name="systmpl_id" value="<{$detail.systmpl_id}>"/>
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>配置页面：</th><td><{$detail.title}>(<{$detail.key}>)</td></tr>
+        <tr><th>标题：</th><td><input type="text" name="data[tmpl]" class="input w-500" value="<{$detail.tmpl}>" /></td></tr>
+        <tr><th>关键字：</th><td><textarea name="data[tmpl1]" class="textarea w-500"><{$detail.tmpl1}></textarea></td></tr>
+        <tr><th>描述：</th><td><textarea name="data[tmpl2]" class="textarea w-500"><{$detail.tmpl2}></textarea></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+    </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

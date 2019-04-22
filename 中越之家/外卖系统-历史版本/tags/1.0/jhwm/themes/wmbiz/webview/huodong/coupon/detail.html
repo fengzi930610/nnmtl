@@ -1,0 +1,75 @@
+<{assign var='tpl_title' value=L("领取优惠券-详情")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--内容开始-->
+            	<div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动状态：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.closed == 1}>已失效<{elseif $detail.audit == 0}>待审核<{elseif $detail.stime >$nowtime}>待生效<{elseif $detail.ltime < $nowtime}>已过期<{else}>已生效<{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">创建时间：</div>
+                    <div class="pub_list_bd">
+                    	<P><{$detail.dateline|format:'Y-m-d H:i'}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">活动时间：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.stime == ($detail.ltime + 86399)}><{$detail.stime|format:'Y-m-d H:i'}>至<{$detail.ltime|format:'Y-m-d H:i'}><{else}><{$detail.stime|format:'Y-m-d'}>至<{$detail.ltime|format:'Y-m-d'}><{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">库存数量：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.num == -1}>不限<{else}><{$detail.num}>组<{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">面向人群：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.group ==1}>新客户<{elseif $detail.group ==2}>老客户<{else}>新老客户通用<{/if}></P>
+                    </div>
+                </div>
+                <div class="pub_list actDelt_list border_b">
+                	<div class="bt black9">每人限领：</div>
+                    <div class="pub_list_bd">
+                    	<P><{if $detail.limit == -1}>不限<{else}><{$detail.limit}>组<{/if}></P>
+                    </div>
+                </div>
+                <div class="actDelt_list">
+                	<div class="bt black9">优惠券：</div>
+                    <div class="actDelt_coupon">
+                    	<ul>
+                            <{foreach $config as $item}>
+                                <{if $item.coupon_amount>0}>
+                                    <li class="pub_list">
+                                        <div class="price">
+                                            <big>￥<{$item.coupon_amount}></big>
+                                            <P>满<{$item.order_amount}>可用</P>
+                                        </div>
+                                        <div class="pub_list_bd nr">
+                                                <P>领券后<{$item.day}>天内有效</P>
+                                        </div>
+                                    </li> 
+                                <{/if}>
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!--内容结束-->
+            </div>
+            <!--底部按钮-->
+            <div class="footer_actDeltBtn">
+            	<{if $detail.closed != 1}><a href="<{link ctl='webview/huodong/coupon/close' args=$detail.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_warn">撤销活动</a><{/if}>
+            </div>
+            <!--底部按钮end-->
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

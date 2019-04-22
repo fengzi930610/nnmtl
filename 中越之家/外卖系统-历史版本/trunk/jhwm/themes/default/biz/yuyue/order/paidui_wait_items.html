@@ -1,0 +1,44 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/yuyue/order:paidui'}>" >待接单</a>
+        <a href="<{link ctl='biz/yuyue/order:paidui_wait_items'}>" class="on">预约中</a>
+        <a href="<{link ctl='biz/yuyue/order:paidui_complete_items'}>">已完成</a>
+        <a href="<{link ctl='biz/yuyue/order:paidui_cancel_items'}>">已取消</a>
+    </ul>
+    
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr class="alt">
+            <th class="w-100">订单编号</th>
+            <th class="w-150">客户</th>
+            <th class="w-150">手机号</th>
+            <th class="w-150">就餐人数</th>
+            <th class="w-150">桌号名称</th>
+            <th class="w-240">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><{$item.paidui_id}></td>    
+            <td><{$item.contact}></td>
+            <td><{$item.mobile}></td>
+            <td><{$item.paidui_number}></td>
+            <td><{$item.zhuohao_detail.title}></td>
+            <td>
+            <a href="<{link ctl='biz/yuyue/order:paidui_complete' arg0=$item.paidui_id arg1=$item.zhuohao_id}>"  class="btn btn-primary" mini-act="confirm:您确定要确认订单吗？" title="确认就餐">确认就餐</a>
+            </td>
+        </tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">暂无客户订单</div></td></tr>
+        <{/foreach}>
+        <tr>
+    </table>
+    </form>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript">
+</script>
+<span  id='abc'></span>        
+<{include file="biz/block/footer.html"}>

@@ -1,0 +1,35 @@
+<{assign var="page_title" value="帮助中心"}>
+<{assign var='tpl_title' value=L("帮助中心")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+   <div class="headerTop_one green">
+        <div class="pagewd">
+            <div class="logo fl">
+                <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo}>"></a>
+            </div>
+            <div class="tit fl">帮助中心</div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="helpPage_bg bg_grey">
+    	<div class="pagewd">
+        	<{include file="pchome/help/left.html"}>
+            <div class="helpPage_cont fr">
+            	<div class="helpPage_info">
+                    <div class="helpPage_tit">
+                        <span><{$detail.cat_title}></span> <span>&nbsp;>&nbsp;</span> <span class="maincl"><{$detail.title}></span>
+                    </div>
+                    <div class="info_box">
+                        <p><{$detail.title}>
+                            <br>
+                            <{$detail.content}>
+                        </p>
+                        
+                    <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+<{include file="pchome/block/footer.html"}>

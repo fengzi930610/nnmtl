@@ -1,0 +1,42 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/money:log'}>" >资金管理</a>
+    <a href="<{link ctl='biz/money:txlog'}>" class="on">提现日志</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/money:tixian'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+             <tr>
+                <th><span class="red">*</span>当前余额：</th>
+                <td><{$shop.money}></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>提现金额：</th>
+                <td><input type="text" name="data[money]" value="" class="input w-150"/></td>
+            </tr>  
+            <tr>
+                <th><span class="red">*</span>提现比例：</th>
+                <td><input type="text" name="" value="<{$shop.tixian_percent}>%" class="input w-150" disabled="true"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>提现账户：</th>
+                <td><input type="text" name="" value="<{$acc.account_number}>" class="input w-200" disabled="true"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>提现描述：</th>
+                <td><input type="text" name="data[intro]" value="" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="确认提现" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

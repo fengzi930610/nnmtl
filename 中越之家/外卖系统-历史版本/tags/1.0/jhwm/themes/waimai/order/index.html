@@ -1,0 +1,270 @@
+<{assign var='tpl_title' value=L("外卖订单")}>
+<{include file="waimai/block/header.html"}>
+<{assign var='class_on' value='1'}>
+<style>
+    .btn_tip a{
+        float: right;
+        margin-right: 10px;
+    }
+ </style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="dingdan-list-top-cont">
+                <div class="top-a pub_list border_b">
+                    <div class="pub_list_bd">我的订单</div>
+                    <!--<div class="color-lan">外卖订单<i class="ico-it"></i></div>-->
+                </div>
+            </div>
+            <div class="container_mid">
+                <div class="takeout_orderDetail take_outPart" id="index_goods_items">
+
+                </div>
+                <div class="loadding">
+
+                </div>
+            </div>
+
+            <!-- 全部菜单下拉弹出 -->
+
+
+            <div class="orderTakeOut">
+                <div class="cancel_popup refund_popup">
+                    <div class="havepad">
+                        <div class="cancel_tit">
+                            退款理由
+                        </div>
+                        <textarea id="reasons_refund" name="extend" placeholder="请输入退款理由"></textarea>
+                    </div>
+                    <div class="btns mt10 border_t">
+                        <a href="javascript:;" class="giveup_btn ">取消</a>
+                        <a href="javascript:;" class="confirm_btn border_l" rel="<{$order.order_id}>" id="confirm_refund_btn">确定</a>
+                    </div>
+                </div>
+                <div class="orderTakeOut_mask"></div>
+            </div>
+            <!--底部导航-->
+           <{include file="waimai/block/footer_nav.html"}>
+            <!--底部导航end-->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('.shopCart_list .top .del').click(function(){
+            $(this).parents('.shopCart_list').remove();
+        })
+    })
+</script>
+<script>
+    var  __Wait_Pay_Order = [];
+    setInterval(function(){
+        var now = new Date();
+        for(var i=0; i<__Wait_Pay_Order.length; i++){
+            var leftsecond = __Wait_Pay_Order[i]['dateline'] - parseInt(now.getTime()/1000);
+            if(leftsecond > 0) {
+                var day1 = Math.floor(leftsecond / (60 * 60 * 24));
+                var hour = Math.floor((leftsecond - day1 * 24 * 60 * 60) / 3600);
+                var minute = Math.floor((leftsecond - day1 * 24 * 60 * 60 - hour * 3600) / 60);
+                var second = Math.floor(leftsecond - day1 * 24 * 60 * 60 - hour * 3600 - minute * 60);
+                if (minute < 10) {
+                    minute = '0' + minute
+                }
+                if (second < 10) {
+                    second = '0' + second
+                }
+                $("#order_" + __Wait_Pay_Order[i]["order_id"]).html("("+"去支付"+")"+minute + "分" + second + "秒");
+            }else{
+                var id =  $("#order_" + __Wait_Pay_Order[i]["order_id"]).attr('data-id');
+                var shop_id =  $("#order_" + __Wait_Pay_Order[i]["order_id"]).attr('data-shopid');
+                $('.cpmdzz_'+id).text('已关闭');
+                $('.cnmcp_'+id).children().remove();
+                var is_baskets =  $("#order_" + __Wait_Pay_Order[i]["order_id"]).attr('is-baskets');
+                if(!is_baskets || is_baskets == 0){
+                    var again = '<a href="#" class="more_btn" data-id="'+shop_id+'" rel="'+id+'" onclick="again(this)">再来一单</a>';
+                    $('.cnmcp_'+id).append(again);
+                }
+            }
+        }
+    }, 1000);
+</script>
+
+<script>
+    window.onload=function(){
+        var url = '<{link ctl="ucenter/order:loadorder" arg0="#page#" http="waimai"}>'
+        loadpage(url,{uid: "<{$uid}>"},1);
+        scroll(url,{uid: "<{$uid}>"},1,'.container_mid','.takeout_orderDetail');
+    }
+</script>
+
+<script>
+    //重新加载
+    function reload() {
+        window.location.reload();
+    }
+
+    function tui(obj) {
+        var order_id =obj.getAttribute('rel');
+        var link = '<{link ctl="ucenter/order:payback" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+        $('.cancel_popup').show();
+        $('.orderTakeOut_mask').show();
+        $('.giveup_btn,.orderTakeOut_mask').on('click',function(){
+            $('.cancel_popup').hide();
+            $('.orderTakeOut_mask').hide();
+        })
+        $('#confirm_refund_btn').off("click touchend touchstart").on('click',function(){
+            var reason = $('#reasons_refund').val();
+            if(!reason){
+                Widget.MsgBox.error('请输入退款理由');
+            }
+            var parmas =
+            {reason:reason,order_id:order_id}
+            ;
+            $.post(link,parmas,function(e){
+                if(e.error>0){
+                    Widget.MsgBox.error(e.message)
+                }else{
+                    Widget.MsgBox.error(e.message)
+                     setInterval("reload()",2000);
+                }
+            },'json')
+        })
+    }
+
+    function cui(obj) {
+        //催单
+        var order_id =obj.getAttribute('rel');
+        var url  = "<{link ctl='ucenter/order:remind' arg0='#order_id#' http='waimai'}>".replace('#order_id#',order_id);
+        $.post(url,{},function(e){
+            if(e.error>0){
+                Widget.MsgBox.error(e.message)
+            }else{
+                Widget.MsgBox.error(e.message)
+                setInterval("reload()",2000);
+            }
+        },'json')
+    }
+
+    function queren(obj) {
+        //确认收货 是 处理
+        var order_id =obj.getAttribute('rel');
+        var url = '<{link ctl="ucenter/order:confirm" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+        Widget.MsgBox.confirm('确认收货吗？',function(e){
+            if(e){
+                $.post(url,{},function(e){
+                    if(e.error>0){
+                        Widget.MsgBox.error(e.message)
+                    }else{
+                        Widget.MsgBox.error(e.message)
+                        setInterval("reload()",2000);
+                    }
+                },'json')
+            }
+        })
+    }
+
+    function shenqin(obj) {
+        /*   申请客服*/
+        var order_id =obj.getAttribute('rel');
+        var url = '<{link ctl="ucenter/order:kefu" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+        Widget.MsgBox.confirm('确认申请客服介入吗',function (a) {
+            if(a){
+                $.post(url,{},function(e){
+                    if(e.error>0){
+                        Widget.MsgBox.error(e.message)
+                    }else{
+                        Widget.MsgBox.error(e.message)
+                        setInterval("reload()",2000);
+                    }
+                },'json')
+            }
+        })
+    }
+    function again(obj){
+        /* 再来一单*/
+        var order_id =obj.getAttribute('rel');
+        var url ="<{link ctl='ucenter/order:again' arg0='#order_id#' http='waimai'}>".replace('#order_id#',order_id);
+        var shop_id =obj.getAttribute('data-id');
+        $.post(url,{},function(e){
+            if(e.error>0&&e.error!=999){
+                Widget.MsgBox.error(e.message)
+            }else{
+                //var ecart = new window.ECart(e.data.shop_id,e.data.title);
+                var ecart = new window.ECart(e.data.shop_id,e.data.title,e.data.discount);
+                ecart.clear();
+                $.each(e.data.order,function(k,v){
+                    var parmas = {
+                        product_id:v.product_id,
+                        title:v.title,
+                        spec_name:v.spec_name,
+                        price:v.price,
+                        package:v.package,
+                        photo:v.photo,
+                        sale_type:v.sale_type,
+                        sale_sku:v.sale_sku,
+                        sku_id:v.sku_id,
+                        pcate_id: v.pcate_id,
+                        is_discount:v.is_discount,
+                        oldprice:v.oldprice,
+                        discval:v.discval,
+                        disctype:v.disctype,
+                        quota:v.quota,
+                        huodong_id:v.huodong_id
+                    };
+                    var signstr = '';
+                    var obj_c = {};
+                    for(var i in v.specification){
+                        signstr+="+"+v.specification[i]['val'];
+                        obj_c[i] = {
+                            "key":v.specification[i]['key'],
+                            "val":v.specification[i]['val'],
+                        }
+                    }
+                    parmas['signstr'] = signstr;
+                    parmas['str_obj'] = obj_c;
+                    ecart.add(v.sku_id,v.num,parmas,1,obj_c);
+                });
+                var again_error = localStorage.getItem('again_error');
+                var tiao_url = "<{link ctl='shop/detail' arg0='#shop_id#' http='waimai'}>".replace('#shop_id#',shop_id);
+                if(again_error=='1'||e.error==999){
+                    Widget.MsgBox.error('购物车商品已发生变更,请注意查看');
+                    localStorage.removeItem("again_error");
+                    setTimeout(function(){
+                        window.location.href =tiao_url;
+                    },500);
+                }else{
+                    window.location.href =tiao_url;
+                }
+            }
+        },'json')
+    }
+
+    function canel(obj) {
+        //简单版取消订单
+        var order_id =obj.getAttribute('rel');
+        var link = '<{link ctl="ucenter/order:chargeback" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+        Widget.MsgBox.confirm('确认取消订单吗？',function(e){
+            if(e){
+                $.post(link,{},function(e){
+                    if(e.error>0){
+                        Widget.MsgBox.error(e.message)
+                    }else{
+                        Widget.MsgBox.error('取消成功');
+                        setInterval("reload()",2000);
+                    }
+                },'json')
+            }
+        })
+    }
+    function gopay(obj) {
+        var order_id = obj.getAttribute('data-id');
+        if(order_id!='a'){
+            var payurl ="<{link ctl='trade/payment/order' arg0='#order_id#' http='www'}>".replace('#order_id#',order_id);
+            var reback_url = '<{link ctl="ucenter/order:index" http="waimai"}>';
+            var tiao =  payurl+'?rebackurl='+reback_url;
+            window.location.href =tiao;
+        }
+    }
+</script>
+<{include file="waimai/block/footer.html"}>

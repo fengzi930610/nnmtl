@@ -1,0 +1,67 @@
+<{include file="block/header.html"}>
+<{assign var='tpl_title' value="我的优惠券"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont coupons_shouye-cont">
+            <div class="container_mid">
+                <div class="youhuiquan-box use-quan">
+                    <{foreach $coupon as $vo}>
+                    <{foreach $vo.config as $v}>
+                    <{if $v.coupon_amount}>
+                    <div class="quan-one">
+                        <div class="one-img fl"><img src="%THEME%/static/img/coupons/index-icon-mainNav01@2x.png"></div>
+                        <div class="one-you">
+                            <h3 class="overflow_clear">【<{$shops.title}>】￥<{$v.coupon_amount}>特惠优惠券</h3>
+                            <p class="mt5"><span class="coupons-pricecolor">￥<big><{$v.coupon_amount}></big></span><span class="black9 ml10">满￥<{$v.order_amount}>可用</span></p>
+                            <p class="black9">截止：<{$vo.ltime|format:'Y-m-d'}></p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <{/if}>
+                    <{/foreach}>
+                    <{/foreach}>
+                </div>
+            </div>
+            <a class="takeout_addPlace mb10 mt10 takeoutLongBtn" href="javascript:;">
+                领取优惠券
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('.takeoutLongBtn').on('click',function(){
+            var shop_id = '<{$shops.shop_id}>';
+            var url = '<{link ctl="shop/getcoupon" arg0="#shop_id#"}>';
+            url = url.replace("#shop_id#",shop_id);
+            data = {
+                shop_id:shop_id
+            };
+            $.post(url,{data:data},function(e){
+                Widget.MsgBox.error(e.message);
+                var back_url = '<{link ctl="shop/detail" arg0="#shop_id"}>';
+                back_url = back_url.replace("#shop_id",shop_id);
+                setTimeout(function(){
+                    if("<{$request.IN_APP_CLIENT}>"){
+                        window.JHAPP.goBack();
+                    }else{
+                        window.location.href = back_url;
+                    }
+                },2000);
+
+
+            },'json');
+        })
+
+
+    })
+
+
+
+
+</script>
+
+
+
+<{include file="block/footer.html"}>

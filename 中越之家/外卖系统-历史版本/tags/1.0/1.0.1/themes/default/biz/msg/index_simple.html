@@ -1,0 +1,58 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<ul id='tab_1'>
+		<a href="<{link ctl='biz/msg:order'}>" >订单消息</a>
+		<a href="<{link ctl='biz/msg:comment'}>" >评价消息</a>
+		<a href="<{link ctl='biz/msg:complain'}>" >投诉消息</a>
+		<a href="<{link ctl='biz/msg:system'}>" >系统消息</a>
+	</ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr class="alt">
+        <th class="w-100">是否新消息</th>
+	    <th class="w-100">标题</th>
+	    <th class="w-100">内容</th>
+	    <th class="w-150">时间</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{if $item.is_read==0}><strong>新消息</strong><{elseif $item.is_read==1}>已读<{else}><{/if}></td>
+        <td><{if $item.is_read==0}><strong><{/if}><{$item.title}><{if $item.is_read==0}></strong><{/if}></td>
+        <td><{if $item.is_read==0}><strong><{/if}><{$item.content}><{if $item.is_read==0}></strong><{/if}></td>
+        <td><{if $item.is_read==0}><strong><{/if}><{$item.dateline|format:'Y-m-d H:i'}><{if $item.is_read==0}></strong><{/if}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info"><{$newmsg}></div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>
+
+<script>
+ $("#tab_1 a").each(function(){  
+    $this = $(this);  
+    if($this[0].href==String(window.location)){  
+        $this.addClass("on");  
+    }  
+});  
+
+function lookdetail(msg_id, msg_type, order_id){
+    localStorage['shop_msg_id'] = msg_id;
+    var link = null;
+    if(msg_type == 1) {
+        link = "<{link ctl='biz/order:detailorder' arg0=order_id}>";
+    }else if(msg_type == 2){
+        link = "<{link ctl='biz/order:detailcomment' arg0=order_id}>";
+    }else if(msg_type == 3){
+        link = "<{link ctl='biz/order:detailcomplain' arg0=order_id}>";
+    }else {
+        link = "<{link ctl='biz/order:detailsystem' arg0=order_id}>"; 
+    }
+    link = link.replace('order_id',order_id);
+    window.location.href = link;
+}
+
+</script>

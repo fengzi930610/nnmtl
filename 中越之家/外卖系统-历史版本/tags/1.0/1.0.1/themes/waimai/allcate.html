@@ -1,0 +1,83 @@
+<{assign var='tpl_title' value=L("外卖分类")}>
+<{include file="block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="goodsCate_cont_box">
+                    <!--左边分类菜单-->
+                    <div class="goodsCate tuanCate">
+                        <ul>
+                            <{foreach $tree as $list}>
+                            <{if $list.count>0}>
+                            <li ><{$list.title}></li>
+                            <{/if}>
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                    <!--左边分类菜单end-->
+                    <!--左边分类内容-->
+                    <div class="goodsCate_cont tuanCate_cont">
+                        <{foreach $tree as $v}>
+                        <{if $list.count>0}>
+                        <div class="tuanCate_cont_tit"><{$v.title}></div>
+                        <div class="tuanCate_list">
+                            <ul>
+                                <{foreach $v['childrens'] as $vo}>
+                                <li><a href="<{link ctl='product:index' cat_id=$vo.cate_id http='waimai'}>"><{$vo.title}></a></li>
+                                <{/foreach}>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                        <{/if}>
+                        <{/foreach}>
+
+
+                        </div>
+                    </div>
+                    <!--左边分类内容end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(e) {
+        var  public_top = $('.goodsCate_cont_box').offset().top; //这个滚动一个条件
+        var  list = Array();
+
+        $(".tuanCate_cont_tit").each(function(a){
+            list[a] = $(this).offset().top;
+        });
+
+        var num =  $(".tuanCate li").length;
+
+        function gundong2(){
+            for(i=0;i<num;i++){
+                if($(".tuanCate_cont_tit").eq(i).offset().top <=public_top + 10 ){
+                    $(".tuanCate li").removeClass('on');
+                    $(".tuanCate li").eq(i).addClass('on');
+                }
+            }
+        }
+        $('.tuanCate_cont').scroll(function () {
+            gundong2();
+        });
+
+
+        $(".tuanCate li").click(function(){
+            var index = $(this).index();
+            $(".tuanCate li").removeClass('on');
+            $(".tuanCate li").eq(index).addClass('on');
+            $(".tuanCate_cont").scrollTop(list[index]-public_top);
+        });
+
+
+
+    });//商家店铺菜单分类效果结束
+</script>
+
+
+<{include file="block/footer.html"}>

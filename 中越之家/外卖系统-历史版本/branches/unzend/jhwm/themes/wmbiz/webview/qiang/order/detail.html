@@ -1,0 +1,280 @@
+<{assign var='tpl_title' value=L("抢购-订单详情")}>
+<{include file="webview/qiang/block/header.html"}>
+<div class="container" id="container">
+	<div class="page js_show">
+		<div class="page_cont">  
+		    <div class="container_mid">
+		        <!-- 内容 -->
+				<div class="mb10 pub_list orderDet_top">
+                    <div class="pub_list_bd">#<{$detail.order_id}>&nbsp;&nbsp;<{$member.nickname}> （<{$member.mobile}>）<a href="tel:<{$member.mobile}>"><i class="ico"></i></a></div>
+                    <div class="maincl"><{$detail.status_label}></div>
+                </div>
+                <div class="border_b orderDet_list">
+                    <div class="pub_list">
+                        <div>商品信息：</div>
+                        <div class="pub_list_bd"><{$detail.qiang_title}></div>
+                        <div class="ml10">x<{$detail.qiang_number}></div>
+                        <div class="ml10">￥<{$detail.qiang_number * $detail.qiang_discount_price}></div>
+                    </div>
+                    <div class="pub_list">
+                        <div class="pub_list_bd">运费：</div>
+                        <div>￥<{$detail.qiang_freight}></div>
+                    </div>
+                </div>
+                <div class="border_b orderDet_list">
+                    <div class="pub_list">
+                        <div class="pub_list_bd">平台佣金比例：</div>
+                        <div><{$detail.bl}>%</div>
+                    </div>
+                </div>
+                <div class="border_b orderDet_list">
+                    <div class="pub_list">
+                        <div class="pub_list_bd">用户已支付</div>
+                        <div class="maincl">￥<{$detail.amount + $detail.money}></div>
+                    </div>
+                    <div class="pub_list see_income">
+                        <div class="pub_list_bd">预计收入<i class="t_ask_ico"></i></div>
+                        <div class="maincl">￥<{$detail.fee_arr.shop_amount - $detail.fee_arr.fee}></div>
+                    </div>
+                </div>
+                <div class="border_b orderDet_list">
+                    <div>下单时间：<{$detail.dateline|format:'Y-m-d H:i:s'}></div>
+                    <{if $detail.use_ltime}>
+                        <div>过期时间：<{$detail.use_ltime|format:'Y-m-d H:i:s'}></div>
+                    <{/if}>
+                    <{if $detail.use_time}>
+                        <div>使用时间：<{$detail.use_time|format:'Y-m-d H:i:s'}></div>
+                    <{/if}>
+                </div>
+                <{if $detail.pei_type != 3}>
+                    <div class="mb10 orderDet_list">
+                        <div class="pub_list addr">
+                            <div>收货地址：</div>
+                            <div class="pub_list_bd"><{$detail.addr}>,<{$detail.house}></div>
+                        </div>
+                    </div>
+                <{/if}>
+                <{if $detail.express}>
+                    <div class="orderDet_list">
+                        <div>快递公司：<{$detail.express_name}></div>
+                        <div>物流单号：<{$detail.express}></div>
+                    </div>
+                <{/if}>
+		    </div>
+            <{if $detail.show_btn.ticket || $detail.show_btn.delivery || $detail.show_btn.wuliu || $detail.show_btn.payback || $detail.show_btn.canel}>
+                <div class="pub_list orderDet_footer">
+                    <div class="price"><span class="maincl">￥<{$detail.amount+$detail.money}></span></div>
+                    <div class="pub_list_bd text_r btn_box" order_id="<{$detail.order_id}>">
+                        <{if $detail.show_btn.ticket}>
+                            <a href="javascript:;" class="btn hexiao_btn">去核销</a>
+                        <{/if}>
+                        <{if $detail.show_btn.delivery}>
+                            <a href="javascript:;" class="btn see_wuliu">发货</a>
+                        <{/if}>
+                        <{if $detail.show_btn.wuliu}>
+                            <a href='<{link ctl="webview/qiang/order:wuliu" args=$detail.order_id http="wmbiz"}>' class="btn">查看物流</a>
+                        <{/if}>
+                        <{if $detail.show_btn.payback}>
+                            <a href="javascript:;" class="btn go_payback">取消订单并退款</a>
+                        <{/if}>
+                        <{if $detail.show_btn.canel}>
+                            <a href="javascript:;" class="btn go_canel">取消订单</a>
+                        <{/if}>
+                    </div>
+                </div>
+            <{/if}>
+		</div> 
+	</div>
+</div>
+<!-- 物流弹出框 -->
+<div class="wuliuPop" style="display: none;">
+    <div class="mask_bg" style="display: block;"></div>
+    <div class="cont">
+        <div class="border_b tit">查物流</div>
+        <div class="list_box">
+            <div class="border_b list pub_list">
+                <div class="pub_list_bd">快递公司</div>
+                <select id="express_name">
+                    <{foreach $express_config as $v}>
+                    <option value="<{$v}>"><{$v}></option>
+                    <{/foreach}>
+                </select>
+                <i class="r_arrow"></i>
+            </div>
+            <div class="border_b list pub_list">
+                <div class="pub_list_bd">物流单号</div>
+                <input type="text" id="express" placeholder="请输入物流单号" />
+            </div>
+        </div>
+        <div class="btn go_delivery">确定</div>
+        <i class="close"></i>
+    </div>
+</div>
+<!-- 物流弹出框end -->
+<!-- 预计收入弹出框 -->
+<div class="incomePop" style="display: none;">
+    <div class="mask_bg" style="display: block;"></div>
+    <div class="cont">
+        <div class="border_b tit">费用计算</div>
+        <div class="border_b list">
+            <div class="pub_list">
+                <div class="pub_list_bd">商品费用</div>
+                <div>￥<{$detail.qiang_number * $detail.qiang_discount_price}></div>
+            </div>
+            <div class="pub_list">
+                <div class="pub_list_bd">运费</div>
+                <div>￥<{$detail.qiang_freight}></div>
+            </div>
+        </div>
+        <div class="border_b list">
+            <div class="pub_list">
+                <div class="pub_list_bd">平台服务费</div>
+                <div>￥<{$detail.fee_arr.fee}></div>
+            </div>
+        </div>
+        <div class="border_b list">
+            <div class="pub_list">
+                <div class="pub_list_bd">预计收入</div>
+                <div>￥<{$detail.fee_arr.shop_amount - $detail.fee_arr.fee}></div>
+            </div>
+        </div>
+        <i class="close"></i>
+    </div>
+</div>
+<!-- 预计收入弹出框end -->
+<!-- 验证核销弹出框 -->
+<div class="hexiaoPop" style="display: none;">
+    <div class="mask_bg" style="display: block;"></div>
+    <div class="cont">
+        <div class="tit">
+            <h3>验证提示</h3>
+            <p class="mt5">选择<span class="maincl">扫描二维码</span>或<span class="maincl">输入券码</span>进行验证</p>
+        </div>
+        <div class="int_box"><input type="text" placeholder="请输入券码" id="sk_number"/></div>
+        <div class="code_box go_scan"><i></i>扫描二维码</div>
+        <div class="border_t pub_list btn_box">
+            <a href="javascript:;" class="border_r pub_list_bd cancel">取消</a>
+            <a href="javascript:;" class="maincl pub_list_bd go_ticket">确定</a>
+        </div>
+    </div>
+</div>
+<!-- 验证核销弹出框 end-->
+<script type="text/javascript">
+$(document).ready(function(){
+    localStorage.removeItem('qiang_list_url');
+})
+
+//fahuo 
+$(function(){
+    $('.see_wuliu').click(function(){
+        $('.go_delivery').attr('rel', $(this).parents().attr('order_id'));
+        $('.wuliuPop').fadeIn(200);
+    });
+    $('.mask_bg,.wuliuPop .close').click(function(){
+        $('#express').val('');
+        $('.wuliuPop').fadeOut(200);
+    });
+});
+
+//预计收入
+$(function(){
+    $('.see_income').click(function(){
+        $('.incomePop').fadeIn(200);
+    });
+    $('.incomePop .mask_bg,.incomePop .close').click(function(){
+        $('.incomePop').fadeOut(200);
+    });
+});
+
+//核销
+$(function(){
+    $('.hexiao_btn').click(function(){
+        $('.go_ticket').attr('rel', $(this).parents().attr('order_id'));
+        $('.hexiaoPop').fadeIn(200);
+    });
+    $('.hexiaoPop .mask_bg,.hexiaoPop .cancel').click(function(){
+        $('#sk_number').val('');
+        $('.hexiaoPop').fadeOut(200);
+    });
+});
+
+//确定发货
+$(".go_delivery").click(function () {
+    var order_id = $(".go_delivery").attr('rel');
+    var express = $('#express').val();
+    var express_name = $('#express_name').val();
+    $.post("<{link ctl='qiang/order:delivery' http='wmbiz'}>", {order_id: order_id,express:express,express_name:express_name}, function (ret) {
+        layer.msg(ret.message);
+        if(ret.error == 0){
+            setTimeout(function(){window.location.reload();},600);
+        }
+    },'json');
+})
+
+//去核销
+$(".go_ticket").click(function () {
+    var order_id = $(".go_ticket").attr('rel');
+    var number = $('#sk_number').val();
+    $.post("<{link ctl='webview/qiang/order/order_check' http='wmbiz'}>", {order_id:order_id,number:number}, function (ret) {
+        layer.msg(ret.message);
+        if (ret.error == 0) {
+            localStorage.setItem('qiang_list_url', 1);
+            var link = "<{link ctl='webview/qiang/order/ticket' arg0='__ORDER_ID__' http='wmbiz'}>";
+            setTimeout(function(){
+                window.location.href = link.replace("__ORDER_ID__",order_id);
+            },600);
+        }
+    },'json');
+})
+
+//二维码核销
+$(".go_scan").click(function () {
+    if(typeof(window.JHAPP)=='object'){
+        localStorage.setItem('qiang_list_url', 1);
+        window.JHAPP.go_scan();
+    }else{
+        layer.msg('当前环境非APP!');
+    }
+})
+
+//取消并且退款
+$('.go_payback').on('click',function(){
+    var order_id = $(this).parents().attr('order_id');
+    var link = '<{link ctl="qiang/order:payback" arg0="#ORDER_ID#" http="wmbiz"}>';
+    Widget.MsgBox.confirm('确认取消订单并退款吗？',function(e){
+        if(e){
+            $.get(link.replace('#ORDER_ID#',order_id),function(e){
+                if(e.error>0){
+                    layer.msg(e.message);
+                }else{
+                    layer.msg('取消成功');
+                    setTimeout(function () {
+                       window.location.reload();
+                    }, 600);
+                }
+            },'json')
+        }
+    });
+})
+
+//取消
+$('.go_canel').on('click',function(){
+    var order_id = $(this).parents().attr('order_id');
+    var link = '<{link ctl="qiang/order:cancel" arg0="#ORDER_ID#" http="wmbiz"}>';
+    Widget.MsgBox.confirm('确认取消订单吗？',function(e){
+        if(e){
+            $.get(link.replace('#ORDER_ID#',order_id),function(e){
+                if(e.error>0){
+                    layer.msg(e.message);
+                }else{
+                    layer.msg('取消成功');
+                    setTimeout(function () {
+                       window.location.reload();
+                    }, 600);
+                }
+            },'json')
+        }
+    });
+})
+</script>
+<{include file="webview/qiang/block/footer.html"}>

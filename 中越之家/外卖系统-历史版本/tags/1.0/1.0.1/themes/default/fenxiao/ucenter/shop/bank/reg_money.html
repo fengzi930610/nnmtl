@@ -1,0 +1,34 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+    <form id="form_post" method="post">
+    <div class="fx_centerMenu_list mt10">
+        <ul>
+            <li class="open-about2"><a href="javascript:void(0);">提现方式 <span class="fr black9"><{$account.account_type}>:<{$account.account_number}></span></a></li>
+            <li class="ts black9">可提现余额：<span class="fontcl1">￥<{$FENXIAO.money}></span></li>
+            <li class="mt10"><a href="#" class="">提现金额 <span class="fr black9"><input type="text" class="int_txt" name="data[money]" placeholder="请输入提现金额"></span></a></li>
+            <li class="ts black9" style="height: 0.30rem; line-height: 0.3rem;">注：最低提现金额为1元 <a href="<{link ctl='ucenter/shop/bank:reg_log'}>" class="fr fontcl_blue" style="height: 0.30rem; line-height: 0.3rem;">提现记录</a></li>
+            <input type="hidden" name="data[account_info]" value="<{$account.account_type}>:<{$account.account_number}>">
+        </ul>
+    </div>
+    </form>
+</section>
+<footer class="long_btn_box">
+    <a href="javascript:void(0);" class="long_btn">提现</a>
+</footer>
+<script>
+var link = "<{link ctl='ucenter/shop/bank:reg_money'}>";
+$('.long_btn').click(function(){
+    $.post(link, $('#form_post').serialize(), function (ret) {
+        layer.open({
+            content: ret.message,
+            time: 2 //2秒后自动关闭
+        });
+        if(ret.error == 0) {
+            setTimeout(function(){
+                window.location.href="<{link ctl='ucenter/shop/bank:reg_log'}>";
+            },2000);
+        };
+    },'json');
+})
+</script>
+<{include file="fenxiao/block/footer.html"}>

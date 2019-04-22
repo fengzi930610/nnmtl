@@ -1,0 +1,33 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='ditui/base:index'}>"><{L('基本资料')}> </a>
+	<a href="<{link ctl='ditui/base:passwd'}>"><{L('安全设置')}> </a>
+	<a href="<{link ctl='ditui/base:mobile'}>"><{L('更换手机')}> </a>
+        <a href="<{link ctl='ditui/base:license'}>"><{L('身份认证')}> </a>
+	<a href="<{link ctl='ditui/base:account'}>" class="on"><{L('提现帐号')}> </a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='ditui/base:account'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">
+    <tr><th><{L('开户行')}> ：</th><td>
+        <select name="data[account_type]" class="select select_td input w-200">
+            <{foreach $bank_list as $v}><option value="<{$v}>" <{if $detail.account_type == $v}>selected<{/if}>><{$v}></option>
+            <{/foreach}>
+        </select>
+        </td>
+    </tr>
+    <tr><th><{L('开户人')}> ：</th><td><input type="text" name="data[account_name]" value="<{$detail.account_name|default:''}>" class="input w-300"/></td></tr>
+    <tr><th><{L('帐号')}> ：</th><td><input type="text" name="data[account_number]" value="<{$detail.account_number|default:''}>" class="input w-300"/></td></tr>
+    <tr><th></th><td><input type="submit" value="<{L('保存数据')}> " class="btn btn-primary" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="ditui/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="ditui/block/footer.html"}>

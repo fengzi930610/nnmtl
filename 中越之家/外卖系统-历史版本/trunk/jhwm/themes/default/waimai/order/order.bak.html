@@ -1,0 +1,410 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+<title>订单-确认订单</title>
+<{include file="block/sheader.html"}>
+<style>
+.jiazheng .form_list_box li{ border-top:none; overflow:hidden;padding: 0.05rem 0.1rem;}
+.jiazheng .form_list_box li:first-child{ border-top:0.01rem solid #e5e5e5;}
+.jiazheng .order_details_nr .list{ border-bottom:0.01rem solid #e5e5e5;}
+</style>
+</head>
+
+<body>
+<header>
+	<i class="left"><a href="<{link ctl='waimai/product:index' args=$detail['shop_id']}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	<{$detail.title}>
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<form id="form_post" method="post">
+    <input type="hidden" name="params[products]" value="<{$products}>"/>
+    <input type="hidden" name="params[shop_id]" value="<{$detail.shop_id}>"/>
+    <section class="page_center_box">
+        <div class="jiazheng">
+            <div class="order_confirm_infor mb10">
+                <{if empty($maddr)}>
+                <script>
+                    localStorage.setItem('waimai_back',"<{$detail.shop_id}>");
+                </script>
+                <a href="<{link ctl='ucenter/addr/create'}>">
+                    <div class="wz">
+                        <p class="bt">您还没有设置地址</p>
+                        <p>点击立即添加地址</p>
+                    </div>
+                </a>
+                <{else}>
+                <a href="javascript:selectAddr();">
+                    <div class="wz" id="addr_info">
+                        <input type="hidden" id="addr_id" name="params[addr_id]" value="<{$maddr.addr_id}>"/>
+                        <input type="hidden" id="addr_lng" value="<{$maddr.lng}>"/>
+                        <input type="hidden" id="addr_lat" value="<{$maddr.lat}>"/>
+                        <p class="bt"><span class="contact"><{$maddr.contact}></span> <span class="mobile"><{$maddr.mobile}></span></p>
+                        <p class="house"><{$maddr.addr}><{$maddr.house}></p>
+                    </div>
+                </a>
+                <{/if}>
+            </div>
+            <div class="minePay">
+                <ul class="form_list_box">
+                    <li class="recharge">
+                        <input type="hidden" name="params[online_pay]" id="online_pay" value="1"/>
+                        <label class="radioLabel pay_1" rel="1">
+                        <div class="fl"><p>在线支付</p>
+                            <div class="order_confirm_tag">
+                                <{if $first_youhui >0}><span style="background:#46c3ff;" class="first_use">首单立减<{$first_youhui}>元</span><{/if}>
+                                <{if $youhui}><span class="youhui_use" style="background:#46c3ff;">满<{$youhui['order_amount']}>立减<{$youhui['youhui_amount']}>元</span><{/if}>
+                                <{if $hongbao['count'] >0}><span class="hongbao_use" style="background:#ff3333;">有<{$hongbao['count']}>个红包可用</span><{/if}>
+                            </div>
+                        </div>
+                        <span class="fr radioInt on"><input name="recharge" type="radio" checked></span>
+                        </label>
+                    </li>
+                    <li class="recharge">
+                        <label class="radioLabel pay_0" rel="0">
+                        <p class="fl">货到付款</p>
+                        <span class="fr radioInt"><input name="recharge" type="radio"></span>
+                        </label>
+                    </li>
+
+                    <!--<li class="recharge last">
+                        <p class="" style="line-height:0.2rem;">使用余额</p>
+                        <div class="figure_password">
+                            <form name="forms" action="" method="post">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="40">密码</td>
+                                        <td><span id="figure_password_box"><input type="password" name=password id="figure_password_int" class="password_int" placeholder="请输入密码" value="123456"></span></td>
+                                        <td width="60"><span id="figure_password_click"><a  href="javascript:ps()">显示密码</a></span></td>
+                                    </tr>
+                                </table>
+                                <script>
+    						function ps(){
+    							if (this.forms.password.type="password")
+    							figure_password_box.innerHTML="<input type=\"html\" name=\"password\" size=\"20\" class=\"password_int\" value="+this.forms.password.value+">";
+    							figure_password_click.innerHTML="<a href=\"javascript:txt()\">隐藏密码</a>"
+    						}
+    							function txt(){
+    							if (this.forms.password.type="text")
+    							figure_password_box.innerHTML="<input type=\"password\" name=\"password\" size=\"20\" class=\"password_int\" value="+this.forms.password.value+">";
+    							figure_password_click.innerHTML="<a href=\"javascript:ps()\">显示密码</a>"
+    						}
+                        </script>
+                            </form>
+                        </div>
+                    </li>-->
+                </ul>
+            </div>
+            <div class="order_details_nr">
+                <ul class="form_list_box">
+                    <li class="list waimaiTime">
+                        <div class="fl"><p class="black6">送达时间</p></div>
+                        <input type="hidden" name="params[pei_time]" id="pei_time" value="0"/>
+                        <div class="fr"><p class="black9 black99"><span id="time">尽快送出</span><em class="linkIco"></em></p></div>
+                    </li>
+                    <li class="list">
+                        <a href="<{link ctl='waimai/order/remark'}>">
+                            <div class="fl"><p class="black6">订单备注</p></div>
+                            <input type="hidden" name="params[note]" id="note" value=""/>
+                            <div class="fr"><p class="black9 black99"><span id="remark">添加备注</span><em class="linkIco"></em></p></div>
+                        </a>
+                    </li>
+                        <{foreach $product_list as $item}>
+                        <li class="list">
+                            <div class="fl"><p class="black6"><{$item.title}><{if $item.spec_name}>(<{$item.spec_name}>)<{/if}></p></div>
+                            <div class="fr"><p class="black9">x<{$item.num}>&nbsp;&nbsp;￥<{$item['num']*$item['price']}></p></div>
+                        </li>
+                        <{/foreach}>
+                        <li class="list">
+                            <div class="fl"><p class="black6">打包费</p></div>
+                            <div class="fr"><p class="black9">￥<{$package_price}></p></div>
+                        </li>
+                        <li class="list">
+                            <div class="fl"><p class="black6">配送费</p></div>
+                            <div class="fr"><p class="black9" id='freight'>￥<{$detail['freight']}></p></div>
+                            <input type="hidden" name="params[freight]" id="freight2" value="">
+                        </li>
+                        <{if $youhui}>
+                        <li class="list" id="youhui">
+                            <div class="fl"><p class="pointcl1">满<{$youhui['order_amount']}>立减<{$youhui['youhui_amount']}>元</p></div>
+                            <div class="fr"><p class="pointcl1">-￥<{$youhui['youhui_amount']}></p></div>
+                        </li>
+                        <{/if}>
+                        <{if $hongbao}>
+                        <a href="<{link ctl='ucenter/hongbao/lists' money=$yh_price}>">
+                            <li class="list" id="hongbao">
+                                <input type="hidden" name="params[hongbao_id]" id="hongbao_id" value="<{$hongbao['hongbao_id']}>"/>
+                                <div class="fl"><p class="pointcl1">红包抵扣</p></div>
+                                <div class="fr"><p class="pointcl1 ">-￥<span class="hongbao_amount"><{$hongbao['amount']}></span></p></div>
+                            </li>
+                        </a>
+                        <{else}>
+                        <li class="list" id="hongbao">
+                            <div class="fl"><p class="pointcl1">红包抵扣</p></div>
+                            <div class="fr"><p class="pointcl1">暂无可用红包</p></div>
+                        </li>
+                        <{/if}>
+                        <li class="list last">
+                            <div class="fl"></div>
+                            <div class="fr"><p class="pointcl1 total">合计  ￥<span class="jq_total"><{$total_price}></span></p></div>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</form>
+<footer>
+    <div class="ord_tousu">
+		<p class="fl" style="margin-top:0.12rem;">合计：<span class="pointcl1">￥<span class="jq_total"><{$total_price}></span></span>&nbsp;&nbsp;<span id="is_youhui" class="black9">已优惠￥<span class="jq_youhui"><{$total_youhui}></span></span></p>
+		<a href="javascript:void(0);" class="fr pub_btn">确认下单</a></div>
+</footer>
+<style>
+    .waimaiTime_mask ul li{ display:block; padding:0 0.1rem; line-height:0.34rem; font-size:0.14rem; color:#999;}
+</style>
+<div class="mask_box">
+    <div class="maskOne waimaiTime_mask">
+        <div class="title">选择送达时间</div>
+        <div class="cont">
+            <ul id="time_select" style="height:2rem; overflow-y:scroll;">
+                <li>尽快送达</li>
+            </ul>
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+<script>
+
+var ecart = new window.ECart("<{$detail.shop_id}>");
+var total = null;
+    $(document).ready(function() {
+        /*单选项选择开始*/
+        $('.recharge .radioLabel').click(function(){
+        	$('.recharge .radioLabel .radioInt').removeClass('on');
+        	$(this).find('.radioInt').addClass('on');
+            localStorage.setItem('online_pay', $(this).attr('rel'));
+            setStatus($(this).attr('rel'));
+        });
+        /*$('.payWay .radioLabel').click(function(){
+        	$('.payWay .radioLabel .radioInt').removeClass('on');
+        	$(this).find('.radioInt').addClass('on');
+        });*/
+        /*单选项选择结束*/
+
+        setOrderinfo();
+        saveInfo();
+        timeSelect();
+
+        if(localStorage['order_back_url'] == 'marketgoods') {
+            $('.ico.headerIco.headerIco_3').attr('href', "<{link ctl='waimai/product/index' args=$detail['shop_id']}>");
+        }
+    });
+
+    function timeSelect() {
+        var html = "<li>尽快送达</li>";
+        html += time_select("<{$set_time['start']}>", "<{$set_time['start_quarter']}>", "<{$set_time['end']}>", "<{$set_time['end_quarter']}>");
+        $("#time_select").html(html);
+        $(".waimaiTime").click(function () {
+            $(".waimaiTime_mask").show();
+            $(".waimaiTime_mask").parent().find(".mask_bg").show();
+        });
+        $(".waimaiTime_mask").on('click', 'li', function () {
+            var v = $(this).html();
+            localStorage.setItem('pei_time', v);
+            $("#time").html(v);
+            if (v == "尽快送达") {
+                $("#pei_time").val(0);
+            } else {
+                $("#pei_time").val(v);
+            }
+            $(".waimaiTime_mask").hide();
+            $(".waimaiTime_mask").parent().find(".mask_bg").hide();
+        });
+    }
+    function setStatus(res) {
+        $("#online_pay").val(res);
+        if (localStorage.getItem('hongbao_id') && localStorage.getItem('amount')) {
+            var amount = Number(parseFloat(localStorage.getItem('amount')).toFixed(2));
+            var total_price = Number(parseFloat("<{$total_price}>").toFixed(2)) + Number(parseFloat("<{$hongbao.amount}>").toFixed(2)) - amount;
+            var total_youhui = Number(parseFloat("<{$total_youhui}>").toFixed(2)) - Number(parseFloat("<{$hongbao.amount}>").toFixed(2)) + amount;
+        } else {
+            var total_price = Number(parseFloat("<{$total_price}>").toFixed(2));
+            var total_youhui = Number(parseFloat("<{$total_youhui}>").toFixed(2));
+        }
+        total = parseFloat("<{$total}>").toFixed(2);
+        var money = "<{$MEMBER.money}>";
+        if (res == 1) {
+            // 在线支付
+            $(".pay_0").find('.radioInt').removeClass('on');
+            $(".pay_1").find('.radioInt').addClass('on');
+            $("#youhui").show();
+            $("#hongbao").show();
+            $(".jq_total").html(parseFloat(total_price).toFixed(2));
+            $("#is_youhui").show();
+            $(".jq_youhui").html(parseFloat(total_youhui).toFixed(2));
+            if (money > 0) {
+                $("#use_money").show();
+            } else {
+                $("#use_money").hide();
+            }
+            $('.order_confirm_tag').show();
+        } else {
+            // 货到付款
+            $(".pay_1").find('.radioInt').removeClass('on');
+            $(".pay_0").find('.radioInt').addClass('on');
+            $("#youhui").hide();
+            $("#hongbao").hide();
+            $(".jq_total").html(parseFloat(total).toFixed(2));
+            $("#is_youhui").hide();
+            $('.order_confirm_tag').hide();
+        }
+    }
+
+    function setOrderinfo() {
+        if (localStorage['select_address']) {
+            var addr = JSON.parse(localStorage['select_address']);
+            $("#addr_id").val(addr.addr_id);
+            $(".contact").text(addr.contact);
+            $(".mobile").text(addr.mobile);
+            $(".house").text(addr.address);
+            $('#addr_lng').val(addr.lng);
+            $('#addr_lat').val(addr.lat);
+            localStorage.removeItem('select_address');
+            localStorage.removeItem('select_addr_backurl');
+        }
+
+        if (localStorage['note']) {
+            $("#note").val(localStorage['note']);
+            $('#remark').text(localStorage['note']);
+        }
+        if (!localStorage.getItem('pei_time') || localStorage.getItem('pei_time') == "尽快送达") {
+            $('#time').html("尽快送达");
+            $('#pei_time').val(0);
+        } else {
+            $('#time').html(localStorage.getItem('pei_time'));
+            $('#pei_time').val(localStorage.getItem('pei_time'));
+        }
+
+        if(localStorage.getItem('hongbao_id')){
+            $("#hongbao_id").html(localStorage.getItem('hongbao_id'));
+        }else{
+            $("#hongbao_id").html("<{$hongbao.hongbao_id}>");
+        }
+        if(localStorage.getItem('hongbao_id')){
+            $(".hongbao_amount").html(localStorage.getItem('amount'));
+        }else{
+            $(".hongbao_amount").html("<{$hongbao.amount}>");
+        }
+        //setStatus(localStorage.getItem('online_pay'));
+
+        // 计算用户收货地址与商家的距离公里数
+        var addr_id = $('#addr_id').val();
+        console.log(addr_id);
+        //ajax请求获取合适的配送费更新到模板
+        jQuery.ajax({  
+            url: "<{link ctl='waimai/order:getfreight'}>", 
+            async: true,  
+            dataType: 'json',  
+            data: {"addr_id":addr_id,"shop_id":<{$detail.shop_id}>},
+            type: 'POST',   
+            success: function (ret) { 
+                if(ret.error > 0){
+                    layer.open({content: ret.message,time: 2});
+                }else{
+                    $('#freight').text('￥'+ ret.freight);
+                    var total_price = new Number(<{$total_price}>);
+                    total_price = total_price + new Number(ret.freight);
+                    $(".jq_total").text(total_price);
+                    $('#freight2').val(new Number(ret.freight));
+                }
+            }, 
+            error: function (XMLHttpRequest, textStatus, errorThrown) { 
+                alert(errorThrown); 
+            },  
+        });
+    }
+
+    function saveInfo() {
+        localStorage['this_shop_id'] = parseInt(<{$detail.shop_id}>);
+        localStorage['hongbao_id'] = localStorage.getItem('hongbao_id') || "<{$hongbao.hongbao_id}>";
+        localStorage['amount'] = localStorage.getItem('amount') || "<{$hongbao.amount}>";
+        localStorage['addr_id'] = localStorage.getItem('addr_id') || "<{$maddr.addr_id}>";
+        localStorage['contact'] = localStorage.getItem('contact') || "<{$maddr.contact}>";
+        localStorage['mobile'] = localStorage.getItem('mobile') || "<{$maddr.mobile}>";
+        localStorage['house'] = localStorage.getItem('house') || "<{$maddr.house}>";
+        localStorage['online_pay'] = localStorage.getItem('online_pay') || 1;
+    }
+
+    function removeInfo() {
+        if (window.localStorage) {
+            localStorage.removeItem('this_shop_id');
+            localStorage.removeItem('hongbao_id');
+            localStorage.removeItem('amount');
+            localStorage.removeItem('addr_id');
+            localStorage.removeItem('contact');
+            localStorage.removeItem('mobile');
+            localStorage.removeItem('house');
+            localStorage.removeItem('note');
+            localStorage.removeItem('online_pay');
+            localStorage.removeItem('pei_time');
+            localStorage.removeItem('content');
+            localStorage.removeItem('remark');
+        }
+    }
+
+    function selectAddr() {
+        localStorage['select_addr_backurl'] = window.location.href;
+        window.location.href = "<{link ctl='ucenter/addr:index'}>";
+    }
+    window.__MINI_LOAD = false;
+    $(".pub_btn").click(function () {
+        if(window.__MINI_LOAD){
+            return true;
+        }
+        window.__MINI_LOAD = true;
+        var url = "<{link ctl='waimai/order:ordercreate'}>";
+        $.post(url, $("#form_post").serialize(), function (ret) {
+            window.__MINI_LOAD = false;
+            if (ret.error > 0) {
+                layer.open({content: ret.message, time: 2});
+                if (ret.error >= 221 && ret.error <= 224) {
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='index'}>";
+                    }, 1000);
+                }
+                if (ret.error == 101) {
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport:login'}>";
+                    }, 1000);
+                }
+            } else {
+                layer.open({content: ret.message});
+                removeInfo();
+                var order_id = ret.order_id;
+                var pay_status = ret.pay_status;
+                var online_pay = ret.online_pay;
+                var link = "<{link ctl='ucenter/order:pay' args=oooo}>";
+                var link2 = "<{link ctl='ucenter/order:detail' args=oooo}>";
+				//克隆一份，再来一份需要
+                Cookie.set('clone_goods', JSON.stringify(ecart.product_list()));
+                //console.log(Cookie.get('clone_goods'));
+				//下单成功清空购物车
+                ecart.clear();
+                setTimeout(function () {
+                    if(online_pay == 0){
+                        // 货到付款支付
+                        window.location.href = link2.replace('oooo', order_id);
+                        return false;
+                    }else if(pay_status == 0 && online_pay == 1) {
+                        localStorage['order_pay'] = "<{link ctl='ucenter/order:detail-"+order_id+"'}>";
+                        window.location.href = link.replace('oooo', order_id);
+                    }
+                }, 1000);
+            }
+        }, 'json')
+    })
+
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,42 @@
+<{assign var='tpl_title' value='我的积分'}>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+
+<body>
+<header>
+<i class="left"><a href="<{link ctl='ucenter/index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a> </i>
+<div class="title">
+    我的积分
+</div>
+</header>
+<section class="page_center_box">
+    <div class="mineIntegralPage_top txt_center mb10">
+    	<div class="fl border_r">
+        	<p class="black9">当前积分</p>
+            <p class="num pointcl1"><{$jifen}><small class="black9">分</small></p>
+        </div>
+        <div class="fr"><a href="<{link ctl='mall/index' http='www'}>" class="pub_btn" style="background:#fc5151;">兑换商品</a></div>
+        <div class="clear"></div>
+    </div>
+    <h3 class="black9 pad_l10 pad_r10 font_size14 font_line24">最近30天积分记录</h3>
+    <ul class="mineIntegralPage_list">
+        <{foreach $items as $v}>
+        <li class="pub_list clear_both border_t">
+        	<div class="fl">
+            	<p><{$v['intro']}></p>
+				<small class="black9"><{$v['dateline']}></small>
+            </div>
+            <div class="fr maincl mt10"><{$v['number']}></div>
+        </li>
+        <{foreachelse}>
+        <div class="nonePage txt_center"><div class="nonePage_img"><img src="/themes/default/static/images/none/none2.png" width="25%"></div><h2 class="black3">暂无积分记录</h2></div>
+        <{/foreach}>
+
+    </ul>
+</section>
+    <{include file="block/sfooter.html"}>
+</body>
+</html>

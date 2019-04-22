@@ -1,0 +1,82 @@
+<div class="wrapper wrapper-content animated fadeInLeft">
+    <div class="col-md-12">
+        <div class="ibox float-e-margins">
+            <form id="SO-form" action="/merchant/?tuan/tuan/index.html" method="post" role="form" class="form-horizontal m-t">
+                <div class="form-group draggable">
+                    <label class="col-sm-3 control-label">标题：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[title]" value="" class="form-control">
+                    </div>
+                </div>   
+                <div class="form-group draggable">
+                    <label class="col-sm-3 control-label">类型：</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" name="SO[type]">
+                            <option value="notype">不限</option>
+                            <option value="tuan">团购券</option>
+                            <option value="quan">代金券</option>
+                        </select>
+                    </div>
+                </div>   
+                <div class="form-group draggable">
+                    <label class="col-sm-3 control-label">市场价：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[market_price]" value="" class="form-control">
+                    </div>
+                </div>   
+                <div class="form-group draggable">
+                    <label class="col-sm-3 control-label">团购价：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[price]" value="" class="form-control">
+                    </div>
+                </div>   
+                <div class="form-group draggable">
+                    <label class="col-sm-3 control-label">有效期：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[time][0]" value="" class="form-control" date="dateline" readonly>
+                    </div>
+                    <div class="col-sm-1">~</div>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[time][1]" value="" class="form-control" date="dateline" readonly>
+                    </div>
+                </div>  
+               <!--  <div class="form-group draggable">
+                     <label class="col-sm-3 control-label">有效期结束：</label>
+                     <div class="col-sm-4">
+                         <input type="text" name="SO[ltime][0]" value="" class="form-control" date="dateline" readonly>
+                     </div>
+                     <div class="col-sm-1">
+                         ~
+                     </div>
+                     <div class="col-sm-4">
+                         <input type="text" name="SO[ltime][1]" value="" class="form-control" date="dateline" readonly>
+                     </div>
+                 </div>   -->  
+                <div class="form-group draggable">
+                    <label class="col-sm-3 control-label">创建时间：</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[dateline][0]" value="" class="form-control" date="dateline" readonly>
+                    </div>
+                    <div class="col-sm-1">
+                        ~
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" name="SO[dateline][1]" value="" class="form-control" date="dateline" readonly>
+                    </div>
+                </div>
+                <div class="form-group draggable">
+                <label class="col-sm-3 control-label">&nbsp;</label>
+                    <div class="col-sm-4">
+                        <button class="btn btn-primary btn-w-m" type="submit">搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).off("click", "[date],[datepicker]").on("click", "[date],[datepicker]", function(){
+    $(this).addClass("");
+    WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});
+});
+</script>

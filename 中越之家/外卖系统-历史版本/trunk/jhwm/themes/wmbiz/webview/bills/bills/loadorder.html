@@ -1,0 +1,7 @@
+<{foreach $items as $v}>
+<tr>
+    <td width="33.33%"><{$v.order_id}></td>
+    <td width="33.33%">外卖订单</td>
+    <td width="33.33%" style="text-align: right;"> <a href="<{link ctl='webview/bills/order/detail' arg0=$v.order_id}>"><span style="color:#06c1ae;">￥<{$v.amount+$v.money}></span><i class="linkico mr10"></i></a></td>
+</tr>
+<{/foreach}>

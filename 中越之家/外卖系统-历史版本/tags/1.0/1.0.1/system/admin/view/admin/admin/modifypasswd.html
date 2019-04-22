@@ -1,0 +1,37 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th>修改密码</th>
+        <td align="right"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?index-modifypasswd.html" mini-form="admin-form" method="post">
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th class="w-200">管理员:</th>
+			<td><{$ADMIN.admin_name}></td>
+		</tr>
+		<tr>
+			<th>旧密码:</th>
+			<td><input type="password" name="data[oldpasswd]" value="" class="input w-200"/></td>
+		</tr>
+		<tr>
+			<th>新密码:</th>
+			<td><input type="password" name="data[newpasswd]" value="" class="input w-200"/></td>
+		</tr>
+		<tr>
+			<th>确认密码:</th>
+			<td><input type="password" name="data[confirmpasswd]" value="" class="input w-200"/></td>
+		</tr>
+		<tr>
+			<th class="clear-th-bottom">&nbsp;</th>
+			<td height="50" class="clear-td-bottom"><input type="submit" class="bt-big"  id="button2" value="提交数据" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

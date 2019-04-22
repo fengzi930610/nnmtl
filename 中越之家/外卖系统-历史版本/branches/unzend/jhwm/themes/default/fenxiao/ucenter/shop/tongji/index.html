@@ -1,0 +1,78 @@
+<{include file="fenxiao/block/header.html"}>
+<!--头部筛选-->
+<div class="topShaixuan">
+    <ul>
+        <li class="list on"><a href="<{link ctl='ucenter/shop/tongji/index'}>">店铺订单</a></li>
+        <li class="list"><a href="<{link ctl='ucenter/shop/tongji/profit'}>">收益来源</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<!--头部筛选结束-->
+<section class="page_center_box">
+	<!--时间-->
+    <div class="fx_count_time">
+        <div id="fx_time_timeline">
+        	<ul id="fx_time_dates">
+                    <{foreach $date_items as $item}>
+                        <li rel="<{$item.date_math}>"><{$item.date_cn}></li>
+                    <{/foreach}>
+            </ul>
+            <ul id="fx_time_issues">
+                <{foreach $date_items as $item}>
+                    <li rel="<{$item.date_math}>"><{$item.date_cn}></li>
+                <{/foreach}>
+            </ul>
+            <a href="javascript:void(0);" id="fx_time_next">+</a>
+            <a href="javascript:void(0);" id="fx_time_prev">-</a>
+        </div>
+    </div>
+    <!--时间结束-->
+    <div class="fx_count_table" id="fx_count_table">
+    	
+    </div>
+
+</section>
+<script src="/themes/default/fenxiao/static/js/jquery.timelinr-0.9.3.js" type="text/javascript"></script>
+<script type="text/javascript"> 
+    $(document).ready(function(){
+        $().timelinr();
+        document.num = "<{$num}>" - 1;
+        setTimeout(function(){
+          $('#fx_time_dates').css('marginLeft',-180*document.num);  
+          $('#fx_time_issues').css('marginLeft',-180*document.num);  
+        },10);
+        
+        var link = "<{link ctl='ucenter/shop/tongji:loaditems'}>";
+        var _month = $('#fx_time_dates li').eq(document.num).attr("rel");
+        var params = {"month":_month};
+        load(link,params);
+        
+        $('#fx_time_prev').click(function(){
+            if(document.num<=0){
+                return false;
+            }else{
+                document.num = document.num - 1;
+                var month = $('#fx_time_dates li').eq(document.num).attr("rel");
+                var params = {"month":month};
+                load(link,params);
+            }
+        })
+        $('#fx_time_next').click(function(){
+            if(document.num >= "<{$num}>" - 1){
+                return false;
+            }else{
+                document.num = document.num + 1;
+                var month = $('#fx_time_dates li').eq(document.num).attr("rel");
+                var params = {"month":month};
+                load(link,params);
+            }
+        })
+    }) 
+    //alert(document.num);
+    function load(link,params) {
+            $.getJSON(link, params, function (ret) {
+                $("#fx_count_table").html(ret.html); 
+        });  
+    }
+</script>
+<{include file="fenxiao/block/footer.html"}>

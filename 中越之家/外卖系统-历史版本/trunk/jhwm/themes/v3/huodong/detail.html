@@ -1,0 +1,144 @@
+<{assign var='tpl_title' value=L("活动")}>
+<{include file="v3block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <!-- 内容部分 -->
+            <div class="container_mid">
+                <!--轮播图-->
+                <div class="idx_banner">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"><a href="#"><img src="<{$pager.img}>/<{$huodong.banner1}>"></a></div>
+                            <div class="swiper-slide"><a href="#"><img src="<{$pager.img}>/<{$huodong.banner2}>"></a></div>
+                            <div class="swiper-slide"><a href="#"><img src="<{$pager.img}>/<{$huodong.banner3}>"></a></div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+                <!--轮播图end-->
+                <div class="mall_wzBox">
+                    <div class="box">
+                        <h2 class="mb5"><{$huodong.title}></h2>
+                        <p><{$huodong.intro}></p>
+                    </div>
+                </div>
+                <div class="mall_titBox"><div class="idx_titTwo"><span class="black6">活动商家</span></div></div>
+                <!--活动商-轮播图-->
+                <div class="mall_sellerBox">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            <{foreach $shop_list as $v}>
+                            <div class="swiper-slide shop" data-id="<{$v.can_id}>">
+                                <div class="img"><img src="<{$pager.img}>/<{$v.photo}>"/></div>
+                                <p class="overflow_clear"><{$v.title}></p>
+                            </div>
+                            <{/foreach}>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+                <!--活动商-轮播图end-->
+                <div class="mall_titBox"><div class="idx_titTwo"><span class="black6">活动商品</span></div></div>
+                <!--活动商品列表-->
+                <div class="goods_list_box mall_listBox">
+                    <ul id="index_goods_items">
+
+                    </ul>
+                    <div class="loadding">
+
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <!--活动商品列表end-->
+            </div>
+            <!-- 内容部分结束 -->
+        </div>
+    </div>
+</div>
+
+<script>
+	$(document).ready(function () {		
+		//首页轮播图的宽高比例
+		var wid_width = $("body").width();
+		$(".idx_banner").css("width","100%");
+		$(".idx_banner,.idx_banner .swiper-slide").css("height",wid_width/2);
+		var wid_height = $(".idx_banner").height();
+		
+		$(".idx_banner .swiper-slide img").each(function() {
+			var img_w = $(this).width();
+			var img_h = $(this).height();
+			if((img_w/img_h) > (wid_width/wid_height)){
+				$(this).css("height","100%");
+				$(this).css("width","auto");
+				img_w = $(this).width();
+				$(this).css("margin-left",-(img_w-wid_width)/2 + 'px');
+			}else{
+				$(this).css("height","auto");
+				$(this).css("width","100%");
+				img_h = $(this).height();
+				$(this).css("margin-top",-(img_h-wid_height)/2 + 'px');
+			}
+		});		
+	});
+	
+    var swiper = new Swiper('.idx_banner .swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        loop: true
+    });
+</script>
+
+<script>
+    var count_shop = "<{$count_shop}>";
+    var if_count = parseInt(count_shop);
+    if(if_count>=6){
+        var swiper = new Swiper('.mall_sellerBox .swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 4,
+            slidesPerColumn: 2,
+            slidesPerGroup:4,
+            paginationClickable: true,
+            spaceBetween: 0
+        });
+    }else{
+        var swiper = new Swiper('.mall_sellerBox .swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 4,
+            slidesPerGroup:4,
+            paginationClickable: true,
+            spaceBetween: 0
+        });
+    }
+
+</script>
+<script>
+    $('.shop').on('click',function(){
+        var data_id = $(this).attr('data-id');
+        var huodong_type = "<{$huodong.cate_id}>";
+        if(huodong_type=='1'){
+            var url="<{link ctl='tuan/shop:detail' arg0='#shop_id#' http='home'}>".replace('#shop_id#',data_id);
+        }else if(huodong_type=='2'){
+            var url="<{link ctl='shop/detail' arg0='#shop_id#' http='mall'}>".replace('#shop_id#',data_id);
+        }
+        window.location.href =url;
+    })
+    window.onload = function(){
+        var link = "<{link ctl='huodong/loadgood' arg0='#page#'}>";
+        var parmas = {
+            "huodong_id":"<{$huodong_id}>"
+        };
+        loadpage(link,parmas ,1);
+        scroll(link,parmas ,1);
+
+
+    }
+</script>
+
+
+
+<{include file="v3block/footer.html"}>

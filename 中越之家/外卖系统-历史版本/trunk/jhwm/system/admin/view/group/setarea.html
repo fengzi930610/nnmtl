@@ -1,0 +1,499 @@
+<{include file="admin:common/header.html"}>
+
+<style type="text/css">
+    .hf-arrow-blue span {
+        border-color: #1ab394 transparent transparent;
+        bottom: -10px;
+        left: 50%;
+        margin-left: -5px;
+    }
+    .hf-arrow-blue * {
+        display: block;
+        border-width: 5px;
+        position: absolute;
+        border-style: solid dashed dashed dashed;
+        font-size: 0;
+        line-height: 0;
+    }
+    .hf-tag-blue {
+        width: 150px;
+        height: 25px;
+        position: relative;
+        background-color: #1ab394;
+        color: #fff;
+        font-size: 12px;
+        line-height: 25px;
+        text-align: center;
+        border-radius: 5px;
+        z-index: 999;
+    }
+    .songSet_area_tit{margin-top:10px;}
+</style>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--地图开始-->
+    <div class="songSet_area" style="height:800px">
+    	<div class="songSet_area_left float-l" style="height:800px">
+            <select id="province" class="w-150"><{widget id="data/province" value=$detail.province_id}></select>
+            <select id="city" name="data[city_id]" class="w-150"></select>
+        	<div class="songSet_area_tit">
+            	区域及配送范围
+                <div class="float-r">
+                	<!--<a href="javascript:void(0);" class="edit">编辑</a>
+                    <span class="quit-save" style="display:none"><a href="javascript:void(0);" class="quit">退出</a>/<a href="javascript:void(0);" class="save">保存</a></span>-->
+                </div>
+            </div>
+            <div class="areas" style="height:740px">
+                <ul class="group_list">
+                                  
+                </ul>
+                
+            </div>           	            
+        </div>
+        <div class="songSet_area_right" style="height:800px">
+        	<!--此处为地图区域-->
+            <div id="container" style="width:100%;height:800px"></div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <!--地图结束-->
+</div>
+
+<!--高德地图JavaScript API开始-->
+<!-- <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=<{$jh_map_key}>&plugin=AMap.PolyEditor,AMap.Geocoder"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js"></script> -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<{$jh_map_key}>&language=zh-CN&region=VN"></script>
+<script type="text/javascript">
+    var data_city = '<{$json_city}>';
+    var json_city = JSON.parse(data_city);
+    var city_id = '';
+
+    var markers = [];
+    var polygons = [];
+    var radiusData = [];
+    var map = null;
+    
+
+    function province_edit(province_id){
+        var html= "";
+        if(province_id){
+            var key = 1;
+            $.each(json_city,function(k,v){
+                if(v.province_id==province_id){
+                    if(key==1){
+                        get_groups(v.city_id);
+                    }
+                    html+='<option value="'+v.city_id+'">'+v.city_name + (v.city_name_vn===""?"":"("+v.city_name_vn+")") +'</option>';
+                    key++;
+                }
+
+            });
+        }else{
+            html = "<option value=''>请选择城市</option>";
+        }
+        $('#city').html(html);
+
+    }
+
+
+    $(function(){
+        map = new google.maps.Map(
+            document.getElementById("container"),
+            {
+                zoom: 11, 
+                center: getMapDefaultPoint(),
+                fullscreenControl: false,
+                streetViewControl: false,
+                mapTypeControl: false,
+                gestureHandling: "greedy"
+            }
+        );
+
+        $('#province').on('change',function(){
+           var province_id = $(this).val();
+           province_edit(province_id);
+        });
+
+        $('#city').on('change',function(){
+            get_groups($(this).val());
+        });
+
+        province_edit($('#province').val());
+    });
+
+    $(document).on('click','.edit',function(){
+
+        var editIdx = $(this).parents("li").attr("idx");
+        editIdx = parseInt(editIdx);
+        if(!isNaN(editIdx) && editIdx>=0 && polygons[editIdx])
+        {
+            var pShape = polygons[editIdx];
+            if(!pShape.isEdit)
+            {
+                //查找其他正在编辑的多边形，并提示
+                for(var k in polygons)
+                {
+                    if(polygons[k].isEdit)
+                    {
+                        alert("您正在编辑其他区域数据，请保存或退出该区域的编辑再执行编辑操作！");
+                        return;
+                    }
+                }
+                $(this).parent('.edit-edit').hide();
+                $(this).parent().siblings('.quit-save').show();
+                pShape.isEdit = true;
+                pShape.polygon.setMap(null);
+                pShape.polygon = new google.maps.Polygon({
+                    paths: pShape.data,
+                    strokeColor: pShape.color, //边颜色
+                    strokeOpacity: 0.8, //边透明度
+                    strokeWeight: 2,    //边粗线度
+                    fillColor: pShape.color,   //填充颜色
+                    fillOpacity: 0.35,  //填充透明度,
+                    editable:true, //是否可编辑
+                    map:map,
+                    zIndex: pShape.zIndex+100
+                });
+            }
+        }
+    });
+
+    $(document).on('click','.quit',function(){
+        var key = $(this).parents('li').attr('key');
+        var idx = $(this).parents('li').attr('idx');
+        idx = parseInt(idx);
+        if(isNaN(idx) || idx<0 || idx >= polygons.length || !polygons[idx])
+        {
+            layer.alert("数据错误!");
+            return;
+        }
+
+        layer.confirm('是否放弃此次编辑？', {
+            btn: ['是', '否'] //可以无限个按钮
+        }, (function(index, layero){
+            var pShape = polygons[this.idx];
+            if(pShape.isEdit)
+            {
+                pShape.isEdit = false;
+                pShape.polygon.setMap(null);
+                pShape.polygon = new google.maps.Polygon({
+                    paths: pShape.data,
+                    strokeColor: pShape.color, //边颜色
+                    strokeOpacity: 0.8, //边透明度
+                    strokeWeight: 2,    //边粗线度
+                    fillColor: pShape.color,   //填充颜色
+                    fillOpacity: 0.35,  //填充透明度,
+                    editable:false, //是否可编辑
+                    map:map,
+                    zIndex: pShape.zIndex
+                });
+            }
+            $('.area'+this.key).find('.quit-save').hide();
+            $('.area'+this.key).find('.edit-edit').show();
+            $('.area'+this.key).find('.polygon_radius').val(radiusData[this.idx]);
+            $('.area'+this.key).find('.create_tool').siblings("input").val(radiusData[this.idx]);
+            $('.area'+this.key).find('.polygon_radius_shower').text(radiusData[this.idx]);
+            layer.close(index);
+        }).bind({idx:idx,key:key}), function(index){
+            //无动作
+        });
+    });
+
+    $(document).on('click','.save',function(){
+        var key = $(this).parents('li').attr('key');
+        var idx = $(this).parents('li').attr('idx');
+        idx = parseInt(idx);
+        if(isNaN(idx) || idx<0 || idx >= polygons.length || !polygons[idx])
+        {
+            layer.alert("数据错误!");
+            return;
+        }
+        var pShape = polygons[idx];
+        if(!pShape.isEdit)
+            return;
+        var group_id = $(this).parents('li').attr('group-id');
+        var link = '?group/group-save_polygon-#group_id#.html'.replace('#group_id#',group_id);
+        var postData = {};
+        var pathData = pShape.polygon.getPath().getArray();
+        var tmpPolyData = [];
+        for(var k in pathData)
+        {
+            postData[String(k)] = {lat:pathData[k].lat(),lng:pathData[k].lng()};
+            tmpPolyData.push(postData[String(k)]);
+        }
+        $.post(link, {polygon_point: postData,radius:$(this).siblings("input.polygon_radius[type='hidden']").val()}, function (ret) {
+            if(ret.error === 0)
+            {
+                var pShape = polygons[this.idx];
+                pShape.data = this.tmpData;
+                pShape.isEdit = false;
+                pShape.polygon.setMap(null);
+                pShape.polygon = new google.maps.Polygon({
+                    paths: pShape.data,
+                    strokeColor: pShape.color, //边颜色
+                    strokeOpacity: 0.8, //边透明度
+                    strokeWeight: 2,    //边粗线度
+                    fillColor: pShape.color,   //填充颜色
+                    fillOpacity: 0.35,  //填充透明度,
+                    editable:false, //是否可编辑
+                    map:map,
+                    zIndex: pShape.zIndex
+                });
+                $('.area'+this.key).find('.quit-save').hide();
+                $('.area'+this.key).find('.edit-edit').show();
+                var r = parseFloat($('.area'+this.key).find('.polygon_radius').val());
+                if(isNaN(r) || r<0)
+                    r = 0;
+                $('.area'+this.key).find(".create_tool").siblings("input").val(r);
+                $('.area'+this.key).find(".polygon_radius_shower").text(r>0?r:"-");
+                radiusData[this.idx] = r;
+            }
+            layer.msg(ret.message);
+        }.bind({idx:idx,key:key,group_id:group_id,tmpData:tmpPolyData}),'json');
+    });
+
+    // rgb转hex 
+    function rgb_hex(rgb) {
+        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
+        }
+        return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+    }
+
+    //获取当前城市配送团队
+    function get_groups(city_id){
+        //将地图中心定位到指定的城市
+        var link = "?group/group-get_groups-#city_id#.html".replace("#city_id#",city_id);
+        $.post(link,{},function(e){
+            //清除当前地图上所有的marker及polygon
+            $.each(markers,function(k,v){
+                v.setMap(null);
+            });
+            $.each(polygons, function(k,v){
+                v.polygon.setMap(null);
+            });
+            markers = [];
+            polygons = [];
+            radiusData = [];
+
+            var html = '';
+            var key = 0;
+            if(e.error==0){
+                $('.group_list').empty();
+                $.each(e.data.groups,function(k,v){                  
+                    html = '<li class="area'+k+'" key="'+k+'" idx="'+key+'" group-id="'+v.group_id+'">';
+                    html += '<div class="tit">'+v.group_name+'<span class="edit-edit" style="float:right; margin-right:10px;"><a href="javascript:;" style="color:#ff3300" class="edit">编辑</a>(半径<span class="polygon_radius_shower">'+(v.polygon_radius?v.polygon_radius:'-')+'</span>公里)</span><span class="quit-save" style="float:right; margin-right:10px; display:none"><a href="javascript:void(0);" style="color:#ff3300" class="quit">退出</a>/<a href="javascript:void(0);" style="color:#ff3300" class="save">保存</a><input type="hidden" class="polygon_radius" value="'+v.polygon_radius+'">/<a href="javascript:void(0);" style="color:#ff3300" class="init">初始化</a><br><span style="color:#888">半径<input type="text" value="'+v.polygon_radius+'" style="width:36px;">公里&nbsp;<a href="javascript:void(0);" class="create_tool">生成</a></span></span></div>';
+                    html += '<div class="price"><span class="ml5 mr5">'+v.contact+'</span><span class="ml5 mr5 black9">|</span><span class="ml5 mr5">'+v.mobile+'</span></div>';
+                    html += '<div class="price"><span class="ml5 mr5"><a href="javascript:;" style="text-decoration:none" title="'+v.addr+'">'+v.addr+'</a></span></div>';
+                    html += '</li>';
+                    $(html).appendTo(".group_list");
+                    var curColor = rgb_hex($(".area"+k+" .tit").css('color'));
+                    var marker = new google.maps.Marker({
+                        position: {lat:Number(v.lat), lng:Number(v.lng)},
+                        map:map,
+                        icon: {
+                            fillColor: "#3BC17C",
+                            fillOpacity: 0.9,
+                            labelOrigin: new google.maps.Point(0, -21),
+                            strokeColor: "#3BC17C",
+                            path: "M0 0 L-8 -8 L-77 -8 L-77 -34 L77 -34 L77 -8 L8 -8 Z"
+                        },
+                        label: {
+                            text:v.group_name,
+                            color: "#FFFFFF"
+                        },
+                        zIndex: 0
+                    });
+                    markers[key] = marker;
+                    polygons[key] = {
+                        polygon:null,
+                        data:[],
+                        color: curColor,
+                        zIndex: key+1,
+                        isEdit: false
+                    };
+                    radiusData[key] = v.polygon_radius;
+                    $.each(v.polygon_point,function(k,v){
+                        polygons[key].data.push({lng:Number(v.lng),lat:Number(v.lat)});
+                    });
+                    if(polygons[key].data.length === 0)
+                    {
+                        polygons[key].data = [
+                            {lng:Number(v.lng)-0.02,lat:Number(v.lat)+0.02},
+                            {lng:Number(v.lng)-0.02,lat:Number(v.lat)-0.02},
+                            {lng:Number(v.lng)+0.02,lat:Number(v.lat)-0.02},
+                            {lng:Number(v.lng)+0.02,lat:Number(v.lat)+0.02}
+                        ];
+                    }
+                    polygons[key].polygon = new google.maps.Polygon({
+                        paths: polygons[key].data,
+                        strokeColor: polygons[key].color, //边颜色
+                        strokeOpacity: 0.8, //边透明度
+                        strokeWeight: 2,    //边粗线度
+                        fillColor: polygons[key].color,   //填充颜色
+                        fillOpacity: 0.35,  //填充透明度,
+                        editable:false, //是否可编辑
+                        map:map,
+                        zIndex: polygons[key].zIndex
+                    });
+
+                    key++;
+                });
+                
+                if(key === 0){
+                    html = '<li style="text-align:center; padding-bottom:15px;">该城市暂无配送团队！</br><a href="?group/group-create.html" style="font-size:14px; font-weight:bold; color:red">前去添加</a></li>';
+                    $('.group_list').html(html);
+                }
+                
+
+                if(e.data.groups.length == 1){
+                    map.setCenter({lat:Number(e.data.groups[0].lat),lng:Number(e.data.groups[0].lng)});
+                    map.setZoom(12);
+                }else{
+                    placeapi(e.data.city.city_name,"",function(data){
+                        if(data.error === 0)
+                        {
+                            map.setCenter(data.position);
+                            map.setZoom(12);
+                        }
+                    });
+                }
+
+            }else{
+                layer.msg(e.message,{icon:2});
+            }
+
+        },'json');
+    }
+    
+    function regeocoder(lng,lat,k) {  //逆地理编码
+        var lnglatXY = [lng, lat]; //已知点坐标
+        var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+        });        
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                var adcode = result.regeocode.addressComponent.adcode;
+                var district_name = result.regeocode.addressComponent.district;
+                draw_district(district_name);
+            }
+        });        
+        /*var marker = new AMap.Marker({  //加点
+            map: window.__map,
+            position: lnglatXY
+        });*/
+    }
+
+    $(document).on('click','.init',function(){
+        var key = $(this).parents('li').attr('key');
+        var idx = $(this).parents('li').attr('idx');
+        idx = parseInt(idx);
+        if(isNaN(idx) || idx<0 || idx >= polygons.length || !polygons[idx])
+        {
+            layer.alert("数据错误!");
+            return;
+        }
+        var optEle = $(this);
+
+        layer.confirm('是否初始化配送区域？', {
+            btn: ['是', '否'] //可以无限个按钮
+        }, function(index, layero){
+            var pShape = polygons[this.idx];
+            if(!pShape.isEdit)
+                return;
+            pShape.polygon.setMap(null);
+            var cntPos = markers[this.idx].getPosition();
+            cntPos = {lng:cntPos.lng(),lat:cntPos.lat()};
+            var tmpPolyData = [
+                {lng:cntPos.lng-0.02,lat:cntPos.lat+0.02},
+                {lng:cntPos.lng-0.02,lat:cntPos.lat-0.02},
+                {lng:cntPos.lng+0.02,lat:cntPos.lat-0.02},
+                {lng:cntPos.lng+0.02,lat:cntPos.lat+0.02}
+            ];
+            pShape.polygon = new google.maps.Polygon({
+                paths: tmpPolyData,
+                strokeColor: pShape.color, //边颜色
+                strokeOpacity: 0.8, //边透明度
+                strokeWeight: 2,    //边粗线度
+                fillColor: pShape.color,   //填充颜色
+                fillOpacity: 0.35,  //填充透明度,
+                editable:true, //是否可编辑
+                map:map,
+                zIndex: pShape.zIndex+100
+            });
+
+            layer.close(index);
+        }.bind({idx:idx,key:key,ele:optEle}), function(index){
+            //无动作
+        });
+    });
+    $(document).on('click','.create_tool',function(){
+        var dis = 0;
+        var iptEle = $(this).siblings("input");
+        if(iptEle.length === 0)
+            return;
+        dis = parseFloat($.trim(iptEle.eq(0).val()));
+        if(isNaN(dis))
+            return;
+        dis = parseInt(dis*1000);
+        if(dis <= 0)
+        {
+            iptEle.val("");
+            return;
+        }
+        var key = $(this).parents('li').attr('key');
+        var idx = $(this).parents('li').attr('idx');
+        idx = parseInt(idx);
+        if(isNaN(idx) || idx<0 || idx >= polygons.length || !polygons[idx])
+        {
+            layer.alert("数据错误!");
+            return;
+        }
+        var optEle = $(this);
+
+        layer.confirm('是否使用'+(dis/1000)+'公里为半径初始化配送区域？', {
+            btn: ['是', '否'] //可以无限个按钮
+        }, function(index, layero){
+            //this.iptEle.val("");
+            var pShape = polygons[this.idx];
+            if(!pShape.isEdit)
+                return;
+            pShape.polygon.setMap(null);
+            var cntPos = markers[this.idx].getPosition();
+            cntPos = {lng:cntPos.lng(),lat:cntPos.lat()};
+            var tmpPolyData = createAreaPolygonPoints(cntPos,this.dis,12);
+            pShape.polygon = new google.maps.Polygon({
+                paths: tmpPolyData,
+                strokeColor: pShape.color, //边颜色
+                strokeOpacity: 0.8, //边透明度
+                strokeWeight: 2,    //边粗线度
+                fillColor: pShape.color,   //填充颜色
+                fillOpacity: 0.35,  //填充透明度,
+                editable:true, //是否可编辑
+                map:map,
+                zIndex: pShape.zIndex+100
+            });
+            this.iptEle.parent("span").siblings("input.polygon_radius[type='hidden']").val(dis/1000);
+            layer.close(index);
+        }.bind({idx:idx,key:key,ele:optEle,iptEle:iptEle,dis:dis}), function(index){
+            //无动作
+        });
+    });
+    
+</script>
+<!--高德地图JavaScript API结束-->
+
+<{include file="admin:common/footer.html"}>

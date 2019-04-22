@@ -1,0 +1,55 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice" style="margin-bottom:10px;">说明：全局中开启了3G站功能设置才有效</h4>
+<form action="?system/config-mobile.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="mobile" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+    <th>3G版名称：</th>
+    <td>
+        <input type="text" name="config[title]" value="<{$config.title|default:''}>" class="input w-300"/>
+        <span class="tip-comment">如：江湖家居系统手机版</span>
+    </td>
+</tr>
+<tr>
+    <th>3G版域名：</th>
+    <td>
+        <input type="text" name="config[url]" value="<{$config.url|default:''}>" class="input w-300"/>
+        <span class="tip-comment">3G版的域名，以http://开头, 如http://m.ijh.cc</span>
+    </td>
+</tr>
+<tr>
+	<th>自动跳转：</th>
+	<td>
+		<label><input type="radio" name="config[forward]" <{if $config.forward}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+		<label><input type="radio" name="config[forward]" <{if empty($config.forward)}>checked="checked"<{/if}> value="0"/>否</label>
+        <span class="tip-comment">开启后用户使用手机浏览器访问网站首页时自动跳转到手机站点首页进行访问</span>
+	</td>
+</tr>
+<tr>
+    <th>安卓下载地址：</th>
+    <td>
+        <input type="text" name="config[down_android]" value="<{$config.down_android|default:''}>" class="input w-300"/>
+    </td>
+</tr>
+<tr>
+    <th>苹果下载地址：</th>
+    <td>
+        <input type="text" name="config[down_iphone]" value="<{$config.down_iphone|default:''}>" class="input w-300"/>
+    </td>
+</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form>
+</div>
+<{include file="admin:common/footer.html"}>

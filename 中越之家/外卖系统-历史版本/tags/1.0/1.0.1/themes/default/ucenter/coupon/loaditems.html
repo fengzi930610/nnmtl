@@ -1,0 +1,16 @@
+<{foreach $items as $k => $v}>
+<li class="new_coupons_list">
+    <a href="javascript:todetail(<{$v.ticket_id}>)">
+        <h3><{$v.shop.title}></h3>
+        <div class="box">
+            <div class="pub_img fl"><img src="<{$v.qrcode}>" width="70" height="70"></div>
+            <div class="pub_wz">
+                <p class="black6">密码：<{$v.number}></p>
+                <p class="black6">有效期至：<{$v.ltime|format:'Y-m-d'}></p>
+                <p class="price fontcl1"><small>￥</small><{$v.detail.price}><span class="ml10 black3">×<{$v.tuan_number}></span></p>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </a>
+</li>
+<{/foreach}>

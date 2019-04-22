@@ -1,0 +1,60 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/print-edit.html" id="SO-form" method="post" mini-form="shop-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <input type="hidden" name="data[plat_id]" value="<{$print.plat_id}>">
+        <tr>
+            <th>商家:</th>
+            <td>
+                <input type="hidden" name="data[shop_id]" value="<{$waimai.shop_id}>" id="export_shop_id" />
+                <input type="text" value="<{$waimai.title}>" id="export_shop_title" class="input w-150" readonly />
+                <{link ctl="shop/shop:dialog" title="选择商家" select="mini:#export_shop_id,#export_shop_title/N/选择商家" class="button"}>
+            </td>
+        </tr>
+        <tr>
+            <th>打印机名称</th>
+            <td>
+                <input type="text" class="input w-150" name="data[title]" value="<{$print.title}>"/>
+
+            </td>
+        </tr>
+        <tr>
+            <th>终端号</th>
+            <td>
+                <input type="text" class="input w-150" name="data[machine_code]" value="<{$print.machine_code}>"/>
+            </td>
+
+        </tr>
+        <tr>
+            <th>终端秘钥</th>
+            <td>
+                <input type="text" class="input w-150" name="data[mkey]" value="<{$print.mkey}>"/>
+            </td>
+
+        </tr>
+
+        <!--<tr>
+            <th>打印机状态:：</th>
+            <td>
+                <label><input type="radio" name="SO[online]" checked="checked" value="1">在线</label>&nbsp;&nbsp;
+                <label><input type="radio" name="SO[online]" value="0">离线</label>&nbsp;&nbsp;
+                <label><input type="radio" name="SO[online]" value="2">缺纸</label>
+            </td>
+        </tr>-->
+
+        <tr>
+            <th class="clear-th-bottom"></th>
+            <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+        </tr>
+    </table>
+</form></div>
+<{include file="admin:common/footer.html"}>

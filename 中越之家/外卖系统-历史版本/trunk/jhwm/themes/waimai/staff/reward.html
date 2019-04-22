@@ -1,0 +1,63 @@
+<{assign var='tpl_title' value=L("配送员对账-首页")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .awardRecord_list ul li{background: #fff; margin-bottom: 12px; padding: 10px 15px;}
+    .awardRecord_list ul li .wz_box{margin-left: 52px;}
+    .awardRecord_list ul li .wz_box h3{overflow: hidden; font-size: 14px; line-height: 20px; margin-bottom: 4px; font-weight: 500;}
+    .awardRecord_list ul li .wz_box h3 span{color: #f60;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容-开始-->
+                <div class="awardRecord_list">
+                    <ul id="index_goods_items">
+
+                    </ul>
+                </div>
+                <!--内容-结束-->
+                <div class="loadding" style="">
+                </div>
+                <div class="pubnodata" style="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var order_id = '<{$order_id}>';
+    var staff_id = '<{$staff_id}>';
+    var in_app_client = '<{$in_app_client}>';
+    $(function(){
+         var link = "<{link ctl='staff/load_reward' arg0='#page#' arg1='#staff_id#' http='waimai'}>";
+         var url = link.replace("#staff_id#",staff_id);
+         var parmas = {};
+
+        loadpage(url,parmas,1,'index_goods_items','index_goods_items');
+        scroll(url,parmas,1,".container_mid","#index_goods_items",'index_goods_items');
+    })
+
+    if(!in_app_client){
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                var url = '<{link ctl="staff/detail" http="waimai" arg0="STAFF_ID" order_id="ORDER_ID"}>';
+                window.location.href = url.replace('STAFF_ID',staff_id).replace('ORDER_ID',order_id);
+                if(order_id > 0){
+                    var url = '<{link ctl="staff/detail" http="waimai" arg0="STAFF_ID" order_id="ORDER_ID"}>';
+                    window.location.href = url.replace('STAFF_ID',staff_id).replace('ORDER_ID',order_id);
+                }else{
+                    var url = '<{link ctl="staff/detail" http="waimai" arg0="STAFF_ID"}>';
+                    window.location.href = url.replace('STAFF_ID',staff_id);
+                }            
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    }
+    
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,64 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">
+                            <{link ctl="shop/comment:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+<form id="items-form">
+<table width="100%" border="0" cellspacing="0" class="table-data table">
+<tr><th class="w-50">评价ID</th>
+<th class="w-80">商户ID</th>
+<th class="w-80">会员UID</th>
+<th class="w-50">订单ID</th>
+<th class="w-50">综合总评分</th>
+<th class="w-50">服务评分</th>
+<th class="w-50">口味评分</th>
+<th>评价内容</th>
+<th class="w-50">要求配送时间</th>
+<th>回复内容</th>
+<th class="w-50">回复时间</th>
+<th class="w-50">是否删除</th>
+<th class="w-100">创建时间</th>
+<th class="w-150">操作</th>
+</tr> 
+<{foreach $items as $item}>
+<tr <{if $item.closed == 1}>style="text-decoration:line-through;"<{/if}>>
+<td><label><input type="checkbox" value="<{$item.comment_id}>" name="comment_id[]" CK="PRI"/><{$item.comment_id}><label></td>
+<td><{$item.shop.title}></td>
+<td><{$item.member.nickname}></td>
+<td><{$item.order_id}></td>
+<td><{$item.score}></td>
+<td><{$item.score_fuwu}></td>
+<td><{$item.score_kouwei}></td>
+<td><{mb_substr($item['content'],0,15)}></td>
+<td><{$item.pei_time}></td>
+<td><{mb_substr($item['reply'],0,15)}></td>
+<td><{$item.reply_time|format}></td>
+<td><{if $item.closed == 1}><span style="color:red;">已删除</span><{else}>正常<{/if}></td>
+<td><{$item.dateline|format}></td>
+<td><{link ctl="shop/comment:detail" args=$item.comment_id class="button" title="查看"}><{link ctl="shop/comment:delete" args=$item.comment_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}></td>
+</tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left"><{link ctl="shop/comment:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+<{link ctl="shop/comment:doaudit" type="button" submit="mini:#items-form" confirm="mini:确定要批量审核选中的内容吗?" priv="hide" value="批量审核"}></td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

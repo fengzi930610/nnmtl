@@ -1,0 +1,105 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+            <th>资质信息</th>
+            <td align="right">
+                <{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}>
+                <{link ctl="waimai/shop:comment_so" arg0=$shop_id  load="mini:搜索内容" width="mini:500" class="button" title="搜索" priv='hide'}>
+            </td>
+            <td width="15"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main" priv="hide" }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main" priv="hide"}></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" class="on"}></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+
+
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" priv="hide" target="_blank" title="进入门店"}>
+        <div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-50">评论ID</th>
+                <th class="w-50">评论会员</th>
+                <th class="w-50">订单ID</th>
+                <th class="w-50">商家评分</th>
+                <th class="w-50">配送评分</th>
+                <th class="w-50">评论内容</th>
+                <th class="w-50">是否删除</th>
+                <th class="w-50">评论时间</th>
+                <th class="w-50">操作</th>
+
+            </tr>
+            <{foreach $items as $v}>
+            <tr>
+                <td><label><input type="checkbox" <{if $v.closed==1}>disabled='disabled'<{/if}> value="<{$v.comment_id}>" name="comment_id[]" CK="PRI"/><{$v.comment_id}><label></td>
+                <td><{if $v.member}><{$v.member.nickname}>(<{$v.member.mobile}>)<{else}>匿名用户<{/if}></td>
+                <td><{$v.order_id}></td>
+                <td><{$v.score}></td>
+                <td><{$v.score_peisong}></td>
+                <td><{$v.content|default:"----"}></td>
+                <td>
+                    <{if $v.closed==1}> <span class="red">是</span><{else}><span class="green">否</span><{/if}>
+                </td>
+                <td>
+                    <{$v.dateline|format:"Y-m-d H:i:s"}>
+                </td>
+
+                <td>
+                    <{link ctl="waimai/comment:detail" args=$v.comment_id  class="button" title="查看" priv='hide'}>
+                    <{if $v.closed==0}>
+                    <{link ctl="waimai/shop:comment_delete" args=$v.comment_id class="button"  act="mini:关闭" confirm="mini:确认删除吗" priv='hidden' title="删除"}>
+                    <{else}>
+                    <{link ctl="waimai/comment:recovery" args=$v.comment_id act="mini:恢复" confirm="mini:确定要恢复吗？" title="恢复" class="button"}>
+                    <{/if}>
+
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/shop:comment_delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量冻结选中的商户吗?" priv="hide" value="批量删除"}>
+                <td class="page-list"><{$pagers.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+<{include file="admin:common/footer.html"}>

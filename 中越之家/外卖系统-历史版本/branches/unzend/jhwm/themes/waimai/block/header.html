@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<meta name="format-detection" content="telephone=no" />
+<title><{$tpl_title|default:$CONFIG.site.title}></title>
+<link rel="stylesheet" href="<{$pager.res}>/cdn/css/jquery-weui.min.css">
+<link rel="stylesheet" href="<{$pager.res}>/cdn/css/weui.min.css">
+<link rel="stylesheet" href="/themes/waimai/static/css/example.css?<{$TMPLVER}>"/>
+<link rel="stylesheet" href="/themes/waimai/static/css/style.css?<{$TMPLVER}>"/>
+<link rel="stylesheet" href="/themes/waimai/static/css/append.css?<{$TMPLVER}>"/>
+<link rel="stylesheet" href="/themes/waimai/static/css/new.css?<{$TMPLVER}>"/>
+<script src="<{$pager.res}>/cdn/js/jquery.min.js"></script>
+<script src="<{$pager.res}>/cdn/js/jquery-weui.min.js"></script>
+<script src="<{$pager.res}>/cdn/js/swiper.min.js"></script>
+<script src="<{$pager.res}>/cdn/js/fastclick.min.js"></script>
+<script src="<{$pager.res}>/cdn/layer.m/layer.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="<{$pager.res}>/script/kt.js?<{$TMPLVER}>"></script>
+<script src="/themes/waimai/static/js/example.js?<{$TMPLVER}>"></script>
+<script src="/themes/waimai/static/js/loaddata.js?<{$TMPLVER}>"></script>
+<script src="/themes/waimai/static/js/ecart.js?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/waimai/static/js/common.js?201708281?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/waimai/static/js/cavous.js" type="text/javascript" charset="utf-8"></script>
+<script src="/themes/waimai/static/js/ecart_hg.js?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+<script src="//webapi.amap.com/maps?v=1.4.2&key=ccfe0f51eeba3b2d158565f9ef386c41" type="text/javascript"></script>
+<!-- <script src="//api.map.baidu.com/api?v=2.0&ak=824a595f958e444b737a5bc6325ad44f"></script> -->
+
+
+<script type="text/javascript">
+<{if $request.IN_WEIXIN}>
+window.WXJS_CFG = {
+    debug: false,
+    appId: '<{$wxjs_config["appId"]}>',
+    timestamp: '<{$wxjs_config["timestamp"]}>',
+    nonceStr: '<{$wxjs_config["nonceStr"]}>',
+    signature: '<{$wxjs_config["signature"]}>',
+    jsApiList: ['getLocation',"checkJsApi","onMenuShareAppMessage","onMenuShareTimeline","onMenuShareQQ"]
+};
+wx.config(WXJS_CFG);
+<{/if}>
+window.CFG = {"domain":"<{$CONFIG.site.domain}>",
+    "url":"<{$CONFIG.site.siteurl}>",
+    "title":"<{$CONFIG.site.title}>",
+    "res":"<{$pager.res}>",
+    "img":"<{$pager.img}>",
+    "C_PREFIX":"KT-",
+    "C_DOMAIN":"<{$pager.C_DOMAIN}>",
+    "waimai_domain":"<{$CONFIG.site.siteurl}>",
+    "JH_MAP_KEY":"<{$jh_server_key}>",
+    'IP_URL':"<{link ctl='position/iplocation' http='waimai'}>"
+};
+</script>
+
+<script type="text/tmpl" id="tmpl_appDown">
+    <{if $app_download.client_download}>
+        <div class="top_appDown pub_list" style="display:;">
+            <a href="javascript:;" class="close"></a>
+            <img src="<{$pager.img}>/<{$app_download.client_logo}>">
+            <div class="pub_list_bd">
+                <p><{$app_download.client_prompt}></p>
+            </div>      
+            <a href="__href__" class="btn">立即打开</a>
+        </div>
+    
+    <{/if}>
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var html = $('#tmpl_appDown').html();
+        var href = "<{$app_download.yyb_client_url}>";
+        var in_app = "<{$request.IN_APP_CLIENT}>";
+        if(checkIsAndroid()){
+            href = "<{$app_download.apk_client_download}>";
+        }else{
+            href = "<{$app_download.ios_client_download}>";
+        }
+
+        
+        if(!Cookie.get("closed_appdown") && !in_app){
+            $('#container .page_cont').prepend(html.replace('__href__', href));
+            //$('.top_appDown').show();
+        }
+        $(".top_appDown .close").click(function(){
+            Cookie.set("closed_appdown", 1, 10)
+            $(".top_appDown").remove();
+            //$(".top_appDown").hide();
+        });
+    });
+</script>
+
+</head>
+<body ontouchstart>
+<div id="tongji" style="height: 0px;width: 0px;"><{$site.tongji}></div>
+<div id='container' style="height: 1px;width: 1px;"></div>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+
+

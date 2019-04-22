@@ -1,0 +1,75 @@
+﻿/*样式*/
+
+/*报修*/
+.baoxiu-call{font-size:0.75rem;}
+.baoxiu-phone{display:block;width:1rem;height:1rem;background:url(../images/neighbourhood_dial@2x.png) no-repeat center; background-size:contain; vertical-align:middle;}
+.baoxiu-cont{border-radius:0.15rem}
+.baoxiu-cont .list-block{font-size:0.75rem;margin:0;}
+.baoxiu-cont .list-block input[type="text"]{font-size:0.75rem;}
+.baoxiu-cont .list-block .item-media + .item-inner{margin-left:0.3rem}
+.baoxiu-cont .list-block .item-inner:after{background:none}
+.icon-complain{display:inline-block;width:1rem;height:1rem;vertical-align:middle;}
+.icon-complain.icon-xiaoqu{background:url(../images/complain_address@2x.png) no-repeat center;background-size:contain; }
+.icon-complain.icon-user{background:url(../images/complain_user@2x.png) no-repeat center;background-size:contain; }
+.icon-complain.icon-call{background:url(../images/complain_phone@2x.png) no-repeat center;background-size:contain; }
+.shijian-pick{font-size:0.75rem;}
+.shijian-pick input{color:#333;width:90%;border:none}
+.shijian-pick .linkIco{display:block; width:0.62rem; height:0.98rem;background:url(../images/address_next@2x.png) no-repeat center; background-size:contain;}
+.baoxiu-cont .list-block textarea{font-size:0.75rem;color:#666}
+.write-ask-box{margin-top:1.5rem;}
+.write-ask-box .write-ask{color:#92B9E1}
+.img-box{ background:#fff;padding:0.5rem 0 0.5rem 0.4rem}
+.img-box ul li{float: left;margin-right: 0.4rem;margin-bottom: 0.4rem;display: block;width: 3.5rem;height: 3.5rem;overflow:hidden;border-radius:0.15rem;border:0.05rem solid #e5e5e5;}
+.img-more{width: 3.5rem;height: 3.5rem;background:url(../images/neighbourhood_add_img@2x.png) no-repeat center;background-size:contain;position:relative}
+.img-more input{position: absolute;z-index: 1;top: 0;left: 0;width: 100%;height: 100%;opacity: 0;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);padding: 0;}
+.img-shu{font-size:0.65rem;margin-top:2.7rem;}
+.img-shu .img-have{color:#92B9E1}
+/*报修记录*/
+.headerIco.cha-xun{margin-top:0;}
+.julu-one{ background:#fff}
+.julu-one .one-tit{font-size:0.75rem;border-bottom:0.05rem dashed #e5e5e5;}
+.julu-one .one-tit .riqi{font-size:0.65rem;}
+.julu-one .cont{font-size:0.8rem;}
+.julu-one .remind-btn{font-size:0.75rem;text-align:center;padding:0.08rem 0.7rem;border:0.05rem solid #999;color:#999;border-radius:0.15rem;margin-left:1rem}
+/*--地址修改、添加--*/
+.searchbar.dizhi-sou{background:none}
+.searchbar.dizhi-sou .searchbar-cancel{color:#fff}
+.searchbar.dizhi-sou .search-input input{background:rgba(255,255,255,0.3);color: #FFFFFF;}
+.searchbar.dizhi-sou .search-input input::-webkit-input-placeholder {color: #fff;}
+.searchbar.dizhi-sou .search-input input:-moz-placeholder{color: #fff;} 
+.searchbar.dizhi-sou .search-input input::-moz-placeholder{color: #fff;} 
+.searchbar.dizhi-sou .search-input input:-ms-input-placeholder {color: #fff;}
+.searchbar.dizhi-sou .search-input .icon-search{width:0.8rem;height:0.8rem;display:inline-block;background:url(../images/address_search.png) no-repeat center; background-size:contain; vertical-align:middle;}
+.cont-one .xiaoqu-name{font-size:0.75rem}
+.sousuo-cont .no-find{margin-top:50%;font-size:0.75rem}
+.submit-xiaoqu{display:inline-block;padding:0.3rem 1.2rem;border:0.05rem solid #eee;color:#333;border-radius:0.15rem;}
+/*选择城市*/
+.searchbar.city-sou .search-input .icon-search{width:0.8rem;height:0.8rem;display:inline-block;background:url(../images/address_search@2x.png) no-repeat center; background-size:contain; vertical-align:middle;}
+.searchbar.city-sou .search-input input{color:#999;border:none;font-size:0.75rem}
+.city-choose .dingwei-icon{width:1rem;height:1rem;display:inline-block;background:url(../images/address_position@2x.png) no-repeat center; background-size:contain; vertical-align:middle;margin-right:0.5rem;}
+.dingwei-city{font-size:0.75rem}
+.abc-fix{position:fixed;bottom:0;right:0.5rem;overflow:auto;height:90%;padding-bottom:5%}
+.abc-fix>ul>li{line-height:0.9rem}
+.abc-fix .zimu{font-size:0.65rem;color:#999;}
+.city-one .a-city{font-size:0.75rem}
+/*所在小区*/
+.dianji-down{display:inline-block; width:0.6rem; height:0.33rem;background:url(../images/community_unfold@2x.png) no-repeat center; background-size:contain;margin-top:0.9rem}
+/*提交小区*/
+.choose-where{font-size:0.75rem;margin:0;}
+.choose-where .item-input{padding-left:0.25rem}
+.choose-where .chengshi{width:20%;display:inline-block}
+.write-down{font-size:0.75rem;margin:0;}
+.write-down .item-title.label,.choose-where .item-title.label{width:20%}
+.write-down input[type="text"]{font-size:0.7rem}
+/*我的小区-管理*/
+.my-xiaoqu .list-block{margin:0;}
+.my-xiaoqu .item-title{font-size:0.75rem;color:#333}
+.confirm-or-not{color:#fff;font-size:0.65rem;padding:0.05rem 0.5rem;display:inline-block;background:#92B8E0;border-radius:0.15rem}
+.confirm-or-not.b-g{background:#FEB44E;}
+.my-xiaoqu .item-inner:after{background:none}
+.caozuo-one{width:50%;float:left;text-align:center}
+.caozuo-one>a{font-size:0.7rem;}
+.icon-caozuo{display:inline-block; width:1rem; height:1rem;background:url(../images/address_delete@2x.png) no-repeat center; background-size:contain;vertical-align: text-bottom;}
+.icon-caozuo.correct{background:url(../images/address_alter@2x.png) no-repeat center; background-size:contain;}
+.add-xiaoqu>a{font-size:0.75rem;}
+.add-xiaoqu .add-icon{display:inline-block; width:1rem; height:1rem;background:url(../images/address_add@2x.png) no-repeat center; background-size:contain;vertical-align: text-bottom;margin-right:0.5rem}

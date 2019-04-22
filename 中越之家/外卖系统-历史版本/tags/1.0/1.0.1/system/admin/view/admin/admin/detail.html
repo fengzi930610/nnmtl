@@ -1,0 +1,50 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right">&nbsp;<{link ctl="admin/admin:index" class="button" title="返回管理员列表"}><td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?admin/admin-save.html" mini-form="admin-form" method="post">
+	<input type="hidden" name="admin_id" value="<{$detail.admin_id}>" />
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th class="w-200">管理员:</th>
+			<td><input type="text" name="data[admin_name]" value="<{$detail.admin_name}>" class="input w-200"/></td>
+		</tr>
+		<tr>
+			<th>登录密码:</th>
+			<td><input type="text" name="data[passwd]" value="" class="input w-200"/></td>
+		</tr>
+		<tr>
+			<th>所在角色:</th>
+			<td>
+				<select name="data[role_id]" class="w-200">
+				<{foreach $role_list as $k=>$v}>
+				<option value="<{$v.role_id}>" <{if $v.role=='system' && $ADMIN.role!='system'}>disabled="disabled"<{elseif $detail.role_id==$v.role_id}>selected<{/if}>><{$v.role_name}>[<{$v.role}>]</option>
+				<{/foreach}>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<th>帐号状态:</th>
+			<td>
+			<select name="data[closed]">
+				<option value="0">正常</option>
+				<option value="2"<{if $detail.closed==2}> selected="selected"<{/if}>>禁用</option>
+				<option value="3"<{if $detail.closed==3}> selected="selected"<{/if}>>已删除</option>
+			</select>
+			</td>
+		</tr>
+		<tr>
+			<th class="clear-th-bottom">&nbsp;</th>
+			<td height="50" class="clear-td-bottom"><input type="submit" class="bt-big"  id="button2" value="提交数据" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

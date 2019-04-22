@@ -1,0 +1,16 @@
+<{assign var="tpl_title" value=$detail.title}>
+<{include file="waimai/web/block/header.html"}>
+<div class="container_mid">
+	<div class="sq-news-bg"></div>
+	<div class="mainwd sq-news-box">
+		<div class="det-box">
+			<div class="crumbs">首页－新闻资讯－正文</div>
+			<div class="wz-box">
+				<h3 class="text_c tit"><{$detail.title}></h3>
+				<div class="text_c black9">2<{$detail.dateline|format:"Y-m-d"}> / 已有<{$detail.views}>人浏览</div>
+				<div class="wz"><{$detail.content}></div>
+			</div>
+		</div>
+	</div>
+</div>
+<{include file="waimai/web/block/footer.html"}>

@@ -1,0 +1,192 @@
+<{include file="ditui/block/header.html"}>
+
+<div class="userIndex">
+<div class="userTui_link" >
+    <p class="big"><{L('推广链接')}></p>
+    <div id="qrcodeTable" ></div>
+    <p class="link"><{L('链接地址')}>：<a target="_blank" href="<{$mylink}>" class="fontcl"><{$mylink}></a></p>
+</div>
+<div class="userIndex_order_box">
+    <div class="userTui_order">
+        <ul>
+            <li class="userIndex_order_list">
+                <div class="lt">
+                    <i class="lt ico ico_5"></i>
+                    <div class="wz">
+                        <p><{L('注册用户数')}></p>
+                        <p class="num"><{if $users.reg_count>0}><{$users.reg_count}><{else}>0<{/if}></p>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </li>
+            <li class="userIndex_order_list">
+                <div class="lt">
+                    <i class="lt ico ico_6"></i>
+                    <div class="wz">
+                        <p><{L('注册商户数')}></p>
+                        <p class="num"><{if $shops>0}><{$shops}><{else}>0<{/if}></p>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </li>
+            <li class="userIndex_order_list">
+                <div class="lt">
+                    <i class="lt ico ico_7"></i>
+                    <div class="wz">
+                        <p><{L('下单会员数')}></p>
+                        <p class="num"><{if $users.order_count>0}><{$users.order_count}><{else}>0<{/if}></p>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </li>
+            <li class="userIndex_order_list">
+                <div class="lt">
+                    <i class="lt ico ico_8"></i>
+                    <div class="wz">
+                        <p><{L('累计总收入')}></p>
+                        <p class="num"><{if $users.total_money>0}><{$users.total_money}><{else}>0<{/if}></p>
+                    </div>
+                </div>
+                <div class="cl"></div>
+            </li>
+        </ul>
+        <div class="cl"></div>
+    </div>
+</div>
+<div class="userIndex">
+    <script>
+        $(document).ready(function() {                          
+             $(".userIndex_table_list").each(function(a){
+                 var obj = $(this);
+                 obj.find(".userIndex_table_bt .tab_list").mouseover(function(i) {
+                 
+                     obj.find(".userIndex_table_bt .tab_list").removeClass('on');
+                     $(this).addClass('on');
+                     var index = $(this).index();
+                     
+                     if( obj.find(".userIndex_table_cont_box .userIndex_table_cont").length >0){
+                         obj.find(".userIndex_table_cont_box .userIndex_table_cont").hide();
+                         obj.find(".userIndex_table_cont_box .userIndex_table_cont").eq(index).show();
+                     }
+                 }); 
+             });
+
+        });
+    </script>
+    <div class="userIndex_table">
+        <div class="userIndex_table_box">
+            <div class="userIndex_table_list">
+                <div class="userIndex_table_bt mb20">
+                    <div class="lt bt"><{L('地推饼状图')}> </div>
+                    <div class="rt">
+                        <a href="" class="tab_list on"><em></em><{L('近一周')}></a>
+                        <a href="" class="tab_list"><em></em><{L('近一月')}></a>
+                    </div>
+                    <div class="cl"></div>
+                </div>
+                <div class="userIndex_table_cont_box">
+                    <div class="userIndex_table_cont" id="week_chart"></div>
+                    <div class="userIndex_table_cont" id="month_chart" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+(function(K, $){
+
+})(window.KT, window.jQuery);
+</script>
+<{include file="ditui/block/footer.html"}>
+
+<script>
+// 生成二维码
+$('#qrcodeTable').qrcode({
+    render: "canvas",            //渲染方式 table 和 canvas两种
+    width: 128,                  //设置宽度  
+    height: 128,                 //设置高度  
+    typeNumber: -1,              //计算模式 
+    correctLevel: 2,             //纠错等级  0,1,2,3 默认为2
+    background: "#ffffff",       //背景颜色  
+    foreground: "#000000",       //前景颜色 
+    text    : '<{$mylink}>'
+}); 
+
+$(function () {
+    $('#week_chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '<{L("近一周地推饼状图")}>'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '<{L("占比")}>',
+            data: [
+                <{if $datas}>
+                    ['<{L("用户数")}>',   <{if $week_users>0}><{$week_users}><{else}>0<{/if}>],
+                    ['<{L("下单数")}>',   <{if $week_first>0}><{$week_first}><{else}>0<{/if}>],
+                    ['<{L("商家数")}>',   <{if $week_shopids>0}><{$week_shopids}><{else}>0<{/if}>],   
+                <{/if}> 
+            ]
+        }]
+    });
+
+    $('#month_chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '<{L("近一月地推饼状图")}>'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '<{L("占比")}>',
+            data: [
+                <{if $datas}>
+                    ['<{L("用户数")}>',   <{if $month_users>0}><{$month_users}><{else}>0<{/if}>],
+                    ['<{L("下单数")}>',   <{if $month_first>0}><{$month_first}><{else}>0<{/if}>],
+                    ['<{L("商家数")}>',   <{if $month_shopids>0}><{$month_shopids}><{else}>0<{/if}>],  
+                <{/if}>       
+            ]
+        }]
+    });
+});
+</script>

@@ -1,0 +1,19 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/weidian/info/index'}>" class="on">我的店铺</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    我的微店地址：<a href="<{$url}>" target="_blank">
+        <{$url}></a>
+    <br>
+    店铺二维码：<{$qrcode}>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

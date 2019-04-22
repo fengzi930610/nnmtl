@@ -1,0 +1,152 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?system/config-site.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="site" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th class="w-100">网站名称：</th>
+                <td><input type="text" name="config[title]" value="<{$config.title}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th class="w-100">网站网址：</th>
+                <td><input type="text" name="config[siteurl]" value="<{$config.siteurl}>" class="input w-300"/></td>
+            </tr>
+            <!-- <tr><th class="w-100">外卖网址：</th><td><input type="text" name="config[waimaiurl]" value="<{$config.waimaiurl}>" class="input w-300"/></td></tr>
+            <tr><th class="w-100">网站密钥：</th><td><input type="text" name="config[secret]" value="<{$config.secret}>" class="input w-300"/></td></tr> -->
+            <tr>
+                <th class="w-100">联系邮箱：</th>
+                <td><input type="text" name="config[mail]" value="<{$config.mail}>" class="input w-300"/></td>
+            </tr>
+            <tr> 
+                <th class="w-100">客服QQ：</th>
+                <td><input type="text" name="config[kfqq]" value="<{$config.kfqq}>" class="input w-300"/><span class="tip-comment">多个QQ用","分隔</span></td>
+            </tr>
+            <tr>
+                <th class="w-100">联系电话：</th>
+                <td><input type="text" name="config[phone]" value="<{$config.phone}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th class="w-100">公司地址：</th>
+                <td><input type="text" name="config[address]" value="<{$config.address}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>网站LOGO：</th>
+                <td>
+                    <input type="hidden" name="config[logo]" value="<{$config.logo}>" />
+                    <input type="file" name="config[logo]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+                    <{if $config.logo}><img src="<{$pager.img}>/<{$config.logo}>" photo="<{$pager.img}>/<{$config.logo}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th>商户中心logo ：</th>
+                <td>
+                    <input type="hidden" name="config[logo_shop]" value="<{$config.logo_shop}>" />
+                    <input type="file" name="config[logo_shop]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+                    <{if $config.logo_shop}><img src="<{$pager.img}>/<{$config.logo_shop}>" photo="<{$pager.img}>/<{$config.logo_shop}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th>微信二维码：</th>
+                <td>
+                    <input type="hidden" name="config[weixinqr]" value="<{$config.weixinqr}>" />
+                    <input type="file" name="config[weixinqr]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+                    <{if $config.weixinqr}><img src="<{$pager.img}>/<{$config.weixinqr}>" photo="<{$pager.img}>/<{$config.weixinqr}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+                </td>
+            </tr>
+            <tr>
+                <th class="w-100">默认城市：</th>
+                <td><select name="config[city_id]" class="w-100"><{widget id="data/city" value=$config.city_id}></select></td>
+            </tr>
+            <!-- <tr>
+            	<th>开启多城市：</th>
+            	<td>
+            		<label><input type="radio" name="config[multi_city]" <{if $config.multi_city}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+            		<label><input type="radio" name="config[multi_city]" <{if isset($config.multi_city) && empty($config.multi_city)}>checked="checked"<{/if}> value="0"/>关闭</label>
+            	</td>
+            </tr> -->
+            <tr>
+                <th class="w-100">根域名：</th>
+                <td>
+                    <input type="text" name="config[domain]" value="<{$config.domain}>" class="input w-300"/>
+                    <span class="tip-comment">开启多城市或设置频道域名，必须设置此项否则网站无法打开</span>
+                </td>
+            </tr>
+            <!-- <tr><th class="w-100">显示商家范围：</th>
+                <td>
+                    <input type="text" name="config[pei_range]" value="<{$config.pei_range}>" class="input w-50"/>
+                    <span class="tip-comment">显示商家的范围，单位（公里）。</span>
+                </td>
+            </tr> -->
+
+            <tr>
+                <th class="w-100">显示商家：</th>
+                <td>
+                    <select name="config[show_shop]" class="w-150 mr10 fl" />
+                        <option <{if $config.show_shop == 0 || !$config.show_shop}>selected="selected"<{/if}> value="0">显示所有商户</option>
+                        <option <{if $config.show_shop == 1}>selected="selected"<{/if}> value="1">仅在配送范围内</option>
+                        <option <{if $config.show_shop == 2}>selected="selected"<{/if}> value="2">指定距离范围</option>
+                    </select>
+                    <label class="fl" style="<{if $config.show_shop == 2}>display: block;<{else}>display: none<{/if}>">
+                        <input type="text" name="config[pei_range]" value="<{$config.pei_range}>" class="input w-50"/>
+                        <span class="tip-comment">显示商家的范围，单位（公里）。</span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th class="w-100">小程序审核：</th>
+                <td>
+                    <label><input type="radio" value="1" <{if $config.wxapp_ststus}>checked="checked"<{/if}>name="config[wxapp_ststus]">开启</label>
+                    <label><input type="radio" value="0" <{if empty($config.wxapp_ststus)}>checked="checked"<{/if}> name="config[wxapp_ststus]">关闭</label>&nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr>
+            	<th>开启伪静态：</th>
+                <td>
+            		<label><input type="radio" name="config[rewrite]" <{if $config.rewrite}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+            		<label><input type="radio" name="config[rewrite]" <{if empty($config.rewrite)}>checked="checked"<{/if}> value="0"/>关闭</label>
+            	</td>
+            </tr>
+
+            <tr>
+                <th>网站简介：</th>
+                <td><textarea name="config[intro]" class="textarea"><{$config.intro}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th>统计代码：</th>
+                <td><textarea name="config[tongji]" class="textarea"><{$config.tongji}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th class="w-100">备案信息：</th>
+                <td><input type="text" name="config[icp]" value="<{$config.icp}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('select[name="config[show_shop]"]').change(function(){
+            var val = $(this).val();
+            if(val == 2){
+                $(this).siblings('label').show();
+            }else{
+                $(this).siblings('label').hide();
+            }
+        })
+    });
+</script>
+<{include file="admin:common/footer.html"}>

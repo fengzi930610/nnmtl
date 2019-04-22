@@ -1,0 +1,295 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+            <tr>
+                <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+                <th>配送信息</th>
+                <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+                <td width="15"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+	<!--向导-->
+    <div class="guide_list_box mgb10">
+    	<ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main"  priv="hide" class="on"}></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main"  priv="hide" }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main"  priv="hide" }></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" target="_blank" priv="hide" title="进入门店"}>
+    	<div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-three-<{$shop_id}>.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <p class="form_title">配送设置</p>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody id="my_tbody">
+            	<tr>
+                    <th>配送方式：</th>
+                    <td>
+                        <label><input type="radio" class="myclass" name="data[pei_type]" <{if $waimai.pei_type == 0}>checked="checked"<{/if}> value="0">商家自主配送</label>
+                        <label><input type="radio" class="myclass" name="data[pei_type]" <{if $waimai.pei_type == 1}>checked="checked"<{/if}> value="1">平台配送</label>
+                    </td>
+
+                </tr>
+                <tr id="my_group1">
+                    <th>配送站：</th>
+                    <td>
+                        <select name="data[group_id]" class="w-200">
+                            <option value="">请选择配送站</option>
+                            <{foreach $group_list as $v}>
+                            <option value="<{$v.group_id}>" <{if $v.group_id==$waimai.group_id}>selected="selected"<{/if}>><{$v.group_name}></option>
+                            <{/foreach}>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <{if false}><!-- 20190121 添加 店铺配送费计算参数定义 开始 --><{/if}>
+    <p class="form_title">配送费计算参数</p>
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tbody id="my_tbody">
+            <tr>
+                <th valign="top" style="padding-top: 18px;">参数列表：</th>
+                <td>
+                    <div id="ParanList">
+                        <{if $waimai.freight_calc_type==0}>
+                        系统默认方式
+                        <{elseif $waimai.freight_calc_type>0}>
+                            <{if abs($waimai.freight_calc_type)==1}>
+                            <div>起步<input type="text" name="start_distance" value="<{$fcc_config.start_distance}>">公里</div>
+                            <div>起步公里运费<input type="text" name="start_fee" value="<{$fcc_config.start_fee}>">越南盾</div>
+                            <div>每公里递增运费<input type="text" name="fee_base" value="<{$fcc_config.fee_base}>">越南盾</div>
+                            <input type="hidden" name="distance_base" value="<{$fcc_config.distance_base}>">
+                            <{elseif abs($waimai.freight_calc_type)==2}>
+                            <input type="hidden" name="in_distance_base" value="<{$fcc_config.in_distance_base}>">
+                            <input type="hidden" name="out_distance_base" value="<{$fcc_config.out_distance_base}>">
+                            <div>配送费分级范围<input type="text" name="distance_range" value="<{$fcc_config.distance_range}>">公里</div>
+                            <div>范围内每公里<input type="text" name="in_fee_base" value="<{$fcc_config.in_fee_base}>">越南盾</div>
+                            <div>范围外每公里<input type="text" name="out_fee_base" value="<{$fcc_config.out_fee_base}>">越南盾</div>
+                            <{/if}>
+                        <{else}>
+                        <{if $fcc_config}>
+                            <{if abs($waimai.freight_calc_type)==1}>
+                            <div>起步 <{$fcc_config.start_distance}> 公里</div>
+                            <div>起步公里运费 <{$fcc_config.start_fee}> 越南盾</div>
+                            <div>每公里递增运费 <{$fcc_config.fee_base}> 越南盾</div>
+                            <{elseif abs($waimai.freight_calc_type)==2}>
+                            <div>配送费分级范围 <{$fcc_config.distance_range}> 公里</div>
+                            <div>范围内每公里 <{$fcc_config.in_fee_base}> 越南盾</div>
+                            <div>范围外每公里 <{$fcc_config.out_fee_base}> 越南盾</div>
+                            <{/if}>
+                        <{else}>
+                            暂无配置
+                        <{/if}>
+                        <{/if}>
+                        
+
+
+                        <{if false}><!-- 2019-01-24 废弃-->
+                        <div><span>距离（公里)</span><span>配送费（越南盾）</span></div>
+                        <{if $fcc_config_list}>
+                        <{foreach $fcc_config_list as $v}>
+                        <{if $waimai.freight_calc_type > 0}>
+                        <div><input type="text" value="<{$v.distance}>"><input type="text" value="<{$v.fee}>"><i class="del">删除</i></div>
+                        <{else}>
+                        <div><span><{$v.distance}></span><span><{$v.fee}></span></div>
+                        <{/if}>
+                        <{/foreach}>
+                        <{/if}>
+                        <{if $waimai.freight_calc_type > 0}>
+                        <div><a id="AddParam" title="添加参数"></a></div>
+                        <{elseif !$fcc_config_list}>
+                        <div><span>暂无配置</span></div>
+                        <{/if}>
+                        <!-- 2019-01-24 废弃--><{/if}>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <{if $waimai.freight_calc_type > 0}>
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tbody>
+            <tr>
+                <th></th>
+                <td class="clear-td-bottom" colspan="10"><input type="button" class="bt-big" id="SaveParamBtn" value="保存参数"></td>
+            </tr>
+        </tbody>
+    </table>
+    <{/if}>
+    <{if false}><!-- 20190121 添加 店铺配送费计算参数定义 结束 --><{/if}>
+</div>
+
+<{if false}><!-- 20190121 添加 店铺配送费计算参数定义 样式/脚本 开始--><{/if}>
+<style type="text/css">
+#ParanList > div{
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    margin:5px 0;
+}
+#ParanList > div > span,#ParanList > div > input{
+    display: inline-block;
+    width: 132px;
+    text-align: left;
+    margin:0 6px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    height: 28px;
+    line-height: 28px;
+}
+#ParanList > div > span:first-child,#ParanList > div > input:first-child{
+    text-align: right;
+}
+#ParanList > div > .del{
+    display: inline-block;
+    font-style: normal;
+    cursor: pointer;
+    color: #F60;
+    margin-left: 12px;
+}
+#ParanList > div > input{
+    background-color: #FFF;
+    border:1px solid #CCC;
+    border-radius: 5px;
+    transition: border .26s;
+    box-sizing: border-box;
+}
+#ParanList > div > input:focus{
+    outline: none;
+    border-color: #09F;
+}
+#AddParam{
+    width: 276px;
+    border:1px dashed #CCC;
+    height: 28px;
+    line-height: 28px;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bolder;
+    color: #CCC;
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#AddParam:after{
+    content: "+";
+}
+#AddParam:hover{
+    border-color: #AAA;
+    color: #AAA;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(document).on("click","#ParanList .del",function(){
+        $(this).parent().remove();
+    });
+    $("#AddParam").on("click",function(){
+        $("<div><input type=\"text\" value=\"\"><input type=\"text\" value=\"\"><i class=\"del\">删除</i></div>").insertBefore($(this).parent());
+    });
+    $("#SaveParamBtn").on("click",function(){
+        // var data = [];
+        // var rows = $("#ParanList > div");
+        // for(var k=0;k<rows.length;++k)
+        // {
+        //     var inputs = rows.eq(k).children("input[type='text']");
+        //     if(inputs.length === 2)
+        //     {
+        //         var dis = parseFloat($.trim(inputs.eq(0).val()));
+        //         var fee = parseFloat($.trim(inputs.eq(1).val()));
+        //         if(isNaN(dis) || isNaN(fee) || dis <= 0 || fee<0)
+        //         {
+        //             Widget.MsgBox.error("参数有误，请检查后尝试操作");
+        //             return;
+        //         }
+        //         data.push({distance:dis,fee:fee});
+        //     }
+        // }
+        // if(data.length === 0)
+        //     data = "empty";
+        var data = {};
+        var ipts = $("#ParanList").find("input[name]");
+        if(ipts.length === 0)
+            return;
+        for(var k in ipts)
+        {
+            if(ipts.eq(k).attr("name") !== "type")
+                data[ipts.eq(k).attr("name")] = Number($.trim(ipts.eq(k).val()));
+        }
+        $.ajax({
+            url: "?waimai/waimai-save_fcc.html",
+            cache: false,
+            data: {shop_id:parseInt("<{$shop_id}>"),data:data},
+            dataType: "json",
+            type: "POST",
+            success:function(data){
+                if(data.error === 0)
+                    Widget.MsgBox.success("操作成功",{},function(){
+                        window.location.reload();
+                    });
+                else
+                    Widget.MsgBox.error(data.message);
+            },
+            error: function(){
+                Widget.MsgBox.error("网络或数据错误");
+            }
+        });
+    });
+});
+</script>
+<{if false}><!-- 20190121 添加 店铺配送费计算参数定义 样式/脚本 结束--><{/if}>
+
+<script>
+    /*$(function(){
+        $('.myclass').on('change',function(){
+            var  val = $(this).val();
+            var format = parseInt(val);
+            if(format==1){
+               $('#my_group1').show();
+            }else{
+                $('#my_group1').hide();
+            }
+
+        })
+        var pei_type = "<{$waimai.pei_type}>";
+        if(pei_type=='1'){
+            $('#my_group1').show();
+        }
+    })*/
+
+</script>
+<{include file="admin:common/footer.html"}>

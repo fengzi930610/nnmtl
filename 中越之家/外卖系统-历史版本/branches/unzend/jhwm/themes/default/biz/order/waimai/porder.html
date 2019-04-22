@@ -1,0 +1,87 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/layer/layer.js?<{$VER}>"></script>
+        <script type="text/javascript" src="<{$pager.res}>/script/kt.j.js"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+        <script src="/themes/default/biz/static/script/printArea.js" type="text/javascript" charset="utf-8"></script>
+    <div class="print_area">
+        <style type="text/css">
+            
+            .stamp_list_box .print_btn{background: #5db42f; text-align: center; height: 40px; line-height: 40px; padding: 0px 20px; position: relative;}
+            .stamp_list_box .print_btn a{font-size: 16px; color: #fff;}
+            .stamp_list .print_btn a{font-size: 16px; color: #fff;}
+            .stamp_list_cont{ padding:10px 5px 30px 5px;}
+            .stamp_list_cont .list_cont{ border-bottom:1px dashed #ccc; padding:0px ; font-size: 12px;}
+            .stamp_list_cont p{ font-size:10px; line-height:20px; color:#000; font-weight:normal;}
+            .stamp_list_cont .list_cd{ padding:0 10px;}
+            .stamp_list_cont .list_cd li span{ display:inline-block; line-height:20px; color:#333; font-weight:normal; font-size: 10px;}
+            .stamp_list_cont .list_cd .bt{ width:60%; padding-right:2%;}
+            .stamp_list_cont .list_cd .num{ width:12%;}
+            .stamp_list_cont .list_cd .price{ width:25%; text-align:right;}
+            .stamp_list_cont .big_font{ font-size:14px; line-height:28px; font-weight:normal;}
+        </style>
+        <link rel="stylesheet" type="text/css" href="/themes/default/biz/static/css/ucenter.css"/>
+        <div class="stamp stamp_list_<{$detail.order_id}>">
+            <div class="stamp_list_box">
+                <div class="print_btn"><a href="javascript:window.print();" class="print_<{$detail.order_id}>">立即打印</a></div>
+                <div class="stamp_list"  id="stamp_list_<{$detail.order_id}>">
+                    <div class="stamp_list_cont">
+                        <ul>
+                            <li class="list_cont">
+                                <p>店铺：<{$shop.title}></p>
+                            </li>
+                            <li class="list_cont">
+                                <p>订单时间：<{$detail.dateline|format:'m-d H:i'}></p>
+                                <p>支付方式：<{if $detail.online_pay == 1}><{$payments[$detail['pay_code']]}><{else}>餐到付款<{/if}>（<{if $detail.pay_status == 1}>已付<{else}>未付<{/if}>）</p>
+                            </li>
+                            <li class="list_cont">
+                                <p>顾客留言：<{$detail.note}></p>
+                            </li>
+                            <li class="list_cont">
+                                <p>商品详情：</p>
+                                <ul class="list_cd">
+                                    <{foreach $detail.products as $val}>
+                                    <li><span class="bt"><{$val.product_name}></span><span class="num">×<{$val.product_number}></span><span class="price">￥<{$val.product_price}></span></li>
+                                    <{/foreach}>
+                                    <li><span class="bt">打包费</span><span class="num"></span><span class="price"><{$detail.package_price}></span></li>
+                                    <li><span class="bt">运费</span><span class="num"></span><span class="price"><{$detail.freight}></span></li>
+                                </ul>
+                            </li>
+                            <li class="list_cont">
+                                <p>商品合计：￥<{$detail.product_price}></p>
+                                <{if $detail.first_youhui>0}><p>首单立减：-￥<{$detail.first_youhui}></p><{/if}>
+                                <{if $detail.order_youhui>0}><p>下单立减：-￥<{$detail.order_youhui}></p><{/if}>
+                                <{if $detail.hongbao>0}><p>红包抵扣：-￥<{$detail.hongbao}></p><{/if}>
+                                <p>结算价：<big>￥<{$detail.js_price}></big></p>
+                            </li>
+                        </ul>
+                        <div class="stamp_list_infor">
+                            <p>顾客信息：</p>
+                            <P class="big_font"><{$detail.contact}></P>
+                            <P class="big_font"><{$detail.mobile}></P>
+                            <P class="big_font"><{$detail.house}></P>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        var order_id = "<{$detail.order_id}>";
+        $(".print_" + order_id).click(function () {
+            
+            $(".stamp_list_box").find('.print_btn').remove();
+            //window.print();
+            $('.print_area').printArea();
+            layer.closeAll();
+        })
+    })
+</script>
+

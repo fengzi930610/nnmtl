@@ -1,0 +1,4 @@
+ 
+<{foreach $data.article as $item}>
+<li><a target='_blank' href="<{link ctl='content:detail' arg0=$item.article_id}>" title="<{$item.title}>" target="_blank"><{$item.title}></a></li>
+<{/foreach}>

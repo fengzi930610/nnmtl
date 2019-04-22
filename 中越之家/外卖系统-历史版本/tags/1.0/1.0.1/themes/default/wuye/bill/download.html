@@ -1,0 +1,111 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/tieba/index'}>" class="on">帖子管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;margin-bottom:30px;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td width="20%">编号：</td>
+        <td width="80%"><{$detail.tieba_id}></td>
+    </tr>
+    <tr>
+        <td width="20%">用户：</td>
+        <td width="80%"><img src="<{$pager.img}>/<{$detail.member.face}>" width="30" height="30" /> &nbsp;<{$detail.member.nickname}></td>
+    </tr>
+    <tr>
+        <td width="20%">姓名：</td>
+        <td width="80%"><{$detail.contact}></td>
+    </tr>
+    <tr>
+        <td width="20%">电话：</td>
+        <td width="80%"><{$detail.mobile}></td>
+    </tr>
+    <tr>
+        <td width="20%">内容：</td>
+        <td width="80%"><{$detail.content}></td>
+    </tr>
+
+    
+    <tr>
+        <td width="20%">提醒时间：</td>
+        <td width="80%"><{if $detail.tx_time}><{$detail.tx_time|format}><{else}>--<{/if}></td>
+    </tr>
+    <tr>
+        <td width="20%">状态：</td>
+        <td width="80%">
+            <{if $detail.status == -1}>撤销<{/if}>
+            <{if $detail.status == 0}>待处理<{/if}>
+            <{if $detail.status == 1}>已处理<{/if}>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%">报修时间：</td>
+        <td width="80%">
+            <{$detail.dateline|format}>
+        </td>
+    </tr>
+
+</table>
+</div>
+
+
+<{if $detail.reply_list}>
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/tieba/index'}>" class="on">相关回复</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50">编号</th>
+        <th class="w-120">回复人</th>
+        <th class="w-500">内容</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $detail.reply_list as $k => $v}>
+    <tr>
+        <td><{$v.reply_id}></td>
+        <td>
+            <img src="<{$pager.img}>/<{$v.member.face}>" width="20" height="20" />&nbsp;<{$v.member.nickname}>
+        </td>
+        <td>
+            <{if $v.at_member}>
+                @<{$v.at_member.nickname}>：
+            <{/if}>
+            <{$v.content}>
+        </td>
+        <td><{$v.dateline|format}></td>
+    </tr>
+    <{/foreach}>
+    </table>
+</div>
+<{/if}>
+
+<{if $detail['photo']}>
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/tieba/index'}>" class="on">相关照片</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;">
+    <table cellspacing="0" cellpadding="0" class="table">
+
+    <{foreach $detail['photo'] as $item}>
+    <tr>
+        <td><img src="<{$pager.img}>/<{$item.photo}>" width="200" /></td>
+    </tr>
+    <{/foreach}>
+    
+    </table>
+</div>
+<{/if}>
+
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

@@ -1,0 +1,87 @@
+<{assign var="page_title" value="微信登录"}>
+<{assign var='tpl_title' value=L("微信登录")}>
+<{include file="pchome/block/header.html"}>
+    <div class="headerTop_one">
+        <div class="smallpage">
+            <div class="logo fl">
+                <img src="<{$pager.img}>/<{$site.logo2}>">
+            </div>
+            <div class="tit fl">微信登录</div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="weixinTop_ts">还差一步，您就可以使用微信快捷登录了</div>
+    <div class="forget_box bg_grey">
+    	<div class="forget_box_small">
+        	<div class="weixinLogin_tit">
+            	<a href="javascript:;" class="border_r on">已有账号</a>
+                <a href="javascript:;">未注册账号</a>
+            </div>
+            <div class="cont">
+            	<div class="weixinLogin_cont">
+                    <form id="form1">
+                        <P class="bt">手机号</P>
+                        <div class="int_box mb20"><input type="text" name="data[mobile]" placeholder="手机号"></div>
+                        <P class="bt">密码</P>
+                        <div class="int_box mb20"><input type="password" name="data[passwd]" placeholder="密码"></div>
+                        <input type="button" value="立即绑定账号" class="long_btn btn1" style='margin-top:30px;'>
+                    </form>
+                </div>
+            	<div class="weixinLogin_cont none">
+                    <form id="form2">
+                        <P class="bt">手机号</P>
+                        <div class="int_box mb20"><input type="text" name="data[mobile]" id="mobile" placeholder="手机号"><div class="getyzm" id="sendsms">获取验证码</div></div>
+                        <P class="bt">验证码</P>
+                        <div class="int_box mb20"><input type="text" name="data[code]" placeholder="验证码"></div>
+                        <P class="bt">密码</P>
+                        <div class="int_box mb20"><input type="password" name="data[passwd]" placeholder="密码"></div>
+                        <P class="bt">确认密码</P>
+                        <div class="int_box mb20"><input type="password" name="data[passwd2]" placeholder="确认密码"></div>
+                        <input type="hidden" name="data[type]" value="1">
+                        <input type="button" value="注 册" class="long_btn btn2">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <script>
+		$(document).ready(function(){
+			$(".weixinLogin_tit a").each(function(e){
+				$(this).click(function(){
+					$(this).addClass("on").siblings("a").removeClass("on");
+					$(".weixinLogin_cont").each(function(i){
+						if(e==i){
+							$(this).removeClass("none").siblings(".weixinLogin_cont").addClass("none");
+						}else{
+							$(this).addClass("none");
+						}
+					});
+				});
+			});
+            get_yzm('#sendsms', '#mobile',"<{link ctl='passport/sendsms'}>");
+            var link = "<{link ctl='passport/wxbinding'}>"
+            //绑定开始
+            $('.btn1').click(function(){
+                $.post(link,$('#form1').serialize(),function(ret){
+                    if(ret.error == 0){
+                        setTimeout(function(){
+                            location.href="<{link ctl='index'}>";
+                        },1500)
+                    }
+                    layer.msg(ret.message);
+                },'json');
+            })
+            $('.btn2').click(function(){
+                $.post(link,$('#form2').serialize(),function(ret){
+                    if(ret.error == 0){
+                        setTimeout(function(){
+                            location.href="<{link ctl='index'}>";
+                        },1500)
+                    }
+                    layer.msg(ret.message);
+                },'json');
+            })
+		});
+    </script>
+<{include file="pchome/block/footer.html"}>

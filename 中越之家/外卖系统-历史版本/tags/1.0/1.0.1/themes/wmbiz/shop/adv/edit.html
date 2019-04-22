@@ -1,0 +1,90 @@
+<{include file="block/header.html"}>
+
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='huodong/shop'}>">营销管理</a></li>
+        <li class="active">页面广告</li>
+    </ol>
+</div>
+<script>
+    function fileSelected(obj, type) {
+        var files = obj.files;
+        for (var i = 0; i < files.length; i++) {
+            var tag = '';
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[i].type)) {
+                alert("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onloadstart = function (e) {
+                $(".loading").show();
+            }
+            reader.onload = function (e) {
+                $("#img_" + type).attr("src", e.target.result).show();  //图片编码字符串
+                $(".img_" + type).attr("rel", e.target.result);  //图片编码字符串
+            }
+            reader.readAsDataURL(files[i]);
+        }
+    }
+</script>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <!--表单-->
+        <div class="tabnr_change show">
+            <form action="<{link ctl='shop/adv/edit' arg0=$detail.adv_id}>" mini-form="wmbiz" method="post" target="miniframe">
+                <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="120"><p class="form_table_t"><em>·</em>标题：</p></td>
+                        <td><div class="form_table_nr"><input type="text" name="data[title]" class="form_table_int form_table_intw1" value="<{$detail.title}>" /></div></td>
+                    </tr>
+                    <tr>
+                        <td width="120"><p class="form_table_t"><em>·</em>广告链接：</p></td>
+                        <td><div class="form_table_nr"><input type="text" name="data[link]" class="form_table_int form_table_intw1" value="<{$detail.link}>" /></div></td>
+                    </tr>
+                    <tr>
+                        <td><p class="form_table_t"><em>·</em>广告图片：</p></td>
+                        <td>
+                            <div class="form_table_nr">
+                                <div class="fl form_table_scimg">
+                                    <a class="btn btn-primary btn-sm upload_img_btn">图片上传 <input type="file" name="data[photo][0]" id="photo_0" onchange="fileSelected(this,0)" class="scimg_int" /></a>
+                                    <p>建议尺寸600*200</p></div>
+                                <div class="fl">
+                                    <div class="form_table_sjimg"><img id="img_0" src="<{$pager.img}>/<{$detail.photo|default:'default/product.png'}>" width="78" height="78" /></div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><p class="form_table_t"><em>·</em>有效时间：</p></td>
+                        <td>
+                            <div class="clearfix list_box">
+                                <div class="fl" id="data_5">
+                                    <span class="input-daterange" id="datepicker"><input type="text" name="data[stime]" value="<{$detail.stime|format:'Y-m-d'}>"  class="tuan_topser tuan_topserw3"/>至<input type="text" name="data[ltime]" value="<{$detail.ltime|format:'Y-m-d'}>" class="tuan_topser tuan_topserw3"/></span><span class="ml5 black9">（默认为开始日期0:00至结束日期23:59）</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td width="120"><p class="form_table_t">广告排序：</p></td>
+                        <td><div class="form_table_nr"><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="form_table_int form_table_intw1" /></div></td>
+                    </tr>
+                    <!-- <tr>
+                        <td><p class="form_table_t">广告简介：</p></td>
+                        <td><div class="form_table_nr"><textarea name="data[intro]" class="form_table_int form_table_textarea"></textarea></div></td>
+                    </tr> -->
+                </table>
+                <div class="form_table_btn_box text_c">
+                    <input class="btn btn-primary btn-w-m sub_btn" type="submit" value="保存" />
+                    <a class="btn btn-default btn-w-m" href="<{link ctl='shop/adv/index'}>">取消</a>
+                </div>
+            </form>
+        </div>
+        <!--表单end-->
+    </div>
+    <div id="preview" class="none"><img class="jq_preview" src="" width="200" height="200"/></div>
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,64 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/waimai/comment:index'}>">订单评论</a>
+        <a href="<{link ctl='biz/waimai/comment:index' st=1}>">待回复评论</a>
+        <a href="javascript:;" class="on">评论详情</a>
+    </ul>
+</div>
+<div class="ucenter_c">
+<table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td class="w-150">订单号：</td>
+        <td><{$detail.order_id}></td>
+        <td><a href="<{link ctl='biz/waimai/order/detail' arg0=$detail.order_id}>" class="btn btn-success">查看订单详情</a></td>
+    </tr>
+    <tr>
+        <td>用户：</td>
+        <td colspan="2"><{$user['nickname']}>、<{$user.mobile}></td>    
+    </tr>
+    <tr>
+        <td>状态：</td>
+        <td colspan="2"><{if $detail.reply_time}><b class="blue">已回复</b><{else}><b class="red">未回复</b><{/if}></td>    
+    </tr>
+    <tr>
+        <td>评分</td>
+        <td colspan="2">
+            <label>总体评分：<{$detail.score}></label>&nbsp;&nbsp;&nbsp;
+            <label>服务评分：<{$detail.score_fuwu}></label>&nbsp;&nbsp;&nbsp;
+            <label>商品评分：<{$detail.score_kouwei}></label>&nbsp;&nbsp;&nbsp;
+        </td>
+    </tr>
+    <tr>
+        <td>评论内容：</td>
+        <td colspan="2" style="width:200px;margin-right:50px"><{$detail.content}></td>
+    </tr>
+    <tr>
+        <td>评论时间：</td>
+        <td style="width:200px;margin-right:50px"><{$detail.dateline|format}></td>
+    </tr>
+    <{if $detail.reply}>
+     <tr>
+        <td>回复内容：</td>
+        <td colspan="2" style="width:200px;margin-right:50px"><{$detail.reply}></td>
+    </tr>
+    <tr>
+        <td>回复时间：</td>
+        <td colspan="2" style="width:200px;margin-right:50px"><{$detail.reply_time|format}></td>
+    </tr>
+    <{/if}>
+    <{if $photos}>
+    <tr>
+        <td>图片</td>
+        <td colspan="2">
+        <{foreach $photos as $item}>
+        <img style="float: left; margin: 10px 10px 10px 0px; " src="<{$pager.img}>/<{$item.photo}>" width="120" height="120">
+        <{/foreach}>
+        </td>
+    </tr>
+    <{/if}>
+    <{if !$detail.reply}><tr><td style="border-bottom: none;"><a title="回复" mini-width="450" mini-load="回复评论" href="<{link ctl='biz/waimai/comment/reply' args=$detail.comment_id}>" class="btn btn-success" title="立即回复">立即回复</a></td></tr><{/if}>
+</table>
+
+</div>
+<{include file="biz/block/footer.html"}> 

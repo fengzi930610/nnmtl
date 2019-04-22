@@ -1,0 +1,42 @@
+<{include file="biz/block/header.html"}>
+<style type="text/css">
+	.tab_fl{display:inline-block;width:314px;border-right:2px solid #ffffff;background:#5db42f;color:#ffffff;line-height:20px;height:40px;padding:5px 0px;float:left;text-align:center;}
+	.tab_fl2{display:inline-block;width:314px;background:#5db42f;color:#ffffff;line-height:40px;height:40px;padding:5px 0px;float:left;text-align:center;}
+</style>
+<tr>
+	<td colspan="20">
+		<div class="alert alert-info">
+			<h3>客户管理</h3>
+			<p><{$member.nickname}>&nbsp;&nbsp;&nbsp;<{$member.mobile}></p>
+		</div>
+	</td>
+</tr>
+<div >
+    <div class="tab_fl"><{if $member.total_order==0}>0<{else}><{$member.total_order}><{/if}><br>本店订单数</div>
+    <div class="tab_fl" style="width:34%">¥&nbsp;<{if $member.total_amount==0}>0.00<{else}><{$member.total_amount}><{/if}><br>本店消费金额</div>
+    <div class="tab_fl2" style="margin-bottom:15px;">发消息</div>
+</div>
+
+<div class="ucenter_c">	
+    <table cellspacing="0" cellpadding="0" class="table" >
+    <tr>
+        <th class="w-100">订单号</th>
+        <th class="w-100">订单状态</th>
+        <th class="w-100">订单提交时间</th>
+        <th class="w-100">消费金额</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.order_id}></td>       
+        <td>已完成</td>
+        <td><{$item.dateline|format:'Y-m-d H:i'}></td>
+        <td><{$item.amount+$item.money+$item.hongbao}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">该用户在本店暂无消费</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

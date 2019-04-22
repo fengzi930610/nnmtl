@@ -1,0 +1,62 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+            <{link ctl="finance/mall:so" args=$shop_id load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+	<div class="enterInfo_step_tit mb10">
+            <h2 class="float-l blue">商家&nbsp;&nbsp;<span class="red"><{$weidian.title}></span>&nbsp;&nbsp;对账</h2>
+    </div>
+    <div class="finance_ord_delt mb10">
+    	<table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>平台佣金</th>
+            </tr>
+            <tr>
+                <td><p class="orange">+<{$total}></p></td>
+            </tr>
+        </table>
+
+    </div>
+    <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <th>账单日期</th>
+            <th>入账状态</th>
+            <th>商家应得</th>
+            <th>平台佣金</th>
+            <th>在线支付</th>
+            <th>退款金额</th>
+            <th>详情</th>
+        </tr>
+        <{foreach $items as $k => $v}>
+        <tr>
+            <td><{$v.bills_sn}></td>
+            <td><{if $v.status == 0}><span style="color:#fd0202;">未入账</span><{/if}><{if $v.status == 1}><span style="color:#00bd9e;">已入账</span><{/if}></td>
+            <td><{$v.amount}></td>
+            <td>+<{$v.fee}></td>
+            <td><{$v.amount+$v.fee+$v.tuikuan}></td>
+            <td><{$v.tuikuan}></td>
+            <td><{link ctl="finance/mall:detail" args=$v.bills_id class="button" title="查看"}></td>
+        </tr>
+        <{foreachelse}>
+                <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+    </table>
+    <div class="page-bar">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="page-list" colspan="10"><{$pager.pagebar}></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+</div>
+<{include file="admin:common/footer.html"}>

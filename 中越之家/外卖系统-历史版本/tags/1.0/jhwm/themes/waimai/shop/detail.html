@@ -1,0 +1,1407 @@
+<{assign var='tpl_title' value=L("<{$detail.title}>")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+    .disctype{color:#f24544; background:#fff; border: 1px solid #f24544; border-radius: 3px; font-size:10px;}
+    .disctype label{ padding: 0 3px;}
+    .disctype label:first-child{ background: #f24544; color: #fff;}
+    .discsku{ color:#ff6600; background:#feb; margin-left: 5px; border-radius: 3px; padding: 0 3px; font-size:10px;}
+    del{ text-decoration: line-through;}
+    .goods_cart_mask .cont { max-height: 300px; overflow: auto;  -webkit-overflow-scrolling : touch;}
+    .goods_guige_mask .cont { height: auto !important;}
+    .shangjiaDelt_sign .goods_guige_btn{ position: absolute; right: 2px; bottom: 2px;}
+    /*新修改-开始*/
+    .shangjiaDelt_tab_fixed{position: fixed; left: 0; top: 0; right: 0; z-index: 10;}
+    .top_appDown ~ .shangjiaDelt_tab_fixed{top: 50px;}
+    .shangjiaDelt_mid{overflow: unset;}
+    .shangjiaDelt_mid_left{position: relative; left: auto;top: auto;bottom: auto;overflow: unset; float: left;}
+    .shangjiaDelt_mid_right{position: relative; right: auto;top: auto;bottom: auto;overflow: unset; float: right;}
+    #shangjiaDelt_goods_all{position: relative;width: 100%;}
+    .shangjiaDelt_mid_left_fixed{position: fixed; left: 0; top: 44px; bottom: 50px; z-index: 10; float: unset;overflow-y: auto;overflow-x: hidden;}
+    .top_appDown ~ .shangjiaDelt_mid_left_fixed{top: 94px;}
+    /*新修改-结束*/
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <!--头部切换浮动-开始-->
+            <div class="shangjiaDelt_tab shangjiaDelt_tab_fixed" style="display: none;">
+                <a href="<{link ctl='shop/detail' args=$detail.shop_id http='waimai'}>" class="list on">商品</a>
+                <a href="<{link ctl='shop/comment' args=$detail.shop_id http='waimai'}>" class="list">评价</a>
+                <a href="<{link ctl='shop/info' args=$detail.shop_id http='waimai'}>" class="list">详情</a>
+            </div>
+            <!--头部切换浮动-结束-->
+            <!--左侧分类浮动-开始-->
+            <div class="shangjiaDelt_mid_left shangjiaDelt_mid_left_fixed" style="display: none;">
+                <ul>
+                    <li class="on" rel="0">全部</li>                            
+                    <{if $count_hot}>
+                    <li class="" rel="hot" ><i class="ico_hot"></i>热销</li>
+                    <{/if}>
+                    <{if $is_must}>
+                    <li class="" rel="must" id="mm_must"><i class="ico_must"></i>必点</li>
+                    <{/if}>
+                    <{if $is_discount}>
+                    <li class="" rel="discount" >优惠</li>
+                    <{/if}>
+                    <{foreach $waimai_cates as $cate}>
+                        <{if $cate.parent_id == 0}>
+                        <li rel="<{$cate.cate_id}>"><{$cate.title}><span class="num"></span></li>
+                        <{/if}>
+                    <{/foreach}>
+                </ul>
+            </div>
+            <!--左侧分类浮动-结束-->
+            <div class="container_mid shangjiaDelt_container_mid">
+                <{include file="waimai/block/qucikly.html"}>
+            	<div class="shangjiaDelt_top">
+                    <div class="shangjiaDelt_info">
+                        <div class="img fl"><img src="<{$pager.img}>/<{$detail.logo}>" width="70" height="70" /><p class="state_box"><{if $detail.yysj_status == 1&&$detail.yy_status==1}>营业中<{else}>打烊了<{/if}></p></div>
+                        <div class="wz_box">
+                            <div class="pub_list">
+                                <div class="pub_list_bd">
+                                    <h4><{$detail.title}></h4>
+                                    <{if $detail.tips_label}><div class="open_state"><span><{$detail.tips_label}></span></div><{/if}>
+                                    <P>￥<{$detail.min_amount|default:0}>起送 / <{$detail.pei_time}>分钟送达 /<{if !$detail.freight}>免配送费<{else}>配送费￥<{$detail.freight}><{/if}> </P>
+                                </div>
+                                
+                                <a href="javascript:;" class="shoucang <{if $detail.collect == 1}>on<{/if}> >">
+                                    <i class="ico"></i>
+                                </a>
+                                <a href="<{link ctl='shop/search' arg0=$detail.shop_id http='waimai'}>" class="search_link">
+                                    <i class="ico"></i>
+                                </a>
+                            </div>
+                            
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="pub_list shangjia_tag_box shangjia_tag_box_ac">
+                                <div class="activity2">
+                                    <div class="box">
+                                        <div class="pull_down fr"><span></span>活动<i class="ico_xia"></i></div>
+                                        <div class="first">
+                                            <{foreach $detail.huodong as $hd}>
+                                            <p><i style="background: #<{$hd.color}>"><{$hd.word}></i><{$hd.title}></p>
+                                            <{/foreach}>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                    <div class="shangjiaDelt_notice pub_list">
+                        <div class="pub_list_bd overflow_clear notice"><i class="ico"></i><{$detail.delcare}></div>
+                        <a href="javascript:;" class="notice_btn notice"></a>
+                    </div>
+                    <div class="shangjiaDelt_tab" id="shangjiaDelt_tab">
+                        <a href="<{link ctl='shop/detail' args=$detail.shop_id http='waimai'}>" class="list on">商品</a>
+                        <a href="<{link ctl='shop/comment' args=$detail.shop_id http='waimai'}>" class="list">评价</a>
+                        <a href="<{link ctl='shop/info' args=$detail.shop_id http='waimai'}>" class="list">详情</a>
+                    </div>
+                </div>
+            	<div class="shangjiaDelt_mid" id="shangjiaDelt_mid">
+                    <!--店铺招牌商品-开始-->
+                    <{if $tj_products}>
+                    <div class="shangjiaDelt_sign">
+                        <h2>店铺招牌</h2>
+                        <div class="scroll_x">
+                            <ul>
+                                <{foreach $tj_products as $k=>$item}>
+                                <li>
+                                    <a href="<{link ctl='product/detail' args=$item.product_id http='waimai'}>">
+                                    <div class="pic" style="background-image: url(<{$pager.img}>/<{$item.photo}>);"></div></a>
+                                    <h3 class="overflow_clear"><{$item.title}></h3>
+                                    <div class="price"><small>￥</small><{$item.price}></div>
+                                    <!--加减操作-开始-->
+                                    <{if $item.is_spec}>
+                                    <a href="javascript:;" class="goods_guige_btn"  title="<{$item.title}>" product_id="<{$item.product_id}>" data-isspec="1" pcate_id="<{$item.pcate_id}>" sales="<{$item.sales}>" good="<{$item.good}>" photo="<{$item.photo}>" price="<{$item.price}>" data-spec='<{$item.specification}>' data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>", "oldprice":"<{$item.oldprice}>", "is_discount":"<{$item.is_discount}>", "disctype":"<{$item.disctype}>", "discval":"<{$item.discval}>", "quota":"<{$item.quota}>", "huodong_id":"<{$item.huodong_id}>", "disclabel":"<{$item.disclabel}>", "quotalabel":"<{$item.quotalabel}>"}' unit="<{$item.unit}>">可选规格<span style="display: none;height: 16px; line-height: 16px;position: absolute;right: -7px;top: -7px;border-radius: 20px;background: #ff3300;color: #fff;font-size: 12px;padding: 0 5px;" rel="<{$item.product_id}>" class="jq_num_sku"></span></a>
+                                    <{else if $item.is_specification&&!$item.is_spec}>
+                                    <a href="javascript:;" class="goods_guige_btn  shuxingbtn" id="p_<{$item.product_id}>-0"  product_id="<{$item.product_id}>" data-isspec="0" data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>", "oldprice":"<{$item.oldprice}>", "is_discount":"<{$item.is_discount}>", "disctype":"<{$item.disctype}>", "discval":"<{$item.discval}>", "quota":"<{$item.quota}>", "huodong_id":"<{$item.huodong_id}>", "disclabel":"<{$item.disclabel}>", "quotalabel":"<{$item.quotalabel}>"}' data-spec='<{$item.specification}>' unit="<{$item.unit}>">可选规格<span style="display: none;height: 16px; line-height: 16px;position: absolute;right: -7px;top: -7px;border-radius: 20px;background: #ff3300;color: #fff;font-size: 12px;padding: 0 5px;" rel="<{$item.product_id}>" class="jq_num_sku"></span></a>
+                                    <{else}>
+                                    <div style="background: transparent !important;" class="num_operate" id="p_<{$item.product_id}>-0" pcate_id="<{$item.pcate_id}>"
+                                         data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>", "oldprice":"<{$item.oldprice}>", "is_discount":"<{$item.is_discount}>", "disctype":"<{$item.disctype}>", "discval":"<{$item.discval}>", "quota":"<{$item.quota}>", "huodong_id":"<{$item.huodong_id}>", "disclabel":"<{$item.disclabel}>", "quotalabel":"<{$item.quotalabel}>"}' data-spec='<{$item.specification}>' unit="<{$item.unit}>">
+                                        <{if ($item.sale_type == 1&&$item.sale_sku<=0) || ($item.is_discount && $item.discount.sale_sku <= 0)}>
+                                        <div class="over">已售馨</div>
+                                        <{else}>
+                                        <span class="jian" quantity="-" skuid="<{$item.product_id}>-0"><i></i></span>
+                                        <input type="text" productnum="<{$item.product_id}>-0" value="0" class="text_box" disabled>
+                                        <span class="add" quantity="+" skuid="<{$item.product_id}>-0"><i></i></span>
+                                        <{/if}>
+                                    </div>
+                                    <{/if}>
+                                </li>
+                                <{/foreach}>
+                            </ul>    
+                        </div>
+                    </div>
+                    <{/if}>
+                    <!--店铺招牌商品-结束-->
+                    <div id="shangjiaDelt_goods_all" style="position: relative;width: 100%; overflow: hidden;">
+                        <div class="shangjiaDelt_mid_left" id="shangjiaDelt_mid_left">
+                            <ul>
+                                <li class="on" rel="0">全部</li>                            
+                                <{if $count_hot}>
+                                <li class="" rel="hot" ><i class="ico_hot"></i>热销</li>
+                                <{/if}>
+                                <{if $is_must}>
+                                <li class="" rel="must" id="mm_must"><i class="ico_must"></i>必点</li>
+                                <{/if}>
+                                <{if $is_discount}>
+                                <li class="" rel="discount" >优惠</li>
+                                <{/if}>
+                                <{foreach $waimai_cates as $cate}>
+                                    <{if $cate.parent_id == 0}>
+                                    <li rel="<{$cate.cate_id}>"><{$cate.title}><span class="num"></span></li>
+                                    <{/if}>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                        <div class="shangjiaDelt_mid_right">
+                            <!--二级菜单-->
+                            <div class="dianpu_menu swiper-container1">
+                                <div class="swiper-wrapper cate_0" >
+                                    <div class="box swiper-slide on" rel="0" ><span class="switch">全部</span></div>
+                                </div>
+                                <{foreach $waimai_cates as $cates}>
+                                    <{if $cates.parent_id == 0}>
+                                        <div class="swiper-wrapper cate_<{$cates.cate_id}>" style="display: none;">
+                                            <div class="box swiper-slide on jq_cate_<{$cates.cate_id}>" rel="<{$cates.cate_id}>" ><span class="switch">全部</span></div>
+                                            <{foreach $waimai_cates as $cate}>
+                                            <{if $cate.parent_id == $cates.cate_id}>
+                                                <div class="box swiper-slide" rel="<{$cate.cate_id}>" ><span class="switch"><{$cate.title}></span></div>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </div>
+                                    <{/if}>
+                                <{/foreach}>
+                            </div>
+                            <!--二级菜单end-->
+
+                            <{if $coupon.num>0}>
+                            <div class="shangjia_coupon pub_list">
+                                <div class="price">
+                                    ￥<big><{$coupon.amount|default:0}></big>
+                                </div>
+                                <div class="pub_list_bd">
+                                    <{if $coupon.num==1}>
+                                    <h4>商家优惠券</h4>
+                                     <p><{$coupon.str}></p>
+                                    <{else}>
+                                    <h4>商家优惠券</h4>
+                                    <p>共<{$coupon.num}>张</p>
+                                    <{/if}>
+                                </div>
+                                <a href="<{link ctl='shop/getcoupon' arg0=$detail.shop_id}>" class="btn">立即领券</a>
+                            </div>
+                            <{/if}>
+
+                            <!--广告推荐-开始-->
+                            <{if $advs}>
+                            <div class="shangjiaDelt_adv">
+                                <ul>
+                                    <{foreach $advs as $adv}>
+                                    <li><a href="<{$adv.link}>" style="background-image: url('<{$adv.photo}>');"></a></li>
+                                    <{/foreach}>
+                                </ul>
+                            </div>
+                            <{/if}>
+                            <!--广告推荐-结束-->
+
+                            <!--<div class="shangjiaDelt_goods_tit"><{$cate.title}></div>-->
+                            <div class="shangjiaDelt_goods">
+                                <ul id="index_goods_items">
+
+                                </ul>
+                                <div class="loadding">
+
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <!--自提提示-开始-->
+            <{if $detail.can_zero_ziti==1}>
+            <a style="display: none" id="go_ziti" href="<{link ctl='order/order' arg0=$detail.shop_id is_ziti='1' http='waimai'}>" class="oneselfTips">自提无须达到起送价<span>去自提</span><img src="/themes/waimai/static/img/btn_arrowR_orange@3x.png"></a>
+            <{/if}>
+
+            <!--自提提示-结束-->
+            <!--底部-->
+            <div class="shangjiaDelt_footer pub_list">
+            	<div class="pub_list_bd">
+                	<a href="javascript:;" id="goods_cart" class="goods_cart"><img src="/themes/waimai/static/img/index_btn_cart@3x.png"><span class="total_num num">0</span></a>
+                    <div class="wz_box">
+                    	<p class="fontcl1">￥<big class="totalPrice">0</big></p>
+                    	<P class="black9">配送费以订单为准</P>
+                    </div>
+                </div>
+                <a href="javascript:void(0);" id="order_create" class="btn grey_bg"></a>
+                <!--<a href="" class="btn">去结算</a>-->
+            </div>
+            <!--底部end-->
+            <!--购物车弹出-->
+            <div class="goods_cart_mask goods_cart_mask1">
+                <span class="ts">凑一凑</span>
+                <div class="tit">
+                        <span class="bt fl">购物车</span>
+                        <!-- <a href="javascript:void(0);" class="clear_btn fr" clearcart="<{$shop_id}>"><i class="ico"></i>清空</a>
+                        -->
+                        <div class="clear_btn fr" clearcart="<{$shop_id}>"><i class="ico"></i>清空</div>
+                        <div class="clear"></div>
+                    </div>
+            	<div class="cont">
+                    
+                    <div class="cart_list">
+                        <ul id="cart_product_list">
+                            
+                        </ul>
+                    </div>	
+                </div>
+            </div>
+            <div class="mask_bg mask_bg1" style="z-index:97; opacity:0.4;"></div>
+            <!--购物车弹出end-->
+            <!--凑一凑弹出-->
+            <div class="goods_cart_mask goods_cart_mask2" id="couyicou">
+            	<div class="cont">
+                    <div class="tit">
+                        <span class="bt fl">凑一凑</span>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="cart_list">
+                        <ul>
+                            <{foreach $items2 as $item}>
+                                <{if $item.sale_type == 1&&$item.sale_sku<=0}>
+                               <{else}>
+                                <li class="pub_list">
+                                <div class="pub_list_bd"><{$item.title}></div>
+                                <div class="price fontcl2">￥<{$item.price}></div>
+                                <div class="num_operate" id="p_<{$item.product_id}>-0"
+                                     data='{"product_id":"<{$item.product_id}>","pcate_id":"<{$item.pcate_id}>","title":"<{$item.title}>","spec_name":"","price":"<{$item.price}>", "package":"<{$item.package_price}>","photo":"<{$item.photo}>", "sale_type":"<{$item.sale_type}>", "sale_sku":"<{$item.sale_sku}>"}'>
+                                    <{if $item.sale_type == 1&&$item.sale_sku<=0}>
+                                    <div class="over">已售馨</div>
+                                    <{else}>
+                                    <span class="jian" quantity="-" skuid="<{$item.product_id}>-0"><i></i></span>
+                                    <input type="text" productnum="<{$item.product_id}>-0" value="0" class="text_box" disabled>
+                                    <span class="add" quantity="+" skuid="<{$item.product_id}>-0" ><i></i></span>
+                                    <{/if}>
+                                </div>
+                                </li>
+                            <{/if}>
+                            <{/foreach}>
+                        </ul>
+                    </div>	
+                </div>
+            </div>
+            <div class="mask_bg mask_bg2" style="z-index:97; opacity:0.8;"></div>
+            <!--凑一凑弹出end-->
+        </div>
+    </div>
+</div>
+<!--公告弹出-->
+<div class="shangjiaDelt_notice_mask">
+	<div class="cont">
+        <h4><{$detail.title}></h4>
+        <div class="state text_c"><span><{if $detail.yysj_status == 1&&$detail.yy_status==1}>营业中<{else}>打烊了<{/if}></span></div>
+        <div class="text_c mt5 mb30">
+            <div class="starBg"><span class="star" style="width: <{round($detail['score']/$detail['comments']*20,1)}>%;"></span></div>
+        </div>
+        <div class="tit mb10"><span class="line"></span><span>商家活动</span><span class="line"></span></div>
+        <div class="pub_list shangjia_tag_box mb20 on">
+            <div class="pub_list_bd">
+                <{foreach $detail.huodong as $hd}>
+                <p style="height: auto; overflow: auto;"><i style="background: #<{$hd.color}>"><{$hd.word}></i><{$hd.title}></p>
+                <{/foreach}>
+            </div>
+        </div>
+        <div class="tit mb10"><span>商家公告</span></div>
+        <div class="nr"><{$detail.delcare}></div>
+    </div>
+    <a href="javascript:;" class="close"></a>
+</div>
+
+<div class="goods_guige_mask none">
+    <div class="mask_bg"></div>
+    <div class="cont">
+        <h3 class="name" id="guige_name"></h3>
+        <h6 class="name" id="disc_label" style="padding-top:0px;"></h6>
+        <div class="guige_box">
+            <div class="tit" id="guige">规格</div>
+            <div class="selct_box clear_both" id="click_box">
+
+            </div>
+            <div class="clear_both attr-box" id="shuxing_box">
+
+            </div>
+        </div>
+        <div class="pub_list num_box">
+            <!-- <div class="pub_list_bd fontcl2">￥<big class="jq_price">0</big><span class="black9"></span></div> -->
+            <div class="pub_list_bd fontcl2">
+                ￥<big class="jq_price">0</big>
+                <del class="black9 ml10 spec-del" style="display:none">￥<big class="jq_oldprice">0</big></del>
+            </div>
+            <div class="num_operate">
+                <span class="jian guige_caozuo" quantity="-" skuid="" id="add1"><i></i></span>
+                <input type="text" value="0" class="text_box" productnum="" disabled="">
+                <span class="add guige_caozuo" quantity="+" skuid="" id="add2"><i></i></span>
+            </div>
+        </div>
+        <a href="javascript:void(0);" class="close"></a>
+    </div>
+</div>
+<!--选规格弹出end-->
+<!--打烊了弹出-->
+<!-- <{if $detail.yysj_status == 1&&$detail.yy_status==1}>
+<{else}>
+<div class="shopstate_mask">
+    <img src="/themes/waimai/static/img/pop@2x.png" />
+    <p class="text">抱歉，暂不接受新的订单</P>
+    <a href="javascript:;" class="close">我知道了</a>
+</div>
+<div class="mask_bg" style="z-index:97; opacity:0.4; display:block;"></div>
+<{/if}> -->
+
+<!--超出范围、打烊了提示弹窗-->
+<{if $detail.yysj_status != 1 || $detail.yy_status != 1}>
+<div class="shopOffTips">
+	<div class="shopOffTipsOut">
+		<div class="shopOffTipsIn">
+			<img src="/themes/waimai/static/img/btn_close@3x.png" class="tipsOff"/>
+			<img src="/themes/waimai/static/img/icon_pop_shop@3x.png" class="tipsImg"/>
+			<p>非营业时间，商户休息中</p>
+		</div>
+	</div>
+</div>
+<{else if $detail.is_distance}>
+<div class="shopOffTips">
+    <div class="shopOffTipsOut">
+        <div class="shopOffTipsIn">
+            <img src="/themes/waimai/static/img/btn_close@3x.png" class="tipsOff"/>
+            <img src="/themes/waimai/static/img/icon_pop_map@3x.png" class="tipsImg"/>
+            <p>超出配送范围</p>
+        </div>
+    </div>
+</div>
+<{/if}>
+
+<script type="text/javascript">
+    $(function(){
+        $(".shopstate_mask .close").click(function(){
+            $(".shopstate_mask,.mask_bg").hide();
+        });
+        $(".shangjiaDelt_container_mid").find(".pubnodata_box").click(function(){
+            $(this).hide();
+        });
+        var must_sel = parseInt("<{$must_select}>");
+        if(must_sel==1){
+            setTimeout(function(){
+                $('#mm_must').click();
+            },200);
+        };
+
+        $('.shopOffTips .tipsOff').click(function(){
+            $('.shopOffTips').hide();
+        });
+    });
+</script>
+
+<!--打烊了弹出end-->
+<!--超出范围弹出-->
+<!--<{if $detail.yysj_status == 1&&$detail.yy_status==1}>
+<{else}>
+<div class="shopstate_mask">
+	<img src="/themes/waimai/static/img/pop@2x.png" />
+    <p class="text">超出了配送范围</P>
+    <a href="javascript:;" class="close">我知道了</a>
+</div>
+<div class="mask_bg" style="z-index:97; opacity:0.4; display:block;"></div>
+<{/if}>-->
+
+<script type="text/javascript">
+    $(function(){
+    	$(".shopstate_mask .close").click(function(){
+    		$(".shopstate_mask,.mask_bg").hide();
+    	});
+    });
+    $(document).on('click','.shangjiaDelt_container_mid #pubnodata .pubnodata_box',function () {
+    	$(this).hide();
+    });
+</script>
+<!--超出范围弹出end-->
+
+<!--飞入购物车-开始-->
+<!--<style>
+    .u-flyer {display: block;	width: 15px;height: 15px;border-radius: 100%;position: fixed;z-index: 9999; background:#f60;}
+</style>
+<script src="/themes/waimai/static/js/jquery.fly.min.js"></script>
+<script type="text/javascript">
+	function addFly(event) {
+		var offset = $('#goods_cart').offset(), flyer = $('<span class="u-flyer"></span>');
+		flyer.fly({
+			start: {
+				left: event.pageX-40,
+				top: event.pageY-20
+			},
+			end: {
+				left: offset.left + 12,
+				top: offset.top,
+				width: 0,
+				height: 0,
+			}
+		});
+	}
+	$(document).on('click','.shangjiaDelt_goods ul li .num_operate .add,#cart_product_list .num_operate .add,.goods_cart_mask .num_operate .add',function () {
+		addFly(event);
+	});
+</script>-->
+<!--飞入购物车-结束-->
+
+<script type="text/javascript">
+    var json_discount = JSON.parse('<{$json_discount}>');   //折扣活动   
+    var ecart = new window.ECart("<{$shop_id}>","<{$detail.title}>",json_discount);
+    var set_eacrt = "<{$set_eacrt}>";
+
+    var ecart_hg = new window.ECart_hg("<{$shop_id}>",{});
+    ecart_hg.clear();
+    localStorage.removeItem('pcard_id');
+    localStorage.removeItem('peicard_id');
+    localStorage.removeItem('peicard_amount');
+
+    localStorage.removeItem('hongbao_id');
+    localStorage.removeItem('hongbao_amount');
+    localStorage.removeItem('coupon_id');
+    localStorage.removeItem('coupon_amount');
+
+    //console.log(ecart);
+    $(document).on("click",".goods_guige_btn",function(){
+        //折扣处理
+        var json_data = JSON.parse($(this).attr('data'));
+        var unit = $(this).attr('unit');
+        var html_disc = '';
+        var is_discount = parseInt(json_data['is_discount']);
+        var disctype = parseInt(json_data['disctype']);
+        var discval = parseFloat(json_data['discval']);
+        var discsku = parseInt(json_data['sale_sku']);
+        var quota = parseInt(json_data['quota']);
+        var huodong_id = parseInt(json_data['huodong_id']);
+        var _oldprice = parseFloat(json_data.oldprice);
+        var disclabel = json_data['disclabel'];
+        var quotalabel = json_data['quotalabel'];
+        if(is_discount == 1){
+            html_disc += '<span class="disctype"><label>'+disclabel+'</label><label>'+quotalabel+'</label></span><span class="discsku">剩余'+discsku+unit+'</span>';
+            $('#disc_label').html(html_disc);
+        }else{
+            $('#disc_label').remove();
+        }
+
+        var is_dandu_shuxing = $(this).hasClass('shuxingbtn');
+        $(".goods_guige_mask .num_operate .text_box").val(0);
+        if(is_dandu_shuxing){           
+            var _photo = json_data.photo;
+            var _price = json_data.price;
+            var product_id = json_data.product_id;
+            var pcate_id =json_data.pcate_id;
+            var title = json_data.title;
+
+            var skuid = product_id+"-0";
+            $('#add1').attr('skuid',skuid);
+            $('#add2').attr('skuid',skuid);
+            $('.selct_box').html('');
+            $('#guige').hide();           
+            showprice(_price, _oldprice, is_discount);//折扣处理
+
+            $(".goods_guige_mask .num_operate .text_box").attr("productnum",skuid);
+        }else{
+            var _photo = $(this).attr("photo");
+            var _price = $(this).attr("price");
+            var product_id = $(this).attr("product_id");
+            var pcate_id = $(this).attr("pcate_id");
+            var title = $(this).attr("title");
+        }
+        $(".sold_num").html($(this).attr("sales"));
+        $(".good").html($(this).attr("good"));
+
+        window.obj_c = {};
+        var data_specification = $(this).attr('data-spec');
+        var json_specification = JSON.parse(data_specification);
+        var html_specification = "";
+        $('#guige_name').text(title);
+
+        if(json_specification.length>0){
+            $('#shuxing_box').show();
+            var tmp_sku_id = 0;
+            $.each(json_specification,function(k,v){
+                var index_in_obj = 0;
+                var skubtn1 = product_id+'-0';
+                html_specification+='<div class="black6 mb5">'+ v.key+'</div><div class="clear_both shuxing_box shuxing1">';
+                $.each(v.val,function(kk,vv){
+                    if(index_in_obj==0){
+                        window.obj_c[kk] = {
+                            "key":v.key,
+                            "val":vv,
+                        }
+                        html_specification+='<label skubtn1="'+skubtn1+'"  class="jq_spec on" data-attr="'+ v.key+'" data-val="'+vv+'"><input type="radio" name="guige_'+kk+'">'+vv+'</label>';
+                        var jq_num = 0;
+                        if(ecart.product_num(skubtn1, window.obj_c) == 0){
+                            jq_num = 0;
+                        }else{
+                            jq_num = ecart.product_num(skubtn1, window.obj_c);
+                        }
+                        $(".goods_guige_mask .num_operate .text_box").val(jq_num);
+                    }else{
+                        html_specification+='<label skubtn1="'+skubtn1+'" class="jq_spec" data-attr="'+ v.key+'" data-val="'+vv+'"><input type="radio" name="guige_'+kk+'">'+vv+'</label>';
+                    }
+                    index_in_obj++;
+                })
+                html_specification+='</div>';
+            });
+        }else{
+            $('#shuxing_box').hide();
+        }
+        var link = "<{link ctl='shop/get_spec' http='waimai'}>";
+        $.post(link,{"product_id":product_id},function(ret){
+            if(ret.error == 0){
+                var items = ret.items;
+                var items_length = getObjLen(items);
+                if(items_length>0){
+                    $('#guige_box').html('<div class="tit">规格</div> <div class="selct_box clear_both"> </div>');
+                    $('#guige').show();
+                    var html = "";
+                    var photo = "";
+                    var price = 0;
+                    var spec_name = "";
+                    var oldprice = 0;
+                    $.each(items, function(k,v) {
+                        //折扣处理
+                        v.price = parseFloat(v.price);
+                        var old_price = v.price;
+                        if(is_discount == 1){
+                            if(disctype==1){
+                                v.price = old_price-discval;                                
+                            }else{
+                                v.price = accMul(old_price,accDiv(discval,10));
+                            }
+                            v.sale_type = 1;
+                            v.sale_sku = discsku;
+                        }
+                        v.price = Math.max(v.price,0);
+
+                        var data = {"product_id":product_id,"pcate_id":pcate_id,"title":title,"spec_name":v.spec_name,"price":v.price, "package":v.package_price, "sale_type":v.sale_type, "sale_sku":v.sale_sku,"spec_photo":v.spec_photo,"oldprice":old_price,"is_discount":is_discount,"disctype":disctype,"discval":discval,"quota":quota,"huodong_id":huodong_id};
+                        var data1 = JSON.stringify(data);
+                        var skubtn = product_id+"-"+v.spec_id;
+                        if(k==0){
+                            if(v.spec_photo){
+                                photo = v.spec_photo;
+                            }else{
+                                photo = _photo;
+                            }
+                            if(old_price){
+                                price = old_price;
+                            }else{
+                                price = _oldprice;
+                            }
+                            spec_name = v.spec_name;
+
+                            //折扣处理
+                            oldprice = price;
+                            if(is_discount == 1){
+                                if(disctype==1){
+                                    price = old_price - discval;
+                                }else{
+                                    price = old_price*discval/10;
+                                }
+                            }                                                        
+                            
+                            html += '<label class="on jq_spec qqxx_sql" skubtn="'+skubtn+'" id="p_'+skubtn+'" data=\''+data1+'\'><input type="radio" name="guige">'+v.spec_name+'</label>';
+                            $(".goods_guige_mask .num_operate .jian, .goods_guige_mask .num_operate .add").attr("skuid",skubtn);
+                            $(".goods_guige_mask .num_operate .text_box").attr("productnum",skubtn);
+                            var jq_num = 0;
+                            if(ecart.product_num(skubtn, window.obj_c) == 0){
+                                jq_num = 0;
+                            }else{
+                                jq_num = ecart.product_num(skubtn, window.obj_c);
+                            }
+                            $(".goods_guige_mask .num_operate .text_box").val(jq_num);
+                        }else{
+                            html += '<label class="jq_spec"  skubtn="'+skubtn+'" id="p_'+skubtn+'" data=\''+data1+'\'><input type="radio" name="guige">'+v.spec_name+'</label>';
+                        }
+                    });
+                }else{
+                    $('#guige').hide();
+                }
+                $(".jq_img").attr("src","<{$pager.img}>"+"/"+photo);
+
+                //折扣处理  
+                showprice(price, oldprice, is_discount);
+
+                $(".spec_name").html(spec_name);
+                $(".selct_box").html(html);
+                $("#shuxing_box").html(html_specification);
+                shuxin_click();
+                guige_click();
+                my_ckeck();
+            }
+        },'json')
+        $('.goods_guige_mask').fadeIn(200);
+        $('.goods_guige_mask .mask_bg').fadeIn(200);
+    });
+    //关闭规格弹出层
+    $(function(){
+        $('.goods_guige_mask .cont .close,.goods_guige_mask .mask_bg').on('click', function(){
+            $('#shuxing_box').html('');
+            $(this).parents('.goods_guige_mask').fadeOut(200);
+            $('.goods_guige_mask .mask_bg').fadeOut(200);
+        });
+    });
+
+    $(document).on("click", "[skubtn]", function(){
+        var data = JSON.parse($(this).attr("data")) || {};
+        var skuid = $(this).attr("skubtn");      
+        showprice(data["price"], data["oldprice"], data["is_discount"]);//折扣处理
+                
+        //$(".jq_img").attr("src","<{$pager.img}>"+"/"+data['spec_photo']);
+        //$(".spec_name").html(data['spec_name']);
+        $(".goods_guige_mask .num_operate .jian, .goods_guige_mask .num_operate .add").attr("skuid",skuid);
+        $(".goods_guige_mask .num_operate .text_box").attr("productnum",skuid);
+        var sel_info = $('#shuxing_box').children().find('.on');
+        var object_c = {};
+        if(sel_info.length>0){
+            $.each(sel_info,function(k,v){
+                var key = v.getAttribute('data-attr');
+                var val = v.getAttribute('data-val');
+                object_c[k] = {
+                    "key":key,
+                    "val":val,
+                }
+            });
+        }
+        var jq_num = 0;
+        if(ecart.product_num(skuid,object_c) == 0){
+            jq_num = 0;    		
+        }else{
+            jq_num = ecart.product_num(skuid,object_c);
+        }
+        $(".goods_guige_mask .num_operate .text_box").val(jq_num);
+    });
+
+    function showprice(price, oldprice, is_discount){//规格属性金额的显示
+        $(".jq_price").html(price);
+        $(".jq_oldprice").html(oldprice);
+        if(is_discount==1){
+            $(".spec-del").show();
+        }else{
+            $(".spec-del").hide();
+        }
+    }
+
+    function my_ckeck(){
+        var sel_info = $("#click_box .on");
+        var sku_id   = 0;
+        var sel_info2  = $('.shuxing1 .on')
+
+        if(sel_info.length==0){
+            sku_id = sel_info2.attr('skubtn1');
+        }else{
+            sku_id = sel_info.attr('skubtn')
+        }
+        var sel_info1 = $('#shuxing_box').children().find('.on');
+        var object_c = {};
+        if(sel_info1.length>0){
+            $.each(sel_info1,function(k,v){
+                var key = v.getAttribute('data-attr');
+                var val = v.getAttribute('data-val');
+                object_c[k] = {
+                    "key":key,
+                    "val":val,
+                }
+            });
+        }
+        var jq_num = 0;
+        if(ecart.product_num(sku_id,object_c) == 0){
+            jq_num = 0;
+        }else{
+            jq_num = ecart.product_num(sku_id,object_c);
+        }
+        $(".goods_guige_mask .num_operate .text_box").val(jq_num);
+    }
+    $(document).on("click", "[skubtn1]", function(){
+        my_ckeck();
+    });
+    //属性点击  增加class on
+    function  shuxin_click(){
+        $('.shuxing_box .jq_spec input').off().on('click',function(){
+            $(this).parent().parent().children('.jq_spec').removeClass('on');
+            $(this).parent().addClass('on');
+
+        })
+    }
+    function guige_click(){
+        $('.selct_box  .jq_spec').off().on('click',function(){
+            $(this).parent().children('.jq_spec').removeClass('on');
+            $(this).addClass('on');
+        })
+    }
+    var ecart = new window.ECart("<{$shop_id}>","<{$detail.title}>");
+
+    function init_shop_cart(){
+        /*$("[productnum]").val(0);
+    	$("[productnum]").parent().removeClass("num_operate_active");
+        for(var k in ecart.product_list()){
+    		if(ecart.product_num(k)>0){
+    			$('[productnum="'+k+'"]').parent().addClass("num_operate_active");
+    		}
+            $('[productnum="'+k+'"]').val(ecart.product_num(k));
+        }*/
+        product_num();
+        $(".total_num").html(ecart.total_count());
+        $(".totalPrice").html(ecart.total_price());
+        min_amount_show();
+        build_shop_cart();
+        sku_count();
+        pcate_num();
+    }
+
+    function product_num(){
+        $("[productnum]").val(0);
+        $("[productnum]").parent().removeClass("num_operate_active");
+        for(var k in ecart.product_list()){
+            if(ecart.product_num(k)>0){
+                $('[productnum="'+k+'"]').parent().addClass("num_operate_active");
+            }
+            $('[productnum="'+k+'"]').val(ecart.product_num(k));
+        }
+    }
+
+    function sku_count(){
+        $(".jq_num_sku").hide();
+        $(".jq_num_sku").each(function(k,v){
+            var sku_num = ecart.sku_count($(this).attr("rel"));
+            if(sku_num>0){
+                $(this).html(sku_num);
+                $(this).show();
+            }
+        })
+    }
+
+    //渲染模板
+    function build_shop_cart(){
+        var product_list = [];
+        for(var k in ecart.shop_cart){
+            product_list.push(ecart.shop_cart[k]);
+        }
+        if(product_list.length > 0){
+            var html = "";
+            var total_package = 0;
+            $.each(product_list, function(k,v) {
+                if(v.spec_name){
+                    html += '<li class="pub_list"><div class="pub_list_bd">'+v.title+'('+v.spec_name+')'+ v.signstr+'</div>';
+                }else{
+                    html += '<li class="pub_list"><div class="pub_list_bd">'+v.title+v.signstr+'</div>';
+                }
+                //total_package+=(parseFloat(v.package)*parseInt(v.num));
+                total_package+=parseFloat(v.packages);
+                if(v.is_discount > 0 && v.oldprices != v.prices){
+                    html += '<del class="black9 ml10 spec-del" style="display:block">￥<samll class="jq_oldprice2">'+v.oldprices+'</small></del>';
+                }                
+                html += '<div class=" fontcl2 price">￥'+v.prices+'</div>';
+
+                //构建购物车并且选择再来一单的商品
+                var str ={};
+                for(var i in v.str_obj){
+                    str[i] = {
+                        "key":v.str_obj[i]['key'],
+                        "val":v.str_obj[i]['val'],
+                    }
+                }
+                str = JSON.stringify(str)
+                $('[productnum="'+v.sku_id+'"]').val(v.num)
+                html += '<div class="num_operate"><span class="jian" quantity="-" skuid="'+v.sku_id+'" attr-data='+str+'><i></i></span><input type="text" product_num="'+v.product_id+'" value="'+v.num+'" class="text_box"><span class="add" quantity="+" skuid="'+v.sku_id+'" attr-data='+str+'><i></i></span>';
+                html += '</div></li>';
+            });
+            html+='<li class="pub_list"><div class="pub_list_bd">打包费</div><div class=" fontcl2">￥'+total_package.toFixed(2)+'</div></li>';
+            $('#cart_product_list').html(html);
+        }else{
+            $('#cart_product_list').html("<p class='empty_button'>~~空空如也~~</p>");
+        }
+    }
+
+    //购物车一级分类 商品数量
+    function pcate_num(){
+        $(".shangjiaDelt_mid_left ul li").each(function(){
+            //$(".shangjiaDelt_mid_left ul li .num").hide();
+            var num = ecart.pcate_num($(this).attr("rel"));
+            if(num>0){
+                $(this).find(".num").html(num).show();
+            }else{
+    			$(this).find(".num").html(num).hide();
+    		}
+        })
+    }
+
+    //判断key 是否存在
+    $(document).ready(function(){       
+        window.link = "<{link ctl='shop/loadgoods' arg0='#page#' http='waimai'}>";
+        window.params = {"shop_id":"<{$shop_id}>"};
+        loadpage(window.link,window.params,'','','index_goods_items',function(){
+            product_num();
+        });
+        window.page = 1;
+        scroll(window.link,window.params,window.page,".shangjiaDelt_mid_right",".shangjiaDelt_goods",'','index_goods_items',function(){
+            product_num();
+        });
+        $(".shangjiaDelt_mid_left li").click(function(){
+            var index = $(this).index();
+            //$(".shangjiaDelt_mid_left li").eq(index).addClass("on").siblings("li").removeClass('on');
+            // $(this).addClass('on');
+            $(".shangjiaDelt_mid_left").each(function(){
+                $(this).find('li').eq(index).addClass("on").siblings("li").removeClass('on');
+            });
+            var cate_id = $(this).attr("rel");
+            $(".dianpu_menu .swiper-wrapper").hide();
+            $(".dianpu_menu .cate_"+$(this).attr("rel")).show();
+             $(".swiper-wrapper .box").removeClass("on");
+            $(".jq_cate_"+$(this).attr("rel")).addClass("on");
+            setloadparams('cate_id',cate_id);
+            //************************************
+            var _scroll_h = $(".shangjiaDelt_top").height(); 
+            $(".container_mid").animate({scrollTop:_scroll_h}, 200);
+        })
+
+        $(".swiper-wrapper .box").click(function(){
+            $(".swiper-wrapper .box").removeClass("on");
+            $(this).addClass("on");
+            var cate_id = $(this).attr("rel");
+            setloadparams('cate_id',cate_id);
+        })
+                
+        //构建购物车
+        setTimeout(function(){
+            init_shop_cart();
+        },300);
+
+        $(document).on("touchstart", "[clearcart]", function(){
+            Widget.MsgBox.confirm("您确定要清空购物车吗?", function(ret){
+                if(ret){
+                    ecart.clear();
+                    init_shop_cart();
+                }
+            });
+        });
+
+        $(document).on("click", ".dianpu_fot_shop .spcart", function(){
+            $('.dianpu_footer .dianpu_spin').slideToggle();
+            if($('.dianpu_footer .dianpu_shop_zzc').css('display')=='none'){
+                $('.dianpu_shop_zzc').show();
+                build_shop_cart();
+            } else{
+                $('.dianpu_shop_zzc').hide();
+            }
+        });
+
+        $(document).on("click", '[quantity]', function(){
+            var object_c = {};
+            var str = "";
+
+            if($(this).attr('attr-data')!=undefined){
+                var sel_in_info = $(this).attr('attr-data');
+                var obj_info = JSON.parse(sel_in_info);
+                for(var i in obj_info){
+                    str+="+"+obj_info[i]['val'];
+                    object_c[i] = {
+                        "key":obj_info[i]['key'],
+                        "val":obj_info[i]['val'],
+                    }
+                }
+            }else{
+                var sel_info = $('#shuxing_box').children().find('.on');
+                if(sel_info.length>0){
+                    $.each(sel_info,function(k,v){
+                        var key = v.getAttribute('data-attr');
+                        var val = v.getAttribute('data-val');
+                        str+="+"+val;
+                        object_c[k] = {
+                            "key":key,
+                            "val":val,
+                        }
+                    });
+                }
+            }
+            var skuid = $(this).attr('skuid');
+            if($("#p_"+skuid).size()>0){
+                var info =  JSON.parse($("#p_"+skuid).attr("data")) || {};
+            }else{
+                var info = ecart.product(skuid,object_c);
+            }
+            info['signstr'] = str;
+            info['str_obj'] = object_c;
+            var num_format = $(this).parent().find('input').val();
+            var num_number = parseInt(num_format);
+            var product_string = $(this).parent().find('input').attr('productnum');
+            if(product_string){
+                var array_str = product_string.split('-');
+            }else{
+                var array_str = [1,1];
+            }
+
+            if($(this).attr("quantity") == '-'){
+                if(num < 1){
+                    return ;
+                }
+                ecart.add(skuid, -1, info,'2',object_c);
+                init_shop_cart();
+                min_amount_show();
+            }else{
+                ecart.add(skuid, 1, info,'2',object_c);
+                init_shop_cart();
+                min_amount_show();
+            }
+            var  num = ecart.product_num(skuid,object_c);
+            $(".goods_guige_mask .num_operate .text_box").val(num);
+        });
+    });
+
+    function setloadparams(k,v) {
+        window.page = 1;
+        window.params[k] = v;
+        setTimeout(function(){
+            init_shop_cart();
+            //sku_count();
+        },200)
+        loadpage(window.link,window.params,'','','index_goods_items');
+        scroll(window.link,window.params,window.page,".shangjiaDelt_mid_right",".shangjiaDelt_goods",'','index_goods_items');
+    }
+
+    //起送价
+    function min_amount_show(){
+        var song = parseFloat("<{$detail.min_amount}>" - ecart.total_oldprice()).toFixed(2);
+        var yy_status = "<{$detail.yysj_status}>";
+        var yy_sjstatus = "<{$yystat}>";
+        var product = '<{$json_product}>';
+        var product_json  = JSON.parse(product);
+        var can_tijiao = false;
+        if(product_json.length==0){
+            can_tijiao = true;
+        }else{
+            $.each(ecart.product_list(),function(k,v){
+                $.each(product_json,function(kk,vv){
+                    if(v.product_id==vv){
+                        can_tijiao = true;
+                    }
+                });
+            });
+        }
+
+        if(ecart.total_oldprice()>0){
+            if((product_json.length>0&&can_tijiao)||product_json.length==0){
+                $('#go_ziti').show();
+            }else{
+                $('#go_ziti').hide();
+            }
+        }else{
+            $('#go_ziti').hide();
+        }
+
+        if(yy_status ==1&&yy_sjstatus==1){
+            if(song > 0){
+                $('#order_create').css("font-size",'13px');
+                $('#order_create').text("还差￥"+song+"起送");
+                $('#order_create').attr('href', 'javascript:void(0);');
+                $("#order_create").addClass("grey_bg");
+                //修改凑一凑条件 当购物车没有商品时候 不触发凑一凑显示
+                var tital_price =parseFloat(ecart.total_oldprice());
+                if(song <=10&&tital_price>0){ //大于0小于10 凑一凑
+                    $(".ts").show();
+                }else{
+                    $(".ts").hide();
+                }
+            }else{
+                /*$(".tit .ts").hide();
+                $('#order_create').css("font-size",'16px');
+                $('#order_create').text("去结算");
+                var link = "<{link ctl='order/order' arg0=$shop_id http='waimai'}>";
+                $('#order_create').attr('href', link);
+                $('#order_create').removeClass("grey_bg");*/
+
+                if(product_json.length>0&&can_tijiao){
+                    $(".ts").hide();
+                    $('#order_create').css("font-size",'16px');
+                    $('#order_create').text("去结算");
+                    var link = "<{link ctl='order/order' arg0=$shop_id http='waimai'}>";
+                    $('#order_create').attr('href', link);
+                    $('#order_create').removeClass("grey_bg");
+                }else if(product_json.length==0){
+                    $(".ts").hide();
+                    $('#order_create').css("font-size",'16px');
+                    $('#order_create').text("去结算");
+                    var link = "<{link ctl='order/order' arg0=$shop_id http='waimai'}>";
+                    $('#order_create').attr('href', link);
+                    $('#order_create').removeClass("grey_bg");
+                }else{
+                    $('#order_create').css("font-size",'12px');
+                    $('#order_create').text("请添加必点商品");
+                    $('#order_create').attr('href', 'javascript:void(0);');
+                    $("#order_create").addClass("grey_bg");
+                    $("#order_create").off().on('click',function(){
+                        $('#mm_must').click();
+                    })
+                }
+
+                /*var can_tijiao = false;
+                if(product_id==0){
+                    can_tijiao = true;
+                }else{
+                    $.each(ecart.product_list(),function(k,v){
+                        if(v.product_id==product_id){
+                            can_tijiao = true;
+                        }
+                    });
+                }*/                
+            }
+        }else{
+            $('#order_create').css("font-size",'16px');
+            $('#order_create').text("打烊了");
+            $('#order_create').attr('href', 'javascript:void(0);');
+            $("#order_create").addClass("grey_bg");
+        }
+    }
+
+    $(".goods_cart").click(function(){
+        min_amount_show();
+    	if($(".goods_cart_mask1").hasClass("on")){
+    		$(".goods_cart_mask1").removeClass("on");
+    		$(".goods_cart_mask1~.mask_bg1").fadeOut(100);
+            $('.shangcheng-links-fixed').show();    		
+    	}else{
+    		$(".goods_cart_mask1").addClass("on");
+    		$(".goods_cart_mask1~.mask_bg1").fadeIn(100).css("opacity","0.4");
+            $('.shangcheng-links-fixed').hide();
+    	}
+    	$(".goods_cart_mask2").removeClass("on");
+    	$(".goods_cart_mask2~.mask_bg2").fadeOut(100);   	
+    });
+
+    $(".goods_cart_mask1~.mask_bg1,.goods_cart_mask1 .ts").click(function(){
+    	$(".goods_cart_mask1").removeClass("on");
+    	$(".goods_cart_mask1~.mask_bg1").fadeOut(100);
+        $('.shangcheng-links-fixed').show();
+    });
+
+    $(".goods_cart_mask1 .ts").click(function(){
+    	if($(".goods_cart_mask2").hasClass("on")){
+    		$(".goods_cart_mask2").removeClass("on");
+    		$(".goods_cart_mask2~.mask_bg2").fadeOut(100);
+            $('.shangcheng-links-fixed').show();
+    	}else{
+    		$(".goods_cart_mask2").addClass("on");
+    		$(".goods_cart_mask2~.mask_bg2").fadeIn(100).css("opacity","0.4");
+            $('.shangcheng-links-fixed').hide();
+    	}    	
+    });
+
+    $(".goods_cart_mask2~.mask_bg2").click(function(){
+    	$(".goods_cart_mask2").removeClass("on");
+    	$(".goods_cart_mask1~.mask_bg2").fadeOut(100);
+        $('.shangcheng-links-fixed').show();
+    });
+
+    //校验购物车信息
+    $(document).ready(function(){
+        setTimeout(function(){
+            var link = "<{link ctl='shop/check_cart' arg0=$shop_id http='waimai'}>";
+            $.post(link,{},function(ret){
+                if(ret.error>0){
+                    Widget.MsgBox.error(ret.message);
+                    if(ret.error == 200){
+                        window.location.href = "<{link ctl='index/index' http='waimai'}>";
+                    }else{
+                        var ecart = new window.ECart(ret.data.shop_id,ret.data.title,ret.data.discount);
+                        ecart.clear();
+                        if(ret.data.cart){
+                            $.each(ret.data.cart,function(k,v){
+                                var parmas = {
+                                    product_id:v.product_id,
+                                    title:v.title,
+                                    spec_name:v.spec_name,
+                                    price:v.price,
+                                    package:v.package,
+                                    photo:v.photo,
+                                    sale_type:v.sale_type,
+                                    sale_sku:v.sale_sku,
+                                    sku_id:v.sku_id,
+                                    is_discount:v.is_discount,
+                                    discval:v.discval,
+                                    disctype:v.disctype,
+                                    oldprice:v.oldprice,
+                                    signstr:v.signstr,
+                                    str_obj:v.str_obj,
+                                };
+                                ecart.add(v.sku_id,v.num,parmas,1);
+                            });
+                        }
+                        setTimeout(function(){
+                            location.reload(true);
+                        },1500)
+                    }
+                }else{
+                    var ecart = new window.ECart("<{$shop_id}>","<{$detail.title}>",ret.pdata.discount);
+                    $.each(ecart.product_list(),function(k,v){
+                        var sku_id = v.sku_id;
+                        var price = v.price;
+                        var package = v.package;
+                        if($("#p_"+sku_id).attr("data")!=undefined){
+                            var prodata = JSON.parse($("#p_"+sku_id).attr("data"));
+                            if(prodata.price != price||prodata.package!=package){
+                                Widget.MsgBox.error("购物车商品价格发生变化");
+                                ecart.clear();
+                                if(ret.pdata.cart){
+                                    $.each(ret.pdata.cart,function(k,v){
+                                        var parmas = {
+                                            product_id:v.product_id,
+                                            title:v.title,
+                                            spec_name:v.spec_name,
+                                            price:v.price,
+                                            package:v.package,
+                                            photo:v.photo,
+                                            sale_type:v.sale_type,
+                                            sale_sku:v.sale_sku,
+                                            sku_id:v.sku_id,
+                                            is_discount:v.is_discount,
+                                            discval:v.discval,
+                                            disctype:v.disctype,
+                                            oldprice:v.oldprice,
+                                            signstr:v.signstr,
+                                            str_obj:v.str_obj,
+                                        };
+                                        ecart.add(v.sku_id,v.num,parmas,1);
+                                    });
+                                }
+                                setTimeout(function(){
+                                    location.reload(true);
+                                },1500)
+                            }
+                        }else{
+
+                        }
+                    });
+                }
+            },'json')
+        },200);
+    })
+</script>
+
+<script type="text/javascript">
+    function collect(status,type) {
+        var link = "<{link ctl='shop/collect' arg0='tmp1' arg1='tmp2' arg2='tmp3' http='waimai'}>";
+        var url = link.replace('tmp1', status).replace('tmp2', type).replace('tmp3', "<{$detail.shop_id}>");
+        $.post(url,{},function(ret){
+            if(ret.error > 0){
+                Widget.MsgBox.error(ret.message);
+                if(ret.error == 101) {
+                    setTimeout(function(){
+                        window.location.href = "<{link ctl='passport:login' http='home'}>";
+                    },1500)
+                }
+            }else{
+                Widget.MsgBox.success(ret.message);
+                setTimeout(function(){
+                    window.location.reload();
+                },1000)
+            }
+        },'json')
+    }
+
+    // 收藏事件
+    $('.shoucang').click(function(){
+        var collect_num = "<{$detail.collect}>";
+        if(collect_num == 1){
+            collect(0,'waimai');
+        }else{
+            collect(1,'waimai');
+        }
+    });
+</script>
+
+<script type="text/javascript"> 
+    $(document).ready(function(){
+        var num = $(".activity2 .first").find("p").length;
+        if(num>1){
+            $(".pull_down span").html(num+'个');
+            $(".pull_down").show();
+        }else{
+            $(".pull_down").remove();
+        }
+        
+        $('.activity2 .pull_down').click(function(){
+            //$(this).parents('.activity2').find('.hide_show').toggle();
+            if($('.first').hasClass("on")){
+                $('.first').removeClass("on");
+            }else{
+                $('.first').addClass("on");
+            }
+            $('.activity2 .pull_down').removeClass('on');
+            $(this).children('i').toggleClass('on');
+        });
+    })  
+        
+    $(".shoucang").click(function(){
+    	if($(this).hasClass("on")){
+    		$(".shoucang").removeClass("on");
+    	}else{
+    		$(".shoucang").addClass("on");
+    	}
+    });
+    $(".shangjia_tag_box .pull_down").click(function(){
+    	if($(this).parent(".shangjia_tag_box").hasClass("on")){
+    		$(this).parent(".shangjia_tag_box").removeClass("on");
+    	}else{
+    		$(this).parent(".shangjia_tag_box").addClass("on");
+    	}
+    });
+    $(".notice").click(function(){
+    	$(".shangjiaDelt_notice_mask").fadeIn(100);
+    });
+    $(".shangjiaDelt_notice_mask .close").click(function(){
+    	$(".shangjiaDelt_notice_mask").fadeOut(100);
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        setTimeout(function(){
+            var $content_height = $(".container_mid").height();
+            $("#index_goods_items").css('min-height', $content_height + 'px');
+            $(".container_mid").scroll(function () {
+                var _scroll = $(".container_mid").offset().top;
+                var _top1 = $("#shangjiaDelt_tab").offset().top;
+                var _top2 = $("#shangjiaDelt_goods_all").offset().top;
+                if(_top1 < _scroll){
+                    $(".shangjiaDelt_tab_fixed").css("display","flex");
+                }else{
+                    $(".shangjiaDelt_tab_fixed").css("display","none");
+                };
+                if(_top2 < _scroll + 44){
+                    $(".shangjiaDelt_mid_left_fixed").css("display","block");
+                }else{
+                    $(".shangjiaDelt_mid_left_fixed").css("display","none");
+                };
+            });
+            
+            // var $content_height = $(".container_mid").height();
+            // var m_height = $(".shangjiaDelt_tab").height();
+            // $(".shangjiaDelt_mid").css('height', $content_height - m_height);
+            // $("#shangjiaDelt_goods_all").css('height', $content_height - m_height);
+
+            //滚动事件
+            // $("#shangjiaDelt_mid").css("overflow","hidden");
+            // $(".shangjiaDelt_mid_left").css("overflow-y","hidden");
+            // $(".shangjiaDelt_mid_right").css("overflow-y","hidden");
+            // $(".container_mid").scroll(function () {
+            //     var _scroll = $(".container_mid").offset().top;
+            //     var _top1 = $("#shangjiaDelt_tab").offset().top;
+            //     if(_top1 <= _scroll){
+            //         $("#shangjiaDelt_mid").css("overflow","auto");
+            //     }else{
+            //         $("#shangjiaDelt_mid").css("overflow","hidden");
+            //     };
+
+            //     var _top2 = $("#shangjiaDelt_goods_all").offset().top;
+            //     if(_top2 <= 44 + _scroll){
+            //         $(".shangjiaDelt_mid_left").css("overflow-y","auto");
+            //         $(".shangjiaDelt_mid_right").css("overflow-y","auto");
+            //     }else{
+            //         $(".shangjiaDelt_mid_left").css("overflow-y","hidden");
+            //         $(".shangjiaDelt_mid_right").css("overflow-y","hidden");
+            //     };
+            // });
+            // $(".shangjiaDelt_mid").scroll(function () {
+            //     var _scroll = $(".container_mid").offset().top;
+            //     var _top2 = $("#shangjiaDelt_goods_all").offset().top;
+            //     if(_top2 <= 44 + _scroll){
+            //         $(".shangjiaDelt_mid_left").css("overflow-y","auto");
+            //         $(".shangjiaDelt_mid_right").css("overflow-y","auto");
+            //     }else{
+            //         $(".shangjiaDelt_mid_left").css("overflow-y","hidden");
+            //         $(".shangjiaDelt_mid_right").css("overflow-y","hidden");
+            //     };
+            // });
+        },500);
+    });
+</script>
+
+<script type="text/javascript">
+    window.onload=function(){
+        var  public_top = $('.shangjiaDelt_mid_right').offset().top; 
+        var  pid = "<{$pid}>";
+        setTimeout(function(){
+            $(".jq_class").each(function(){
+                if($(this).attr("rel")==pid){
+                    /*var data = $('#p_'+pid+'-0').attr('data');
+                    ecart.remove(pid+'-0');
+                    ecart.add(pid+'-0', 1,JSON.parse(data),1);*/
+                    $(this).addClass("on");
+                    $(".shangjiaDelt_mid_right").scrollTop($(this).offset().top - public_top);
+                }
+            });
+        },100);
+    }
+</script>
+
+<script type="text/javascript">
+    var swiper = new Swiper('.swiper-container1', {
+    	pagination: '.swiper-pagination1',
+    	slidesPerView: 3.5,
+    	paginationClickable: true,
+    	/*spaceBetween: 30,*/
+    	freeMode: true
+    });
+</script>
+
+<script type="text/javascript">
+    if(checkIsWeixin()){
+        window.WXJS_CFG.jsApiList = [
+            'checkJsApi',
+            'onMenuShareAppMessage',
+            'onMenuShareTimeline',
+            'onMenuShareQQ',
+        ];
+        wx.ready(function(){
+            // 发送给朋友
+            wx.onMenuShareAppMessage({
+                title: "<{$detail.title}>",
+                desc: "<{$detail.delcare}>",
+                link:"<{link ctl='shop/detail' arg0=$detail.shop_id http='waimai'}>",
+                imgUrl:"<{$pager.img}>/<{$detail.logo}>",
+                type: '',
+                dataUrl: '',
+                success: function () {
+                    layer.open({content: '分享成功！', time: 1});
+                },
+                cancel: function () {
+                }
+            });
+            // 分享到朋友圈
+            wx.onMenuShareTimeline({
+                title:"<{$detail.title}>",
+                link: "<{link ctl='shop/detail' arg0=$detail.shop_id http='waimai'}>",
+                imgUrl:"<{$pager.img}>/<{$detail.logo}>",
+                success: function () {
+                    layer.open({content: '分享成功！', time: 1});
+                },
+                cancel: function () {
+                }
+            });
+            // 分享到手机QQ
+            wx.onMenuShareQQ({
+                title:"<{$detail.title}>",
+                desc: "<{$detail.delcare}>",
+                link: "<{link ctl='shop/detail' arg0=$detail.shop_id http='waimai'}>",
+                imgUrl:"<{$pager.img}>/<{$detail.logo}>",
+                success: function () {
+                    layer.open({content: '分享成功！', time: 1});
+                },
+                cancel: function () {
+                }
+            });
+        });
+    }
+</script>
+
+<{include file="waimai/block/footer.html"}>

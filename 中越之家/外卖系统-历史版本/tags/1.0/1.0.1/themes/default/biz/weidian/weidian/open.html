@@ -1,0 +1,73 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/weidian/shop:have'}>" class="on">外送店铺资料</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<{if !$weidian.shop_id}>
+<h3 class="alert alert-info"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;您需要申请开通微店功能，才可以继续操作</h3>
+<{elseif !$weidian.audit}>
+<div class="alert alert-info"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;您的微店正在审核中，请耐心等待</div>
+<{/if}>
+<form action="<{link ctl='biz/weidian:open'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">
+ <tr>
+     <th>微店名称：</th><td><input type="text" name="data[title]" value="<{$weidian.title|default:''}>" class="input w-300"/></td></tr>
+    <tr>
+        <th>微店LOGO：</th>
+        <td>
+            <input type="text" name="data[logo]" class="input w-300" id="file_photo" value="<{$weidian.logo|default:''}>" photo="<{$pager.img}>/<{$weidian.logo|default:''}>" />
+            <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" 选择文件 " />
+            <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+        </td>
+    </tr>
+    <tr><th>客服电话：</th><td><input type="text" name="data[phone]"  value="<{$weidian.phone|default:''}>" class="input w-300"/></td></tr>
+<tr>
+<th width="130">到店自提：</th>
+    <td>
+        <label><input type="radio" name="data[is_ziti]" value="1" <{if $weidian.is_ziti == 1}>checked="checked"<{/if}>/>支持</label>
+        <label><input type="radio" name="data[is_ziti]" value="0" <{if $weidian.is_ziti == 0}>checked="checked"<{/if}>/>不支持</label>
+    </td>
+</tr>
+<tr> 
+    <th width="130">付款方式：</th>
+        <td>
+            <select id="pay_type_select" class="select select_td input w-200">
+                <option value="all" <{if $weidian.is_daofu==1 && $weidian.online_pay==1}>selected="selected"<{/if}> >全部支持</option> 
+                <option value="is_daofu" <{if $weidian.is_daofu==1 && $weidian.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option> 
+                <option value="online_pay" <{if $weidian.is_daofu==0 && $weidian.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option> 
+            </select>
+            <input type="hidden" name="data[online_pay]" value="1">
+            <input type="hidden" name="data[is_daofu]" value="1">
+        </td>
+    </tr>
+<tr>
+<tr><th>店铺简介：</th><td><textarea name="data[info]" class="textarea"><{$weidian.info}></textarea><br /></td></tr>
+<tr>
+    <th></th>
+    <td><input type="submit" value="<{if $weidian}>保存修改<{else}>提交申请<{/if}>" class="btn btn-success" /></td>
+</tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+
+$("#pay_type_select").change(function(){
+    if($(this).val() == 'is_daofu') {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(0);
+    }else if($(this).val() == 'online_pay') {
+        $("input[name='data[is_daofu]']").val(0);
+        $("input[name='data[online_pay]']").val(1);
+    }else {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(1);
+    }
+});
+</script>  
+<{include file="biz/block/footer.html"}>

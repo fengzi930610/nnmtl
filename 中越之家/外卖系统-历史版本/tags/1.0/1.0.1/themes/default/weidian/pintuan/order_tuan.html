@@ -1,0 +1,468 @@
+<{assign var='tpl_title' value=L("提交订单")}>
+<{include file="weidian/block/header.html"}>
+<!--头部提示-->
+<{if $detail.detail.tuan_type == 1}>
+<div class="cantuan_topts">阶梯团成功后补尾款即可发货，否则定金不予退回！</div>
+<{else}>
+<script>
+    setTimeout(function () {
+        $('.page_center_box').css('padding-top', '0.4rem');
+    }, 100);
+</script>
+<{/if}>
+<!--头部提示-->
+
+<!--头部筛选-->
+<input type="hidden" name="val_product_price" id="val_product_price" value="<{$detail.wei_price}>" />
+<input type="hidden" name="val_ship_fee" id="val_ship_fee" value="<{$detail.ship_fee}>" />
+<input type="hidden" name="val_method" id="val_method" value="delete" />
+
+<div class="topShaixuan" <{if $detail.detail.tuan_type == 0}>style="top:0;"<{/if}>>
+     <ul>
+        <{if $detail.detail.address_type == 0}>
+        <li class="list on" val="1"><a href="javascript:void(0);">配送</a></li>
+        <li class="list" val="2"><a href="javascript:void(0);">自提</a></li>
+        <input type="hidden" name="pei_type_val" id="pei_type_val" value="1" />
+        <{/if}>
+        <{if $detail.detail.address_type == 1}>
+        <li class="list on" val="1"><a href="javascript:void(0);">配送</a></li>
+        <input type="hidden" name="pei_type_val" id="pei_type_val" value="1" />
+        <{/if}>
+        <{if $detail.detail.address_type == 2}>
+        <li class="list on" val="2"><a href="javascript:void(0);">自提</a></li>
+        <input type="hidden" name="pei_type_val" id="pei_type_val" value="2" />
+        <{/if}>
+    </ul>
+    <div class="clear"></div>
+</div>
+<!--头部筛选结束-->
+<section class="page_center_box">
+
+    <!-- 如果不是必须购买的开团 -->
+    <{if $detail.detail.master_need_buy == 0}>
+    <div class="tuan-create-xuan">
+         <label class="btn on fl"><input type="radio" value="1" name="" class="inp1">购买产品开团</label>
+         <label class="btn fr"><input type="radio" value="0" name="" class="inp1">不购买仅开团</label>
+         <div class="clear"></div>
+    </div>
+    <{/if}>
+    <!-- 如果不是必须购买的开团end -->
+
+    <!-- 主要内容部分 -->
+    <div class="order_nr mb10">
+        <{if $detail.detail.address_type == 0}>
+        <div class="order_address mb10 addrs" id="addr1">
+                <{if $default_addr}>
+                <div id="addr_content">收货人：<{$default_addr.contact}> <{$default_addr.mobile}></div>
+                <div>
+                    <p id="addr_addr"><{$default_addr.addr}></p>
+                </div>
+                <{else}>
+                <div id="addr_content">您还没有收货地址，请先新建地址</div>
+                <div>
+                    <p id="addr_addr">立即新建</p>
+                </div>
+                <{/if}>
+                <input type="hidden" id="addr_id" name="data[addr_id]" value="<{$default_addr.addr_id}>" />
+        </div>
+        <div class="order_address mb10 addrs" id="addr2" style="display:none;">
+            <div>店家：<{$weidian.title}>  <{$weidian.mobile}></div>
+            <div>
+                <p><{$weidian.addr}></p>
+            </div>
+        </div>
+        <{/if}>
+
+        <{if $detail.detail.address_type == 1}>
+        <div class="order_address mb10 addrs" id="addr1">
+            <{if $default_addr}>
+                <div id="addr_content">收货人：<{$default_addr.contact}> <{$default_addr.mobile}></div>
+                <div>
+                    <p id="addr_addr"><{$default_addr.addr}></p>
+                </div>
+                <{else}>
+                <div id="addr_content">您还没有收货地址，请先新建地址</div>
+                <div>
+                    <p id="addr_addr">立即新建</p>
+                </div>
+                <{/if}>
+                <input type="hidden" id="addr_id" name="data[addr_id]" value="<{$default_addr.addr_id}>" />
+        </div>
+        <{/if}>
+
+        <{if $detail.detail.address_type == 2}>
+        <div class="order_address mb10 addrs" id="addr2">
+            <div>店家：<{$weidian.title}>  <{$weidian.mobile}></div>
+            <div>
+                <p><{$weidian.addr}></p>
+            </div>
+        </div>
+        <{/if}>
+
+        <{if $detail.detail.address_type == 0 || $detail.detail.address_type == 2}>
+        <div class="order_tijiao_box" id="ziti_time" <{if $detail.detail.address_type == 0}>style="display:none;"<{/if}>>
+             <div class="tijiao_address1 pub_align3 order_time_box mb10">
+                <div class="pub_color3">自提时间</div>
+                <div>
+                    <input type="text" class="pointcl1 time_sel" name="data2[time]" id="pei_time" placeholder="选择自提时间" value="">
+                </div>
+            </div>
+        </div>
+        <{/if}>
+
+
+        <div class="cantuanDelt_style"><i class="ico"></i>拼团：开团</div>
+        <!--商品-->
+        <div class="cantuanDelt_shangpin">
+            <div class="dan-one-cont pad10">
+                <div class="dan-img fl"><img src="<{$pager.img}>/<{$detail.photo}>"></div>
+
+
+                <div class="dan-wen">
+                    <h3 class="overflow_clear">
+                        <{if $detail.detail.tuan_type == 1}>
+                            <{$detail.title}>
+                        <{else}>
+                            <{if $stock}><{$stock.stock_real_name}><{else}><{$detail.title}><{/if}>
+                        <{/if}>
+                    </h3>
+                    <p>数量：<{$num}></p>
+                    <div class="tuan-jia">
+                        <{if $detail.detail.tuan_type == 1}>
+                        <div class="fl"><span class="fontcl1"><{$detail.level.min}>-￥<{$detail.level.max}>/件</span></div>
+                        <{else}>
+                        <div class="fl"><span class="fontcl1">￥<{$detail.wei_price}>/件</span></div>
+                        <{/if}>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+        <!--商品-->
+        <div class="nr_box mb10">
+            <div>
+                <ul class="list_box1 list_box2">
+                    <{if $detail.detail.tuan_type == 1}>
+                    <li class="pub_align1 border_b">
+                        <div>参团定金</div>
+                        <div><span class="fontcl1">￥<{$detail.detail.money_pre}></span></div>
+                    </li>
+                    <{/if}>
+                    <li class="pub_align1 border_b">
+                        <div>配送方式</div>
+                        <{if $detail.detail.address_type == 0}>
+                        <div class="pei_type" id="pei_type1">
+                            <{if $detail.ship_fee > 0}>
+                                快递：<{$detail.ship_fee }>元
+                                <{else}>
+                                快递：免配送费
+                            <{/if}>
+                        </div>
+                        <div class="pei_type" id="pei_type2" style="display:none;">自提</div>
+                        <{/if}>
+                        <{if $detail.detail.address_type == 1}>
+                        <div class="pei_type" id="pei_type1">
+                            <{if $detail.ship_fee > 0}>
+                                快递：<{$detail.ship_fee }>元
+                                <{else}>
+                                快递：免配送费
+                            <{/if}>
+                            </div>
+                        <{/if}>
+                        <{if $detail.detail.address_type == 2}>
+                        <div class="pei_type" id="pei_type2">自提</div>
+                        <{/if}>
+                    </li>
+                    <li class="txt_right list"><em>共计 <{$num}> 件商品</em>
+                        合计：<span class="pub_color1">
+                            <{if $detail.detail.tuan_type == 1}>
+                                <{$detail.detail.money_pre}>
+                                <{else}>
+                                <{if $stock}><{$stock.price*$num}><{else}><{$detail.wei_price*$num}><{/if}>
+                            <{/if}>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="order_tijiao_box">
+            <div class="pub_color3">
+                <ul>
+                    <li class="tijiao_address1 pub_align1 mb10 go_coupon">
+                        <div>优惠券</div>
+                        <div><{if $coupon}><span style="color:#ff0000;" class="coupon_num"><{$coupon.coupon_amount}>元</span><{else}><span class="coupon_num">无可用</span><{/if}></div>
+                        <input type="hidden" id="coupon_id" name="data[coupon_id]" value="<{$coupon.coupon_id}>" />
+                    </li>
+                    <!--<li class="tijiao_address1 pub_align1 mb10">
+                        <div>支付方式</div>
+                        <div>在线支付</div>
+                    </li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- 主要内容部分结束 -->
+</section>
+<footer>
+    <div class="footer_orderBtn">
+        <div class="lert" id="buy">实付：￥
+            <{if $detail.detail.address_type == 2}>
+                <span class="pub_color1 real_buy">
+                    <{if $detail.detail.tuan_type == 1}>
+                    <{$detail.detail.money_pre}>
+                    <{else}>
+                    <{if $stock}><{$stock.price*$num}><{else}><{$detail.wei_price*$num}><{/if}>
+                    <{/if}>
+                </span>
+                <{else}>
+                <span class="pub_color1 real_buy">
+                    <{if $detail.detail.tuan_type == 1}>
+                    <{$detail.detail.money_pre+$detail.ship_fee}>
+                    <{else}>
+                    <{if $stock}><{$stock.price*$num+$detail.ship_fee}><{else}><{$detail.wei_price*$num+$detail.ship_fee}><{/if}>
+                    <{/if}>
+                </span>
+            <{/if}>
+        </div>
+
+        <div class="lert" id="no_buy" style="display:none;">实付：￥
+            <span class="pub_color1 real_buy">
+                0元
+            </span>
+        </div>
+        <input type="hidden" name="buy" id="buy_status" value="1">
+        <a href="javascript:void(0);" class="right order_sub">提交订单</a>
+    </div>
+</footer>
+<!-- 支付方式弹出层 -->
+<div class="shangpinSelct_mask order_popup_about shangpinSelct_mask2">
+    <div class="cont" style=" background:#f3f4f3;">
+    	<a href="javascript:;" class="ico close"></a>
+    	<div class="order_popup_box mb10">
+            <h3 class="tit border_b">支付方式</h3>
+            <div class="default border_b">
+                <label class="radioLabel">
+                    <div class="fl">在线支付</div>
+                    <span class="fr checkInt">
+                            <input type="radio">
+                    </span>
+                    <div class="clear"></div>
+                </label>
+            </div>
+            <div class="default border_b">
+                <label class="radioLabel">
+                    <div class="fl">货到付款</div>
+                    <span class="fr checkInt">
+                            <input type="radio">
+                    </span>
+                    <div class="clear"></div>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<!-- 支付方式弹出层结束 -->
+<script>
+    readCoupon();
+    //跳转到优惠券列表选择优惠券
+    $('.go_coupon').click(function(){
+        localStorage['select_coupon'] = JSON.stringify({"backurl":window.location.href});
+        var real_buy = parseFloat($('.real_buy').html()).toFixed(2);
+        var link = "<{link ctl='ucenter/coupon:index' coupon_num=__realbuy}>";
+        window.location.href = link.replace('__realbuy',<{$price}>);
+    })
+
+    // 读取缓存优惠券地址
+    function readCoupon() {
+        if (localStorage['select_coupon']) {
+            var coupon = JSON.parse(localStorage['select_coupon']);
+            //把获取的结果写入优惠券位置
+            if(coupon.coupon_amount && coupon.coupon_id){
+                $('.coupon_num').text(coupon.coupon_amount+'元');
+                $('#coupon_id').val(coupon.coupon_id);
+                var real_buy = parseInt($('.real_buy').text());
+                $('#buy .real_buy').text(real_buy-coupon.coupon_amount);
+
+            }
+        }
+    }
+
+    // 跳转到地址列表选择地址
+    $('#addr1').click(function(){
+        localStorage['select_address'] = JSON.stringify({"backurl":window.location.href});
+        window.location.href = "<{link ctl='ucenter/addr:index'}>";
+    })
+
+    // 时间选择器
+    var date = new Date();
+    var curr = new Date().getFullYear(),
+            d = date.getDate(),
+            m = date.getMonth();
+    $('.time_sel').scroller('destroy').scroller({
+        preset: 'datehour',
+        minDate: new Date(curr, m, d, 8, 00),
+        maxDate: new Date(curr, m, d + 7),
+        invalid: [{d: new Date(), start: '00:00', end: (date.getHours()) + ':' + date.getMinutes()}],
+        theme: "android-ics light",
+        mode: "scroller",
+        lang: 'zh',
+        display: "bottom",
+        animate: "slideup",
+        stepMinute: 15,
+        dateOrder: 'MMDdd',
+        timeWheels: 'HH-ii',
+        rows: 3,
+        setText: '确定',
+        cancelText: '取消',
+    });
+
+
+
+    $('.topShaixuan ul li').click(function () {
+        var val = $(this).attr('val');
+        $('.topShaixuan ul li').removeClass('on');
+        $('#pei_type_val').val(val);
+        $('.addrs').hide();
+        $('#addr' + val).show();
+        $('.pei_type').hide();
+        $('#pei_type' + val).show();
+        $(this).addClass('on');
+        if (val == 2) {
+            $('#ziti_time').show();
+            //减去配送,默认
+            var real_buy = $('#buy .real_buy').text();
+            var ship_fee = $("#val_ship_fee").val();
+            var val_method = $("#val_method").val();
+
+            var link = "<{link ctl='pintuan/js_method' args=delete}>";
+            $.post(link,{"real_buy":real_buy,"ship_fee":ship_fee,"method":val_method},function(ret){
+                if(ret.error == 0 ){
+                    val_method = $("#val_method").val('add');
+
+                    $('#buy .real_buy').text(ret.real_buy);
+                }
+            },'json')
+
+        } else {
+            $('#ziti_time').hide();
+            //增加配送
+            var real_buy = $('#buy .real_buy').text();
+            var ship_fee = $("#val_ship_fee").val();
+            var val_method = $("#val_method").val();
+
+            var link = "<{link ctl='pintuan/js_method' args=add}>";
+            $.post(link,{"real_buy":real_buy,"ship_fee":ship_fee,"method":val_method},function(ret){
+                if(ret.error == 0 ){
+                    val_method = $("#val_method").val('delete');
+
+                    $('#buy .real_buy').text(ret.real_buy);
+
+                }
+            },'json')
+
+        }
+    })
+
+
+    $(document).ready(function(){
+
+        $(".tuan-create-xuan .btn").click(function(){
+            var val = $(this).find('input').val();
+            $(".tuan-create-xuan .btn").removeClass("on");
+            $(this).addClass("on");
+            if(val == 0){
+                $('#no_buy').show();
+                $('#buy').hide();
+
+
+            }else{
+                $('#no_buy').hide();
+                $('#buy').show();
+            }
+            $('#buy_status').val(val);
+        });
+
+
+        $('.open-about2').click(function(){
+		$('.shangpinSelct_mask2').addClass('on');
+		$('.mask_bg').show();
+	});
+
+        $('.shangpinSelct_mask2 .close').click(function(){
+		$('.shangpinSelct_mask2').removeClass('on');
+		$('.mask_bg').hide();
+	});
+
+	$('.order_popup_box .default .radioLabel').click(function(){
+	$('.order_popup_box .default .radioLabel .checkInt').removeClass('on');
+		$(this).find('.checkInt').addClass('on');
+	});
+
+        function go_order(buy_status){
+            var addr_id = $('#addr_id').val();
+            var coupon_id = $('#coupon_id').val();
+            var pei_type_val = $('#pei_type_val').val();
+            var product_id = "<{$detail.product_id}>";
+            var type = "<{$type}>";
+            var num = "<{$num}>";
+            var stock_id = "<{$stock_id}>";
+            var pei_time = $('#pei_time').val();
+            var link = "<{link ctl='pintuan/order_create'}>";
+            $.post(link, {addr_id:addr_id,coupon_id:coupon_id,pei_type_val:pei_type_val,product_id:product_id,type:type,num:num,stock_id:stock_id,pei_time:pei_time,buy_status:buy_status}, function (ret) {
+                if (ret.error == 0) {
+                    //这里应该清空地址和优惠券的缓存
+                    localStorage.removeItem('select_address');
+                    localStorage.removeItem('select_coupon');
+                    layer.open({
+                        content:ret.message,
+                        time:2
+                    });
+	            setTimeout(function(){
+                        if(ret.order.go_pay == 0){
+                            //go_pay 是 是否免支付的团标识，如果为0跳入支付页面
+                            var order_pay = "<{link ctl='pintuan/open_detail' arg1=__group_id}>";
+                            localStorage['order_pay'] = order_pay.replace('__group_id',ret.order.group_id);
+                            var link = "<{link ctl='ucenter/order/pay' arg1=__order_id}>";
+                            window.location.href=link.replace('__order_id',ret.order.order_id);
+                        }else{
+                            var link = "<{link ctl='pintuan/open_detail' arg1=__group_id}>";
+                            window.location.href=link.replace('__group_id',ret.order.group_id);
+                        }
+                    },2000);
+                } else {
+                    layer.open({
+                        content:ret.message,
+                        time:2
+                    });
+                    if(ret.error==101){
+                        window.location.href = "<{link ctl='passport:login'}>";
+                    }
+                }
+            },'json');
+        }
+
+        //表单提交
+        $(document).on("click",".order_sub", function(){
+            var master_need_buy = "<{$detail.detail.master_need_buy}>";
+            //如果该团为不需要购买也可开团的类型
+            if(master_need_buy == 0){
+                //询问框
+                var buy_status = $('#buy_status').val();
+                go_order(buy_status);
+            }else{
+                go_order();
+            }
+        })
+
+
+
+
+
+    })
+
+
+</script>
+<{include file="weidian/block/footer.html"}>

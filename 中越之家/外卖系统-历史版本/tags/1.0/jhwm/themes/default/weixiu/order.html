@@ -1,0 +1,322 @@
+<{assign var='tpl_title' value=L("<{$cate.title}>")}>
+<{include file="block/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/jquery.form.js"></script>
+<header>
+    <i class="left"><a href="<{link ctl='server/index:allserver'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	<{$cate.title}>
+    </div>
+    <i class="right"></i>
+</header>
+
+
+<style type="text/css">
+
+.mask{ background:rgba(0,0,0,0.3); position:fixed; z-index:1000; width:100%; height:100%; left:0; top:0; overflow:scroll;}
+.mask .nr{ padding:0 0.2rem; margin-top:10%;}
+.mask_prompt{ border:0.02rem solid #9a9a9a; background-color:#fff; border-radius:0.05rem; overflow:hidden;}
+.mask_prompt .title{ text-align:center; font-size:0.18rem; line-height:0.4rem; color:#fff; background-color:#2cca77; margin-bottom:0.01rem;}
+.mask_prompt .title.bg_2{ background-color:#384250;}
+.mask_prompt .title em{ padding:0.12rem; background:url(../images/prompt_ico.png) no-repeat center top; background-size:100% auto; font-size:0; margin-right:0.05rem; vertical-align:middle;}
+.mask_prompt .title em.ico_2{ background-position:center -0.24rem;}
+.mask_prompt .cont{ padding:0.1rem; text-align:center;}
+.mask_prompt .cont p{ font-size:0.14rem; line-height:0.24rem; color:#666;}
+.mask_prompt .cont .pub_btn{ margin:0.1rem 0;}
+
+.mask_prompt .cont .time{width:90%;margin:0px auto;}
+.mask_prompt .cont .time .top{box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */-webkit-box-sizing:border-box;border-right:0px;}
+.mask_prompt .cont .time .top ul li{width:25%;height:0.35rem;line-height:0.35rem;border-right: 1px solid #ffffff;border-bottom: 1px solid #ffffff;box-sizing:border-box;-moz-box-sizing:border-box; /* Firefox */-webkit-box-sizing:border-box;color:#ffffff;text-align:center;float:left;}
+
+
+
+.mask_prompt .cont .time .top ul li.no{background:#ededed;color:#666666;}
+.mask_prompt .cont .time .top ul li.sel{background:#2cca77;color:#ffffff;}
+.mask_prompt .cont .time .top ul#ctime2,.mask_prompt .cont .time .top ul#ctime3,.mask_prompt .cont .time .top ul#ctime4{display:none;}
+
+ul.timers{overflow: hidden; background: #2cca77;}
+
+.pub_btn{border-radius:0.05rem; height:0.34rem; padding:0 0.2rem; background-color:#2cca77; font-size:0.16rem; color:#fff;}
+.cancel_btn{border-radius:0.05rem; height:0.34rem; padding:0 0.2rem; background-color:#dddddd; font-size:0.16rem; color:#333333;margin-left:0.1rem;}
+
+
+</style>
+
+
+    <form action="<{link ctl='weixiu/order/handle' }>" mini-form="car-form" id="comment_form" method="post">
+    <section class="page_center_box">
+        <script>
+            function fileSelected(obj, type) {
+                var files = obj.files;
+                for (var i = 0; i < files.length; i++) {
+                    var tag = '';
+                    var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                    if (!rFilter.test(files[i].type)) {
+                        alert("只允许上传JPG、PNG、GIF格式图片");
+                        return false;
+                    }
+                    var reader = new FileReader();
+                    reader.onloadstart = function (e) {
+                        $(".loading").show();
+                    }
+                    reader.onload = function (e) {
+                        $('#photo' + type).hide();
+                        $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                    }
+                    reader.readAsDataURL(files[i]);
+                }
+            }
+        </script>
+    <div class="jiazheng">
+
+        <div class="findAunt_serv">
+            <ul class="border_t">
+                <li>
+                    <a href="<{link ctl='weixiu/detail' args=$cate_id}>">
+                    <div class="fl">
+                        <img class="fl img" src="<{$pager.img}>/<{$cate.photo}>" width="100" height="100">
+                        <p class="overflow_clear font_size14"><{$cate.title}></p>
+                        <p class="overflow_clear black9">计价方式：<{$cate.price}>元 /<{$unit[$cate.unit]}></p>
+                        <p class="overflow_clear black9">服务费用：<{$cate.start}>元起</p>
+                    </div>
+                    <div class="fr">
+                        <span class="linkIco"></span>
+                    </div>
+                    <div class="clear"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="servOrd mt10">
+
+            <table width="100%">
+            	<tr id="svctime" name="svctime">
+                    <th><em class="runIco ico_5"></em>服务时间</th>
+                    <td>
+                        <input type="hidden" id="city_id" name="data[city_id]" value="" />
+                        <input type="hidden" id="cate_id" name="data2[cate_id]" value="<{$cate.cate_id}>" />
+                        <input type="hidden" id="cate_title" name="data2[cate_title]" value="<{$cate.title}>" />
+                        <input type="hidden" id="danbao_amount" name="data2[danbao_amount]" value="<{$cate.start}>" />
+                        <input type="text" readonly="readonly" class="pointcl1" value=""  placeholder="选择服务时间" id="stime" name="data[stime]">
+                        <input type="hidden" name="sday_val" id="sday_val" value="" />
+                        <input type="hidden" name="stime_val" id="stime_val" value="" />
+                        <em class="linkIco"></em>
+                    </td>
+                </tr>
+                <tr class="sssaddr">
+                    <th><em class="runIco ico_1"></em>服务小区</th>
+                    <td>
+                        <input type="text" placeholder="请选择地址" name="data[addr]" id="sd" ><input type="hidden" name="sd_val" id="sd_val" value="" /><em class="linkIco"></em>
+                    </td>
+                </tr>
+                <tr>
+                    <th><em class="runIco ico_6"></em>门牌号</th>
+                    <td>
+                        <input type="text" name="data[house]" id="mp_val" placeholder="请选择门牌号" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <th><em class="runIco ico_4"></em>联系方式</th>
+                    <td>
+                        <input type="text" name="data[mobile]" id="mb_val" placeholder="请选择联系方式">
+                        <input type="hidden" name="data[contact]" id="c_val">
+                    </td>
+                </tr>
+                <tr>
+                    <th><em class="runIco ico_3"></em>服务人员</th>
+                    <td>
+                        <input type="hidden" name="data[staff_id]" id="staff_id" value=""/>
+                        <a href="<{link ctl='weixiu/items' args=$cate_id}>">
+                        <div class="mr10">
+                            <input type="text" class="txt_right maincl" id="staff_name" placeholder="系统派指人员" value="" style='text-align:left;'>
+                        </div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="waimaiRun_mai_require">
+            <textarea placeholder="请输入您的要求" name="data[intro]" id="intro"></textarea>
+            <!--<div>
+                <div class="fr" style=" margin-top:0.16rem;">
+                    <span class="black9 mr10">36s</span><span class="waimaiRun_voice"></span><span class="microphone"></span>
+                </div>
+                <div class="clear"></div>
+            </div>-->
+        </div>
+        <div class="appointForm_imgdup border_t border_b mb10 clear_both">
+            <ul>
+                <li class="appointForm_img">
+                    <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo1" id="photo1" onchange="fileSelected(this,1)" value="上传" >
+                    <img src="" width="70" height="70" style="display:none;" id="img1">
+                    </div>
+                </li>
+                <li class="appointForm_img">
+                    <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo2" id="photo2" onchange="fileSelected(this,2)" value="上传" >
+                    <img src="" width="70" height="70" style="display:none;" id="img2">
+                    </div>
+                </li>
+                <li class="appointForm_img">
+                    <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo3" id="photo3" onchange="fileSelected(this,3)" value="上传" >
+                    <img src="" width="70" height="70" style="display:none;" id="img3">
+                    </div>
+                </li>
+                <li class="appointForm_img">
+                    <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo4" id="photo4" onchange="fileSelected(this,4)" value="上传" >
+                    <img src="" width="70" height="70" style="display:none;" id="img4">
+                    </div>
+                </li>
+    	    </ul>
+            <!--<div class="uploader_input_img fl">
+                <input class="weui_uploader_input" type="button" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>
+            </div>-->
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="btn_box">
+        <div class="fl">
+            <p class="font_line24 font_size14">定金：<span class="black9">￥<span class="fontcl1"><{$cate.start}></span></span></p>
+        </div>
+        <input type="submit" class="fr pub_btn footer_btn" style="background:#ff6600;" id="comment_submit" value="提交订单" />
+    </div>
+</footer>
+</form>
+
+<script>
+$(document).ready(function() {
+
+
+    var weixiu_staff_id = localStorage.getItem('weixiu_staff_id');
+     var weixiu_staff_name = localStorage.getItem('weixiu_staff_name');
+     if(weixiu_staff_id && weixiu_staff_name){
+        $('#staff_id').val(weixiu_staff_id);
+        $('#staff_name').val(weixiu_staff_name);
+     }
+
+     var weixiu_stime = localStorage.getItem('weixiu_stime');
+     var weixiu_stime_val = localStorage.getItem('weixiu_stime_val');
+     var weixiu_sday_val = localStorage.getItem('weixiu_sday_val');
+
+     if(weixiu_stime && weixiu_stime_val && weixiu_sday_val){
+        $('#sday_val').val(weixiu_sday_val);
+        $('#stime_val').val(weixiu_stime_val);
+        $('#stime').val(weixiu_stime).css('color','#2cca77');
+     }
+
+
+
+     if(localStorage['select_address']){
+        var address =  JSON.parse(localStorage['select_address']);
+        localStorage.setItem('weixiu_sd_val',address.addr_id);
+        localStorage.setItem('weixiu_c_val',address.contact);
+        localStorage.setItem('weixiu_mb_val',address.mobile);
+        localStorage.setItem('weixiu_mp_val',address.house);
+        localStorage.setItem('weixiu_sd',address.addr);
+
+        localStorage.removeItem('select_address');  //用完删除
+    }
+
+     var weixiu_sd_val = localStorage.getItem('weixiu_sd_val');
+    if(weixiu_sd_val){$('#sd_val').val(weixiu_sd_val);}
+
+    var weixiu_c_val = localStorage.getItem('weixiu_c_val');
+    if(weixiu_c_val){$('#c_val').val(weixiu_c_val);}
+
+    var weixiu_sd = localStorage.getItem('weixiu_sd');
+    if(weixiu_sd){$('#sd').val(weixiu_sd);}
+
+    var weixiu_mp_val = localStorage.getItem('weixiu_mp_val');
+    if(weixiu_mp_val){$('#mp_val').val(weixiu_mp_val);}
+
+    var weixiu_mb_val = localStorage.getItem('weixiu_mb_val');
+    if(weixiu_mb_val){$('#mb_val').val(weixiu_mb_val);}
+
+     /*提取local写入*/
+
+
+     $('#svctime').click(function(){
+         $("footer").hide();
+         $('section').css('bottom','0');
+        select_time('<{$now_time}>','weixiu');
+     })
+    var uid = "<{$MEMBER['uid']}>";
+    var addrs = {};
+    <{foreach $addrs as $k=>$v}>
+    addrs['<{$v.addr_id}>']  = {};
+    addrs['<{$v.addr_id}>']['addr'] = '<{$v.addr}>';
+    addrs['<{$v.addr_id}>']['house'] = '<{$v.house}>';
+    addrs['<{$v.addr_id}>']['mobile'] = '<{$v.mobile}>';
+    addrs['<{$v.addr_id}>']['contact'] = '<{$v.contact}>';
+    <{/foreach}>
+
+
+
+
+     $('.sssaddr').click(function(){
+        localStorage['select_address'] = JSON.stringify({"backurl":window.location.href});
+        window.location.href = "<{link ctl='ucenter/addr:index'}>";
+     })
+
+     $(document).on("click","#add_addr_span",function(){
+         var add_addr_link = "<{link ctl='ucenter/addr:create' arg1='weixiu' arg2=$cate_id}>";
+         window.location.href=add_addr_link;
+     })
+
+     function removeInfo(){
+         //对记录进行清空
+         if (window.localStorage) {
+            localStorage.removeItem('weixiu_c_val');
+            localStorage.removeItem('weixiu_mb_val');
+            localStorage.removeItem('weixiu_mp_val');
+            localStorage.removeItem('weixiu_sd');
+            localStorage.removeItem('weixiu_sd_val');
+            localStorage.removeItem('weixiu_sday_val');
+            localStorage.removeItem('weixiu_staff_id');
+            localStorage.removeItem('weixiu_staff_name');
+            localStorage.removeItem('weixiu_stime');
+            localStorage.removeItem('weixiu_stime_val');
+        }
+     }
+
+     $("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json","beforeSubmit":function(){
+           Widget.MsgBox.load();
+     }, "success": function (ret) {
+        if(ret.error == 0){
+            layer.open({
+                content: ret.message,
+                time:2
+            });
+            removeInfo();
+            var order_id = parseInt(ret.order_id);
+            localStorage['order_pay'] = "<{link ctl='ucenter/order:detail-"+order_id+"'}>";
+            var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+            setTimeout(function () {
+                window.location.href = link.replace('temp1', order_id);
+            }, 1000);
+        }else if(ret.error == 101){
+            layer.open({
+                content: ret.message,
+                btn: ['确认', '取消'],
+                shadeClose: false,
+                yes: function(){
+                    window.location.href="<{link ctl='passport/login'}>";
+                }
+            });
+        }else{
+            layer.open({
+                content: ret.message,
+                time:2
+            });
+        }
+     }});
+
+     var now_city_id = Cookie.get("UxCityId");
+     $('#city_id').val(now_city_id);
+
+});
+</script>
+
+<{include file="block/footer.html"}>

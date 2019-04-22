@@ -1,0 +1,347 @@
+<{assign var='tpl_title' value=L("收货地址")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .addrMap{height: 100%; width: 100%; position: relative; overflow: hidden;}
+    .addrMap .shangjiaDelt_goods_search_int{position: sticky; left: 0; top: 0; right: 0; height: 50px;}
+    .addrMap .shangjiaDelt_goods_search_int .int_box{display: inline-block; margin-right: 0; max-width: 250px; min-width: 200px;}
+    .addrMap #ConfirmBtn{display: inline-block; height: 34px; line-height: 34px; text-align: center; padding: 0; min-width: 58px; border: none; margin-top: 4px; box-sizing: content-box; border-radius: 5px; color: #888; outline: none;}
+    .addrMap #ConfirmBtn.on{background-color: #090; color: #FFF;}
+    .addrMap .map{width: 100%; height: 310px; background: #fff; border-bottom: 1px solid #e6e6e6; position: sticky; left: 0; top: 0; right: 0;}
+    .addrMap .cate{display: none; width:100%; padding:10px 0; z-index:1; text-align:center; background:#fff; overflow:hidden; position:sticky; left: 0; top: 310px; right: 0; line-height:20px; height: 20px; border-bottom: 1px solid #e6e6e6;}
+    .addrMap .cate .swiper-wrapper {position: relative;width: 100%;z-index: 1;display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-transition-property: -webkit-transform;-moz-transition-property: -moz-transform;-o-transition-property: -o-transform;-ms-transition-property: -ms-transform;transition-property: transform;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;-webkit-transform: translate3d(0,0,0);-moz-transform: translate3d(0,0,0);-o-transform: translate(0,0);-ms-transform: translate3d(0,0,0);transform: translate3d(0,0,0);}
+    .addrMap .cate .swiper-slide{-webkit-flex-shrink: 0;-ms-flex: 0 0 auto;flex-shrink: 0;height: 100%;position: relative;text-align: center;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center; display:block; font-size:14px; height:20px; line-height:20px; color:#333;}
+    .addrMap .cate .swiper-slide a{ color:#333;}
+    .addrMap .cate .swiper-slide.on a{ color:#20AD20;}
+    .addrMap .list_box{width: 100%; height: calc(100% - 360px); overflow: auto;}
+    .addrMap .list_box ul li{background: #fff; position: relative; border-bottom: 1px solid #e6e6e6; padding: 10px 10px 10px 38px;}
+    .addrMap .list_box ul li .ico{position: absolute; left: 0;  top: 50%; width: 38px; height: 20px; transform: translate(0,-50%); -webkit-transform: translate(0,-50%); background: url(/themes/waimai/static/img/addressIco.png) no-repeat center center; background-size: contain;}
+    .addrMap .list_box ul li.on .ico{background-image: url(/themes/waimai/static/img/mall_my_btn_location.png)}
+    .addrMap .list_box ul li h3,.addrMap .list_box ul li p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .addrMap .list_box ul li h3{font-weight: normal;}
+    .addrMap .list_box ul li p{color: #666;}
+
+</style>
+<!-- <script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=<{$map_key}>&plugin=AMap.ToolBar,AMap.Geocoder,AMap.Autocomplete,AMap.PlaceSearch"></script>
+<script src="//webapi.amap.com/ui/1.0/main.js"></script> -->
+
+<div class="addrMap">
+    <!--搜索框-开始-->
+    <div class="shangjiaDelt_goods_search_int">
+            <input type="hidden" id="CurSelAddr" value="">
+            <input type="hidden" id="CurSelLng" value="">
+            <input type="hidden" id="CurSelLat" value="">
+            <div class="int_box">
+                <input type="text" name="title" id="tipinput" value="" class="int" placeholder="搜索地址">
+            </div>
+            <button id="ConfirmBtn">确定</button>
+        <div class="clear"></div>
+    </div>
+    <!--搜索框-结束-->
+    <div class="map" id="map"></div>
+
+    <!--分类-->
+    <div class="cate">
+        <div class="swiper-container1">
+            <div class="swiper-wrapper">
+                <div class="box swiper-slide on" rel="1" data="全部"><a href="javascript:;">全部</a></div>
+                <div class="box swiper-slide" rel="2" data="写字楼"><a href="javascript:;">写字楼</a></div>
+                <div class="box swiper-slide" rel="2" data="小区"><a href="javascript:;">小区</a></div>
+                <div class="box swiper-slide" rel="2" data="学校"><a href="javascript:;">学校</a></div>
+                <div class="box swiper-slide" rel="2" data="医院"><a href="javascript:;">医院</a></div>
+            </div>
+        </div>
+    </div>
+    <!--分类end-->
+    <!--列表-开始-->
+    <div class="list_box">
+        <ul id="addr_list">
+
+        </ul>
+    </div>
+    <!--列表-结束-->
+</div>
+<script type="text/javascript">
+    var swiper = new Swiper('.swiper-container1', {
+        pagination: '.swiper-pagination1',
+        slidesPerView: 4,
+        paginationClickable: true,
+        /*spaceBetween: 30,*/
+        freeMode: true
+    });
+
+    var map = null,marker = null;
+
+
+    var lng = parseFloat('<{$location.lng}>');
+    var lat = parseFloat('<{$location.lat}>');
+
+    var searchAddr = function(addr){
+        addr = String(addr).replace(/^\s+|\s+$/g,"");
+        if(searchAddr === "")
+            return;
+        var srv = new google.maps.places.AutocompleteService();
+        srv.getPlacePredictions({ input: addr,componentRestrictions:{country:"vn"} }, function(predictions, status){
+            $("#addr_list").empty();
+            $("#CurSelLng").val("");
+            $("#CurSelLat").val("");
+            $("#CurSelAddr").val("");
+            $("#ConfirmBtn").removeClass("on");
+            if(status !== google.maps.places.PlacesServiceStatus.OK)
+                return;
+            $.each(predictions,function(k,v){
+                var newItem = $("<li place_id=\""+v.place_id+"\">" +
+                    "   <i class=\"ico\"></i>" +
+                    "   <h3>"+v.structured_formatting.main_text+"</h3>" +
+                    "   <p>"+v.description+"</p>" + 
+                    "   <span style=\"display:none\"></span>" + 
+                    "</li>");
+                newItem.appendTo("#addr_list");
+                newItem.on("click",addrItemClick);
+            });
+            srv = null;
+        });
+    };
+
+    var addrItemClick = function(){
+        var allName = $(this).children("h3").text() + " - " + $(this).children("span").text();
+        if(!this.location)
+        {
+            var placeId = $(this).attr("place_id");
+            if(placeId !== "")
+            {
+                var srv = new google.maps.places.PlacesService(map);
+                srv.getDetails({
+                    placeId: placeId,
+                    fields:['name','geometry','vicinity']
+                }, function(place, status){
+                    srv = null;
+                    if(status == google.maps.places.PlacesServiceStatus.OK)
+                    {
+                        this.location = {
+                            lng:place.geometry.location.lng(),
+                            lat:place.geometry.location.lat()
+                        };
+                        $(this).children("span").text(place.vicinity);
+                        $(this).click();
+                    }
+                }.bind(this));
+            }
+        }
+        else
+        {
+            $(this).siblings().removeClass("on");
+            $(this).addClass("on");
+            $("#CurSelLng").val(this.location.lng.toFixed(6));
+            $("#CurSelLat").val(this.location.lat.toFixed(6));
+            $("#CurSelAddr").val(allName);
+            $("#ConfirmBtn").addClass("on");
+            setPoint(this.location);
+        }
+    };
+
+    var setPoint = function(point){
+        if(map)
+            map.setCenter(point);
+        if(marker)
+            marker.setPosition(point);
+    };
+
+    var geoToAddressList = function(point,cbk){
+        if(typeof(cbk) !== "function")
+            cbk = function(){};
+        var srv = new google.maps.places.PlacesService(map);
+        srv.nearbySearch({
+            location: {lng:point.lng,lat:point.lat},
+            radius: 500,
+            types:["point_of_interest", "establishment"]
+        }, (function(results, status) {
+            var rsList = [];
+            if(status === google.maps.places.PlacesServiceStatus.OK)
+            {
+                $.each(results,function(k,v){
+                    rsList.push({
+                        place_id:v.place_id,
+                        lng:v.geometry.location.lng(),
+                        lat:v.geometry.location.lat(),
+                        name:v.name,
+                        description:v.vicinity?v.vicinity:""
+                    });
+                });
+            }
+            this.cbk(rsList);
+            srv = null;
+        }).bind({cbk:cbk}));
+    };
+
+    var flushAddrListByPoint = function(point){
+        $("#addr_list").empty();
+        $("#CurSelLng").val("");
+        $("#CurSelLat").val("");
+        $("#CurSelAddr").val("");
+        $("#ConfirmBtn").removeClass("on");
+        $("#tipinput").val("");
+        geoToAddressList(point,function(addrList){
+            $.each(addrList,function(k,v){
+                var newItem = $("<li place_id=\""+v.place_id+"\">" +
+                    "   <i class=\"ico\"></i>" +
+                    "   <h3>"+v.name+"</h3>" +
+                    "   <p>"+v.description+"</p>" + 
+                    "   <span style=\"display:none\">"+v.description+"</span>" + 
+                    "</li>");
+                newItem.appendTo("#addr_list");
+                newItem.get(0).location = {
+                    lng:v.lng,
+                    lat:v.lat
+                };
+                newItem.on("click",addrItemClick);
+            });
+        });
+    };
+
+    var initMap = function(){
+        var  createMap = function(){
+            map = new google.maps.Map(
+                document.getElementById("map"),
+                {
+                    zoom: 17, 
+                    center: {lat:lat,lng:lng},
+                    fullscreenControl: false,
+                    streetViewControl: false,
+                    mapTypeControl: false,
+                    gestureHandling: "greedy"
+                }
+            );
+            marker = new google.maps.Marker({
+                position: {lat:lat, lng:lng},
+                map:map
+            });
+            map.addListener("click",function(ev){
+                lng = ev.latLng.lng();
+                lat = ev.latLng.lat();
+                marker.setPosition({lng:lng,lat:lat});
+                flushAddrListByPoint({lng:lng,lat:lat});
+            });
+            $("#tipinput").get(0).waitTimer = null;
+            $("#tipinput").on("change",function(){
+                if(!this.waitTimer)
+                    window.clearTimeout(this.waitTimer);
+                this.waitTimer = setTimeout((function(){
+                    this.waitTimer = null;
+                    var srchStr = $.trim($(this).val());
+                    if(srchStr === "")
+                        return;
+                    searchAddr(srchStr);
+                }).bind(this),600);
+            });
+            $("#ConfirmBtn").on("click",function(){
+                if(!$(this).hasClass("on"))
+                    return;
+                var curSelLng = $.trim($("#CurSelLng").val());
+                var curSelLat = $.trim($("#CurSelLat").val());
+                var addr = $.trim($("#CurSelAddr").val());
+                if(curSelLng === "" || curSelLat === "" || addr === "")
+                {
+                    Widget.MsgBox.error("请选择一个地址");
+                    return;
+                }
+                curSelLng = parseFloat(curSelLng);
+                curSelLat = parseFloat(curSelLat);
+                if(isNaN(curSelLng) || isNaN(curSelLat))
+                {
+                    $("#CurSelLng").val("");
+                    $("#CurSelLat").val("");
+                    $("#CurSelAddr").val("");
+                    $("#ConfirmBtn").removeClass("on");
+                    Widget.MsgBox.error("地址数据有误，请重新选择");
+                    return;
+                }
+                var back_url = "<{link ctl='ucenter/addr/create'}>";
+                if(localStorage && localStorage.back_addr)
+                {
+                    var back_addr =  JSON.parse(localStorage.back_addr);
+                    if(back_addr && back_addr.backurl)
+                        back_url = back_addr.backurl;
+                    localStorage.removeItem('back_addr');
+                }
+                if(back_url.indexOf("?") >= 0)
+                    back_url += "&";
+                else
+                    back_url += "?";
+                args = 'o_lng='+curSelLng+'&o_lat='+curSelLat+'&o_addr='+encodeURIComponent(addr);
+                window.location.href = back_url + args;
+            });
+
+            //由当前经纬度坐标，解释出对应的地址，然后设置当前选择的内容
+            flushAddrListByPoint({lng:lng,lat:lat});
+        };
+
+        var setDefaultPos = function(){
+            var defPos = "<{$smarty.const.MAP_DEFAULT_CENTER}>";
+            if(defPos)
+            {
+                defPos = defPos.split(",");
+                if(defPos.length === 2)
+                {
+                    lng = parseFloat(defPos[0].replace(/^\s+|\s+$/g,""));
+                    lat = parseFloat(defPos[1].replace(/^\s+|\s+$/g,""));
+                    if(isNaN(lng))
+                        lng = null;
+                    if(isNaN(lat))
+                        lat = null;
+                }
+            }
+            if(!lng && lng!==0)
+                lng = 105.834888;
+            if(!lat && lat!==0)
+                lat = 21.020805;
+        };
+        if(lng && lat)
+            createMap();
+        else
+        {
+            var oldUxLoc = UxLocation;
+            setUxLocation(null);
+            Widget.MsgBox.load();
+            getUxLocationPoint(function(res){
+                UxLocation = oldUxLoc;
+                setUxLocation(UxLocation);
+                Widget.MsgBox.hide();
+                if(res.error)
+                {
+                    Widget.MsgBox.alert(ret.message?ret.message:"定位失败，将使用系统默认位置点");
+                    setDefaultPos();
+                    createMap();
+                }
+                else
+                {
+                    lat = res.lat;
+                    lng = res.lng;
+                    createMap();
+                }
+            });
+        }
+        // if(navigator.geolocation)
+        // {
+        //     navigator.geolocation.getCurrentPosition(function(position) {
+        //         var pos = {
+        //             lat: position.coords.latitude,
+        //             lng: position.coords.longitude
+        //         };
+        //         lng = pos.lng;
+        //         lat = pos.lat;
+        //         createMap();
+        //     }, function(e) {
+        //         Widget.MsgBox.error("无法获取您的位置信息");
+        //         setDefaultPos();
+        //         createMap();
+        //     });
+        // }
+        // else
+        // {
+        //     setDefaultPos();
+        //     createMap();
+        // }
+    };
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<{$jh_map_key}>&language=zh-CN&region=VN&callback=initMap&libraries=places"></script>
+<{include file="block/footer.html"}>

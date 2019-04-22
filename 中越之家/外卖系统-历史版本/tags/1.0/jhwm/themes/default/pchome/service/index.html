@@ -1,0 +1,636 @@
+<{assign var="page_title" value="上门服务"}>
+<{assign var='tpl_title' value=L("上门服务")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+
+    <div class="shangmen-bg">
+    <!-- nav部分 -->
+    <div class="shangmen-wrap shangmen-nav">
+    	<div class="left fl">
+    		<div class="logo fl"></div>
+    		<div class="city">
+    			<i class="ico-city"></i>
+    			<{if $city.city_name}><{$city.city_name}><{/if}><span><a href="<{link ctl='city'}>" class="maincl2">[<{if $city.city_name}>切换城市<{else}>选择城市<{/if}>]</a></span>
+    		</div>
+    	</div>
+    	<div class="right fr">
+    		<ul>
+                    <li><a href="<{link ctl='index/index'}>" class="active">首页</a></li>
+    			<li><a href="#shangmen1">家政</a></li>
+    			<li><a href="#shangmen5">维修</a></li>
+    			<li><a href="#shangmen10">跑腿</a></li>
+    		</ul>
+    	</div>
+    </div>
+    <div class="clear"></div>
+    <!-- nav部分结束 -->
+    <!-- banner开始 -->
+    <div class="shangmen-banner shangmen-wrap">
+    	<{adv name="PC上门服务轮播"}>
+    </div>
+	<div class="clear"></div>
+    <!-- banner结束 -->
+    </div>
+    <!-- content开始 -->
+    <div class="shangmen-content">
+         <!-- 悬浮层 -->
+        <div class="shangmen-xuanfu" id="menu">
+            <ul>
+                <li><a href="#shangmen1" class="active">1F保洁服务</a></li>
+                <li><a href="#shangmen2">2F洗护服务</a></li>
+                <li><a href="#shangmen3">3F家电清洗</a></li>
+                <li><a href="#shangmen4">4F家居保养</a></li>
+                <li><a href="#shangmen5">5F家电维修</a></li>
+                <li><a href="#shangmen6">6F安装维修</a></li>
+                <li><a href="#shangmen7">7F开锁换锁</a></li>
+                <li><a href="#shangmen8">8F管道疏通</a></li>
+                <li><a href="#shangmen9">9F水电洁具</a></li>
+                <li><a href="#shangmen10">10F跑腿</a></li>
+            </ul>
+        </div>
+        <!---->    
+        <div class=" shangmen-wrap">
+        	<div class="shangmen-detail no-1" id="shangmen1">
+    			<div class="title">1F 保洁服务</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico1"></i>
+        			<div class="txt">
+        				<p class="tit">家庭保洁</p>
+    	    			<p class="detail">专业工具，擦洗扫拖</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico2"></i>
+        			<div class="txt">
+        				<p class="tit">新居开荒</p>
+    	    			<p class="detail">新居入驻开荒，清扫装修痕迹</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico3"></i>
+        			<div class="txt">
+        				<p class="tit">深度保洁</p>
+    	    			<p class="detail">明星服务，洁净超乎想象</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-2" id="shangmen2">
+    			<div class="title">2F 洗护服务</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico4"></i>
+        			<div class="txt">
+        				<p class="tit">窗帘洗护</p>
+    	    			<p class="detail">专业手法，彻底清洗</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico5"></i>
+        			<div class="txt">
+        				<p class="tit">地毯洗护</p>
+    	    			<p class="detail">专业手法，无死角清洁</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-3" id="shangmen3">
+    			<div class="title">3F 家电清洗</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico6"></i>
+        			<div class="txt">
+        				<p class="tit">油烟机清洗</p>
+    	    			<p class="detail">高温蒸汽，油隐无踪</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico7"></i>
+        			<div class="txt">
+        				<p class="tit">空调清洗</p>
+    	    			<p class="detail">除尘消菌，拒绝室内雾霭</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico8"></i>
+        			<div class="txt">
+        				<p class="tit">冰箱除臭</p>
+    	    			<p class="detail">除冰除菌除臭，健康生活</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico9"></i>
+        			<div class="txt">
+        				<p class="tit">微波炉清洗</p>
+    	    			<p class="detail">还原食物美味，乐享生活</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico10"></i>
+        			<div class="txt">
+        				<p class="tit">电烤箱清洗</p>
+    	    			<p class="detail">多重清洗，乐享生活</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico11"></i>
+        			<div class="txt">
+        				<p class="tit">饮水机清洗</p>
+    	    			<p class="detail">除菌除水垢，喝健康水</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico12"></i>
+        			<div class="txt">
+        				<p class="tit">洗衣机清洗</p>
+    	    			<p class="detail">杀菌除污垢，衣服不再越洗越脏</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-4" id="shangmen4">
+    			<div class="title">4F 家居保养</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico13"></i>
+        			<div class="txt">
+        				<p class="tit">擦玻璃</p>
+    	    			<p class="detail">专业工具，洁净玻璃</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico14"></i>
+        			<div class="txt">
+        				<p class="tit">厨房保养</p>
+    	    			<p class="detail">感受趟亮空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico15"></i>
+        			<div class="txt">
+        				<p class="tit">卫生间保养</p>
+    	    			<p class="detail">焕发闪亮光洁</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico16"></i>
+        			<div class="txt">
+        				<p class="tit">地板打蜡</p>
+    	    			<p class="detail">进口蜂胶，多重工序，专业养护</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico17"></i>
+        			<div class="txt">
+        				<p class="tit">皮质沙发保养</p>
+    	    			<p class="detail">专项滋润养护，持久如新</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-5" id="shangmen5">
+    			<div class="title">5F 家电维修</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico18"></i>
+        			<div class="txt">
+        				<p class="tit">微波炉维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico19"></i>
+        			<div class="txt">
+        				<p class="tit">煤气灶维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico20"></i>
+        			<div class="txt">
+        				<p class="tit">油烟机维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico21"></i>
+        			<div class="txt">
+        				<p class="tit">热水器维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico22"></i>
+        			<div class="txt">
+        				<p class="tit">电脑维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico23"></i>
+        			<div class="txt">
+        				<p class="tit">电视维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico24"></i>
+        			<div class="txt">
+        				<p class="tit">洗衣机维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico25"></i>
+        			<div class="txt">
+        				<p class="tit">冰箱维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico26"></i>
+        			<div class="txt">
+        				<p class="tit">空调维修</p>
+    	    			<p class="detail">专业技师，专注维修</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-6" id="shangmen6">
+    			<div class="title">6F 安装维修</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico27"></i>
+        			<div class="txt">
+        				<p class="tit">五金挂件</p>
+    	    			<p class="detail">安全高效，专业放心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico28"></i>
+        			<div class="txt">
+        				<p class="tit">墙面地板</p>
+    	    			<p class="detail">为匆匆的脚步增加一份安心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico29"></i>
+        			<div class="txt">
+        				<p class="tit">防水补漏</p>
+    	    			<p class="detail">安全高效，专业放心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico30"></i>
+        			<div class="txt">
+        				<p class="tit">家具门窗</p>
+    	    			<p class="detail">为日程生活增加一份安心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-7" id="shangmen7">
+    			<div class="title">7F 开锁换锁</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico31"></i>
+        			<div class="txt">
+        				<p class="tit">车锁维修</p>
+    	    			<p class="detail">生活不再为琐事烦心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico32"></i>
+        			<div class="txt">
+        				<p class="tit">柜锁维修</p>
+    	    			<p class="detail">生活不再为琐事烦心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico33"></i>
+        			<div class="txt">
+        				<p class="tit">门锁维修</p>
+    	    			<p class="detail">生活不再为琐事烦心</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-8" id="shangmen8">
+    			<div class="title">8F 管道疏通</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico34"></i>
+        			<div class="txt">
+        				<p class="tit">下水道维修</p>
+    	    			<p class="detail">专业维修，轻松快捷</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico35"></i>
+        			<div class="txt">
+        				<p class="tit">马桶维修</p>
+    	    			<p class="detail">专业维修，轻松快捷</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico36"></i>
+        			<div class="txt">
+        				<p class="tit">地漏维修</p>
+    	    			<p class="detail">专业维修，轻松快捷</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-9" id="shangmen9">
+    			<div class="title">9F 水电洁具</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico37"></i>
+        			<div class="txt">
+        				<p class="tit">卫浴维修</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico38"></i>
+        			<div class="txt">
+        				<p class="tit">龙头水管维修</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico39"></i>
+        			<div class="txt">
+        				<p class="tit">灯具维修</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico40"></i>
+        			<div class="txt">
+        				<p class="tit">水管维修</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico41"></i>
+        			<div class="txt">
+        				<p class="tit">电路维修</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        	<div class="shangmen-detail no-10" id="shangmen10">
+    			<div class="title">10F 跑腿</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico42"></i>
+        			<div class="txt">
+        				<p class="tit">帮我买</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico43"></i>
+        			<div class="txt">
+        				<p class="tit">帮我送</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico44"></i>
+        			<div class="txt">
+        				<p class="tit">代排队</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0s, enter bottom">
+        			<i class="ico ico45"></i>
+        			<div class="txt">
+        				<p class="tit">宠物照顾</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.2s, enter bottom">
+        			<i class="ico ico46"></i>
+        			<div class="txt">
+        				<p class="tit">餐馆占座</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        		<div class="box" data-sr="move 200px, over 1s,wait 0.4s, enter bottom">
+        			<i class="ico ico47"></i>
+        			<div class="txt">
+        				<p class="tit">其他</p>
+    	    			<p class="detail">营造丰富多彩的室内空间</p>
+    	    			<div class="btn">立即下单</div>
+        			</div>
+        		</div>
+        	</div>
+        	<div class="clear"></div>
+        </div>
+    </div>
+    <div class="shangmen-bottom">
+        <div class="shangmen-wrap">
+        	<div><i class="icon-bot ico1"></i><p>专业</p></div>
+        	<div><i class="icon-bot ico2"></i><p>保障</p></div>
+        	<div><i class="icon-bot ico3"></i><p>便捷</p></div>
+    	</div>
+    </div>
+    
+    <!-- 弹出层 -->
+    <div class="shangmen-maskbg"></div>
+    <div class="shangmen-show" id="shangmen-show">
+        <i class="icon-guanbi fr"></i>
+        <div class="clear"></div>
+        <i class="icon-show" style="position:relative;">
+            <p>扫码下载“江湖商圈APP”，体验所选服务</p>
+            <img src="<{$pager.img}>/<{$site.weixinqr}>" style="position:absolute;top:65px;left:230px;width:178px;height:178px;" />
+        </i>
+    </div>
+
+
+    <script type="text/javascript">
+    window.sr = new scrollReveal({
+        //reset: true,
+        move: '200px',
+        mobile: true
+    });
+    </script>
+    <script>
+		$(document).ready(function() {
+            // 轮播
+			var i=0;
+			var timer;
+			$(function(){
+				$('.shangmen-banner .img').eq(0).fadeIn().siblings().fadeOut();
+				Timer();
+				$('.shangmen-banner .cir').hover(function(){
+					i=$(this).index();show();
+					clearInterval(timer)
+				},function(){
+					Timer();
+				})
+				$('.shangmen-banner .btn1').click(function(){
+					clearInterval(timer);
+					if(i==0){
+						i=$(".shangmen-banner .img").length;
+					}i--;
+					show();
+				})
+				$('.shangmen-banner .btn2').click(function(){
+					clearInterval(timer);
+					if(i==$(".shangmen-banner .img").length-1){
+						i=-1
+					}i++;
+					show();
+				})
+		
+			})
+			function show(){
+				$('.shangmen-banner .img').eq(i).fadeIn().siblings().fadeOut();
+				$('.shangmen-banner .cir').eq(i).addClass('bg').siblings().removeClass('bg');
+			}
+			function Timer(){
+				timer=setInterval(function(){
+					i++;
+					if(i==$(".shangmen-banner .img").length){
+						i=0
+					}
+					show()
+				},3000)
+			}
+		
+			$(function(){
+				$('.shangmen-content .shangmen-detail .box').mouseover(function(){
+					$('.shangmen-content .shangmen-detail .box').removeClass('active');
+					$(this).addClass('active')
+				})
+				$('.shangmen-content .shangmen-detail .box').mouseout(function(){
+					$('.shangmen-content .shangmen-detail .box').removeClass('active');
+				})
+			})
+			
+			
+			// 弹出层
+				$(function(){
+					function show(){
+					var top = ($(window).height() - $('.shangmen-show').height())/2;   
+					var left = ($(window).width() - $('.shangmen-show').width())/2;   
+					var scrollTop = $(document).scrollTop();   
+					var scrollLeft = $(document).scrollLeft();   
+					$('.shangmen-show').css( { position : 'absolute', 'top' : top + scrollTop, left : left + scrollLeft } ).show();  
+					}
+					$('.shangmen-content .shangmen-detail .box .btn').click(function(){
+						show();
+						$('.shangmen-maskbg').show();
+					})
+					$('.shangmen-show .icon-guanbi').click(function(){
+						$('.shangmen-maskbg').hide();
+						$('.shangmen-show').hide();
+					})
+			
+				})
+			
+			// 悬浮层位置
+				$(function(){
+					function xuanfu(){
+						var scrollTop1= $(document).scrollTop(); 
+						var scrollTop2=parseInt(scrollTop1); 
+						var scrollLeft1= $(document).scrollLeft();  
+						var scrollLeft2=parseInt(scrollLeft1);
+						var scLeft=(parseInt($(window).width())-1200)/2-180+'px';
+						if(scrollTop2>540){
+							$('.shangmen-xuanfu').css({position : 'fixed','top':'30px','left':scLeft})
+						}
+						else
+						{
+							$('.shangmen-xuanfu').css({position : 'fixed','top':(570-scrollTop2)+'px','left':scLeft})
+							
+						}
+					}
+					setInterval(xuanfu,1)
+			
+				
+			})
+			
+			// 智能判断
+			$(function(){
+				$(window).scroll(function(){
+					var top1=$(document).scrollTop();
+					var menu=$('#menu')
+					var items=$('.shangmen-content').find('.shangmen-detail');
+					var shangmenId='';
+			
+					items.each(function(){
+						var m=$(this);
+						var itemsTop=m.offset().top;
+						var ss=parseInt(itemsTop-top1)
+						if(ss<200){
+							shangmenId='#'+m.attr('id')
+						}
+						else{
+							return false;
+						}
+					})
+					var shangmenLink=menu.find('.active');
+					if(shangmenId&&shangmenLink.attr('href')!=shangmenId){
+						shangmenLink.removeClass('active');
+						menu.find('[href='+shangmenId+']').addClass('active');
+					}
+				})
+			})
+        });
+		// 锚点平滑滚动
+		$(document).ready(function() {
+		  $(".shangmen-xuanfu a").click(function() {
+			$("html, body").animate({
+			  scrollTop: $($(this).attr("href")).offset().top + "px"
+			}, {
+			  duration: 500,
+			  easing: "swing"
+			});
+			return false;
+		  });
+		});
+    </script>
+<{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

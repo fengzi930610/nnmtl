@@ -1,0 +1,97 @@
+<{assign var='tpl_title' value=$CONFIG.hongbao.title}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">                      
+            <div class="container_mid">
+                <div class="wx-redPacket-adv">
+                    <div class="adv">
+                        <img src="<{$pager.img}>/<{$CONFIG.hongbao.banner}>" class="pic" />
+                    </div>
+                </div>
+                <div class="wx-redPacket-cont">
+                    <{if $myhb_log}>
+                    <div class="coupon-box">
+                        <div class="coupon">
+                            <div class="pub_list top">
+                                <div class="pub_list_bd">
+                                    <p class="name">红包</p>
+                                    <p class="full">满￥<{$myhb_log.min_amount}>可用</p>
+                                </div>
+                                <div class="cut">￥<{$myhb_log.amount}></div>
+                            </div>
+                            <div class="bot black9">
+                                <p><{$myhb_log.day}>天后过期，此红包可与优惠券共用</p>
+                                <a href="<{link ctl='index' http='waimai'}>" class="">去使用&gt;</a>
+                            </div>
+                        </div>
+                        <div class="text_c mt20 mb20 account">红包已放入账户：<{$member.mobile}></div>
+                        <div class="inp-btn">
+                            <input type="button" class="get_hongbao" id="go_use_honbao" value="立即使用" />
+                        </div>                 
+                    </div>
+                    <{elseif !$member.uid}>
+                    <div class="form-box">
+                        <div class="inp-text"><i class="ico"></i><input type="text" class="mobile" id="mobile" value="" placeholder ="请输入手机号" /></div>
+                        <div class="inp-btn"><input type="button" class="jq_bind" id="bind_mobile" value="立即领取" /></div>
+                    </div>
+                    <{else}>
+                    <div class="form-box"> <div class="hongbao_end">您来晚了，已抢完 !</div></div>
+                    <{/if}> 
+                    <div class="mb30 luck-box">
+                        <h3 class="tit mb30"><span>看看大家手气</span></h3>
+                        <div class="box scroll-up">
+                            <ul id="up" style="min-height: 260px;height: auto;">
+                                <{foreach $log_list as $v}>
+                                <li>
+                                    <div class="fl pic"><img src="<{$pager.img}>/<{$member_list[$v.uid].face}>" width="37" height="37"/></div>
+                                    <div class="pub_list text">
+                                        <div class="pub_list_bd">
+                                            <p class="name"><{$member_list[$v.uid].nickname}></p>
+                                            <p class="black6 time"><{$v.dateline|format}></p>
+                                        </div>
+                                        <div class="cut">￥<{$v.amount}></div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </li>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="rule-box mb20">
+                        <h3 class="tit mb30"><span>活动规则</span></h3>
+                        <div class="box text"><{$CONFIG.hongbao.desc|nl2br}></div>
+                    </div>
+                    <div class="text_c"><p class="mb5"><{$CONFIG.site.title}></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="goto_top"></a>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#go_use_honbao").click(function(){
+        window.location.href="<{link ctl='page:getapp'}>";
+    });
+    $("#bind_mobile").click(function(){
+        var mobile = $("#mobile").val();
+        $.post("<{link ctl='hongbao/bindmobile'}>", {"mobile":mobile}, function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                var date_obj = new Date();  
+                window.location.href = window.location.href + '?timestamp=' + date_obj.getTime(); 
+                //window.location.reload(true);
+            }
+        }, 'json');
+    });
+    <{if $hb_xin_lingqu}>
+    Widget.MsgBox.success('您抢到￥<{$myhb_log.amount}>红包');
+    <{elseif $myhb_log}>
+    Widget.MsgBox.success('您已抢过该红包了');
+    <{/if}>
+});
+</script>
+</body>
+</html>

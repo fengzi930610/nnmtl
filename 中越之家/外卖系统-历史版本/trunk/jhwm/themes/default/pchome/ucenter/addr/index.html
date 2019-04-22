@@ -1,0 +1,43 @@
+<{assign var="page_title" value="个人中心-账户中心-收货地址"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-收货地址")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+
+<{include file="pchome/ucenter/block/top.html"}>
+
+    <div class="minePage_bg bg_grey">
+    	<div class="pagewd">
+        	
+            <{include file="pchome/ucenter/block/left.html"}>
+            
+            <div class="minePage_cont fr">
+            	<!--内容start-->
+            	<div class="account-get_address">
+                    <div class="address-tit">
+                        <span class="ml10">收货地址</span>
+                        <a href="<{link ctl='ucenter/addr:create'}>" class="append-btn text_c">添加收货地址</a>
+                    </div>
+                    <div class="address-cont">
+                        <div class="address-lists">
+                            <{foreach $addr as $k => $v}>
+                            <div class="address-one mb20">
+                                <div class="mb10"><{$v.contact}> <span class="black9"><{$v.mobile}></span></div>
+                                <div><{$v.addr}></div>
+                                <div class="the-mark <{if $v.type == 1}>mark2<{/if}><{if $v.type == 2}>mark1<{/if}><{if $v.type == 3}>mark3<{/if}><{if $v.type == 4 || $v.type == 0}>mark4<{/if}>"></div>
+                                <div class="handle-box">
+                                    <a href="<{link ctl='ucenter/addr:edit' arg1=$v.addr_id}>" class="handle-btn mr30"><i class="ico ico-1"></i>编辑</a>
+                                    <a href="<{link ctl='ucenter/addr:delete' arg1=$v.addr_id}>" class="handle-btn"><i class="ico ico-2"></i>删除</a>
+                                </div>     
+                            </div> 
+                            <{/foreach}>
+                        </div>  
+                    </div>
+                </div>
+                <!--内容end-->
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+
+<{include file="pchome/block/footer.html"}>

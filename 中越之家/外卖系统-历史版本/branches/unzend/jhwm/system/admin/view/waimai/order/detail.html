@@ -1,0 +1,277 @@
+<{include file="admin:common/header.html"}>
+<script src="//cdn.bootcss.com/layer/2.2/layer.min.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="waimai/order:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="tip-notice mgb10">订单状态：<b class="red"><{$detail.order_status_label}></b>
+        <div class="order_btns" style="float:right;margin-right: 0px;width:600px;margin-top:-10px;">
+            <{if $detail.order_status != -1&&$detail.order_status != -2&&$detail.order_status != 8}>
+             <a href="javascript:;" rel="<{$detail.order_id}>" class="button canel">取消订单</a>
+            <{/if}>
+            <{if $detail.order_status >1&&$detail.order_status != 8}>
+            <a href="javascript:;" rel="<{$detail.order_id}>" class="button comfirm">完成订单</a>
+            <{/if}>
+            <{if $detail.order_status <=4&&$detail.order_status >=1&&$detail.pei_type ==2}><{link ctl="waimai/order:dopaidan" args=$detail.order_id load="mini:派单" width="mini:500" class="button" title="派单"}><{/if}>
+            <{if $detail.order_status == 0&&($detail.online_pay == 0||($detail.online_pay == 1&&$detail.pay_status == 1))}>
+            <{link ctl="waimai/order:jiedan" args=$detail.order_id act="mini:接单" confirm="mini:确定要接单吗" title="接单" class="button"}>
+            <{/if}>
+            <{if ($detail.order_status >=1 &&$detail.order_status !=8)&&($detail.refund_status == 1||$detail.refund_status == 3)}>
+            <{link ctl="waimai/order:agree" args=$detail.order_id act="mini:同意退款" confirm="mini:确定要同意退款吗" title="同意退款" class="button"}>
+            <{link ctl="waimai/order:refuse" args=$detail.order_id width="mini:450" load="mini:拒绝退款" title="拒绝退款" class="button"}>
+            <{/if}>
+        </div>
+    </div>
+    <div class="order_details" style="margin-top:10px;">
+        <h3>订单详情 <span class="fr" style="margin-right: 10px;">订单编号：<{$detail.order_id}>(#<{$detail.day_num}>)</span></h3>
+        <p><span class="tit">期望送达时间:</span><span class="mr10"><{if $detail.pei_time == 0}>立即送达<{else}><{$detail.pei_time_label}><{/if}></span><span class="mr10">(<{$detail.dateline|format:'Y-m-d H:i'}>下单)</span><span class="online_pay"><{if $detail.online_pay == 1}>在线支付<{else}>货到付款<{/if}></span></p>
+        <p><span class="tit">地址:</span><span class="mr10"><{$detail.contact}></span><span><{$detail.mobile}></span></p>
+        <p class="noleft"><{$detail.addr}></p>
+        <p><span class="tit">骑手信息:</span><{if $detail.staff_id}><span class="mr10"><{$detail.staff.name}></span><span><{$detail.staff.mobile}></span><{else}>无<{/if}></p>
+        <p><span class="tit">商家:</span><{$waimai.title}></p>
+        <p><span class="tit">用户:</span><{$detail.user.nickname}></p>
+
+        <p class="info"><span class="tit ">订单信息:</span><span>备注:<{$detail.note|default:'无'}></span><i class="clear-both"></i></p>
+        </div>
+        <table width="100%">
+        <tr><td width="50%" valign="top">
+        <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">商品ID</th>
+                <th class="w-300">商品名称</th>
+                <th class="w-50">单价</th>
+                <th class="w-100">数量</th>
+                <th align="right" class="w-100">小计</th>
+            </tr>
+            <{foreach $detail.products as $var}>
+                <tr>
+                    <td>ID:<{$var.product_id}></td>
+                    <td><{$var['product_name']}></td>
+                    <td>￥<{$var['product_price']}></td>
+                    <td>X<{$var['product_number']}></td>
+                    <td align="right">￥<{$var['product_price']*$var['product_number']}></td>
+                </tr>
+            <{/foreach}>
+            <tr><td colspan="10" style="height: 2px;"></td></tr>
+            <tr>
+                <td align="left" colspan="4">餐盒费</td>
+                <td align="right">￥<{$detail.package_price}></td>
+            </tr>
+            <tr>
+                <td align="left" colspan="4">配送费</td>
+                <td align="right">￥<{$detail.freight}></td>
+            </tr>
+            <tr>
+                <td align="left" colspan="4">小计:</td>
+                <td align="right">￥<{$detail.total_price}></td>
+            </tr>
+            <{if $detail.first_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">首单立减:</td>
+                <td align="right">-￥<{$detail.first_youhui}></td>
+            </tr>
+            <{/if}>
+            <{if $detail.order_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">满减:</td>
+                <td align="right">-￥<{$detail.order_youhui}></td>
+            </tr>
+            <{/if}>
+            <{if $detail.discount_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">折扣:</td>
+                <td align="right">-￥<{$detail.discount_youhui}></td>
+            </tr>
+            <{/if}>
+            <{if $detail.huangou_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">换购:</td>
+                <td align="right">-￥<{$detail.huangou_youhui}></td>
+            </tr>
+            <{/if}>
+            <tr>
+                <td align="left" colspan="4">平台收取:</td>
+                <td align="right">-￥<{$detail.fee.fee}></td>
+            </tr>
+            <tr>
+                <td align="left" colspan="4" class="redcolor">预计收入:</td>
+                <td align="right" class="redcolor">￥<{$detail.fee.shop_amount}></td>
+            </tr>
+            <{if $detail.comment}>
+            <tr><td colspan="10" style="height: 2px;"></td></tr>
+            <tr><th>订单评价信息</th><th colspan="4"></th></tr>
+            <tr>
+                <td>评价用户</td>
+                <td colspan="4"><{$detail.user.nickname}></td>
+            </tr>
+            <tr>
+                <td>商家评分</td>
+                <td colspan="4"><{$detail.comment.score}>星</td>
+            </tr>
+            <tr>
+                <td>配送评分</td>
+                <td colspan="4"><{$detail.comment.score_peisong}>星</td>
+            </tr>
+            <tr>
+                <td>综合评价</td>
+                <td colspan="4"><{$detail.comment.score_avg}>星</td>
+            </tr>
+            <tr>
+                <td>评论内容</td>
+                <td colspan="4"><{$detail.comment.content|default:"用户未填写"}></td>
+            </tr>
+            <tr>
+                <td>商家回复</td>
+                <td colspan="4"><{$detail.comment.reply|default:"暂未回复"}></td>
+            </tr>
+            <tr>
+                <td>评论图片</td>
+                <td colspan="4">
+                    <{foreach $detail.comment_photo as $kk=>$vv}>
+                    <{if $vv.photo}>
+                    <img width="80" height="80" class="see" src="<{$pager.img}>/<{$vv.photo}>"/>
+                    <{/if}>
+                    <{/foreach}>
+
+                </td>
+            </tr>
+
+            <{/if}>
+    </table>
+    </td>
+            <td width="10px;"></td>
+            <td valign="top">
+    <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+    <tr class="">
+        <th>订单日志</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $detail.logs as $log}>
+    <tr>
+        <td><{$log.log}></td>
+        <td><{$log.dateline|format:'Y-m-d H:i'}></td>
+    </tr>
+    <{/foreach}>
+
+
+    </table>
+    </td>
+    </tr>
+    </table>
+    <br/><br/><br/>
+</div>
+<div id="preview" class="none" style="display:none"><img class="jq_preview" src="" width="1200" height="900"/></div>
+<script>
+$(document).ready(function(e) {
+    $('.fr.mr10').click(function(){
+        if($('.orderinfo').height()==0){
+            var gettr=$('.orderinfo tr').length
+            $('.orderinfo').css('height',gettr*37+'px')
+        }else{
+            $('.orderinfo').css('height',0)
+        }
+    });
+    $(document).on("click",".see",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("src") == ""||$(this).attr("src")==0||$(this).attr("src")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("src"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '1200px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+
+});
+</script>
+
+<script>
+    function canel_order(order_id){
+        var url = "?waimai/order-cancel-"+order_id+"-0.html";
+        $.post(url,{},function(e){
+            if(e.error==0){
+                layer.msg('取消成功');
+                setTimeout(function(){
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.msg(e.message);
+            }
+
+        },'json');
+    }
+    $('.canel').on('click',function(){
+        var order_id = $(this).attr('rel');
+        var url = "?waimai/order-cancel-"+order_id+".html";
+        if(confirm('确认取消订单?')){
+            $.post(url,{},function(e){
+               if(e.error==0){
+                   layer.msg(e.message);
+                  setTimeout(function(){
+                      window.location.href = window.location.href;
+                  },1500);
+               }else if(e.error==300){
+                   if(confirm(e.message+",是否确认强制取消?")){
+                       canel_order(order_id);
+                   }
+
+               }else{
+                   layer.msg(e.error);
+               }
+
+            },'json');
+        }
+    })
+    $('.comfirm').on('click',function(){
+        var order_id = $(this).attr('rel')
+        var url = "?waimai/order-complete-"+order_id+".html";
+        if(confirm('确认完成订单?')){
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    layer.msg(e.message);
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
+                }else if(e.error==300){
+                    if(confirm(e.message)){
+                        compltete_order(order_id);
+                    }
+
+                }else{
+                    layer.msg(e.error);
+                }
+
+            },'json');
+        }
+    })
+    function compltete_order(order_id){
+        var url = "?waimai/order-complete-"+order_id+"-0.html";
+        $.post(url,{},function(e){
+            if(e.error==0){
+                layer.msg('确认完成');
+                setTimeout(function(){
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.msg(e.message);
+            }
+
+        },'json');
+    }
+</script>
+</body>
+</html>

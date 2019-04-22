@@ -1,0 +1,202 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<{include file="block/sheader.html"}>
+</head>
+<body>
+<header>
+	<i class="left"><a href="<{link ctl='ucenter'}>"  link-load="" link-type="right" class="ico headerIco headerIco_3"><span class="num">0</span></a></i>
+    <div class="title">
+    	账户信息
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<section class="page_center_box">
+    <ul class="accountInfor form_list_box">
+        <li class="accountInfor_headX pad10 border_b bgcolor_white">
+            <p class="fl">头像</p>
+            <div class="fr">
+                <div class="img"><{if $MEMBER.face}><img src="<{$pager.img}>/<{$MEMBER.face}>" class="face_img" width="100" height="100"/><{/if}></div>
+            </div>
+            <div class="clear"></div>
+        </li>
+        <li class="pad10 border_b bgcolor_white mb10">
+            <a href="<{link ctl='ucenter/info/update_nickname'}>"  link-load="">
+            <p class="fl">昵称</p>
+            <div class="fr">
+                <{if $MEMBER.nickname}>
+                        <span class="black9"><{$MEMBER.nickname}></span>
+                <{else}>
+                        <span class="black9">点击设置昵称</span>
+                <{/if}><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="border_b border_t bgcolor_white" style="padding:0.05rem 0.1rem;">
+            <p class="black9">账户设置</p>
+        </li>
+        <li class="pad10 border_b bgcolor_white">
+            <a href="<{link ctl='ucenter/info/update_mobile'}>" link-load="">
+            <p class="fl"><em class="ico ico_1"></em>手机</p>
+            <div class="fr"><span class="black3"><{$MEMBER.mobile}></span><span class="black9 ml10">更换</span><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="pad10 border_b bgcolor_white">
+            <p class="fl"><em class="ico ico_2"></em>微信</p>
+            <div class="fr"><span class="black3"></span><span class="black9 ml10 WCtUnbd"><{if $MEMBER.wx_openid}>已绑定<{else}>未绑定<{/if}></span><em class="linkIco"></em></div>
+            <div class="clear"></div>
+        </li>
+        <li class="pad10 border_b bgcolor_white">
+            <a href="<{link ctl='ucenter/info/update_passwd'}>" link-load="">
+            <p class="fl"><em class="ico ico_3"></em>密码</p>
+            <div class="fr"><span class="black9 ml10">修改</span><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+    </ul>
+    <div class="btn_box mt10 mb10"><input type="button" class="long_btn login_out" value="注销登录" style="background:#ff5757;"></div>
+</section>
+<div class="mask_box">
+    <div class="WCtUnbd_mask maskOne">
+        <div class="cont mt10">
+        	<p class="font_line24 font_size14"><{if $MEMBER.wx_openid}>确定要解除账号与微信的关联吗？<{else}>确定要绑定微信号吗？<{/if}></p>
+        </div>
+        <div class="btn_box mb10">
+        	<input type="button" class="pub_btn cancel" style="background:#dddddd;" value="取消" />
+        	<input type="button" class="pub_btn sure" style="background:#ff5959;" value="确定" />
+        </div>
+    </div>
+	<div class="mask_bg"></div>
+</div>
+<div class="mask_box">
+    <div class="accountInfor_headX_mask">
+        <div class="cont">
+            <!-- <label class="btn border_b"><input type="button" />拍照</label> -->
+            <label class="btn"><input type="file" onchange="fileSelected(this)"/>从手机相册选择</label>
+        </div>
+        <div class="mar10">
+            <input type="button" class="long_btn cancel" style="background:#fff; color:#999;" value="取消" />
+        </div>
+    </div>
+	<div class="mask_bg"></div>
+</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+	$(".accountInfor_headX").click(function(){
+		$(".accountInfor_headX_mask").show();
+		$(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+	});
+	$(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function(){
+		$(".accountInfor_headX_mask").hide();
+		$(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+	});//头像弹出层结束
+	$(".WCtUnbd").click(function(){
+		$(".WCtUnbd_mask").show();
+		$(".WCtUnbd_mask").parent().find(".mask_bg").show();
+	});
+    //确定按钮
+    $(".WCtUnbd_mask").parent(".mask_box").find(".sure").click(function(){
+        $(".WCtUnbd_mask").hide();
+		$(".WCtUnbd_mask").parent().find(".mask_bg").hide();
+        wx_bind();
+	});
+	$(".WCtUnbd_mask").parent(".mask_box").find(".cancel").click(function(){
+		$(".WCtUnbd_mask").hide();
+		$(".WCtUnbd_mask").parent().find(".mask_bg").hide();
+	});//解绑微信弹出层结束
+});
+
+//$('.login_out').click(function(){
+//	window.location.href='<{link ctl="passport/loginout"}>';
+//})
+
+$('.login_out').click(function(){
+    var link  = "<{link ctl='ucenter/info/loginout'}>";
+    $.post(link,{},function(ret){
+        layer.open({content: ret.message,time: 2});
+        if(ret.error == 0){
+            setTimeout(function(){
+                window.location.href = "<{link ctl='index'}>";
+            },1500)
+        }
+    },'json')
+})
+
+
+//微信绑定
+function wx_bind()
+{
+    jQuery.ajax({
+        url: "<{link ctl='ucenter/info:wx_bind'}>",
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                layer.open({content: ret.message,time: 2});
+                setTimeout(function(){window.location.reload();},2000);
+            }else{
+                window.location.reload();
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+    });
+}
+//上传图片
+function upload_face(file)
+{
+    var formData = new FormData();
+    formData.append('avatar', file);
+    $.ajax({
+        url : "<{link ctl='ucenter/info:upload_face'}>",
+        type : "POST",
+        data : formData,
+        processData : false,
+        contentType : false,
+        success : function(responseStr) {
+            layer.open({
+                content:"更换头像成功",
+                time:1.5
+            });
+        },
+        error : function(responseStr) {
+            layer.open({
+                content:"未知错误发生",
+                time:1.5
+            });
+        }
+    });
+}
+if (!window.applicationCache) {
+    alert("不支持HTML5");
+}
+//HTML5选图片
+function fileSelected(obj){
+    var files = obj.files;
+    for(var i=0;i<files.length;i++){
+        var tag = '';
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(files[i].type)) {
+            alert("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.onloadstart = function(e){
+            $(".loading").show();
+        }
+        reader.onload = function(e){
+            $(".face_img").attr('src',e.target.result);
+        }
+        reader.readAsDataURL(files[i]);
+    }
+    upload_face(files[0]);
+    //隐藏弹出框
+    $(".accountInfor_headX_mask").hide();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+}
+</script>
+</html>

@@ -1,0 +1,388 @@
+<{assign var='tpl_title' value=L("<{$detail.title}>")}>
+<{include file="weidian/block/header.html"}>
+<section class="page_center_box">
+    <!--内容-->
+    <div class="shangpin_banner" style="height:287px;">
+        <div class="flexslider">
+            <ul class="slides">
+                <li><img src="<{$pager.img}>/<{$detail.photo}>" /></li>
+            </ul>
+        </div>
+    </div>
+    <div class="shangpinInfor">
+        <div class="wz">
+            <p class="left">
+                <span class="tag">
+                    <{if $detail.detail.tuan_type == 1}>
+                        阶梯团
+                    <{else}>
+                        <{if $detail.detail.money_master >0}>
+                            佣金团
+                        <{else}>
+                            普通团
+                        <{/if}>
+                    <{/if}>
+                </span>
+                <{$detail.title}>
+            </p>
+            <{if $MEMBER.uid > 0}>
+            <{if $is_collect}>
+            <a href="javascript:void(0);" class="shoucang_box on" pid="<{$detail.product_id}>">
+                <i class="ico"></i>
+                <p style='color:#59c181;'>已收藏</p>
+            </a>
+            <{else}>
+            <a  href="javascript:void(0);" class="shoucang_box" pid="<{$detail.product_id}>">
+                <i class="ico"></i>
+                <p>收藏</p>
+            </a>
+            <{/if}>
+            <{/if}>
+        </div>
+    </div>
+    <div class="pintuanPrice">
+        <{if $detail.detail.tuan_type == 0}>
+        <p class="yuan">原   价:￥<{$detail.price}><span class="fr">成团时间：<{$detail.detail.tuan_time}>天</span></p>
+        <{/if}>
+        <div class="pin">
+            <{if $detail.detail.tuan_type == 1}>
+            <{if $detail.detail.level}>
+            <p class="fl">拼团价：</p>
+            <div class="list_box">
+                <ul>
+                    <{foreach $detail.detail.level as $k => $v}>
+                    <li><{$v.user_num}>人以上<span class="ml10 fontcl1">￥<{$v.price}></span></li>
+                    <{/foreach}>
+                </ul>
+            </div>
+            <{/if}>
+            <p class="yuan">原   价:￥<{$detail.price}><span class="fr">成团时间：<{$detail.detail.tuan_time}>天</span></p>
+            <div class="pin">
+                <p class="">拼团价：<span class="fontcl1">￥<{$detail.wei_price}></span></p>
+            </div>
+            <{/if}>
+        </div>
+    </div>
+    <{if $detail.detail.tuan_type == 0}>
+    <div class="white_bg" style="background:#fff; height:0.05rem;"></div>
+    <div class="pintuanPrice">
+        <p class="yuan">成团人数：<{$detail.detail.user_num}>人</p>
+        <{if $detail.detail.money_master > 0}>
+        <p class="yuan">团长外快：￥<{$detail.detail.money_master}>+</p>
+        <{/if}>
+    </div>
+    <{/if}>
+    <div class="pintuanTs mb10">支付开团并邀好友参加，人数越多越便宜，人数不足自动退款。详见下方拼团流程。</div>
+
+
+
+            <div class="shangpinSelct mt10 mb10">
+                <span id="check_attr"><span class="mr10">请选择</span><span>商品属性</span></span>
+                <i class="ico linkIco fr"></i>
+            </div>
+            <input type="hidden" name="stock" id="product_attr_stock" value="0" />
+
+
+
+    <div class="shangpinDianpu mb10">
+        <div class="infor">
+            <div class="img fl">
+                <a href="<{link ctl='index'}>"><img src='<{$pager.img}>/<{$weidian.logo}>' /></a>
+            </div>
+            <div class="wz_box">
+                <h3><a href="<{link ctl='index'}>"><{$weidian.title}></a></h3>
+                <p><i class="ico"></i>微信认证</p>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="state">
+            <ul>
+                <li class="list">
+                    <p><{$total.product}></p>
+                    <p>全部商品</p>
+                </li>
+                <li class="list">
+                    <p><{$total.new_product}></p>
+                    <p>上新宝贝</p>
+                </li>
+                <li class="list">
+                    <p><{$total.sale}></p>
+                    <p>全部销量</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pintuanDelt_tit"><span class="tit">拼团流程</span>
+        <!--<a href="#" class="ico linkIco fr"></a>-->
+    </div>
+    <div class="pintuanDelt_liucheng mb10">
+        <div class="box"><img src="/themes/default/weidian/static/images/liuchengImg.png"></div>
+    </div>
+    <div class="pintuanDelt_tit mb10"><span class="tit">商品详情</span></div>
+    <div class="shangpinDelt article mb10">
+        <{$detail.intro}>
+    </div>
+    <!--内容结束-->
+</section>
+<footer class="shangpinFooter">
+    <a href="<{link ctl='index'}>" class="cart_btn"><i class="ico ico2"></i><p>首页</p></a>
+
+    <{if $detail.detail.tuan_type == 1}>
+        <a href="javascript:void(0);" val="1" class="btn add"><p class="mt10">单独购买</p><small id="buy_sub">(￥<{$detail.price}>)</small></a>
+        <a href="javascript:void(0);" val="2" class="btn"><p class="mt10">开团</p>
+            <small>(参团定金￥<{$detail.detail.money_pre}>)</small>
+        </a>
+        <{else}>
+        <{if $detail.detail.item_limit == 0}>
+            <a href="javascript:void(0);" val="2" class="btn"><p class="mt10">开团</p>
+                <small id="tuan_sub">(开团价￥<{$detail.wei_price}>)</small>
+            </a>
+            <{else}>
+            <a href="javascript:void(0);" val="1" class="btn add"><p class="mt10">单独购买</p><small id="buy_sub">(￥<{$detail.price}>)</small></a>
+            <a href="javascript:void(0);" val="2" class="btn"><p class="mt10">开团</p>
+                <small id="tuan_sub">(开团价￥<{$detail.wei_price}>)</small>
+            </a>
+        <{/if}>
+    <{/if}>
+    <script>
+        $('footer.shangpinFooter a.btn').click(function(){
+
+            var type = $(this).attr('val');
+            var num = 1;
+            if($('#product_num').val() > 0){
+                num = $('#product_num').val();
+            }
+            var attrgroups = "<{$attrgroups}>";
+            var tuan_type = "<{$detail.detail.tuan_type}>";
+
+            var product_attr_stock = 0;
+            if($('#product_attr_stock').val() > 0){
+                product_attr_stock = $('#product_attr_stock').val();
+            }
+
+            if(tuan_type == 0 && attrgroups && product_attr_stock == 0){
+                layer.open({
+                    content: '您必须先选择商品属性'
+                    , skin: 'msg'
+                    , time: 2 //2秒后自动关闭
+                });
+                return false;
+            }
+            var link="<{link ctl='pintuan/order' arg1=$detail.product_id arg2=__type arg3=__num arg4=__product_attr_stock}>";
+            window.location.href=link.replace('__type',type).replace('__num',num).replace('__product_attr_stock',product_attr_stock);
+        })
+    </script>
+
+
+</footer>
+
+<!--商品选择弹层-->
+<div class="shangpinSelct_mask">
+    <div class="cont">
+        <a href="javascript:void(0);" class="ico close"></a>
+        <div class="pad10">
+            <div class="top mb10">
+                <div class="img fl"><img src="<{$pager.img}>/<{$detail.photo}>"></div>
+                <div class="wz_box">
+                    <p id="jq_wei_price" class="maincl price">￥<{$detail.wei_price}></p>
+                    <p class="black6"><del id="jq_price">￥<{$detail.price}></del></p>
+                    <input type="hidden" id="stock_price" value="0" />
+                    <input type="hidden" id="stock_wei_price" value="0" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <{foreach $attrgroups as $attr}>
+                <div class="selct_box">
+                    <p><{$attr.title}></p>
+                    <div class="list_box list_box_<{$attr.attr_group_id}>">
+                        <{foreach $attr.values as $value}>
+                           <a href="javascript:void(0);" attr_id="<{$value.attr_value_id}>"  attr_value="<{$value.title}>" ><{$value.title}></a>
+                        <{/foreach}>
+                    </div>
+                </div>
+            <{/foreach}>
+            <input type="hidden" readonly="readonly" productnum="<{$detail.product_id}>" id="product_num" value="1">
+            <!--
+            <div class="selct_box">
+                <p class="fl">数量</p>
+                <div class="fr">
+                    <div class="num_operate">
+                        <span quantity="-" class="min"></span>
+                        <input type="text" readonly="readonly" productnum="<{$detail.product_id}>" id="product_num" value="1">
+                        <span quantity="+" class="add"></span>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>
+        <a href="javascript:void(0);" id="sure_btn"  class="<{if $attrgroups}>long_gray_btn<{else}>long_btn<{/if}>">确定</a>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+    var len = "<{$length}>";
+    function check_btn(){
+        if($('.list_box a.on').length == len){
+            $("#sure_btn").removeClass("long_gray_btn");
+            $("#sure_btn").addClass("long_btn");
+            get_price();
+        }else{
+            $("#sure_btn").removeClass("long_btn");
+            $("#sure_btn").addClass("long_gray_btn");
+        }
+    }
+
+    function get_price(){
+        var params = new Array();
+        var stock_name = "";
+        <{foreach $attrgroups as $item}>
+            var id = "<{$item.attr_group_id}>";
+            var attr_id = $('.list_box_'+id+' a.on').attr('attr_id');
+            if(attr_id != undefined){
+                params.push(attr_id);
+                if("<{$item@index}>" == 0){
+                    stock_name += attr_id;
+                }else{
+                    stock_name += "_"+attr_id;
+                }
+            }
+        <{/foreach}>
+        var link = "<{link ctl='pintuan/change_size' args=$detail.product_id}>";
+        $.post(link,{"stock_name":stock_name},function(ret){
+            if(ret.error == 0 ){
+                $('#product_attr_stock').val(ret.attr_stock_id);
+                $("#jq_price").html("￥"+ret.price);
+                $("#jq_wei_price").html("￥"+ret.wei_price);
+                $('#stock_price').val(ret.price);
+                $('#stock_wei_price').val(ret.wei_price);
+            }
+        },'json')
+    }
+            $(document).ready(function () {
+
+                $('.shangpinSelct').click(function () {
+                    $('.shangpinSelct_mask').addClass('on');
+                    $('.mask_bg').show();
+                });
+                $('.shangpinSelct_mask .close,.mask_bg').click(function () {
+                    $('.shangpinSelct_mask').removeClass('on');
+                    $('.mask_bg').hide();
+                });
+
+                $('.shangpinSelct_mask .selct_box .list_box a').click(function () {
+                    $(this).parent().find('a').removeClass('on');
+                    $(this).addClass('on');
+                    check_btn();
+                });
+
+                $('#sure_btn').click(function(){
+                    var attrgroups = "<{$attrgroups}>";
+                    var product_num = $('#product_num').val();
+                    if(attrgroups && $(this).hasClass('long_btn')){//如果该商品有属性并且按钮为可点击
+                        //获取STOCK的值，如果为0说明没有选择完整属性
+                        var stock_id = $('#product_attr_stock').val();
+                        if(stock_id == 0){
+                            layer.open({
+                                content: '没有选择完整属性'
+                                , skin: 'msg'
+                                , time: 2 //2秒后自动关闭
+                            });
+                        }else{
+                           var attr_names = $('.list_box a.on').text();
+                           $('#check_attr').text(attr_names+'X'+product_num+'个');
+                           $('#buy_sub').text("(￥"+($('#stock_price').val())*product_num+")");
+                           $('#tuan_sub').text("(开团价￥"+($('#stock_wei_price').val())*product_num+")");
+                           $('.shangpinSelct_mask .close').click();
+                        }
+                    }else if(!attrgroups && $(this).hasClass('long_btn')){//如果该商品无属性并且按钮为可点击
+                           $('#check_attr').text("<{$detail.title}>"+'X'+product_num+'个');
+                           var wei_price = "<{$detail.wei_price}>";
+                           var price = "<{$detail.price}>";
+                           $('#buy_sub').text("(￥"+price*product_num+")");
+                           $('#tuan_sub').text("(开团价￥"+wei_price*product_num+")");
+                           $('.shangpinSelct_mask .close').click();
+                    }
+                })
+
+                $(document).on("click", '[quantity]', function(){
+                    var num = $("[productnum]").val();
+                    if($(this).attr("quantity") == '-'){
+                        if(num <=1){
+                            return false;
+                        }else{
+                            num--;
+                            $("[productnum]").val(num);
+                        }
+                    }else{
+                        num++;
+                        $("[productnum]").val(num);
+                    }
+                });
+            });
+</script>
+<!--商品选择弹层结束-->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false,
+        });//首页轮播js结束
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $('.shoucang_box').click(function () {
+            var product_id = $(this).attr('pid');
+            var link = "<{link ctl='pintuan/ajax_collect' arg1=__product_id}>";
+
+            $.post(link.replace('__product_id', product_id), {}, function (ret) {
+                if (ret.error) {
+                    layer.open({
+                        content: ret.message
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+                } else {
+                    if (ret.status == 101) {
+                        layer.open({
+                            content: ret.message
+                            , skin: 'msg'
+                            , time: 2 //2秒后自动关闭
+                        });
+                        setTimeout(function () {
+                            window.location.href = "<{link ctl='passport/login'}>";
+                        }, 2000);
+                    } else {
+                        layer.open({
+                            content: ret.message
+                            , skin: 'msg'
+                            , time: 2 //2秒后自动关闭
+                        });
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 2000);
+                    }
+                }
+            }, 'json');
+        })
+        function max_height()
+        {
+            var right_height = 0;
+            $(".shangpin_banner .slides li").each(function (a) {
+
+                var h = $(this).find('img').height();
+                if (h > right_height)
+                {
+                    right_height = h;
+                }
+            });
+            return right_height;
+        }
+        max_height = max_height();
+        $(".shangpin_banner .slides li").css("height", max_height);
+
+    });
+</script>
+<{include file="weidian/block/footer.html"}>

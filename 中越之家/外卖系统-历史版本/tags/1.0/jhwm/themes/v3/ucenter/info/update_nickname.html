@@ -1,0 +1,49 @@
+<{assign var='tpl_title' value=L("修改昵称")}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="mynickname-cont">
+
+                        <div class="mt20 nick-kuang">
+                            <span class="ni-cheng fl">昵称：</span>
+                            <input type="text"  value="<{$MEMBER.nickname}>" name="nickname" placeholder="请输入昵称" class="fl">
+                            <div class="clear"></div>
+                        </div>
+                        <div class="mt20">
+                            <input class="my-own-queding-btn text_c" id="click1" type="submit" value="确定">
+                        </div>
+
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#click1').on('click',function(){
+            var url ="<{link ctl='ucenter/info:set_nickname'}>";
+            var nickname = $('[name="nickname"]').val();
+            $.post(url,{nickname:nickname},function(e){
+                if(e.error>0){
+                    Widget.MsgBox.error(e.message);
+                }else{
+                   Widget.MsgBox.success('修改成功');
+                    setTimeout(function(){
+                     var url = '<{link ctl="ucenter/info"}>';
+                        window.location.href = url;
+                    },2000);
+
+                }
+
+            },'json')
+        })
+
+
+    })
+
+</script>
+
+</body>
+</html>

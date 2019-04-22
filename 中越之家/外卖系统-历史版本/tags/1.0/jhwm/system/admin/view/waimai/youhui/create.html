@@ -1,0 +1,22 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/youhui:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/youhui-create.html" mini-form="youhui-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+        <input type="hidden" name="shop_id" value="<{$shop_id}>" />
+<tr><th><span class="red">*</span>订单最小金额：</th><td><input type="text" name="data[order_amount]" value="<{$detail.order_amount|default:'0.00'}>" class="input w-100"/><span class="tip-comment">订单最小金额</span></td></tr>
+<tr><th><span class="red">*</span>优惠金额：</th><td><input type="text" name="data[youhui_amount]" value="<{$detail.youhui_amount|default:'0.00'}>" class="input w-100"/><span class="tip-comment">优惠金额</span></td></tr>
+<tr><th><span class="red">*</span>使用了次数：</th><td><input type="text" name="data[use_count]" value="<{$detail.use_count|default:''}>" class="input w-100"/><span class="tip-comment">使用了次数</span></td></tr>
+<tr><th><span class="red">*</span>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/><span class="tip-comment">排序</span></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

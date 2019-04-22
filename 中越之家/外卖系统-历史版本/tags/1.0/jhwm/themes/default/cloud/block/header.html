@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title><{$tpl_title|default:$CONFIG.site.title}></title>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/themes/default/cloud/static/css/sm.css">
+    <link rel="stylesheet" href="/themes/default/cloud/static/css/sm-extend.css">
+    <link rel="stylesheet" href="/themes/default/cloud/static/css/style.css">
+    <style type="text/css">.page-group{background: #fff;}</style>
+    <script src="<{$pager.res}>/script/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">jQuery.noConflict();</script>
+</head>
+<body>
+<div class="page-group">
+<script type='text/javascript' src='/themes/default/cloud/static/js/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='/themes/default/static/js/common.js?20161018' charset='utf-8'></script>
+<script type='text/javascript' src='/themes/default/cloud/static/js/sm.js' charset='utf-8'></script>
+<script type='text/javascript' src='/themes/default/cloud/static/js/sm-extend.js' charset='utf-8'></script>
+<{if $request['IN_APP_CLIENT']}>
+<style>
+    header{display:none;}
+</style>
+<{/if}>

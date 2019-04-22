@@ -1,0 +1,29 @@
+<{assign var='tpl_title' value=L("历史红包")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="myHongbao-list-cont mt10">
+                    <div id="index_goods_items">
+                        
+                    </div>
+                    <div class="loadding">
+                        
+                    </div>
+                </div>        
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/hongbao/loaditems2' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+        loaddata(link, page, params);
+        scroll(link,{},page,'.container_mid',".myHongbao-list-cont","");
+    })
+</script>
+</body>
+</html>

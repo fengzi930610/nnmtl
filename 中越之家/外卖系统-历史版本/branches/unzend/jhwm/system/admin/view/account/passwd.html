@@ -1,0 +1,50 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+body { overflow-x:scroll; }
+th { white-space:nowrap; padding:0 2px; }
+td { white-space:nowrap; padding:0 2px; }
+.textarea{width:650px;height:260px;}
+</style>
+<div id="page_title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th>修改密码：</th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div id="data">
+	<form action="?system/account/save.html" method="post" enctype="multipart/form-data">
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th width="150">用户名：</th>
+			<td>&nbsp;<{$smarty.session.admin.uname}></td>
+		</tr>
+		<tr>
+			<th width="150">原密码：</th>
+			<td>
+				<input type="password" name="old_pwd" class="input" value="" size="50"/>&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th width="150">新密码：</th>
+			<td>
+				<input type="password" name="passwd" class="input" value="" size="50"/>&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th width="150">确认密码：</th>
+			<td>
+				<input type="password" name="passwd2" class="input" value="" size="50"/>&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td height="50" class="clear-form-td"><input type="submit" class="bt-big"  id="button2" value="提  交  数  据" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

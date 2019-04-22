@@ -1,0 +1,254 @@
+<{assign var='tpl_title' value=L("<{$detail.title}>-商家评价")}>
+<{include file="block/header.html"}>
+
+<!-- 快速导航 -->
+<{include file="waimai/block/qucikly.html"}>
+<div class="mask_bg2"></div>
+<!-- 快速导航end -->
+
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<div class="shangjiaDelt_top">
+                    <div class="shangjiaDelt_info">
+                        <div class="img fl"><img src="<{$pager.img}>/<{$detail.logo}>" width="70" height="70" /><p class="state_box"><{if $detail.yysj_status == 1}>营业中<{else}>打烊了<{/if}></p></div>
+                        <div class="wz_box">
+                            <div class="pub_list">
+                                <div class="pub_list_bd">
+                                    <h4><{$detail.title}></h4>
+                                    <P>￥<{$detail.min_amount}>起送 / <{$detail.pei_time}>分钟送达 / <{if $detail.freight=='0'}>免配送费<{else}>配送费￥<{$detail.freight}><{/if}></P>
+                                </div>
+                                <a href="javascript:;" class="shoucang <{if $detail.collect == 1}>on<{/if}> >">
+                                    <i class="ico"></i>
+                                </a>
+                                <a href="<{link ctl='shop/search' arg0=$detail.shop_id http='waimai'}>" class="search_link">
+                                    <i class="ico"></i>
+                                </a>
+                            </div>
+                            <div class="pub_list shangjia_tag_box mt10">
+                                <div class="activity2">
+                                    <div class="box">
+                                        <div class="pull_down fr"><span></span>活动<i class="ico_xia"></i></div>
+                                        <div class="first">
+                                            <{foreach $detail.huodong as $hd}>
+                                            <p><i style="background: #<{$hd.color}>"><{$hd.word}></i><{$hd.title}></p>
+                                            <{/foreach}>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="shangjiaDelt_notice pub_list">
+                        <div class="pub_list_bd overflow_clear notice"><i class="ico"></i><{$detail.delcare}></div>
+                        <a href="javascript:;" class="notice_btn notice"></a>
+                    </div>
+                    <div class="shangjiaDelt_tab">
+                        <a href="<{link ctl='shop/detail' args=$detail.shop_id http='waimai'}>" class="list">商品</a>
+                        <a href="<{link ctl='shop/comment' args=$detail.shop_id http='waimai'}>" class="list on">评价</a>
+                        <a href="<{link ctl='shop/info' args=$detail.shop_id http='waimai'}>" class="list">详情</a>
+                    </div>
+                </div>
+            	<div class="shangjiaDelt_mid">
+                	<div class="shangjiaDelt_evlt_zong pub_list mt10 mb10">
+                    	<div class="left">
+                        	<big class="fontcl1"><{round($detail['avg_score'],1)}></big>
+                            <h4>综合评分</h4>
+                            <p class="black6">商家好评率<{round($detail['praise_num']/$detail['comments']*100,1)}>%</p>
+                        </div>
+                        <div class="pub_list_bd">
+                        	<div class="mb5">商家评分 <span class="starBg ml20"><span class="star" style="width:<{round($detail['avg_score']*20,1)}>%;"></span></span> <span class="fontcl3 ml5 jq_score"><{round($detail['avg_score'],1)}>分</span></div>
+                            <div class="mb5">配送评分 <span class="starBg ml20"><span class="star" style="width:<{round($detail['score_peisong']/$detail['comments']*20,1)}>%;"></span></span> <span class="fontcl3 ml5 jq_score"><{round($detail['score_peisong']/$detail['comments'],1)}>分</span></div>
+                        </div>
+                    </div>
+                	<div class="shangcheng-detail-box">
+                        <div class="detail-pingjias">
+                            <div class="mb10">
+                                <a href="javascript:void(0);" st="0" class="select-a on">全部(<{$count_1}>)</a>
+                                <a href="javascript:void(0);" st="1" class="select-a">满意(<{$count_2}>)</a>
+                                <a href="javascript:void(0);" st="2" class="select-a">一般(<{$count_3}>)</a>
+                                <a href="javascript:void(0);" st="3" class="select-a">不满意(<{$count_4}>)</a>
+                                <a href="javascript:void(0);" st="4" class="select-a">有图(<{$count_5}>)</a>
+                                <div class="clear"></div>
+                                <div class="selct_box"><label style="position: relative;"><span style="position: absolute; left: 0; top:0; display:block; width: 20px; height: 20px;"></span></label><input type="checkbox" id="myclick" >只看有内容的评价</div>
+                            </div>
+                            <div class="pingjia_list">
+                                <div class="index_goods_items_box">
+                                    <ul id="index_goods_items">
+                            
+                                    </ul>
+                                    <div class="loadding">
+
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--公告弹出-->
+<div class="shangjiaDelt_notice_mask">
+	<div class="cont">
+        <h4><{$detail.title}></h4>
+        <div class="state text_c"><span><{if $detail.yysj_status == 1}>营业中<{else}>打烊了<{/if}></span></div>
+        <div class="text_c mt5 mb30">
+            <div class="starBg"><span class="star" style="width: <{round($detail['score']/$detail['comments']*20,1)}>%;"></span></div>
+        </div>
+        <div class="tit mb10"><span class="line"></span><span>商家活动</span><span class="line"></span></div>
+        <div class="pub_list shangjia_tag_box mb20 on">
+            <div class="pub_list_bd">
+                <{foreach $detail.huodong as $hd}>
+                <p style="height: auto; overflow: auto;"><i style="background: #<{$hd.color}>"><{$hd.word}></i><{$hd.title}></p>
+                <{/foreach}>
+            </div>
+        </div>
+        <div class="tit mb10"><span>商家公告</span></div>
+        <div class="nr"><{$detail.delcare}></div>
+    </div>
+    <a href="javascript:;" class="close"></a>
+</div>
+<!--公告弹出end-->
+<script>
+function collect(status,type) {
+    var link = "<{link ctl='shop/collect' arg0='tmp1' arg1='tmp2' arg2='tmp3' http='waimai'}>";
+    var url = link.replace('tmp1', status).replace('tmp2', type).replace('tmp3', "<{$detail.shop_id}>");
+    $.post(url,{},function(ret){
+        if(ret.error > 0){
+            Widget.MsgBox.error(ret.message);
+            if(ret.error == 101) {
+                setTimeout(function(){
+                    window.location.href = "<{link ctl='passport:login' http='waimai'}>";
+                },1500)
+            }
+        }else{
+            Widget.MsgBox.success(ret.message);
+            setTimeout(function(){
+                window.location.reload();
+            },1000)
+        }
+    },'json')
+}
+
+// 收藏事件
+
+$('.shoucang').click(function(){
+
+    var collect_num = "<{$detail.collect}>";
+    if(collect_num == 1){
+        collect(0,'waimai');
+    }else{
+        collect(1,'waimai');
+    }
+
+});
+</script>
+<script>
+$(document).ready(function() {
+    var shop_id = "<{$shop_id}>";
+    var link = "<{link ctl='shop/loaditems' arg0='#page#' http='waimai'}>";
+    window.params = {shop_id: "<{$shop_id}>"};
+    if( $(".selct_box label input").prop('checked')==true){
+        window.params['is_null'] = 1;
+    }
+
+    var page = 1;
+    loadpage(link, window.params,'','','index_goods_items');
+
+    $(".select-a").off().click(function () {
+        var st = $(this).attr("st");
+        window.params['st'] = st;
+        loadpage(link, window.params,'','','index_goods_items');
+    })
+
+    /*$(".selct_box ").off().on("click",function(){
+    	if ($('#myclick').prop('checked') == true) {
+            $('#myclick').prop('checked',false);
+            window.params['is_null'] = 0;
+        } else {
+            $('#myclick').prop("checked",true);
+            window.params['is_null'] = 1;
+        }
+        loadpage(link, window.params,'','','index_goods_items');
+    });*/
+    $('#myclick').change(function(){
+        if($(this).prop('checked') == true){
+            window.params['is_null'] = 1;
+        }else{
+            window.params['is_null'] = 0;
+        }
+        loadpage(link, window.params,'','','index_goods_items');
+    });
+    scroll(link,window.params,page,".pingjia_list",".index_goods_items_box",'','index_goods_items')
+
+})
+</script>
+<script>
+$(".shoucang").click(function(){
+	if($(this).hasClass("on")){
+		$(".shoucang").removeClass("on");
+	}else{
+		$(".shoucang").addClass("on");
+	}
+});
+$(".notice").click(function(){
+	$(".shangjiaDelt_notice_mask").fadeIn(100);
+});
+$(".shangjiaDelt_notice_mask .close").click(function(){
+	$(".shangjiaDelt_notice_mask").fadeOut(100);
+});
+</script>
+<script>
+$(document).ready(function(){
+    var num = $(".activity2 .first").find("p").length;
+    if(num>1){
+        $(".pull_down span").html(num+'个');
+        $(".pull_down").show();
+    }else{
+        $(".pull_down").remove();
+    }
+    
+    $('.activity2 .pull_down').click(function(){
+        if($('.first').hasClass("on")){
+            $('.first').removeClass("on");
+        }else{
+            $('.first').addClass("on");
+        }
+        $('.activity2 .pull_down').removeClass('on');
+        $(this).children('i').toggleClass('on');
+    });
+});
+var $content_height = $(".container_mid").height();
+var m_height = $(".shangjiaDelt_tab").height();
+$(".shangjiaDelt_mid").css('height', $content_height - m_height);
+$(".shangcheng-detail-box .pingjia_list").css('height', $content_height - m_height + 38);
+</script>
+<script>
+$(function(){
+     $(".detail-pingjias .select-a").on("click",function(){
+            $(this).addClass("on").siblings(".detail-pingjias .select-a").removeClass("on");
+    });
+});
+</script>
+<style type="text/css">
+.weui-photo-browser-modal{z-index: 10;background: rgba(0,0,0,0.4);}
+.weui-photo-browser-modal .photo-container img{width: 100%;}
+</style>
+<script type="text/javascript">
+    var evlt_attr = [];
+    var evlt_idx;
+    $(document).on('click','.evlt',function () {
+        var evlt_attr = $(this).attr("data-josn").split(',');
+        console.log(evlt_attr);
+        var pb_evlt = $.photoBrowser({
+            items:evlt_attr,
+        }); 
+        pb_evlt.open();
+    });
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,53 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-connect.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="connect" />
+<table width="100%" border="0" cellspacing="0" class="table-data form"><tr>
+	<th>QQ联合登录开关</th>
+	<td>
+	<ul class="group-list">
+        <li><label><input type="radio" name="config[qq_is_open]" <{if $config.qq_is_open ==1}> checked="checked"<{/if}> value="1">开启</label></li>
+        <li><label><input type="radio" name="config[qq_is_open]" <{if $config.qq_is_open ==0}> checked="checked"<{/if}> value="0">关闭</label></li>
+		<div class="clear-both"></div>
+	</ul>
+	</td>
+</tr>
+<tr><th>QQ APP ID：</th><td><input type="text" name="config[qq_app_id]" value="<{$config.qq_app_id|default:''}>" class="input w-300"/></td></tr>
+<tr><th>QQ APP KEY：</th><td><input type="text" name="config[qq_app_key]" value="<{$config.qq_app_key|default:''}>" class="input w-300"/></td></tr>
+
+<th>微博登录开关</th>
+	<td>
+	<ul class="group-list">
+        <li><label><input type="radio" name="config[weibo_is_open]" <{if $config.weibo_is_open ==1}> checked="checked"<{/if}> value="1">开启</label></li>
+        <li><label><input type="radio" name="config[weibo_is_open]" <{if $config.weibo_is_open ==0}> checked="checked"<{/if}> value="0">关闭</label></li>
+		<div class="clear-both"></div>
+	</ul>
+	</td>
+</tr>
+<tr><th>微博APP ID：</th><td><input type="text" name="config[weibo_app_id]" value="<{$config.weibo_app_id|default:''}>" class="input w-300"/></td></tr>
+<tr><th>微博APP KEY：</th><td><input type="text" name="config[weibo_app_key]" value="<{$config.weibo_app_key|default:''}>" class="input w-300"/></td></tr>
+<th>微信登录开关</th>
+    <td>
+    <ul class="group-list">
+        <li><label><input type="radio" name="config[weixin_is_open]" <{if $config.weixin_is_open ==1}> checked="checked"<{/if}> value="1">开启</label></li>
+        <li><label><input type="radio" name="config[weixin_is_open]" <{if $config.weixin_is_open ==0}> checked="checked"<{/if}> value="0">关闭</label></li>
+        <div class="clear-both"></div>
+    </ul>
+    </td>
+</tr>
+<tr><th>微信APP ID：</th><td><input type="text" name="config[weixin_app_id]" value="<{$config.weixin_app_id|default:''}>" class="input w-300"/></td></tr>
+<tr><th>微信AppSecret：</th><td><input type="text" name="config[weixin_app_key]" value="<{$config.weixin_app_key|default:''}>" class="input w-300"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+
+<{include file="admin:common/footer.html"}>

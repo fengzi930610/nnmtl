@@ -1,0 +1,51 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/Order:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/Order-create.html" mini-form="Order-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th><span class="red">*</span>城市ID：</th><td><input type="text" name="data[city_id]" value="<{$detail.city_id|default:''}>" class="input w-100"/><span class="tip-comment">城市ID</span></td></tr>
+<tr><th><span class="red">*</span>商户ID：</th><td><input type="text" name="data[shop_id]" value="<{$detail.shop_id|default:''}>" class="input w-100"/><span class="tip-comment">商户ID</span></td></tr>
+<tr><th><span class="red">*</span>会员UID：</th><td><input type="text" name="data[uid]" value="<{$detail.uid|default:''}>" class="input w-100"/><span class="tip-comment">会员UID</span></td></tr>
+<tr><th><span class="red">*</span>商品数量：</th><td><input type="text" name="data[product_number]" value="<{$detail.product_number|default:''}>" class="input w-100"/><span class="tip-comment">商品数量</span></td></tr>
+<tr><th><span class="red">*</span>商品总价：</th><td><input type="text" name="data[product_price]" value="<{$detail.product_price|default:'0.00'}>" class="input w-100"/><span class="tip-comment">商品总价</span></td></tr>
+<tr><th><span class="red">*</span>打包费：</th><td><input type="text" name="data[package_price]" value="<{$detail.package_price|default:'0.00'}>" class="input w-100"/><span class="tip-comment">打包费</span></td></tr>
+<tr><th><span class="red">*</span>运费：</th><td><input type="text" name="data[freight]" value="<{$detail.freight|default:'0.00'}>" class="input w-100"/><span class="tip-comment">运费</span></td></tr>
+<tr><th><span class="red">*</span>余额抵扣：</th><td><input type="text" name="data[money]" value="<{$detail.money|default:'0.00'}>" class="input w-100"/><span class="tip-comment">余额抵扣</span></td></tr>
+<tr><th><span class="red">*</span>最终要支付金额：</th><td><input type="text" name="data[amount]" value="<{$detail.amount|default:'0.00'}>" class="input w-100"/><span class="tip-comment">最终要支付金额=product_price+freight-order_youhui-first_youhui-hongbao-money</span></td></tr>
+<tr><th><span class="red">*</span>订单优惠：</th><td><input type="text" name="data[order_youhui]" value="<{$detail.order_youhui|default:'0.00'}>" class="input w-100"/><span class="tip-comment">订单优惠，(满减优惠)满减等都在这里</span></td></tr>
+<tr><th><span class="red">*</span>首单优惠：</th><td><input type="text" name="data[first_youhui]" value="<{$detail.first_youhui|default:'0.00'}>" class="input w-100"/><span class="tip-comment">首单优惠</span></td></tr>
+<tr><th><span class="red">*</span>红包抵扣：</th><td><input type="text" name="data[hongbao]" value="<{$detail.hongbao|default:'0.00'}>" class="input w-100"/><span class="tip-comment">红包抵扣</span></td></tr>
+<tr><th><span class="red">*</span>红包ID：</th><td><input type="text" name="data[hongbao_id]" value="<{$detail.hongbao_id|default:''}>" class="input w-100"/><span class="tip-comment">红包ID</span></td></tr>
+<tr><th><span class="red">*</span>联系人：</th><td><input type="text" name="data[contact]" value="<{$detail.contact|default:''}>" class="input w-300"/><span class="tip-comment">联系人</span></td></tr>
+<tr><th><span class="red">*</span>联系电话：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-300"/><span class="tip-comment">联系电话</span></td></tr>
+<tr><th><span class="red">*</span>地址：</th><td><input type="text" name="data[addr]" value="<{$detail.addr|default:''}>" class="input w-300"/><span class="tip-comment">地址</span></td></tr>
+<tr><th><span class="red">*</span>小区门牌号：</th><td><input type="text" name="data[house]" value="<{$detail.house|default:''}>" class="input w-300"/><span class="tip-comment">小区门牌号</span></td></tr>
+<tr><th><span class="red">*</span>纬度：</th><td><input type="text" name="data[lat]" value="<{$detail.lat|default:''}>" class="input w-300"/><span class="tip-comment">纬度</span></td></tr>
+<tr><th><span class="red">*</span>经度：</th><td><input type="text" name="data[lng]" value="<{$detail.lng|default:''}>" class="input w-300"/><span class="tip-comment">经度</span></td></tr>
+<tr><th><span class="red">*</span>第三方配送费用：</th><td><input type="text" name="data[pei_amount]" value="<{$detail.pei_amount|default:'0.00'}>" class="input w-300"/><span class="tip-comment">第三方配送费用，要从商家结算中去除</span></td></tr>
+<tr><th><span class="red">*</span>要求配送时间：</th><td><input type="text" name="data[pei_time]" value="<{$detail.pei_time|default:''}>" class="input w-300"/><span class="tip-comment">要求配送时间</span></td></tr>
+<tr><th><span class="red">*</span>订单备注：</th><td><input type="text" name="data[note]" value="<{$detail.note|default:''}>" class="input w-300"/><span class="tip-comment">订单备注</span></td></tr>
+<tr><th><span class="red">*</span>订单状态：</th><td><input type="text" name="data[order_status]" value="<{$detail.order_status|default:''}>" class="input w-100"/><span class="tip-comment">-1:已取消，0：未处理，1：已接单，3：配送开始，4：配送完成，8：订单完成</span></td></tr>
+<tr><th><span class="red">*</span>支付状态：</th><td><input type="text" name="data[pay_status]" value="<{$detail.pay_status|default:''}>" class="input w-100"/><span class="tip-comment">支付状态 0:未支付，1:已支付</span></td></tr>
+<tr><th><span class="red">*</span>支付类型：</th><td><input type="text" name="data[pay_code]" value="<{$detail.pay_code|default:''}>" class="input w-300"/><span class="tip-comment">支付类型 wxpay:微信, alipay:支付宝, money:余额</span></td></tr>
+<tr><th><span class="red">*</span>付款方式：</th><td><input type="text" name="data[online_pay]" value="<{$detail.online_pay|default:''}>" class="input w-100"/><span class="tip-comment">付款方式 0:货到付款,1:在线支付</span></td></tr>
+<tr><th><span class="red">*</span>支付人IP：</th><td><input type="text" name="data[pay_ip]" value="<{$detail.pay_ip|default:''}>" class="input w-300"/><span class="tip-comment">支付人IP</span></td></tr>
+<tr><th><span class="red">*</span>支付时间：</th><td><input type="text" name="data[pay_time]" value="<{$detail.pay_time|default:''}>" class="input w-300"/><span class="tip-comment">支付时间UNIXTIME 当pay_status=1时有值</span></td></tr>
+<tr><th><span class="red">*</span>配送人员ID：</th><td><input type="text" name="data[staff_id]" value="<{$detail.staff_id|default:''}>" class="input w-100"/><span class="tip-comment">配送人员ID</span></td></tr>
+<tr><th><span class="red">*</span>配送类型：</th><td><input type="text" name="data[pei_type]" value="<{$detail.pei_type|default:''}>" class="input w-100"/><span class="tip-comment">配送类型 0:商家自己送, 1:第三方配送, 2:配送员代购</span></td></tr>
+<tr><th><span class="red">*</span>评价状态：</th><td><input type="text" name="data[comment_status]" value="<{$detail.comment_status|default:''}>" class="input w-100"/><span class="tip-comment">评价状态 0:未评价, 1:已经评价</span></td></tr>
+<tr><th><span class="red">*</span>用户催单时间：</th><td><input type="text" name="data[cui_time]" value="<{$detail.cui_time|default:''}>" class="input w-300"/><span class="tip-comment">用户催单时间</span></td></tr>
+<tr><th><span class="red">*</span>订单来源：</th><td><input type="text" name="data[order_from]" value="<{$detail.order_from|default:'weixin'}>" class="input w-300"/><span class="tip-comment">订单来源</span></td></tr>
+<tr><th><span class="red">*</span>删除标识：</th><td><input type="text" name="data[closed]" value="<{$detail.closed|default:''}>" class="input w-100"/><span class="tip-comment">删除标识</span></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

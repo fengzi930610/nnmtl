@@ -1,0 +1,160 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #80d1f3;}
+
+    .weekSelctBox{padding-bottom: 20px;}
+    .weekSelctBox label{position: relative;display: inline-block;height: 30px;padding: 0 16px;color: #555;font-size: 12px;line-height: 28px;border: 1px solid #bbb;border-radius: 2px;cursor: pointer; margin-right: 10px;}
+    .weekSelctBox label input{width: 0; height: 0;opacity: 0;}
+    .weekSelctBox label.on{border-color: #108ee7;}
+    .weekSelctBox label.on:before{content: " ";position: absolute;right: 0;bottom: 0;width: 0;height: 0;border: 7px solid #108ee7;border-top-color: transparent;border-left-color: transparent;}
+    .weekSelctBox label.on:after {content: " ";position: absolute;right: 1px;bottom: 3px;width: 6px;height: 3px;border: 1px solid #fff;border-top-color: transparent;border-right-color: transparent; -webkit-transform: rotate(-59deg);transform: rotate(-59deg);}
+
+    .page-data{pointer-events: none;}/* 禁止编辑 */
+
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <h4 class="tip-notice">小提示：红包需要设置使用条件、红包金额、过期时间等信息</h4>
+    <form action="" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="tjhongbao" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr><th>活动标题：</th><td><input type="text" name="data[title]" value="<{$detail.title}>" class="input w-300"/></td></tr>
+            <tr><th>活动副标题：</th><td><input type="text" name="data[intro]" value="<{$detail.intro}>" class="input w-300"/></td></tr>
+            <tr>
+                <th>是否开启：</th>
+                <td>
+                    <label><input type="radio" name="data[status]" <{if $detail.status=='1'}>checked='checked'<{/if}>  value="1"/>开启</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="data[status]" <{if $detail.status=='0'}>checked='checked'<{/if}> value="0"/>关闭</label>
+                </td>
+            </tr>
+            
+            <tr>
+                <th>限领数量：</th>
+                <td><input type="text" name="data[limit]" value="<{$detail.limit}>" class="input w-300"/></td>
+            </tr>
+
+            <tr>
+                <th>背景图：</th>
+                <td>
+                    <input type="hidden" name="data[background]" value="" />
+                    <input type="file" name="data[background]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+                    <{if $detail.background}><img src="<{$pager.img}>/<{$detail.background}>" photo="<{$pager.img}>/<{$detail.background}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+                    <span class="tip-comment">首页天降红包弹框的背景图</span>
+                </td>
+            </tr>
+
+            <tr>
+                <th>背景色：</th>
+                <td>
+                    <div style="width: 50px; height: 50px; background-color: #<{$detail.background_color}>"></div>                  
+                </td>
+            </tr>
+
+            <tr>
+                <th>活动时间：</th>
+                <td>
+                    <input type="text" name="data[stime]" value="<{$detail.stime|format:'Y-m-d'}>" class="input w-100" date="dateline" readonly>
+                    ~
+                    <input type="text" name="data[ltime]" value="<{$detail.ltime|format:'Y-m-d'}>" class="input w-100" date="dateline" readonly>
+                    &nbsp;&nbsp;&nbsp;的&nbsp;&nbsp;&nbsp;
+                    <input type="text" name="data[times][stime]" value="<{$detail.times.stime|default:'00:00'}>" onclick="WdatePicker({dateFmt:'H:mm',minDate:'00:00',maxDate:'23:59'})" class="input w-100" readonly/>
+                        ~
+                    <input type="text" name="data[times][ltime]" value="<{$detail.times.ltime|default:'23:59'}>" onclick="WdatePicker({dateFmt:'H:mm',minDate:'00:00',maxDate:'23:59'})" class="input w-100" readonly/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>活动周期：</th>
+                <td>
+                    <div class="weekSelctBox">
+                        <label <{if in_array(1,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="1" <{if in_array(1,$detail.weeks)}>checked="checked"<{/if}>>星期一</label>
+                        <label <{if in_array(2,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="2" <{if in_array(2,$detail.weeks)}>checked="checked"<{/if}>>星期二</label>
+                        <label <{if in_array(3,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="3" <{if in_array(3,$detail.weeks)}>checked="checked"<{/if}>>星期三</label>
+                        <label <{if in_array(4,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="4" <{if in_array(4,$detail.weeks)}>checked="checked"<{/if}>>星期四</label>
+                        <label <{if in_array(5,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="5" <{if in_array(5,$detail.weeks)}>checked="checked"<{/if}>>星期五</label>
+                        <label <{if in_array(6,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="6" <{if in_array(6,$detail.weeks)}>checked="checked"<{/if}>>星期六</label>
+                        <label <{if in_array(0,$detail.weeks)}>class="on"<{/if}>><input type="checkbox" name="data[weeks][]" value="0" <{if in_array(0,$detail.weeks)}>checked="checked"<{/if}>>星期日</label>
+                    </div>
+                </td>
+            </tr>
+
+        
+            <tr>
+                <th>红包设置：</th>
+                <td style="text-align: left;">
+                    <table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-800">
+                        <tr>
+                            <th>使用条件(满)</th>
+                            <th>红包金额(减)</th>
+                            <th>红包期限(天)</th>
+                            <th>红包标题</th>
+                            <th>红包类型</th>
+                            <th>红包使用时间(开始时间~结束时间)</th>
+                        </tr>
+                        <{foreach $detail['config'] as $k=>$item}>
+                        <tr class="jq_tr" rel="<{$k}>">
+                            <td>
+                                <input type="text" class="input w-100" name="data[config][<{$k}>][min_amount]" value="<{$item.min_amount}>" />
+                            </td>
+                            <td>
+                                <input type="text" class="input w-100" name="data[config][<{$k}>][amount]" value="<{$item.amount}>" />
+                            </td>
+                            <td>
+                                <select name="data[config][<{$k}>][day]" class="input w-100" />
+                                    <option <{if $item.day == 1}>selected="selected"<{/if}> value="1">1天</option>
+                                    <option <{if $item.day == 2}>selected="selected"<{/if}> value="2">2天</option>
+                                    <option <{if $item.day == 3}>selected="selected"<{/if}> value="3">3天</option>
+                                    <option <{if $item.day == 4}>selected="selected"<{/if}> value="4">4天</option>
+                                    <option <{if $item.day == 5}>selected="selected"<{/if}> value="5">5天</option>
+                                    <option <{if $item.day == 6}>selected="selected"<{/if}> value="6">6天</option>
+                                    <option <{if $item.day == 7}>selected="selected"<{/if}> value="7">7天</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="input w-150" name="data[config][<{$k}>][title]" value="<{$item.title}>" />
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="data[config][<{$k}>][type]" class="input w-100">
+                                            <{foreach $module_config as $kkk=>$vvv}>
+                                            <{if $vvv.used}>
+                                            <option value="<{$kkk}>" <{if $item.type==$kkk}>selected="selected"<{/if}>><{$vvv.title}></option>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="stime_box">
+                                    <input type="text" style="display: inline" name="data[config][<{$k}>][stime]" value="<{if $item.stime}><{$item.stime}><{/if}>" class="input w-100 stime" time="<{$item.stime_time}>" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                                    ~
+                                <div class="ltime_box">
+                                    <input type="text" style="display: inline" name="data[config][<{$k}>][ltime]" value=" <{if $item.ltime}><{$item.ltime}><{/if}>" class="input w-100 ltime" time="<{$item.ltime_time}>" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <{/foreach}>   
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<{include file="admin:common/footer.html"}>

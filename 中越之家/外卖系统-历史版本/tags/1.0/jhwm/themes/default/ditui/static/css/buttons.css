@@ -1,0 +1,115 @@
+/*buttons*/
+.btn {
+    position: relative;
+    display: inline-block;
+    padding: 0 12px;
+     /*height: 30px; */
+    line-height: 28px;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    color: #333;
+    background-color: #fff;
+    border-radius: 2px;
+    border:1px solid #ccc;
+}
+
+.btn:hover {
+    background-color: #e6e6e6;
+    border-color:#adadad;
+}
+
+.btn.bigbutton {
+    border-radius: 4px;
+    font-size: 14px;
+    height: 32px;
+    line-height: 30px;
+    margin: 0 3px 0 0;
+    outline: medium none;
+    padding: 0 10px;
+    text-align: center;
+    vertical-align: middle;
+    min-width: 70px;
+}
+
+input.btn {
+    margin-right: auto;
+    width: auto;
+}
+a.btn {
+    height:28px;
+    line-height:28px;
+    *margin-right: .4em;
+}
+a.btn i{
+    vertical-align:-2px;
+    _margin-top:7px;
+    _vertical-align:0;
+}
+
+a.sbtn {
+    height:30px;
+    line-height:30px;
+    *margin-right: .4em;
+}
+
+/*defferent color buttons*/
+.btn.btn-danger, .btn.btn-warning, .btn.btn-success, .btn.btn-primary, .btn-grey  {
+    color: #fff;
+}
+
+.btn.btn-danger {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+}
+.btn.btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+.btn.btn-warning {
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.btn.btn-warning:hover {
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+.btn.btn-success {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.btn.btn-success:hover {
+    background-color: #449d44;
+    border-color: #398439;
+}
+.btn.btn-primary {
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+.btn.btn-primary:hover {
+    background-color: #3071a9;
+    border-color: #285e8e;
+}
+.btn.btn-disabled {
+    cursor:no-drop;
+}
+.btn.btn-disabled:hover{
+    background: #eee;
+}
+.btn.btn-small{
+    height: 24px;
+    line-height: 24px;
+}
+a.btn.btn-small{
+    height: 22px;
+    line-height: 22px;
+}
+.btn.btn-mini{
+    height: 20px;
+    line-height: 20px;
+}
+a.btn.btn-mini{
+    height: 18px;
+    line-height: 18px;
+}

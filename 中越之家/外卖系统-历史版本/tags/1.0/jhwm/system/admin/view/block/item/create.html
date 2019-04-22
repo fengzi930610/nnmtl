@@ -1,0 +1,33 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="block/item:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?block/item-create.html" mini-form="item-form" method="post" ENCTYPE="multipart/form-data">
+<input type="hidden" name="itemId" value="<{$pager.itemId}>" />
+<input type="hidden" name="from" value="<{$pager.from}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>推荐位：</th><td><select name="data[block_id]" class="w-200"><{widget id="block/option" from=$pager.from}></select></td></tr>
+<tr><th>城市：</th><td><{widget id="data/city" type="checkbox" name="data[city_ids]" value=$detail.city_ids}></td></tr>
+<tr><th>标题：</th><td><input type="text" name="data[title]" value="<{$item.title|default:''}>" class="input w-300"/></td></tr>
+<tr><th>连接：</th><td><input type="text" name="data[link]" value="<{$item.link|default:''}>" class="input w-300"/></td></tr>
+<tr>
+	<th>图片：</th>
+	<td>
+		<input type="text" name="data[thumb]" value="<{$item.thumb}>" class="input w-200" <{if $item.thumb}>photo="<{$pager.img}>/<{$item.thumb}><{if $pager.from='taoke'}>_400x400.jpg<{/if}>"<{/if}>/>&nbsp;&nbsp;&nbsp;
+		<input type="file" name="data[thumb]" class="input w-100" />
+	</td>
+</tr>
+<tr><th>有效期：</th><td><input type="text" name="data[expire_time]" class="input w-100" date="expire_time" value="0"/><span class="tip-comment">0：永不过期</span></td></tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,52 @@
+<{include file="admin:common/header.html"}>
+<div class="page-data" style="margin:0;">	
+    <div class="guide_list_box">
+        <ul>
+            <{foreach $types as $k=>$v}>
+                <li><a href="?adv/waimai-dialog-<{$k}>.html" <{if $type==$k}>class="on"<{/if}>><{$v}></a></li>
+            <{/foreach}>
+            <!-- <li><a href="?adv/waimai-dialog-_shop.html" <{if $st==0}>class="on"<{/if}>>商家</a></li>
+            <li><a href="?adv/waimai-dialog-_cate.html" <{if $st==1}>class="on"<{/if}>>分类</a></li>
+            <li><a href="?adv/waimai-dialog-_huodong.html" <{if $st==2}>class="on"<{/if}>>活动</a></li>
+            <li><a href="?adv/waimai-dialog-_module.html" <{if $st==3}>class="on"<{/if}>>模块</a></li> -->
+        </ul>
+        <div class="right" style="margin-top:4px;">
+            <{link ctl="adv/waimai:dialogso" arg0="dialog" arg1=$pager.multi arg2=$type class="button" title="搜索" load="mini:搜索" width="mini:400"}>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table left">
+    <tr>
+        <th>ID</th>
+        <th>标题</th>
+        <th>链接</th>
+        <th>小程序链接</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+		<td>		
+		<label><input type="radio" name="itemId" value="<{$item.advlink}>" data="{'itemId':'<{$item.advlink}>','title':'<{$item.advwxlink}>'}" CK="PRI"/><{$item.id}></label>
+        </td>
+		<td><{$item.title}></td>
+        <td><{$item.advlink}></td>
+        <td><{$item.advwxlink}></td>
+	</tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+   
+	<div class="page-bar">
+		<table>
+            <{if $pager.pagebar }> 
+			<tr>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+            <{/if}>   
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

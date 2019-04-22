@@ -1,0 +1,126 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .search_inp {
+        display: inline-block;
+        width: 200px;
+        border: 1px solid #d5d5d5;
+        border-radius: 2px;
+        background: #fff;
+        height: 25px;
+        overflow: hidden;
+        vertical-align: middle;
+    }
+    .search_inp .inp {
+        float: left;
+        width: 160px;
+        height: 25px;
+        border: 0;
+        background: none;
+        text-indent: 10px;
+        line-height: 25px;
+        font-size: 14px;
+    }
+    .search_inp .submit {
+        float: right;
+        width: 35px;
+        height: 25px;
+        border: 0;
+        background: url(/admin/images/btn_search_gray@3x.png) no-repeat center;
+        background-size: auto 18px;
+    }
+    .page-data .table td { padding-left: 20px;}
+</style>
+
+<div class="page-data" style="margin:0;">	
+    <div class="guide_list_box">
+        <ul>
+            <{foreach $types as $k=>$v}>
+                <li><a href="?adv/themes-dialog-<{$k}>.html" <{if $type==$k}>class="on"<{/if}>><{$v}></a></li>
+            <{/foreach}>
+            <li><a href="javascript: ;" class="customize">自定义链接</a></li>
+        </ul>
+        <div class="right" style="margin-top:4px;">
+            <!-- <{link ctl="adv/themes:dialogso" arg0="dialog" arg1=$pager.multi arg2=$type class="button" title="搜索" load="mini:搜索" width="mini:400"}> -->
+            <form class="search_inp mr10" action="?adv/themes-dialog-<{$type}>.html" id="SO-form" method="post">
+                <input type="text" name="SO[keywords]" class="inp" placeholder="ID、标题" value="<{$pager.SO.keywords|default:''}>">
+                <input type="submit" class="submit" value="">
+            </form>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+	<form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">选择</th>
+                <{if $type != '_module'}><th class="w-100">图片</th><{/if}>
+                <th class="w-100">标题</th>
+                <!-- <th>链接</th>
+                <th>小程序链接</th> -->
+                <{if $type == '_huodong'}><th class="w-200">有效期</th><{/if}>
+                <{if $type != '_module'}><th>创建时间</th><{/if}>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+        		<td>		
+        		<label><input type="radio" name="itemId" value="<{$item.advlink}>" data="['<{$item.advlink}>','<{$item.advwxlink}>', '<{$item.title}>', '<{$item.photo|default:""}>', '<{$pager.img}>/<{$item.photo}>']" CK="PRI"/><{$item.id}></label>
+                </td>
+                <{if $type!='_module'}><td><img src="<{$pager.img}>/<{$item.photo}>" class="wh-50" /></td><{/if}>
+        		<td><{$item.title}></td>
+                <!-- <td><{$item.advlink}></td>
+                <td><{$item.advwxlink}></td> -->
+                <{if $type == '_huodong'}><td><{$item.stime|format:'Y-m-d'}>~<{$item.ltime|format:'Y-m-d'}></td><{/if}>
+                <{if $type!='_module'}><td><{$item.dateline|format:'Y-m-d H:i:s'}></td><{/if}>
+        	</tr>
+            <{foreachelse}>
+             <tr><td colspan="20"><p class="text-align">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+        <div style="height: 80px;"></div>
+	</form>
+   
+	<div class="page-bar">
+		<table>
+            <{if $pager.pagebar }> 
+			<tr>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+            <{/if}>   
+		</table>
+	</div>
+</div>
+
+<div class="photoClip_mask" style="background: rgba(0, 0, 0, .1); display: none;">
+    <div class="cont_box">
+        <div class="title">自定义链接 <span class="close"></span></div>
+        <div class="cont">
+            <div class="img-container">
+                <input type="text" class="input w-200" value="" id="customize_link" placeholder="请填写链接">
+            </div>
+            <div class="btn_box">
+                <button class="btn-primary ml10">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.customize').click(function(){
+            $('.photoClip_mask').show();
+        });
+        $('.photoClip_mask .close').click(function(){
+            $('.photoClip_mask').hide();
+        });
+        $('.photoClip_mask .btn-primary').click(function(){
+            var link = $('#customize_link').val();
+            if(!link){
+                Widget.MsgBox.error('请填写链接');
+            }else{
+                $('.photoClip_mask').hide();
+                window.parent.fillCustomizeLink(link);
+            }
+        });
+    });
+</script>
+
+<{include file="admin:common/footer.html"}>

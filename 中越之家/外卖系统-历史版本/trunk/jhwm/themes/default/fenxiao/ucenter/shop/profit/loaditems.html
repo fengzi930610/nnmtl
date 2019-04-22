@@ -1,0 +1,20 @@
+<{foreach $items as $item}>
+<li class="fx_extendOrd_list">
+    <a href="<{link ctl='ucenter/shop/order/detail' args=$item.order_id}>">
+    <div class="top">
+        <div class="bt fl black6">推广店铺：<{$fenxiao_shops[$item['sid']]['title']}></div>
+        <div class="state fr fontcl1"><{if $item.order_status ==8}>订单已完成<{elseif $item.order_status == -1}>订单已关闭<{else}>订单进行中<{/if}></div>
+    </div>
+    <div class="cont">
+        <div class="left">
+            <p class="overflow_clear mb10"><{foreach $item.products as $val}><{$val.product_name}>&nbsp;&nbsp;<{$val.stock_real_name}>数量<{$val.product_number}><{/foreach}></p>
+            <p class="black9">下单时间：<{$item.dateline|format:'Y-m-d H:i'}></p>
+        </div>
+        <div class="right">
+            <p class="price">￥<{$item.profit}></p>
+            <p class="black9"><{if $item.level>0}>来自团队成员<{/if}></p>
+        </div>
+    </div>
+</a>
+</li>
+<{/foreach}>

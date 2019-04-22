@@ -1,0 +1,60 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='order/index:index'}>">订单管理</a></li>
+        <li class="active">待处理订单</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+    	<div class="shouquan_box">
+    		<ul>
+				<{if $data.ele}>
+				<li class="on">
+					<div class="tit">饿了么授权</div>
+					<i class="ico"></i>
+					<p>已授权</p>
+					<a href="<{$data.unbind_url_ele}>" class="btn" target="_blank">去解绑</a>
+				</li>
+				<{else}>
+				<li>
+					<div class="tit">饿了么授权</div>
+					<i class="ico"></i>
+					<p>未授权</p>
+					<a href="<{$data.oauth_url_ele}>" target="_blank" class="btn">去授权</a>
+				</li>
+				<{/if}>
+
+				<{if $data.meituan}>
+				<li class="on">
+					<div class="tit">美团授权</div>
+					<i class="ico"></i>
+					<p>已授权</p>
+					<a href="<{$data.unbind_url_meituan}>" class="btn" target="_blank">去解绑</a>
+				</li>
+				<{else}>
+				<li >
+					<div class="tit">美团授权</div>
+					<i class="ico"></i>
+					<p>未授权</p>
+					<a href="<{$data.oauth_url_meituan}>" target="_blank" class="btn">去授权</a>
+				</li>
+				<{/if}>
+
+    		</ul>
+    		<div class="clear"></div>
+    	</div>
+
+    </div>
+</div>
+<script>
+/*$(function(){
+	$('.shouquan_box li .btn').click(function(){
+		$(this).parents().addClass('on');
+		$(this).html('取消授权');
+		$(this).parents().children('p').html('已成功授权某某调度站');
+	});
+});*/
+</script>
+<{include file="block/footer.html"}>

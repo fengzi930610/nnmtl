@@ -1,0 +1,35 @@
+<{assign var='tpl_title' value=L("抢购-物流详情")}>
+<{include file="webview/qiang/block/header.html"}>
+<div class="container" id="container">
+	<div class="page js_show">
+		<div class="page_cont">
+		    <div class="container_mid">
+		        <!-- 内容 -->
+				<div class="mb10 wuliu_top">
+                    <div class="fl img"><img src="<{$pager.img}>/<{$items.photo}>"/></div>
+                    <div class="text">
+                        <div>物流状态<span><{$items.wuliu_label}></span></div>
+                        <div class="">承运来源：<{$items.express_name}></div>
+                        <div class="">运单编号：<{$items.express}></div>
+                    </div>
+                    <div class="clear"></div>   
+                </div>
+                <ul class="wuliu_cont">
+                    <{foreach $items.wuliu as $k=>$item}>
+                        <li <{if $k == 0}>class="on"<{/if}>>
+                            <div class="text">
+                                <div><{$item.context}></div>
+                                <p><{$item.time}></p>
+                                <i class="dot"></i>
+                            </div>
+                        </li>
+                    <{foreachelse}>
+                        <p>暂无物流信息</p>
+                    <{/foreach}>
+                </ul>
+		        <!-- 内容end -->
+		    </div>
+		</div> 
+	</div>
+</div>
+<{include file="webview/qiang/block/footer.html"}>

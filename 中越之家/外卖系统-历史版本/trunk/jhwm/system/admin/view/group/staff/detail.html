@@ -1,0 +1,38 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="group/staff:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>配送员ID：</th><td><{$detail.staff_id}></td></tr>
+<tr><th>城市ID：</th><td><{$detail.city_id}></td></tr>
+<tr><th>服务类型：</th><td><{$detail.from}></td></tr>
+<tr><th>姓名：</th><td><{$detail.name}></td></tr>
+<tr><th>手机号：</th><td><{$detail.mobile}></td></tr>
+<tr><th>登录密码：</th><td><{$detail.passwd}></td></tr>
+<tr><th>头像：</th><td><{$detail.face}></td></tr>
+<tr><th>余额：</th><td><{$detail.money}></td></tr>
+<tr><th>总收益：</th><td><{$detail.total_money}></td></tr>
+<tr><th>配送员抽成比例：</th><td><{$detail.tixian_percent}></td></tr>
+<tr><th>体现总额：</th><td><{$detail.tixian_money}></td></tr>
+<tr><th>订单数：</th><td><{$detail.orders}></td></tr>
+<tr><th>总评分：</th><td><{$detail.score}></td></tr>
+<tr><th>评论数：</th><td><{$detail.comments}></td></tr>
+<tr><th>经度：</th><td><{$detail.lat}></td></tr>
+<tr><th>纬度：</th><td><{$detail.lng}></td></tr>
+<tr><th>最近登录：</th><td><{$detail.lastlogin}></td></tr>
+<tr><th>登录IP：</th><td><{$detail.loginip}></td></tr>
+<tr><th>身份认证状态：</th><td><{$detail.verify_name}></td></tr>
+<tr><th>工作状态：</th><td><{$detail.status}></td></tr>
+<tr><th>审核状态：</th><td><{$detail.audit}></td></tr>
+<tr><th>closed：</th><td><{$detail.closed}></td></tr>
+<tr><th>创建ip：</th><td><{$detail.clientip}></td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

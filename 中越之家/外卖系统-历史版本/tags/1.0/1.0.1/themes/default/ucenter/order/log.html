@@ -1,0 +1,59 @@
+<{assign var='tpl_title' value='我的订单日志'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='ucenter/order'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的订单日志
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list on"><a href="<{link ctl='ucenter/order/log' arg1=$order.order_id}>">订单状态</a></li>
+        <li class="switchTab_list"><a href="<{link ctl='ucenter/order/detail' arg1=$order.order_id}>">订单详情</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+<section class="page_center_box">
+    <div class="order_progress_infor mb10">
+        <div class="fl">
+            <{if $order.pei_type==3 && $order.order_status==1}>
+            <p class="black9">预计自提到达：<{$order.pei_time|format:'H:i'}></p>
+            <{else if $order.pei_type==3 && $order.order_status==8}>
+            <p class="black9">自提到达：<{$order.pei_time|format:'H:i'}></p>
+            <{else}>
+            <p class="black9"><{$order.order_status_warning}></p>
+            <{/if}>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="order_progress">
+    	<ul>
+            <{foreach $order.log as $k => $v}>
+            <li class="order_progress_list">
+                <{if $order.log.from == 'shop' }>
+                <div class="ico ico_3 on fl"></div>
+                <{else if $order.log.from == 'staff'}>
+                <div class="ico ico_6 on fl"></div>
+                <{else if $order.log.from == 'payment'}>
+                <div class="ico ico_5 on fl"></div>
+                <{else}>
+                <div class="ico ico_2 on fl"></div>
+                <{/if}>
+            	
+                
+                <div class="wz">
+                    <p class=""><{$v.log}></p>
+                    <p class="black9"><{$v.dateline|format}></p>
+                    <span class="long_xian"></span>
+                    <span class="xian"></span>
+                </div>
+                <div class="clear"></div>
+            </li>
+            <{/foreach}>
+	</ul>
+    </div>
+</section>
+<{include file="block/sfooter.html"}>
+</body>
+</html>

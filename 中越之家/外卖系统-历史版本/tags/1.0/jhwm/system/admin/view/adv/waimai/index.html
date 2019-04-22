@@ -1,0 +1,725 @@
+<{include file="admin:common/header.html"}>
+<link rel="stylesheet" href="http://cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<style type="text/css">
+    a:hover{text-decoration:none;}
+    /*外卖V3*/
+    .waimaiV3 .take-out_banner{height: 160px; position:relative;}
+    .waimaiV3 .take-out_banner .line_box{position: absolute; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6)}
+    .line_box div{color: #fff;width:180px;height:40px;line-height:40px;text-align:center;border-radius: 40px;border:2px solid #fff;font-weight: bold;position: absolute;top: 50%;left: 50%;margin-left: -90px;margin-top: -20px;}
+    .waimaiV3 .take-out_banner .swiper-container {width: 100%;height:100%;margin-left: auto;margin-right: auto;}
+    .waimaiV3 .take-out_banner .swiper-slide {text-align: center;font-size: 0;line-height:0;background: #fff;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;
+        -ms-flex-align: center;-webkit-align-items: center;align-items: center;}
+    .waimaiV3 .take-out_banner .swiper-slide a{display: block; width: 100%; height: 207px; background-repeat: no-repeat; background-position:center; background-size: cover;}
+    .waimaiV3 .swiper-container-horizontal>.swiper-pagination-bullets{bottom: 0px;}
+    .waimaiV3 .take-out_banner .swiper-pagination-bullet {opacity: 0.4;background: #000000;border-radius: 8px;width:18px;height:4px;}
+    .waimaiV3 .take-out_banner .swiper-pagination-bullet-active {opacity: 1;background: #FF9900;box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.20);}
+    .waimaiV3 .take-out_menu{ background:#fff; padding:15px 0 0; overflow:hidden; margin-bottom: 10px; position: relative;}
+    .waimaiV3 .take-out_menu .line_box{position: absolute; z-index: 20; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6)}
+    .waimaiV3 .take-out_menu .list{text-align: center;font-size: 18px;background: #fff;text-align:center; color:#333;margin-bottom:10px;}
+    .waimaiV3 .take-out_menu .list img{ width:40px; height:40px;}
+    .waimaiV3 .take-out_menu .list p{ font-size:12px; line-height:20px; color: #333;}
+    .waimaiV3 .take-out_menu .swiper-container{padding-bottom: 10px;}
+    .waimaiV3 .take-out_adv_box{position: relative;}
+    .waimaiV3 .take-out_adv_box .line_box{position: absolute; z-index: 20; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6)}
+    .waimaiV3 .take-out_adv{ text-align:center; width:100%; overflow:hidden; margin-bottom: 10px; line-height: 0;}
+    .waimaiV3 .take-out_adv img{ width:100%;}
+    .waimaiV3 .take-out_recmd{overflow: hidden; margin-bottom: 10px;}
+    .waimaiV3 .take-out_recmd ul li{ float:left;}
+    .waimaiV3 .take-out_recmd ul li.list_one{ width:44%;}
+    .waimaiV3 .take-out_recmd ul li.list_two{ width:55%;margin-left: 1%;}
+    .waimaiV3 .take-out_recmd ul li.list_one .box{border-radius: 4px; position:relative; width:100%; height:0; overflow:hidden; padding:53% 0;}
+    .waimaiV3 .take-out_recmd ul li.list_two .box{ border-radius: 4px; position:relative; width:100%; height:0; overflow:hidden; padding:21% 0;}
+    .waimaiV3 .take-out_recmd ul li.list_two_b .box{margin-top: 1%;}
+    .waimaiV3 .take-out_recmd ul li .box a{ display:block; position:absolute; left:0; top:0; width:100%; height:100%;}
+    .waimaiV3 .take-out_recmd ul li .box a img{position:static; left:0; top:0; width:100%; height:100%;}
+    .waimaiV3 .footer{position: absolute; z-index: 22; left: 27px; bottom: 100px; right: 28px;}
+    .line_box{opacity: 0;}
+    .line_box.on,.line_box:hover{opacity: 1;}
+
+    .banner_list .img p{ color: #f30 !important; font-weight: bold}
+    .banner_list .del { font-size: 28px; color: #ccc; position: absolute; top: 4px; right: 4px;}
+    .banner_list .btn_box{ margin-right:350px}
+    .banner_list .wx_box{ margin-right:400px !important;}
+    .change_list_banner .banner_list,.change_list_cate .banner_list{ cursor:move}
+    .banner_list{box-shadow: -1px -1px 5px #eee, 1px 1px 5px #eee;}
+    .banner_list:hover{background: rgba(0,0,0,0.05)}
+
+</style>
+<div class="page-data">
+    
+    <div class="guide_list_box">
+        <ul>
+            <li><a href="javascript:;" class="on">外卖</a></li>
+            <li><a href="?adv/start-index.html">APP启动页</a></li>
+            <{if $have_jifen}><li><a href="?adv/jifen-index.html">积分</a></li><{/if}>
+            <{if $have_paotui}><li><a href="?adv/paotui-index.html">跑腿</a></li><{/if}>          
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="appAdvSet_box">
+        <div class="appAdvSet_iphone6 float-l">
+            <div class="iphone6_box">
+                <!--外卖V3-开始-->
+                <div class="waimaiV3">
+                    <div class="take-out_banner">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <{foreach $banner as $k=>$v}>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(<{$pager.img}>/<{$v.thumb}>);"></a></div>
+                                <{foreachelse}>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201707/20170727_5999C15F6D1AF3919D89F162BB948F90.jpg);"></a></div>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201707/20170727_5999C15F6D1AF3919D89F162BB948F90.jpg);"></a></div>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201707/20170727_5999C15F6D1AF3919D89F162BB948F90.jpg);"></a></div>
+                                <{/foreach}>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="line_box on" rel="banner"><!-- <div>尺寸：320×160</div> --></div>
+                    </div>
+                    <div class="take-out_menu">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <{foreach $cate as $kk=>$vv}>
+                                <div class="swiper-slide list">
+                                    <a href="javascript:;" class="list">
+                                        <img src="<{$pager.img}>/<{$vv.thumb}>">
+                                        <P><{$vv.title}></P>
+                                    </a>
+                                </div>
+                                <{foreachelse}>
+                                <div class="swiper-slide list">
+                                    <a href="<{$item.link}>" class="list">
+                                        <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_0632F0ABC084D5EC753BDEE4E12E9AAB.png">
+                                        <P>示例</P>
+                                    </a>
+                                </div>
+                                <div class="swiper-slide list">
+                                    <a href="<{$item.link}>" class="list">
+                                        <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_143420524B44023733A97C76B65DE2A8.png">
+                                        <P>示例</P>
+                                    </a>
+                                </div>
+                                <div class="swiper-slide list">
+                                    <a href="<{$item.link}>" class="list">
+                                        <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_BDA84325737B934598F677F5C180B336.png">
+                                        <P>示例</P>
+                                    </a>
+                                </div>
+                                <div class="swiper-slide list">
+                                    <a href="<{$item.link}>" class="list">
+                                        <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_60A0B708169D97A9358658202FDB1D33.png">
+                                        <P>示例</P>
+                                    </a>
+                                </div>
+                                <div class="swiper-slide list">
+                                    <a href="<{$item.link}>" class="list">
+                                        <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_7FE70999C7996CAC9082569DC724EF07.png">
+                                        <P>示例</P>
+                                    </a>
+                                </div>
+                                <div class="swiper-slide list">
+                                    <a href="<{$item.link}>" class="list">
+                                        <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_0A74A12AE5D976823FE357F1C854D00C.png">
+                                        <P>示例</P>
+                                    </a>
+                                </div>
+
+                                <{/foreach}>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="line_box" rel="cate"><!-- <div>尺寸：40 x 40</div> --></div>
+                    </div>
+                    <div class="take-out_adv_box">
+                        <div class="take-out_adv">
+                            <a href="javascript:;">
+                                <{if $tuijian[0]['thumb']}>
+                                <img src="<{$pager.img}>/<{$tuijian[0]['thumb']}>">
+                                <{else}>
+                                <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_900121307DB9F0E14930F6FB5E210D98.png">
+                                <{/if}>
+                                </a>
+                        </div>
+                        <div class="take-out_recmd">
+                            <ul>
+                                <li class="list_one">                                    
+                                    <div class="box">
+                                        <a href="javascript:;">
+                                            <{if $tuijian[1]['thumb']}>
+                                            <img src="<{$pager.img}>/<{$tuijian[1]['thumb']}>">
+                                            <{else}>
+                                            <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_7603EDAA421A9C5245D19F5866B62848.png">
+                                            <{/if}>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="list_two">
+                                    
+                                    <div class="box">
+                                        <a href="javascript:;">
+                                            <{if $tuijian[2]['thumb']}>
+                                            <img src="<{$pager.img}>/<{$tuijian[2]['thumb']}>">
+                                            <{else}>
+                                            <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_FD95024AC9FEBFE493289C54AF6FAC7A.png">
+                                            <{/if}>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="list_two list_two_b">
+                                    
+                                    <div class="box">
+                                        <a href="javascript:;">
+                                            <{if $tuijian[3]['thumb']}>
+                                            <img src="<{$pager.img}>/<{$tuijian[3]['thumb']}>">
+                                            <{else}>
+                                            <img src="http://img01.jhcms.com/wmdemo/photo/201707/20170727_E21B0A4E3F8F133E363FC71FDD354D48.png">
+                                            <{/if}>
+                                        </a>
+                                    </div>                                    
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="line_box" rel="tuijian"><!-- <div>尺寸：375×107</div> --></div>
+                    </div>
+                    <!-- <img src="/admin/images/adv/waimaiV3_foot.jpg" class="footer"> -->
+                </div>
+                <!--外卖V3-开始-->
+            </div>
+        </div>
+        <div class="appAdvSet_box_r">
+            <h5 class="tip-notice">拖动选项可进行排序，保存后可查看效果</h5>
+            <form action="?adv/waimai-save.html" method="post" mini-form="admin-form" id="my_form">
+
+                <input name="banner[adv_id]" type="hidden" value="<{$banner_id}>"/>
+                <input name="cate[adv_id]" type="hidden" value="<{$cate_id}>"/>
+                <input name="tuijian[adv_id]" type="hidden" value="<{$tuijian_id}>"/>
+                <!--banner轮播-开始-->
+                
+                <div class="change_list change_list_banner">
+
+                    <{foreach $banner as $k=>$v}>
+
+                    <div class="banner_list" rel="<{$k}>">
+                        <div class="img float-l">
+                            <label >
+                                <img src="<{$pager.img}>/<{$v.thumb}>" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="banner[thumb][]" class="file_img" value="<{$v.thumb}>"/>
+                            </label>
+                            <P>尺寸：960×480</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="banner[title][]" value="<{$v.title}>" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="banner[link][]" value="<{$v.link}>" class="input w-200" id="banner_adv_link_<{$k}>">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#banner_adv_link_$k,#banner_adv_wxlink_$k/N/选择链接" class="button" width="mini:300"}>                     
+                                    </td>
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="banner[wxapp_link][]" value="<{$v.wxapp_link}>" class="input w-200" id="banner_adv_wxlink_<{$k}>" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+
+                    <{foreachelse}>
+
+                    <div class="banner_list" rel="0">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="banner[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：960×480</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="banner[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="banner[link][]" class="input w-200" id="banner_adv_link_0">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#banner_adv_link_0,#banner_adv_wxlink_0/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                                  
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="banner[wxapp_link][]" class="input w-200" id="banner_adv_wxlink_0" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+                    <{/foreach}>
+
+                    <a href="javascript:;" class="appAdvSet_add" id="banner_add">+</a>
+
+                </div>
+                <!--banner轮播-结束-->
+                <!--分类菜单-开始-->
+                
+                <div class="change_list change_list_cate" style="display: none;">
+                    <{foreach $cate as $k=>$vv}>
+
+                    <div class="banner_list" rel="<{$k}>">
+                        <div class="img float-l">
+                            <label >
+                                <img src="<{$pager.img}>/<{$vv.thumb}>" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="cate[thumb][]" class="file_img" value="<{$vv.thumb}>"/>
+                            </label>
+                            <P>尺寸：120×120</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="cate[title][]" value="<{$vv.title}>" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="cate[link][]" value="<{$vv.link}>" class="input w-200" id="cate_adv_link_<{$k}>">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#cate_adv_link_$k,#cate_adv_wxlink_$k/N/选择链接" class="button" width="mini:300"}>
+                                    </td>
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="cate[wxapp_link][]" value="<{$vv.wxapp_link}>" class="input w-200" id="cate_adv_wxlink_<{$k}>" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+
+                    <{foreachelse}>
+
+                    <div class="banner_list" rel="0">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="cate[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：120×120</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="cate[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="cate[link][]" class="input w-200" id="cate_adv_link_0">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#cate_adv_link_0,#cate_adv_wxlink_0/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                             
+                                </tr>
+                                 <{if $wxcfg.wxapp_appid}>
+                                <tr>                                    
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="cate[wxapp_link][]" class="input w-200" id="cate_adv_wxlink_0" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                    <a href="javascript:;" class="appAdvSet_add" id="cate_add">+</a>
+
+                </div>
+                <!--分类菜单-结束-->
+                <!--广告位-开始-->
+                <div class="change_list change_list_tuijian" style="display: none;">
+                    <{foreach $tuijian as $ks=>$vvv}>
+
+                    <div class="banner_list" rel="<{$ks}>">
+                        <div class="img float-l">
+                            <label >
+                                <{if $vvv.thumb}>
+                                <img src="<{$pager.img}>/<{$vvv.thumb}>" class="img_src" width="100" height="100"/>
+                                <{else}>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <{/if}>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value="<{$vvv.thumb}>"/>
+                            </label>
+                            <P>尺寸：
+                                <{if $ks==0}>1125×321<{/if}>
+                                <{if $ks==1}>495×525<{/if}>
+                                <{if $ks==2}>618×261<{/if}>
+                                <{if $ks==3}>618×261<{/if}>
+                            </P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" value="<{$vvv.title}>" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" value="<{$vvv.link}>" class="input w-200" id="tj_adv_link_<{$ks}>">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#tj_adv_link_$ks,#tj_adv_wxlink_$ks/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                                
+                                </tr>
+                                 <{if $wxcfg.wxapp_appid}>
+                                <tr>                                    
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="tuijian[wxapp_link][]" value="<{$vvv.wxapp_link}>" class="input w-200" id="tj_adv_wxlink_<{$ks}>" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+
+                    <{foreachelse}>
+
+                    <div class="banner_list" rel="0">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：1125×321</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_0">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#tj_adv_link_0,#tj_adv_wxlink_0/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                                  
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>                                    
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="tuijian[wxapp_link][]" class="input w-200" id="tj_adv_wxlink_0" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="banner_list" rel="1">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：495×525</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_1">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#tj_adv_link_1,#tj_adv_wxlink_1/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                                  
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>                                    
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="tuijian[wxapp_link][]" class="input w-200" id="tj_adv_wxlink_1" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="banner_list" rel="2">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：618×261</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_2">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#tj_adv_link_2,#tj_adv_wxlink_2/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                                  
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>                                    
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="tuijian[wxapp_link][]" class="input w-200" id="tj_adv_wxlink_2" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="banner_list" rel="3">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：618×261</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <!-- <a href="javascript:;" class="del fa fa-times-circle"></a> -->
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="tuijian[title][]" class="input w-200"></td>
+                                </tr>
+                                <tr>
+                                    <td class="bt">跳转链接：</td>
+                                    <td>
+                                        <input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_3">
+                                        <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#tj_adv_link_3,#tj_adv_wxlink_3/N/选择链接" class="button" width="mini:300"}>
+                                    </td>                                  
+                                </tr>
+                                <{if $wxcfg.wxapp_appid}>
+                                <tr>                                    
+                                    <td class="bt">小程序链接：</td>
+                                    <td><input type="text" name="tuijian[wxapp_link][]" class="input w-200" id="tj_adv_wxlink_3" readonly></td>
+                                </tr>
+                                <{/if}>
+                            </table>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                    <!-- <a href="javascript:;" class="appAdvSet_add" id="tuijian_add">+</a> -->
+
+                </div>
+                <!--广告位-结束-->
+
+            </form>
+
+            <div class="change_list1 ">
+                <a href="javascript:;" class="appAdvSet_submit">提交修改</a>
+            </div>
+
+        </div>
+        <div class="clear-both"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        function upload_img_format(){
+            $('.uploadimg').on('change',function(){
+                var h = $(this);
+                var files = $(this)[0]['files'];
+                var params = {"paotui" : files[0]};
+                var pre = "<{$pager.img}>";
+                Widget.UploadFile("?adv/adv-uploadimg.html", params, function(ret){
+                    if(ret.error==0){
+                        h.parent().children().eq(0).attr('src',pre+'/'+ret.data.photo)
+                        h.parent().children().eq(2).val(ret.data.photo)
+                    }else{
+                        layer.msg(ret.message);
+                    }
+                });
+            })
+        }
+        upload_img_format();
+
+        //添加banner轮播图js；
+        function banner_add(){
+            $("#banner_add").click(function(){
+                //var j = $(this).siblings('.banner_list:last').attr('rel');
+                var j = $(this).siblings('.banner_list').length;
+                var k = parseInt(j)+1;
+                $("#banner_add").before('<div class="banner_list" rel="'+k+'"> <div class="img float-l"> <label> <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/> <input type="file" hidden="hidden" name="" class="uploadimg"> <input type="hidden" name="banner[thumb][]" class="file_img" value=""/> </label> <P>尺寸：960×480</P> </div> <div class="btn_box float-r"> <a href="javascript:;" class="del fa fa-times-circle"></a> </div> <div class="wx_box"> <table width="100%" border="0" cellspacing="0"> <tr> <td class="bt">标题：</td> <td><input type="text" name="banner[title][]" class="input w-200"></td></tr> <tr> <td class="bt">跳转链接：</td> <td><input type="text" name="banner[link][]" class="input w-200" id="banner_adv_link_'+k+'"> <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#banner_adv_link_'+k+',#banner_adv_wxlink_'+k+'/N/选择链接" class="button" width="mini:300"}></td></tr> <{if $wxcfg.wxapp_appid}><tr> <td class="bt">小程序链接：</td> <td><input type="text" name="banner[wxapp_link][]" class="input w-200" id="banner_adv_wxlink_'+k+'" readonly></td></tr><{/if}> </table> </div> </div>');
+                adv_del();
+                upload_img_format();
+            });
+        };
+        //添加导航菜单js；
+        function cate_add(){
+            $("#cate_add").click(function(){
+                //var j = $(this).siblings('.banner_list:last').attr('rel');
+                var j = $(this).siblings('.banner_list').length;
+                var k = parseInt(j)+1;
+                $("#cate_add").before(' <div class="banner_list" rel="'+k+'"> <div class="img float-l"> <label> <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/> <input type="file" hidden="hidden" name="" class="uploadimg"> <input type="hidden" name="cate[thumb][]" class="file_img" value=""/> </label> <P>尺寸：120×120</P> </div> <div class="btn_box float-r"> <a href="javascript:;" class="del fa fa-times-circle"></a> </div> <div class="wx_box"> <table width="100%" border="0" cellspacing="0"> <tr> <td class="bt">标题：</td> <td><input type="text" name="cate[title][]" class="input w-200"></td></tr> <tr>  <td class="bt">跳转链接：</td> <td><input type="text" name="cate[link][]" class="input w-200" id="cate_adv_link_'+k+'"> <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#cate_adv_link_'+k+',#cate_adv_wxlink_'+k+'/N/选择链接" class="button" width="mini:300"}></td></tr> <{if $wxcfg.wxapp_appid}><tr> <td class="bt">小程序链接：</td> <td><input type="text" name="cate[wxapp_link][]" class="input w-200" id="cate_adv_wxlink_'+k+'" readonly></td></tr><{/if}> </table> </div> </div>');
+                adv_del();
+                upload_img_format();
+            });
+        };
+        //删除banner轮播图js；
+        function adv_del(){
+            $(".banner_list .del").click(function(){
+                var h =  $(this);
+                layer.confirm('确认删除？', {
+                    btn: ['是','否'] //按钮
+                }, function(){
+                    h.parents(".banner_list").remove();
+                    layer.closeAll()
+
+                }, function(){
+
+                });
+            });
+        };
+        //删除广告；
+        adv_del();
+        //添加banner轮播图；
+        banner_add();
+        //添加导航菜单；
+        cate_add();
+        //点击出现线框；
+        function tuijian_add(){
+            $("#tuijian_add").click(function(){
+                //var j = $(this).siblings('.banner_list:last').attr('rel');
+                var j = $(this).siblings('.banner_list').length;
+                var k = parseInt(j)+1;
+                $("#tuijian_add").before(' <div class="banner_list" rel="'+k+'"> <div class="img float-l"> <label> <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/> <input type="file" hidden="hidden" name="" class="uploadimg"> <input type="hidden" name="tuijian[thumb][]" class="file_img" value=""/> </label> <P>尺寸：375×107</P> </div> <div class="btn_box float-r"> <a href="javascript:;" class="del fa fa-times-circle"></a> </div> <div class="wx_box"> <table width="100%" border="0" cellspacing="0"> <tr> <td class="bt">标题：</td> <td><input type="text" name="tuijian[title][]" class="input w-200"></td></tr> <tr> <td class="bt">跳转链接：</td> <td><input type="text" name="tuijian[link][]" class="input w-200" id="tj_adv_link_'+k+'"> <{link ctl="adv/waimai:dialog" title="选择链接" select="mini:#tj_adv_link_'+k+',#tj_adv_wxlink_'+k+'/N/选择链接" class="button" width="mini:300"}></td></tr> <{if $wxcfg.wxapp_appid}><tr> <td class="bt">小程序链接：</td> <td><input type="text" name="tuijian[wxapp_link][]" class="input w-200" id="tj_adv_wxlink_'+k+'" readonly></td></tr><{/if}> </table> </div> </div>');
+                tuijian_del();
+                upload_img_format();
+            });
+        }
+        function tuijian_del(){
+            $(".banner_list .del").click(function(){
+                var h =  $(this);
+
+                layer.confirm('确认删除？', {
+                    btn: ['是','否'] //按钮
+                }, function(){
+                    h.parents(".banner_list").remove();
+                    layer.closeAll()
+
+                }, function(){
+
+                });
+
+            });
+        }
+        tuijian_add();
+        tuijian_del();
+
+        $(".line_box").each(function(index){
+            $(this).click(function(){
+                $(".line_box").removeClass("on");
+                $(this).addClass("on");
+                $(".appAdvSet_box_r .change_list").eq(index).show().siblings().hide();
+            });
+        });
+    });
+    $('.appAdvSet_submit').on('click',function(){
+        $('#my_form').submit();
+    })
+
+   </script>
+<script src="http://cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.waimaiV3 .take-out_banner .swiper-container', {
+        pagination: '.waimaiV3 .take-out_banner .swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: 2000
+    });
+    var swiper = new Swiper('.waimaiV3 .take-out_menu .swiper-container', {
+        pagination: '.waimaiV3 .take-out_menu .swiper-pagination',
+        slidesPerView: 4,
+        slidesPerColumn: 2,
+        slidesPerGroup : 4,
+        paginationClickable: true,
+        spaceBetween: 0,
+        autoplay: 4000
+
+    });
+</script>
+
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.change_list_banner,.change_list_cate').sortable();
+    });    
+</script>
+
+
+<{include file="admin:common/footer.html"}>

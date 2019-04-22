@@ -1,0 +1,85 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='huodong/shop'}>">营销管理</a></li>
+        <li>店铺活动</li>
+        <li class="active">活动详情</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+    <div class="coupon_list_box">
+    	<table class="table_nobd_box mb20" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="bt text_r"><span class="black6">活动状态：</span></td>
+                <td><{if $detail.closed == 1}>已撤销<{elseif $detail.audit == 0}>待审核<{elseif $detail.stime >$nowtime}>待生效<{elseif $detail.ltime < $nowtime}>已过期<{else}>已生效<{/if}></td>
+            </tr>
+            <tr>
+                <td class="bt text_r"><span class="black6">活动时间：</span></td>
+                <td><{if $detail.stime == ($detail.ltime + 86399)}><{$detail.stime|format:'Y-m-d H:i'}>至<{$detail.ltime|format:'Y-m-d H:i'}><{else}><{$detail.stime|format:'Y-m-d'}>至<{$detail.ltime|format:'Y-m-d'}><{/if}></td>
+            </tr>
+            <tr>
+                <td class="bt text_r"><span class="black6">优惠券：</span></td>
+                <td>
+                    <{foreach $config as $item}>
+                       <{if $item.paid_amount>0}>
+                    <div class="coupon_list">
+                        <div class="left fl">
+                            <p>实付满<{$item.paid_amount}>即返</p>
+                            <big class="pointcl">￥<{$item.coupon_amount}></big>
+                            <p>满<{$item.order_amount}>可用</p>
+                        </div>
+                        <div class="right">
+                            <p>领券后<{$item.day}>天内有效</p>
+                        </div>
+                    </div>
+                       <{/if}>
+
+                    <{/foreach}>
+                </td>
+            </tr>
+            <tr>
+                <td class="bt text_r">&nbsp;</td>
+                <td>
+                	<div class="form_table_btn_box">
+                            <{if $detail.closed != 1}><a class="btn btn-default btn-w-m tab_btn_del" href="javascript:;">撤销活动</a><{/if}>
+                            <a class="btn btn-primary btn-w-m"  href="<{link ctl='huodong/shop'}>">返回</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+<!--删除提示-->
+<div class="mask_cont prompt_mask">
+	<div class="mask_cont_tit text_c">提示</div>
+    <div class="cont">
+    	<div class="ts border_b">撤销后将不可返回，确认撤销？</div>
+        <div class="text_c mt20">
+        	<a href="javascript:;" class="btn btn-w-m btn-default cancel">考虑一下</a>
+            <a href="<{link ctl='huodong/manfan/close' args=$detail.huodong_id}>" mini-act="xxxx" class="btn btn-w-m btn-primary comfirt">确认撤销</a>
+        </div>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.prompt_mask').height();
+	var evlt_w = $('.prompt_mask').width();
+	$('.prompt_mask').css("margin-top",-evlt_h/2 + 'px');
+	$('.prompt_mask').css("margin-left",-evlt_w/2 + 'px');
+	
+	$(".tab_btn_del").click(function(){
+		$('.prompt_mask').fadeIn(100);
+		$('.mask_bg').fadeIn(100);
+	});
+	
+	$(".prompt_mask .cancel,.mask_bg").click(function(){
+		$('.prompt_mask').fadeOut(100);
+		$('.mask_bg').fadeOut(100);
+	});
+});
+</script>
+<!--删除提示end-->
+<{include file="block/footer.html"}>

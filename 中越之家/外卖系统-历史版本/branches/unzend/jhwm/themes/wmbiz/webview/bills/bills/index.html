@@ -1,0 +1,98 @@
+<{assign var='tpl_title' value=L("商家对账-首页")}>
+<{include file="webview/bills/block/header.html"}>
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="duizhang-balance mb10">
+
+                    <div class="list-one border_b">
+                        <p>可提现余额</p>
+                        <div class="pub_list">
+                            <p class="pub_list_bd">￥<{$shop.money}></p>
+                            <a href="<{link ctl='webview/bills/tixian' http='wmbiz'}>" class="btn">提现</a>
+                        </div>
+                    </div>
+
+                    <div class="pub_list list-two" id="tiao_url">
+                        <div class="whitecl pub_list_bd"><i class="mr5 ico"></i>查看余额流水</div>
+                        <div style="max-width:40%;">
+                        	<p class="ml10 overflow_clear"><{$msg_data.msg}></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="duizhang-income mb10">
+                    <div class="border_b pub_list tit">
+                        <div class="pub_list_bd"><big>今日预计收入</big>(<{$count.day|default:0}>)</div>
+                        <p class="ml10">￥<{$count.yuji|default:0}></p>
+                    </div>
+                    <ul class="box">
+                        <li>
+                            <div class="pub_list">
+                                <p class="black6 ml20 name">外卖订单</p>
+                                <p class="pub_list_bd">共<{$count.yes_order|default:0}>笔</p>
+                                <p class="pub_list_bd text_r">￥<{$count.yes_money|default:0}></p>
+                            </div>
+                            <div class="progressBar"><span class="barLength" style="width:<{$count.yes_bl}>%;"></span></div>
+                        </li>
+                        <li>
+                            <div class="pub_list">
+                                <p class="black6 ml20 name">订单退款</p>
+                                <p class="pub_list_bd">共<{$count.no_order|default:0}>笔</p>
+                                <p class="pub_list_bd text_r">￥<{$count.no_money|default:0}></p>
+                            </div>
+                            <div class="progressBar"><span class="barLength" style="width:<{$count.no_bl}>%;"></span></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="duizhang-bill mb10">
+                    <div class="pub_list tit">
+                        <h3>历史账单</h3>
+                        <a href="<{link ctl='webview/bills/bills/history'}>"><p class="black9">全部历史账单</p></a>
+                    </div>
+                    <{if $bills_list.wancheng}>
+                    <div class="pub_list subtit-one" onClick="tiao('<{$bills_list.wancheng.bills_id}>');">
+                        <div class="pub_list_bd">
+                            <p><{$bills_list.wancheng.dateline|format:"Y.m.d"}></p>
+                            <p class="black9">最近已结算账单</p>
+                        </div>
+                        <div class="ml10">￥<{$bills_list.wancheng.amount}></div>
+                    </div>
+                    <{/if}>
+
+
+                    <ul class="list-box">
+                        <{foreach $bills_list.else as $v}>
+                        <li class="pub_list" onClick="tiao('<{$v.bills_id}>');">
+                            <div class="pub_list_bd"><{$v.dateline|format:'Y.m.d'}></div>
+                            <div class="ml10">￥<{$v.amount}></div>
+                        </li>
+                        <{/foreach}>
+
+                    </ul>
+                </div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function tiao(bills_id){
+        var url = '<{link ctl="webview/bills/bills/detail" arg0="__bills_id__"}>';
+        var link = url.replace('__bills_id__',bills_id);
+        window.location.href = link;
+    }
+
+    $('#tiao_url').on('click',function(){
+        var url = "<{link ctl='webview/bills/log' http='wmbiz'}>";
+        window.location.href = url;
+    })
+
+</script>
+
+
+<{include file="webview/bills/block/header.html"}>

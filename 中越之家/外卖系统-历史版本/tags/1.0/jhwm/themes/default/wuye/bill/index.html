@@ -1,0 +1,69 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">		<a href="<{link ctl='wuye/bill/index'}>" class="on">缴费订单列表</a>
+        <span class="r">
+            <a class="btn btn-success" href="/wuye/bill/index/download.html" style="margin:0px 5px;">下载Excel模板</a>
+            <a class="btn btn-success" href="/wuye/bill/index/import.html">从Excel导入订单</a>
+        </span>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-80">编号</th>
+        <th class="w-100">发布人</th>
+        <th class="w-60">总金额</th>
+        <th class="w-60">物业费</th>
+        <th class="w-60">车位费</th>
+        <th class="w-60">水费</th>
+        <th class="w-60">电费</th>
+        <th class="w-60">燃气费</th>
+        <th class="w-80">支付状态</th>
+        <th class="w-80">支付方式</th>
+        <th class="w-150">支付时间</th>
+        <th class="w-150">时间</th>
+        <th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.bill_sn}></td>
+        <!--<td><img src="<{$pager.img}>/<{$item.face}>" width="20" height="20" /> <{$item.nickname}></td>-->
+        <td><{if $item.yezhu_contact}><{$item.yezhu_contact}><{else}>业主<{$item.yezhu_id}><{/if}></td>
+        <td><{$item.total_price}></td>
+        <td><{$item.wuye_price}></td>
+        <td><{$item.chewei_price}></td>
+        <td><{$item.shui_price}></td>
+        <td><{$item.dian_price}></td>
+        <td><{$item.ranqi_price}></td>
+        <td><{if $item.pay_status == 1}><b style="color:green;">已支付</b><{else}><b style="color:red;">未支付</b><{/if}></td>
+        <td>
+            <{if !$item.pay_code}>--<{/if}>
+            <{if $item.pay_code == 'wxpay'}>微信支付<{/if}>
+            <{if $item.pay_code == 'alipay'}>支付宝<{/if}>
+            <{if $item.pay_code == 'money'}>余额<{/if}>
+        </td>
+        <td><{if $item.pay_time}><{$item.pay_time|format}><{else}>--<{/if}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+        <{if $item.pay_status == 0}>
+        <a href="<{link ctl='wuye/bill/index:edit' args=$item.bill_id}>" class="btn btn-success" style="margin-right:2px;">编辑</a>
+        <a href="<{link ctl='wuye/bill/index:delete' args=$item.bill_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-success">删除</a>
+        <{else}>
+        --
+        <{/if}>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+

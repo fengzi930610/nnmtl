@@ -1,0 +1,146 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="order/order:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th>订单ID：</th><td class="w-300"><{$detail.order_id}></td>
+            <th>用户：</th><td><{$detail.user.nickname}></td>
+        </tr>
+        <tr>
+            <th>商家：</th><td><span class="red"><{$detail.shop.title}></span></td>
+            <th>商品总价：</th><td><{$detail.product_price}></td>
+        </tr>
+        <tr><th>商品数量：</th><td><{$detail.product_number}></td><th>打包费：</th><td><{$detail.package_price}></td></tr>
+        <tr><th>运费：</th><td><{$detail.freight}></td><th>使用余额支付：</th><td><{$detail.money}></td></tr>
+        <tr><th>第三方支付：</th><td><{$detail.amount}></td><th>订单优惠：</th><td><{$detail.order_youhui}></td></tr> 
+        <tr><th>首单优惠：</th><td><{$detail.first_youhui}></td><th>使用红包：</th><td><{if $detail.hongbao_id>0}><{$detail.hongbao}>(ID:<{$detail.hongbao_id}>)<{else}>无<{/if}></td></tr>
+        <tr>
+            <th>经纬度：</th><td>经度：<{$detail.lng}>纬度：<{$detail.lat}></td>
+            <th>地址：</th><td><span class="green"><{$detail.addr}>，<{$detail.house}>(<{$detail.contact}>,<{$detail.mobile}>)</span></td>
+        </tr>
+        <tr><th>期望送达时间：</th><td><{if $detail.pei_time==0}>尽快送达<{else}><{$detail.dateline|format:'Y-m-d'}><{$detail.pei_time}><{/if}></td><th>备注：</th><td><{$detail.note|default:'无'}></td></tr>
+        <tr><th>订单状态：</th><td><span class="red"><{$detail['status'][$detail.order_status]}></span></td><th>支付状态：</th><td><span class="green"><{if $detail.pay_status==1}>已支付<{else}>未支付<{/if}></span></td></tr>
+        <tr><th>是否在线支付：</th><td><{if $detail.online_pay==1}>在线支付<{else}>餐到付款<{/if}></td><th>支付方式：</th><td><{$payments[$detail['pay_type']]|default:'无'}></td></tr>
+        <tr><th>支付IP：</th><td><{$detail.pay_ip|default:'无'}></td><th>支付时间：</th><td><{$detail.pay_time|format:'Y-m-d H:i:s'}></td></tr>
+        <tr>
+            <th>配送类型：</th><td><{if $detail.pei_type==0}>商家自主配送<{elseif $detail.pei_type==1}>第三方配送<{else}>代购送<{/if}></td>
+            <th>配送员：</th>
+                <td>
+                    <{if $detail.pei_type==0}>
+                        商家自主配送
+                    <{else}>
+                        <{if $detail.staff_id>0}>
+                            <{$detail.staff.name}>(<{$detail.staff.mobile}>)
+                            <{if $detail.order_status==4 || $detail.order_status==3}>
+                            <{link ctl="order/order:quxiaopei" arg0=$detail.order_id act="mini:取消配送员" confirm="mini:确定要取消配送员吗" title="取消配送员" class="button"}>
+                            <{/if}>
+                            <{elseif $detail.order_status>1 && $detail.order_status<8 && $detail.staff<1}>
+                            <{link ctl="order/order:dopaidan" arg0=$detail.order_id load="mini:派单给配送"  title="派单配送" class="button"}>
+                            <{else}>
+                            配送员未接单
+                            <{/if}>
+                    <{/if}>
+                </td>
+            </tr>
+        <tr><th>配送费用：</th><td><{$detail.pei_amount}></td><th>评论状态：</th><td><{if $detail.comments_status==1}>已点评<{else}>未点评<{/if}></td></tr>
+        <tr>
+            <th>最后催单时间：</th><td><{if $detail.cui_time}><{$detail.cui_time|format}><{else}>--<{/if}></td>
+            <th>订单来源：</th><td><{$froms[$detail['order_from']]}></td>
+        </tr>
+        <tr><th>客户IP：</th><td><{$detail.clientip}></td><th>下单时间：</th><td><{$detail.dateline|format:'Y-m-d H:i:s'}></td></tr>
+        <tr><td colspan="10" class="h-10"></td></tr>
+    </table>    
+    <{if $detail.products}>
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">商品ID</th>
+        <th class="w-50">商品名称</th>
+        <th class="w-50">单价</th>
+        <th class="w-50">打包费</th>
+        <th class="w-100">数量</th>
+        <th class="w-100">小计</th>
+    </tr>
+    <{foreach $detail.products as $var}>
+    <tr>
+        <td>ID:<{$var.product_id}></td>
+        <td><{$var['product_name']}></td>
+        <td>￥<{$var['product_price']}></td>
+        <td>￥<{$var['package_price']}></td>
+        <td>X<{$var['product_number']}></td>
+        <td>￥<{$var['amount']}></td>
+    </tr>
+    <{/foreach}>
+    </table>                            
+    <{/if}>                                                                                                                        
+    <{if $detail.logs}>
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">日志编号</th>
+        <th class="w-50">操作人员</th>
+        <th class="w-150">明细</th>
+        <th class="w-100">时间</th>
+    </tr>
+    <{foreach $detail.logs as $var}>
+    <tr >
+        <td><{$var.log_id}></td>
+        <td><{if $var.from=='member'}>用户<{elseif $var.from=='shop'}>商家<{elseif $var.from=='staff'}>配送员<{else}>管理人员<{/if}>(<{$detail['types'][$var['type']]}>)</td>
+        <td><{$var.log}></td>
+        <td><{$var.dateline|format}></td>
+    </tr>
+    <{/foreach}>
+    <{/if}>
+    </table> 
+
+    <{if $detail['status'][$detail.order_status]=='已取消' || $detail['status'][$detail.order_status]=='订单完成'}>
+    <{else}>
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-20">管理员操作</th>
+        <th class="w-200">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th class="w-1400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+    </tr>
+    <tr>
+        <{if $detail['status'][$detail.order_status]=='未处理' && $detail.online_pay==1 && $detail.pay_status==0}>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+            <td class="w-200">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <{/if}>
+        <{if $detail['status'][$detail.order_status]=='未处理' && $detail.online_pay==0 && $detail.pay_status==0}>
+            <td><{link ctl="order/order:accept" arg0=$detail.order_id arg1=1 act="mini:接单" confirm="mini:确定要接单吗" title="接单" class="button"}></td>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+        <{/if}>
+        <{if $detail['status'][$detail.order_status]=='未处理' && $detail.online_pay==1 && $detail.pay_status==1}>
+            <td><{link ctl="order/order:accept" arg0=$detail.order_id arg1=1 act="mini:接单" confirm="mini:确定要接单吗" title="接单" class="button"}></td>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+        <{/if}>
+        <{if $detail['status'][$detail.order_status]=='已接单' && $detail.online_pay==1 && $detail.pay_status==1}> 
+            <td><{link ctl="order/order:peisong" arg0=$detail.order_id act="mini:开始配送" confirm="mini:确定要开始配送吗" title="开始配送" class="button"}></td>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+        <{/if}>
+        <{if $detail['status'][$detail.order_status]=='已接单' && $detail.online_pay==0 && $detail.pay_status==0}> 
+            <td><{link ctl="order/order:peisong" arg0=$detail.order_id act="mini:开始配送" confirm="mini:确定要开始配送吗" title="开始配送" class="button"}></td>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+        <{/if}>
+        <{if $detail['status'][$detail.order_status]=='配送开始' && $detail.online_pay==1 && $detail.pay_status==1}> 
+            <td><{link ctl="order/order:finish" arg0=$detail.order_id act="mini:完成订单" confirm="mini:确定要完成订单吗" title="完成订单" class="button"}></td>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+        <{/if}>
+        <{if $detail['status'][$detail.order_status]=='配送开始' && $detail.online_pay==0 && $detail.pay_status==0}> 
+            <td><{link ctl="order/order:finish" arg0=$detail.order_id act="mini:完成订单" confirm="mini:确定要完成订单吗" title="完成订单" class="button"}></td>
+            <td><{link ctl="order/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}></td>
+        <{/if}>
+        <td class="w-1400">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    </tr>   
+    </table>
+    <{/if}>                        
+    
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,41 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/shop/coupon:create'}>" class="on">创建优惠券</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/shop/coupon:create'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th><span class="red">*</span>订单金额：</th>
+                <td><input type="text" name="data[order_amount]" value="" class="input w-150"/>元</td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>优惠金额：</th>
+                <td><input type="text" name="data[coupon_amount]" value="" class="input w-150"/>元</td>
+            </tr>
+            <!--<tr>-->
+                <!--<th><span class="red">*</span>开始时间：</th>-->
+                <!--<td><input type="text" name="data[stime]" id="stime" value="" class="input w-150"   onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'stime\',{d:-1})}'})"/></td>-->
+            <!--</tr>-->
+            <tr>
+                <th><span class="red">*</span>结束时间：</th>
+                <td><input type="text" name="data[ltime]" id="ltime" value="" class="input w-150"  onFocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'ltime\',{d:1})}'})"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>库存：</th>
+                <td><input type="text" name="data[sku]" value="" class="input w-50">张</td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="立即创建" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

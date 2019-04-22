@@ -1,0 +1,79 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <td><{$MOD.title}></td>
+            <td align="right">
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--补贴会员详情-->
+    <div>
+        <div class="mrkt_tit mgb10 mgt10">
+            <span class="bt"><{$day}>--<{$waimai.title|default:"----"}>(<{$waimai.mobile|default:"-"}>)</span>
+        </div>
+        <div class="mgb10">
+            <style type="text/css">
+                .page-data .table{border-spacing: 0; border-collapse: collapse;}
+                .page-data .table th{text-align: center; border: 1px solid #e6e6e6;}
+                .page-data .table td{text-align: center;}
+            </style>
+            <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <th rowspan="2">订单ID</th>
+                    <th colspan="5">平台承担金额</th>
+                    <th colspan="6">商家承担金额</th>
+                    <th rowspan="2">操作</th>
+                </tr>
+                <tr>
+                    <th>合计</th>
+                    <th>首单</th>
+                    <th>满减</th>
+                    <th>红包</th>
+                    <th>配送会员卡</th>
+                    <th>合计</th>
+                    <th>首单</th>
+                    <th>满减</th>
+                    <th>优惠券</th>
+                    <th>折扣</th>
+                    <th>换购</th>
+                </tr>
+                <{foreach $items as $k=>$v}>
+                <tr>
+                    <td><{$v.order_id}></td>
+                    <td><{$v.platform_first+$v.platform_mj+$v.platform_hongbao+$v.platform_peicard}></td>
+                    <td><{$v.platform_first}></td>
+                    <td><{$v.platform_mj}></td>
+                    <td><{$v.platform_hongbao}></td>
+                    <td><{$v.platform_peicard}></td>
+                    <td><{$v.shop_first+$v.shop_mj+$v.shop_coupon+$v.shop_discount+$v.shop_huangou}></td>
+                    <td><{$v.shop_first}></td>
+                    <td><{$v.shop_mj}></td>
+                    <td><{$v.shop_coupon}></td>
+                    <td><{$v.shop_discount}></td>
+                    <td><{$v.shop_huangou}></td>
+                    <td>
+                        <{link ctl='waimai/order:detail' title='详情' class='button' arg0=$v.order_id http='admin' priv='hide'}>
+                    </td>
+                </tr>
+                <{/foreach}>
+            </table>
+        </div>
+        <div class="page-bar">
+            <table>
+                <tbody>
+                <tr>
+                    <td class="page-list" colspan="10"><{$pager.pagebar}></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--补贴订单详情-->
+</div>
+
+<{include file="admin:common/footer.html"}>

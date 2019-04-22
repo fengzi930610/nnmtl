@@ -1,0 +1,42 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+        <!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco headerIco2" href="<{link ctl='cloud/index'}>"></a>
+            <h1 class="title">个人中心</h1>
+        </header>
+        <!--头部结束-->
+        <!-- 工具栏 -->
+        <{include file="cloud/block/nav.html"}>
+        <!-- 工具栏结束 -->
+        <div class="content"> 
+             <div class="mine-infor mb10">
+                <div class="mine-infor-cont txt_center">
+                    <{if $MEMBER.uid}><a href="<{link ctl='ucenter/info'}>" class="correct-infor">修改</a>
+                     <div class="img-box"><img src="<{$pager.img}>/<{$MEMBER.face|default:'face.png'}>"><i class="v-icon"></i></div>
+                     <p class="xinxi"><{$MEMBER.nickname}>(<{$MEMBER.mobile|default:'未绑定手机'}>)</p>
+                     <p class="id-hao"></p>
+                     <{else}>
+                     <img src="">
+                     <p class="denglu"><a href="<{link ctl='passport/login'}>" class="mine-login-btn">登录/注册</a></p>
+                     <{/if}>
+                </div>
+                <div class="infor-bot pad10">
+                    <span class=" maincl"><{$MEMBER.coin|default:0}>个</span>/夺宝币 <a <{if $request['IN_APP_CLIENT']}><{if !$MEMBER.uid}>href="#" onclick='IJH.app_login({"backurl":"<{$backurl}>"});'<{else}>href="#" onclick='IJH.app_coin({"coin":"<{$MEMBER.coin}>","backurl":"<{$backurl}>"});'<{/if}><{else}>href="<{link ctl='cloud/ucenter/recharge/index'}>"<{/if}> class="fr to-addzhi">去充值</a>
+                </div>
+                <div class="cl"></div>
+             </div>
+             <div class="mine-links-box">
+                  <div class="mine-links">
+                      <div class="mylink border_b"><a style="display: block;" <{if !$MEMBER.uid}><{if $request['IN_APP_CLIENT']}>href="#" onclick='IJH.app_login({"backurl":"<{$backurl}>"});'<{else}>href="<{link ctl='cloud/ucenter/order'}>"<{/if}><{else}>href="<{link ctl='cloud/ucenter/order'}>"<{/if}> class="black3"><em class="link-icon link1"></em>夺宝记录<i class="linkIco"></i></a></div>
+                      <div class="mylink border_b"><a style="display: block;" <{if !$MEMBER.uid}><{if $request['IN_APP_CLIENT']}>href="#" onclick='IJH.app_login({"backurl":"<{$backurl}>"});'<{else}> href="<{link ctl='cloud/ucenter/lottery'}>"<{/if}><{else}>href="<{link ctl='cloud/ucenter/lottery'}>"<{/if}> class="black3"><em class="link-icon link2"></em>中奖记录<i class="linkIco"></i></a></div>
+                        <div class="mylink border_b"><a style="display: block;" <{if !$MEMBER.uid}><{if $request['IN_APP_CLIENT']}>href="#" onclick='IJH.app_login({"backurl":"<{$backurl}>"});'<{else}> href="<{link ctl='cloud/ucenter/share'}>"<{/if}><{else}>href="<{link ctl='cloud/ucenter/share'}>"<{/if}> class="black3"><em class="link-icon link3"></em>我的晒单<i class="linkIco"></i></a></div>
+                        <div class="mylink border_b"><a style="display: block;" <{if !$MEMBER.uid}><{if $request['IN_APP_CLIENT']}>href="#" onclick='IJH.app_login({"backurl":"<{$backurl}>"});'<{else}> href="<{link ctl='cloud/ucenter/logs'}>"<{/if}><{else}>href="<{link ctl='cloud/ucenter/logs'}>"<{/if}> class="black3"><em class="link-icon link4"></em>账单明细<i class="linkIco"></i></a></div>
+                        <!--<div class="mylink border_b"><em class="link-icon link6"></em>当前版本：234567</div>-->
+                  </div>
+             </div>
+            <{if $MEMBER.uid}><div class="content-block"><{if $request['IN_APP_CLIENT']}><a href="#" onclick="IJH.app_loginout();" class="button button-big button-fill">退出登录</a><{else}><a href="<{link ctl='passport/loginout'}>" class="button button-big button-fill">退出登录</a><{/if}></div><{/if}>
+        </div>
+    </div>
+
+<{include file="cloud/block/footer.html"}>

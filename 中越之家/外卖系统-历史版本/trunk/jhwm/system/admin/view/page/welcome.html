@@ -1,0 +1,405 @@
+<{include file="admin:common/header.html"}>
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<script src="<{$pager.res}>/cdn/highcharts/highcharts.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/exporting.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/series-label.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/oldie.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts-zh_CN.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th>系统管理平台首页</th>
+            <td class="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="indexMainBox">
+        <div class="indexIframe_r" id="ijh-wmnews">
+            <!-- <div class="idx_workOrder" style="height: auto;">
+                <div class="txt">售前电话：<i>0551-64278115</i></div>
+                <div class="txt">售后电话：<i>0551-68156253</i></div>
+                <div class="txt">授权咨询：<a href="javascript:;"><img src="/admin/images/index/qq_btn.png"></a></div>
+                <div class="txt">授权咨询：<{"800070067"|qq}></div>
+                <a href="http://www.ijh.cc/ucenter/index.html" target="_blank" class="btn">提交工单</a>
+            </div>
+            <div id="ijh-wmnews"></div> -->
+        </div>
+        <div class="indexMain">
+            <div class="mB-row mgb10" style="overflow: hidden;">
+                <div class="fl" style="width: 24%;">
+                    <div class="idx_box idx_shopNum">
+                        <div class="idx_tit">今日数据</div>
+                        <div class="idx_cont">
+                            <a class="list">有效订单量<span class="fr num"><{$data['t']['orders']|default:"0"}></span></a>
+                            <a class="list">营业额<span class="fr num"><{$data['t']['amount']|default:"0"}></span></a>
+                            <a class="list">新增用户数 <span class="fr num"><{$data['t']['member']}></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="fr" style="width: 74%;">
+                    <div class="idx_box idx_BusiStatis">
+                        <div class="idx_tit">昨日营业统计</div>
+                        <div class="idx_cont">
+                            <ul>
+                                <li style="width: calc(16.6% - 16px)"><a href="javascript:;">
+                                    <p>营业额（元）</p>
+                                    <div class="num"><{$data['y']['amount']|default:"0"}></div>
+                                    <div class="pre">
+                                        <p>对比前一日</p>
+                                        <{if $data['bl']['amount'] < 0}>
+                                        <span class="down"><i class="fa fa-long-arrow-down"></i><{abs($data['bl']['amount'])|default:'0.00'}>%</span>
+                                        <{else}>
+                                        <span class="up"><i class="fa fa-long-arrow-up"></i><{abs($data['bl']['amount'])|default:'0.00'}>%</span>
+                                        <{/if}>
+                                    </div>
+                                </a></li>
+                                <li style="width: calc(16.6% - 16px)"><a href="javascript:;">
+                                    <p>有效订单（单）</p>
+                                    <div class="num"><{$data['y']['orders']|default:"0"}></div>
+                                    <div class="pre">
+                                        <p>对比前一日</p>
+                                        <{if $data['bl']['orders'] < 0}>
+                                        <span class="down"><i class="fa fa-long-arrow-down"></i><{abs($data['bl']['orders'])|default:'0.00'}>%</span>
+                                        <{else}>
+                                        <span class="up"><i class="fa fa-long-arrow-up"></i><{abs($data['bl']['orders'])|default:'0.00'}>%</span>
+                                        <{/if}>
+                                    </div>
+                                </a></li>
+                                <li style="width: calc(16.6% - 16px)"><a href="javascript:;">
+                                    <p>配送费（元）</p>
+                                    <div class="num"><{$data['y']['pei']|default:"0"}></div>
+                                    <div class="pre">
+                                        <p>对比前一日</p>
+                                        <{if $data['bl']['pei'] < 0}>
+                                        <span class="down"><i class="fa fa-long-arrow-down"></i><{abs($data['bl']['pei'])|default:'0.00'}>%</span>
+                                        <{else}>
+                                        <span class="up"><i class="fa fa-long-arrow-up"></i><{abs($data['bl']['pei'])|default:'0.00'}>%</span>
+                                        <{/if}>
+                                    </div>
+                                </a></li>
+                                <li style="width: calc(16.6% - 16px)"><a href="javascript:;">
+                                    <p>客单价（元）</p>
+                                    <div class="num"><{$data['y']['avg']|default:"0"}></div>
+                                    <div class="pre">
+                                        <p>对比前一日</p>
+                                        <{if $data['bl']['avg']< 0}>
+                                        <span class="down"><i class="fa fa-long-arrow-down"></i><{abs($data['bl']['avg'])|default:"0.00"}>%</span>
+                                        <{else}>
+                                        <span class="up"><i class="fa fa-long-arrow-up"></i><{abs($data['bl']['avg'])|default:"0.00"}>%</span>
+                                        <{/if}>
+                                    </div>
+                                </a></li>
+                                <li style="width: calc(16.6% - 16px)"><a href="javascript:;">
+                                    <p>盈利（元）</p>
+                                    <div class="num"><{$data['y']['yinli']|default:"0"}></div>
+                                    <div class="pre">
+                                        <p>对比前一日</p>
+                                        <{if $data['bl']['yinli'] < 0}>
+                                        <span class="down"><i class="fa fa-long-arrow-down"></i><{abs($data['bl']['yinli'])|default:"0.00"}>%</span>
+                                        <{else}>
+                                        <span class="up"><i class="fa fa-long-arrow-up"></i><{abs($data['bl']['yinli'])|default:"0.00"}>%</span>
+                                        <{/if}>
+                                    </div>
+                                </a></li>
+                                <li style="width: calc(16.6% - 16px)"><a href="javascript:;">
+                                    <p>新增用户（人）</p>
+                                    <div class="num"><{$data['y']['member']|default:"0"}></div>
+                                    <div class="pre">
+                                        <p>对比前一日</p>
+                                        <{if $data['bl']['member'] < 0}>
+                                        <span class="down"><i class="fa fa-long-arrow-down"></i><{abs($data['bl']['member'])|default:"0.00"}>%</span>
+                                        <{else}>
+                                        <span class="up"><i class="fa fa-long-arrow-up"></i><{abs($data['bl']['member'])|default:"0.00"}>%</span>
+                                        <{/if}>
+                                    </div>
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="idx_box idx_waitDo mgb10">
+                <div class="idx_tit">待处理事项</div>
+                <div class="idx_cont">
+                    <ul>
+                        <{foreach $waitdo as $item}>
+                            <li><a href="<{$item.link}>"><{$item.label}><span class="num fr"><{$item.count|default:0}></span></a></li>
+                        <{/foreach}>
+                        <!-- <li><a href="">订单待派单<span class="num fr">10</span></a></li>
+                        <li><a href="">维权订单<span class="num fr">10</span></a></li>
+                        <li><a href="">商家入驻待审核<span class="num fr">10</span></a></li>
+                        <li><a href="">活动待审核<span class="num fr">10</span></a></li>
+                        <li><a href="">骑手待认证<span class="num fr">10</span></a></li>
+                        <li><a href="">地推待审核<span class="num fr">10</span></a></li>
+                        <li><a href="">商家提现待审核<span class="num fr">10</span></a></li>
+                        <li><a href="">骑手提现待审核<span class="num fr">10</span></a></li>
+                        <li><a href="">地推提现待审核<span class="num fr">10</span></a></li>
+                        <li><a href="">商家提现待转账<span class="num fr">10</span></a></li>
+                        <li><a href="">骑手提现待转账<span class="num fr">10</span></a></li>
+                        <li><a href="">地推待转账<span class="num fr">10</span></a></li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="idx_box idx_price mgb10">
+                <div class="idx_cont">
+                    <ul>
+                        <li>
+                            <a href="javascript:;">
+                                <p>当前平台资金(￥)</p>
+                                <div class="num"><{$money.all_money|default:0.00}></div>
+                                <div class="black9">
+                                    <p>会员余额(￥)：<{$money.member_money|default:0.00}></p>
+                                    <p>可提现余额(￥)：<{$money.can_tixian|default:0.00}></p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <p>可提现(￥)</p>
+                                <div class="num"><{$money.sum_money|default:0.00}></div>
+                                <div class="black9">
+                                    <p>商家(￥)：<{$money.shop_money|default:0.00}></p>
+                                    <p>骑手(￥)：<{$money.staff_money|default:0.00}></p>
+                                    <{if $have_ditui}><p>地推(￥)：<{$money.ditui_money|default:0.00}></p><{/if}>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <p>未入账(￥)</p>
+                                <div class="num"><{$money.sum_bills|default:0.00}></div>
+                                <div class="black9">
+                                    <p>商家(￥)：<{$money.bills_shop}></p>
+                                    <p>骑手(￥)：<{$money.bills_staff}></p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">
+                                <p>已提现(￥)</p>
+                                <div class="num"><{$money.sum_tixian}></div>
+                                <div class="black9">
+                                    <p>商家(￥)：<{$money.shop_tixian}></p>
+                                    <p>骑手(￥)：<{$money.staff_tixian}></p>
+                                    <{if $have_ditui}><p>地推(￥)：<{$money.ditui_tixian}></p><{/if}>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="idx_box mgb10" id="containter" style="height: 350px;">
+
+            </div>
+            <!-- <div class="idx_box idx_fenzhan mgb10">
+                <div class="idx_tit">今日分站数据</div>
+                <div class="idx_cont">
+                    <ul>
+                        <li>
+                            <a href="">
+                                <div class="city">合肥站</div>
+                                <p class="black9">营业额：￥2333.32</p>
+                                <p class="black9">订单数：233</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <div class="city">合肥站</div>
+                                <p class="black9">营业额：￥2333.32</p>
+                                <p class="black9">订单数：233</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="city">
+                                <div class="">合肥站</div>
+                                <p class="black9">营业额：￥2333.32</p>
+                                <p class="black9">订单数：233</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div> -->
+            <div class="idx_box idx_funct mgb10">
+                <div class="idx_tit">常用功能</div>
+                <div class="idx_cont">
+                    <ul>
+                        <li style="width: calc(16.6% - 10px)"><a href="?tongji/tongji-index"><img src="/admin/images/index/idxFunt01.png" class="ico">数据统计</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?tongji/money-index"><img src="/admin/images/index/ruzhang.png" class="ico">入账统计</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?subsidy/staff-items"><img src="/admin/images/index/butie.png" class="ico">补贴统计</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?finance/waimai-bills"><img src="/admin/images/index/idxFunt02.png" class="ico">订单对账</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?waimai/waimai-index"><img src="/admin/images/index/idxFunt03.png" class="ico">商家管理</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?waimai/order-index"><img src="/admin/images/index/idxFunt04.png" class="ico">外卖订单</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?group/staff-index"><img src="/admin/images/index/idxFunt05.png" class="ico">骑手管理</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?adv/themes-index"><img src="/admin/images/index/idxFunt06.png" class="ico">首页风格</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?member/member-index"><img src="/admin/images/index/idxFunt07.png" class="ico">会员管理</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?system/config-hongbao"><img src="/admin/images/index/idxFunt08.png" class="ico">红包设置</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?system/config-waimaihuodongconfig"><img src="/admin/images/index/idxFunt09.png" class="ico">外卖设置</a></li>
+                        <li style="width: calc(16.6% - 10px)"><a href="?group/group-items"><img src="/admin/images/index/idxFunt10.png" class="ico">配送站管理</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="idx_box idx_course mgb10">
+                <div class="idx_tit">使用教程</div>
+                <div class="idx_cont">
+                    <ul>
+                        <li><a href=""><img src="/admin/images/index/idxE01.png" class="ico">网站设置教程</a></li>
+                        <li><a href=""><img src="/admin/images/index/idxE02.png" class="ico">网站设置教程</a></li>
+                        <li><a href=""><img src="/admin/images/index/idxE03.png" class="ico">网站设置教程</a></li>
+                        <li><a href=""><img src="/admin/images/index/idxE04.png" class="ico">网站设置教程</a></li>
+                    </ul>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function(){
+        var mouth = '<{$mouth}>';
+        get_data(mouth,'d');
+
+    })
+
+    function  get_data(key,val){
+        var url = "?tongji/tongji-get_data.html";
+        var parmas = {"time":key};
+        parmas['type'] = val;
+        $.post(url,{data:parmas},function(e){
+            if(e.error==0) {
+                create_high_char(e.data);
+
+            }
+        },'json');
+
+    }
+
+    function create_high_char(data){
+        var json = [];
+        setTimeout(function(){
+            var chart = Highcharts.chart('containter', {
+                credits: {
+                    enabled: false //不显示LOGO
+                },
+                chart: {
+                    type: 'spline'
+                },
+                title: {
+                    text: '营业统计'
+                },
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: '金额/订单'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                xAxis:{
+                    categories:data.high_data_h.x
+                },
+                series: [
+                    {
+                        name:"订单量",
+                        data:data.high_data_h.orders,
+                        color:"#50B432"
+                    },
+                    {
+                        name:"营业额",
+                        data:data.high_data_h.amount,
+                        color:"#ff5500"
+                    }
+                ],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        },200)
+
+    }
+
+
+
+    /*setTimeout(function(){
+        var chart = Highcharts.chart('containter', {
+            credits: {
+                enabled: false //不显示LOGO
+            },
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: '营业统计'
+            },
+            subtitle: {
+                text: ''
+            },
+            yAxis: {
+                title: {
+                    text: '金额/订单'
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    }
+                }
+            },
+            xAxis:{
+                categories:data.high_data_h.x
+            },
+            series: json,
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+        });
+    },200)*/
+</script>
+
+
+<!--有最新安全漏洞补丁的时候后台提醒请不要删除该JS-->
+<script type="text/javascript" src="//www.jhcms.com/index.php?ctl=listen&act=wmnews&cat=waimai&version=<{$smarty.const.JH_VERSION}>.<{$smarty.const.JH_RELEASE}>"></script>
+<{include file="admin:common/footer.html"}>

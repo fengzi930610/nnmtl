@@ -1,0 +1,189 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+    .dispatch_table tr.tit td .fa-long-arrow-down{font-size: 20px; margin-left: 6px;}
+</style>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb fl">
+        <li><a href="<{link ctl='index:home'}> http='wmbiz'"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='user:user/index' http='wmbiz'}>">客户管理</a></li>
+        <li class="active">客户管理</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <!--头部筛选操作-开始-->
+        <form action="<{link ctl='user:user/index' http='wmbiz'}>" method="get">
+
+            <div class="dispatch_serch">
+                <div class="clearfix list_box">
+                    <div class="fl mr20" id="data_5">
+                        <span class="input-daterange" id="datepicker">注册时间：<input type="text" name="SO[stime]" value="<{$data.stime|default:''}>" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[ltime]" value="<{$data.ltime|default:''}>" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+                    <div class="fl mr20" id="data_5">
+                        <span class="input-daterange" id="datepicker">下单时间：<input type="text" name="SO[start]" value="<{$data.start|default:''}>" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[end]" value="<{$data.end|default:''}>" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+                </div>
+                <div class="clearfix list_box">
+                    <div class="fl mr20">姓名：<input type="text" name="SO[name]" value="<{$data.name|default:''}>" placeholder="" class="tuan_topser tuan_topserw2"></div>
+                    <div class="fl">手机号：<input type="text" placeholder="" name="SO[mobile]" value="<{$data.mobile|default:''}>" class="tuan_topser tuan_topserw2"></div><input type="submit" class="btn btn-primary btn-sm fl ml5" value="查 询">
+                </div>
+            </div>
+        </form>
+        <!--头部筛选操作-结束-->
+        <!--table-开始-->
+            <div class="dispatch_table_top">
+                <div class="fl mr30 all"><input type="checkbox" id="allChk" cka="PRI"><span class="ml10">全选</span></div>
+                <div class="fl">
+                   <!-- <a href="javascript:;" class="btn btn-primary btn-sm">添加</a>-->
+                   <!-- <a href="javascript:;" class="btn btn-default btn-sm tab_btn_del">批量删除</a>
+                    <a href="javascript:;" class="btn btn-primary btn-sm tab_btn_repertory">批量改库存</a>-->
+                    <a href="javascript:;" class="btn btn-danger btn-sm tab_btn_repertor">批量发优惠券</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr class="tit">
+                    <td>客户ID</td>
+                    <td>客户名</td>
+                    <td>手机号</td>
+                    <td>积分</td>
+                    <td>累计消费金额<a class="fa fa-long-arrow-down"></a></td>
+                    <td>订单数</td>
+                    <td>客单价</td>
+                    <td>最后一次下单时间</td>
+                    <td>注册时间</td>
+                    <td>操作</td>
+                </tr>
+                <{foreach $items as $k=>$v}>
+                <tr>
+                    <td><label><input type="checkbox" value="<{$v.uid}>"  class="product_id" name="uid[]" CK="PRI" /><{$v.uid}></label></td>
+                    <td><{$v.member.nickname|default:"匿名用户"}></td>
+                    <td><{if $v.member.mobile}><{substr_replace($v.member.mobile,"****",3,4)}><{else}>***********<{/if}></td>
+                    <td><{$v.member.jifen|default:"0"}></td>
+                    <td><{$v.used_money}></td>
+                    <td><{$v.orders}></td>
+                    <td><{sprintf("%.3f",$v.used_money/$v.orders)}></td>
+                    <td><{$v.last.last_order_time|format:"Y-m-d H:i:s"}></td>
+                    <td><{if $v.member.dateline}><{$v.member.dateline|format:"Y-m-d H:i:s"}><{else}>--------<{/if}></td>
+                    <td>
+                       <!-- <a href="javascript:;" class="btn btn-primary btn-outline btn-sm tab_btn_spec">查看订单</a>-->
+                        <a href="javascript:;" class="btn btn-default btn-outline btn-sm tab_btn_del tab_btn_repertor" rel="<{$v.member.uid}>">赠送优惠券</a>
+                    </td>
+                </tr>
+                <{/foreach}>
+
+            </table>
+        <div class="paging">
+            <{$pagers.pagebar}>
+        </div>
+        <!--table-结束-->
+    </div>
+</div>
+
+<style type="text/css">
+    .tabnr_change{ width: 820px; background: #fff; overflow: auto; padding: 10px;}
+    .form_table_btn_box { padding: 30px 0;}
+    .form_table .dispchSet_list .int_list span{ display: block; margin-bottom: 10px;}
+    .form_table .dispchSet_list .int_list span label{ width:120px;}
+</style>
+<div class="mask_cont spec_mask spec_mask1">
+    <div class="mask_cont_tit">赠送优惠券<a href="javascript:;" class="close fr">×</a></div>
+    <div class="tabnr_change show">
+        <form id="coupon-form" method="post">
+            <!-- <input type="hidden" value="" name="data[uid][]"/> -->
+            <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr class="uids"></tr>
+                <tr>
+                    <td width="120"><p class="form_table_t">优惠券：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+                            <div class="dispchSet_list mt10 ml10 mr10 mb10">
+                                <div class="int_list clearfix">
+                                    <span class="mr20"><label>订单满：</label><input type="text" name="data[order_amount]" class="text">&nbsp;元可用<small class="black9">（不包含运费）</small></span>
+                                    <span class="mr20"><label>优惠券面值：</label><input type="text" name="data[coupon_amount]" class="text">&nbsp;元</span>
+                                    <span class="mr20"><label>有效期：领券后</label>
+                                        <select name="data[day]" class="form_table_int form_table_intw_min" style="width:115px;">
+                                            <option value="1">1天</option>
+                                            <option value="2">2天</option>
+                                            <option value="3">3天</option>
+                                            <option value="4">4天</option>
+                                            <option value="5">5天</option>
+                                            <option value="6">6天</option>
+                                            <option value="7">7天</option>
+                                        </select>&nbsp;内有效
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form_table_btn_box text_c">
+                <input class="btn btn-primary btn-w-m save" type="button" value="保存"/>
+                <input class="btn btn-default btn-w-m cancel" type="reset" value="取消"/>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="mask_bg"></div>
+
+<script>
+    window.onload = function(){
+        var evlt_h = $('.spec_mask1').height();
+        var evlt_w = $('.spec_mask1').width();
+        $('.spec_mask1').css("margin-top",-(evlt_h/2 + 60) + 'px');
+        $('.spec_mask').css("margin-left",-evlt_w/2 + 'px');
+
+        $(".tab_btn_repertor").click(function(){
+            var html = '';
+            if($(this).attr('rel')){
+                var uid = $(this).attr('rel');
+                html = '<input type="hidden" value="'+uid+'" name="data[uid][]"/>';
+            }else{
+                $('input[type="checkbox"]:checked').each(function(){
+                    var uid = $(this).val();
+                    html += '<input type="hidden" value="'+uid+'" name="data[uid][]"/>'
+                });
+            }
+            if(html){
+                $('.form_table .uids').html(html);
+                $('.spec_mask').fadeIn(100);
+                $('.mask_bg').fadeIn(100);
+            }else{
+                layer.msg('请选择用户！');
+            }            
+        });
+
+        $('.save').click(function(){
+            var form = $('#coupon-form').serialize();
+            var link = '<{link ctl="huodong/coupon-sends"}>';
+            $.post(link,form,function(ret){
+                
+                if(ret.error == 0){
+                    layer.msg(ret.message,{time:2000});
+                    setTimeout(function(){
+                        $('.spec_mask').fadeOut(100);
+                        $('.mask_bg').fadeOut(100);
+                    },2000);
+                }else{
+                    layer.msg(ret.message,{icon:2,time:2000});
+                }
+            },'json');
+        });
+
+        $(".spec_mask .cancel,.spec_mask .close,.mask_bg").click(function(){
+            $('.spec_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+
+        $('#allChk').on('change',function(){
+         if($(this).is(':checked')){
+            $('.product_id').prop('checked',true);
+         }else{
+             $('.product_id').prop('checked',false);
+         }
+        })
+    }
+</script>
+
+<{include file="block/footer.html"}>

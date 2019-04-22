@@ -1,0 +1,305 @@
+<{include file="pchome/block/header.html"}>
+<style>body{background: #f5f5f5;}</style>
+<{include file="pchome/cloud/top.html"}>
+<!-- banner部分-->
+<div class="yungou_banner-inner pagewd">
+    <div class="ban_left-list fl">
+        <ul>
+            <{foreach $cloud_cates as $cate}>
+            <li class="cate-li <{if $cate@index == 13}>last-li<{/if}>"><a href="<{link ctl='cloud/items' args=$cate.cate_id}>"  class="cate-a"><{$cate.title}></a></li>
+            <{/foreach}>
+        </ul>		
+    </div>
+    <div class="ban_center fl">
+        <div class="top-flexslider">
+            <ul class="slides">
+                <{adv name="PC云购首页轮播广告位"}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="bottom-list">
+            <ul>
+                <{foreach $items['rest'] as $item}>
+                <{if $item@index < 2}>
+                <li class="fl list_item">
+                    <a href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="item_link">
+                        <div class="item_pic-box fl"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" width="102" height="146" class="item_pic"></div>	
+                        <div class="item-wenzi">
+                            <h3 class="mt15">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3>
+                            <p class="black6">价值：¥<{$item.price}></p>
+                            <div class="jiexiao">
+                                <h4 class="text_c jiexiao-tit">揭晓倒计时</h4>
+                                <div class="time_box mt5 text_c"><span class="daojishi" id="daojishi2" rel='7353648'></span></div>
+                            </div>		
+                        </div>
+                        <div class="jiexiao_rank"></div>
+                    </a>
+                </li>
+                <{/if}>
+                <{/foreach}>
+            </ul>
+        </div>
+        <div class="clear"></div>	
+    </div>
+    <div class="ban_right fl">
+        <{foreach $items['rest'] as $item}>
+        <{if $item@index == 2}>
+        <div class="ban_right-top">
+            <div class="jiexiao_rank-now"></div>
+            <a href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="top_link"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" class="top_pic"></a>
+            <div class="progress-box">
+                <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                <div class="num_box mt5">
+                    <div class="fl text_l">
+                        <p><{$item.price}></p>
+                        <p>总需</p>
+                    </div>
+                    <div class="fr text_r">
+                        <p class="yungou_maincl"><{$item.price - $item.join}></p>
+                        <p>剩余</p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <a href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="duobao_now-btn text_c">立即1元夺宝</a>
+        </div>
+        <{/if}>
+        <{/foreach}>           
+        <{foreach $items['rest'] as $item}>
+        <{if $item@index == 3}>            
+        <div class="ban_right-bot">
+            <a href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="bot_link">
+                <div class="bot_pic-box"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" class="bot_pic"></div>
+                <div class="bot_txt mt5">
+                    <h3 class="overflow_clear">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3>
+                    <p class="black6" title="<{$goods[$item['goods_id']]['intro']}>" style="height:24px; line-height: 24px; overflow: hidden;"><{$goods[$item['goods_id']]['intro']}></p>
+                </div>
+                <div class="tuijian_rank"></div>
+            </a>
+        </div>	
+        <{/if}>
+        <{/foreach}>
+    </div>
+    <div class="clear"></div>	
+</div>
+<!-- banner部分结束-->
+<!-- 最新揭晓 -->
+<div class="yungou_index-part1 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>即将揭晓</h1>	
+        <a href="<{link ctl='cloud/items'}>" class="fr tit_right">全部<span class="black9">&gt;&gt;</span></a>
+        <div class="clear"></div>
+    </div>	
+    <div class="part1_list">
+        <ul>
+            <{foreach $items['rest'] as $item}>
+            <{if $item@index < 5}>
+            <li class="li_item fl">
+                <a href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="li_item-a">
+                    <div class="part1-pic-box"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" class="part1-pic"></div>
+                    <div class="item_infor">
+                        <h3 class="mb5">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3>
+                        <p class="black6">价值：¥<{$item.price}></p>
+                    </div>
+                    <div class="jishi-box"><span class="mr10">揭晓倒计时</span><span class="daojishi" id="daojishi8" rel='7353654'></span></div>
+                    <div class="jiexiao-rank"></div>
+                </a>	
+            </li>
+            <{/if}>
+            <{/foreach}>						
+            <div class="clear"></div>					
+        </ul>	
+    </div>
+
+</div>
+<!-- 最新揭晓end -->
+<!-- 热门商品-->
+<div class="yungou_index-part2 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>热门商品</h1>	
+        <a href="<{link ctl='cloud/items'}>" class="fr tit_right"><span class="black9">查看更多&gt;&gt;</span></a>
+    </div>
+    <div class="part2_list">
+        <ul>
+            <{foreach $items['renqi'] as $item}>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="part2-pic-box"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" class="part2-pic"></a>				
+                    <div class="item_infor">
+                        <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>"><h3 class="overflow_clear biaoti">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3></a>
+                        <p class="black6">价值：¥<{$item.price}></p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:70%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p><{$item.price}></p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl"><{$item.price - $item.join}></p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <{/foreach}>					
+        </ul>
+    </div>
+    <div class="clear"></div>	
+</div>
+<!-- 热门商品end -->
+<!-- 即将揭晓 -->
+<div class="yungou_index-part3 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>新品上架</h1>	
+        <div class="fr tit_list">
+            <ul>
+                <{foreach $cloud_cates as $cate}>
+                <li class="fl"><a href="<{link ctl='cloud/items' args=$cate.attr_id}>" class="tit_li-a"><{$cate.title}></a></li>
+                <{/foreach}>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="part3_list">
+        <ul>
+            <{foreach $items['new'] as $item}>
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="part3-pic-box"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" class="part3-pic"></a>					
+                    <div class="item_infor">
+                        <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>"><h3 class="overflow_clear biaoti">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3></a>
+                        <p class="black6">价值：¥<{$item.price}></p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p><{$item.price}></p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl"><{$item.price - $item.join}></p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="duobao_now-btn text_c">立即1元云购</a>
+                </div>	
+            </li>
+            <{/foreach}>					
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- 即将揭晓end -->
+<!-- 精品推荐 -->
+<div class="yungou_index-part4 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>精品推荐</h1>	
+        <a href="#" class="fr tit_right"><span class="black9">查看更多&gt;&gt;</span></a>
+    </div>
+    <div class="clear"></div>
+    <div class="part4_list">
+        <ul>
+            <{foreach $items['new'] as $item}>   
+            <li class="li_item fl">
+                <div class="li_item-a">
+                    <a  target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="part4-pic-box"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>" class="part4-pic"></a>					
+                    <div class="item_infor">
+                        <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>"><h3 class="overflow_clear biaoti">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3></a>
+                        <p class="black6">价值：¥<{$item.price}></p>
+                    </div>
+                    <div class="progress-box mt5">
+                        <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                        <div class="num_box mt5">
+                            <div class="fl text_l">
+                                <p><{$item.price}></p>
+                                <p>总需</p>
+                            </div>
+                            <div class="fr text_r">
+                                <p class="yungou_maincl"><{$item.price - $item.join}></p>
+                                <p>剩余</p>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <a target="_blank" href="<{link ctl='cloud/detail' args=$item.attr_id}>" class="duobao_now-btn text_c">立即1元云购</a>				
+                </div>	
+            </li>
+            <{/foreach}>
+            <div class="clear"></div>								
+        </ul>
+    </div>		
+</div>
+<!-- 精品推荐end -->
+<!-- 晒单分享 -->
+<div class="yungou_index-part5 pagewd">
+    <div class="the-tit mb10">
+        <h1 class="fl"><span class="tit_line"></span>晒单分享</h1>	
+        <a href="#" class="fr tit_right"><span class="black9">查看更多&gt;&gt;</span></a>
+        <div class="clear"></div>
+    </div>	
+    <div   class="part5_list">
+        <ul>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+            <li class="li_item fl">
+                <a href="#" class="li_item-a">
+                    <div  class="part5-pic-box fl"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png" class="part5-pic"></div>				
+                    <div class="item_infor">
+                        <h3 class="black6">前几天手机刚被儿子给摔坏了，正想打算买一个，没想到今天就中了一个6s，我太幸运了 </h3>
+                        <p class="yungou_maincl mt5">“获得商品：iPhone6s”</p>
+                        <p class="text_r mt5">————<span class="ml5 mr5">财神来玩一元夺宝</span><span class="black9">2016-11-11  12:35</span></p>
+                    </div>
+                    <div class="clear"></div>
+                </a>	
+            </li>
+
+            <div class="clear"></div>			
+        </ul>
+        <div class="line-you"></div>
+        <div class="line-bottom"></div>
+    </div>
+</div>
+
+<!-- 晒单分享end -->
+<{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

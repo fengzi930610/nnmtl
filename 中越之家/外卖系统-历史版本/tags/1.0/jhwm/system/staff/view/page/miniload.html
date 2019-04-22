@@ -1,0 +1,21 @@
+<script type="text/javascript">
+window.KT = window.KT || parent.window.KT;
+window.jQuery = window.jQuery || parent.window.jQuery;
+window.Widget = window.Widget || parent.window.Widget;
+(function(K, $){
+    <{if $pager.error && $pager.error != 200}>
+    //$("#widget-dialog-load-content").dialog("destroy");
+    layer.closeAll('page');
+    Widget.MsgBox.error("<{$pager.message}>");
+    <{if $pager.error == 101}>
+    Widget.Login();
+    <{else}>
+    parent.window.__MINI_LOAD = false;
+    <{/if}>
+    <{else}>
+    Widget.MsgBox.success("<{$pager.message}>");
+    <{if $pager.link}>window.location = "<{$pager.link}>";<{else}>window.location.reload(true);<{/if}>
+    <{/if}>
+})(window.KT, window.jQuery);
+</script>
+<{if $pager.appendjs}><{$pager.appendjs}><{/if}>

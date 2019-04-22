@@ -1,0 +1,728 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='order/index:index'}>">订单管理</a></li>
+        <li class="active">历史订单</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+
+        <div class="dispatch_tab">
+            <ul>
+                <li class="on"><a href="<{link ctl='order/index:history'}>">订单详情</a></li>
+            </ul>
+        </div>
+
+        <!--订单列表-->
+        <div class="ord_list_box">
+            <!--催单-->
+            <{foreach $items as $v}>
+            <div class="ord_list">
+                <div class="top_box">
+                    <div class="num pull-left"><{if $v.first_shop_order > 0}><span class="style">首单用户</span><{/if}><{if $v.pei_type == 3}><span class="style">自提单</span><{/if}><{if $v.pei_time>0}><span class="style">预定单</span><{/if}>订单编号：<span class="fontcl1"><{$v.dateline|format:"Ymd"}>#<{$v.day_num}></span><small class="ml10 black6">（送达时间：<{$v.pei_time_label}>）</small></div>
+
+                    <div class="state pull-right">
+                        <span class="black9"><{$v.order_status_label}></span>
+                        <span class="pointcl"><{if $v.cui_time > 0 && !empty($v['cui_logs']) && $v['cui_logs']['reply_time'] == 0}>客户催单&nbsp;<{/if}><{if $v.refund_status != 0}>申请退单&nbsp;<{/if}></span>
+                    </div>
+                </div>
+                <div class="mid_box">
+                    <{if !empty($v.refund_info)}><div class="reason">退单理由：<{$v['refund_info']['reflect']}></div><{/if}>
+                    <h3><{$v.contact}><small><span class="ml10 black9">第<{$v.count_order}>次下单</span><span class="ml10 black9"></span><{if $v.count_order>1}><a href="javascript:;" rel="<{$v.uid}>" data-id="<{$v.order_id}>" class="fr maincl seeOrd">查看用户历史订单&gt;</a><{/if}></small></h3>
+                    <p><span class="black3">订单ID：</span><{$v.order_id}></p>
+                    <p><span class="black3">联系方式：</span><{$v.mobile}></p>
+                    <p><span class="black3">地址：</span><{$v.addr}> <{if $v.house != ''}>(<{$v.house}>)<{else}>自提<{/if}></p>
+                    <p><span class="black3">下单时间：</span><span class="fontcl2"><{$v.dateline|format:'Y-m-d H:i'}>下单</span><span class="ml30 maincl"><span class="black3">支付方式：</span><{if $v.online_pay == 1}>在线支付<{elseif $v.online_pay == 0}>货到付款<{/if}></span></p>
+                    <div class="delt_box">
+                        <div class="bt_box on">
+                            <div class="bt"><b>订单信息</b> </div>
+                            <div class="remark"><span class="fontcl2">备注：</span><{$v.intro}></div>
+                        </div>
+                        <div class="open_box ">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <!-- <{foreach $v['products'] as $product}>
+                                <tr>
+                                    <td><{$product.product_name}><{$product.shuxin}></td>
+                                    <td>¥<{$product.product_price}></td>
+                                    <td>x<{$product.product_number}></td>
+                                    <td class="text_r">¥<{$product.product_number * $product.product_price}></td>
+                                </tr>
+                                <{/foreach}> -->
+                                <{foreach $v['products'] as $product}>
+                                    <{if count($v['products']) > 1}>
+                                    <tr>
+                                        <td colspan="4" style="font-weight: bold"><span style="width: 10px; height: 10px; background: #<{$product.color}>; float: left; margin: 5px 5px 5px 0;"></span><{$product.basket_title}></td>
+                                    </tr>
+                                    <{/if}>
+                                    <{foreach $product.product as $p}>
+                                    <tr>
+                                        <td><{$p.product_name}></td>
+                                        <td>¥<{$p.product_price}></td>
+                                        <td>x<{$p.product_number}></td>
+                                        <td class="text_r">¥<{$p.product_number * $p.product_price}></td>
+                                    </tr>
+                                    <{/foreach}>
+                                <{/foreach}>
+                            </table>
+                            <div class="border_b border_t">
+                                <div class="cost_box black6">餐盒费 <span class="pull-right">¥<{$v.package_price}></span></div>
+                                <div class="cost_box black6">用户支付配送费 <span class="pull-right">¥<{$v.freight}></span></div>
+                                <!--平台服务费
+                                活动费
+                                骑手-->
+                                <{if $v['staff_id']&&$v['pei_type']==1}>
+                                <div class="cost_box black6">骑手配送费 <span class="pull-right">-¥<{$v.pei_amount}></span></div>
+                                <{/if}>
+                                <div class="cost_box black6">平台服务费<span class="pull-right">-¥<{$v.fee.fee}></span></div>
+                                <div class="cost_box black6">商家活动款<span class="pull-right">-¥<{$v.waimai_order.shop_amount+$v.waimai_order.first_shop+$v.coupon}></span></div>
+                                <div class="cost_box black6">平台补贴<span class="pull-right">+¥<{$v.waimai_order.roof_amount+$v.waimai_order.first_roof+$v.hongbao+$v.peicard_youhui}></span></div>
+                            </div>
+                            <div class="cost_box"><b>小计：</b> <span class="pull-right fontcl1">¥<{$v.total_price}></span></div>
+                            <{if $v.first_youhui > 0}>
+                            <div class="cost_box black6">首单优惠： <span class="pull-right">-¥<{$v.first_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.order_youhui > 0}>
+                            <div class="cost_box black6">满减优惠： <span class="pull-right">-¥<{$v.order_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.hongbao > 0}>
+                            <div class="cost_box black6">红包抵扣： <span class="pull-right">-¥<{$v.hongbao}></span></div>
+                            <{/if}>
+                            <{if $v.money > 0}>
+                            <div class="cost_box black6">余额抵扣： <span class="pull-right">-¥<{$v.money}></span></div>
+                            <{/if}>
+                            <{if $v.coupon > 0}>
+                            <div class="cost_box black6">优惠劵： <span class="pull-right">-¥<{$v.coupon}></span></div>
+                            <{/if}>
+                            <{if $v.discount_youhui > 0}>
+                            <div class="cost_box black6">折扣优惠： <span class="pull-right">-¥<{$v.discount_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.huangou_youhui > 0}>
+                            <div class="cost_box black6">换购优惠： <span class="pull-right">-¥<{$v.huangou_youhui}></span></div>
+                            <{/if}>
+                            <{if $v.peicard_youhui > 0}>
+                            <div class="cost_box black6">配送会员卡： <span class="pull-right">-¥<{$v.peicard_youhui}></span></div>
+                            <{/if}>
+                            <div class="cost_box maincl"><b>预计收入：</b> <b class="pull-right">¥<{$v.fee.shop_amount-$v.fee.fee}></b></div>
+                        </div>
+                        <div style="height: 1px;border: 0.5px solid #d6c9c3"></div>
+                        <div class="bt_box on">
+                            <div class="bt"><b>订单日志</b> </div>
+                            <div class="cost_box black6">日志 <span class="pull-right">时间</span></div>
+                            <{foreach $log_items as $kk1=>$vv1}>
+                            <div class="cost_box black6"><{$vv1.log}>： <span class="pull-right"><{$vv1.dateline|format:"Y-m-d H:i:s"}></span></div>
+                            <{/foreach}>
+                        </div>
+                        <div style="height: 1px;border: 0.5px solid #d6c9c3"></div>
+                        <{if $v.order_status==8&&$v.comment_status==1}>
+                        <div class="row">
+                            <div class="bt" style="margin-left: 20px;"><b>订单评论</b> </div>
+                            <div class="col-sm-2 left">
+                                <h4><{substr_replace($v['users']['mobile'], '****', 3, 4)}>(<{$v['users']['nickname']}>)</h4>
+                                <P>商家 <span class="starBg"><span class="star" style="width:<{$v.score}>%;"></span></span></P>
+                                <P>配送 <span class="starBg"><span class="star" style="width:<{$v.score_peisong}>%;"></span></span></P>
+                                <p>综合评价：<{$v.score_avg}>星</p>
+                            </div>
+                            <P class="nr"><{if $v.content != ''}><{$v.content}><{else}>该用户没有填写评价内容<{/if}></P>
+                           <{if $v.reply_time == 0}>
+                            <a href="javascript:;" class="reply_btn"><i class="ico mr5"></i>回复</a>
+                            <div class="replay_form">
+                                <textarea placeholder="限300字符，请勿恶意回复，一经查实将严肃处理，回复后不可修改" style="height: 150px;width: 50%;" id="my_huifu"></textarea>
+                                <a href="javascript:;" class="btn btn-primary btn-sm reply" rel="<{$v.comment_id}>" style="position: relative;top:-10px;">回复</a>
+                            </div>
+                         <{elseif $v.reply_time > 0}>
+                            <div class="replay_box">
+                                <div><span class="black9">商家回复：</span><{$v.reply}></div>
+                                <small class="black9"><{$v.reply_time|format:'Y-m-d H:i'}></small>
+                            </div>
+                           <{/if}>
+                        </div>
+                        <{if $comment_photo}>
+                        <div class="row mt10">
+                            <div class="col-sm-2 left"></div>
+                            <div class="col-sm-10 right">
+                                <{foreach $comment_photo as $pic}>
+                                <img src="<{$pager.img}>/<{$pic.photo}>" class="kannimabi" rel="<{$pager.img}>/<{$pic.photo}>" width="100" height="100"/>
+                                <{/foreach}>
+                            </div>
+                        </div>
+                        <{/if}>
+                        <{/if}>
+
+                    </div>
+
+                </div>
+
+                <div class="bottom_box">
+
+                    <a href="javascript:;" class="btn btn-sm btn-primary" data-id="<{$v.order_id}>" data-url="<{link ctl='order/index:yunprint' arg0='#order_id#' arg1='#num#' arg2='#plat_id#'}>" onclick="go_print(this);">打印订单</a>
+
+                    <{if $v.cui_time > 0 && !empty($v['cui_logs']) && $v['cui_logs']['reply_time'] == 0&&($v.refund_status==0)}>
+                    <a href="javascript:;" class="btn btn-sm btn-primary tab_btn_reminder" rel="<{$v.order_id}>">催单回复</a>
+                    <{elseif $v['cui_logs']['reply_time'] > 0}>
+                    <a href="javascript:;" class="btn btn-sm btn-default view_reminder" rel="<{$v['cui_logs']['reply']}>">已回复催单</a>
+                    <{/if}>
+
+                    <!--  未结单   -->
+                    <{if $v.pei_time=='0'&&$v.order_status=='0'&&(($v.online_pay=='1'&&$v.pay_status=='1')||($v.online_pay=='0'))}>
+                    <a  mini-act="" href="<{link ctl='order/index:jiedan' arg1=$v.order_id arg2=2}>" class="btn btn-sm btn-primary">接单</a>
+                    <a  href="javascript:;" class="btn btn-sm btn-default btn-outline tab_btn_del" rel="<{$v.order_id}>">取消订单</a>
+                    <{elseif $v.pei_time>0&&$v.order_status=='0'&&(($v.online_pay=='1'&&$v.pay_status=='1')||($v.online_pay=='0'))}>
+                    <a href="javascript:;" rel="<{$v.order_id}>" class="btn btn-sm btn-primary jiedanconfirm" date-time="<{$v.pei_time|format:'Y-m-d H:i'}>">接单</a>
+
+                    <a  href="javascript:;" class="btn btn-sm btn-default btn-outline tab_btn_del" rel="<{$v.order_id}>">取消订单</a>
+                    <{/if}>
+
+                    <{if $v.pei_type==1&&!$v.staff_id&&$v.order_status!='-2'&&$v.order_status!='-1'&&$v.order_status!='8'&&$v.order_status==2}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">等待骑手接单</a>
+                    <{/if}>
+
+
+                    <!--  自己送 未配送-->
+                    <{if $v.order_status==2&&$v.pei_type==0&&($v.refund_status==0)}>
+                    <!-- <a href="javascript:;" class="btn btn-sm btn-default">等待商家配送</a>-->
+                    <a mini-act="" href="<{link ctl='order/index:setpei' arg0=$v.order_id arg1=0}>" class="btn btn-sm btn-primary">立刻配送</a>
+                    <{/if}>
+                    <!--  自己送配送中  -->
+                    <{if  $v.order_status==3&&$v.pei_type==0&&($v.refund_status==0)}>
+                    <!-- <a href="javascript:;" class="btn btn-sm btn-default">等待商家配送</a>-->
+                    <a mini-act="confirm:您确定要确认送达吗" href="<{link ctl='order/index:delivery_confirm' arg0=$v.order_id http='wmbiz'}>" class="btn btn-sm btn-primary">确认送达</a>
+                    <{/if}>
+
+                    <!-- 自己已经送达 -->
+                    <{if $v.order_status==4&&$v.pei_type==0}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">商家已送达</a>
+                    <{/if}>
+
+
+                    <!-- 第三方配送   骑手未结单-->
+                    <{if $v.order_status==1&&$v.pei_type==1}>
+                    <a mini-act="" href="<{link ctl='order/index:set_mpei' arg0=$v.order_id http='wmbiz'}>" class="btn btn-sm btn-primary">申请配送</a>
+                    <{/if}>
+                    <!-- 第三方配送   骑手已接单结单-->
+                    <{if $v.order_status==3&&$v.pei_type==1}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">骑手配送中</a>
+                    <{/if}>
+                    <!-- 第三方配送   骑手配送完成-->
+                    <{if $v.order_status==4&&$v.pei_type==1}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">骑手完成配送</a>
+                    <{/if}>
+
+                    <!--     自提单  没有制作完成 -->
+                    <{if $v.order_status==1&&$v.pei_type==3&&$v.refund_status==0}>
+                    <{if $v.spend_status==0}>
+                    <button type="button" class="btn btn-primary btn-sm btn-outline goto_spend" data-dismiss="modal"  order="<{$v.order_id}>">去核销</button>
+                    <!-- <a href="javascript:spendModal(<{$item.order_id}>);"  class="btn btn-primary btn-sm btn-outline" title="去核销">去核销</a> -->
+                    <{else}>
+                    <a href="javascript:;" class="btn btn-success btn-sm btn-outline" title="已核销">已核销</a>
+                    <{/if}>
+                    <{/if}>
+                    <{if $v.order_status==2&&$v.pei_type==3&&$v.refund_status==0}>
+                    <{if $v.spend_status==0}>
+                    <button type="button" class="btn btn-primary btn-sm btn-outline goto_spend" data-dismiss="modal"  order="<{$v.order_id}>">去核销</button>
+                    <!-- <a href="javascript:spendModal(<{$item.order_id}>);"  class="btn btn-primary btn-sm btn-outline" title="去核销">去核销</a> -->
+                    <{else}>
+                    <a href="javascript:;" class="btn btn-success btn-sm btn-outline" title="已核销">已核销</a>
+                    <{/if}>
+                    <{/if}>
+
+                    <!--自提单 制作完成   -->
+                    <{if $v.order_status==2&&$v.pei_type==3}>
+
+                    <a href="javascript:;" class="btn btn-sm btn-default">待自提</a>
+                    <{/if}>
+                    <!--   已完成订单-->
+                    <{if $v.order_status==8&&$v.refund_status==0}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">订单已完成</a>
+                    <{/if}>
+                    <{if $v.order_status==-1}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">订单已取消</a>
+                    <{/if}>
+                    <{if $v.order_status!=0&&$v.order_status!=-1&&$v.order_status!=8&&$v.order_status!=-2&&$v.refund_status!=2&&$v.refund_status!=1}>
+                    <a mini-act="confirm:您确定要取消订单吗吗" href="<{link ctl='order/index:canel' arg0=$v.order_id http='wmbiz'}>" class="btn btn-sm btn-primary">取消订单并退款</a>
+                    <{/if}>
+                    <{if $v.refund_status != 0}>
+                    <{if $v.refund_status == 1}>
+                    <a href="<{link ctl='order/index:refund_agree' args=$v.order_id}>" class="btn btn-sm btn-primary">同意</a>
+                    <a href="javascript:;" class="btn btn-sm btn-default btn-outline tab_btn_refuse" rel="<{$v.order_id}>">拒绝</a>
+                    <{elseif $v.refund_status == 2}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">商家已接受退款</a>
+                    <{elseif $v.refund_status == -1}>
+                    <a href="javascript:;" rel="<{$v.refund_info.reply}>"  class="btn btn-sm btn-default view_reminder2">商家已拒绝退款</a>
+                    <{elseif $v.refund_status == 3&&$v.order_status!=-2&&$v.order_status!=8}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">平台处理纠纷</a>
+                    <{elseif $v.refund_status==3&&$v.order_status==8}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">平台拒绝退款</a>
+                    <{elseif $v.refund_status==3&&$v.order_status==-2}>
+                    <a href="javascript:;" class="btn btn-sm btn-default">平台同意退款</a>
+                    <{/if}>
+                    <{/if}>
+
+                </div>
+            </div>
+            <{foreachelse}>
+            <div class="smallpage">
+                <div class="noDingdan-cont">
+                    <img src="%THEME%/static/images/order-no.png" class="mb20">
+                    <p class="black6">暂无指定订单</p>
+                    <p class="black9">暂时没有该筛选条件的订单，稍后再来看看吧！</p>
+                </div>
+            </div>
+            <{/foreach}>
+        </div>
+        <!--订单列表end-->
+        <!--页码-->
+        <div class="paging">
+            <{$pager.pagebar}>
+        </div>
+        <div id="preview" class="none"><img class="jq_preview" src="" width="800" height="800"/></div>
+        <!--页码end-->
+        <script>
+            $(document).ready(function() {
+                $(".ord_list .delt_box .bt .open").click(function(){
+                    $(this).parents(".delt_box").find(".open_box").slideToggle(300);
+                    if($(this).parents(".bt_box").hasClass("on")){
+                        $(this).parents(".bt_box").removeClass("on");
+                        $(this).html("收起<i class='ml5 fa fa-angle-up'></i>");
+                    }else{
+                        $(this).parents(".bt_box").addClass("on");
+                        $(this).html("展开<i class='ml5 fa fa-angle-down'></i>");
+                    }
+                });
+
+                $('.view_reminder').mouseover(function () {
+                    var r = $(this).attr('rel');
+                    layer.tips(r, $(this), {
+                        tips: [4, '#00bd9e']
+                    });
+                })
+                $('.view_reminder2').mouseover(function () {
+                    var r = $(this).attr('rel');
+                    layer.tips(r, $(this), {
+                        tips: [1, '#00bd9e']
+                    });
+                })
+            });
+        </script>
+
+        <!--催单回复-->
+        <div class="mask_cont spec_mask reminder_mask refuse_mask">
+            <div class="mask_cont_tit">催单回复 <a href="javascript:;" class="close fr">×</a></div>
+            <div class="cont">
+                <textarea placeholder="请输入回复内容" id="form-control"></textarea>
+                <div class="text_c mt20">
+                    <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+                    <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="cui">保存</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var evlt_h = $('.reminder_mask').height();
+                var evlt_w = $('.reminder_mask').width();
+                $('.reminder_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+                $('.reminder_mask').css("margin-left",-evlt_w/2 + 'px');
+
+                $(".tab_btn_reminder").click(function(){
+                    $('.reminder_mask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                    $('#cui').attr('rel', $(this).attr('rel'));
+                });
+
+                $(".reminder_mask .cancel,.reminder_mask .close,.mask_bg").click(function(){
+                    $('.reminder_mask').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                });
+
+            });
+        </script>
+        <!--催单回复end-->
+
+        <!--删除提示-->
+        <div class="mask_cont prompt_mask">
+            <div class="mask_cont_tit text_c">提示</div>
+            <div class="cont">
+                <div class="ts border_b">取消后将不可返回，确认取消？</div>
+                <div class="text_c mt20">
+                    <a href="javascript:;" class="btn btn-w-m btn-default cancel">考虑一下</a>
+                    <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="cancel">确认取消</a>
+                </div>
+            </div>
+        </div>
+        <div class="mask_bg"></div>
+
+
+
+        <!--接单提示提示-->
+        <div class="mask_cont prompt_mask1">
+            <div class="mask_cont_tit text_c">提示</div>
+            <div class="cont">
+                <div class="ts border_b" id="tishikuang"></div>
+                <div class="text_c mt20">
+                    <a href="javascript:;" class="btn btn-w-m btn-default cancel" id="mdzz_jiedan1">立刻制作</a>
+                    <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="mdzz_jiedan2">接单</a>
+                </div>
+            </div>
+        </div>
+        <div class="mask_bg1"></div>
+
+
+
+        <script>
+            $(document).ready(function() {
+                var evlt_h = $('.prompt_mask').height();
+                var evlt_w = $('.prompt_mask').width();
+                $('.prompt_mask').css("margin-top",-evlt_h/2 + 'px');
+                $('.prompt_mask').css("margin-left",-evlt_w/2 + 'px');
+
+                $(".tab_btn_del").click(function(){
+                    $('.prompt_mask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                    $('#cancel').attr('rel', $(this).attr('rel'));
+                });
+
+                $(".prompt_mask .cancel,.mask_bg").click(function(){
+                    $('.prompt_mask').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                });
+            });
+        </script>
+        <!--删除提示end-->
+
+        <!--拒绝-->
+        <div class="mask_cont spec_mask refuse_mask">
+            <div class="mask_cont_tit">拒绝退单 <a href="javascript:;" class="close fr">×</a></div>
+            <div class="cont">
+                <textarea placeholder="请输入拒绝原因" id="niweismwangjijiale"></textarea>
+                <div class="text_c mt20">
+                    <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+                    <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="refused">确定</a>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                var evlt_h = $('.refuse_mask').height();
+                var evlt_w = $('.refuse_mask').width();
+                $('.refuse_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+                $('.refuse_mask').css("margin-left",-evlt_w/2 + 'px');
+
+                $(".tab_btn_refuse").click(function(){
+                    $('.refuse_mask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                    $('#refused').attr('rel', $(this).attr('rel'));
+                });
+
+                $(".refuse_mask .cancel,.refuse_mask .close,.mask_bg").click(function(){
+                    $('.refuse_mask').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                });
+
+            });
+        </script>
+        <!--拒绝end-->
+
+        <script>
+            $(document).ready(function () {
+                $("#cui").click(function () {
+                    var reply = $("#form-control").val();
+                    var order_id = $("#cui").attr('rel');
+                    $.post("<{link ctl='order/index:cui_reply'}>", { reply: reply, order_id: order_id}, function (ret) {
+                        if (ret.error == 0) {
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='order/index:history'}>";
+                            }, 2000);
+                        }
+                        layer.msg(ret.message);
+                    },'json');
+                })
+
+                $("#cancel").click(function () {
+                    var order_id = $("#cancel").attr('rel');
+
+                    $.post("<{link ctl='order/index:cancel'}>", {order_id: order_id}, function (ret) {
+                        if (ret.error == 0) {
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='order/index:history'}>";
+                            }, 2000);
+                        }
+                        layer.msg(ret.message);
+                    },'json');
+                })
+
+                $("#refused").click(function () {
+                    var order_id = $("#refused").attr('rel');
+                    var reason = $('#niweismwangjijiale').val();
+                    $.post("<{link ctl='order/index:refused'}>", {order_id: order_id,reply:reason}, function (ret) {
+                        if (ret.error == 0) {
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='order/index:history'}>";
+                            }, 2000);
+                        }
+                        layer.msg(ret.message);
+                    },'json');
+                })
+
+                var evlt_h1 = $('.prompt_mask1').height();
+                var evlt_w1 = $('.prompt_mask').width();
+                $('.prompt_mask1').css("margin-top",-evlt_h1/2 + 'px');
+                $('.prompt_mask1').css("margin-left",-evlt_w1/2 + 'px');
+
+                $(".jiedanconfirm").click(function(){
+                    var pei_time = $(this).attr('date-time')
+                    var notice = "该订单是预订单,预定送达时间"+pei_time;
+                    var order_id = $(this).attr('rel');
+                    var type = 1;
+                    $('#tishikuang').text(notice);
+                    $('.prompt_mask1').fadeIn(100);
+                    $('.mask_bg1').fadeIn(100);
+                    $('#mdzz_jiedan1').on('click',function(){
+                        type = 2;
+                        var url = '<{link ctl="order/index:jiedan" arg0="#order_id#" arg1="#type#"}>'.replace('#order_id#',order_id).replace('#type#',type);
+                        $.post(url,{},function(e){
+                            if(e.error==0){
+                                $('.prompt_mask1').fadeOut(100);
+                                $('.mask_bg1').fadeOut(100);
+                                layer.msg('接单成功');
+                                setTimeout(function(){
+                                    window.location.reload();
+                                },2000);
+
+                            }else{
+                                layer.msg(e.message);
+
+                            }
+                        },'json');
+
+
+                    })
+                    $('#mdzz_jiedan2').on('click',function(){
+                        type = 1;
+                        var url = '<{link ctl="order/index:jiedan" arg0="#order_id#" arg1="#type#"}>'.replace('#order_id#',order_id).replace('#type#',type);
+                        $.post(url,{},function(e){
+                            if(e.error==0){
+                                $('.prompt_mask1').fadeOut(100);
+                                $('.mask_bg1').fadeOut(100);
+                                layer.msg('接单成功');
+                                setTimeout(function(){
+                                    window.location.reload();
+                                },2000);
+
+                            }else{
+                                layer.msg(e.message);
+
+                            }
+                        },'json');
+
+                    });
+                });
+
+                $(".prompt_mask1 .cancel,.mask_bg").click(function(){
+                    $('.prompt_mask1').fadeOut(100);
+                    $('.mask_bg1').fadeOut(100);
+                });
+            })
+        </script>
+    </div>
+</div>
+
+<div class="mask_cont seeOrd_mask">
+    <div class="mask_cont_tit" id="guke"><a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody class="append_html">
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mask_bg" style="display: none;"></div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.seeOrd_mask').height();
+        var evlt_w = $('.seeOrd_mask').width();
+        $('.seeOrd_mask').css("margin-top",-(evlt_h/2 + 300) + 'px');
+        $('.seeOrd_mask').css("margin-left",-evlt_w/2 + 'px');
+
+        $(".seeOrd").click(function(){
+            var uid = $(this).attr('rel');
+            var order_id = $(this).attr('data-id');
+            var url = "<{link ctl='order/index:get_uid_order' arg1='#uid#' arg2='#order_id#'}>".replace('#uid#',uid).replace('#order_id#',order_id);
+            $('.append_html').html(' <tr class="tit "> <td>单号</td> <td>明细</td> <td>金额</td> <td>支付方式：</td> <td>时间</td> </tr>');
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    var html = '';
+                    var pay_type = '';
+                    $.each(e.data.order,function(k,v){
+                        if (v.online_pay == 1) {
+                            pay_type = '在线支付';
+                        }else if (v.online_pay == 0) {
+                            pay_type = '货到付款'
+                        };
+                        html+='<tr> <td>'+v.order_id+'</td><td>';
+                        $.each(v.products,function(kk,vv){
+                            html+='<p>'+vv.product_name+'<span class="ml5 mr5">'+vv.product_number+'</span>份</p>'
+                        });
+                        html+='</td>'+'<td>'+v.total_price+'</td>'+'<td>'+pay_type+'</td>'+'<td>'+v.format_time+'</td></tr>';
+                    });
+                    $('.append_html').append(html);
+                    $('.seeOrd_mask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                    $('#guke').text('顾客:'+e.data.member.nickname+'  最近十条订单记录');
+
+                }else{
+                    Widget.MsgBox.error('未找到数据');
+                }
+            },'json');
+
+        });
+
+        $(".seeOrd_mask .cancel,.seeOrd_mask .close,.mask_bg").click(function(){
+            $('.seeOrd_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+
+    });
+    layer.config({
+        extend: 'extend/layer.ext.js'
+    });
+    $(document).on('click', '.goto_spend', function() {
+        var s_order_id = $(this).attr('order');
+        layer.prompt({title: '请输入自提码，并确认', formType: 2}, function(spend_number, index){
+            layer.close(index);
+            var url = "<{link ctl='order/index:setspend'}>";
+            $.post(url,{"order_id":s_order_id,"spend_number":spend_number},function(ret){
+                layer.msg(ret.message);
+                if(ret.error == 0){
+                    window.location.reload();
+                }
+            },'json')
+        });
+
+    })
+
+</script>
+<!--评价详情弹层-开始-->
+<style type="text/css">
+    .evltMask{display: none; width: 600px;}
+</style>
+<div class="mask_cont evltMask" >
+    <div class="mask_cont_tit">订单评价 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <div class="elvt_list">
+            <div class="">
+                <div class="fl">
+                    <h4 id="score_nickname"></h4>
+                </div>
+                <div class="fr right">
+                    <p class="black9" id="score_time">2017-08-29 21:34</p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="left black6">
+                <div class="fl mr20">商家 <span class="starBg"><span class="star" id="score" style="width:60%;"></span></span></div>
+                <div class="fl mr20">配送 <span class="starBg"><span class="star" id="score_peisong" style="width:60%;"></span></span></div>
+                <div class="fl" id="score_avg"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="right mt20">
+                <p class="nr" id="content"></p>
+                <div class="replay_form" style="display: block;">
+                    <div id="reply">回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容 回复评价内容</div>
+                </div>
+                <div class="mt10" id="photo_list">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.evltMask').height();
+        var evlt_w = $('.evltMask').width();
+        $('.evltMask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+        $('.evltMask').css("margin-left",-evlt_w/2  + 'px');
+        $(".evltMask .close,.mask_bg").click(function(){
+            $('.evltMask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+        $('.see_comment').on('click',function(){
+            var order_id  = $(this).attr('rel');
+            var url = "<{link ctl='order/index:get_common_detail' http='wmbiz' arg0='__ORDER_ID__'}>";
+            var link = url.replace('__ORDER_ID__',order_id);
+            $.post(link,{},function(e){
+                if(e.error==0){
+
+                    $('#score_nickname').text(e.data.member.nickname);
+                    $('#score_time').text(e.data.time);
+                    $('#score').css('width',e.data.score+"%");
+                    $('#score_peisong').css('width',e.data.score_peisong+"%");
+                    $('#score_avg').text('综合评价:'+e.data.score_avg+'星');
+                    if(e.data.content){
+                        $('#content').text('用户评价内容:'+e.data.content);
+                    }else{
+                        $('#content').text('该用户没有填写评价内容');
+                    }
+                    if(e.data.reply){
+                        $('#reply').text('商家回复:'+e.data.reply);
+                    }else{
+                        $('#reply').text('暂未回复');
+                    }
+                    var html = "";
+                    var pre = "<{$pager.img}>/";
+                    if(e.data.photo){
+                        $.each(e.data.photo,function(kk,vv){
+                            html+='<img src="'+pre+vv.photo+'"  width="100" height="100">';
+                        });
+                    }
+                    $('#photo_list').html(html);
+                    $('.evltMask').fadeIn(100);
+                    $('.mask_bg').fadeIn(100);
+                }else{
+                    layer.msg(e.message);
+                }
+
+            },'json');
+        })
+
+    });
+    $('.reply').on('click',function(){
+        var comment_id = $(this).attr('rel');
+        var reply = $('#my_huifu').val();
+        if(!reply){
+            layer.msg('请输入回复内容');
+            return false;
+        }
+        $.post("<{link ctl='comment/index:reply' http='wmbiz'}>", {comment_id:comment_id, reply:reply}, function (ret) {
+            if (ret.error == 0) {
+                setTimeout(function () {
+                   window.location.reload();
+                }, 2000);
+            }
+            layer.msg(ret.message);
+        },'json');
+
+    })
+    $(document).on("click",".kannimabi",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("rel") == ""||$(this).attr("rel")==0||$(this).attr("rel")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("rel"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '800px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+</script>
+<!--评价详情弹层-结束-->
+<{include file="block/footer.html"}>

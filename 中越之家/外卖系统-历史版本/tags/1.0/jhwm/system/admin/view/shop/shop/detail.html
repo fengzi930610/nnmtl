@@ -1,0 +1,53 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/shop:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>商家ID：</th><td><{$detail.shop_id}></td><th>城市：</th><td><{$detail.city_name}></td></tr>
+        <tr><th>分类：</th><td><{$detail.cate_title}></td><th>手机号：</th><td><{$detail.mobile}></td></tr>
+        <tr><th>密码：</th><td><{$detail.passwd}></td><th>电话：</th><td><{$detail.phone}></td></tr>
+        <tr><th>商家名称：</th><td><{$detail.title}></td><th>余额：</th><td><{$detail.money}></td></tr>
+        <tr><th>banner：</th><td><img src="<{$pager.img}>/<{$detail.banner}>" class="w-300" /></td><th>logo：</th><td><img src="<{$pager.img}>/<{$detail.logo}>" class="wh-100" /></td></tr>
+         <tr><th>百度地图：</th><td><label>经度:<{$detail.lng}>，纬度:<{$detail.lat}></td><th>地址：</th><td><{$detail.addr}></td></tr>
+        <!-- <tr><th>浏览数：</th><td><{$detail.views}></td><th>订单数：</th><td><{$detail.orders}></td></tr>
+        <tr><th>评论数：</th><td><{$detail.comments}></td><th>得分：</th><td><{$detail.score}></td></tr>
+        <tr><th>服务得分：</th><td><{$detail.score_fuwu}></td><th>口味得分：</th><td><{$detail.score_kouwei}></td></tr>
+        <tr><th>好评数：</th><td><{$detail.praise_num}></td><th>首单优惠：</th><td><{$detail.first_amount}></td></tr>
+        <tr><th>起送价：</th><td><{$detail.min_amount}></td><th>运费：</th><td><{$detail['pei_amount']}></td></tr>
+        <tr><th>配送距离：</th><td><{$detail.pei_distance}>km</td><th>配送类型：</th><td><{if $detail.pei_type==0}>商家自主配送<{else if $detail.pei_type==1}>第三方配送<{else}>第三方代购<{/if}></td></tr>
+        <tr><th>营业状态：</th><td><{$detail.yy_status}></td><th>营业开始时间：</th><td><{$detail.yy_stime}></td></tr>
+        <tr><th>打烊时间：</th><td><{$detail.yy_ltime}></td><th>中间休息时间：</th><td><{$detail.yy_xiuxi}></td></tr>
+        <tr><th>是否支持在线支付：</th><td><{if $detail['online_pay'] ==1}><span class="green">支持</span><{else}><span class="red">不支持</span><{/if}></td><th>简介：</th><td><{$detail.info}></td></tr> -->
+        <tr><th>是否审核：</th><td><{if $detail['audit'] ==1}><span class="green">正常</span><{else}><span class="red">待审核</span><{/if}></td><th>是否删除：</th><td><{if $detail['closed'] ==0}><span class="green">正常</span><{else}><span class="red">已删除</span><{/if}></td></tr>
+        <tr><th>创建时间：</th><td><{$detail.dateline|format}></td><th>创建IP：</th><td><{$detail.clientip}></td></tr>
+    </table>
+    <{if $waimai}>
+    <tr class="red">外卖商铺</tr>
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>浏览数：</th><td><{$waimai.views}></td><th>订单数：</th><td><{$waimai.orders}></td></tr>
+        <tr><th>评论数：</th><td><{$waimai.comments}></td><th>得分：</th><td><{$waimai.score}></td></tr>
+        <tr><th>服务得分：</th><td><{$waimai.score_fuwu}></td><th>口味得分：</th><td><{$waimai.score_kouwei}></td></tr>
+        <tr><th>好评数：</th><td><{$waimai.praise_num}></td><th>首单优惠：</th><td><{$waimai.first_amount}></td></tr>
+        <tr><th>起送价：</th><td><{$waimai.min_amount}></td><th>运费：</th><td><{$waimai['pei_amount']}></td></tr>
+        <tr><th>配送距离：</th><td><{$waimai.pei_distance}>km</td><th>配送类型：</th><td><{if $waimai.pei_type==0}>商家自主配送<{else if $waimai.pei_type==1}>第三方配送<{else}>第三方代购<{/if}></td></tr>
+        <tr><th>营业状态：</th><td><{$waimai.yy_status}></td><th>营业开始时间：</th><td><{$waimai.yy_stime}></td></tr>
+        <tr><th>打烊时间：</th><td><{$waimai.yy_ltime}></td><th>中间休息时间：</th><td><{$waimai.yy_xiuxi}></td></tr>
+        <tr><th>是否支持在线支付：</th><td>
+            <{if $waimai.is_daofu==1 && $waimai.online_pay==0}><span class="yellow">仅支持货到付款</span><{/if}>
+            <{if $waimai.is_daofu==0 && $waimai.online_pay==1}><span class="yellow">仅支持在线支付</span><{/if}>
+            <{if $waimai.is_daofu==1 && $waimai.online_pay==1}><span class="green">全部支持</span><{/if}>
+        </td><th>简介：</th><td><{$waimai.info}></td></tr>
+        <tr><th>是否审核：</th><td><{if $waimai['audit'] ==1}><span class="green">正常</span><{else}><span class="red">待审核</span><{/if}></td><th>是否删除：</th><td><{if $waimai['closed'] ==0}><span class="green">正常</span><{else}><span class="red">已删除</span><{/if}></td></tr>
+        <tr><th>创建时间：</th><td><{$waimai.dateline|format}></td><th>创建IP：</th><td><{$waimai.clientip}></td></tr>
+    </table>
+    <{/if}>
+</div>
+<{include file="admin:common/footer.html"}>

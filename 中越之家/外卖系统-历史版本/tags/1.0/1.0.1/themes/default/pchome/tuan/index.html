@@ -1,0 +1,133 @@
+<{assign var="page_title" value="商家列表"}>
+<{assign var='tpl_title' value=L("商家列表")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top.html"}>
+<!--导航-->
+<div class="topNav">
+    <div class="line"><!--勿删--></div>
+    <div class="pagewd">
+        <div class="topNav_menu_all fl">
+            <div class="bt">所有店铺分类</div>
+            <div class="topNav_menu">
+                <{include file="pchome/block/cate_nav.html"}>
+            </div>
+        </div>
+        <div class="topNav_nav fl">
+            <ul id="cate_nav">
+                    <{adv name="PC首页功能"}>
+                </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--导航end-->    
+<div class="bg_grey pad_b30">
+    <div class="pagewd">
+        <div class="breadNav"><a href="<{link ctl='index/index'}>">首页</a> <span>></span> <a href="<{link ctl='tuan/index'}>">商家列表</a></div>
+        <!--商家分类筛选-->
+        <div class="shangjia_selct_box mb20">
+            <div class="list_box">
+                <div class="fl bt">分类：</div>
+                <div class="right">
+                    <div class="list">
+                        <a href="<{link ctl='tuan/index' arg0=0 arg1=0 arg2=$area_id arg3=$biz_id}>" <{if $cate_id == 0 && $cat_id ==0}>class="on"<{/if}> >全部</a>
+                        <{foreach $cates as $cate}>
+                        <a href="<{link ctl='tuan/index' arg0=$cate.cate_id arg1=0 arg2=$area_id arg3=$biz_id}>" <{if $cate.cate_id == $cate_id}>class="on"<{/if}> ><{$cate.title}></a>
+                        <{/foreach}>
+                        <div class="clear"></div>
+                    </div>
+                    <{foreach $cates as $cate}>
+                        <div class="list_child <{if $cate.cate_id != $cate_id}>none<{/if}>">
+                            <{foreach $cate.childrens as $cat}>
+                                <a href="<{link ctl='tuan/index' arg0=$cate.cate_id arg1=$cat.cate_id arg2=$area_id arg3=$biz_id}>" <{if $cat.cate_id == $cat_id}>class="on"<{/if}> ><{$cat.title}></a>
+                            <{/foreach}>
+                            <div class="clear"></div>
+                        </div>
+                    <{/foreach}>
+                </div>
+            </div>
+            <div class="list_box last">
+                <div class="fl bt">区域：</div>
+                <div class="right">
+                    <div class="list">
+                        <a href="<{link ctl='tuan/index' arg0=$cate_id arg1=$cat_id arg2=0 arg3=0}>" <{if $area_id == 0 && $biz_id ==0}>class="on"<{/if}> >全部</a>
+                        <{foreach $areas as $area}>
+                            <a href="<{link ctl='tuan/index' arg0=$cate_id arg1=$cat_id arg2=$area.area_id arg3=0}>" <{if $area.area_id == $area_id}>class="on"<{/if}> ><{$area.area_name}></a> 
+                        <{/foreach}>
+                        <div class="clear"></div>
+                    </div>
+                    
+                    <{foreach $areas as $area}>
+                        <div class="list_child <{if $area.area_id != $area_id}>none<{/if}>">
+                            <{foreach $bizs as $biz}>
+                                <{if $biz.area_id == $area_id}>
+                                    <a href="<{link ctl='tuan/index' arg0=$cate_id arg1=$cat_id arg2=$area_id arg3=$biz.business_id }>" <{if $biz.business_id == $biz_id}>class="on"<{/if}> ><{$biz.business_name}></a>
+                                <{/if}>
+                            <{/foreach}>
+                            <div class="clear"></div>
+                        </div>
+                    <{/foreach}>
+                </div>
+            </div>
+        </div>
+        <!--商家分类筛选end-->
+        <!--商家条件筛选-->
+        <div class="shangjiaTj_selct_box mb20">
+            <ul class="tiaojian_box fl">
+                <li><a href="<{link ctl='tuan/index' arg0=$cate_id arg1=$cat_id arg2=$area_id arg3=$biz_id order='default'}>" <{if $order == 'default'}>class="on"<{/if}> >默认排序</a></li>
+                <li><a href="<{link ctl='tuan/index' arg0=$cate_id arg1=$cat_id arg2=$area_id arg3=$biz_id order='praise'}>" <{if $order == 'praise'}>class="on"<{/if}> >评论最多<i class="ico down"></i></a></li>
+                <li><a href="<{link ctl='tuan/index' arg0=$cate_id arg1=$cat_id arg2=$area_id arg3=$biz_id order='price'}>" <{if $order == 'price'}>class="on"<{/if}> >人均最低<i class="ico up"></i></a></li>
+            </ul>
+            <div class="serch_box fl">
+                <form action="<{link ctl='tuan/index'}>" mothod="post">
+                    <span class="fl mr10">商家名称</span>
+                    <input type="text" name="shop_name" class="text fl" value="<{$shop_name}>" placeholder="">
+                    <input type="submit" value="确定" id="search_btn" class="btn fl">
+                </form>
+            </div>
+            <!--<div class="fr fenye_box fr black6"><span class="mr10">1/2</span><a href="#" class="prev"></a><a href="#" class="next"></a></div>-->
+            <div class="clear"></div>
+        </div>
+        <!--商家条件筛选end-->
+        <!--列表-->
+        <div class="shangjia_list_box">
+            <ul>
+                <{foreach $items as $item}>
+                    <li class="shangjia_list">
+                        <div class="img">
+                            <a href="<{link ctl='shop/detail' args=$item.shop_id}>"><img src="<{$pager.img}>/<{$item.logo}>" width="283" height="282"/></a>
+                            <div class="shangjia_label">
+                                <{if $item.have_tuan == 1}><span class="bg1">团</span><{/if}>
+                                <{if $item.have_waimai == 1}><span class="bg2">外</span><{/if}>
+                                <{if $item.have_maidan == 1}><span class="bg3">惠</span><{/if}>
+                                <{if $item.have_quan == 1}><span class="bg4">券</span><{/if}>
+                                <{if $item.have_paidui == 1}><span class="bg5">排</span><{/if}>
+                                <{if $item.have_dingzuo == 1}><span class="bg6">订</span><{/if}>
+                                <{if $item.have_diancan == 1}><span class="bg7">点</span><{/if}>
+                                <{if $item.have_weidian == 1}><span class="bg8">微</span><{/if}>
+                            </div>
+                        </div>
+                        <div class="wz_box">
+                            <h3 class="overflow_clear"><a href="<{link ctl='shop/detail' args=$item.shop_id}>" class=""><{$item.title}></a></h3>
+                            <div class="star_box black6"><{$cate.title}>-<{$cates_list[$item['cate_id']]['title']}> <span class="starBg"><span class="star" style="width:<{round($item['score']*20/$item['comments'],2)}>%;"></span></span></div>
+                            <div class="price_box">
+                                <p class="fl black6">人均：<big class="fontcl1">￥<{$item.avg_amount}></big></p>
+                                <!--<p class="fr black9">已售<{$item}></p>-->
+                            </div>
+                        </div>
+                    </li>
+                <{/foreach}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <!--列表end-->
+        <!--分页-->
+        <div class="pageNum_box">
+            <{$pager.pagebar}>
+        </div>
+        <!--分页end-->
+    </div>
+</div>
+<{include file="pchome/block/foot.html"}>
+<{include file="pchome/block/footer.html"}>

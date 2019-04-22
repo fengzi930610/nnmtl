@@ -1,0 +1,118 @@
+<{assign var='tpl_title' value=L("商家入驻-账户设置")}>
+<{include file="webview/block/header.html"}>
+
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容-->
+                <div class="enterSeller_process">
+                    <ul>
+                        <li class="list on">
+                            <span>1</span>
+                            <P>店铺信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list on">
+                            <span>2</span>
+                            <P>资质信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list on">
+                            <span>3</span>
+                            <P>配送信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list on">
+                            <span>4</span>
+                            <P>结算信息</P>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="jiesuan_box">
+                    <form id="myform" action="<{link ctl='webview/account:index'}>" method="post" mini-form="webform">
+                        <div class="weui-cells weui-cells_form mb10">
+                            <div class="weui-cell weui-cell-after">
+                                <div class="weui-cell__hd"><label for="" class="weui-label">开户行</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input " name="data[account_type]" id="advStyle" type="text" placeholder="请填写银行,支付宝填写支付宝" value="<{$shop_account.account_type}>">
+                                </div>
+                            </div>
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">支行</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" name="data[account_branch]" placeholder="请输入支行名称,支付宝账户请忽略" value="<{$shop_account.account_branch}>">
+                                </div>
+                            </div>
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">银行卡号</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" name="data[account_number]" placeholder="请输入银行卡号或者支付宝账号" value="<{$shop_account.account_number}>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">开户姓名</label></div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" name="data[account_name]" placeholder="请输入开户姓名" value="<{$shop_account.account_name}>">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="footer_long_btn">
+                            <input type="submit" onclick="removeInfo();" value="提交申请" class="weui-btn weui-btn_primary"/>
+                        </div>
+                    </form>
+
+
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+        function removeInfo(){
+            localStorage.removeItem('title');
+            localStorage.removeItem('contact');
+            localStorage.removeItem('type_show');
+            localStorage.removeItem('cate_ids');
+            localStorage.removeItem('city_id');
+            localStorage.removeItem('ssx');
+            localStorage.removeItem('phone');
+        }
+    
+    
+    //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+        /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                window.location.href = '<{link ctl="webview/index:index"}>';
+            });
+        }
+       
+    });
+</script>
+
+
+
+
+
+
+
+
+<{include file="webview/block/footer.html"}>

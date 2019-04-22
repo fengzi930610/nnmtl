@@ -1,0 +1,57 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+   
+    <ul>
+        <li class="on">卡券</li>
+    </ul>
+   <span class="r"><a target="_blank" href="<{link ctl='biz/weixin/card:show'}>" class="pbtn">查看卡券</a></span>
+</div>
+<div class="ucenter_c">
+    <table width="100%" border="0" cellspacing="0" class="table">
+   <tr><th class="w-100">卡劵类型</th><th>商户名字</th><th>卡券名</th><th>副标题</th><th>剩余</th><th>总库存</th><th>状态</th><th class="w-250">操作</th></tr>
+    <{foreach $card as $item}>
+		<{if $item.status !='CARD_STATUS_DELETE'}>
+			<tr><td><{if $item.card_type == 'DISCOUNT'}>
+						折扣券
+				<{elseif $item.card_type == 'GIFT'}>
+						礼品券
+				<{elseif $item.card_type == 'CASH'}>
+						代金券
+				<{elseif $item.card_type == 'GENERAL_COUPON'}>
+						通用券
+				<{elseif $item.card_type == 'GROUPON'}>
+						团购券
+				<{else}>
+						其他
+				<{/if}></td>
+			
+			<td><{$item.brand_name}></td>
+			<td><{$item.title}></td>
+			<td><{$item.sub_title}></td>
+			<td><{$item.sku.quantity}></td>
+			<td><{$item.sku.total_quantity}></td>
+			<td><{if $item.status  == 'CARD_STATUS_NOT_VERIFY'}>
+						待审核
+				<{elseif $item.status  == 'CARD_STATUS_VERIFY_FAIL'}>
+						审核失败
+				<{elseif $item.status  == 'CARD_STATUS_VERIFY_OK'}>
+						通过审核
+				<{elseif $item.status  == 'CARD_STATUS_DELETE'}>
+						卡券被商户删除
+				<{elseif $item.status  == 'CARD_STATUS_USER_DISPATCH'}>
+						在公众平台投放过的卡券 
+				<{/if}></td>
+			<td>
+				<a target="_blank" href="<{link ctl='weixin/card:get_card' arg0=$weixin.wx_id arg1=$item.iid}>" class="pbtn">投放</a>
+				<a href="<{link ctl='biz/weixin/card:consume' arg0=$item.iid}>" class="pbtn">核销</a>
+				<a href="<{link ctl='biz/weixin/card:delete_card' arg0=$item.iid}>" mini-act="删除" mini-confirm="确定要删除吗？" class="btn btn-success">删除</a>
+			</td></tr>
+	<{/if}>
+       
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="tips"><span class="notice">没有数据</span></p></td></tr>
+    <{/foreach}>
+    <tr><td colspan="10"><div class="page"><{$pager.pagebar}></div></td></tr>
+    </table>
+</div>
+<{include file="biz/block/footer.html"}>

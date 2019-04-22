@@ -1,0 +1,35 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/member:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>UID：</th><td><{$detail.uid}></td></tr>
+<tr><th>手机号：</th><td><{$detail.mobile}></td></tr>
+<tr><th>密码：</th><td><{$detail.passwd}></td></tr>
+<tr><th>昵称：</th><td><{$detail.nickname}></td></tr>
+<tr><th>头像：</th><td><img src="<{$pager.img}>/<{$detail.face}>" class="wh-200" /></td></tr>
+<tr><th>微信OPENID：</th><td><{$detail.wx_openid}></td></tr>
+<tr><th>登录IP：</th><td><{$detail.lastip}></td></tr>
+<tr><th>登录时间：</th><td><{$detail.lasttime}></td></tr>
+<tr><th>注册IP：</th><td><{$detail.regip}></td></tr>
+<tr><th>closed：</th><td><{$detail.closed}></td></tr>
+<tr><th>dateline：</th><td><{$detail.dateline|format}></td></tr>
+ <{foreach $addrs as $addr}>
+ 
+    <tr><th>
+     <{if $addr.is_default == 1}>
+       默认收货地址：
+     <{else}>
+       收货地址：
+     <{/if}>
+    </th><td><{$addr.addr}></td></tr>
+ <{/foreach}>
+</table></div>
+<{include file="admin:common/footer.html"}>

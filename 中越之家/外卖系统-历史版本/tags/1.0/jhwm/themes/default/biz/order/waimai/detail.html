@@ -1,0 +1,91 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_c">
+
+<table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td width="30" align="right"><h3>订单详情</h3></td>
+        <td ><a href="<{link ctl='biz/order:index'}>"  class="btn btn-success">订单列表</a></td>
+     </tr>
+    <tr>
+	    <td style="width:200px;margin-right:50px;">订单号：</td>
+	    <td ><{$order.order_id}></td>
+	    <td>
+	    <{if $order.order_status==0 && $order.pay_status==1}>
+	    等待接单<{/if}>
+	    <{if $order.order_status==1 && $order.pay_status==1}>
+	    已接单<{/if}>
+	    <{if $order.order_status==3 && $order.pay_status==1}>
+	    配送中<{/if}>
+	    <{if $order.order_status==8 && $order.pay_status==1}>
+	    订单已完成<{/if}>
+	    <{if $order.order_status==-1 && $order.pay_status==0}>
+        订单已取消
+	    <{/if}>
+	    </td>
+    </tr>
+    <{foreach $goods as $good}>
+    <tr>
+	    <td style="width:200px;margin-right:50px;"><{$good.product_name}></td>
+	    <td>x<{$good.product_number}></td>
+	    <td><{$good.product_price}></td>
+    </tr>
+    <{/foreach}>
+    <tr>
+        <td>送达时间：</td>
+	    <td style="width:200px;margin-right:50px"><{$order.pei_time}></td>
+	    
+    </tr>
+    <tr>
+	    <td>备注：</td>
+	    <td style="width:200px;margin-right:50px"><{$order.note}></td>
+    </tr>
+    <tr>
+	    <td>合计：</td>
+	    <td style="width:200px;margin-right:50px"><{$order.product_price}></td>
+	    <td><{if $order.order_youhui>0}>满减优惠<{$order.order_youhui}>元<{/if}></td>
+	    <td><{if $order.first_youhui>0}>首单优惠<{$order.first_youhui}>元<{/if}></td>
+	    <td><{if $order.hongbao>0}>红包抵扣<{$order.hongbao}>元<{/if}></td>
+    </tr>
+    <tr>
+	    <td>结算价：</td>
+	    <td style="width:200px;margin-right:50px"><{$order.amount}></td>
+    </tr>
+    <tr>
+	    <td>订餐者：</td>
+	    <td style="width:200px;margin-right:50px"><{$order.contact}></td>
+    </tr>
+    <tr>
+	    <td>手机号：</td>
+	    <td style="width:200px;margin-right:50px"><{$order.mobile}></td>
+    </tr>
+    <tr><td><a href="<{link ctl='biz/order:detail' args=$item.order_id}>" class="btn btn-success" title="立即回复">立即回复</a></td></tr>
+</table>
+
+</div>
+<{include file="biz/block/footer.html"}>
+<script>
+$(document).ready(function() {
+	var shop_msg_id = localStorage['shop_msg_id'];
+    setread(shop_msg_id);
+});
+
+function setread(shop_msg_id) {
+	var link = "<{link ctl='biz/msg:setread' arg0='temp'}>";
+	jQuery.ajax({
+        url: link.replace('temp', shop_msg_id),
+        async: true,
+        dataType: 'json',
+        type: 'POST',
+        success: function (ret) {
+            if (ret.error > 0) {
+                //Widget.MsgBox.success(ret.message);
+            } else {
+                //Widget.MsgBox.success(ret.message);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+      },
+    });
+}
+</script>

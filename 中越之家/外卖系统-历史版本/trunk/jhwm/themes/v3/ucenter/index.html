@@ -1,0 +1,91 @@
+<{assign var='tpl_title' value=L("个人中心")}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont mycenter-index-cont">
+            <div class="container_mid"> 
+                <a href="<{link ctl='ucenter/info:index'}>" class="top-who mt10 pub_list border_b">
+                    <div class="who-pic" style="line-height: 0px;"><img src="<{$pager.img}>/<{$MEMBER.face}>" width="54" height="54"></div>
+                    <div class="pub_list_bd">
+                        <p class="the-name mb5"><{$MEMBER.nickname}></p> 
+                        <p class="black9"><i class="ico-phone mr5"></i><{substr_replace($MEMBER['mobile'], '****', 3, 4)}>  </p>    
+                    </div>
+                </a>
+                <div class="xinxi-box mb10">
+                    <ul>
+                        <li class="xinxi-li border_r">
+                            <a href="<{link ctl='ucenter/money:index'}>">
+                                <p class="mb5 the-num num-color1"><{$MEMBER.money}></p>
+                                <p class="black9">余额(元)</p>
+                            </a>
+                        </li>
+                        <li class="xinxi-li border_r">
+                            <a href="<{link ctl='ucenter/hongbao'}>">
+                                <p class="mb5 the-num fontcl1"><{$pager.hongbao_count}></p>
+                                <p class="black9">红包(个)</p>
+                            </a>
+                        </li>
+                      <!--  <{link ctl='ucenter/integral'}>-->
+                        <li class="xinxi-li">
+                            <a href="javascript:;">
+                                <p class="mb5 the-num num-color2"><{$MEMBER.jifen}></p>
+                                <p class="black9">积分(分)</p>
+                            </a>
+                        </li>
+                        <div class="clear"></div>
+                    </ul>                        
+                </div> 
+                <div class="link-one">
+                    <a href="<{link ctl='ucenter/addr:index' http=$site.waimaiurl}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">收货地址</div>
+                    </a>  
+                </div>  
+                <div class="link-one">
+                    <a href="<{link ctl='ucenter/collect:index' arg0=1 http=$site.waimaiurl}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">我的收藏</div>
+                    </a>  
+                </div>
+                <div class="link-one">
+                    <a href="javascript:alert('功能开发中')" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">我的圈子</div>
+                    </a>  
+                </div>
+                <div class="link-one mb10">
+                    <a href="<{link ctl='ucenter/msg/index'}>" class="pub_list link-a">                            
+                        <div class="pub_list_bd">我的消息</div>
+                    </a>  
+                </div>   
+               <!-- <div class="link-one">
+                    <a href="<{link ctl='mall/index'}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">积分商城</div>
+                    </a>  
+                </div>  
+                <div class="link-one">
+                    <a href="<{link ctl='coupon'}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">优惠券</div>
+                    </a>  
+                </div>
+                <div class="link-one mb10">
+                    <a href="<{link ctl='card'}>" class="pub_list link-a">                            
+                        <div class="pub_list_bd">会员卡</div>
+                    </a>  
+                </div>   -->
+                <div class="link-one">
+                    <a href="<{link ctl='ucenter/share/index'}>" class="pub_list link-a border_b">                            
+                        <div class="pub_list_bd">邀请好友</div>
+                    </a>  
+                </div>
+                <div class="link-one">
+                    <a href="<{link ctl='about'}>" class="pub_list link-a">                            
+                        <div class="pub_list_bd">申请合作</div>
+                    </a>  
+                </div> 
+                <div class="text_c mt10 mb10">
+                        <{if $MEMBER.uid}><a href="<{link ctl='passport/loginout'}>" class="tuichu-btn fontcl1">退出登录</a><{/if}>
+                    </div>
+            </div>
+            <{include file="v3block/foot_nav.html"}>
+        </div>
+    </div>
+</div>
+<{include file="v3block/footer.html"}>

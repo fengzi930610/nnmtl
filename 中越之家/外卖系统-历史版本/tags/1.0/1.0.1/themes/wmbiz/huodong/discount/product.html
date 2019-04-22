@@ -1,0 +1,122 @@
+<{include file="block/header.html"}>
+
+<style type="text/css">
+    .list-product{height: 100%; overflow:auto ;padding: 0px;}
+    .list-product table {border: 0;}
+    .list-product table img{ width: 48px; height: 48px; margin-right:10px; padding: 2px; border: 1px solid #ccc;}
+    .list-product table tr{border-top:0;border-bottom: 1px solid #dedede;}
+    .list-product table .choose{width: 60px;height: 30px;text-align: center;line-height: 30px;color:#1ab394;border:1px solid #1ab394;border-radius: 3px; background: none;cursor: pointer;}
+    .list-product table .choose.on{color:#fff;background: #1ab394;}
+    .list-product table .text .tit{padding-bottom: 10px;white-space: nowrap;overflow:hidden;text-overflow: ellipsis;max-width: 200px;}
+    .list-product table .choose { line-height: 28px;}
+
+    .paging{padding: 15px 0 5px}
+</style>
+
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+
+<div class="list-product">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="dispatch_table">
+        <{foreach $items as $item}>
+        <tr>
+            <td width="300">
+                <img src="<{$pager.img}>/<{$item.photo}>" class="fl">
+                <div class="text">
+                    <p class="tit"><{$item.title}></p>
+                    <p class="fontcl1">￥<{$item.price}></p>
+                </div>
+            </td>
+            <td width="200">
+                <{if $item.sale_type == 0}>不限库存<{else}>剩余:<{$item.sale_sku}>份<{/if}>
+            </td>
+            <td width="100">
+                <!-- <{if $disc_products[$item.product_id]}>
+                <div class="nochoose black9" pid="<{$item.product_id}>" data='<{json_encode($item)}>'>已参加限时折扣</div>
+                <{else}>
+                <div class="choose" pid="<{$item.product_id}>" data='<{json_encode($item)}>'>选择</div>
+                <{/if}> -->
+                <div class="choose choose-btn" pid="<{$item.product_id}>" data='<{json_encode($item)}>'>选择</div>
+            </td>
+        </tr>
+        <{/foreach}>
+    </table>
+    <div class="paging">
+        <{$pager.pagebar}>
+    </div>
+</div>           
+<!-- 选择商品弹出层结束 -->
+
+<script type="text/javascript">
+    var obj = parent.obj || {};
+    var addobj = parent.addobj || {};
+    var len = 0;
+    parentInit(obj);
+    childInit(addobj);
+    
+    $(document).ready(function(){        
+        $('.list-product table .choose').click(function(){
+            var pid = $(this).attr('pid');
+            var data = $(this).attr('data');
+            if($(this).hasClass('on')){
+                delete addobj[pid];
+                len -= 1;
+                $(this).removeClass('on');
+            }else{                
+                /*if(len > 9){
+                    layer.msg('最多可选择10个商品');
+                }else{
+                    addobj[pid] = JSON.parse(data);
+                    len += 1;
+                    $(this).addClass('on');
+                }*/
+                addobj[pid] = JSON.parse(data);
+                len += 1;
+                $(this).addClass('on');
+            }
+            parent.addobj = addobj;
+            changeNum(len);
+        })        
+    });
+
+    function parentInit(objdata){
+        
+        $('.list-product .choose-btn').each(function(){
+            var pid = $(this).attr('pid');
+            if(objdata[pid]){
+                $(this).addClass('black9').css('pointer-events','none').text('已参加限时折扣').removeClass('choose');
+            }else{
+                if($(this).hasClass('choose')===false){
+                    $(this).addClass('choose').removeClass('black9').css('pointer-events','auto').text('选择');
+                }
+            }
+        });
+        var objlen = Object.keys(objdata).length;
+        var addobjlen = Object.keys(addobj).length;
+        len = parseInt(objlen+addobjlen);
+        changeNum(len);
+    }
+
+    function childInit(objdata){
+        $.each(objdata,function(k,v){
+            $('.list-product .choose-btn[pid='+k+']').addClass('on').addClass('choose');
+        });
+        $('.list-product .choose-btn').each(function(){
+            var pid = $(this).attr('pid');
+            if(objdata[pid]){
+                $(this).addClass('on').addClass('choose');
+            }else{               
+                $(this).removeClass('on');
+            }
+        });
+    }
+
+    function changeNum(num){   
+        if(num > 0){
+            $(window.parent.document).find('.confirm .num').text('('+num+')');
+        }else{
+            $(window.parent.document).find('.confirm .num').text('');
+        }
+    }
+</script>
+
+<{include file="block/footer.html"}>

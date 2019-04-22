@@ -1,0 +1,143 @@
+<{include file="biz/block/header.html"}>
+
+<style type="text/css">
+    .tab_fl2{display:inline-block;width:230px;border-right:2px solid #ffffff;background:#5db42f;color:#ffffff;line-height:40px;height:40px;padding:5px 0px;float:left;text-align:center;}
+</style>
+
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/tongji:w_income'}>" >外卖</a>
+        <a href="<{link ctl='biz/tongji:t_income'}>" class="on">团购</a>
+        <a href="<{link ctl='biz/tongji:m_income'}>">优惠买单</a>
+    </ul>
+</div>
+
+<div class="ucenter_c">
+    <div style="margin-left:20px;margin-bottom:20px">
+        <div class="tab_fl2">今日收入¥&nbsp;<{if $today_coins}><{$today_coins}><{else}>0<{/if}></div>
+        <div class="tab_fl2">近一周收入¥&nbsp;<{if $seven_coins}><{$seven_coins}><{else}>0<{/if}></div>
+        <div class="tab_fl2">近一月收入¥&nbsp;<{if $month_coins}><{$month_coins}><{else}>0<{/if}></div>
+        <div class="tab_fl2">累计总收入¥&nbsp;<{if $all_coins}><{$all_coins}><{else}>0<{/if}></div>
+    </div>
+
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <td colspan="2">
+                <div class="tableBox">
+                    <div id="week_chart" style="margin-top:20px">
+                    </div>
+                    <div id="month_chart" style="margin-top:20px">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<{include file="biz/block/footer.html"}>
+
+<script>
+$(function () {
+    $('#week_chart').highcharts({
+        chart: {
+            type: 'line'
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        title: {
+            text: '近一周收入量曲线',
+            x: -20 //center
+        },
+
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: []
+        },
+        yAxis: {
+            title: {
+                text: '收入 (元)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' 元'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '收入',
+            data: [
+                <{foreach $week_data as $v1}>
+                [<{$v1.date}>,   <{if empty($v1.money)}>0<{else}><{$v1.money}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#month_chart').highcharts({
+        title: {
+            text: '近一月收入量曲线',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -90,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: '收入 (元)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: ' 元'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '收入',
+            data: [
+               <{foreach $month_data as $v2}>
+                [<{$v2.date}>,   <{if empty($v2.money)}>0<{else}><{$v2.money}><{/if}>],
+                <{/foreach}>
+            ]
+        }]
+    });
+});
+</script>
+       

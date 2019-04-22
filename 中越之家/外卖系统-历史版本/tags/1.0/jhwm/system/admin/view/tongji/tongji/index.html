@@ -1,0 +1,1261 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+        </tr>
+    </table>
+</div>
+<style>
+    .time-day-list .on{
+        color: #FF3300;
+    }
+</style>
+
+<script src="<{$pager.res}>/cdn/highcharts/highcharts.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/exporting.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/series-label.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/modules/oldie.js"></script>
+<script src="<{$pager.res}>/cdn/highcharts/highcharts-zh_CN.js"></script>
+
+<div class="page-data">
+    <div class="guide_list_box mgb10">
+        <ul class="label_label">
+            <li><a href="javascript:;" target="admin_main" rel="waimai_tongji" class="on" >外卖</a></li>
+            <{if $have_paotui}><li><a href="javascript:;" target="admin_main" rel="paotui_tongji">跑腿</a></li><{/if}>
+            <{if $have_qiang}><li><a href="javascript:;" target="admin_main" rel="qiang_tongji">抢购</a></li><{/if}>
+            <li><a href="javascript:;" target="admin_main" rel="peicard_tongji">配送会员卡</a></li>
+            <li><a href="javascript:;" target="admin_main" rel="yy_tongji">统计报表</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+
+    <!-- 外卖开始 -->
+    <div class="mrkt_tit mgb10 mgt10 waimai_tongji" style="display: block"><span class="bt">今日外卖统计</span></div>
+    <div class="mrkt_total_box column5 mgb10 waimai_tongji" style="display: block">
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.amount}></p>
+                        <p>交易额（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.amount_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.member}></p>
+                        <p>新客数（人）</p>
+                    </div>
+
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.member_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.member_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.member_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.member_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.member_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.member_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.a_orders}></p>
+                        <p>订单数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.a_orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.a_orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.a_orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.a_orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.a_orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.a_orders_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.orders}></p>
+                        <p>有效配送单数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.orders_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.y_orders}></p>
+                        <p>异常单数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.y_orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.y_orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.y_orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.y_orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.y_orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.y_orders_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.pei_amount}></p>
+                        <p>配送费（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.pei_amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.pei_amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.pei_amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.pei_amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.pei_amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.pei_amount_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.shop_amount}></p>
+                        <p>商家应得（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.shop_amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.shop_amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.shop_amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.shop_amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.shop_amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.shop_amount_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.yinli}></p>
+                        <p>平台应得（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.yinli_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.yinli_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.yinli_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.yinli_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.yinli_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.yinli_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.platform_butie}></p>
+                        <p>平台补贴金额（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.platform_butie_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.platform_butie_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.platform_butie_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.platform_butie_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.platform_butie_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.platform_butie_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.waimai.avg}></p>
+                        <p>客单价（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.waimai.avg_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.avg_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.avg_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.waimai.avg_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.waimai.avg_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.waimai.avg_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="mrkt_tit mgb10 mgt10  waimai_tongji" style="display: block" ><span class="bt">外卖本月统计</span></div>
+    <div class="idxDataChart mgb10   waimai_tongji" style="display: block">
+        <div class="idx_cont">
+            <div class="list_box">
+                <div class="tit">交易额（元）</div>
+                <div class="box">
+                    <div class="number"><{$data.amount_w}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.amount_w_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="tit">订单量（单）</div>
+                <div class="box">
+                    <div class="number"><{$data.order_w}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.order_w_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                            <!-- <div class="progress_up"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="idx_cont">
+            <div class="list_box">
+                <div class="tit">新用户数（人）</div>
+                <div class="box">
+                    <div class="number"><{$data.member}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.member_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                            <!-- <div class="progress_up"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="tit">有效配送量（单）</div>
+                <div class="box">
+                    <div class="number"><{$data.y_order_w}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.y_order_w_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 110%;"></div>
+                            <div class="progress_up"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear-both"></div>
+        </div>
+    </div>
+    <!-- 外卖结束 -->
+
+    <!-- 跑腿开始 -->
+    <div class="mrkt_tit mgb10 mgt10 paotui_tongji" style="display: none"><span class="bt">今日跑腿统计</span></div>
+    <div class="mrkt_total_box column5 mgb10 paotui_tongji" style="display: none">
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.amount}></p>
+                        <p>交易额（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.amount_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="javascript:;">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.member}></p>
+                        <p>新客数（人）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.member_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.member_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.member_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.member_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.member_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.member_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.a_orders}></p>
+                        <p>订单数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.a_orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.a_orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.a_orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.a_orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.a_orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.a_orders_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.orders}></p>
+                        <p>有效配送单数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.orders_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.pei_amount}></p>
+                        <p>配送费（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.pei_amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.pei_amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.pei_amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.pei_amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.pei_amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.pei_amount_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.yinli}></p>
+                        <p>平台应得（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.yinli_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.yinli_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.yinli_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.yinli_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.yinli_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.yinli_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.platform_butie}></p>
+                        <p>平台补贴金额（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.platform_butie_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.platform_butie_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.platform_butie_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.platform_butie_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.platform_butie_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.platform_butie_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.paotui.avg}></p>
+                        <p>客单价（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.paotui.avg_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.avg_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.avg_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.paotui.avg_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.paotui.avg_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.paotui.avg_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="mrkt_tit mgb10 mgt10  paotui_tongji" style="display: none"><span class="bt">跑腿本月统计</span></div>
+    <div class="idxDataChart mgb10   paotui_tongji" style="display: none">
+        <div class="idx_cont">
+            <div class="list_box">
+                <div class="tit">交易额（元）</div>
+                <div class="box">
+                    <div class="number"><{$data.amount_p}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.amount_p_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                            <!-- <div class="progress_up"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="tit">订单量（单）</div>
+                <div class="box">
+                    <div class="number"><{$data.order_p}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.order_p_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                            <!-- <div class="progress_up"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="idx_cont">
+            <div class="list_box">
+                <div class="tit">新用户数（人）</div>
+                <div class="box">
+                    <div class="number"><{$data.member}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.member_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                            <!-- <div class="progress_up"></div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="tit">有效配送量（单）</div>
+                <div class="box">
+                    <div class="number"><{$data.y_order_p}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.y_order_p_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 110%;"></div>
+                            <div class="progress_up"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear-both"></div>
+        </div>
+    </div>
+    <!-- 跑腿结束 -->
+
+    <!--抢购开始-->
+    <div class="mrkt_tit mgb10 mgt10 qiang_tongji" style="display: none"><span class="bt">今日抢购统计</span></div>
+    <div class="mrkt_total_box column5 mgb10 qiang_tongji" style="display: none">
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.qiang.amount}></p>
+                        <p>交易额（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.qiang.amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.qiang.amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.amount_w}>%</span>
+                            <{/if}>
+
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.qiang.a_orders}></p>
+                        <p>订单数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.qiang.a_orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.a_orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.a_orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.qiang.a_orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.a_orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.a_orders_w}>%</span>
+                            <{/if}>
+
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.qiang.yinli}></p>
+                        <p>平台应得（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.qiang.yinli_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.yinli_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.yinli_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.qiang.yinli_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.yinli_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.yinli_w}>%</span>
+                            <{/if}>
+
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.qiang.avg}></p>
+                        <p>客单价（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.qiang.avg_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.avg_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.avg_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.qiang.avg_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.qiang.avg_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.qiang.avg_w}>%</span>
+                            <{/if}>
+
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="mrkt_tit mgb10 mgt10  qiang_tongji" style="display: none" ><span class="bt">抢购本月统计</span></div>
+    <div class="idxDataChart mgb10   qiang_tongji" style="display: none">
+        <div class="idx_cont">
+            <div class="list_box">
+                <div class="tit">交易额（元）</div>
+                <div class="box">
+                    <div class="number"><{$data.amount_q}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.amount_q_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="tit">订单量（单）</div>
+                <div class="box">
+                    <div class="number"><{$data.order_q}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.order_q_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--抢购结束-->
+
+    <!--配送会员卡开始-->
+    <div class="mrkt_tit mgb10 mgt10 peicard_tongji" style="display: none"><span class="bt">今日配送会员卡统计</span></div>
+    <div class="mrkt_total_box column5 mgb10 peicard_tongji" style="display: none">
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.peicard.amount}></p>
+                        <p>交易额（元）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.peicard.amount_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.peicard.amount_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.peicard.amount_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.peicard.amount_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.peicard.amount_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.peicard.amount_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="list">
+            <div class="mrkt_total" style="height: auto;">
+                <a href="#">
+                    <div class="wz_box">
+                        <p class="big"><{$tongji.peicard.orders}></p>
+                        <p>购买数（单）</p>
+                    </div>
+                    <div class="compare">
+                        <div>昨日环比：
+                            <{if $tongji.peicard.orders_l>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.peicard.orders_l}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.peicard.orders_l}>%</span>
+                            <{/if}>
+                        </div>
+                        <div>上周同比：
+                            <{if $tongji.peicard.orders_w>0}>
+                            <span><img class="ico" src="/admin/images/up.gif"><{$tongji.peicard.orders_w}>%</span>
+                            <{else}>
+                            <span><img class="ico" src="/admin/images/down.gif"><{$tongji.peicard.orders_w}>%</span>
+                            <{/if}>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="mrkt_tit mgb10 mgt10 peicard_tongji" style="display: none" ><span class="bt">配送会员卡本月统计</span></div>
+    <div class="idxDataChart mgb10 peicard_tongji" style="display: none">
+        <div class="idx_cont">
+            <div class="list_box">
+                <div class="tit">交易额（元）</div>
+                <div class="box">
+                    <div class="number"><{$data.amount_peicard}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.amount_peicard_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list_box">
+                <div class="tit">购买数（单）</div>
+                <div class="box">
+                    <div class="number"><{$data.order_peicard}></div>
+                    <div class="progress">
+                        <div class="txt_box">
+                            <div class="month">本月/上月</div>
+                            <div class="per"><{$data.order_peicard_bl}>%</div>
+                        </div>
+                        <div class="progress_bg">
+                            <div class="progress_bar" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--配送会员卡开始-->
+
+    <div class="mrkt_tit mgb10 mgt10  yy_tongji" style="display: none;">
+        <span class="bt">营业总览</span>
+        <span class="ml30">
+             <select class="jq_month">
+                  <option value="0">请选择月份</option>
+                <{foreach $bills_month as $month}>
+                <option value="<{$month}>"><{$month}></option>
+                <{/foreach}>
+            </select>
+
+	    </span>
+        <ul class="time-day-list">
+            <li class="ml10"><a href="javascript:;" val="1">昨日</a></li>
+            <li class="ml10"><a href="javascript:;" val="2" class="on">今日</a></li>
+            <li class="ml10"><a href="javascript:;" val="3">本周</a></li>
+        </ul>
+        <span class="ml30">
+            <select class="jq_show_type" disabled>
+                <option value="d">按天数</option>
+                <option value="h" selected>按小时</option>
+
+            </select>
+        </span>
+    </div>
+
+    <div class="filterDefined yy_tongji" style="display: none;">
+        <div class="fr export">
+            <!-- <{link ctl="finance/export:waimai" load="mini:导出向导" width="mini:500" class="button" title="导出"}> -->
+            <a href="javascript:;" class="button btn-export">导出</a>
+            <!-- <form action="?tongji/export-yy_tongji.html" id="SO-form" method="post"></form> -->
+        </div>
+        <div class="txt">自定义图表字段<i class="ml5"></i></div>
+        <div class="filterDefined_pull">
+            <div>
+                <div class="tit">图标显示<span></span><label></label></div>
+                <ul>
+                    <li><label><input class="click_me" type="checkbox" name="amount" value="amount" checked rel="营业额">营业额</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="orders" value="orders" checked rel="订单数">订单数</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="shop_amount" value="shop_amount" rel="商家收入">商家收入</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="staff_amount" value="staff_amount"  rel="骑手收入">骑手收入</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="site_fee" value="site_fee"  rel="平台抽佣">平台抽佣</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="platform_hongbao" value="platform_hongbao"  rel="红包补贴">红包补贴</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="platform_first" value="platform_first"  rel="首单补贴">首单补贴</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="platform_mj" value="platform_mj"  rel="满减补贴">满减补贴</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="platform_staff" value="platform_staff"  rel="骑手补贴">骑手补贴</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="platform_peicard" value="platform_peicard"  rel="配送会员卡补贴">配送会员卡补贴</label></li>
+                    <li><label><input class="click_me" type="checkbox" name="yinli" value="yinli"  rel="平台盈利">平台盈利</label></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="mgb10 yy_tongji" style="display: none">
+        <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%" id="table_data">
+
+        </table>
+    </div>
+
+    <div class="mgb10 yy_tongji"  id="containter" style="width: 100%;height: 500px;display: none"></div>
+</div>
+
+<script type="text/javascript">
+
+    window.data = null;
+    window.key = 2;
+    // 进度条
+    function progress_run () {
+        $(".progress").each(function(i){
+            var per_str = $(this).find(".per").text();//获取百分比字段；
+            var index = per_str.indexOf('%');
+            var per = per_str.substring(0,index);//截取字段数值；
+            if(per < 0){//百分比为负值时；
+                per = per.substring(1);
+                $(this).find(".per").addClass("down");
+            };
+            /*var remainder = (per%100);//取余；
+            if(remainder > 0){
+                for(var i=0;i<(per/100);i++){
+                    if(i == parseInt(per/100)){
+                        $(this).find(".progress_bg").append('<div class="progress_bar progress_bar' + (i+1) + '" style="width:'+ remainder +'%;"></div>');
+                    }else{
+                        $(this).find(".progress_bg").append('<div class="progress_bar progress_bar' + (i+1) + '" style="width:100%;"></div>');
+                    };
+                };
+            }else{
+                for(var i=0;i<(per/100);i++){
+                    $(this).find(".progress_bg").append('<div class="progress_bar progress_bar' + (i+1) + '" style="width:100%;"></div>');
+                };
+            };*/
+
+            var remainder = (per%100);
+            var barnum = parseInt(per/100);
+            barnum = Math.min(barnum, 6);
+            $(this).find(".progress_bg").append('<div class="progress_bar progress_bar'+barnum+'" style="width:100%;"></div>');
+            $(this).find(".progress_bg").append('<div class="progress_bar progress_bar'+(barnum+1)+'" style="width:'+ remainder +'%;"></div>');
+        });
+    };
+    progress_run();
+
+    $('.label_label a').on('click',function(){
+        $('.label_label a').removeClass('on');
+        $(this).addClass('on');
+        var rel = $(this).attr('rel')
+        $('.waimai_tongji,.paotui_tongji,.qiang_tongji,.yy_tongji,.peicard_tongji').hide();
+        $('.'+rel).show();
+    })
+
+    $('.time-day-list a').on('click',function(){
+        $('.time-day-list a').removeClass('on');
+        $(this).addClass('on');
+        if($(this).attr('val')==3){
+            $('.jq_show_type').val('d');
+            $('.jq_show_type').attr("disabled",false);
+        }else{
+            $('.jq_show_type').val('h');
+            $('.jq_show_type').attr("disabled",true);
+        }
+        $('.jq_month').val('0')
+        window.key = $(this).attr('val');
+        get_data( $(this).attr('val'));
+    })
+
+    function build_html(json){
+        var html = "";
+        html+= "<tr id=\"table_tongji\">\n" +
+            "                <th>平台</th>\n" +
+            "                <th>营业额(￥)</th>\n" +
+            "                <th>订单数(单)</th>\n" +
+            "                <th>商家收入(￥)</th>\n" +
+            "                <th>骑手收入(￥)</th>\n" +
+            "                <th>平台抽佣(￥)</th>\n" +
+            "                <th>红包补贴(￥)</th>\n" +
+            "                <th>首单补贴(￥)</th>\n" +
+            "                <th>满减补贴(￥)</th>\n" +
+            "                <th>骑手补贴(￥)</th>\n" +
+            "                <th>配送会员卡补贴(￥)</th>\n" + //4.0配送会员卡补贴
+            "                <th>平台盈利(￥)</th>\n" +
+            "            </tr>";
+        html+="<tr>";
+        html+=" <td>外卖</td>";
+        html+="<td>"+json.data_waimai.amount+"</td>"
+        html+=" <td>"+json.data_waimai.orders+"</td>";
+        html+=" <td>"+json.data_waimai.shop_amount+"</td>";
+        html+=" <td>"+json.data_waimai.staff_amount+"</td>";
+        html+=" <td>"+json.data_waimai.site_fee+"</td>";
+        html+=" <td>"+json.data_waimai.platform_hongbao+"</td>";
+        html+=" <td>"+json.data_waimai.platform_first+"</td>";
+        html+=" <td>"+json.data_waimai.platform_mj+"</td>";
+        html+=" <td>"+json.data_waimai.platform_staff+"</td>";
+        html+=" <td>"+json.data_waimai.platform_peicard+"</td>";
+        html+=" <td>"+json.data_waimai.yinli+"</td>";
+        html+="</tr>"
+
+        <{if $have_paotui}>
+        html+="<tr>";
+        html+=" <td>跑腿</td>";
+        html+="<td>"+json.data_paotui.amount+"</td>"
+        html+=" <td>"+json.data_paotui.orders+"</td>";
+        html+=" <td>"+json.data_paotui.shop_amount+"</td>";
+        html+=" <td>"+json.data_paotui.staff_amount+"</td>";
+        html+=" <td>"+json.data_paotui.site_fee+"</td>";
+        html+=" <td>"+json.data_paotui.platform_hongbao+"</td>";
+        html+=" <td>"+json.data_paotui.platform_first+"</td>";
+        html+=" <td>"+json.data_paotui.platform_mj+"</td>";
+        html+=" <td>"+json.data_paotui.platform_staff+"</td>";
+        html+=" <td>----</td>";
+        html+=" <td>"+json.data_paotui.yinli+"</td>";
+        html+="</tr>"
+        <{/if}>
+
+        <{if $have_qiang}>
+        html+="<tr>";
+        html+=" <td>抢购</td>";
+        html+="<td>"+json.data_qiang.amount+"</td>"
+        html+=" <td>"+json.data_qiang.orders+"</td>";
+        html+=" <td>"+json.data_qiang.shop_amount+"</td>";
+        html+=" <td>"+json.data_qiang.staff_amount+"</td>";
+        html+=" <td>"+json.data_qiang.site_fee+"</td>";
+        html+=" <td>"+json.data_qiang.platform_hongbao+"</td>";
+        html+=" <td>"+json.data_qiang.platform_first+"</td>";
+        html+=" <td>"+json.data_qiang.platform_mj+"</td>";
+        html+=" <td>"+json.data_qiang.platform_staff+"</td>";
+        html+=" <td>----</td>";
+        html+=" <td>"+json.data_qiang.yinli+"</td>";
+        html+="</tr>"
+        <{/if}>
+
+        html+="<tr>";
+        html+=" <td>合计</td>";
+        html+="<td>"+json.data_all.amount+"</td>"
+        html+=" <td>"+json.data_all.orders+"</td>";
+        html+=" <td>"+json.data_all.shop_amount+"</td>";
+        html+=" <td>"+json.data_all.staff_amount+"</td>";
+        html+=" <td>"+json.data_all.site_fee+"</td>";
+        html+=" <td>"+json.data_all.platform_hongbao+"</td>";
+        html+=" <td>"+json.data_all.platform_first+"</td>";
+        html+=" <td>"+json.data_all.platform_mj+"</td>";
+        html+=" <td>"+json.data_all.platform_staff+"</td>";
+        html+=" <td>"+json.data_all.platform_peicard+"</td>";
+        html+=" <td>"+json.data_all.yinli+"</td>";
+        html+="</tr>"
+        $('#table_data').html(html);
+    }
+
+    function get_data(key,val){
+        var url = "?tongji/tongji-get_data.html";
+        var parmas = {"time":key};
+        var   xx = val || $('.jq_show_type').val()||"";
+
+        parmas['type'] = xx;
+        $.post(url,{data:parmas},function(e){
+            if(e.error==0) {
+                window.data = e.data;
+                build_html(e.data);
+                create_high_char();
+            }
+        },'json');
+    }
+
+    $('.jq_month').on('change',function(){
+        if($(this).val()!=0){
+            $('.time-day-list a').removeClass('on');
+            $('.jq_show_type').attr("disabled",false);
+            $('.jq_show_type').val('d');
+            window.key = $(this).val();
+            get_data($(this).val());
+        }
+    })
+
+    $('.jq_show_type').on('change',function(){
+        if($(this).val()!=""){
+            get_data(window.key,$(this).val());
+        }
+    })
+
+    $(function(){
+        get_data(2);
+    })
+
+    function create_high_char(){
+        var data =  window.data;
+        var json = [];
+        $.each($('.click_me'),function(){
+            if($(this).is(':checked')){
+                var name = $(this).attr('name');
+                var val = $(this).attr('rel');
+                var json_data = data.high_data_h[name]
+                json.push({
+                    name:val,
+                    data:json_data
+                })
+            }
+        });
+
+        setTimeout(function(){
+            var chart = Highcharts.chart('containter', {
+                credits: {
+                    enabled: false //不显示LOGO
+                },
+                chart: {
+                    type: 'spline'
+                },
+                title: {
+                    text: '营业统计'
+                },
+                subtitle: {
+                    text: ''
+                },
+                yAxis: {
+                    title: {
+                        text: '金额/订单'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                xAxis:{
+                    categories:data.high_data_h.x
+                },
+                series: json,
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        },200)
+    }
+
+    //自定义列表字段
+    $(".filterDefined .txt").click(function(){
+        if($(this).hasClass("on")){
+            $(this).removeClass("on");
+            $(this).parent().find(".filterDefined_pull").slideUp(100);
+            $(this).parent().css("z-index",0);
+        }else{
+            $(this).addClass("on");
+            $(this).parent().find(".filterDefined_pull").slideDown(100);
+            $(this).parent().css("z-index",2);
+        };
+    });
+
+    $(".filterDefined .cancel").click(function(){
+        if($(".filterDefined .txt").hasClass("on")){
+            $(":checkbox").each(function(){
+                $(":checkbox").attr("checked", false);
+            });
+            $(".filterDefined .txt").removeClass("on");
+            $(".filterDefined .txt").parent().find(".filterDefined_pull").slideUp(100);
+            $(".filterDefined .txt").parent().css("z-index",0);
+        }
+    });
+
+    $('.click_me').on('change',function(){
+        create_high_char();
+    })
+
+    //导出
+    $('.btn-export').click(function(){
+        var link = "?tongji/export-yy_tongji.html&time="+window.key;
+        $(this).attr('href', link);
+        /*var parmas = {"time":window.key};
+        $.post(link, parmas, function (e){
+            if(e.error > 0){
+                Widget.MsgBox.error(e.message);
+            }
+        },'json');*/
+    });
+</script>
+<{include file="admin:common/footer.html"}>

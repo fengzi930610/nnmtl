@@ -1,0 +1,98 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td><label id="OnlyCustomShop"><input type="checkbox" value="1" <{if $smarty.session.admin_order_only_custom_shop}>checked="checked"<{/if}>>仅显示虚拟商家订单</label></td>
+            <td align="right">
+                <form class="search_inp mr10" action="?waimai/order-rights.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="订单ID、商户名、用户名、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="waimai/order:so" arg0=1 load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-50">订单编号</th>
+                <th class="w-100">用户名</th>
+                <th class="w-100">手机号</th>
+                <th class="w-100">商家</th>
+                <th class="w-50">订单状态</th>
+                <th class="w-100">支付状态</th>
+                <th class="w-50">支付类型</th>
+                <th class="w-50">付款方式</th>
+                <th class="w-50">配送人员</th>
+                <th class="w-50">配送类型</th>
+                <th class="w-50">评价状态</th>
+                <th class="w-100">用户催单时间</th>
+                <th class="w-50">状态</th>
+                <th class="w-100">创建时间</th>
+                <th class="w-150">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.order_id}>" name="order_id[]" CK="PRI"/><{$item.order_id}><label></td>
+                <!-- <td><{$users[$item['uid']]['nickname']}>(uid:<{$item.uid}>)</td> -->
+                <td><{$item['member_nickname']}>(ID:<{$item.uid}>)</td>
+                <td><{$item.mobile}></td>
+                <!-- <td><{$shops[$item['shop_id']]['title']}></td> -->
+                <td><{$item['shop_title']}></td>
+                <td><{$item['order_status_label']}></td>
+                <td><{if $item.pay_status == 1}>已支付<br/><{$item.pay_time|format}><{else}>未支付<{/if}></td>
+                <td><{$pays[$item['pay_code']]['title']}></td>
+                <td><{if $item.online_pay == 1}>在线支付<{else}>餐到付款<{/if}></td>
+                <td><{if $item.staff_id > 0}><{$staffs[$item['staff_id']]['name']}>(<{$item.staff_id}>)<{else}>暂未接单或商家自主配送<{/if}></td>
+                <td><{if $item.pei_type == 0}>商家自主配送<{else if $item.pei_type == 1}>第三方配送<{else}>配送员代购<{/if}></td>
+                <td><{if $item.comment_status == 1}>已评价<{else}>未评价<{/if}></td>
+                <td><{if $orders[$item['order_id']]['cui_time'] >0 }><{$orders[$item['order_id']]['cui_time']|format}><{else}>用户未催单<{/if}></td>
+
+                <td>
+                    <{if $item.refund == 0}><b class='orange'>处理中</b>
+                    <{else if $item.refund == 1}><b class='green'>已同意</b>
+                    <{else if $item.refund == 2}><b class='red'>商户已拒绝</b>
+                    <{else if $item.refund == 3}><b class='green'>平台已拒绝</b>
+                    <{else}><b class='grar'>正常</b><{/if}>
+                </td>
+
+                <td><{$item.dateline|format}></td>
+                <td>
+                    <{link ctl="waimai/order:detail" args=$item.order_id class="button" title="查看"}>
+                    <a href="?waimai/waimai-manage-<{$item.shop_id}>.html&_sr=order/index:detail&_args=<{$item.order_id}>" class="button" style="border-color: #080; color: #080 !important;" title="跳转商家后台进行管理" target="_blank">跳转商家</a>
+                </td>
+                </tr>
+                <{foreachelse}>
+                <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/order:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#OnlyCustomShop :checkbox").click(function(){
+        var url = document.location.href.replace(/(\&|\?)_ocs=\d*/ig,"");
+        if(url.indexOf("?") >= 0)
+            url += "&";
+        else
+            url += "?";
+        url = url+"_ocs="+($(this).prop("checked")?"1":"0");
+        document.location.href = url;
+    });
+});
+</script>
+<{include file="admin:common/footer.html"}>

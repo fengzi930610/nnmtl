@@ -1,0 +1,56 @@
+<{foreach $items as $k => $v}>
+<div class="tuanji-dan-one mb10">
+    <div class="dan-one-cont pad10">
+        <div class="dan-img fl"><a href="<{link ctl='weidian/pintuan/open_detail' arg0=$v.group.group_id}>"><img src="<{$pager.img}>/<{$v.group.product.photo}>"></a></div>
+        <div class="dan-wen">
+            <h3 class="overflow_clear"><a href="<{link ctl='weidian/pintuan/open_detail' arg0=$v.group.group_id}>"><{$v.product_name}></a>&nbsp;<span style="color:#999999;font-size:12px;">(<{$v.order.order_id}>)</span></h3>
+            <p>数量：<{$v.product_number}></p>
+            <div class="tuan-jia">
+                <div class="fl">拼团价：</div>
+                <div class="jiage">
+                    <{if $v.group.level}>
+                        <{foreach $v.group.level as $k1 => $v1}>
+                            <p><{$v1.user_num}>人以上<span class="ml10 yanse">￥<{$v1.price}>/件</span></p>
+                        <{/foreach}>
+                        <{else}>
+                        <{$v.product_price}>
+                    <{/if}>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <a href="<{link ctl='weidian/pintuan/open_detail' arg0=$v.group.group_id}>" class="jt-icon"></a>
+        <div class="dan-state font_size14">
+            <{if $v.order.order_status!=-1 && $v.order.pay_status!=1 && $v.is_money_pre==1 && $v.money_paid==0}>
+                待付定金
+            <{/if}>
+            <{if $v.is_money_pre==1 && $v.money_paid > 0  && ($v.money_paid < $v.product_price)}>
+                待付尾款
+            <{/if}>
+            <{if $v.order.order_status!=-1 && $v.order.pay_status!=1 && $v.is_money_pre==0 && $v.order.pay_status==0}>
+                等待付款                
+            <{/if}>
+        </div>
+    </div>
+    <div class="dan-one-foot border_t">
+
+        <{if $v.order.order_status==0 && $v.order.pay_status==0}>
+        <a href="javascript:;" class="to-payfor font_size14" id="cancel" oid="<{$v.order_id}>">取消订单</a>
+        <{/if}>
+        <{if $v.order.order_status!=-1 && $v.order.pay_status!=1 && $v.is_money_pre==1 && $v.money_paid==0}>
+        <a href="<{link ctl='ucenter/order/pay' arg1=$v.order_id}>" class="to-payfor font_size14">预付款</a>
+        <{/if}>
+        <{if in_array($v.order.order_status,array(3,4))}>
+        <a href="javascript:;" class="to-payfor font_size14" id="arrived">确认送达</a>
+        <{/if}>
+        <{if $v.is_money_pre==1 && $v.money_paid > 0 && ($v.money_paid < $v.product_price)}>
+        <a href="<{link ctl='ucenter/order/pay' arg1=$v.order_id}>" class="to-payfor font_size14">付尾款</a>
+        <{/if}>
+        <{if $v.order.order_status!=-1 && $v.order.pay_status!=1 && $v.is_money_pre==0 && $v.order.pay_status==0}>
+        <a href="<{link ctl='ucenter/order/pay' arg1=$v.order_id}>" class="to-payfor font_size14">去付款</a>
+        <{/if}>
+
+    </div>
+</div>
+<{/foreach}>

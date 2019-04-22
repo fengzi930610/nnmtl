@@ -1,0 +1,121 @@
+<{assign var='tpl_title' value=L("异常单")}>
+<{include file="newblock/header.html"}>
+<div class="wrapperMain">
+    <div class="wrapperMain_bg">
+        <!--内容-开始-->
+        <form action="<{link ctl='order/yichang' http='dispatch'}>" method="get">
+            <div class="tableBox_top mb20">
+                <div class="fl mr20">下单时间：
+                    <div class="chooseCalendar">
+                        <input type="text"  name="SO[stime]" value="<{$SO.stime|default:''}>" class="int wd-120" onclick="WdatePicker()" placeholder="开始时间"><i class="fa fa-calendar"></i>
+                    </div>
+                    ~
+                    <div class="chooseCalendar">
+                        <input type="text"  name="SO[ltime]" value="<{$SO.ltime|default:''}>" class="int wd-120" onclick="WdatePicker()" placeholder="结束时间"><i class="fa fa-calendar"></i>
+                    </div>
+                </div>
+                <div class="fl mr20">搜索：
+                    <input type="text" name="SO[order_id]" class="int" value="<{$SO.order_id|default:''}>" placeholder="订单号">
+                    <input type="text" name="SO[title]" class="int" value="<{$SO.title|default:''}>" placeholder="骑手/商家姓名手机">
+                </div>
+
+                <input type="submit" value="查询" class="btn-primary fl mr10"/>
+                <div class="console fr">
+                    <ul>
+                        <li>
+                            <p>今日完成单</p>
+                            <p><{$today_count|default:0}></p>
+                        </li>
+                        <!-- <li>
+                            <p>配送时间<span class="state">运营中</span></p>
+                            <p>05:00 - 03:00</p>
+                        </li>
+                        <li>
+                            <p>1月13日</p>
+                            <p><i class="fa fa-cloud mr5"></i>9℃</p>
+                        </li> -->
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </form>
+        
+        <div class="tabsChangeBox mb20">
+            <div class="tabsBox">
+                <ul>
+                    <li><a href="<{link ctl='order/paiorder' http='dispatch'}><{$query}>" target="J_iframe">待指派<span class="num"><{$count.pai|default:0}></span></a></li>
+                    <li><a href="<{link ctl='order/waitorder' http='dispatch'}><{$query}>" target="J_iframe">配送中</a><span class="num"><{$count.pei|default:0}></span></li>
+                    <li><a href="<{link ctl='order/complete' http='dispatch'}><{$query}>" target="J_iframe">已完成<span class="num"><{$count.complete|default:0}></span></a></li>
+                    <li class="on"><a href="javascript:;" target="J_iframe">异常<span class="num"><{$count.yichang|default:0}></span></a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="tableBoxTwo">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>订单编号</th>
+                        <th width="280">商家</th>
+                        <th width="200">下单人</th>
+                        <th>骑手</th>
+                        <th>异常原因</th>
+                        <th>用户下单时间</th>
+                        <th>标记异常时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <{foreach $items as $item}>
+                    <tr>
+                        <td><{$item.order_id}>(#<{$item.day_num}>)</td>
+                        <td>
+                            <div class="">
+                                <p><{$item.waimai.title|default:'------'}>(<{$item.waimai.phone|default:'--'}>)</p>
+                                <p><{$item.waimai.addr|default:"---------------"}></p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <p><{$item.member.nickname|default:"----"}>(<{$item.mobile|default:'----'}>)</p>
+                                <p><{$item.addr}>--<{$item.house}></p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="">
+                                <p><{$item.staff.name|default:'----'}></p>
+                                <p><{$item.staff.mobile|default:'----'}></p>
+                            </div>
+                        </td>
+                        <td><{$item.refund.reflect|default:'----'}></td>
+                        <td><{$item.dateline|format:"Y-m-d H:i:s"}></td>
+                        <td><{if $item.refund}><{$item.refund.dateline|format:"Y-m-d H:i:s"}><{else}>----<{/if}></td>
+                        <td>
+                            <a href="<{link ctl='order/detail' arg0=$item.order_id http='dispatch' }>" class="btn-primary-line  order_detail" target="centerMask_iframe">详情</a>
+                        </td>
+                    </tr>
+                    <{foreachelse}>
+                    <tr>
+                        <td colspan="7">
+                            <div class="smallpage">
+                                <div class="noDingdan-cont">
+                                    <img src="%THEME%/static/images/order-no.png" class="mb20">
+                                    <p class="black6">暂无指定订单</p>
+                                    <p class="black9">暂时没有该筛选条件的订单，稍后再来看看吧！</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <{/foreach}>
+                </tbody>
+            </table>
+        </div>
+        <!--内容-结束-->
+    </div>
+</div>
+<script type="text/javascript">
+    centerMaskShow('.order_detail','订单详情','800px','500px');
+</script>
+
+<{include file="newblock/footer.html"}>

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+
+    <body>
+        <header>
+            <i class="left"></i>
+            <div class="title"><{$CONFIG.site.title}> - 系统提示！</div>
+            <i class="right"></i>
+        </header>
+        
+        <header>
+        <i class="left"><a class="bell_prompt" href="<{link ctl='mobile/member/message:index' arg=1}>"><{if $msgnum > 0}><span class="num"><{$msgnum}></span><{/if}></a></i>
+        <div class="title">我的</div>
+        <i class="right"></i>
+    </header>
+    
+        <section class="page_center_box">
+            <div class="czts">
+                <div class="cztsnr cztsnr_Failure">
+                    <br>
+                    <{if $pager.error}><span style="color:red;"><{else}><span><{/if}><{$pager.message}></span><br>
+                    <{if $pager.timer>0}>如果您不做出选择，<br>将在 <strong id="notice-timer" style="color:red;"><{$pager.timer}></strong> 秒后跳转到第一个链接地址。<{else}>请选择以下操作。<{/if}>
+                    <p class="czts_p">页面自动 跳转中   等待时间：<span class="czts_time" id="czts_time"></span></p>
+                </div>
+            </div>
+        </section>
+       
+<{if ((int)$pager.timer > 0)}>
+<script type="text/javascript">
+var pager = {};
+pager = <{$pager}>;
+console.log(pager);
+var timer = <{$pager.timer}>;
+//var timer = 6000000;
+/*var link = "<{if $pager.link}><{$pager.link}><{else}><{link ctl='index'}><{/if}>";
+window.onload = function(){
+	if (link == 'javascript:history.go(-1)' && window.history.length == 0){
+		document.getElementById('notice-msg').innerHTML = '';
+		return;
+	}
+	window.setInterval(function(){
+		if(timer<1){window.clearInterval();
+			window.location.href = link;
+			return ;
+		}
+		timer --;
+		document.getElementById("notice-timer").inserHTML = timer;
+	}, 1000);
+}*/
+</script>
+<{/if}>
+<{if $pager.appendjs}><{$pager.appendjs}><{/if}>
+
+        
+    </body>
+</html>
+
+
+
+
+
+

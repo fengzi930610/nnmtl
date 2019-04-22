@@ -1,0 +1,81 @@
+<{include file="admin:common/header.html"}>
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=824a595f958e444b737a5bc6325ad44f"></script>-->
+<script src="//webapi.amap.com/maps?v=1.4.2&key=<{$jh_map_key}>"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="group/group:items" priv="hide" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="group/group:edit" arg0=$group_id title="基本设置" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="group/group:set_map" arg0=$group_id title="配送区域" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="group/group:baseconfig" arg0=$group_id title="配送费基础设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="group/group:timeconfig" arg0=$group_id title="配送费时间设置" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="group/group:badweather" arg0=$group_id title="恶劣天气配置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="group/group:timeoutconfig" arg0=$group_id title="超时规则设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="group/group:autopai" arg0=$group_id title="自动派单设置" target="admin_main"  priv="hide"  class="on"}></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+
+    <div class="songSet_dian mgb10">
+        <{link ctl="group/group:manage" args=$group_id class="button float-r" priv="hide" target="_blank" title="进入配送站"}>
+        <div class="wz_box">
+            <h3><{$detail.group_name}></h3>
+            <p>地址：<{$detail.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?group/group-autopai-<{$group_id}>.html" mini-form="member-form" method="post" >
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th>
+                    是否开启自动派单
+                </th>
+                <td>
+
+                    <select name="data[open_autopai]">
+                        <option value="0" <{if $detail.autopei_config.open_autopai==0||empty($detail.autopei_config.open_autopai)}>selected='selected'<{/if}>>关闭</option>
+                        <option value="1" <{if $detail.autopei_config.open_autopai==1}>selected='selected'<{/if}>>开启</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>订单范围(米)</th>
+                <td>
+                    <input name="data[pei_distance]" class="input w-100" value="<{$detail.autopei_config.pei_distance|default:'500'}>"/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    被单数量
+                </th>
+                <td>
+                    <input name="data[orders]" class="input w-100" value="<{$detail.autopei_config.orders|default:'0'}>"/>
+                </td>
+            </tr>
+            <tr>
+                <th>是否替配送员接单</th>
+                <td>
+                    <select name="data[jiedan]">
+                        <option value="0" <{if $detail.autopei_config.jiedan==0||empty($detail.autopei_config.jiedan)}>selected='selected'<{/if}>>否</option>
+                        <option value="1" <{if $detail.autopei_config.jiedan==1}>selected='selected'<{/if}>>是</option>
+                    </select>
+                </td>
+            </tr>
+
+
+            <tr><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+        </table>
+    </form>
+</div>
+
+
+<{include file="admin:common/footer.html"}>

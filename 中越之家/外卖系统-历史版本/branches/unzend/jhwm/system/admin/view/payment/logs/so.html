@@ -1,0 +1,27 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="payment/log:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?payment/log-index.html" id="SO-form" method="post">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+    <tr><th>订单来原：</th>
+        <td><select name="SO[from]" class="w-200"><option value="">全部</option><option value="order">订单</option><option value="money">充值</option></select></td>
+    </tr>
+    <tr><th>支付类型：</th>
+        <td><select name="SO[type]" class="w-200"><option value="">全部</option><option value="pay">付款</option><option value="refund">退款</option></select></td>
+    </tr>
+    <tr><th>支付状态：</th><td><select name="SO[payed]" class="w-200"><option value="">全部</option><option value="1">已支付</option><option value="0">未支付</option></select></td></tr>
+    <tr><th>支付接口：</th><td><input type="text" name="SO[payment]" value="" class="input w-200"/></td></tr>
+    <tr><th>流水号：</th><td><input type="text" name="SO[trade_no]" value="" class="input w-200"/></td></tr>
+    <tr><th>支付时间：</th><td><input type="text" name="SO[payedtime][0]" value="" class="input w-100" date="payedtime" readonly/>~<input type="text" name="SO[payedtime][1]" value="" class="input w-100" date="payedtime" readonly/></td></tr>
+    <tr><th>创建时间：</th><td><input type="text" name="SO[dateline][0]" value="" class="input w-100" date="dateline" readonly/>~<input type="text" name="SO[dateline][1]" value="" class="input w-100" date="dateline" readonly/></td></tr>    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

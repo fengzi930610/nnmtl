@@ -1,0 +1,19 @@
+<{assign var='tpl_title' value=$detail.title}>
+<{include file="block/header.html"}>
+<{if $request.IN_APP_CLIENT}>
+<style type="text/css">
+    header {
+        display: none;
+    }
+    .page_center_box {
+        top: 0;
+    }
+</style>
+<{/if}>
+<section class="page_center_box">
+    <div class="userProtcl">
+        <h1><{$detail.title}></h3>
+        <p><{$detail.content}></p>
+    </div>
+</section>
+<{include file="block/footer.html"}>

@@ -1,0 +1,42 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/shop/verify:index'}>">店铺认证</a>
+	<a href="<{link ctl='biz/shop/verify:dianzhu'}>" class="on">店主认证</a>
+	<a href="<{link ctl='biz/shop/verify:yyzz'}>">企业认证</a>
+	<a href="<{link ctl='biz/shop/verify:canyin'}>">餐饮认证</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/shop/verify:dianzhu'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">
+    <tr>
+        <th><span class="red">*</span>真实姓名：</th>
+        <td><input type="text" name="data[id_name]" value="<{$detail.id_name|default:''}>" class="input w-300"/></td>
+    </tr>
+    <tr>
+        <th><span class="red">*</span>身份证号码：</th>
+        <td><input type="text" name="data[id_number]" value="<{$detail.id_number|default:''}>" class="input w-300"/></td>
+    </tr>
+    <tr>
+        <th>身份证正面照：</th>
+        <td><input type="text" name="data[id_photo]" class="input w-300" id="file_photo" value="<{$detail.id_photo}>" <{if $detail.id_photo}>photo="<{$pager.img}>/<{$detail.id_photo}>"<{/if}> />
+        <input type="button" uploadbtn="#file_photo" class="ke-upload_lay" value=" 选择文件 " />
+        <a preview="#file_photo" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a></td>
+    </tr>
+    <tr>
+        <th>店面图（含店主）：</th>
+        <td><input type="text" name="data[shop_photo]" class="input w-300" id="file_photos" value="<{$detail.shop_photo}>" <{if $detail.shop_photo}>photo="<{$pager.img}>/<{$detail.shop_photo}>"<{/if}> />
+        <input type="button" uploadbtn="#file_photos" class="ke-upload_lay" value=" 选择文件 " />
+        <a preview="#file_photos" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a></td>
+    </tr>
+    <tr><th></th><td><input type="submit" value="保存数据" class="btn btn-primary" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

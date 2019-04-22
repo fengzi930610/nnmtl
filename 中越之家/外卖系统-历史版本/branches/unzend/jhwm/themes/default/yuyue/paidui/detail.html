@@ -1,0 +1,258 @@
+<{assign var='tpl_title' value=L("号单详情")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='yuyue/paidui/items'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	号单详情
+    </div>
+    <i class="right"><a href="javascript:;" class="ico headerIco headerIco_8 mr5"></a> <a href="javascript:;" class="ico headerIco headerIco_4"></a></i>
+</header>
+
+<section class="page_center_box">
+	<div class="lineBook_ordDelt_state mb10"><i class="ico <{if $order.order_status==-1}>ico2<{/if}>"></i><{$order.order_status_label}></div>
+	<div class="lineBook_ordlist lineBook_ordDelt mb10">
+        <a href="<{link ctl='shop/detail' args=$order.shop.shop_id}>">
+        <div class="top border_b linkico">
+            <p class="fl"><{$order.shop.title}></p>
+        </div>
+        </a>
+        <p class="black9 pad_l10 pad_r10 pad_t10"><{$order.lasttime|format:'Y-m-d H:i'}>    <{$order.order_status_label}></p>
+        <div class="cont">
+            <div class="left">
+                <p><span class="black9">预计等待</span>  <{$order.wait_time}>分钟</p>
+                <p><span class="black9">还需等待</span>  <{$order.zhuo_wait_nums}>桌</p>
+            </div>
+            <div class="right">
+                <p class="big maincl"><{$order.zhuohao_detail.zhuohao_cate_title}></p>
+                <p class="black6"><{$order.zhuohao_detail.title}></p>
+            </div>
+        </div>
+        <div class="bottom border_t ts">
+            <i class="ico"></i>
+            <{if $order.order_status==0 || $order.order_status==1}>
+            过号不作废，在现场叫号基础上顺延3桌安排
+            <{else if $order.order_status==-1}>
+            过号请重新取号，谢谢配合
+            <{/if}>
+        </div>
+    </div>
+    <div class="lineBook_quhao mb10" id="look_shop_location">
+    	<div class="list linkico">
+        	<div class="fl" ><i class="ico ico2"></i><{$order.shop.addr}></div>
+        </div>
+    </div>
+</section>
+<footer>
+	<div class="lineBook_footer_btn">
+        <{if $order.order_status==0}>
+            <a href="javascript:;" class="long_btn lineBook_quxiao_show cancel">取消排队</a>
+        <{else if $order.order_status==-1}>
+            <a href="javascript:;" class="long_btn lineBook_quxiao_show delete">删除单号</a>
+        <{else if $order.order_status==1}>
+            <a href="javascript:;" class="long_btn lineBook_quxiao_show delete">删除单号</a>
+        <{/if}>
+
+    </div>
+</footer>
+
+<script>
+	$(document).ready(function() {
+        if ($('.changeTab_box').length > 0)/*判断是否存在这个html代码*/
+		{
+			$('.page_center_box').css('top', '0.5rem');
+		}
+    });
+</script>
+
+<!--取消是否弹出-->
+<div class="lineBook_quxiao_mask cancel">
+    <div class="tit">请选择取消理由</div>
+    <div class="cont">
+        <div class="liyou_box">
+            <{foreach $order.cancel_reason_list as $v}>
+            <span><a href="javascript:;"><{$v}></a></span>
+            <{/foreach}>
+            <input type="hidden" name="reason" value=""/>
+        </div>
+    </div>
+    <div class="btn_box">
+        <a href="javascript:;" class="btn black6 cancel">放弃取消</a>
+        <a href="#" class="btn fontcl1" id="goto_cancel">确定取消</a>
+    </div>
+</div>
+
+<!--删除单号弹出-->
+<div class="lineBook_quxiao_mask delete">
+    <div class="cont">
+        <!-- <p style="text-align:center;font-weight:bold;">注意</p> -->
+        <p style="text-align: center;">是否确认删除该订单？</p>
+    </div>
+    <div class="btn_box">
+        <a href="javascript:;" class="btn black6 cancel">取消</a>
+        <a href="javascript:;" class="btn fontcl1" id="goto_delete">确定</a>
+    </div>
+</div>
+
+<!--拨打商家电话-->
+
+<div class="lineBook_quxiao_mask tel">
+    <div class="cont">
+        <!-- <p style="text-align:center;font-weight:bold;">注意</p> -->
+        <p style="text-align: center;">是否打电话给商家？</p>
+    </div>
+    <div class="btn_box">
+        <a href="javascript:;" class="btn black6 cancel">取消</a>
+        <a href="javascript:;" class="btn fontcl1" id="goto_tel">确定</a>
+    </div>
+</div>
+
+<div class="mask_box">
+    <div class="accountInfor_headX_mask" style="bottom: 0.6rem;">
+        <div class="cont">
+            <label class="btn" style="color: #59c181;"><input type="button" id="share_sinablog"/>新浪微博</label>
+        </div>
+        <div class="mar10">
+            <input type="button" class="long_btn cancel" style="background:#fff; color:#59c181;" value="取消" />
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+
+<div class="mask_bg"></div>
+<script>
+$(document).ready(function() {
+	$('.lineBook_quxiao_show.cancel').click(function(){
+		$('.lineBook_quxiao_mask.cancel').show();
+		$('.mask_bg').show();
+	});
+    $('.lineBook_quxiao_mask.cancel .cancel').click(function(){
+        $('.lineBook_quxiao_mask.cancel').hide();
+        $('.mask_bg').hide();
+
+    });
+
+    $('.lineBook_quxiao_show.delete').click(function(){
+        $('.lineBook_quxiao_mask.delete').show();
+        $('.mask_bg').show();
+    });
+	$('.lineBook_quxiao_mask.delete .cancel').click(function(){
+		$('.lineBook_quxiao_mask.delete').hide();
+		$('.mask_bg').hide();
+	});
+    $('.lineBook_quxiao_mask.tel .cancel').click(function(){
+        $('.lineBook_quxiao_mask.tel').hide();
+        $('.mask_bg').hide();
+    });
+
+    $('.lineBook_quxiao_mask .liyou_box span').click(function(){
+        $('.lineBook_quxiao_mask .liyou_box span').removeClass('on');
+        $(this).addClass('on');
+        $("input[name='reason']").val($(this).text());
+    });
+});
+
+// 查看商家地图位置
+$(document).off('click','#look_shop_location').on('click','#look_shop_location',function(){
+    var link = "<{link ctl='yuyue/paidui:location' args='temp'}>";
+    window.location.href = link.replace('temp', <{$order.shop.shop_id}>);
+})
+
+// 确认取消订单
+$(document).off('click','#goto_cancel').on('click','#goto_cancel',function(){
+    var paidui_id = parseInt(<{$order.paidui_id}>);
+    var reason = $("input[name='reason']").val();
+    $.ajax({
+        url: "<{link ctl='yuyue/paidui:cancel'}>",
+        async: false,
+        dataType: 'json',
+        data: {"paidui_id":paidui_id,"reason":reason},
+        type: 'POST',
+        success: function (ret) {
+            $('.mask_bg').hide();
+            $('.lineBook_quxiao_mask.cancel').hide();
+            if(ret.error==0) {
+                layer.open({content:ret.message, time:2});
+                var paidui_id = parseInt(ret.data.paidui_id);
+                if(paidui_id > 0) {
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1500);
+                }
+            }else {
+                layer.open({content:ret.message, time:2});return;
+            }
+        },
+        error: function (xhr, status, err) {
+            alert(err);
+        },
+    });
+})
+
+// 确认删除订单
+$(document).off('click','#goto_delete').on('click','#goto_delete',function(){
+    var paidui_id = parseInt(<{$order.paidui_id}>);
+     $.ajax({
+        url: "<{link ctl='yuyue/paidui:delete'}>",
+        async: false,
+        dataType: 'json',
+        data: {"paidui_id":paidui_id},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error==0) {
+                $('.mask_bg').hide();
+                $('.lineBook_quxiao_mask.delete').hide();
+                layer.open({content:ret.message, time:2});
+                var paidui_id = parseInt(ret.data.paidui_id);
+                var shop_id = parseInt(ret.data.shop_id);
+                if(paidui_id > 0) {
+                    setTimeout(function(){
+                        window.location.href = "<{link ctl='shop/detail-"+shop_id+"'}>";
+                    },1500);
+                }
+            }else {
+                layer.open({content:ret.message, time:2});return;
+            }
+        },
+        error: function (xhr, status, err) {
+            alert(err);
+        },
+    });
+})
+
+$(".headerIco_4").click(function(){
+    $(".accountInfor_headX_mask").show();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+});
+$(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function(){
+    $(".accountInfor_headX_mask").hide();
+    $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+});
+
+/*分享到新浪微博*/
+$('#share_sinablog').click(function() {
+    var shareUrl = window.location.href;   //获取当前页面完整的地址栏URL
+    var sharePic = "<{$pager.img}>/<{$order.shop.logo}>";       // 获取商家logo图片
+    var shareTitle = '这家店不错哦，一起去吧！'+"<{$order.shop.title}>，"+"<{$order.shop.addr}>，"+"<{$order.shop.mobile}>。"+"@<{$CONFIG.site.title}>"; // 内容
+    window.location.href ='http://service.weibo.com/share/share.php?appkey=1550938859'+'&url='+encodeURIComponent(shareUrl)+'&content=utf-8&sourceUrl='+encodeURIComponent(shareUrl)+'&pic='+encodeURIComponent(sharePic)+'&title='+encodeURIComponent(shareTitle);
+});
+
+$('.headerIco_8').click(function(){
+    $('.lineBook_quxiao_mask.tel').show();
+    $('.mask_bg').show();
+})
+
+// 给商家打电话
+$(document).off('click','#goto_tel').on('click','#goto_tel',function(){
+    $('.mask_bg').hide();
+    $('.lineBook_quxiao_mask.tel').hide();
+    var shop_phone = <{$order.shop.phone}>;
+    var shop_mobile = <{$order.shop.mobile}>;
+    if(!shop_phone) {
+        window.open("tel:"+shop_mobile);
+    }else {
+        window.open("tel:"+shop_phone);
+    }
+})
+</script>
+<!--取消是否弹出结束-->
+<{include file="block/footer.html"}>

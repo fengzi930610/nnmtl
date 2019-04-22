@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title><{if $seo_sub_title}><{$seo_sub_title}>_<{/if}><{if $seo_title}><{$seo_title}><{elseif
+        $SEO.title}><{$SEO.title}><{else}>商户管理-<{$CONFIG.site.title}><{/if}></title>
+
+    <link href="/merchant/style/css/animate.css" rel="stylesheet">
+    <link href="/merchant/style/css/style.css" rel="stylesheet">
+
+    <!--个性化样式-->
+    <link href="/merchant/style/css/customer.css" rel="stylesheet">
+
+    <!-- Mainly scripts -->
+    <script src="/merchant/script/js/jquery-2.1.1.js"></script>
+    <script src="/merchant/script/js/bootstrap.min.js"></script>
+
+    <!--老平台js-->
+    <script type="text/javascript" src="/static/script/kt.js"></script>
+    <script type="text/javascript" src="/static/script/jBox/jBox.min.js"></script>
+    <script type="text/javascript" src="/static/script/layer/layer.js"></script>
+    <!--<script type="text/javascript" src="/static/script/kt.j.js"></script>-->
+    <script type="text/javascript" src="/static/script/widget.msgbox.js"></script>
+    <script type="text/javascript" src="/static/script/My97DatePicker/WdatePicker.js"></script>
+
+    <script src="/themes/default/biz/static/script/printArea.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+    <script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+
+
+    <script src="/merchant/script/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="/merchant/script/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="/merchant/script/js/inspinia.js"></script>
+    <script src="/merchant/script/js/plugins/pace/pace.min.js"></script>
+    <script src="/merchant/script/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/merchant/script/js/layer.js"></script>
+
+<style type="text/css" media="screen">
+.noticePage{ text-align:center; padding-top:80px;}
+.noticePage p{ font-size:16px; line-height:24px; color:#666; margin:4px 0;}
+.noticePage p.big{ font-size:20px; line-height:34px; margin:10px 0; font-weight:bold;}
+.noticePage .red{ color:#ff3300;}
+.noticePage .link a{ font-size:14px; line-height:24px; color:#115ec7;}
+.noticePage .link a:hover{ text-decoration:underline;}
+</style>
+</head>
+<body class="" style="background:#fff;">
+<div class="noticePage animated fadeInUp">
+    <div class="img">
+        <{if $pager.error && $pager.error != 200}>
+        <img src="%THEME%/static/images/cha.png" alt="" />
+        <{else}>
+        <img src="%THEME%/static/images/gou.png" alt="" />
+        <{/if}>
+    </div>
+    <p class="big"><{$pager.message}></p>
+    <p><span class="red" id="timer_span"><{$pager.timer}></span>秒之后页面自动跳转</p>
+    <P class="link"><a href="<{$pager.link}>" class="red">如没有跳转,点击这里立即跳转</a></P>
+</div>
+<script type="text/javascript">
+
+var timer = parseInt(<{$pager.timer}>);
+window.onload = function(){
+    window.setInterval(function(){
+        if(timer < 1){
+            window.clearInterval();
+            window.location.href = "<{$pager.link}>";
+            return ;
+        }
+        timer --;
+        $('#timer_span').text(timer);
+    }, 1000);
+}
+</script>
+<{include file="admin:common/footer.html"}>

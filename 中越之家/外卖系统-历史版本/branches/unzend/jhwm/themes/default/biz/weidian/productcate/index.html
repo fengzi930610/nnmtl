@@ -1,0 +1,44 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li class="on"><a href="<{link ctl='biz/weidian/productcate:index'}>"><{L('拼团系统分类')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weidian/productcate:create'}>" class="btn btn-success"><{L('添加分类')}></a></span>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-150"><{L('分类')}>ID</th>
+        <th><{L('标题')}></th>
+        <th class="w-100"><{L('排序')}></th>
+        <th class="w-150"><{L('操作')}></th>
+    </tr>
+    <{foreach $tree as $v}>
+    <tr>
+        <td><{$v.cate_id}></td>
+        <td><{$v.title}></td>        
+        <td><{$v.orderby}></td>
+        <td>
+            <a href="<{link ctl='biz/weidian/productcate:edit' args=$v.cate_id}>" class="btn btn-success"><{L('修改')}></a>&nbsp;&nbsp;
+            <a href="<{link ctl='biz/weidian/productcate:delete' args=$v.cate_id}>" mini-act="confirm:<{L('确认要删除该分类吗')}>?" class="btn btn-success"><{L('删除')}></a>
+        </td>
+    </tr>    
+    <{foreach $v.childrens as $vv}>
+    <tr>
+        <td><{$vv.cate_id}></td>
+        <td>&nbsp;├──<{$vv.title}></td>      
+        <td><{$vv.orderby}></td>
+        <td>
+            <a href="<{link ctl='biz/weidian/productcate:edit' args=$vv.cate_id}>" class="btn btn-success"><{L('修改')}></a>&nbsp;&nbsp;
+            <a href="<{link ctl='biz/weidian/productcate:delete' args=$vv.cate_id}>" mini-act="confirm:<{L('确认要删除该分类吗')}>?" class="btn btn-success"><{L('删除')}></a>
+        </td>
+    </tr>
+    <{/foreach}>    
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info"><{L('没有数据')}></div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

@@ -1,0 +1,159 @@
+<{include file="admin:common/header.html"}>
+
+<div class="page-title">
+
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+
+        <tr>
+
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+
+            <th><{$MOD.title}></th>
+
+            <td width="15"></td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="page-data">
+
+    <form action="?waimai/huodong-edit-<{$huodong.huodong_id}>-first.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+
+            <tr>
+
+                <th>活动时间：</th>
+
+                <td><input type="text" name="data[stime]" value="<{$huodong.stime|format:'Y-m-d'}>" class="input w-100" date="dateline" readonly="">~<input type="text" name="data[ltime]" value="<{$huodong.ltime|format:'Y-m-d'}>" class="input w-100" date="dateline" readonly="">
+
+                <br /><span class="ml5 gray">（开始日期0:00至结束日期23:59）</span></td>
+
+            </tr>
+
+            <tr>
+
+                <th>首单立减：</th>
+
+                <td><input type="text" name="config[first_amount]" value="<{$huodong.config.first_amount}>" class="input w-100" ><span class="tip-comment">元</span></td>
+
+            </tr>
+
+            <tr>
+
+                <th>商家承担：</th>
+
+                <td><input type="text" name="config[shop_amount]" value="<{$huodong.config.shop_amount}>" class="input w-100" ><span class="tip-comment">元</span></td>
+
+            </tr>
+
+            <tr>
+
+                <th>平台补贴：</th>
+
+                <td><input type="text" name="config[roof_amount]" value="<{$huodong.config.roof_amount}>" class="input w-100" ><span class="tip-comment">元</span></td>
+
+            </tr>
+
+            <tr>
+
+                <th>审核状态：</th>
+
+                <td>
+
+                    <label><input type="radio" name="data[audit]" value="1" <{if $huodong['audit'] == 1}>checked="checked"<{/if}> class="input"/>通过</label>
+
+                    <label><input type="radio" name="data[audit]" value="0" <{if $huodong['audit'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th class="clear-th-bottom"></th>
+
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="保存"> <input type="reset" class="bt-big" value="取消"></td>
+
+            </tr>
+
+        </table>
+
+    </form>
+
+</div>
+
+<script>
+
+    /*$(document).ready(function(){
+
+        $(".jq_all").keyup(function(){
+
+            $(".jq_shop,.jq_roof").val(0);
+
+        })
+
+        $(".jq_shop").keyup(function(){
+
+            var jq_all = $(".jq_all").val();
+
+            var jq_shop = $(this).val();
+
+            if(!jq_all){
+
+                layer.msg("请先填写首单立减金额");
+
+                $(".jq_shop,.jq_roof").val(0);
+
+            }else if(parseFloat(jq_all)<parseFloat(jq_shop)){
+
+                layer.msg("商家承担不能超过首单立减金额");
+
+                $(".jq_shop").val(jq_all);
+
+                $(".jq_roof").val(0);
+
+            }else{
+
+                $(".jq_roof").val((jq_all-jq_shop));
+
+            }
+
+        })
+
+        $(".jq_roof").keyup(function(){
+
+            var jq_all = $(".jq_all").val();
+
+            var jq_roof = $(this).val();
+
+            if(!jq_all){
+
+                layer.msg("请先填写首单立减金额");
+
+                $(".jq_shop,.jq_roof").val(0);
+
+            }else if(parseFloat(jq_all)<parseFloat(jq_roof)){
+
+                layer.msg("平台承担不能超过首单立减金额");
+
+                $(".jq_roof").val(jq_all);
+
+                $(".jq_shop").val(0);
+
+            }else{
+
+                $(".jq_shop").val((jq_all-jq_roof));
+
+            } 
+
+        })
+
+    })*/
+
+</script>
+
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,22 @@
+<{assign var='tpl_title' value='红包说明'}>
+<{include file="block/header.html"}>
+<header>
+<i class="left"><a href="<{link ctl='ucenter/hongbao:index'}>" link-load="" link-type="right"  class="ico headerIco headerIco_3"></a></i>
+<div class="title">
+    红包说明
+</div>
+</header>
+<section class="page_center_box">
+    <div class="redbag_intrt">
+        <{foreach $items as $v}>
+        <div class="redbag_intrt_list">
+            <div class="title"><em class="num fl"><{$v@index+1}></em><p><{$v.title}></p></div>
+            <ul>
+                <li><{$v.desc|nl2br}></li>
+            </ul>
+        </div>
+        <{/foreach}>
+    </div>
+</section>
+
+<{include file="block/footer.html"}>

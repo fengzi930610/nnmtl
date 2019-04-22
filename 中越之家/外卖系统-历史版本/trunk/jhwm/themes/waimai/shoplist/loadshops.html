@@ -1,0 +1,61 @@
+<{foreach $items as $k=>$item}>
+<div class="shoplists <{if $item.yysj_status == 1&&$item.yy_status==1}><{else}>close<{/if}>" shop-id="<{$item.shop_id}>">
+    <a href="<{link ctl='shop/detail' arg0=$item.shop_id http='waimai'}>">
+        <div class="logo" style="background-image:url('<{$pager.img}>/<{$item.logo}>');">
+            <{if $item.is_new}><div class="tag"></div><{/if}>
+            <div class="num"></div>
+        </div>
+    </a>
+    
+    <div class="txt_box">
+        <a href="<{link ctl='shop/detail' arg0=$item.shop_id http='waimai'}>">
+            <h2 class="overflow_clear"><{$item.title}></h2>
+            <{if $item.tips_label}><div class="open_state"><span><{$item.tips_label}></span></div><{/if}>
+            <div class="box">
+                <div class="starBg"><div class="star" style="width: <{round($item['avg_score']*20,1)}>%;"></div></div>
+                已售<{$item.orders}>单
+                <{if $item.pei_type ==1}>
+                <div class="song song2">平台专送</div>
+                <{else}>
+                <div class="song">商家配送</div>
+                <{/if}>
+                <!--  -->
+            </div>
+            <div class="box">
+                <div class="fl">
+                    起送￥<{$item.min_amount|default:0}>
+                    <small class="grey"> | </small>
+                    <{if !$item.freight}>免配送费<{else}>配送费￥<{$item.freight}><{/if}>
+                </div>
+                <div class="fr">
+                    <{if false}>
+                    <span class="green"><{$item.pei_time}>分钟</span>
+                    <small class="grey"> | </small>
+                    <{/if}>
+                    <{$item.juli_label}>
+                </div>
+            </div>
+        </a>
+        <hr>
+
+        <div class="support">
+            <{if $item.is_ziti}><span>支持自提<{$show_huodong}></span><{/if}>
+            <{if $item.is_refund}><span>极速退款</span><{/if}>
+        </div>
+
+        <{if count($item.huodong) > 0}>
+        <div class="hd">
+            <{if count($item.huodong) > 3}>
+            <div class="right"><{count($item.huodong)}>个活动<i class="ico"></i></div>
+            <{/if}>
+            <ul class="">
+                <{foreach $item.huodong as $hd}>
+                <li><i class="ico" style="background: #<{$hd.color}>"><{$hd.word}></i><{$hd.title}></li>
+                <{/foreach}>
+            </ul>
+        </div>
+        <{/if}>
+    </div>
+    <div class="clear"></div>
+</div>
+<{/foreach}>

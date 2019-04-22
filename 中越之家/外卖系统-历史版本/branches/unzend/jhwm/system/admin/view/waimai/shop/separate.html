@@ -1,0 +1,125 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+            <th>配送信息</th>
+            <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+            <td width="15"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+    <!--向导-->
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main"  priv="hide"  }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main"  priv="hide" class="on"}></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动"}></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" target="_blank" priv="hide" title="进入门店"}>
+        <div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-separate-<{$shop_id}>.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="data[shop_id]" value="<{$shop_id}>" readonly/>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+            <tr>
+                <th>是否使用单独配置</th><td>
+                <label><input type="radio" name="data[is_separate]" <{if $waimai.is_separate==1}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+                <label><input type="radio" name="data[is_separate]" <{if $waimai.is_separate==0}>checked="checked"<{/if}> value="0"/>否</label>
+                <span class="tip-comment">(开启后起送价及配送费会优先使用商家的单独配置，关闭起送价会默认使用配送站的配送费)</span>
+            </td>
+            </tr>
+            <tr>
+                <th>起送价：</th>
+                <td><input type="text" name="data[min_amount]" value="<{$waimai.min_amount}>" placeholder="起送价" class="input w-400"></td>
+            </tr>
+            </tbody>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr><th style="text-align: left; text-indent: 10px;" colspan="2">运费设置：</th></tr>
+            <tr class="w-500">
+                <td>
+                    <table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-800">
+                        <tr>
+                            <th>距离(km)</th>
+                            <th>金额(元)</th>
+                            <th class="w-100"><a class="jq_add" href="javascript:;"><b>+添加</b></a></th>
+                        </tr>
+                        <{foreach $waimai['config'] as $k=>$item}>
+                        <tr class="jq_tr" rel="<{$k}>">
+                            <td>
+                                <input type="text" class="input w-100" name="config[fkm][]" value="<{$item.fkm}>" />
+                            </td>
+                            <td>
+                                <input type="text" class="input w-100" name="config[fm][]" value="<{$item.fm}>" />
+                            </td>
+                            <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                        </tr>
+                        <{foreachelse}>
+                        <tr class="jq_tr" rel="0">
+                            <td><input type="text" class="input w-100" name="config[fkm][]" value=""></td>
+                            <td><input type="text" class="input w-100" name="config[fm][]" value=""></td>
+                            <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+                        </tr>
+                        <{/foreach}>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+            <tr>
+                <th></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".jq_add").click(function () {
+            var j = $(".jq_tr:last").attr("rel");
+            var k = parseInt(j)+1;
+            $("#table_hongbao_list").append('<tr class="jq_tr" rel="'+k+'"><td><input type="text" class="input w-100" name="config[fkm][]" value=""></td><td><input type="text" class="input w-100" name="config[fm][]" value=""></td><td><a href="javascript:;" class="text-danger jq_delete">删除</a></td></tr>');
+        })
+        $("#table_hongbao_list").on('click', '.jq_delete', function () {
+            $(this).parent().parent().remove();
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    (function(K, $){
+        $("input[name='config[closed]']").on('click', function(){
+            if($(this).val() == 1){
+                $("#tr_closed_reason").show();
+            }else{
+                $("#tr_closed_reason").hide();
+            }
+        });
+    })(window.KT, window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

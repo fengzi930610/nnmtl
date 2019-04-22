@@ -1,0 +1,80 @@
+<{include file="weidian/block/header.html"}>
+<section class="page_center_box">
+    <div class="recSeller_list_box border_t mt10 mb10" id="wrapper">
+        <ul id="index_goods_items">
+
+        </ul>
+        <div class="loadding">
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+<script>
+    //无限滚动开始
+    var _lock = false;
+    var params = {"": ""};
+    var title = "";
+    if (title) {
+        params['title'] = title;
+    }
+    var page = 1;
+    var link = "<{link ctl='index:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k, v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".loadding").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".loadding").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if (ret.loadst == 0) {
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+
+        });
+    }
+
+    $("section").scroll(function () {//监听滚动条改变
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+            if (_lock) {
+                return false;
+            }
+            _lock = false;
+            page++;
+            loaddata();
+            _lock = true;
+        }
+    });
+    //无限滚动结束
+</script>
+<{include file="weidian/block/footer.html"}>

@@ -1,0 +1,64 @@
+<{assign var='tpl_title' value=L("抢购对账-订单详情")}>
+<{include file="webview/bills/block/header.html"}>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="bill-detail">
+                    <h1 class="money border_b">+￥<{$log.amount}>元</h1>
+                    <div class="goods-box mb10">
+                        <div class="pub_list tit">
+                            <h3><i class="ico1"></i>商品信息</h3>
+                            <i class="ico2"></i>
+                        </div>
+                        <ul class="box border_b">
+                            <li class="pub_list">
+                                <div class="pub_list_bd"><i class="dot mr5"></i><{$qiang_order.qiang_title}></div>
+                                <div class="ml10"><span class="black6 mr20">x<{$qiang_order.qiang_number}></span>+￥<{$qiang_order.qiang_discount_price}></div>
+                            </li>
+                        </ul>
+                        <ul class="box border_b ml10">
+                            <li class="pub_list">
+                                <div class="pub_list_bd">平台抽佣</div>
+                                <div>-￥<{$log.fee}></div>
+                            </li>
+
+                        </ul>
+                        <ul class="box ml10">
+                            <li class="pub_list">
+                                <div class="pub_list_bd">结算金额</div>
+                                <div>￥<{$log.amount+$log.fee}></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="order-box">
+                        <li>
+                            <div class="fl left">订单留言</div>
+                            <div class="right"><{$order.intro|default:'----'}></div>
+                            <div class="clear"></div>
+                        </li>
+                        <li>
+                            <div class="fl left">订单号</div>
+                            <div class="right"><{$order.order_id}></div>
+                            <div class="clear"></div>
+                        </li>
+                        <li>
+                            <div class="fl left">下单时间</div>
+                            <div class="right"><{$order.dateline|format:'Y-m-d H:i:s'}></div>
+                            <div class="clear"></div>
+                        </li>
+                        <li>
+                            <div class="fl left">订单完成时间</div>
+                            <div class="right"><{$order.lasttime|format:'Y-m-d H:i:s'}></div>
+                            <div class="clear"></div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="webview/bills/block/header.html"}>

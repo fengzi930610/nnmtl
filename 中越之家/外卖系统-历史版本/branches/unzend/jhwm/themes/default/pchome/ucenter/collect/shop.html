@@ -1,0 +1,65 @@
+<{assign var="page_title" value="收藏商家列表"}>
+<{assign var='tpl_title' value=L("收藏商家列表")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+        <{include file="pchome/ucenter/block/left.html"}>
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="collect_box">
+                <h2 class="tit">店铺收藏</h2>
+                <div class="box">
+                    <div class="tag">
+                        <ul>
+                            <li class="list1" style="width:450px;">商家</li>
+                            <li class="list2">评价星级</li>
+                            <li class="list3">人均消费</li>
+                            <li class="list5">操作</li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <{foreach $items as $item}>
+                        <div class="list_box">
+                            <ul>
+                                <li class="list1" style="width:450px;">
+                                    <a href="<{link ctl='shop/detail' args=$item.can_id}>">
+                                        <div class="fl img"><img src="<{$pager.img}>/<{$shops[$item['can_id']]['logo']}>"/></div>
+                                        <div class="wz">
+                                            <h3 class="overflow_clear black6"><{$shops[$item['can_id']]['title']}></h3>
+                                            <div class="shangjia_label">
+                                                <{if $shops[$item['can_id']].have_tuan == 1}><span class="bg1">团</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_waimai == 1}><span class="bg2">外</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_maidan == 1}><span class="bg3">惠</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_quan == 1}><span class="bg4">券</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_paidui == 1}><span class="bg5">排</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_dingzuo == 1}><span class="bg6">订</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_diancan == 1}><span class="bg7">点</span><{/if}>
+                                                <{if $shops[$item['can_id']].have_weidian == 1}><span class="bg8">微</span><{/if}>
+                                            </div>
+                                            <p class="black9"><{$shops[$item['can_id']]['cate_name']}></p>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </a>
+                                </li>
+                                <li class="list2">
+                                    <span class="starBg"><span class="star" style="width:<{round($shops[$item['can_id']]['score']*20/$shops[$item['can_id']]['comments'],2)}>%;"></span></span>
+                                </li>
+                                <li class="list3">&yen;<{$shops[$item['can_id']]['avg_amount']}></li>
+                                <li class="list5"><a href="<{link ctl='ucenter/collectshop/collect' arg0=0 arg1=1 arg2=$item.can_id}>" class="btn_primary btn_outline">取消收藏</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                    <{/foreach}>
+                    <div class="pageNum_box">
+                        <{$pager.pagebar}>
+                    </div>
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<{include file="pchome/block/footer.html"}>

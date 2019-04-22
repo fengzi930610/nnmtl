@@ -1,0 +1,125 @@
+<{assign var='tpl_title' value=L("定位")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+	#search_box li:last-child{ margin-bottom:10px;}
+	.lctSer:before {left: 95px;}
+    .lctSer .long_btn{width:50px;}
+    .lctSer .now_city {display: block;font-size: 14px;width: 38px;line-height: 16px;color: #59c181;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+			<div class="lctSer">
+				<div class="box">
+					<form>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td width="38"><a href="<{link ctl='city'}>" class="city">切换城市</p></td>
+								<td width="38"><a href="javascript:;" class="now_city">合肥</a></td>
+								<td><input type="text" class="text" value="" placeholder="请输入小区名称或首字母搜索"  id="suggestId"></td>
+								<td width="70"><input type="button" class="long_btn" value="搜索"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+			</div>
+            <div class="container_mid">
+				<ul class="form_list_box" id="search_box">
+				</ul>
+				<ul class="form_list_box mb10">
+					<{if $addr_list}>
+					<li class="list bt">我的收货地址</li>
+					<{/if}>
+					<{foreach $addr_list as $v}>
+					<li class="serveAddr_cell_list pad10 border_b bgcolor_white" addr='{"lng":"<{$v.lng}>","lat":"<{$v.lat}>","addr":"<{$v.addr}>"}'>
+						<div class="ico fl"></div>
+						<div class="pub_wz">
+							<p class="black6"><{$v.contact}> <{$v.mobile}></p>
+							<p class="black9"><{$v.addr}>,<{$v.house}></p>
+						</div>
+						<div class="clear"></div>
+					</li>
+					<{/foreach}>
+				</ul>
+			</div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	// getUxLocation(function(ret){
+	// 	//在这里处理 ret{lnt, lat, addr}
+	// });
+	var now_city_name = localStorage['UxCity'] || Cookie.get("UxCity");
+	if(!now_city_name){
+		$('.title').text('还未选择城市');
+		window.location.href='<{link ctl="city" http="waimai"}>';
+	}else{
+		$('.title').text(now_city_name);
+		$('.now_city').text(now_city_name);
+	}
+	$('.long_btn').click(function(){
+		var addr_name = $('#suggestId').val();
+		placeapi(addr_name, now_city_name, function(ret){
+		   if(ret.infocode=="10000"&&ret.pois.length>0){
+		       var html = "";
+		       $.each(ret.pois,function(k,v){
+		           var latlng = v.location.split(',');
+
+                   html += '<li class="serveAddr_cell_list pad10 border_b bgcolor_white" addr=\'{"lng":"'+latlng[0]+'","lat":"'+latlng[1]+'","addr":"'+v.name+'"}\' >';
+                   html += '<div class="ico fl"></div>';
+                   html += '<div class="pub_wz">';
+                   html += '<p class="black3">'+v.name+'</p>';
+                   if(v.address != undefined){
+                       html += '<p>'+v.address+'</p>';
+                   }
+                   html += '</div>';
+                   html += '<div class="clear"></div>';
+
+                   html += '</li>';
+
+			   });
+               $('#search_box').html(html);
+
+		   }else{
+               $('#search_box').html('<li class="list addr"><p class="addr_p" style="font-size:14px;height:20px;line-height:20px;text-align:center;background: #f0f0f0; padding-bottom:10px;">暂时没有找到您查询的信息</p></li>');
+		   }
+
+
+			/*if(ret.results.length>0){
+				var html = '';
+				$.each(ret.results,function(n,value){
+					if(typeof(value.location) == 'object'){
+						html += '<li class="serveAddr_cell_list pad10 border_b bgcolor_white" addr=\'{"lng":"'+value.location.lng+'","lat":"'+value.location.lat+'","addr":"'+value.name+'"}\' >';
+						html += '<div class="ico fl"></div>';
+						html += '<div class="pub_wz">';
+						html += '<p class="black3">'+value.name+'</p>';
+						if(value.address != undefined){
+							html += '<p>'+value.address+'</p>';
+						}
+						html += '</div>';
+						html += '<div class="clear"></div>';
+
+						html += '</li>';
+					}
+				});
+				$('#search_box').html(html);
+			}else{
+				$('#search_box').html('<li class="list addr"><p class="addr_p" style="font-size:14px;height:20px;line-height:20px;text-align:center;background: #f0f0f0; padding-bottom:10px;">暂时没有找到您查询的信息</p></li>');
+			}*/
+		})
+	})
+	$(".form_list_box").on('click', 'li[addr]', function (){
+		var addr = {};
+		try{
+			addr = JSON.parse($(this).attr("addr"));
+			setUxLocation(addr);
+			location.href = "<{link ctl='index' http='waimai'}>";
+		}catch(e){
+			alert(e);
+		}
+	});
+});
+</script>
+<{include file="block/footer.html"}>

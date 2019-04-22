@@ -1,0 +1,46 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-wxtmpl.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="wxtmpl" />
+<table width="100%" border="0" cellspacing="0" class="table-data table">
+<tr>
+    <th class="w-100">编号</th>
+    <th class="w-150">标题</th>
+    <th>示例</th>
+</tr>
+<tr>
+    <td><label>TM00017(服务号)<label></td>
+    <td><b>订单状态通知</b></td>
+    <td>
+<pre>
+{{first.DATA}}
+订单编号： {{OrderSn.DATA}}
+订单状态： {{OrderStatus.DATA}}
+{{remark.DATA}}
+</pre>
+    </td>
+</tr>
+<tr>
+    <td><label>TM00017(小程序)<label></td>
+    <td><b>订单状态通知</b></td>
+    <td>
+<pre>
+{{first.DATA}}
+订单编号： {{OrderSn.DATA}}
+订单状态： {{OrderStatus.DATA}}
+{{remark.DATA}}
+</pre>
+    </td>
+</tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

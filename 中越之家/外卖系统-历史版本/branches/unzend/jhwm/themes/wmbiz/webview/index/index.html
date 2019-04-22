@@ -1,0 +1,58 @@
+<{assign var='tpl_title' value=L("商家入驻-首页")}>
+<{include file="webview/block/header.html"}>
+<style>
+    .tuiApplySuccess_box {
+        text-align: center;
+        padding: 50px 20px 30px;
+    }
+    .tuiApplySuccess_box h2{font-size: 24px; font-weight: normal;}
+    .registerWait .list_box{ text-align: center; padding:15px 10px 15px; border-top: 1px solid #e6e6e6;}
+    .registerWait .img_box{width: 80px;height: 80px; margin: 0 auto; border: 1px solid #ccc; overflow: hidden; margin-bottom: 6px;}
+    .registerWait .img_box img{width: 100%; height: 100%;}
+    .registerWait .img_box p{font-size: 14px; color: #777; line-height: 20px;}
+    .registerWait .img_box.long{width: 112px; height: 84px;}
+
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid" style="background: #fff;">
+                <!--内容-->
+                <div class="tuiApplySuccess_box">
+                    <img src="/themes/wmbiz/webview/static/img/sucees@3x.png" class="ico" width="100" height="100">
+
+                    <h2><{if $waimai_detail.verify_name==0}>
+                        等待审核
+                        <{elseif $waimai_detail.verify_name==1}>
+                        审核通过
+                        <{else}>
+                        审核失败
+                        <{/if}>
+                    </h2>
+                    <p class="black9">请准备好资料,请等待业务员与您联系!</p>
+                    <div class="long_btn_box">
+                      <!-- <a href="tel:0551-64278115" class="long_btn primary mb10">联系客服</a>-->
+                    </div>
+                </div>
+               <!-- <div class="registerWait">
+                    <div class="list_box">
+                        <div class="img_box">
+                            <img width="100%" height="100%" src="http://img01.jhcms.com/wmdemo/photo/201711/20171113_7C4D55E588D756EA624CB21FFF1ECBCD.png" id="logo" onerror="javascript:this.src='http://img01.jhcms.com/wmdemo/photo/201708/20170809_5CBC5D36183F960C9C62FC9FC79967C.jpg';" style="opacity: 1;">
+                        </div>
+                        <p>店铺logo图，只限1张</p>
+                    </div>
+                    <div class="list_box">
+                        <div class="img_box long">
+                            <img width="100%" height="100%" src="http://img01.jhcms.com/wmdemo/photo/201711/20171113_7C4D55E588D756EA624CB21FFF1ECBCD.png" id="logo" onerror="javascript:this.src='http://img01.jhcms.com/wmdemo/photo/201708/20170809_5CBC5D36183F960C9C62FC9FC79967C.jpg';" style="opacity: 1;">
+                        </div>
+                        <p>店铺环境相册<small class="black9">(最多上传6张)</small></p>
+                    </div>
+                </div>-->
+                <!--内容结束-->
+            </div>
+            <!--底部-->
+            <!--底部结束-->
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

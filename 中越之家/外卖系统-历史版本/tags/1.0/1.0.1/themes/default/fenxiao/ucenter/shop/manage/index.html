@@ -1,0 +1,26 @@
+<{assign var="tpl_title" value="我的店铺"}>
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<div class="fx_dpManage_list_box">
+    	<ul>
+            <{foreach $fx_shops as $item}>
+                <li class="fx_dpManage_list <{if $FENXIAO['sid']==$item.sid}>on<{/if}>">
+                    <a <{if $item.status == 1}>href="<{$item.url}>/ucenter/shop/index"<{else}>href="javascript:void(0);"<{/if}> >
+                        <div class="img fl"><img src="<{$pager.img}>/<{$item.photo}>" width="80" height="80"></div>
+                        <div class="wz_box">
+                            <h4><{$item.title}></h4>
+                            <p><{if $item.status == 1}><span style="color: green;">店铺已审核</span><{else}><span style="color: red;">店铺待审核</span><{/if}></p>
+                            <p class="fontcl1"><{$shops[$item['shop_id']]['title']}></p>
+                        </div>
+                        <div class="clear"></div>
+                        <span class="checkIco"></span>
+                    </a>
+                </li>
+            <{/foreach}>
+	    </ul>
+    </div>
+</section>
+<script>
+    
+</script>
+<{include file="fenxiao/block/footer.html"}>

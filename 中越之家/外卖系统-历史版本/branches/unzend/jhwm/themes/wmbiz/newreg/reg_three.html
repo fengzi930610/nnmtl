@@ -1,0 +1,86 @@
+<{assign var='tpl_title' value=L("商家入驻-配送信息")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .loginTop .logo img{ width:60px; height:60px;}
+</style>
+<div class="loginTop">
+	<div class="smallpage">
+        <div class="logo fl"><{if $site.logo_shop}><img src="<{$pager.img}>/<{$site.logo_shop}>"><{else}><img src="%THEME%/static/images/logo.png"><{/if}><span><{$site.title}>外送商家后台</span></div>
+        <!--<div class="tit fl">入驻</div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+
+        </div>-->
+        <div class="tit fl">客服电话：<{$site.phone}></div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+            &nbsp;&nbsp;<a class="black3"  href="<{link ctl='login/loginout'}>">退出登录</a>
+            <!--<i class="ico"></i>-->
+        </div>
+    </div>
+</div>
+<div class="bg_grey" style="padding:10px 0;">
+    <div class="smallpage">
+        <div class="enterProcess_state">
+        	<ul>
+            	<li class="on">
+                	<span class="num">1</span>
+                    <P>店铺信息</P>
+                </li>
+                <li class="on">
+                	<span class="num">2</span>
+                    <P>资质信息</P>
+                </li>
+                <li class="on">
+                	<span class="num">3</span>
+                    <P>配送信息</P>
+                </li>
+                <li>
+                	<span class="num">4</span>
+                    <P>结算信息</P>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="enterPromt">
+        	<h2 class="big_tit">店铺配送信息</h2>
+                <form id="myform" method="post" action="<{link ctl='newreg/three'}>" mini-form="three-form" >
+            <div class="enterForm">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="bt" width="170">配送方式：</td>
+                        <td>
+                            <label class="radio_int mr30"><input type="radio" name="data[pei_type]" <{if $waimai.pei_type == 1}>checked="checked"<{/if}> class="mr10" value="1">申请配送团队</label>
+                            <label class="radio_int mr30"><input type="radio" name="data[pei_type]" <{if $waimai.pei_type != 1}>checked="checked"<{/if}> class="mr10" value="0" >商家配送</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bt" width="170">&nbsp;</td>
+                        <td>
+                            <div class="enterSong">
+                                <img src="%THEME%/static/images/mineIdx5.png">
+                                <p>会有业务专员与您联系沟通具体事宜</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                </form>
+            <div class="form_table_btn_box text_c">
+                <a class="btn btn-default btn-w-m" href="<{link ctl='newreg/two'}>">上一步</a>
+                <{if $verify.verify ==5||$verify.verify==1}><a class="btn btn-primary btn-w-m" href="<{link ctl='newreg/four'}>">下一步</a><{else}><a class="btn btn-primary btn-w-m" href="javascript:;" id="bmw1200gsadv">提交并进入下一步</a><{/if}>
+            </div>
+        </div>
+        <div class="bottom_tel"><i class="ico"></i>客服热线：<{$site.phone}></div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $("#bmw1200gsadv").click(function(){
+            $("#myform").submit();
+        })
+    })
+</script>
+<{include file="block/footer.html"}>

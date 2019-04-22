@@ -1,0 +1,31 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/verify:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form id="verify-form">
+<input type="hidden" name="itemIds" value="<{$pager.itemIds}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+<tr><th>拒绝原因：</th>
+    <td><textarea name="refuse" class="textarea w-300"></textarea></td></tr>
+<tr><th>拒绝会员：</th>
+	<td>
+		<strong class="red">总共：<{$pager.total}>条</strong><br/>
+		<{foreach $items as $item}><em style="font-style:italic;"><{if $item@iteration>5}>...........<{break}><{/if}><{$item@iteration}>、<{$item.name}>，手机：<{$item.mobile}></em><br/><{/foreach}>
+    </td>
+</tr>
+<tr>
+    <th class="clear-th-bottom"></th>
+    <td class="clear-td-bottom" colspan="10"><{link ctl="member/verify:dorefuse" submit="mini:#verify-form" type="button" value="确认拒绝"}></td></tr>
+</table>
+</form>
+</div>
+<{include file="admin:common/footer.html"}>

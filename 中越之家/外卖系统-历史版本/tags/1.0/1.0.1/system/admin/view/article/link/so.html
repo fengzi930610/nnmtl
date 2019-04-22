@@ -1,0 +1,20 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="article/link/link:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?article/link/link-index.html" id="SO-form" method="post">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+	<tr><th>ID：</th><td><input type="text" name="SO[link_id]" value="<{$detail.link_id}>" class="input w-100"/></td></tr>
+	<tr><th>关键字：</th><td><input type="text" name="SO[title]" value="<{$detail.title}>" class="input w-200"/></td></tr>
+	<tr><th>连接：</th><td><input type="text" name="SO[link]" value="<{$detail.link}>" class="input w-200"/></td></tr> 
+	<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

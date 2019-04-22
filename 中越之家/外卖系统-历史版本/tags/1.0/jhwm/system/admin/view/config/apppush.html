@@ -1,0 +1,101 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-apppush.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="apppush" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+<th>客户端 AppKey：</th>
+<td>
+	<input type="text" name="config[member][appkey]" value="<{$config.member.appkey|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[member][appkey_ltd]" value="<{$config.member.appkey_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置AppKey</span>
+</td>
+</tr>
+<tr>
+<th>客户端 Secret：</th>
+<td>
+	<input type="text" name="config[member][secret]" value="<{$config.member.secret|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[member][secret_ltd]" value="<{$config.member.secret_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置MasterSecret</span>
+</td>
+</tr>
+<tr>
+<th>服务端 AppKey：</th>
+<td>
+	<input type="text" name="config[staff][appkey]" value="<{$config.staff.appkey|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[staff][appkey_ltd]" value="<{$config.staff.appkey_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置AppKey</span>
+</td>
+</tr>
+<tr>
+<th>服务端 Secret：</th>
+<td>
+	<input type="text" name="config[staff][secret]" value="<{$config.staff.secret|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[staff][secret_ltd]" value="<{$config.staff.secret_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置MasterSecret</span>
+</td>
+</tr>
+<tr>
+<th>商户端 AppKey：</th>
+<td>
+	<input type="text" name="config[shop][appkey]" value="<{$config.shop.appkey|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[shop][appkey_ltd]" value="<{$config.shop.appkey_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置AppKey</span>
+</td>
+</tr>
+<tr>
+<th>商户端 Secret：</th>
+<td>
+	<input type="text" name="config[shop][secret]" value="<{$config.shop.secret|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[shop][secret_ltd]" value="<{$config.shop.secret_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置MasterSecret</span>
+</td>
+</tr>
+<!--
+<{*
+<tr>
+<th>外卖商户端 AppKey：</th>
+<td>
+	<input type="text" name="config[waimai][appkey]" value="<{$config.waimai.appkey|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[waimai][appkey_ltd]" value="<{$config.waimai.appkey_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置AppKey</span></td>
+</tr>
+<tr>
+<th>外卖商户端 Secret：</th>
+<td>
+	<input type="text" name="config[waimai][secret]" value="<{$config.waimai.secret|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[waimai][secret_ltd]" value="<{$config.waimai.secret_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置MasterSecret</span>
+</td>
+</tr>
+<tr>
+<th>商城商户端 AppKey：</th>
+<td>
+	<input type="text" name="config[mall][appkey]" value="<{$config.mall.appkey|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[mall][appkey_ltd]" value="<{$config.mall.appkey_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置AppKey</span>
+</td>
+</tr>
+<tr>
+<th>商城商户端 Secret：</th>
+<td>
+	<input type="text" name="config[mall][secret]" value="<{$config.mall.secret|default:''}>" class="input w-300"/>&nbsp;&nbsp;&nbsp;
+	IOS企业：<input type="text" name="config[mall][secret_ltd]" value="<{$config.mall.secret_ltd|default:''}>" class="input w-300"/>
+	<span class="tip-comment">极光推送配置MasterSecret</span>
+</td>
+</tr>
+*}>
+-->
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

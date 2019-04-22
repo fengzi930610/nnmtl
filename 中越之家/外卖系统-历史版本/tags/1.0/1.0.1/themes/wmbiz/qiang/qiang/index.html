@@ -1,0 +1,76 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='qiang/order:index'}>">抢购管理</a></li>
+        <li class="active">抢购管理</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <form action="<{link ctl='qiang/qiang:index'}>" method="post">
+            <div class="dispatch_serch">
+                <div class="clearfix list_box">
+                    <div class="fl" id="data_5">
+                        <span class="input-daterange" id="datepicker">添加时间：<input type="text" name="SO[dateline][]" value="<{$pager['SO']['dateline'][0]}>" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[dateline][]" value="<{$pager['SO']['dateline'][1]}>" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm fl" value="搜 索">
+                </div>
+                <div class="clearfix list_box">
+                    <div class="fl mr20">名称：<input type="text" name="SO[title]" value="<{$pager['SO']['title']|default:''}>" placeholder="" class="tuan_topser tuan_topserw2"></div>
+                </div>
+                <div class="clearfix list_box">类型：
+                    <label class="ml10"><input type="radio" <{if !$pager['SO']}>checked<{/if}> name="SO[type]" value="0">全部</label> 
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['type'] == "goods"}>checked<{/if}> name="SO[type]" value="goods">实物</label>
+                    <label class="ml30"><input type="radio" <{if $pager['SO']['type'] == "ticket"}>checked<{/if}> name="SO[type]" value="ticket">电子券</label>
+                </div>
+            </div>
+        </form>        
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+                <td>抢购ID</td>
+                <td>图片</td>
+                <td>名称</td>
+                <td>类型</td>
+                <td>折扣价</td>
+                <td>原价</td>
+                <td>运费</td>
+                <td>库存</td>
+                <td>销量</td>
+                <td>平台佣金比例</td>
+                <td>抢购截止时间</td>
+                <td>消费截止时间</td>
+                <td>添加时间</td>
+                <td>状态</td>
+                <td>排序</td>
+                <td>操作</td>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><{$item.qiang_id}></td>
+                <td width="100"><span class="img_box"><img src="<{$pager.img}>/<{$item.photo}>"/></span></td>
+                <td><{$item.title}></td>      
+                <td><{$item.product_type_name}></td>
+                <td>￥<{$item.discount_price}></td>
+                <td>￥<{$item.price}></b></td>
+                <td>￥<{$item.freight}></td>
+                <td><{$item.sku}></td>
+                <td><{$item.sales}></td>
+                <td><{$item.bl}>%</td>
+                <td><{$item.qiang_ltime|format:'Y-m-d'}></td>
+                <td><{$item.use_ltime_label}></td>
+                <td><{$item.dateline|format:'Y-m-d H:i:s'}><br /><{$item.clientip}>(<{$item.clientip|iplocal}>)</td>
+                <td><{$item.onsale_status}></td>
+                <td><{$item.orderby}></td>
+                <td>
+                    <a href="<{link ctl='qiang/qiang:detail' arg0=$item.qiang_id http='wmbiz'}>" class="btn btn-primary btn-sm btn-outline" title="查看">查看</a>
+                </td>
+            </tr>
+            <{/foreach}>
+        </table>
+        <div class="paging">
+            <{$pager.pagebar}>
+        </div>
+    </div>
+</div>
+<{include file="block/footer.html"}>

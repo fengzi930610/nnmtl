@@ -1,0 +1,43 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco headerIco2" href="<{link ctl='cloud/index/detail' args=$detail.attr_id}>"></a>
+            <a class="pull-right"></a>
+            <h1 class="title">参与详情</h1>
+        </header>
+		<!--头部结束-->
+        <!-- 主要内容部分 -->
+        <div class="content infinite-scroll infinite-scroll-bottom">
+        	<div class="pad10 border_b bgcolor_white mb10">
+            	<p class="black3 overflow_clear">(第<{$goods.attr.cloud_num}>期)<{$goods.title}></p>
+                <p class="black6" style=" font-size:0.75rem;">本期参与：<em class="maincl"><{$detail.num}></em>人次</p>
+                <p class="black6" style=" font-size:0.75rem;">参与时间：<{$detail.dateline|format:'Y-m-d H:i:s'}></p>
+            </div>
+            <{if $detail.order_status == 1}>
+            <div class="bgcolor_white txt_center black9 canYu_box" id="index_goods_items">
+            <{foreach $number_list as $item}>
+            <{if $item@index%4 == 0}>
+            <div class="content-padded grid-demo">
+                <div class="row no-gutter">
+                    <div class="col-25 <{if $item.number == $detail.win_number}>fontcl1<{/if}> "><{$item.number}></div>
+                    <{elseif $item@index%4 == 3}>
+                    <div class="col-25 <{if $item.number == $detail.win_number}>fontcl1<{/if}>"><{$item.number}></div>
+                </div>
+            </div>
+                <{else}>
+                <div class="col-25 <{if $item.number == $detail.win_number}>fontcl1<{/if}>"><{$item.number}></div>
+                <{/if}>
+            <{/foreach}>
+
+            </div>
+
+            <{else}>
+            <div class="border_t border_b bgcolor_white txt_center black6">
+                您的该订单未支付
+            </div>
+            <{/if}>
+        </div>
+        <!-- 主要内容部分结束 --> 
+    </div>
+<{include file="cloud/block/footer.html"}>

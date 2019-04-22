@@ -1,0 +1,109 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?waimai/huodong-create-<{$shop_id}>-manjian.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th>活动时间：</th>
+                   <td>
+                        <input type="text" name="data[stime]" value="" class="input w-100" date="dateline" readonly="">~
+                        <input type="text" name="data[ltime]" value="" class="input w-100" date="dateline" readonly="">
+                        <span class="ml5 gray">（开始日期0:00至结束日期23:59）</span>
+                    </td>
+                </td>
+                </tr>
+                <tr>
+                    <th>审核状态：</th>
+                    <td>
+                        <label><input type="radio" name="data[audit]" value="1" <{if $huodong['audit'] == 1}>checked="checked"<{/if}> class="input"/>通过</label>
+                        <label><input type="radio" name="data[audit]" value="0" <{if $huodong['audit'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>活动信息：</th>
+                    <td>
+<table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-500">
+    <tr>
+        <th>使用条件(满)</th>
+        <th>优惠金额(减)</th>
+        <th>商户承担(元)</th>
+        <th>平台补贴(元)</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="config[0][order_amount]" value="<{$huodong['config'][0]['order_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[0][coupon_amount]" value="<{$huodong['config'][0]['coupon_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[0][shop_amount]" value="<{$huodong['config'][0]['shop_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[0][roof_amount]" value="<{$huodong['config'][0]['roof_amount']}>" class="input w-100"></td>
+    </tr>
+    <tr>
+        <td><input type="text" name="config[1][order_amount]" value="<{$huodong['config'][1]['order_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[1][coupon_amount]" value="<{$huodong['config'][1]['coupon_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[1][shop_amount]" value="<{$huodong['config'][1]['shop_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[1][roof_amount]" value="<{$huodong['config'][1]['roof_amount']}>" class="input w-100"></td>
+    </tr>
+    <tr>
+        <td><input type="text" name="config[2][order_amount]" value="<{$huodong['config'][2]['order_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[2][coupon_amount]" value="<{$huodong['config'][2]['coupon_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[2][shop_amount]" value="<{$huodong['config'][2]['shop_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[2][roof_amount]" value="<{$huodong['config'][2]['roof_amount']}>" class="input w-100"></td>
+    </tr>
+</table>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clear-th-bottom"></th>
+                    <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="保存"> <input type="reset" class="bt-big" value="取消"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".jq_all").keyup(function(){
+            $(this).parent().parent().find(".jq_shop").val(0);
+            $(this).parent().parent().find(".jq_roof").val(0);
+        })
+        $(".jq_shop").keyup(function(){
+            var jq_all = $(this).parent().parent().find(".jq_all").val();
+            var jq_shop = $(this).val();
+            if(!jq_all){
+                layer.msg("请先填写立减金额");
+                $(this).val(0);
+                $(this).parent().parent().find(".jq_roof").val(0);
+            }else if(parseFloat(jq_all)<parseFloat(jq_shop)){
+                layer.msg("商家承担不能超过立减金额");
+                $(this).val(jq_all);
+                $(this).parent().parent().find(".jq_roof").val(0);
+            }else{
+                $(this).parent().parent().find(".jq_roof").val((jq_all-jq_shop));
+            }
+        })
+        $(".jq_roof").keyup(function(){
+            var jq_all = $(this).parent().parent().find(".jq_all").val();
+            var jq_roof = $(this).val();
+            if(!jq_all){
+                layer.msg("请先填写立减金额");
+                $(this).val(0);
+                $(this).parent().parent().find(".jq_shop").val(0);
+            }else if(parseFloat(jq_all)<parseFloat(jq_roof)){
+                layer.msg("平台承担不能超过立减金额");
+                $(this).val(jq_all);
+                $(this).parent().parent().find(".jq_shop").val(0);
+            }else{
+                $(this).parent().parent().find(".jq_shop").val((jq_all-jq_roof));
+            }
+        })
+    })
+</script>
+<{include file="admin:common/footer.html"}>

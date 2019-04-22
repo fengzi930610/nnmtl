@@ -1,0 +1,133 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/shop/open:index'}>" class="on">功能开通</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<table cellspacing="0" cellpadding="0" class="form">
+    <tr><th>小提示：</th><td>勾选保存为开通，不勾选保存为关闭</td></tr>
+    <tr><th>团购：</th>
+        <td>
+            <input type="checkbox" name="data[have_tuan]" value="<{$shop.have_tuan}>" <{if $shop.have_tuan == 1}>checked="checked"<{/if}> ><span class="tip-comment">勾选开通团购功能</span>
+        </td>
+    </tr>
+    <tr><th>代金券：</th>
+        <td>
+            <input type="checkbox" name="data[have_quan]" value="<{$shop.have_quan}>" <{if $shop.have_quan == 1}>checked="checked"<{/if}> ><span class="tip-comment">在开通了团购之后再开通代金券才能管理代金券</span>
+        </td>
+    </tr>
+    <tr><th>优惠买单：</th>
+        <td>
+            <input type="checkbox" name="data[have_maidan]" value="<{$shop.have_maidan}>" <{if $shop.have_maidan == 1}>checked="checked"<{/if}> ><span class="tip-comment">在开通了团购之后再开通优惠买单才能管理优惠买单</span>
+        </td>
+    </tr>
+    <tr><th>排号：</th>
+        <td>
+            <input type="checkbox" name="data[have_paidui]" value="<{$shop.have_paidui}>" <{if $shop.have_paidui == 1}>checked="checked"<{/if}> ><span class="tip-comment">勾选开通排号功能</span>
+        </td>
+    </tr>
+    <tr><th>订座：</th>
+        <td>
+            <input type="checkbox" name="data[have_dingzuo]" value="<{$shop.have_dingzuo}>" <{if $shop.have_dingzuo == 1}>checked="checked"<{/if}> ><span class="tip-comment">勾选开通订座功能</span>
+        </td>
+    </tr>
+    <tr><th>点餐：</th>
+        <td>
+            <input type="checkbox" name="data[have_diancan]" value="<{$shop.have_diancan}>" <{if $shop.have_diancan == 1}>checked="checked"<{/if}> ><span class="tip-comment">勾选开通点餐功能</span>
+        </td>
+    </tr>
+    <tr><th></th><td><input type="button" id="save" value="提交更改" class="btn btn-success" />
+        
+    </td></tr>
+
+</table>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+
+$("input[name='data[have_tuan]']").change(function(){
+    if($(this).attr('checked') != undefined) {
+        $(this).val(1);
+        $(this).attr('checked',true);
+    }else{
+        $(this).val(0);
+        $(this).attr('checked',false);
+    }
+});
+$("input[name='data[have_quan]']").change(function(){
+    if($(this).attr('checked') != undefined) {
+        $(this).val(1);
+        $(this).attr('checked',true);
+    }else{
+        $(this).val(0);
+        $(this).attr('checked',false);
+    }
+});
+$("input[name='data[have_maidan]']").change(function(){
+    if($(this).attr('checked') != undefined) {
+        $(this).val(1);
+        $(this).attr('checked',true);
+    }else{
+        $(this).val(0);
+        $(this).attr('checked',false);
+    }
+});
+
+$("input[name='data[have_paidui]']").change(function(){
+    if($(this).attr('checked') != undefined) {
+        $(this).val(1);
+        $(this).attr('checked',true);
+    }else{
+        $(this).val(0);
+        $(this).attr('checked',false);
+    }
+});
+$("input[name='data[have_dingzuo]']").change(function(){
+    if($(this).attr('checked') != undefined) {
+        $(this).val(1);
+        $(this).attr('checked',true);
+    }else{
+        $(this).val(0);
+        $(this).attr('checked',false);
+    }
+});
+$("input[name='data[have_diancan]']").change(function(){
+    if($(this).attr('checked') != undefined) {
+        $(this).val(1);
+        $(this).attr('checked',true);
+    }else{
+        $(this).val(0);
+        $(this).attr('checked',false);
+    }
+});
+
+$('#save').click(function(){
+    jQuery.ajax({
+        url: "<{link ctl='biz/shop/open:save'}>",
+        async: true,
+        dataType: 'json',
+        data: {"have_tuan":$("input[name='data[have_tuan]']").val(),"have_quan":$("input[name='data[have_quan]']").val(),"have_maidan":$("input[name='data[have_maidan]']").val(),"have_paidui":$("input[name='data[have_paidui]']").val(),"have_dingzuo":$("input[name='data[have_dingzuo]']").val(),"have_diancan":$("input[name='data[have_diancan]']").val()},
+        type: 'POST',
+        success: function (ret) {
+            if (ret.error > 0) {
+                layer.msg(ret.message);
+            } else {
+                layer.msg(ret.message);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+    });
+
+})
+
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

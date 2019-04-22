@@ -1,0 +1,89 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/weidian/info/index'}>" class="on">我的店铺</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c animated fadeInRight">
+	<div class="alert alert-info">
+        <div class="mb10"><b><i class="fa fa-info-circle"></i>&nbsp;温馨提示</b></div>
+        界面展示的店铺信息，仅供查看，<strong><a href="<{link ctl='biz/weidian:info'}>">点击这里设置</a></strong>。
+    </div>
+    <div class="mb20"></div>
+    <div class="weidian_table_info mb20">
+    	<table cellspacing="0" cellpadding="0" class="table table-bordered">
+            <tr>
+                <th colspan="6">店铺信息</th>
+            </tr>
+            <tr>
+                <td class="text_right"><b>店铺名称：</b></td>
+                <td><{$weidian.title}></td>
+                <td class="text_right"><b>客服电话：</b></td>
+                <td><{$weidian.phone}></td>
+
+            </tr>
+            <tr>
+                <td class="text_right"><b>微店LOGO：</b></td>
+                <td colspan="5"><img width="80"  src="/attachs/<{$weidian.logo}>" /></td>
+            </tr>
+            <tr>
+                <td class="text_right"><b>微店二维码：</b></td>
+                <td colspan="5"><img alt="模式一扫码支付" src="/qrcode?data=<{$weidian.url|urlencode}>&size=13" width="100"/></td>        
+            </tr>
+            <tr>
+                <td class="text_right"><b>付款方式：</b></td>
+                <td colspan="5">
+                    <{if 1 == $weidian.is_daofu && 1 == $weidian.online_pay}>全都支持(在线支付,货到付款)
+                    <{else if 1 == $weidian.online_pay}>仅支持在线支付
+                    <{else if 1 == $weidian.is_daofu}>仅支持货到付款
+                    <{/if}></td>
+            </tr>
+            <tr>
+                <td class="text_right"><b>到店自提：</b></td>
+                <td colspan="5"><{if 1 == $weidian.is_ziti}>支持<{else}>不支持<{/if}></td>
+            </tr>
+
+            <tr>
+                <td class="text_right"><b>微店地址：</b></td>
+                <td colspan="5"><b><a href="<{$weidian.url}>" target="_blank" class="fontcl1"><{$weidian.url}></a></b></td>
+            </tr>
+            <!--<tr>-->
+                <!--<td class="text_right"><b>店铺佣金：</b></td>-->
+                <!--<td colspan="5">佣金佣金</td>        -->
+            <!--</tr>-->
+        </table>
+    </div>
+    <div class="row weidian_table_infoTwo_box">
+    	<!--<div class="col-sm-8 lt">
+        	<div class="weidian_table_infoTwo">
+            	<div class="tit">佣金统计图</div>
+                <div class="flot_chart_content">
+                	<img src="/themes/default/biz/static/images/pic1.png" width="100%" />
+                </div>
+            </div>
+        	
+        </div>-->
+        <div class="">
+        	<div class="weidian_table_infoTwo mb20 lt">
+            	<div class="tit">收入<span class="rt tag" style=" background:#449618;"><{$weidian.ymd}></span></div>
+                <div class="cont">
+                	<p class="big"><{$weidian.order_money}></p>
+                    <p>总收入(已付款订单)
+                        <!--<span class="rt num" style="color:#449618;">98%<i class="fa fa-bolt"></i></span>-->
+                    </p>
+                </div>
+            </div>
+            <div class="weidian_table_infoTwo mb20 rt">
+            	<div class="tit">订单<span class="rt tag" style=" background:#1c84c6;"><{$weidian.ymd}></span></div>
+                <div class="cont">
+                	<p class="big"><{$weidian.order_count}></p>
+                    <p>新订单(已付款订单)
+                        <!--<span class="rt num" style="color:#1c84c6;">20%<i class="fa fa-level-up"></i></span>-->
+                    </p>
+                </div>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <div class="cl"></div>
+    </div>
+</div>
+<{include file="biz/block/footer.html"}>

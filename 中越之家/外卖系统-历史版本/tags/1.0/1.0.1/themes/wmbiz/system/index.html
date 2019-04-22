@@ -1,0 +1,94 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='system/index'}>">系统设置</a></li>
+        <li class="active">自动接单设置</li>
+    </ol>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="dispatch_tab">
+        <ul>
+            <li ><a href="<{link ctl='system/index2'}>" class="click1">打印机</a></li>
+            <li class="on"   class="click2"><a href="<{link ctl='system/index'}>">自动接单设置</a></li>
+        </ul>
+    </div>
+    <!-- 模式 -->
+    <div class="modelSelect-cont mb20" id="cang1" style="display: block">
+        <div class="mb20 setTit2">您可以在这里设置<span class="fontcl2">自动接单方式</span>，同一时间只能开启一种自动接单:</div>
+        <div class="getdan-way">
+            自动接单方式：<input type="radio" id="print2" name="data[num]" class="inp-radio">PC自动接单<input id="print3" type="radio" name="data[num]" class="inp-radio">手动接单
+            <input id="print4" type="radio" name="data[num]" class="inp-radio">打印机接单
+        </div>
+        <div class="getdan-way">
+            打印机自动接单：<input type="radio" name="data[auto_print]" class="inp-radio" value="1" <{if $waimai_shop.auto_print}>checked<{/if}>>开启<input type="radio" name="data[auto_print]" class="inp-radio" value="0" <{if !$waimai_shop.auto_print}>checked<{/if}>>关闭
+        </div>
+        <div class="tex1">开启自动接单后，客户端在线期间将自动接单，并打印小票（请确保打印机处于可用状态,并且在打印机设置中打开打印机）</div>
+        <div class="text_c mt30"><a href="javascript:;" class="btn btn-sm btn-primary">保存</a></div>
+    </div>
+
+</div>
+
+<script>
+    $(function(){
+
+        init_system();
+        var xx=systemlist();
+        if(xx.pc==1){
+            $('#print2').prop('checked','checked');
+            $('#print3').prop('checked',false);
+            $('#print4').prop('checked',false);
+        }
+        if(xx.shou==1){
+            $('#print2').prop('checked',false);
+            $('#print3').prop('checked','checked');
+            $('#print4').prop('checked',false);
+        }
+        if(xx.print==1){
+            $('#print2').prop('checked',false);
+            $('#print3').prop('checked',false);
+            $('#print4').prop('checked','checked');
+
+        }
+        $('.btn-primary').on('click',function(){
+            var  key = '';
+            if($('#print2').is(':checked')){
+                key = 'pc';
+            }else if($('#print3').is(':checked')){
+                key = 'shou';
+            }else if($('#print4').is(':checked')){
+                key = 'print';
+            }
+
+            var auto_print = $('input[name="data[auto_print]"]:checked').val();
+
+            if(key!=''){
+                var url = "<{link ctl='print/print/set_shop_print' http='wmbiz'}>";
+                $.post(url,{data:key, auto_print:auto_print},function(e){
+                    if(e.error==0){
+                        set_system(key);
+                        layer.msg(e.message);
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        },1000);
+                    }else{
+                        layer.msg(e.message);
+                        setTimeout(function(){
+                            window.location.reload(true);
+                        },1000);
+                    }
+                },'json');
+                return false;
+            }
+        })
+    })
+</script>
+<!--设置打印机-->
+
+
+
+
+
+
+<{include file="block/footer.html"}>

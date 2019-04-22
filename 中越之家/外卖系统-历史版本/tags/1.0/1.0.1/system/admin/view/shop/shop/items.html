@@ -1,0 +1,77 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="shop/shop:create" class="button" title="添加"}>
+                <{link ctl="shop/shop:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">ID</th>
+        <th class="w-100">LOGO</th>
+        <th class="w-250">商家名称</th>
+        <th class="w-150">手机号</th>
+        <th class="w-150">总营收</th>       
+        <th class="w-150">余额</th>
+        <th class="w-50">审核</th>        
+        <th class="w-150">创建时间</th>
+        <th class="w-200">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <{if $item.closed ==0}>
+    <tr>
+        <td><label><input type="checkbox" value="<{$item.shop_id}>" name="shop_id[]" CK="PRI"/><{$item.shop_id}><label></td>
+        <td><img src="<{$pager.img}>/<{$item.logo}>" width="50" height="50" /></td>
+        <td><{$item.title|default:'--'}></td>
+        <td><{$item.mobile}></td>
+        <td><b class="red">￥<{$item.total_money}></b></td>
+        <td><b class="red">￥<{$item.money}></b></td>
+        <td><{if $item.audit==1}><b class="green">正常</b><{else}><b class="red">待审</b><{/if}></td>
+        <td><{$item.dateline|format}><br /><{$item.clientip}>(<{$item.clientip|iplocal}>)</td>
+        <td>
+            <{if $item.audit==0}>
+            <{* link ctl="shop/shop:audit" args=$item.shop_id act="mini:审核" confirm="mini:确定要审核吗？" title="审核" class="button" *}>
+            <{/if}>
+            <{link ctl="shop/shop:detail" args=$item.shop_id class="button" title="查看"}>
+            <{link ctl="shop/shop:manage" args=$item.shop_id class="button" target="_blank" title="管理"}>            
+            <{link ctl="tuan/tuan:shop" arg0=$item.shop_id title="团购" class="button"}>
+            <{link ctl="maidan/maidan:shop" arg0=$item.shop_id title="买单" class="button"}>
+            <{link ctl="shop/shop:edit" args=$item.shop_id title="修改" class="button"}>
+            <{link ctl="shop/shop:delete" args=$item.shop_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+        </td>
+    </tr>
+    <{/if}>
+    <{foreachelse}>
+    <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    
+    <{/foreach}>
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="shop/shop:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+                    <{link ctl="shop/shop:audit" type="button" submit="mini:#items-form" confirm="mini:确定要批量审核选中的内容吗?" priv="hide" value="批量审核"}></td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    // 管理PC商户端左侧菜单栏默认给一个不缩放的标识  by 夏玉峰 2016-11-22 15:11:52
+    $("a[title]").click(function() {
+        if(('localStorage' in window) && window['localStorage'] !== null) {
+            localStorage['mini_navbar_status'] = 'off';
+        }
+    })
+</script>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,26 @@
+
+		<h3>领取记录</h3>
+		<table>
+			<tr>
+            	<th>昵称</th>
+				<th>红包金额</th>
+				<th>中奖时间</th>
+				<th>是否兑换</th>
+			</tr>
+            <{foreach $items as $item}>
+            	<tr>
+                	<td><{if $weixin[$item.open_id].uname}><{$weixin[$item.open_id].uname|cutstr:3:'**'}><{else}>游客<{/if}></td>
+                    <td><{$item.prize_name}></td>
+                    <td><{$item.add_time|format}></td>
+                    <td>
+                    	<{if $item.is_reward == 1}>
+							已兑换
+                        <{else}>	
+                            未领取
+                        <{/if}>
+                    
+                    </td>
+                </tr>
+            <{/foreach}>
+		</table>
+        <{if $pager.pagebar}><div class="page"><{$pager.pagebar}></div><{/if}>

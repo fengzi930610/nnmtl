@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>订单支付</title>
+    <link rel="stylesheet" href="%THEME%/static/style/weui.min.css"/>
+    <link rel="stylesheet" href="%THEME%/trade/payment/css/style.css"/>
+    <script src="%THEME%/static/js/zepto.min.js"></script>
+</head>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容开始-->
+                <div class="pubPaypage">
+                    <div class="mb10">
+                        <div class="info_list">
+                            <span class="fl bt">订单编号：</span>
+                            <span class="fr">
+                                <{foreach $order_ids as $order_id}>
+                                    <{if $order_id@index == 0}>
+                                    <{$order_id}>
+                                    <{else}>
+                                    、<{$order_id}>
+                                    <{/if}>
+                                <{/foreach}>
+                            </span>
+                        </div>
+                        <div class="info_list"><span class="fl bt">支付金额：</span><big class="fr price"><small>￥</small><{$amount}></big></div>
+                    </div>
+                    <div class="pay_way">
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay01@3x.png">
+                                <p>支付宝支付</p>
+                                <input type="radio" name="code" value="alipay" <{if !$request.IN_WEIXIN}>checked<{/if}>/>
+                            </label>
+                        </div>
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay02@3x.png">
+                                <p>微信支付</p>
+                                <input type="radio" name="code" value="wxpay" <{if $request.IN_WEIXIN}>checked<{/if}> />
+                            </label>
+                        </div>
+                        <{if ($order.from != 'money') && $MEMBER.uid}>
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay03@3x.png">
+                                <p>余额支付</p>
+                                <input type="radio" name="code" value="money" />
+                            </label>
+                        </div>
+                        <{/if}>
+                    </div>
+                    <div class="btn_box">
+                        <input type="button" onclick="payorder();" value="确认支付" class="long_btn">
+                    </div>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var code_list = document.querySelectorAll("input[name=code]");
+function payorder(){
+    var url = "<{link ctl='trade/payment' arg0='#code#' arg1=$order.order_id}>";
+    var code = document.querySelector("input[name='code']:checked").value || 'alipay';
+    //alert(code);return false;
+    var back_url = "<{$rebackurl}>";
+
+    //var back_url = "<{link ctl='ucenter/order:detail' arg0=$order.order_id http=$site.waimaiurl}>";
+    var pay_url = "<{link ctl='trade/payment/pays' arg0=__code__ arg1=$orders_str rebackurl=__back_url__ http=$site.siteurl}>";
+    //var pay_url = "trade/payment/order-__order_id__.html?rebackurl={backurl}";
+    var payurl = pay_url.replace('__code__',code).replace('__back_url__', back_url);
+    //alert(payurl);return false;
+    location.href = payurl;
+}
+</script>
+<script>
+     //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+       /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                if("<{$order_ids}>"){
+                    window.location.href = "<{link ctl='ucenter/order/index' http=$site.mallurl}>";
+                }else{
+                    window.location.href = "<{link ctl='ucenter/order/detail' arg0=$order.order_id http=$site.mallurl}>";
+                }
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>
+
+</body>
+</html>

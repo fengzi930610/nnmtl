@@ -1,0 +1,172 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/weidian/pintuangroup:index'}>"<{if 1000==$status}> class="on"<{/if}>><{L('组团列表')}></a>
+        <a href="<{link ctl='biz/weidian/pintuangroup:start'}>"<{if 0==$status}> class="on"<{/if}>><{L('进行中')}></a>
+        <a href="<{link ctl='biz/weidian/pintuangroup:process'}>"<{if 1==$status}> class="on"<{/if}>><{L('组团成功')}></a>
+        <a href="<{link ctl='biz/weidian/pintuangroup:complete'}>"<{if 2==$status}> class="on"<{/if}>><{L('组团失败')}></a>
+        <a href="<{link ctl='biz/weidian/pintuangroup:ok'}>"<{if 3==$status}> class="on"<{/if}>><{L('商家已接单')}></a>
+    </ul>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-50">团单号</th>
+                <th class="w-100">产品</th>
+                <th class="w-80">团长</th>
+                <th>开团时间</th>
+                <th>结束时间</th>
+                <th class="w-50">订单数</th>
+                <th class="w-50">成功订单</th>
+                <th>团状态</th>
+                <th class="w-100">创建时间</th>
+                <th class="w-200">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><{$item.group_id}><label></td><!--<input type="checkbox" value="<{$item.pintuan_group_id}>" name="pintuan_group_id[]" CK="PRI"/>-->
+                            <td><a href="<{link ctl='biz/weidian/pintuanproduct' product_id=$item.product_id}>" target="_blank"><{$item.pintuan_product_id_cn}></a></td>
+                            <td><a href="<{link ctl='biz/weidian/pintuangroup:index' }>?SO[master_id]=<{$item.master_id}>"><{$item.master_id_cn}></a></td>
+                            <td><{$item.start_time}></td>
+                            <td><{$item.end_time}></td>
+                            <td><{$item.order_count}></td>
+                            <td><{$item.order_success_count}></td>
+
+                            <td><{$item.status_cn}></td>
+                            <td><{$item.dateline|format}></td>
+                            <td>
+                                <a href="<{link ctl='biz/weidian/pintuanorder:index'}>?SO[group_id]=<{$item.group_id}>" class="btn btn-success"><{L('查看')}></a>&nbsp;&nbsp;
+
+
+                                <{if 0 == $item.status}><{/if}>
+                                <{if 1 == $item.status}>
+
+                                <!--<{$item.money_pre}> <{$item.jiedan_time}>-->
+                                <{if $item.money_pre>0  && $now > $item.jiedan_time }>
+
+                                <a href="javascript:accept(<{$item.group_id}>,0);" class="btn btn-success"><{L('接单')}></a>&nbsp;&nbsp;
+                                <a href="<{link ctl='biz/weidian/pintuangroup:status_complete' args=$item.group_id}>" mini-act="confirm:您确定要取消组团, 把钱退给用户吗?" class="btn btn-warning"><{L('不接单')}></a>
+                                <{else if $item.money_pre>0 }>
+                                <a href="javascript://" class="btn btn-information">阶梯团组团中</a>
+                                <{else}>
+                                <a href="javascript:accept(<{$item.group_id}>,0);" class="btn btn-success"><{L('接单')}></a>&nbsp;&nbsp;
+                                <{/if}>
+
+                                <{/if}>
+                                <{if 2 == $item.status}>  <{/if}>
+                                <{if 3 == $item.status}>  <{/if}>
+
+
+                            </td>
+                            </tr>
+                            <{foreachelse}>
+                            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+                            <{/foreach}>
+                            </table>
+                            </form>
+
+ </div>
+ <{include file="biz/block/footer.html"}>
+<script>
+    $(document).ready(function () {
+        $(".view_btn").click(function () {
+            $('.tr_' + $(this).attr('rel')).slideToggle();
+        })
+
+        $(".stamp .mask_bg").click(function () {
+            $(".stamp").hide();
+        })
+    })
+
+    function cancel(id) {
+        var link = "<{link ctl='biz/order:cancel' arg0='temp'}>";
+        jQuery.ajax({
+            url: link.replace('temp', id),
+            async: true,
+            dataType: 'json',
+            type: 'POST',
+            success: function (ret) {
+                if (ret.error > 0) {
+                    layer.msg(ret.message);
+                } else {
+                    layer.msg(ret.message);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+    }
+
+
+    function accept(id, type) {
+        var link = "<{link ctl='biz/weidian/pintuangroup:status_ok' arg0='temp' arg1='oooo'}>";
+        jQuery.ajax({
+            url: link.replace('temp', id).replace('oooo', type),
+            async: true,
+            dataType: 'json',
+            type: 'POST',
+            success: function (ret) {
+                if (ret.error > 0) {
+                    layer.msg(ret.message);
+                } else {
+                    layer.msg(ret.message);
+                    //                            setTimeout(function () {
+                    //                                window.location.reload();
+                    //                            }, 1000);
+
+                    //是否自动打印订单小票
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+    }
+
+    function check_print(order_id) {
+        var link1 = "<{link ctl='biz/order:check_print'}>";
+        var link2 = "<{link ctl='biz/order:porder' args='temp1'}>";
+        link2 = link2.replace('temp1', order_id);
+        jQuery.ajax({
+            url: link1,
+            async: true,
+            dataType: 'json',
+            type: 'POST',
+            success: function (ret) {
+                if (ret.error > 0) {
+                    Widget.MsgBox.error(ret.message);
+                } else {
+                    layer.open({
+                        type: 2,
+                        title: "<{L('打印小票')}>",
+                        shadeClose: true,
+                        shade: 0.8,
+                        area: ['350px', '60%'],
+                        content: link2
+                    });
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+    }
+
+    function printorder(order_id) {
+
+        $(".stamp_list_" + order_id).show();
+        $(".print_" + order_id).click(function () {
+            var link = "<{link ctl='biz/order:porder' args='__order_id'}>";
+            $.get(link.replace('__order_id', order_id), function (ret) {
+                $('#abc').html(ret);
+                $('#abc').printArea();
+            }, 'html')
+        })
+
+    }
+</script>

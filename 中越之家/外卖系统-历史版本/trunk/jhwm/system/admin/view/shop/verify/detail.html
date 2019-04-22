@@ -1,0 +1,107 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/verify:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?shop/verify-edit-<{$detail.shop_id}>.html" mini-form="verify-form" method="post" ENCTYPE="multipart/form-data">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>商家：</th><td colspan="3"><{$shop.title}>(<{$shop.mobile}>)</td></tr>
+<tr>
+    <th>店主姓名：</th><td class="w-300"><{$detail.id_name}></td>
+    <th>店主身份证号：</th><td><{$detail.id_number}></td>
+</tr>
+<tr><th>店主身份证图：</th>
+    <td colspan="3">
+        <span style="float:left;margin-left:10px; border:1px solid #DEDEDE;text-align:center;">
+            <img src="<{$pager.img}>/<{$detail.id_photo}>" class="wh-200" /><br /><b>店主身份证图</b>
+        </span>
+        <span style="float:left;margin-left:10px; border:1px solid #DEDEDE;text-align:center;">
+            <img src="<{$pager.img}>/<{$detail.shop_photo}>" class="wh-200" /><br /><b>商铺实景图</b>
+        </span>
+    </td>
+</tr>
+<tr><th>店主认证状态：</th>
+    <td colspan="3">
+        <{if $detail.verify_dianzhu==1}>
+        <b class="green">已认证</b>
+        <{elseif $detail.verify_dianzhu==2}>
+        <b class="red">拒绝</b>
+        <{elseif !$detail.id_number}>
+        <b class="blue">未提交认证信息</b>
+        <{else}>
+        <label><input type="radio" name="data[verify_dianzhu]" <{if $detail.verify_dianzhu==1}>checked="checked"<{/if}> value="1"/>通过</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify_dianzhu]" <{if $detail.verify_dianzhu==2}>checked="checked"<{/if}> value="2"/>拒绝</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify_dianzhu]" <{if empty($detail.verify_dianzhu)}>checked="checked"<{/if}> value="0"/>待审</label>
+        <{/if}>
+    </td>
+</tr>
+<tr>
+    <th>营业执照号：</th><td><{$detail.yz_number}></td>
+    <th>营业执照图：</th><td><img src="<{$pager.img}>/<{$detail.yz_photo}>" class="wh-200" /></td>
+</tr>
+<tr><th>营业执照验证状态：</th>
+    <td colspan="3">
+        <{if $detail.verify_yyzz==1}>
+        <b class="green">已认证</b>
+        <{elseif $detail.verify_yyzz==2}>
+        <b class="red">拒绝</b>
+        <{elseif !$detail.yz_number}>
+        <b class="blue">未提交认证信息</b>
+        <{else}>
+        <label><input type="radio" name="data[verify_yyzz]" <{if $detail.verify_yyzz==1}>checked="checked"<{/if}> value="1"/>通过</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify_yyzz]" <{if $detail.verify_yyzz==2}>checked="checked"<{/if}> value="2"/>拒绝</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify_yyzz]" <{if empty($detail.verify_yyzz)}>checked="checked"<{/if}> value="0"/>待审</label>
+        <{/if}>
+    </td>
+</tr>
+<tr>
+    <th>餐饮执照号：</th><td><{$detail.cy_number}></td>
+    <th>餐饮执照图：</th><td><img src="<{$pager.img}>/<{$detail.cy_photo}>" class="wh-200" /></td>
+</tr>
+<tr><th>餐饮验证状态：</th>
+    <td colspan="3">
+        <{if $detail.verify_cy==1}>
+        <b class="green">已认证</b>
+        <{elseif $detail.verify_cy==2}>
+        <b class="red">拒绝</b>
+        <{elseif $detail.verify_cy}>
+        <b class="blue">未提交认证信息</b>
+        <{else}>
+        <label><input type="radio" name="data[verify_cy]" <{if $detail.verify_cy==1}>checked="checked"<{/if}> value="1"/>通过</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify_cy]" <{if $detail.verify_cy==2}>checked="checked"<{/if}> value="2"/>拒绝</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify_cy]" <{if empty($detail.verify_cy)}>checked="checked"<{/if}> value="0"/>待审</label>
+        <{/if}>
+    </td>
+</tr>
+<!--<tr><th>提交申请时间：</th><td><{$detail.updatetime|format}></td></tr>-->
+<tr><th>认证状态：</th>
+    <td colspan="3">
+        <{if $detail.verify==1}>
+        <b class="green">已认证</b>
+        <{elseif $detail.verify==2}>
+        <b class="red">拒绝</b>
+        <{else}>
+        <label><input type="radio" name="data[verify]" <{if $detail.verify==1}>checked="checked"<{/if}> value="1"/>通过</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify]" <{if $detail.verify==2}>checked="checked"<{/if}> value="2"/>拒绝</label>&nbsp;&nbsp;
+        <label><input type="radio" name="data[verify]" <{if empty($detail.verify)}>checked="checked"<{/if}> value="0"/>待审</label>
+        <{/if}>
+        <span class="tip-comment">只有这里通过审核，商户才算正式通过审核</span>
+    </td>
+</tr>
+<{if empty($detail.verify)}>
+<tr><th>拒绝原因：</th><td><textarea class="textarea w-500"><{$detail.refuse|default:''}></textarea></td></tr>
+<{else}>
+<tr><th>审核时间：</th><td><{$detail.verify_time|format:'Y-m-d H:i:s'}></td></tr>
+<{/if}>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</div>
+</form>
+<{include file="admin:common/footer.html"}>

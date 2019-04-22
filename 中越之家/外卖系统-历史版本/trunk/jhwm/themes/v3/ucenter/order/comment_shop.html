@@ -1,0 +1,289 @@
+<{assign var='tpl_title' value=L("订单评价")}>
+<{include file="v3block/header.html"}>
+<link href="%THEME%/static/css/mobiscroll/mobiscroll.animation.css" rel="stylesheet" type="text/css" />
+<link href="%THEME%/static/css/mobiscroll/mobiscroll.frame.css" rel="stylesheet" type="text/css" />
+<link href="%THEME%/static/css/mobiscroll/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.dom.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.core.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.scrollview.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.frame.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.scroller.js"></script>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容-->
+
+    <form  id="comment_form" method="post">
+                 <div class="pub_img ordEvlt title">
+                    <img src="<{$pager.img}>/<{$tuan.photo}>" class="mb10">
+
+                </div>
+                <div class="ordEvlt_shangjia mb10">
+                    <p class="shangjia-tit"><{$tuan.title}></p>
+                    <div class="ordEvlt_tit"><span class="black9">商家打分</span></div>
+                    <div class="starCz_bg mb20">
+                        <div class="starCz_bar" style="width:100%;"></div>
+                        <div class="click">
+                            <a href="javascript:;" value="1"></a>
+                            <a href="javascript:;" value="2"></a>
+                            <a href="javascript:;" value="3"></a>
+                            <a href="javascript:;" value="4"></a>
+                            <a href="javascript:;" value="5"></a>
+                        </div>
+                        <input type='hidden' name="data[score]" id="score" value="5" />
+
+                    </div>
+                    <input type="hidden" name="data[order_id]" value="<{$order.order_id}>"/>
+
+					
+                    <textarea name="data[content]" id="content" placeholder="写下您对商家的建议吧~"></textarea>
+                </div>
+
+                 <div class="ordEvlt_song mb10">
+        <div class="ordEvlt_imgupload">
+            <ul class="lists">
+                <li>
+                    <div class="box">
+                        <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png" ></div>
+                        <input type="file" name="photo1" id="photo1" class="file22">
+                        <a href="javascript:;"   class="clear_ico" style="display: none">×</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="box">
+                        <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                        <input type="file" name="photo2" id="photo2"  class="file22">
+                        <a href="javascript:;" class="clear_ico" style="display: none">×</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="box">
+                        <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                        <input type="file" name="photo3" id="photo3"  class="file22">
+                        <a href="javascript:;"  class="clear_ico" style="display: none">×</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="box">
+                        <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                        <input type="file" name="photo4" id="photo4" class="file22">
+                        <a href="javascript:;"   class="clear_ico" style="display: none">×</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="clear"></div>
+            <p class="black9 mt5">(最多4张)</p>
+        </div>
+                     <input type="button" value="立即评价" id="comment_submit" class="weui-btn weui-btn_primary haspadding" />
+    </div>
+
+    </form>
+        </div>
+        <!--底部-->
+        <!-- <div class="ordEvlt_footer pub_list">
+            <div class="pub_list_bd"></div>
+            <input type="submit" value="提交评价" id="comment_submit" class="weui-btn weui-btn_mini weui-btn_primary" />
+        </div> -->
+        <!--底部end-->
+    </div>
+</div>
+    </div>
+<script>
+    $('.click a').on('click',function () {
+        var socre = $(this).attr('value')
+       $(this).parent().parent().children('input').val(socre);
+        $(this).parent().parent().children().eq(0).css('width',parseInt(socre)*20+'%')
+    })
+</script>
+
+<script>
+    $('.file22').on('change',function(){
+        var files = $(this)[0]['files'];
+        var h =$(this);
+
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(files[0].type)) {
+            Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        uploadfile(files,h);
+
+        reader.onload = function (e){
+                h.parent().children().eq(0).children().attr('src',e.target.result);
+                h.parent().children('a').show();
+        }
+    });
+
+    $('.clear_ico').on('click',function(){
+        $(this).parent().children('input').remove();
+        $(this).parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+        var new_input ='<input type="file"  class="file22"/>' ;
+        $(this).parent().children().eq(0).after(new_input);
+        $(this).hide();
+
+        $('.file22').off().on('change',function(){
+            var files = $(this)[0]['files'];
+            var h =$(this);
+
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[0].type)) {
+                Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            uploadfile(files,h);
+
+            reader.onload = function (e){
+                    h.parent().children().eq(0).children().attr('src',e.target.result);
+                    h.parent().children('a').show();
+
+            }
+        });
+    })
+</script>
+
+<script>
+    $('#comment_submit').on('click',function(){
+        var form = new FormData(document.getElementById('comment_form'));
+        var url ="<{link ctl='ucenter/order/common_handle_two' }>";
+        $.ajax({
+            url:url,
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+            dataType: "json",
+            success:function(e){
+                if(e.error>0){
+                    Widget.MsgBox.error(e.message)
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    setTimeout(function () {
+                        var order_id = '<{$order.order_id}>';
+                        window.location.href = "<{link ctl='ucenter/order/detail' args=$order.order_id http='home' }>";
+                    },{
+                    },2000);
+                }
+
+
+            },
+            error:function(e){
+
+
+            }
+        },'json');
+
+    })
+	/*$("#comment_form").ajaxForm({"target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+        if (ret.error == 0) {
+            layer.open({content: ret.message, time: 2});
+            setTimeout(function () {
+                window.location.href = "<{link ctl='ucenter/order/detail' args=$order.order_id }>";
+            }, 2000);
+        } else {
+            layer.open({content: ret.message, time: 2});
+            return false;
+        }
+    }});*/
+     //上传方法 支持文件双穿
+    function upload(id,url,tiao){
+        //根据ID 读取表单信息
+        var form = new FormData(document.getElementById(id));
+       /* console.log(form)*/
+        form.delete('photo1');
+        /*form.delete('photo2');
+        form.delete('photo3');
+        form.delete('photo4');
+        form.delete('photo5');*/
+
+       /* $.post(url,{data:form},function(e){
+            if(e.error>0){
+                Widget.MsgBox.error(e.message)
+            }else{
+                Widget.MsgBox.success(e.message)
+                setTimeout(function () {
+                    var order_id = '<{$order.order_id}>';
+                    window.location.href = '<{link ctl="ucenter/order:detail" arg0="#order_id#" http=$site.waimaiurl}>'.replace("#order_id#",order_id);
+                },{
+                },2000);
+            }
+        },'json');
+        return false;*/
+       $.ajax({
+            url:url,
+            type:"post",
+            data:form,
+            processData:false,
+            contentType:false,
+             dataType: "json",
+            success:function(e){
+               if(e.error>0){
+                   Widget.MsgBox.error(e.message)
+               }else{
+                   Widget.MsgBox.success(e.message)
+                   setTimeout(function () {
+                       var order_id = '<{$order.order_id}>';
+                       window.location.href = '<{link ctl="ucenter/order:detail" arg0="#order_id#" http=$site.waimaiurl}>'.replace("#order_id#",order_id);
+                   },{
+                   },2000);
+               }
+
+
+            },
+            error:function(e){
+
+
+            }
+        },'json');
+
+    }
+    /* 上传图片*/
+    function uploadfile(obj,h) {
+        var form = new FormData();
+        form.append('file',obj[0]);
+        var url ='<{link ctl="index:uploadimg" http="home"}>';
+        $.ajax({
+            url: url,
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (e) {
+                if(e.error>0){
+                    Widget.MsgBox.success(e.message);
+                    return false;
+                }else{
+                    if(e.file){
+                        var input = '<input type="text" class="reformat" name="data[file][]" value="'+e.file.photo+'"/>';
+                        console.log(h)
+                        h.parent().append(input);
+                    }else{
+                        h.parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+                        h.parent().children('a').hide();
+                       /* h.parent().children('.reformat').remove();*/
+                        Widget.MsgBox.error('图片过大');
+                        return false;
+                    }
+
+
+                }
+
+            },
+            error: function (e) {
+
+
+            }
+        },'json');
+
+
+
+    }
+</script>
+<{include file="v3block/footer.html"}>

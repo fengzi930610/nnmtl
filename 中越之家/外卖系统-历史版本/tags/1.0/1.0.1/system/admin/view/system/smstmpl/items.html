@@ -1,0 +1,44 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">
+                <{link ctl="system/config:sms" class="button" title="短信配置"}>
+                <{link ctl="system/smstmpl:create" load="mini:添加" class="button" title="添加模板"}>
+            </td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr><th class="w-100">ID</th><th>标题</th><th>KEY</th><th class="w-50">启用</th><th class="w-150">创建时间</th><th class="w-150">操作</th></tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><label><input type="checkbox" value="<{$item.systmpl_id}>" name="systmpl_id[]" CK="PRI"/><{$item.systmpl_id}><label></td>
+        <td><{$item.title}></td>
+        <td><{$item.key}></td>
+        <td><{if $item.is_open}><b class="blue">是</b><{else}><b class="red">否</b><{/if}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+    <{link ctl="system/smstmpl:config" args=$item.systmpl_id title="配置" class="button"}>
+    <{link ctl="system/smstmpl:edit" load="mini:修改" args=$item.systmpl_id title="修改模板" class="button"}></td></tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left"></td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

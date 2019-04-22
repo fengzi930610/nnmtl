@@ -1,0 +1,318 @@
+<{assign var='tpl_title' value=L("外卖商家列表")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+    #pubnodata{ background: #eef2f5}
+    .top_appDown{z-index: 101;}
+    .top_appDown ~ .takeout-list-mask{top:50px;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <{include file="waimai/block/qucikly.html"}>
+            <!-- 附近推荐商铺 -->
+            <div class="takeout-list-title border_b">
+                <a class="list" href="javascript:;">全部分类</a>
+                <span class="line"></span>
+                <a class="list" href="javascript:;">排序</a>
+                <span class="line"></span>
+                <a class="list" href="javascript:;">筛选</a>
+            </div>
+            <div class="takeout-list-mask">
+                <div class="mask-list">
+                    <div class="list">
+                        <div class="left fl" style="background: #f4f4f4">
+                            <ul>
+                                <li onclick="setloadparams('cat_id','0');" cat-id="0"><a href="javascript:;">全部分类<span></span></a></li>
+                                <{foreach $cates as $v}>
+                                <{if $v.childrens}>
+                                <li cat-id="<{$v.cate_id}>" <{if $cate_id==$v.cate_id}> class="on"<{/if}>><a href="javascript:;"><{$v.title}><span></span></a></li>
+                                <{else}>
+                                <li onclick="setloadparams('cat_id','<{$v.cate_id}>');" cat-id="<{$v.cate_id}>" <{if $cate_id==$v.cate_id}> class="on"<{/if}> ><a href="javascript:;"><{$v.title}><span></span></a></li>
+                                <{/if}>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                        <div class="right fr">
+                            <ul>
+                                <li class="right_list takeout_wu" style="display: none" cat-id="0">当前为全部类目</li>
+                                <{foreach $cates as $cate}>
+                                <li class="right_list" cat-id="<{$cate.cate_id}>" <{if $cate_id==$cate.cate_id}>style='display:block;'<{/if}>>
+                                    <ul>
+                                        <li onclick="setloadparams('cat_id','<{$cate.cate_id}>');" cate-id="0"><a href="javascript:;">全部</a></li>
+                                        <{foreach $cate.childrens as $vo}>
+                                        <li onclick="setloadparams('cate_id','<{$vo.cate_id}>');" cate-id="<{$vo.cate_id}>"><a href="javascript:;"><{$vo.title}></a></li>
+                                        <{/foreach}>
+                                    </ul>
+                                </li>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="takeout_mask-bg"></div>
+                </div>
+                <div class="mask-list">
+                    <div class="order">
+                        <ul>
+                            <li class="on" onclick="setloadparams('orderby','default');" orderby="default"><a href="javascript:;">智能排序</a></li>
+                            <li onclick="setloadparams('orderby','juli');" orderby="juli"><a href="javascript:;">距离最近</a></li>
+                            <li onclick="setloadparams('orderby','pingfen');" orderby="pingfen"><a href="javascript:;">评分最高</a></li>
+                            <li onclick="setloadparams('orderby','sales');" orderby="sales"><a href="javascript:;">销售最高</a></li>
+                            <li onclick="setloadparams('orderby','minprice');" orderby="minprice"><a href="javascript:;">起送价最低</a></li>
+                            <li onclick="setloadparams('orderby','song');" orderby="song"><a href="javascript:;">最早送达</a></li>
+                        </ul>
+                    </div>
+                    <div class="takeout_mask-bg"></div>
+                </div>
+                <div class="mask-list">
+                    <div class="choose_box">
+                        <div class="choose" id="choosebox">
+                            <div class="way">
+                                <p class="title black9"><!-- <i class="ico_way"></i> -->配送方式</p>
+                                <div class="tips">
+                                    <a href="javascript:;">不限<input type="radio" name="way" rel-key="pei_type" rel-val="0"></a>
+                                    <a href="javascript:;">平台送<input type="radio" name="way" rel-key="pei_type" rel-val="2"></a>
+                                    <a href="javascript:;">商家送<input type="radio" name="way" rel-key="pei_type" rel-val="1"></a>
+                                </div>
+                            </div>
+                            <div class="infor">
+                                <p class="title black9"><!-- <i class="ico_infor"></i> -->优惠信息</p>
+                                <div class="tips">
+                                    <a href="javascript:;">满减优惠<input type="radio" name="infor" rel-key="youhui" rel-val="mj"></a>
+                                    <a href="javascript:;">满返优惠<input type="radio" name="infor" rel-key="youhui" rel-val="mf"></a>
+                                    <a href="javascript:;">首单优惠<input type="radio" name="infor" rel-key="youhui" rel-val="sd"></a>
+                                    <a href="javascript:;">优惠券<input type="radio" name="infor" rel-key="youhui" rel-val="yhj"></a>
+                                </div>
+                            </div>
+                            <div class="tese">
+                                <p class="title black9"><!-- <i class="ico_te"></i> -->商家特色</p>
+                                <div class="tips">
+                                    <a href="javascript:;">免配送费<input  type="radio" name="tese" rel-key="ts" rel-val="mian"></a>
+                                    <a href="javascript:;">0元起送<input  type="radio" name="tese" rel-key="ts" rel-val="zero"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btns">
+                            <a href="javascript:;" class="reset_btn">清空</a>
+                            <a href="javascript:;" id="confirm_btn" class="confirm_btn">确定</a>
+                        </div>
+                    </div>
+                    <div class="takeout_mask-bg"></div>
+                </div>
+            </div>
+
+            <div class="container_mid">
+                <div class="shoplists_box WMhome" id="index_goods_items">
+                                
+                </div>
+                <div class="loadding" style="">
+                </div>
+                <div class="pubnodata" style="">
+                </div>
+            </div>
+            <!-- 附近推荐商铺结束 -->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        loop: true
+    });
+</script>
+<script type="text/javascript">
+    $('.takeout-list-mask .left ul li').click(function(){
+        var tk_idx=$(this).index();
+        $(this).addClass('on').siblings().removeClass('on');
+        $(this).parents(".list").find('.right .right_list').eq(tk_idx).show().siblings().hide();
+        var value=$(this).text();
+        avalue=value.split('(');
+        value=avalue[0];
+        var ind=$(this).parents('.mask-list').index()
+        $('.takeout-list-title .list').eq(ind).text(value);
+        if($(this).parents(".list").find('.right .right_list').eq(tk_idx).find('li').length <= 1 ){
+            $(this).parents(".list").find('.right .right_list').eq(tk_idx).find('li').addClass('on');
+            $('.takeout-list-mask,.mask-list').hide();
+            $('.takeout-list-title .list').removeClass('on')
+        }
+    })
+
+    $('.takeout-list-mask .right .right_list li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+        $('.takeout-list-title .list').removeClass('on')
+        $('.takeout-list-mask,.mask-list').hide()
+    })
+
+    if($('.takeout-list-title').length > 0){
+        $('.takeout-list-title a.list').width(100 / $('.takeout-list-title a.list').length + '%');
+    }
+
+    $('.takeout-list-title a.list').click(function(){
+        $(this).toggleClass('on').siblings().removeClass('on');
+        $('.takeout-list-mask').show();
+        var ind=$(this).index();
+        $('.takeout-list-mask .mask-list').eq(ind/2).toggle().siblings().hide();
+        if($(this).hasClass("on")){
+            $('.takeout-list-mask').show();
+        }else{
+            $('.takeout-list-mask').hide();
+        }
+    })
+
+    $('.takeout-list-mask .choose a').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+
+    $('.takeout-list-mask .choose_box .reset_btn').click(function(){
+        $('.takeout-list-mask .choose a').removeClass('on');
+        parmas['pei_type'] = '';
+        parmas['youhui'] = '';
+        parmas['ts'] = '';
+    })
+
+    $('.takeout_mask-bg').click(function(){
+        $('.takeout-list-mask').hide()
+        $('.takeout-list-mask .mask-list').hide();
+        $('.takeout-list-title a').removeClass('on');
+    })
+
+    $('.mask-list .order li,.mask-list .choose_box li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+        $('.takeout-list-mask,.mask-list').hide();
+        $('.takeout-list-title .list').removeClass('on')
+    })
+
+    //商家列表活动展开与折叠
+    $(document).on('touchstart','.WMhome .shoplists .hd .right',function(e){
+        event.preventDefault(); // 阻止默认事件
+        event.stopPropagation(); // 阻止冒泡
+        if($(this).hasClass('on')){
+            $(this).parents(".hd").find("ul").removeClass('on');
+            $(this).removeClass('on');
+        }
+        else{
+            $(this).parents(".hd").find("ul").addClass('on');
+            $(this).addClass('on');
+        };
+    });
+
+    //商家列表加载js----------------------------------------------------------------------
+    var cat_id = "<{$cate_id}>";
+    var cate_id = "<{$cat_id}>";
+    var title = "<{$title|default:''}>";
+    var parmas = JSON.parse(sessionStorage['page_shoplist_parmas'] || '{"cat_id": "'+cat_id+'", "cate_id": "'+cate_id+'", "title": "'+title+'"}');
+
+    var link = "<{link ctl='shoplist/loadshops' arg0='#page#' http='waimai'}>";
+    var page = 1;
+
+    var _PAGE_SHOPLIST_REBACKTOP = JSON.parse(sessionStorage['page_shoplist_rebacktop'] || '{"page":1, "top":0}');
+    if(_PAGE_SHOPLIST_REBACKTOP['page'] > 1){
+        page = page+'-'+_PAGE_SHOPLIST_REBACKTOP['page'];
+        parmas['pagelimit'] = _PAGE_SHOPLIST_REBACKTOP['page'];
+    }
+    addClassOn();
+    setTimeout(function(){
+        loadshopsdata();
+    },20)
+    
+
+    function setloadparams(k,v){
+        if(k=='cat_id'){
+            parmas['cate_id'] = '';
+        }
+        parmas[k] = v;
+        $('.takeout-list-mask').hide();
+
+        _PAGE_SHOPLIST_REBACKTOP['top'] = 0;
+        parmas['pagelimit'] = 1;
+        loadshopsdata();
+    }
+
+    $('[type="radio"]').on('click',function(){
+        var k = $(this).attr('rel-key');
+        var v = $(this).attr('rel-val');
+        parmas[k] = v;
+    })
+
+    $('#confirm_btn').on('click',function(){
+        $('.takeout-list-mask').hide();
+        $('.takeout-list-mask,.mask-list').hide();
+        $('.takeout-list-title .list').removeClass('on');
+
+        _PAGE_SHOPLIST_REBACKTOP['top'] = 0;
+        parmas['pagelimit'] = 1;
+        loadshopsdata();
+    })
+
+    function loadshopsdata(){
+        loadpage(link,parmas,1,'index_goods_items','index_goods_items',function(){
+            $(".container_mid").scrollTop(_PAGE_SHOPLIST_REBACKTOP['top']);
+            _PAGE_SHOPLIST_REBACKTOP['page'] = 1;
+            sessionStorage['page_index_rebacktop'] = JSON.stringify(_PAGE_SHOPLIST_REBACKTOP);
+            parmas['pagelimit'] = 1;
+
+            scroll(link,parmas,page,".container_mid","#index_goods_items",'index_goods_items',function(){
+                _PAGE_SHOPLIST_REBACKTOP['page'] = 1;
+                sessionStorage['page_index_rebacktop'] = JSON.stringify(_PAGE_SHOPLIST_REBACKTOP);
+            });
+        });       
+    }
+
+    function addClassOn(){
+        var catid = parmas['cat_id'] || 0;
+        var cateid = parmas['cate_id'] || 0;
+        var orderby = parmas['orderby'] || 'default';
+        var pei_type = parmas['pei_type'] || 0;
+        var youhui = parmas['youhui'] || '';
+        var ts = parmas['ts'] || '';
+
+        $('.takeout-list-mask .mask-list .left li').each(function(){            
+            if($(this).attr('cat-id') == catid){
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });
+        $('.takeout-list-mask .mask-list .right .right_list').each(function(){            
+            if($(this).attr('cat-id') == catid){
+                $(this).show().siblings('.right_list').hide();
+            }
+        });
+        $('.takeout-list-mask .mask-list .right .right_list li').each(function(){            
+            if($(this).attr('cate-id') == cateid){
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });
+        $('.takeout-list-mask .mask-list .order li').each(function(){           
+            if($(this).attr('orderby') == orderby){ 
+                $(this).addClass('on').siblings('li').removeClass('on');
+            }
+        });
+
+        $('.takeout-list-mask .choose a').each(function(){
+            var relkey = $(this).find('input').attr('rel-key');
+            var relval = $(this).find('input').attr('rel-val');
+            if(relkey == 'pei_type' && relval == pei_type){
+                $(this).addClass('on').siblings('a').removeClass('on');
+            }
+            if(relkey == 'youhui' && relval == youhui){
+                $(this).addClass('on').siblings('a').removeClass('on');
+            }
+            if(relkey == 'ts' && relval == ts){
+                $(this).addClass('on').siblings('a').removeClass('on');
+            }
+        });
+    }
+
+    /*返回上次浏览位置*/
+    window.onunload = function(){
+        sessionStorage['page_shoplist_rebacktop'] = JSON.stringify({"page":pages, "top":$(".container_mid").scrollTop()});
+        sessionStorage['page_shoplist_parmas'] = JSON.stringify(parmas);
+    }
+    /*返回上次浏览位置*/
+
+</script>
+<{include file="waimai/block/footer.html"}>

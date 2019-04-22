@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>配送合作</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="/themes/wmbiz/webview/hezuo/css/style.css"/>
+</head>
+<body>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="prmt_box mb10"><i class="ico"></i>您的配送服务由平台提供</div>
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="peisong_info">
+                    <div class="tit">配送站</div>
+                    <div class="zhan_info mb10">
+                        <div class="img fl"><img width="50" height="50" src="<{$pager.img}>/<{$group.face}>"></div>
+                        <div class="wz_box">
+                            <h4><{$group.group_name}></h4>
+                            <p><span class="black9">站长：</span><{$group.contact}>-<span class="pointcl"><{$group.mobile}></span></p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="tit">配送费</div>
+                    <div class="price_info">
+                        <ul>
+                            <{foreach $freight as $v}>
+                            <li><div class="juli fl"><{$v.juli}></div><div class="price fr"><span class="pointcl"><{$v.money}>元</span>/份</div></li>
+                            <{/foreach}>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer_ts">如需更换配送团队,请联系客服电话</div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+</body>
+</html>

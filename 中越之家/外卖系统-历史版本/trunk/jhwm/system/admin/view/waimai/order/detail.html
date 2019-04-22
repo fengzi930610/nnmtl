@@ -1,0 +1,539 @@
+<{include file="admin:common/header.html"}>
+<script src="//cdn.bootcss.com/layer/2.2/layer.min.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="waimai/order:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="tip-notice mgb10">订单状态：<b class="red"><{$detail.order_status_label}></b>
+        <div class="order_btns" style="float:right;margin-right: 0px;width:600px;margin-top:-10px;">
+            <{if $detail.order_status != -1&&$detail.order_status != -2&&$detail.order_status != 8}>
+             <a href="javascript:;" rel="<{$detail.order_id}>" class="button canel">取消订单</a>
+            <{/if}>
+            <{if $detail.order_status >1&&$detail.order_status != 8}>
+            <a href="javascript:;" rel="<{$detail.order_id}>" class="button comfirm">完成订单</a>
+            <{/if}>
+            <{if $detail.order_status <=4&&$detail.order_status >=1&&$detail.pei_type ==2}><{link ctl="waimai/order:dopaidan" args=$detail.order_id load="mini:派单" width="mini:500" class="button" title="派单"}><{/if}>
+            <{if $detail.order_status == 0&&($detail.online_pay == 0||($detail.online_pay == 1&&$detail.pay_status == 1))}>
+            <{link ctl="waimai/order:jiedan" args=$detail.order_id act="mini:接单" confirm="mini:确定要接单吗" title="接单" class="button"}>
+            <{/if}>
+            <{if ($detail.order_status >=1 &&$detail.order_status !=8)&&($detail.refund_status == 1||$detail.refund_status == 3)}>
+            <{link ctl="waimai/order:agree" args=$detail.order_id act="mini:同意退款" confirm="mini:确定要同意退款吗" title="同意退款" class="button"}>
+            <{link ctl="waimai/order:refuse" args=$detail.order_id width="mini:450" load="mini:拒绝退款" title="拒绝退款" class="button"}>
+            <{/if}>
+        </div>
+    </div>
+    <div class="order_details" style="margin-top:10px;">
+        <h3>订单详情 <{if $detail.srv_arrival && $detail.srv_arrival_close_time==0}><span style="color: #09F; font-size: 12px; font-weight: 400;">&nbsp;&nbsp;&nbsp;需要到货通知服务</span><{/if}><span class="fr" style="margin-right: 10px;">订单编号：<{$detail.dateline|format:'YmdHis'}><{$detail.order_id}>(ID<{$detail.order_id}>)(#<{$detail.day_num}>)</span></h3>
+        <p>
+            <span class="tit">期望送达时间:</span>
+            <span class="mr10"><{if $detail.pei_time == 0}>立即送达<{else}><{$detail.pei_time_label}><{/if}></span>
+            <span class="mr10">(<{$detail.dateline|format:'Y-m-d H:i'}>下单)</span>
+            <span class="online_pay"><{if $detail.online_pay == 1}>在线支付<{else}>货到付款<{/if}></span>
+            <{if $detail.online_pay == 1 && $detail.order_status>=0 && $detail.order_status<8}>
+            <a href="javascript:void(0);" class="online_pay refund" id="RefundBtn">部分退款</a>
+            <{/if}>
+        </p>
+        <p><span class="tit">地址:</span><span class="mr10"><{$detail.contact}></span><span><{$detail.mobile}></span></p>
+        <p class="noleft"><{$detail.addr}> <{$detail.house}></p>
+        <div><span class="tit">地址图片:</span><{if $detail.addr_photo}><img src="<{$pager.img}>/<{$detail.addr_photo}>" style="vertical-align: top;max-height: 230px;"><{else}>无<{/if}></div>
+        <p><span class="tit">骑手信息:</span><{if $detail.staff_id}><span class="mr10"><{$detail.staff.name}></span><span><{$detail.staff.mobile}></span><{else}>无<{/if}></p>
+        <p><span class="tit">商家:</span><{$waimai.title}></p>
+        <p><span class="tit">用户:</span><{$detail.user.nickname}></p>
+
+        <div class="info">
+            <!-- <span class="tit ">订单信息:</span> -->
+            <p>前台备注（用户备注）: <span style="color: #000;"><{$detail.intro}></span></p>
+            <p>后台备注（用户可见）: <span style="color: #000;" rel="remark" relid="<{$detail.order_id}>"><{$detail.remark}></span> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Edit">编辑</a> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Cancle" style="display: none;">取消</a></p>
+            <p>管理备注（用户不可见）: <span style="color: #000;" rel="remark_mgr" relid="<{$detail.order_id}>"><{$detail.remark_mgr}></span> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Edit">编辑</a> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Cancle" style="display: none;">取消</a></p>
+            <i class="clear-both"></i>
+        </div>
+    </div>
+        <table width="100%">
+        <tr><td width="50%" valign="top">
+        <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">商品ID</th>
+                <th class="w-300">商品名称</th>
+                <th class="w-50">单价</th>
+                <th class="w-100">数量</th>
+                <th align="right" class="w-100">小计</th>
+            </tr>
+            <{foreach $detail.products as $var}>
+                <tr>
+                    <td>ID:<{$var.product_id}></td>
+                    <td><{$var['product_name']}></td>
+                    <td>￥<{$var['product_price']}></td>
+                    <td>X<{$var['product_number']}></td>
+                    <td align="right">￥<{$var['product_price']*$var['product_number']}></td>
+                </tr>
+            <{/foreach}>
+            <tr><td colspan="10" style="height: 2px;"></td></tr>
+            <tr>
+                <td align="left" colspan="4">餐盒费</td>
+                <td align="right">￥<{$detail.package_price}></td>
+            </tr>
+            <tr>
+                <td align="left" colspan="4">配送费</td>
+                <td align="right">￥<{$detail.freight}></td>
+            </tr>
+            <tr>
+                <td align="left" colspan="4">小计:</td>
+                <td align="right">￥<{$detail.total_price-$total_refund_amount}></td>
+            </tr>
+            <{if $detail.first_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">首单立减:</td>
+                <td align="right">-￥<{$detail.first_youhui}></td>
+            </tr>
+            <{/if}>
+            <{if $detail.order_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">满减:</td>
+                <td align="right">-￥<{$detail.order_youhui}></td>
+            </tr>
+            <{/if}>
+            <{if $detail.discount_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">折扣:</td>
+                <td align="right">-￥<{$detail.discount_youhui}></td>
+            </tr>
+            <{/if}>
+            <{if $detail.huangou_youhui >0}>     
+            <tr>
+                <td align="left" colspan="4">换购:</td>
+                <td align="right">-￥<{$detail.huangou_youhui}></td>
+            </tr>
+            <{/if}>
+            <tr>
+                <td align="left" colspan="4">平台收取:</td>
+                <td align="right">-￥<{$detail.fee.fee}></td>
+            </tr>
+            <tr>
+                <td align="left" colspan="4" class="redcolor">预计收入:</td>
+                <td align="right" class="redcolor">￥<{$detail.fee.shop_amount}></td>
+            </tr>
+            <{if $detail.comment}>
+            <tr><td colspan="10" style="height: 2px;"></td></tr>
+            <tr><th>订单评价信息</th><th colspan="4"></th></tr>
+            <tr>
+                <td>评价用户</td>
+                <td colspan="4"><{$detail.user.nickname}></td>
+            </tr>
+            <tr>
+                <td>商家评分</td>
+                <td colspan="4"><{$detail.comment.score}>星</td>
+            </tr>
+            <tr>
+                <td>配送评分</td>
+                <td colspan="4"><{$detail.comment.score_peisong}>星</td>
+            </tr>
+            <tr>
+                <td>综合评价</td>
+                <td colspan="4"><{$detail.comment.score_avg}>星</td>
+            </tr>
+            <tr>
+                <td>评论内容</td>
+                <td colspan="4"><{$detail.comment.content|default:"用户未填写"}></td>
+            </tr>
+            <tr>
+                <td>商家回复</td>
+                <td colspan="4"><{$detail.comment.reply|default:"暂未回复"}></td>
+            </tr>
+            <tr>
+                <td>评论图片</td>
+                <td colspan="4">
+                    <{foreach $detail.comment_photo as $kk=>$vv}>
+                    <{if $vv.photo}>
+                    <img width="80" height="80" class="see" src="<{$pager.img}>/<{$vv.photo}>"/>
+                    <{/if}>
+                    <{/foreach}>
+
+                </td>
+            </tr>
+
+            <{/if}>
+    </table>
+    </td>
+            <td width="10px;"></td>
+            <td valign="top">
+    <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+    <tr class="">
+        <th>订单日志</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $detail.logs as $log}>
+    <tr>
+        <td><{$log.log}></td>
+        <td><{$log.dateline|format:'Y-m-d H:i'}></td>
+    </tr>
+    <{/foreach}>
+
+
+    </table>
+
+    <{if false}><!-- 2019-03-12 添加 订单退款日志 --><{/if}>
+    <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+    <tr class="">
+        <th>部分退款日志</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr class="">
+        <th>金额</th>
+        <th>备注</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $part_refund_list as $log}>
+    <tr>
+        <td><{$log.amount/100}></td>
+        <td><{$log.remark}></td>
+        <td><{$log.create_time|format:'Y-m-d H:i'}></td>
+    </tr>
+    <{/foreach}>
+    </table>
+    <{if false}><!-- 2019-03-12 添加 订单退款日志 结束 --><{/if}>
+
+    </td>
+    </tr>
+    </table>
+    <br/><br/><br/>
+</div>
+<div id="preview" class="none" style="display:none"><img class="jq_preview" src="" width="1200" height="900"/></div>
+
+<{if false}><!-- 2019-03-12 添加 部分退款功能 --><{/if}>
+<div id="RefundOptBoard">
+    <div class="_title">部分退款操作</div>
+    <div class="_content">
+        <div>退款金额： <input type="text" value="" class="input w-200"></div>
+        <div>退款备注：<br><textarea></textarea></div>
+    </div>
+    <div class="_opt_bar">
+        <button class="_confirm">确定</button>
+        <button class="_cancle">取消</button>
+    </div>
+</div>
+<style type="text/css">
+.order_details .online_pay.refund{
+    border-color: #6af;
+    background-color: #6af;
+    border-radius: 4px;
+    color: #FFF;
+}
+.order_details .online_pay.refund:hover{
+    background-color: #09F;
+}
+#RefundOptBoard{
+    width: 510px;
+    height: 290px;
+    border: 1px solid #CCC;
+    background-color: #FFF;
+    box-sizing: content-box;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+}
+#RefundOptBoard ._title{
+    height: 32px;
+    line-height: 32px;
+    padding: 0 14px;
+    background-color: #108ee7;
+    color: #FFF;
+    font-size: 14px;
+}
+#RefundOptBoard ._opt_bar{
+    height: 32px;
+    line-height: 32px;
+    text-align: right;
+    padding: 0 12px;
+    padding-bottom: 12px;
+    box-sizing: content-box;
+}
+#RefundOptBoard ._opt_bar button{
+    height: 26px;
+    line-height: 26px;
+    min-width: 56px;
+    text-align: center;
+    padding: 0 12px;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0 12px;
+    font-size: 14px;
+}
+#RefundOptBoard ._opt_bar ._confirm{
+    background-color: #6af;
+    color: #FFF;
+}
+#RefundOptBoard ._opt_bar ._confirm:hover{
+    background-color: #09F;
+}
+#RefundOptBoard ._opt_bar ._cancle{
+    background-color: #AAA;
+    color: #333;
+}
+#RefundOptBoard ._opt_bar ._cancle:hover{
+    background-color: #CCC;
+}
+
+#RefundOptBoard ._content{
+    padding: 12px;
+    height: 190px;
+    box-sizing: content-box;
+    font-size: 14px;
+}
+#RefundOptBoard ._content textarea{
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    height: 130px;
+}
+</style>
+<script type="text/javascript">
+$(function(){
+    var canelBtn = $("#RefundOptBoard button._cancle");
+    var inSave = false;
+    $("#RefundBtn").on("click",function(){
+        $("#RefundOptBoard").fadeIn(180);
+    });
+    $("#RefundOptBoard button._confirm").on("click",function(){
+        if(inSave)
+            return;
+        var amount = $.trim($(this).parents("._opt_bar").siblings("._content").find("input").val());
+        var remark = $.trim($(this).parents("._opt_bar").siblings("._content").find("textarea").val());
+        amount = parseFloat(amount);
+        if(isNaN(amount) || amount<0.01)
+        {
+            Widget.MsgBox.error("金额出错，请重新输入");
+            return;
+        }
+        amount = Math.round(amount*100)/100;
+        $(this).parents("._opt_bar").siblings("._content").find("input").val(amount.toString());
+        if(remark === "")
+        {
+            Widget.MsgBox.error("请输入备注");
+            return;
+        }
+        inSave = true;
+        $.ajax({
+            url: "?waimai/order-refund_part-<{$detail.order_id}>.html",
+            cache: false,
+            data: {amount:amount,remark:remark},
+            dataType: "json",
+            type: "POST",
+            success:function(data){
+                if(data.error === 0)
+                    document.location.reload();
+                else
+                    Widget.MsgBox.error(data.message);
+            },
+            error: function(e){
+                Widget.MsgBox.error("网络或数据错误");
+            },
+            complete:function(){
+                inSave = false;
+            }
+        });
+    });
+    canelBtn.on("click",function(){
+        $(this).parents("._opt_bar").siblings("._content").find("input,textarea").val("");
+        $("#RefundOptBoard").fadeOut(180);
+    });
+});
+</script>
+<{if false}><!-- 2019-03-12 添加 部分退款功能 结束 --><{/if}>
+
+<script>
+$(document).ready(function(e) {
+    $('.fr.mr10').click(function(){
+        if($('.orderinfo').height()==0){
+            var gettr=$('.orderinfo tr').length
+            $('.orderinfo').css('height',gettr*37+'px')
+        }else{
+            $('.orderinfo').css('height',0)
+        }
+    });
+    $(document).on("click",".see",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("src") == ""||$(this).attr("src")==0||$(this).attr("src")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("src"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '1200px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    });
+
+    //<{if false}>2019-03-02 添加 对编辑备注按钮的处理<{/if}>
+
+    $(".RemarkBtn_Edit").on("click",function(ex){
+        ex.preventDefault();
+        var showEle = $(this).siblings("span[rel]");
+        if(showEle && showEle.length===1)
+        {
+            var editEle = showEle.children("textarea");
+            if(editEle.length)
+            {
+                var data = {
+                    order_id:showEle.attr("relid"),
+                    data:{}
+                };
+                data.data[showEle.attr("rel")] = $.trim(editEle.val());
+                $.ajax({
+                    url: "?waimai/order-edit.html",
+                    cache: false,
+                    data: data,
+                    dataType: "json",
+                    type: "POST",
+                    showEle:showEle,
+                    _this:this,
+                    success:function(data){
+                        if(data.error === 0)
+                        {
+                            $(this._this).text("编辑");
+                            $(this._this).siblings(".RemarkBtn_Cancle").css("display","none");
+                            var txt = this.showEle.children("textarea").val();
+                            this.showEle.children("textarea").remove();
+                            this.showEle.get(0).orgText = txt;
+                            this.showEle.text(txt);
+                        }
+                        else
+                            Widget.MsgBox.error(data.message);
+                    },
+                    error: function(e){
+                        Widget.MsgBox.error("网络或数据错误");
+                    }
+                });
+            }
+            else
+            {
+                showEle.get(0).orgText = showEle.text();   
+                showEle.text("");
+                editEle = $("<textarea></textarea>");
+                editEle.width(260);
+                editEle.height(50);
+                editEle.css("display","inline-block");
+                editEle.css("vertical-align","top");
+                editEle.css("position","relative");
+                editEle.css("z-index",99999);
+                editEle.appendTo(showEle);
+                editEle.val(showEle.get(0).orgText);
+                $(this).text("保存");
+                $(this).siblings(".RemarkBtn_Cancle").css("display","inline");
+                editEle.focus();
+            }
+        }
+    });
+    $(".RemarkBtn_Cancle").on("click",function(ex){
+        ex.preventDefault();
+        var showEle = $(this).siblings("span[rel]");
+        if(showEle && showEle.length===1)
+        {
+            var textEle = showEle.children("textarea");
+            if(textEle.length)
+                textEle.remove();
+            if(typeof showEle.get(0).orgText === "string")
+                showEle.text(showEle.get(0).orgText);
+        }
+        $(this).siblings(".RemarkBtn_Edit").text("编辑");
+        $(this).hide();
+    });
+
+    //<{if false}>==========================================<{/if}>
+
+});
+</script>
+
+<script>
+    function canel_order(order_id){
+        var url = "?waimai/order-cancel-"+order_id+"-0.html";
+        $.post(url,{},function(e){
+            if(e.error==0){
+                layer.msg('取消成功');
+                setTimeout(function(){
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.msg(e.message);
+            }
+
+        },'json');
+    }
+    $('.canel').on('click',function(){
+        var order_id = $(this).attr('rel');
+        var url = "?waimai/order-cancel-"+order_id+".html";
+        if(confirm('确认取消订单?')){
+            $.post(url,{},function(e){
+               if(e.error==0){
+                   layer.msg(e.message);
+                  setTimeout(function(){
+                      window.location.href = window.location.href;
+                  },1500);
+               }else if(e.error==300){
+                   if(confirm(e.message+",是否确认强制取消?")){
+                       canel_order(order_id);
+                   }
+
+               }else{
+                   layer.msg(e.error);
+               }
+
+            },'json');
+        }
+    })
+    $('.comfirm').on('click',function(){
+        var order_id = $(this).attr('rel')
+        var url = "?waimai/order-complete-"+order_id+".html";
+        if(confirm('确认完成订单?')){
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    layer.msg(e.message);
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
+                }else if(e.error==300){
+                    if(confirm(e.message)){
+                        compltete_order(order_id);
+                    }
+
+                }else{
+                    layer.msg(e.error);
+                }
+
+            },'json');
+        }
+    })
+    function compltete_order(order_id){
+        var url = "?waimai/order-complete-"+order_id+"-0.html";
+        $.post(url,{},function(e){
+            if(e.error==0){
+                layer.msg('确认完成');
+                setTimeout(function(){
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.msg(e.message);
+            }
+
+        },'json');
+    }
+</script>
+</body>
+</html>

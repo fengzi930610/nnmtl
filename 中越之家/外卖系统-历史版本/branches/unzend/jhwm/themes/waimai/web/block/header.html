@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><{if $tpl_title}><{$tpl_title}>-<{/if}><{$CONFIG.site.title}></title>
+	<link rel="stylesheet" type="text/css" href="/themes/waimai/web/static/css/style.css">
+</head>
+<body>
+	<div class="page_cont">
+		<div class="header">
+			<div class="wrapper">
+				<div class="fl"><i class="logo"></i></div>
+				<div class="fr">
+					<a href="<{link ctl='login' http='wmbiz'}>" class="login">商家登录</a>
+				</div>
+				<div class="fr">
+					<ul>
+						<li<{if $request.ctl=='web/index'}> class="active"<{/if}>><a href="<{link ctl='web/index'}>">首页</a></li>
+						<li<{if $request.ctl=='web/news'}> class="active"<{/if}>><a href="<{link ctl='web/news'}>">新闻资讯</a></li>
+						<li<{if $request.ctl=='web/hezuo'}> class="active"<{/if}>><a href="<{link ctl='web/hezuo'}>">申请合作</a></li>
+						<li<{if $request.ctl=='web/about'}> class="active"<{/if}>><a href="<{link ctl='web/about'}>">关于我们</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>

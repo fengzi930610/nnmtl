@@ -1,0 +1,151 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco headerIco2" href="<{link ctl='cloud/index'}>"></a>
+            <a class="pull-right"></a>
+            <h1 class="title">支付</h1>
+        </header>
+		<!--头部结束-->
+        <div class="content">
+        	<div class="payPage">
+                <div class="list-block media-list">
+                  <ul>
+                    <li>
+                      <div class="item-content">
+                        <div class="item-inner">小计</div>
+                        <div class="item-after"><span class="">￥<{$order.num}></span></div>
+                      </div>
+                    </li>
+                    <li class="mt10"></li>
+                    <style>
+                    .payPage .use_box{ margin-bottom:0.5rem;}
+                    .payPage .use_box .nr{ padding:0.25rem 0.75rem; border-bottom:1px solid #eee;}
+                    .payPage .use_box .nr .wz{ line-height:1rem;}
+                    .payPage .use_box .nr .wz font{ color:#ff2121;}
+                    .payPage .use_box .nr .form_box{ line-height:2rem; display:box; display:-webkit-box;}
+                    .payPage .use_box .nr .form_box .word{ width:2rem;}
+                    .payPage .use_box .nr .form_box .txt{ box-flex:1; -webkit-box-flex:1;}
+                    .payPage .use_box .nr .form_box .right{ width:1.8rem; margin-left:1rem;}
+                    .payPage .list-block input[type="password"]{ border:0.05rem solid #dedede; height:1.5rem; line-height:1.5rem; border-radius: 0.2rem; font-size:0.7rem; margin-top:0.25rem;}
+                    .payPage .label-switch input[type="checkbox"]:checked + .checkbox{ background:#ff5216;}
+                    .payPage .label-switch{ width:1.8rem; height:1.1rem;}
+                    .payPage .label-switch .checkbox{ width:1.8rem; height:1.1rem;}
+                    .payPage .label-switch .checkbox:before{ width:1.6rem; height:0.9rem;}
+                    .payPage .label-switch .checkbox:after{ width:0.9rem; height:0.9rem;}
+                    .payPage .label-switch input[type="checkbox"]:checked + .checkbox:after{-webkit-transform: translateX(0.8rem); transform: translateX(0.8rem);}
+                    </style>
+                    <{if $order.use_coin >0}>
+                    <li class="use_box">
+                    	<div class="nr">
+                        	<p class="wz">使用夺宝币&nbsp;&nbsp;&nbsp;<font size="2">已抵扣&nbsp;￥<{$order.use_coin}></font></p>
+                            <!--<div class="form_box">
+                                	<div class="word">密码</div>
+                                    <div class="txt"><input id="use_coin" disabled="disabled" type="password" name="passwd" placeholder="请输入密码"/></div>
+                               
+                                <div class="right">
+                                    <label class="label-switch" id="tg_btn">
+                                        <input type="checkbox">
+                                        <div class="checkbox"></div>
+                                    </label>
+                                </div>
+                               
+                            </div>-->
+                        </div>
+                    </li>
+                    <{/if}>
+                    <li>
+                      <div class="item-content">选择支付方式</div>
+                    </li>
+                    <li class="pay_li" rel="alipay">
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay1.png">支付宝</div>
+                        <input class="code" type="radio" name="way" value="alipay">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>
+                    <{if $weixin == 1}>
+                    <li class="pay_li" rel="wxpay">
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay2.png">微信支付</div>
+                        <input class="code" type="radio" name="way" value="wxpay">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>
+                    <{/if}>
+                    <li class="pay_li" rel="money">
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay3.png">余额支付</div>
+                        <input class="code" type="radio" name="way" value="money">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>
+                    <!--<li>
+                      <label class="label-checkbox item-content">
+                        <div class="item-inner"><img src="/themes/default/cloud/static/images/pay/pay4.png">夺宝币支付</div>
+                        <input type="radio" name="way">
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                      </label>
+                    </li>-->
+                    <input type="hidden" value="" id="pay_code" name="pay_code" />
+                    <li class="mt10"></li>
+                    <li>
+                      <div class="item-content">
+                        <div class="item-inner">订单需支付</div>
+                        <div class="item-after"><span class="maincl">￥<{$order.num-$order.use_coin}></span></div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                    <div class="content-block"> <a href="javascript:void(0);" class="button button-big button-fill">确认支付</a> </div>
+            </div>
+        </div>
+    </div>
+<script>
+    $(document).ready(function () {
+        $(document).off('click', '.pay_li').on('click', '.pay_li', function () {
+            var val = $(this).attr('rel');
+            $('#pay_code').val(val);
+        })
+
+
+
+
+        $(document).off('click', '.button-fill').on('click', '.button-fill', function () {
+            var code =  $('#pay_code').val();
+            var order_id = "<{$order.order_id}>";
+            var link = "<{link ctl='trade/payment:cloud' code='_code_' order_id='_order_id_'}>";
+            var url = link.replace('_code_',code).replace('_order_id_',order_id);
+            
+            var coin = "<{$MEMBER.coin}>";
+            var url2 = "<{link ctl='cloud/order/pay2' args=$order.order_id}>";
+            if(coin>0){
+                $.post(url2,{},function(ret){
+                    if(ret.error){
+                        $.alert(ret.message);
+                    }else{
+                        if(ret.status == 1){
+                            $.alert(ret.message);
+                            window.location.href = "<{link ctl='cloud/ucenter/order/detail' args=$order.order_id}>";
+                        }else{
+                            window.location.href = url;  
+                        }
+                    }
+                },'json')
+            }else{;
+               window.location.href = url;  
+            }  
+        });
+    })
+    
+    
+    $(document).off('click', '#tg_btn').on('click', '#tg_btn', function () {
+        $(this).toggleClass("on");
+        if($(this).hasClass("on") == false) {
+            $("#use_coin").attr("disabled","disabled");
+        }else {
+            $("#use_coin").removeAttr("disabled");
+        }
+    });
+</script>
+<{include file="cloud/block/footer.html"}>

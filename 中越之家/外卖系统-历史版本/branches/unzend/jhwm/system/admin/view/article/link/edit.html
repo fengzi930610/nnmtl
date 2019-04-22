@@ -1,0 +1,21 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="article/link:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?article/link-edit.html" mini-form="link-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+    <input type="hidden" name="link_id" value="<{$detail.link_id}>"/>
+    <tr><th>关键字：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+    <tr><th>连接：</th><td><input type="text" name="data[link]" value="<{$detail.link|default:''}>" class="input w-300"/></td></tr>
+    <tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:''}>" class="input w-100"/></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

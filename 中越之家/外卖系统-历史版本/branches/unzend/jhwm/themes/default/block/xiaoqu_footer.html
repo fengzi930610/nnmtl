@@ -1,0 +1,45 @@
+<script>
+    $(document).ready(function () {
+        var now_city_name = '';
+        if (localStorage['UxCity']) {
+            now_city_name = localStorage['UxCity'];
+        }else{
+            now_city_name = Cookie.get("UxCity");
+        }
+
+        $('.city_name').text(now_city_name);
+
+        var now_xiaoqu_name = '';
+        if (localStorage['UxXiaoqu']) {
+            now_xiaoqu_name = localStorage['UxXiaoqu'];
+        }else{
+            now_xiaoqu_name = Cookie.get("UxXiaoqu");
+        }
+		if(!now_xiaoqu_name){
+			$('.xiaoqu').text('选择小区');
+		}else{
+			$('.xiaoqu').text(now_xiaoqu_name);
+		}
+
+
+        var now_yezhu_id = Cookie.get("UxYezhuId");
+
+        /*
+        //如果丢失任何信息则跳转让用户选择
+        var city = "<{$city}>";
+        if (!now_city_name && !city) {
+            window.location.href = "<{link ctl='xiaoqu/city'}>";
+        }
+
+        //如果丢失任何信息则跳转让用户选择
+        var index = "<{$index}>";
+        if (!now_yezhu_id && index == 1) {
+            window.location.href = "<{link ctl='xiaoqu/yezhu'}>";
+        }
+        */
+    })
+</script>
+<script type="text/javascript">$.init();</script>
+</div>
+</div>
+<{include file="block/footer.html"}>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='ucenter'}>" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">积分商城</div>
+            <i class="right"><a href="#" class=""></a></i>
+        </header>
+        <section class="page_center_box" style='bottom:0;'>
+            <div class="banner">
+                <div class="flexslider">  
+                    <ul class="slides">  
+                        <{foreach $adv_item as $adv}>
+                        <li><img src="<{$pager.img}>/<{$adv.thumb}>" width="100%" /></li>
+                        <{/foreach}>
+                    </ul>  
+                </div>
+            </div>
+            <div class="mineIntegral_link_box font_size14" style='text-align:left;'>
+                <span class="jifen-wen">我的积分<span class="jifen-num ml10"><{$MEMBER.jifen}></span></span>
+                <a href="<{link ctl='ucenter/order/items' arg1='mall'}>" class="fr jifen-link"><em class="ico-dan"></em>商城订单</a>
+                <div class="clear"></div>
+            </div>
+            <div class="mineIntegral_menu mb10">
+                <ul>
+                    <{foreach $cate_list as $k=>$cate}>
+                    <li class="list">
+                        <a href="<{link ctl='mall/product:items' arg0=$cate.cate_id}>">
+                            <img src="<{$pager.img}>/<{$cate.icon}>">
+                            <p><{$cate.title}></p>
+                        </a>
+                    </li>
+                    <{/foreach}>
+                    <li class="list">
+                        <a href="<{link ctl='mall/product:items'}>">
+                            <img src="/themes/default/static/images/icon_more.png">
+                            <p>更多&gt;&gt;</p>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="mineIntegral_list_box">
+                <ul>
+                    <{foreach $product_list as $k=>$v}>
+                    <{if $index@item < 8}>
+                    <li class="mineIntegral_list">
+                        <a href="<{link ctl='mall/product:detail' arg0=$v.product_id}>">
+                            <div class="img" >
+                                <span class="box"><img src="<{$pager.img}>/<{$v.photo}>" width="280" height="200" /></span>
+                                <div class="jifen"><{$v.jifen}>积分</div>
+                            </div>
+                        </a>
+                        <div class="wz">
+                            <p class="bt"><{$v.title}></p>
+                            <div>
+                                <p class="fl black9 font_size14">支付<span class="fontcl1">￥<em class="num"><{$v.price}></em></span></p>
+                                <div class="fr num_operate">
+                                    <span class="add" pid='<{$v.product_id}>' quantity="+">+</span>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <{/if}>
+                    <{/foreach}>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <!--购物车-->
+            <div class="shoppingCart">
+                <img src="/themes/default/static/images/cart.png">
+                <span class="number" id="total_count"><{$total.count|default:0}></span>
+            </div>
+            <!--购物车-->
+        </section>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.flexslider').flexslider({
+                    directionNav: true,
+                    pauseOnAction: false,
+                });//首页轮播js结束
+            });
+        </script>
+        <script>
+            $('.tab-item.external').removeClass('active');
+            $('#tab-item4').addClass('active');
+            $('.add').click(function () {
+                var pid = $(this).attr('pid');
+                var link = "<{link ctl='mall/order:addcart'}>";
+                $.post(link, {pid: pid}, function (ret) {
+                    if (ret.error == 0) {
+                        $('#total_count').html(ret.data.count);
+                    } else {
+                        layer.open({content: ret.message, time: 2});
+                        if (ret.error == 101) {
+                            setTimeout(function () {
+                                $('.modal-overlay').remove();
+                                $('.modal').remove();
+                                window.location.href = "<{link ctl='passport/login'}>";
+                            }, 1500);
+                        }
+                    }
+                }, 'json');
+            });
+
+            $('.shoppingCart').click(function () {
+                var cart_num = parseInt($('#total_count').text());
+                if(cart_num == 0){
+                    layer.open({content:'购物车中没有商品!', time: 2});
+                }else{
+                    window.location.href = "<{link ctl='mall/order:cart'}>";
+                }
+                
+            });
+            $(document).ready(function(){
+                $('#block_footer').hide();
+                $('.page_center_box').css('bottom',0);
+                
+            })
+        </script>
+        <{include file="block/sfooter.html"}>

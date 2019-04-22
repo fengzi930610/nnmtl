@@ -1,0 +1,42 @@
+<{include file="biz/block/header.html"}>
+
+
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/order:maidan'}>" class="on">订单列表</a>
+    </ul>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+        <table cellspacing="0" cellpadding="0" class="table">
+            <tr class="alt">
+                <th class="w-100">订单ID</th>
+                <th class="w-100">消费总额</th>
+                <th class="w-100">买单金额</th>
+                <th class="w-100">状态</th>
+                <th class="w-150">创建时间</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><{$item.order_id}></td>    
+                <td><{$item.total_price}></td>
+                <td><{$item.maidan_amount}></td>    
+                <td><{if $item.pay_status == 1}>已完成<{else}>等待付款<{/if}></td>     
+                <td><{$item.dateline|format:'Y-m-d H:i:s'}></td>   
+            </tr>
+
+            <{foreachelse}>
+            <tr><td colspan="20"><div class="alert alert-info">暂无优惠买单订单</div></td></tr>
+            <{/foreach}>
+            <tr>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td><div class="page"><{$pager.pagebar}></div></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="biz/block/footer.html"}>

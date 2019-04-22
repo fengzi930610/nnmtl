@@ -1,0 +1,19 @@
+<{foreach $items as $item}>
+    <li class="order_list border_t border_b mb10">
+        <p class="state border_b"><em class="tagIco mr5" style="background: #ff4970;">惠</em><{$shops[$item['shop_id']]['title']}><span class="fr maincl"><{$item.order_status_label}> </span></p>
+        <a href="<{link ctl='ucenter/order/detail' arg1=$item.order_id}>">
+            <div class="nr">
+                <div class="img fl"><img src="<{$pager.img}>/<{$shops[$item['shop_id']]['logo']}>" /></div>
+                <div class="wz">
+                    <p><span class="black9">消费：</span>￥<{$item.total_price}></p>
+                    <p><span class="black9">实付：</span>￥<{$orders[$item['order_id']]['maidan_amount']}></p>
+                </div>
+            </div>
+        </a>
+        <div class="clear_both bottom border_t">
+            <span class="black9">下单时间：<{$item.dateline|format:'Y-m-d H:i:s'}></span>
+            <{if $item.comment_status==0}><a href="<{link ctl='ucenter/order/comment' arg1=$item.order_id}>" class="pub_btn bgcl1 ml10 fr">去评价</a><{/if}>
+
+        </div>
+    </li>
+<{/foreach}>

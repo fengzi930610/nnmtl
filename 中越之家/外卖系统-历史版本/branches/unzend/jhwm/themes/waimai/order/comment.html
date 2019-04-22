@@ -1,0 +1,400 @@
+<{assign var='tpl_title' value=L("外卖商品评论")}>
+<{include file="waimai/block/header.html"}>
+<link href="%THEME%/static/css/mobiscroll/mobiscroll.animation.css" rel="stylesheet" type="text/css" />
+<link href="%THEME%/static/css/mobiscroll/mobiscroll.frame.css" rel="stylesheet" type="text/css" />
+<link href="%THEME%/static/css/mobiscroll/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.dom.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.core.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.scrollview.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.frame.js"></script>
+<script src="%THEME%/static/js/mobiscroll/mobiscroll.scroller.js"></script>
+
+<script src="<{$pager.res}>/cdn/layer/layer.js"></script>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容-->
+                <form id="comtent_form1"  >
+                <div class="ordEvlt_shangjia mb10">
+                    <div class="info">
+                        <span class="img"><img src="<{$pager.img}>/<{$order.shop_logo}>"></span>
+                        <p><{$order.shop_title}></p>
+                        <label><input type="checkbox" name="data[is_anonymous]" value="1">匿名评价</label>
+                        <input type="hidden" name="data[order_id]" value="<{$order.order_id}>" id="order_id"/>
+                    </div>
+                    <div class="ordEvlt_tit"><span class="black9">商家打分</span></div>
+                    <div class="starCz_bg mb20">
+                        <div class="starCz_bar" style="width:100%;"></div>
+                        <div class="click">
+                            <a href="javascript:;" value="1"></a>
+                            <a href="javascript:;" value="2"></a>
+                            <a href="javascript:;" value="3"></a>
+                            <a href="javascript:;" value="4"></a>
+                            <a href="javascript:;" value="5"></a>
+                        </div>
+                        <input type="hidden" name="data[score]" value="5" id="score"/>
+                    </div>
+                    <textarea name="data[contents]" placeholder="写下您对商家的建议吧~" id="contents"></textarea>
+                </div>
+                <div class="ordEvlt_goods mb10">
+                    <div class="ordEvlt_tit"><span class="black9">商品打分</span></div>
+                    <{foreach $order.products as $list}>
+                    <div class="pub_list mb10 shangping">
+                        <div class="pub_list_bd black6 "><{$list.product_name}></div>
+                        <a href="javascript:;" value="1" class="zan"></a>
+                        <a href="javascript:;" value="2" class="zan_cha"></a>
+                        <input type="hidden" name="data[<{$list.product_id}>]" value=""  class="product_list" rel="<{$list.product_id}>"/>
+                    </div>
+                    <{/foreach}>
+                </div>
+                <div class="ordEvlt_song mb10">
+                    <{if $order['pei_type'] != 3}>
+                    <div class="pub_list mb10">
+                        <p>送达时间</p>
+                        <div class="pub_list_bd text_r time"><input  type="text" value="<{$order.minute}>分钟(<{$order.lasttime|format:'H:i'}>送达)" id="song_time" ></div>
+                        <input type="hidden" name="data[pei_time]" id="pay_time" value="<{$order.minute}>"/>
+                        <i class="linkico"></i>
+                    </div>
+                    <div class="pub_list mb10">
+                        <P>配送服务</P>
+                        <div class="pub_list_bd">
+                            <div class="starCz_bg fr">
+                                <div class="starCz_bar" style="width:100%;"></div>
+                                <div class="click">
+                                    <a href="javascript:;" value="1"></a>
+                                    <a href="javascript:;" value="2"></a>
+                                    <a href="javascript:;" value="3"></a>
+                                    <a href="javascript:;" value="4"></a>
+                                    <a href="javascript:;" value="5"></a>
+                                </div>
+                                <input type="hidden" name="data[score_peisong]" value="5" id="score_peisong"/>
+                            </div>
+                        </div>
+                    </div>
+                    <{/if}>
+                    <div class="pub_list mb10">
+
+                    </div>
+                    <div class="ordEvlt_imgupload">
+                        <ul class="lists">
+                            <li>
+                                <div class="box">
+                                    <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png" ></div>
+                                    <input type="file" name="photo1" class="file22"   >
+                                    <a href="javascript:;"   class="clear_ico" style="display: none">×</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                                    <input type="file" class="file22" name="photo1" >
+                                    <a href="javascript:;" class="clear_ico" style="display: none">×</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                                    <input type="file"  class="file22" name="photo1" >
+                                    <a href="javascript:;"  class="clear_ico" style="display: none">×</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                                    <input type="file"  class="file22" name="photo1" >
+                                    <a href="javascript:;"   class="clear_ico" style="display: none">×</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="box">
+                                    <div class="img"><img  src="%THEME%/static/img/add_pingjia_pic@2x.png"></div>
+                                    <input type="file"  class="file22" name="photo1" >
+                                    <a href="javascript:;"  class="clear_ico" style="display: none">×</a>
+                                </div>
+                            </li>
+
+                        </ul>
+                        <div class="clear"></div>
+                        <p class="black9 mt5">(最多5张)</p>
+                    </div>
+                </div>
+                <!--内容end-->
+                </form>
+                <!--底部-->
+                <div class="ordEvlt_footer pub_list">
+                    <div class="pub_list_bd">
+                    <{if $order.jifen_total}>
+                        <big>评价后获得<span class="maincl"><{$order.jifen_total|default:'0'}></span>积分</big>
+                    <{/if}>
+                    </div>
+                    <a href="#" class="weui-btn weui-btn_mini weui-btn_primary" type="submit" id="comment_submit"  >发表评论</a>
+                </div>
+                <!--底部end-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".ordEvlt_goods .zan").click(function(){
+        $(this).addClass("on");
+    });
+
+    $('.click a').on('click',function () {
+        var socre = $(this).attr('value')
+       $(this).parent().parent().children('input').val(socre);
+        $(this).parent().parent().children().eq(0).css('width',parseInt(socre)*20+'%')
+    })
+
+    $('.shangping a').on('click',function () {
+        var socre = $(this).attr('value')
+        $(this).parent().children('input').val(socre);
+        $(this).parent().children('a').removeClass('on');
+        $(this).addClass('on');
+    })
+
+    $('.goodlist a').on('click',function(){
+        var value = $(this).attr('value');
+        $(this).parent().parent().children('input').val(value);
+    })
+
+    $('#song_time').on('change',function(){
+        var value =$(this).val()
+       var pattern = /\d+/g;
+        var i =pattern.exec(value);
+        $('#pay_time').val(i[0])
+    })
+
+    $('.file22').on('change',function(){
+        var files = $(this)[0]['files'];
+        var h =$(this);
+
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(files[0].type)) {
+            Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        uploadfile(files[0],h);
+
+        reader.onload = function (e){
+                h.parent().children().eq(0).children().attr('src',e.target.result);
+                h.parent().children('a').show();
+        }
+    });
+
+    $('.clear_ico').on('click',function(){
+
+        $(this).parent().children('input').remove();
+        $(this).parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+        var new_input ='<input type="file"  class="file22"/>' ;
+        $(this).parent().children().eq(0).after(new_input);
+        $(this).hide();
+
+        $('.file22').on('change',function(){
+            var files = $(this)[0]['files'];
+            var h =$(this);
+
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[0].type)) {
+                Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            uploadfile(files[0],h);
+
+            reader.onload = function (e){
+                    h.parent().children().eq(0).children().attr('src',e.target.result);
+                    h.parent().children('a').show();
+            }
+        });
+    })
+
+    $('.manyi a').on('click',function () {
+        var rel = $(this).attr('rel')
+        $(this).parent().children('a').removeClass('on');
+        $(this).addClass('on');
+        $(this).parent().children('input').val(rel)
+    })
+</script>
+
+<script>
+    var time= '<{$time_format}>';
+    var format = eval(time);
+    (function ($) {
+        mobiscroll.scroller('#song_time', {
+            theme: "mobiscroll",
+            display: "center",
+            lang: "zh",
+            wheels: [
+                [{
+                    data: format
+                }]
+            ]
+        });
+
+    })(mobiscroll.$);
+</script>
+<script>
+    function go_forward() {
+        var order_id = '<{$order.order_id}>';
+        window.location.href = '<{link ctl="ucenter/order:detail" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+
+    }
+    $('#comment_submit').on('click',function(){
+        var id ='comtent_form1';
+        var url ='<{link ctl="ucenter/order:comment_handle" http="waimai"}>';
+        var tiao ="<{link ctl='ucenter/order' http='waimai'}>"
+        upload(id,url,tiao);
+    })
+     //上传方法 支持文件双穿
+    function upload(id,url,tiao){
+        //根据ID 读取表单信息
+        var formdata =  $("#"+id).serialize();
+        $.post(url, formdata,function(e){
+            if(e.error>0){
+                layer.msg(e.message)
+            }else{
+                layer.msg(e.message)
+                setTimeout(function () {
+                    var order_id = '<{$order.order_id}>';
+                    window.location.href = '<{link ctl="ucenter/order:detail" arg0="#order_id#" http="waimai"}>'.replace("#order_id#",order_id);
+                },{
+                },2000);
+            }
+        }, 'json');
+    }
+
+    function uploadfile(Obj,h) {
+        var form = new FormData();
+        var name = h.attr('data-id');
+        var url ='<{link ctl="ucenter/order:uploadimg" http="waimai"}>';
+
+        layer.load('处理中....');
+        if(Obj.size/1024 > 800) { //大于2M，进行压缩上传
+            photoCompress(Obj, {
+                quality: 0.2
+            }, function(base64Codes){
+                console.log("压缩后：" + base64Codes.length / 1024);
+                var bl = convertBase64UrlToBlob(base64Codes);
+                form.append("file", bl, "file_"+Date.parse(new Date())+".jpg"); // 文件对象
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    success: function (e) {
+                        if(e.error>0){
+                            layer.closeAll();
+                            layer.msg(e.message);
+                            return false;
+                        }else{
+                            layer.closeAll();
+                            if(e.error>0){
+                                layer.msg(e.message);
+                                return false;
+                            }else{
+                                if(e.file){
+                                    var input = '<input type="text" name="data[file][]" value="'+e.file.photo+'"/>';
+                                    h.parent().append(input);
+                                    layer.msg('图片上传成功');
+                                }else{
+                                    h.parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+                                    h.parent().children('a').hide();
+                                    layer.msg('图片过大');
+                                    return false;
+                                }
+                            }
+                        }
+                    },
+                    error: function (e) {
+                    }
+                });
+            });
+        }else{ //小于等于2M 原图上传
+            form.append("file", Obj); // 文件对象
+            $.ajax({
+                url: url,
+                type: "post",
+                data: form,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (e) {
+                    if(e.error>0){
+                        layer.closeAll();
+                        Widget.MsgBox.success(e.message);
+                        return false;
+                    }else{
+                        layer.closeAll();
+                        if(e.error>0){
+                           layer.msg(e.message);
+                            return false;
+                        }else{
+                            if(e.error>0){
+                                layer.msg(e.message);
+                                return false;
+                            }else{
+                                if(e.file){
+                                    var input = '<input type="text" name="data[file][]" value="'+e.file.photo+'"/>';
+                                    h.parent().append(input);
+                                    layer.msg('图片上传成功');
+                                }else{
+                                    h.parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+                                    h.parent().children('a').hide();
+                                    layer.msg('图片过大');
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function (e) {
+                }
+            });
+        }
+    }
+
+   /* /!* 上传图片*!/
+    function uploadfile(obj,h) {
+        var form = new FormData();
+        form.append('file',obj[0]);
+        Widget.MsgBox.load('加载中....');
+        var url ='<{link ctl="ucenter/order:uploadimg" http="waimai"}>';
+        $.ajax({
+            url: url,
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (e) {
+                if(e.error>0){
+                    Widget.MsgBox.success(e.message);
+                    return false;
+                }else{
+                    if(e.file){
+                        var input = '<input type="text" class="reformat" name="data[file][]" value="'+e.file.photo+'"/>';
+                        h.parent().append(input);
+                    }else{
+                        h.parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+                        h.parent().children('a').hide();
+                       /!* h.parent().children('.reformat').remove();*!/
+                        Widget.MsgBox.error('图片过大');
+                        return false;
+                    }
+                }
+            },
+            error: function (e) {
+            }
+        });
+    }*/
+</script>
+<{include file="waimai/block/footer.html"}>

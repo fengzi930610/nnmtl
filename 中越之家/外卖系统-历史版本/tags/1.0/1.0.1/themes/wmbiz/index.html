@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<title>外卖商家后台--<{$CONFIG.site.title}></title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="<{$pager.res}>/cdn/bootstrap/css/bootstrap.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="<{$pager.res}>/cdn/font-awesome/css/font-awesome.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="<{$pager.res}>/cdn/css/animate.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="<{$pager.res}>/cdn/metisMenu/metisMenu.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="%THEME%/static/css/style.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="%THEME%/static/css/mine.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="%THEME%/static/css/append.css?<{$TMPLVER}>" rel="stylesheet">
+<script src="<{$pager.res}>/cdn/js/jquery.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/bootstrap/js/bootstrap.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/js/jquery.slimscroll.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/metisMenu/metisMenu.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/layer/layer.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/script/kt.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/script/widget.msgbox.js?<{$TMPLVER}>"></script>
+<script src="%THEME%/static/js/hplus.min.js?<{$TMPLVER}>"></script>
+<script src="%THEME%/static/js/contabs.min.js?<{$TMPLVER}>"></script>
+<script src="%THEME%/static/js/print.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/script/notice.js?<{$TMPLVER}>"></script>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<div style="width: 0px;height: 0px;">
+    <audio src="/static/voice/new.mp3" id="new_audio"></audio>
+    <audio src="/static/voice/tui.mp3" id="tui_audio"></audio>
+    <audio src="/static/voice/cui.mp3" id="cui_audio"></audio>
+    <audio src="/static/voice/yd.mp3" id="yuding_audio"></audio>
+</div>
+<div id="wrapper">
+    <!--左侧导航开始-->
+    <div id="notice"></div>
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="nav-close"><i class="fa fa-times-circle"></i> </div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="nav-header">
+                	<div class="img_ico"></div>
+                    <div class="wz" style="left:50px"><a href="<{link ctl='index'}>"><!-- <{$CONFIG.site.title}> -->商家后台</a></div>
+                </li>
+                <li class="bt_li active"><a href="<{link ctl='index:home'}>" class="J_menuItem bt"><div class="ico_box"><i class="ico ico1"></i></div><span class="nav-label">外送首页</span></a></li>
+                <li class="bt_li"><a href="javascript:void(0);" class="bt"><div class="ico_box"><i class="ico ico2"></i></div><span class="nav-label">订单管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li> <a class="J_menuItem" href="<{link ctl='order/index:receive'}>">待处理订单</a> </li>
+                        <li> <a class="J_menuItem" href="<{link ctl='order/index:history'}>">历史订单</a> </li>
+                    </ul>
+                </li>
+                
+                <{if $have_qiang}>
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico9"></i></div><span class="nav-label">抢购管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li> <a class="J_menuItem" href="<{link ctl='qiang/qiang:index'}>">抢购管理</a> </li>
+                        <li> <a class="J_menuItem" href="<{link ctl='qiang/order:index'}>">订单管理</a> </li>
+                        <li> <a class="J_menuItem" href="<{link ctl='qiang/comment:index'}>">评论管理</a> </li>
+                        <li> <a class="J_menuItem" href="<{link ctl='qiang/order:setspend'}>">券码核销</a> </li>
+                    </ul>
+                </li>
+                <{/if}>
+
+                <li class="bt_li"><a href="<{link ctl='comment/index:index'}>" class="J_menuItem bt"><div class="ico_box"><i class="ico ico3"></i></div><span class="nav-label">评价管理</span></a></li>
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico4"></i></div><span class="nav-label">商品管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li> <a class="J_menuItem" href="<{link ctl='product/product:index'}>">商品管理</a> </li>
+                        <li> <a class="J_menuItem" href="<{link ctl='product/product:create'}>">添加商品</a> </li>
+                        <li> <a class="J_menuItem" href="<{link ctl='product/cate:index'}>">分类管理</a> </li>
+                    </ul>
+                </li>
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico5"></i></div><span class="nav-label">三方管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="<{link ctl='oauth/index:index'}>">授权管理</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='oauth/order:index'}>">订单管理</a> </li>
+                    </ul>
+                </li>
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico5"></i></div><span class="nav-label">店铺管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="<{link ctl='shop/shop:index'}>">店铺设置</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='shop/deliver:index'}>">配送管理</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='system/index2'}>">系统设置</a> </li>
+                    </ul>
+                </li>
+                <li class="bt_li"><a href="javascript:;" class="bt"><div class="ico_box"><i class="ico ico6"></i></div><span class="nav-label">营销管理</span></a>
+                	<ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="<{link ctl='huodong/shop:index'}>">店铺活动</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='huodong/index:index'}>">平台活动</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='shop/adv:index'}>">页面广告</a> </li>
+                    </ul>
+                </li>
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico7"></i></div><span class="nav-label">经营分析</span></a>
+                	<ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="<{link ctl='business/business:index'}>">营业统计</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='business/hot:index'}>">热门商品</a> </li>
+                    </ul>
+                </li>
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico7"></i></div><span class="nav-label">客户管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="<{link ctl='user/user:index'}>">客户管理</a> </li>
+                    </ul>
+                </li>
+
+                <li class="bt_li"><a href="#" class="bt"><div class="ico_box"><i class="ico ico8"></i></div><span class="nav-label">财务管理</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="<{link ctl='finance/account:index'}>">我的账户</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='finance/balance:index'}>">外卖对账</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='finance/qiang_balance:index'}>">抢购对账</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='finance/account:info'}>">账户信息</a> </li>
+                        <li><a class="J_menuItem" href="<{link ctl='tixian/index'}>">提现记录</a> </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+    <!--左侧导航结束--> 
+    <!--右侧部分开始-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                	<a class="navbar-minimalize minimalize-styl-2" href="javascript:;"><i class="fa fa-bars"></i></a>
+                </div>
+                <div class="pull-left input-group search-section">
+                    <div class="input-group-btn selct_box">
+                        <button data-toggle="dropdown" class="btn btn-white dropdown-toggle selct_nr" type="button" aria-expanded="true"><span id="top_name" rel="<{link ctl='order/index:receive' http='wmbiz' keyword=_k}>">待接单</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li link="<{link ctl='order/index' http='wmbiz' keyword=_k}>">催单</li>
+                            <li link="<{link ctl='order/index:receive' http='wmbiz' keyword=_k}>">待接单</li>
+                            <li link="<{link ctl='order/index:pei' http='wmbiz' keyword=_k}>">待配送</li>
+                            <li link="<{link ctl='order/index:delivery' http='wmbiz' keyword=_k}>">配送中</li>
+                            <li link="<{link ctl='order/index:refund' http='wmbiz' keyword=_k}>">退单</li>
+                            <li link="<{link ctl='order/index:ziti' http='wmbiz' keyword=_k}>">自提单</li>
+                            <li link="<{link ctl='order/index:history' http='wmbiz' keyword=_k}>">历史订单</li>
+                        </ul>
+                    </div>
+
+                    <input type="text" class="form-control" placeholder="请输入手机号/订单编号" aria-describedby="basic-addon2"/>
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn btn-theme" id="sousuo"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>
+                    <script type="text/javascript">
+                        $('.dropdown-menu li').on('click',function(){
+                            var link = $(this).attr('link');
+                            $('#top_name').text($(this).text());
+                            $('#top_name').attr('rel',link);
+                        });
+
+                        $('#sousuo').on('click',function(){
+                            var link =  $('#top_name').attr('rel')
+                             var keyword = $(".form-control").val();
+                             $('.J_iframe').attr('src', link.replace("_k",keyword));
+                        })
+                    </script>
+                </div>
+                <div class="pull-right top_powerOff">
+                	<a href="<{link ctl='login:loginout'}>">
+                    	<i class="fa fa-power-off"></i>
+                    </a>
+                </div>
+                <div class="pull-right state_box">
+                	<a href="javascript:;" class="bt"><{if $waimai_shop.yy_status == 0}>停止营业<{elseif $waimai_shop.yy_status == 1}>营业中<{elseif $waimai_shop.yy_status == 2}>繁忙<{/if}> <i class="glyphicon glyphicon-menu-down"></i></a>
+                    <{if $waimai_shop.yy_status == 0 || $waimai_shop.yy_status == 1}>
+                    <div class="dropdown_state">
+                        <div class="list">
+                            <a href="javascript:;"  rel="<{link ctl='shop/shop:close' arg0=1}>" class="btn btn-primary mdzz_cp_cnm <{if $waimai_shop.yy_status == 0}>btn-outline<{/if}> btn-sm">营业中</a>
+                            <p>当前餐厅处于设置的营业时间内，正常接受新订单</p>
+                        </div>
+                        <div class="list">
+                            <a href="javascript:;"  rel="<{link ctl='shop/shop:close' arg0=2}>" class="btn btn-primary mdzz_cp_cnm <{if $waimai_shop.yy_status == 1}>btn-outline<{/if}> btn-sm">停止营业</a>
+                            <p>适用于较长时间停止提供服务，不接受任何订单，手动恢复营业后可正常接受订单</p>
+                        </div>
+                        <P class="time">营业时间：<{if !empty($waimai.yy_peitime)}>
+                            <{foreach $waimai.yy_peitime as $v}>
+                            <{$v.stime}>-<{$v.ltime}>
+                            <{/foreach}>
+                            <{else}>
+                            尚未设置
+                            <{/if}>
+                        </P>
+                    </div>
+                    <{/if}>
+                </div>
+                <div class="pull-right userInfo_box">
+                	<div class="userInfo">
+                            <span class="img12"><img style="vertical-align:baseline; margin-bottom: 2px;"  src="<{$pager.img}>/<{$waimai.logo}>"></span>
+
+                        <span><{substr_replace($shop['mobile'], '****', 3, 4)}></span>
+                        <div class="link-cont" style="display:none">
+                            <!--<a href="<{link ctl='login/password' http='wmbiz'}>" class="link-a">修改密码</a>-->
+                            <a href="javascript:;" class="link-a tab_btn_modPw">修改密码</a>
+                            <!--<a href="<{link ctl='login/mobile' http='wmbiz'}>" class="link-a">更改手机</a>-->
+                           <!-- <a target="_blank tuan" href="<{link ctl='index' http='biz'}>" class="link-a">团购后台</a>
+                            <a target="_blank shangcheng" href="<{link ctl='index' http='mallbiz'}>" class="link-a">商城后台</a>-->
+                        </div>
+                    </div>
+                </div>
+                <!--修改密码-->
+                        <div class="mask_cont password_mask">
+                            <div class="mask_cont_tit text_c">修改密码</div>
+                            <div class="cont">
+                                <div class="login_form_box" style="margin-top: 0px; width: auto; height: auto; border:none;">
+                                    <div class="cont">
+                                        <div class="int_box form-group mb20">
+                                            <div class="ico ico2"></div>
+                                            <div class="box"><input type="password" id="old_passwd" name="old_passwd" aria-required="true" aria-invalid="true" class="form-control error" placeholder="验证旧密码"><a href="javascript:;" class="clear_ico"></a></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="int_box form-group mb20">
+                                            <div class="ico ico2"></div>
+                                            <div class="box"><input type="password" id="new_passwd" name="new_passwd" aria-required="true" aria-invalid="true" class="form-control error" placeholder="设置新密码"><a href="javascript:;" class="clear_ico"></a></div>
+                                            <div class="clear"></div>
+                                        </div>
+                                        <div class="int_box form-group mb20">
+                                            <div class="ico ico2"></div>
+                                            <div class="box"><input type="password" id="new_passwd2" name="new_passwd2" aria-required="true" aria-invalid="true" class="form-control error" placeholder="确认新密码"><a href="javascript:;" class="clear_ico"></a></div>
+                                            <div class="clear"></div>
+                                        </div>                 
+                                    </div>
+                                </div>
+                                <div class="text_c mt20" style="padding-bottom: 10px;">
+                                    <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+                                    <a href="javascript:;" class="btn btn-w-m btn-primary comfirt">确定</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mask_bg"></div>
+                        <script>
+                            $(document).ready(function () { 
+                                var evlt_h = $('.password_mask').height();
+                                var evlt_w = $('.password_mask').width();
+                                $('.password_mask').css("margin-top", -evlt_h / 2 + 'px');
+                                $('.password_mask').css("margin-left", -evlt_w / 2 + 'px');
+
+                                $(".tab_btn_modPw").click(function () {
+                                    $('.password_mask').fadeIn(100);
+                                    $('.mask_bg').fadeIn(100);
+                                });
+
+                                $(".password_mask .cancel,.mask_bg").click(function () {
+                                    $('.password_mask').fadeOut(100);
+                                    $('.mask_bg').fadeOut(100);
+                                });
+                                
+                                $(".comfirt").click(function(){
+                                    var old_passwd = $("#old_passwd").val();
+                                    var new_passwd = $("#new_passwd").val();
+                                    var new_passwd2 = $("#new_passwd2").val();
+                                    var link = "<{link ctl='login/password'}>";
+                                    var data = {"old_passwd":old_passwd,"new_passwd":new_passwd,"new_passwd2":new_passwd2};
+                                    $.post(link,{"data":data},function(ret){
+                                        layer.msg(ret.message);
+                                        if(ret.error == 0){
+                                            setTimeout(function(){
+                                                window.location.href = "<{link ctl='login/index'}>";
+                                            },2000)
+                                            
+                                        }
+                                    },'json')
+                                })
+                                
+                            });
+                        </script>
+                <div class="pull-right">
+                    <div class="phone-code-box">
+                        <span class="phone-ico"></span>手机访问
+                        <div class="code-cont" style="display:none">
+                            <img src="<{$link}>"/>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="row J_mainContent" id="content-main">
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<{link ctl='index:home'}>" frameborder="0" data-id="index.html" seamless></iframe>
+        </div>
+        <div class="footer">
+            <div class="pull-right">All Rights Reserved <{$CONFIG.site.icp}></div>
+        </div>
+	</div>
+    <!--右侧部分结束--> 
+    <!--右下角消息弹出层-开始-->
+    <div id="message"  style="display: none">
+        <div class="message_tBox">
+            <span id="message_close">×</span>
+            <div class="message_t">预订单将要超时</div>
+            <div class="clear"></div>
+        </div> 
+        <div class="message4">
+            <div id="message_content">您有预订单即将达到配送时间，请注意处理！</div>
+            <div class="message_ck"><a class="message_cka J_menuItem" target="content-main" href="<{link ctl='order/index:yuding' http='wmbiz'}>">立即查看>></a></div>
+        </div>
+    </div>
+    <!--右下角消息弹出层-结束-->
+</div>
+<script>
+$(document).ready(function() {
+    $(".navbar-static-top .state_box").mousemove(function(){
+		$(".navbar-static-top .state_box .bt").addClass("on");
+		$(".navbar-static-top .state_box .dropdown_state").show();
+	});
+	$(".navbar-static-top .state_box").mouseleave(function(){
+		$(".navbar-static-top .state_box .bt").removeClass("on");
+		$(".navbar-static-top .state_box .dropdown_state").hide();
+	});
+
+    $('.mdzz_cp_cnm').on('click',function(){
+        var link = $(this).attr('rel');
+        var is_root = "<{$waimai.is_root}>";
+        if(is_root==1){
+            layer.msg('平台已设置打烊，无法进行该操作');
+            return false;
+        }
+
+        $.post(link,{},function(e){
+            if(e.error==0){
+                setTimeout(function(){
+                    window.location.reload();
+                },200);
+            }else{
+                layer.msg(e.message,{icon:2});
+            }
+        },'json')
+    })
+
+    $(".navbar-static-top .userInfo_box").mouseover(function(){
+        $(".navbar-static-top .userInfo_box .userInfo").addClass("on");
+        $(this).find(".link-cont").show();
+    });
+    $(".navbar-static-top .userInfo_box").mouseout(function(){
+        $(".navbar-static-top .userInfo_box .userInfo").removeClass("on");
+        $(this).find(".link-cont").hide();
+    });
+
+    $(".navbar-static-top .phone-code-box").mouseover(function(){
+        $(this).addClass("on");
+        $(this).find(".code-cont").show();
+    });
+    $(".navbar-static-top .phone-code-box").mouseout(function(){
+        $(this).removeClass("on");
+        $(this).find(".code-cont").hide();
+    });
+    $("li a.J_menuItem").click(function(){
+        $("li a.J_menuItem").parent().removeClass("active");
+        $(this).parent().addClass("active");
+    })
+    $('#message_close').on('click',function(){
+        $('#message').hide();
+    })
+});
+</script>
+
+<script>
+    var link = '<{link ctl="index/get_yunprint"}>';
+    var in_window = "<{$in_window}>";
+    var shop_id = "<{$waimai_shop.shop_id}>";
+    init_print(link,in_window,shop_id);
+    function auto_jiedan(ids){
+        var shop_id = "<{$waimai_shop.shop_id}>";
+        var url = '<{link ctl="order/index:auto_jiedan" arg0="#order_id#" }>';
+        if(typeof(ids)=='object'){
+            $.each(ids,function(k,v){
+                setTimeout(function(){
+                    var jiedan_url = url.replace("#order_id#",v);
+                    $.post(jiedan_url,{},function(e){
+                        if(e.error==0){
+                            var yun_url = "<{link ctl='order/index:yunprint' arg0='#order_id#' arg1='#num#' arg2='#plat_id#'}>";
+                            auto_daying(v,yun_url,e.data,shop_id);
+                        }
+                    },'json')
+                },200);
+            });
+        }
+    }
+
+    var new_audio ;
+    var tui_audio ;
+    var cui_audio ;
+    var yuding_audio ;
+    window.onload = function(){
+        initAudio();
+    }
+
+    var initAudio = function(){
+        new_audio = document.getElementById('new_audio');
+        tui_audio = document.getElementById('tui_audio');
+        cui_audio = document.getElementById('cui_audio');
+        yuding_audio = document.getElementById('yuding_audio');
+    }
+
+    function playOrPaused(id,obj){
+        if(audio.paused){
+            audio.play();
+            obj.innerHTML='暂停';
+            return;
+        }
+        audio.pause();
+        obj.innerHTML='播放';
+    }
+
+    $(function(){
+        function get_msg(){
+            var url = '<{link ctl="index:get_msg" http="wmbiz"}>';
+            var user_set = localStorage.getItem('JH-system');
+            var json_user = JSON.parse(user_set);
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    if(e.data.new){
+                        var url = "<{link ctl='order/index:receive'}>";
+                        new_audio.play();
+                        notify('订单','您有新的订单，请及时处理',url);
+                    }
+                    if(e.data.cui){
+                        var url = "<{link ctl='order/index:index'}>";
+                        setTimeout(function(){
+                            cui_audio.play();
+                            notify('订单','您有新的催单，请及时处理',url);
+                        },3000);
+                    }
+                    if(e.data.tui){
+                        var url = "<{link ctl='order/index:refund'}>";
+                        setTimeout(function(){
+                            tui_audio.play();
+                            notify('订单','您有新的退单，请及时处理',url);
+                        },6000);
+                    }
+                    if(e.data.yuding){
+                        var url = "<{link ctl='order/index:yuding'}>";
+                        setTimeout(function(){
+                            yuding_audio.play();
+                            notify('订单','您有预订单即将到达配送时间，请注意制作',url);
+                            $('#message').show();
+                        },9000);
+                    }
+                    if(json_user!=null){
+                        if(e.data.new&&json_user.pc=='1'){
+                            auto_jiedan(e.data.new_order);
+                        }
+                    }
+                }
+            },'json')
+            setTimeout(function(){
+                $('#notice').html('');
+            },30000);
+        }
+        setInterval(function(){
+            get_msg();
+        },60*1000);
+    })
+</script>
+</body>
+</html>

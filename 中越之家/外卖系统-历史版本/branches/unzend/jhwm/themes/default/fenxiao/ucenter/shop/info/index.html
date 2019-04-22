@@ -1,0 +1,135 @@
+<{include file="fenxiao/block/header.html"}>
+<style>
+    .accountInfor_headX_mask{display:none; width:100%; position:fixed; z-index:101; left:0; bottom:0.1rem; overflow:hidden;}
+    .accountInfor_headX_mask .cont{ margin:0.1rem; background:#fff; border-radius:0.03rem; padding:0 0.1rem;}
+    .accountInfor_headX_mask .btn{ display:block; font-size:0.14rem; line-height:0.4rem; text-align:center; position:relative;}
+    .accountInfor_headX_mask .btn input{opacity:0; filter:alpha(opacity=0); position:absolute;}
+    .mask_bg{z-index: 100;}
+    
+    .fx_dpName{  padding:45px 50px 20px; background:#fff;}
+    .fx_dpName .int_box input{ border:0.01rem solid #ccc; border-radius:0.04rem; width:100%; height:0.4rem; line-height:0.4rem; font-size:0.14rem; text-indent:0.1rem;}
+    .fx_dpName .long_btn{ border-radius:0.04rem;}
+</style>
+<section class="page_center_box">
+	<div class="fx_dpInfor mt10">
+    	<div class="fx_dpInfor_list border_b">
+            <p class="fl dp_name">店铺LOGO</p>
+            <div class="fr accountInfor_headX">
+                <span class="img"><{if $FENXIAO['photo']}><img class="face_img" src="<{$pager.img}>/<{$FENXIAO.photo}>" width="40" height="40"><{/if}></span>
+                <i class="ico linkIco"></i>
+            </div>
+        </div>
+        <div class="fx_dpInfor_list">
+            <p class="fl">店铺名称</p>
+            <div class="fr open-about2">
+                <span class="black9"><{if $FENXIAO.title}><{$FENXIAO['title']}><{else}><{$FENXIAO.shop_name}><{/if}></span>
+                <i class="ico linkIco"></i>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="mask_box">
+    <div class="accountInfor_headX_mask">
+        <div class="cont">
+            <!-- <label class="btn border_b"><input type="button" />拍照</label> -->
+            <label class="btn"><input type="file" onchange="fileSelected(this)"/>从手机相册选择</label>
+        </div>
+        <div class="mar10">
+            <input type="button" class="long_btn cancel" style="background:#fff; color:#999;" value="取消" />
+        </div>
+    </div>
+	<div class="mask_bg"></div>
+</div>
+<div class="shangpinSelct_mask">
+	<div class="cont" style=" background:#f3f4f3;">
+    	<a href="javascript:void(0);" class="ico close"></a>
+        <form action="<{link ctl='ucenter/shop/info:set_title'}>" mini-form="car-form" method="post">
+    	<div class="fx_dpName mb10">
+            <div class="int_box mb10"><input type="text" name="title" id="title" value="<{$FENXIAO.title}>" placeholder="请输入店铺名称"></div>
+            <input type="submit" class="long_btn" id="set_title" value="确定">
+        </div>
+        </form>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+$(document).ready(function() {
+    $('.open-about2').click(function(){
+            $('.shangpinSelct_mask').addClass('on');
+            $('.mask_bg').show();
+	});
+	$('.shangpinSelct_mask .close,.mask_bg').click(function(){
+            $('.shangpinSelct_mask').removeClass('on');
+            $('.mask_bg').hide();
+	});  
+});
+
+</script>
+<script>
+    $(document).ready(function() {
+	$(".accountInfor_headX").click(function(){
+		$(".accountInfor_headX_mask").show();
+		$(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+	});
+	$(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function(){
+		$(".accountInfor_headX_mask").hide();
+		$(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+	});//头像弹出层结束
+	
+});
+    
+    
+    //上传图片
+    function upload_face(file)
+    {
+        var formData = new FormData();
+        formData.append('avatar', file);
+        $.ajax({
+            url : "<{link ctl='ucenter/shop/info:upload_face'}>",
+            type : "POST",
+            data : formData,
+            processData : false,
+            contentType : false,
+            success : function(responseStr) {
+                layer.open({
+                    content:"更换头像成功",
+                    time:1.5
+                });
+            },
+            error : function(responseStr) {
+                layer.open({
+                    content:"未知错误发生",
+                    time:1.5
+                });
+            }
+        });
+    }
+    if (!window.applicationCache) {
+        alert("不支持HTML5");
+    }
+    //HTML5选图片
+    function fileSelected(obj){
+        var files = obj.files;
+        for(var i=0;i<files.length;i++){
+            var tag = '';
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[i].type)) {
+                alert("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.onloadstart = function(e){
+                $(".loading").show();
+            }
+            reader.onload = function(e){
+                $(".face_img").attr('src',e.target.result);
+            }
+            reader.readAsDataURL(files[i]);
+        }
+        upload_face(files[0]);
+        //隐藏弹出框
+        $(".accountInfor_headX_mask").hide();
+        $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+    }
+</script>
+<{include file="fenxiao/block/footer.html"}>

@@ -1,0 +1,26 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="connect/connect:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?connect/connect-edit.html" mini-form="connect-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="connect_id" value="<{$detail.connect_id}>"/>
+<tr>
+    <th><span class="red">*</span>绑定用户：</th>
+    <td>
+        <input type="hidden" name="data[uid]" value="<{$detail.uid}>" id="select_member_uid_id" />
+        <input type="text" value="<{$member.uname}>" id="select_member_uid_name" class="input w-300" readonly/>
+        <{link ctl="member/member:dialog" arg0="buzhid" select="mini:#select_member_uid_id,#select_member_uid_name/N/选择用户" title="选择用户" class="button"}>
+    </td>
+</tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

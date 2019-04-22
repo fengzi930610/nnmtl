@@ -1,0 +1,16 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<div class="fx_identifyYz">
+    	<div class="state"><i class="ico"></i>已验证成功</div>
+        <p class="bt black9">认证信息</p>
+        <div class="infor">
+            <p class="black6">真实姓名 <span class="ml10"><{$account.real_name}></span></p>
+            <p class="black6">证件类型 <span class="ml10">身份证</span></p>
+            <p class="black6">证件号码 <span class="ml10"><{$account.card_no}></span></p>
+            <p class="black6">开户银行 <span class="ml10"><{$account.account_type}></span></p>
+            <p class="black6">银行卡号 <span class="ml10"><{$account.account_number}></span></p>
+        </div>
+        <!--<div class="state"><a href="<{link ctl='ucenter/shop/bank:my_bank'}>" style='color:blue;text-decoration:underline;'>我的银行卡</a></div>-->
+    </div>
+</section>
+<{include file="fenxiao/block/footer.html"}>

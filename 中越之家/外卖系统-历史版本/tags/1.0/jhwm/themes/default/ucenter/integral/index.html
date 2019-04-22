@@ -1,0 +1,43 @@
+<{assign var='tpl_title' value='我的积分'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter/index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a> </i>
+    <div class="title">
+        我的积分
+    </div>
+</header>
+<section class="page_center_box">
+    <div class="mineIntegralPage_top txt_center mb10">
+        <div class="fl border_r">
+            <p class="black9">当前积分</p>
+            <p class="num pointcl1"><{$jifen}><small class="black9">分</small></p>
+        </div>
+        <div class="fr"><a href="<{link ctl='mall/index'}>" class="pub_btn" style="background:#fc5151;">兑换商品</a></div>
+        <div class="clear"></div>
+    </div>
+    <h3 class="black9 pad_l10 pad_r10 font_size14 font_line24">我的积分记录</h3>
+
+    <ul class="mineIntegralPage_list" id="index_goods_items">
+
+    </ul>
+    <div class="loadding">
+
+    </div>
+    <div class="clear"></div>
+
+</section>
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/integral/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+        loaddata(link, page, params);
+        $(document).on("click", ".next", function () {
+            page++;
+            loaddata(link, page, params);
+        })
+    })
+</script>
+<{include file="block/sfooter.html"}>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+    .topTab{background: #fff; height: 50px; border-bottom: 1px solid #e6e6e6; padding: 0 20px; overflow: hidden;}
+    .topTab .list{font-size: 14px; line-height: 50px; text-align: center; float: left;display: block; position: relative; color: #333; margin-right: 40px;}
+    .topTab .list.on::after{content: ''; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: #00bd9e;}
+    .topDispatch{background: #f8f8f8; padding: 15px 20px;}
+    .topDispatch .new{border-right: 1px solid #eee; margin-right: 12px; padding-right: 2px;}
+    .topDispatch .new .btn{margin-right: 10px;}
+    .topDispatch .caozuo .all{display: inline-block; background: #fff; height: 30px; border: 1px solid #c2c2c2;padding: 0px 10px;font-size: 12px;line-height: 1.5;border-radius: 3px; line-height: 28px; font-weight: normal; margin-right: 10px; margin-bottom: 0;vertical-align: middle; cursor: pointer;}
+    .topDispatch .caozuo .all input{vertical-align: sub;}
+    .topDispatch .caozuo .btn{margin-right: 10px;}
+    .GoodsList_bd{height: 100%; border-top: 1px solid #e6e6e6;}
+    .GoodsList_bd_cate{height: 100%; width: 120px; background: #f8f8f8; position: relative;}
+    .GoodsList_bd_cate::after{content: ''; width: 1px; height:100%; background: #e6e6e6; position: absolute; top: 0; right: 0;}
+    .GoodsList_bd_cate ul li{position: relative; z-index: 1; font-size: 12px; line-height: 20px; padding: 15px 10px 15px 20px; border-bottom: 1px solid #e6e6e6;}
+    .GoodsList_bd_cate ul li.on{background: #fff;}
+    .GoodsList_bd_r{margin-left: 120px; padding:0  20px;}
+    .GoodsList_bd_r ul li{overflow: hidden; border-bottom: 1px solid #e6e6e6; padding: 15px 0;}
+    .GoodsList_bd_r ul li .check{ padding-right: 20px; padding-top: 10px; } 
+    .GoodsList_bd_r ul li .img{width: 50px; height: 50px; background: #eee; overflow: hidden; margin-right: 15px;}
+    .GoodsList_bd_r ul li .wz_box{margin-right: 15px; font-size: 14px; line-height: 20px;}
+    .GoodsList_bd_r ul li .wz_box h3{font-size: 14px; font-weight: normal;}
+    .GoodsList_bd_r ul li .wz_box p{color: #f30;}
+    .GoodsList_bd_r ul li .btn_box{padding-top: 12px;}
+</style>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb fl">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='product/product/index'}>">商品管理</a></li>
+        <li class="active">商品分类</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content" style="padding: 0;">
+        <!--头部tab-开始-->
+        <div class="topTab">
+            <a href="<{link ctl='product/product/index'}>" class="list">商品管理</a>
+            <a href="" class="list on">分组管理</a>
+            <a href="<{link ctl='product/product:warnsku'}>" class="list">库存预警</a>
+        </div>
+        <!--头部tab-结束-->
+        <!--头部筛选操作-开始-->
+        <div class="topDispatch">
+            <div class="fl new">
+               <a href="<{link ctl='product/product:create'}>" class="J_menuItem btn btn-primary btn-sm">新建商品</a> 
+               <!-- <button type="button" class="btn btn-primary btn-outline btn-sm">商品排序</button> -->
+            </div>
+            <div class="fl caozuo">
+                <a href="<{link ctl='product/cate:create'}>" class="btn btn-default btn-outline btn-sm">添加分类</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <!--头部筛选操作-结束-->
+        <div class="" style="padding: 20px;">
+            <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr class="tit">
+                    <td width="5%">ID</td>
+                    <td width="20%">分类名称</td>
+                    <td width="20%">排序</td>
+                    <td width="15%">显示时间</td>
+                    <td width="20%">操作</td>
+
+                </tr> 
+                <{foreach $items as $item}>
+                <{if $item.parent_id == 0}>
+                <tr id="cat-<{$item.cate_id}>">
+                    <td class="left"><label><{$item.cate_id}></label></td>
+                    <td class="left"><strong><{$item.title}></strong></td>
+                    <td class="left"><{$item.orderby}></td>
+                    <td class="left">
+                        <div class="form_table_nr" style="font-weight:bold">
+                            <!-- <{if !$item.settime.stime&&!$item.settime.stime}>
+                            <p style="color: #ff621f">全天显示</p>
+                            <{/if}>
+                            <{if ($item.settime.stime&&$item.settime.stime)}>
+                            <p style="color: #ff621f"><{$item.settime.stime}>~<{$item.settime.ltime}></p>
+                            <{/if}> -->
+                            <{if empty($item.show_type)}><p style="color: #ff621f">全天显示</p><{/if}>
+                            <{if $item.show_type == -1}><p style="color: #666">不显示</p><{/if}>
+                            <{if $item.show_type == 1 && $item.settime}><p style="color: #ff621f"><{$item.settime.stime}>~<{$item.settime.ltime}></p><{/if}>
+                        </div>
+                    </td>
+                    <td>
+                       <!-- <a href="<{link ctl='product/cate/create' arg0=$item.cate_id}>" class="btn btn-success btn-sm btn-outline">添加子分类</a>-->
+                        <a href="<{link ctl='product/cate/edit' arg0=$item.cate_id}>" class="btn btn-primary btn-sm btn-outline">修改分类</a>
+                        <a href="<{link ctl='product/cate/delete' arg0=$item.cate_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-danger btn-sm btn-outline">删除</a>
+                    </td>
+                </tr>
+                <{foreach $items as $cate}>
+                <{if $cate.parent_id == $item.cate_id}>
+                <tr id="cat-<{$cate.cate_id}>">
+                    <td class="left"><label><{$cate.cate_id}></label></td>
+
+                    <td style="text-align:left;padding-left:30px;">&nbsp;&nbsp;|---<strong><{$cate.title}></strong></td>
+                    <td class="left">&nbsp;&nbsp;|---<{$cate.orderby}></td>
+                    <td class="left">
+                        <{if !$cate.settime.stime&&!$cate.settime.stime}>
+                        <p style="color: #ff621f">全天显示</p>
+                        <{/if}>
+                        <{if ($cate.settime.stime&&$cate.settime.stime)}>
+                        <p style="color: #ff621f"><{$cate.settime.stime}>~<{$cate.settime.ltime}></p>
+                        <{/if}>
+                    </td>
+                    <td>
+                        <a href="<{link ctl='product/cate/edit' arg0=$cate.cate_id}>" class="btn btn-primary btn-sm btn-outline">修改分类</a>
+                        <a href="<{link ctl='product/cate/delete' arg0=$cate.cate_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-danger btn-sm btn-outline">删除</a>
+                    </td>
+                </tr>
+                <{/if}>
+                <{/foreach}>
+                <{/if}> 
+                <{/foreach}>
+            </table>
+        </div>
+        
+    </div>
+</div>
+<{include file="block/footer.html"}>

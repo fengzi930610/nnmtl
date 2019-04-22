@@ -1,0 +1,85 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?waimai/print-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="商户名称" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{* link ctl="waimai/print:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索" *}>
+                <{link ctl="waimai/print:create" load="mini:创建" width="mini:500" class="button" title="创建"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">ID</th>
+                <th class="w-100">商户</th>
+                <th class="w-100">打印机名称</th>
+                <th class="w-50">终端号</th>
+                <th class="w-50">终端秘钥</th>
+                <th class="w-50">状态</th>
+                <th class="w-100">创建时间</th>
+                <th class="w-300">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.plat_id}>" name="plat_id[]" CK="PRI"/><{$item.plat_id}><label></td>
+                <td>
+                    <{$item.waimai_title}>
+                </td>
+                <td>
+                    <{$item.title}>
+                </td>
+                <td>
+                    <{$item.machine_code}>
+                </td>
+                <td>
+                    <{$item.mkey}>
+                </td>
+                <td>
+                    <{if $print_type == 'xprint'}>
+                    -----
+                    <{else}>
+                    <{if $item.online==0}>
+                    离线
+                    <{elseif $item.online==1}>
+                    在线
+                    <{elseif $item.online==2}>
+                    缺纸
+                    <{/if}>
+                    <{/if}>
+
+                </td>
+                <td>
+                    <{$item.dateline|format:"Y-m-d H:i:s"}>
+                </td>
+
+                <td>
+                    <{link ctl="waimai/print:edit" args=$item.plat_id class="button" title="修改"}>
+                    <{link ctl="waimai/print:delete" args=$item.plat_id act="mini:删除" confirm="mini:确定要删除打印机吗？" title="删除" class="button"}>
+                    <{link ctl="waimai/print:cancelall" args=$item.plat_id act="mini:清除" confirm="mini:确定要清除打印队列吗？" title="清除队列" class="button"}>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/print:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,41 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/verify:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?member/verify-edit.html" mini-form="verify-form" method="post" ENCTYPE="multipart/form-data">
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="uid" value="<{$detail.uid}>"/>
+<tr><th>姓名/企业名：</th><td><input type="text" name="data[name]" value="<{$detail.name|default:''}>" class="input w-300"/></td></tr>
+<tr><th>证件号：</th><td><input type="text" name="data[id_number]" value="<{$detail.id_number|default:''}>" class="input w-300"/></td></tr>
+<tr><th>证件图片：</th><td><input type="text" name="data[id_photo]" value="<{$detail.id_photo}>" <{if $detail.id_photo}>photo="<{$pager.img}>/<{$detail.id_photo}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[id_photo]" class="input w-100" /></td></tr>
+<tr><th>手机号：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-300"/></td></tr>
+<tr><th>审核状态：</th>
+    <td>
+        <label><input type="radio" name="data[verify]" <{if empty($detail.verify)}>checked="checked"<{/if}> value="null" />待审</label>
+        <label><input type="radio" name="data[verify]" <{if $detail.verify == 1}>checked="checked"<{/if}> value="pass" />通过</label>
+        <label><input type="radio" name="data[verify]" <{if $detail.verify == 2}>checked="checked"<{/if}> value="refuse" />拒绝</label>
+    </td>
+</tr>
+<tr id="verify_refuse" <{if $detail.verify != 2}>style="display:none;"<{/if}>><th>拒绝信息：</th><td><textarea name="data[refuse]" class="textarea"><{$detail.refuse}></textarea><br /></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<script type="text/javascript">
+(function(K, $){
+    $("[name='data[verify]']").click(function(){
+        if($(this).val() == 'refuse'){
+            $("#verify_refuse").show();
+        }else{
+            $("#verify_refuse").hide();
+        }
+    });
+})(window.KT, window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

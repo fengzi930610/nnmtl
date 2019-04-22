@@ -1,0 +1,28 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">清空缓存后，刚开始网站会有些慢，随后就会恢复正常</h4>
+<form action="?tools/cache-clean.html" mini-form="config-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th style="height:40px;">选择清空的缓存：</th>
+    <td>
+    <ul class="group-list">
+        <li><label><input type="checkbox" name="cache_data" value="1" checked="checked"/>数据缓存</label></li>
+        <li><label><input type="checkbox" name="cache_tplcache" value="1" />前台模板缓存</label></li>
+        <li><label><input type="checkbox" name="cache_tpladmin" value="1" />后台模板缓存</label></li>
+    </ul>
+</td>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form>
+</div>
+<{include file="admin:common/footer.html"}>

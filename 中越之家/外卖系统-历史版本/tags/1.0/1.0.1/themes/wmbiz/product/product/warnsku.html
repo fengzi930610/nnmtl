@@ -1,0 +1,305 @@
+<{include file="block/header.html"}>
+<script type="text/javascript" src="%THEME%/static/js/common.js"></script>
+<script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='product/product:index'}>">商品管理</a></li>
+        <li class="active">库存预警</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content" style="padding: 0;">
+    	<div class="topfixed border_b">
+	        <!--头部tab-开始-->
+	        <div class="topTab">
+	            <a href="<{link ctl='product/product:index'}>" class="list">商品管理</a>
+	            <a href="<{link ctl='product/cate:index'}>" class="list">分类管理</a>
+                <a href="javascript:;" class="list on">库存预警</a>
+	        </div>
+	        <!--头部tab-结束-->
+	        <!--头部筛选操作-开始-->
+	        <div class="topDispatch">
+                <div class="fl new">
+                    <a href="javascript:;" class="btn btn-primary btn-sm tab_btn_repertory">批量改库存</a>
+                </div>
+	            <div class="fl caozuo">
+                    <label class="all"><input type="checkbox" id="allChk" cka="PRI"><span class="ml10">全选</span></label>
+                </div>
+                <form action="<{link ctl='product/product/warnsku'}>" method="post">
+                    <input type="submit" value="so" class="btn btn-primary btn-sm fr ml5" style="height:31px">                
+    	            <div class="fr search_box">    
+    	                <input type="text" placeholder="" name="SO[title]" value="" class="tuan_topser tuan_topserw2">
+                    </div>
+                </form>
+	            <div class="clear"></div>
+	        </div>
+	        <!--头部筛选操作-结束-->
+	    </div>
+        <!--商品列表部分-开始-->
+        <div class="GoodsList_bd">
+            <!--表格-->
+            <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0" style="border:none; border-bottom: solid 1px #ccc;">
+                <tr class="tit">
+                    <td style="width: 150px;">商品ID</td>
+                    <td>商品名称</td>
+                    <td>图片</td>
+                    <td>规格</td>
+                    <td>价格</td>
+                    <td>打包费</td>
+                    <td>库存</td>
+                    <td>售卖状态</td>
+                    <td>是否热销</td>
+                    <td>排序</td>
+                    <td>操作</td>
+                </tr>
+                <{foreach $items as $item}>
+                <tr>
+                    <td>
+                        <label><input type="checkbox" value="<{$item.product_id}>"  class="product_id" CK="PRI" <{if $item.is_discount}>disabled<{else}>name="product_id"<{/if}>/><{$item.product_id}></label>
+                    </td>
+                    <td width="120"><{$item.title}></td>
+                    <!-- <td width="60"><{$cates[$item['cate_id']]['title']}></td> -->
+                    <td width="100"><span class="img_box"><img src="<{$pager.img}>/<{$item.photo}>" ></span></td>
+                    <{if $item.is_spec == 1}>
+                    <td>
+                        <{foreach $item.spec_list as $list}>
+                            <p><{$list.spec_name}></p>
+                        <{/foreach}>
+                    </td>
+                    <td>
+                        <{foreach $item.spec_list as $list}>
+                            <p><{$list.price}>/<{$item.unit}></p>
+                        <{/foreach}>
+                    </td>
+                    <td>
+                        <{foreach $item.spec_list as $list}>
+                            <p><{$list.package_price}></p>
+                        <{/foreach}>
+                    </td>
+                    <td>
+                        <{foreach $item.spec_list as $list}>
+                            <!-- <p><{if $list.sale_type == 0}>不限<{else}><{$list.sale_sku}><{/if}></p> -->
+                            <{if $list.sale_type == 0}>
+                            <p>不限</p>
+                            <{else}>
+                            <p <{if $list.sale_sku <= $waimai_shop.warn_sku}>class="text-warning"<{/if}>><{$list.sale_sku}></p>
+                            <{/if}>
+                        <{/foreach}>
+                    </td>
+                    <{else}>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <p><{$item.price}>/<{$item.unit}></p>
+                    </td>
+                    <td>
+                        <p><{$item.package_price}></p>
+                    </td>
+                    <td>
+                        <{if $item.sale_type == 0}>
+                            <p>不限</p>
+                        <{else}>
+                            <p <{if $item.sale_sku <= $waimai_shop.warn_sku}>class="text-warning"<{/if}>><{$item.sale_sku}></p>
+                        <{/if}>
+                    </td>
+                    <{/if}>
+                    <td>
+                        <{if $item.is_onsale == 1}><p class="maincl">售卖中</p><{else}><p class="pointcl">已下架</p><{/if}>
+                    </td>
+                    <td>
+                        <{if $item.is_hot == 1}><p class="maincl">热销</p><{elseif $item.is_must}><p class="maincl">必点</p><{elseif $item.is_discount}><p class="maincl">优惠</p><{else}><p class="pointcl">正常</p><{/if}>
+                    </td>
+                    <td><p><{$item.orderby}></p></td>
+                    <td width="370">                       
+                        <a href="javascript:;" class="btn btn-primary btn-outline btn-sm tab_btn_sku" rel="<{$item.product_id}>" data='<{$item.json_data}>'>改库存</a>
+                    </td>
+                </tr>
+                <{/foreach}>
+            </table>
+            <!--表格end-->
+        </div>
+        <!--商品列表部分-结束-->
+    </div>
+</div>
+
+<div class="mask_bg"></div>
+<!--批量库存-->
+<div class="mask_cont spec_mask repertory_mask">
+	<div class="mask_cont_tit">批量改库存 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+    	<div class="border_b table_box">
+        	<table border="0" cellspacing="0" cellpadding="0">
+                <tr class="tit">
+                    <td class="bt">库存修改为：</td>
+                    <td><input type="text" id="stock_num" class="int"></td>
+                    <td><small class="ml20 black9">-1&nbsp;<{L("不限库存")}></small></td>
+                </tr>
+            </table>
+        </div>
+        <div class="text_c mt20">
+        	<a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" id="btn_stock" class="btn btn-w-m btn-primary comfirt">保存</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.repertory_mask').height();
+    	var evlt_w = $('.repertory_mask').width();
+    	$('.repertory_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+    	$('.repertory_mask').css("margin-left",-evlt_w/2 + 'px');
+    	
+    	$(".tab_btn_repertory").click(function(){
+            var product_ids = [];
+            $('input:checkbox[name=product_id]:checked').each(function(){
+                product_ids.push($(this).val());
+            })
+
+            if(product_ids.length == 0){
+                layer.msg('请选择要修改的内容', {icon: 2});
+            }else{
+                $('.repertory_mask').fadeIn(100);
+                $('.mask_bg').fadeIn(100);
+            }
+    	});
+    	
+    	$(".repertory_mask .cancel,.repertory_mask .close,.mask_bg").click(function(){
+    		$('.repertory_mask').fadeOut(100);
+    		$('.mask_bg').fadeOut(100);
+    	});    	
+    });
+    $("#btn_stock").click(function(){ //批量改库存
+        var product_ids = [];
+        $('input:checkbox[name=product_id]:checked').each(function(){
+            product_ids.push($(this).val());
+        })
+    
+        var link = "<{link ctl='product/product/stock_num'}>";
+        var stock_num = $("#stock_num").val();
+        $.post(link,{"product_id":product_ids,"stock_num":stock_num},function(data){
+            $('.repertory_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+            
+            if(data.error == 0){
+                layer.msg(data.message);
+                window.location.reload(true);
+            }else{
+                layer.msg(data.message, {icon: 2});
+            }
+        },'json')
+    })
+
+</script>
+<!--批量库存end-->
+
+<!--库存编辑-->
+<div class="mask_cont spec_mask spec_mask1">
+    <div class="mask_cont_tit">库存编辑 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont" style="width: 500px;">
+        <div class="border_b table_box">
+            <form class="sku-form">            
+                <table border="0" cellspacing="0" cellpadding="0" id="form" rel="">
+                    <tr class="tit">
+                        <td><span class="pointcl">*</span>名称</td>
+                        <td><span class="pointcl">*</span>库存</td>
+                        <td class="cz">&nbsp;</td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="baocun">保存</a>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.spec_mask1').height();
+    var evlt_w = $('.spec_mask1').width();
+    $('.spec_mask1').css("margin-top",-(evlt_h/2 + 60) + 'px');
+    $('.spec_mask').css("margin-left",-evlt_w/2 + 'px');
+    //spec_name 规格名称 price 价格 package_price 打包费 sale_sku
+    $(".tab_btn_sku").click(function(){
+        var data = JSON.parse($(this).attr('data'));
+        var html = '';
+        if(data.is_spec == 0){
+            html += '<tr class="append_html" rel="0">';
+            html += '<td><input type="hidden" name="product[product_id]" value="'+data.product_id+'"></td>';
+            html += '<td><input type="text" class="int spec_name" value="'+data.title+'" readonly></td>';
+            if(data.sale_type == 0){
+                html += '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype[0]" value="-1" class="check_box skutype fl" checked><span class="fl">不限库存</span><input type="radio" name="skutype[0]" value="999" class="check_box skutype fl"><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="hidden" class="int fl sale_sku" value="-1" name="product[sale_sku]"></div></td>';
+            }else{
+                html += '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype[0]" value="-1" class="check_box skutype fl"><span class="fl">不限库存</span><input type="radio" name="skutype[0]" value="999" class="check_box skutype fl" checked><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="text" class="int fl sale_sku" value="'+data.sale_sku+'" name="product[sale_sku]"></div></td>';
+            }
+            html += '</tr>';
+        }else{
+            $.each(data.spec_list,function(k,v){
+                html += '<tr class="append_html" rel="'+k+'">';
+                html += '<td><input type="hidden" name="spec['+k+'][spec_id]" value="'+v.spec_id+'"></td>';
+                html += '<td><input type="text" class="int spec_name" value="'+v.spec_name+'" readonly></td>';
+                if(v.sale_type == 0){
+                    html += '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype['+k+']" value="-1" class="check_box skutype fl" checked><span class="fl">不限库存</span><input type="radio" name="skutype['+k+']" value="999" class="check_box skutype fl"><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="hidden" class="int fl sale_sku" value="-1" name="spec['+k+'][sale_sku]"></div></td>';
+                }else{
+                    html += '<td style="text-align: left;width: 350px;height:32px;line-height:32px"><div class="pub_radio" style="padding-left: 10px;width:350px;"><input type="radio" name="skutype['+k+']" value="-1" class="check_box skutype fl"><span class="fl">不限库存</span><input type="radio" name="skutype['+k+']" value="999" class="check_box skutype fl" checked><span class="fl">自定义库存&nbsp;&nbsp;&nbsp;</span><input type="text" class="int fl sale_sku" value="'+v.sale_sku+'" name="spec['+k+'][sale_sku]"></div></td>';
+                }
+                html += '</tr>';
+            });
+        }
+        
+        $("#form").append(html);
+
+        $('.spec_mask1').fadeIn(100);
+        $('.mask_bg').fadeIn(100);
+    });
+
+    $(document).on('change','.skutype',function(){
+        var val = $(this).val();
+        if(val > 0){
+           $(this).siblings('.int').attr('type','text').val(val); 
+        }else{
+            $(this).siblings('.int').attr('type','hidden').val(val);
+        }
+    });
+    
+    $(".spec_mask1 .cancel,.spec_mask1 .close,.mask_bg").click(function(){
+        $('#form').attr('rel','')
+        $('.append_html').remove();
+        $('.spec_mask1').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+
+    });
+
+    $('#baocun').on('click',function(){
+        var formdata = $('.sku-form').serialize();
+        var link = '<{link ctl="product/product/ajax_sku"}>';
+        var data = [];
+        $.post(link, formdata, function (e){
+            if(e.error > 0){
+                layer.msg(e.message,{icon:2})
+            }else{
+                layer.msg('修改成功');
+                setTimeout(function(){
+                    window.location.reload();
+                    $('.spec_mask1').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                    $('.append_html').remove();
+                },2000);
+            }
+        },'json')
+    })
+});
+</script>
+<!--规格编辑end-->
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#allChk").click(function() {  
+            $(document).find("input[name='product_id']").prop("checked",this.checked);
+        });
+    })
+</script>
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,57 @@
+<{assign var='tpl_title' value=L("<{$tuan.title}>")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<style>body{background: #f5f5f5;}</style>
+    <div class="headerTop_one ">
+        <div class="pagewd shangcheng-headerTop">
+            <div class="logo fl">
+                <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo2}>"></a>
+            </div>
+            <div class="shangcheng-submit fr">
+                <ul>
+                    <li class="active">1.提交订单</li>
+                    <li  class="active">2.选择支付方式</li>
+                    <li>3.购买成功</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!---->
+    <div class="shangcheng-submit-content-two">
+        <div class="tit">
+        	<span class="fl">订单编号：<{$order.order_id}></span>
+        	<span class="fr">应付金额：<span>¥<{$order.amount}></span></span>
+        	<div class="clear"></div>
+        </div>
+        <div class="pay">
+        	<label><div class="box1 box active" rel="wxpay"><input type="radio" name="paysty" value="paysty"><img src="/themes/default/pchome/static/images/shangcheng/ac.png"></div></label>
+        	<label><div class="box2 box" rel="alipay"><input type="radio" name="paysty" value="paysty"><img src="/themes/default/pchome/static/images/shangcheng/ac.png"></div></label>
+        	<label><div class="box3 box" rel="money"><input type="radio" name="paysty" value="paysty"><img src="/themes/default/pchome/static/images/shangcheng/ac.png"></div></label>
+        </div>
+        <div class="clear"></div>
+        <div class="price fr">支付：<span>￥<{$order.amount}></span></div>
+        <div class="clear"></div>
+        <div class="btn-tip fr">
+        	<!--<a href="" class="fanhui">返回修改订单</a>-->
+        	<a href="javascript:orderpay();" class="btn">确认支付</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!---->    
+
+    <script type="text/javascript">
+        function orderpay() {
+            var pay_code = $('.box.active').attr("rel");
+            var order_id = parseInt("<{$order.order_id}>");
+            var link = "<{link ctl='trade/payment/order' arg0=paycode arg1=order_id}>";
+            window.location.href = link.replace('paycode', pay_code).replace('order_id', order_id);
+        }
+        // 支付方式
+        $(function(){
+                $('.shangcheng-submit-content-two .pay label .box').click(function(){
+                $(this).addClass('active').parent().siblings().find('.box').removeClass('active')
+            })
+        })
+    </script>
+<{include file="pchome/block/footer.html"}>

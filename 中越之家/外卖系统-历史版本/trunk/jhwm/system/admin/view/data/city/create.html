@@ -1,0 +1,199 @@
+<{include file="admin:common/header.html"}>
+<{if false}><!-- 2019-02-25 添加 在地图上选择城市 --><{/if}>
+<style type="text/css">
+#MapBoard{display: none; width: 60%; height: 60%; position: fixed; z-index: 10; left: 50%; top: 50%; transform: translate(-50%,-50%); background: #FFF; border:1px solid #CCC; overflow: hidden;}
+#MapBoard .info{
+    height: 32px;
+    line-height: 32px;
+    padding: 12px;
+    position: relative;
+    z-index: 999999;
+    background-color: #FFF;
+}
+#MapBoard .info .city_name{
+    border: none;
+    min-width: 50%;
+}
+#MapBoard .map_space{
+    width: 100%;
+    background-color: #CCC;
+}
+</style>
+<{if false}><!-- 2019-02-25 添加 在地图上选择城市 结束 --><{/if}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="data/city:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?data/city-create.html" mini-form="city-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th class="w-100">省份：</th><td><select name="data[province_id]"  class="w-150"><{widget id="data/province" value=$detail.province_id}></select></td></tr>
+<tr><th class="w-100">城市：</th><td><input type="text" name="data[city_name]" value="<{$detail.city_name}>" class="input w-200"/></td></tr>
+<tr><th class="w-100">城市：</th><td><input type="text" name="data[city_name_vn]" value="<{$detail.city_name_vn}>" class="input w-200"/><span class="tip-comment">城市越南名称</span> <a href="javascript:void(0);" onclick="openMap();">在地图上选择</a></td></tr>
+<tr><th class="w-100">拼音：</th><td><input type="text" name="data[pinyin]" value="<{$detail.pinyin}>" class="input w-200"/><span class="tip-comment">城市首字母</span></td></tr>
+<tr>
+    <th class="w-100">城市编号：</th>
+    <td>
+        <input type="text" name="data[city_code]" value="<{$detail.city_code}>" class="input w-200"/>
+        <span class="tip-comment">高德地图对应的城市编码&nbsp;&nbsp;&nbsp;<a href="https://lbs.amap.com/api/webservice/download/" target="_blank">城市编码对照表下载</a>
+    </td>
+</tr>
+<tr><th>状态：</th><td>
+	<label><input type="radio" name="data[audit]" value="1" checked/> 开启</label>&nbsp;&nbsp;
+	<label><input type="radio" name="data[audit]" value="0" /> 关闭</label>&nbsp;&nbsp;
+</td></tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{if false}><!-- 2019-02-25 添加 在地图上选择城市 --><{/if}>
+<div id="MapBoard">
+    <div class="info">当前选择： <input type="text" class="city_name" placeholder="请在地图上点击选择一个位置" readonly="readonly"> &nbsp;&nbsp; <a class="button" id="MapConfirm">确认选择</a> &nbsp;&nbsp; <a class="button" id="MapCancle">取消</a></div>
+    <div class="map_space"></div>
+</div>
+<script type="text/javascript">
+var map=null,marker=null,bInit=false;
+var citySelInput = $("#MapBoard .info .city_name");
+function geoCity(point)
+{
+    if(map)
+    {
+        var srv = new google.maps.Geocoder();
+        citySelInput.val("");
+        citySelInput.attr("placeholder","正在解释地址...");
+        srv.geocode({location: {lng:point.lng,lat:point.lat}}, function(results, status) {
+            var cbkData = {error:1,address:"",city:""};
+            if(status === 'OK')
+            {
+                if(typeof results[0] !== "undefined")
+                {
+                    var addrComponent = {
+                        arrAddr:[],
+                        addr: "",
+                        country: "",
+                        province: "",
+                        city: "",
+                        district: "", 
+                        township: ""
+                    };
+                    var addrTmpArr = ["","",""];
+                    $.each(results[0].address_components,function(k,v){
+                        if(v.types.indexOf("country") >= 0)
+                            addrComponent.country = v.long_name;
+                        else if(v.types.indexOf("administrative_area_level_1") >= 0)
+                            addrComponent.province = v.long_name;
+                        else if(v.types.indexOf("locality") >= 0 || v.types.indexOf("administrative_area_level_2") >= 0)
+                            addrComponent.city = v.long_name;
+                        else if(v.types.indexOf("sublocality") >= 0 || v.types.indexOf("sublocality_level_1") >= 0)
+                            addrComponent.district = addrTmpArr[0] = v.long_name;
+                        else if(v.types.indexOf("route") >= 0)
+                            addrComponent.township = addrTmpArr[1] = v.long_name;
+                        else if(v.types.indexOf("street_number") >= 0)
+                        {
+                            addrTmpArr[2] = v.long_name;
+                            // if(addrTmpArr[2].indexOf("号") < 0)
+                            //     addrTmpArr[2] += "号";
+                        }
+                        else if(v.types.indexOf("premise") >= 0)
+                            addrTmpArr[2] = v.long_name;
+                        addrComponent.addr = addrTmpArr.join("");
+                        addrComponent.arrAddr = addrTmpArr;
+                    });
+                    citySelInput.val(addrComponent.province);//越南城市是一级行政区
+                }
+            }
+            if(citySelInput.val() === "")
+                citySelInput.attr("placeholder","解释地址失败！");
+            else
+                citySelInput.attr("placeholder","请在地图上点击选择一个位置");
+        });
+    }
+}
+function initMap(cbk)
+{
+    var doFn = (function(){
+        var showBoard = $("#MapBoard .map_space").get(0);
+        $(showBoard).height($("#MapBoard").height()-$("#MapBoard .info").outerHeight(true));
+        map = new google.maps.Map(showBoard,{
+            zoom: 5,
+            gestureHandling: "greedy",
+            center:{lng:106.895157, lat:16.687122},
+            fullscreenControl: false,
+            streetViewControl: false,
+            mapTypeControl: false,
+        });
+        this();
+        map.addListener("click",function(ev){
+            var newPoint = {
+                lat:ev.latLng.lat(),
+                lng:ev.latLng.lng()
+            };
+            if(!marker)
+            {
+                marker = new google.maps.Marker({
+                    position: newPoint,
+                    draggable: false,
+                    map:map
+                });
+            }
+            else
+                marker.setPosition(newPoint);
+            geoCity(newPoint);
+        });
+    }).bind(cbk);
+    if(bInit)
+        doFn();
+    else
+    {
+        $.getScript("https://maps.googleapis.com/maps/api/js?key=<{$smarty.const.MAP_KEY}>&language=zh-CN&region=VN&libraries=places",function(){
+            bInit = true;
+            doFn();
+        });
+    }
+}
+function openMap()
+{
+    var doFn = function(){
+        $("#MapBoard").fadeIn(100);
+    };
+    if(bInit)
+        doFn();
+    else
+        initMap(doFn);
+}
+function closeMap()
+{
+    citySelInput.val("");
+    citySelInput.attr("placeholder","请在地图上点击选择一个位置");
+    if(marker)
+    {
+        marker.setMap(null);
+        marker = null;
+    }
+    $("#MapBoard").fadeOut(100);
+}
+
+$(document).ready(function(){
+    $("#MapConfirm").click(function(ev){
+        ev.preventDefault();
+        if(citySelInput.val() === "")
+        {
+            alert("请选择一个城市");
+            return;
+        }
+        $("input[name='data[city_name_vn]']").val(citySelInput.val());
+        closeMap();
+    });
+    $("#MapCancle").click(function(ev){
+        ev.preventDefault();
+        closeMap();
+    });
+});
+</script>
+<{if false}><!-- 2019-02-25 添加 在地图上选择城市 结束 --><{/if}>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,79 @@
+<{assign var='tpl_title' value='红包列表'}>
+<{include file="block/header.html"}>
+        <header>
+            <i class="left"><a href="javascript:history.go(-1);" class="gobackIco"></a></i>
+            <div class="title">
+                我的红包
+            </div>
+        </header>
+        <section class="page_center_box">
+            <div class="redBag_list_box" style="margin-top: 0.1rem;">
+                <ul>
+           <{foreach $items as $v}>
+                <li class="redBag_list mb10"  rel="<{$v.hongbao_id}>" data="<{$v.amount}>">
+           		<div class="tag">
+                    <{if $v.used_time>0 && $v.order_id >0 }>
+                        <img src="/themes/default/static/images/redBag/redBag_outgrey.png" width="100%" height="100%">
+                    <{/if}>
+
+                    <{if $v.ltime < $curr_time && $v.used_time==0 && $v.order_id==0}>
+                        <img src="/themes/default/static/images/redBag/redBag_outred.png" width="100%" height="100%">
+                    <{/if}>
+                </div>
+           		<div class="pub_bag fl">
+                    <{if $v.used_time>0 && $v.order_id >0 }>
+                	   <img src="/themes/default/static/images/redBag/redBag_grey.png" width="100%" height="100%">
+                    <{/if}>
+                    <{if $v.used_time==0 && $v.order_id==0 && $v.ltime > $curr_time}>
+                        <img src="/themes/default/static/images/redBag/redBag_grey.png" width="100%" height="100%">
+                    <{/if}>
+                    <{if $v.ltime < $curr_time && $v.used_time==0 && $v.order_id==0}>
+                       <img src="/themes/default/static/images/redBag/redBag_grey.png" width="100%" height="100%">
+                    <{/if}>
+                    <p class="price black9">￥<{$v['amount']}></p>
+                </div>
+                <div class="pub_wz">
+                	<p class="bt"><{$v.title}></p>
+                    <p class="black9">使用限制：满<{$v.min_amount}>元可使用</p>
+                    <p class="black9">过期时间：<{$v.ltime|format:'Y-m-d'}></p>
+                </div>
+                <div class="clear"></div>
+            </li>
+           <{/foreach}>
+       </ul>
+
+
+                <!--<{foreach $items as $item}>
+                <div class="redBag_list" rel="<{$item.hongbao_id}>">
+                    <div class="redBag_top" style="background:#1ec0be;">
+                        <div class="fl"><small>￥</small><big class="amount_<{$item.hongbao_id}>"><{$item.amount}></big></div>
+                        <div class="fl">
+                            <h4><{$item.title}></h4>
+                            <p>满<{$item.min_amount}>元可用</p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="redBag_bg"></div>
+                    </div>
+                    <div class="redBag_bottom">
+                        <p>此红包限手机尾号<{$MEMBER['mobile']|substr:-4}>的用户使用</p>
+                        <p>有效期至：<{$item.ltime|format:'Y.m.d'}></p>
+                    </div>
+                </div>
+                <{/foreach}>-->
+            </div>
+        </section>
+        <script>
+            var shop_id = localStorage.getItem('this_shop_id');
+            $('.redBag_list').click(function () {
+                var hongbao_id = $(this).attr('rel');
+                var amount = $(this).attr('data');
+                localStorage.setItem('hongbao_id', hongbao_id);
+                localStorage.setItem('amount', amount);
+                var link = "<{link ctl='waimai/order/order' args='oooo'}>";
+                var url = link.replace('oooo', shop_id);
+                setTimeout(function () {
+                    window.location.href = url;
+                }, 1000);
+            })
+        </script>
+<{include file="block/footer.html"}>

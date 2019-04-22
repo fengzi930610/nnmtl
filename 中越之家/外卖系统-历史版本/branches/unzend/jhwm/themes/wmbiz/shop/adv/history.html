@@ -1,0 +1,136 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+    .dispatch_table tr.tit td .fa-long-arrow-down{font-size: 20px; margin-left: 6px;}
+</style>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb fl">
+        <li><a href="<{link ctl='index:home'}> http='wmbiz'"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='huodong/shop' http='wmbiz'}>">营销管理</a></li>
+        <li class="active">页面广告</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <!--头部筛选操作-开始-->
+        <form action="<{link ctl='shop:adv/history' http='wmbiz'}>" method="get">
+            <div class="dispatch_serch">
+                <div class="clearfix list_box">
+                    <div class="fl mr20">标题：<input type="text" name="SO[title]" value="<{$pager.SO.title|default:''}>" placeholder="" class="tuan_topser tuan_topserw2"></div>
+
+                    <div class="fl mr20" id="data_5">
+                        <span class="input-daterange" id="datepicker">创建时间：<input type="text" name="SO[stime]" value="<{$pager.SO.stime|default:''}>" placeholder="" class="tuan_topser tuan_topserw3">至<input type="text" name="SO[ltime]" value="<{$pager.SO.ltime|default:''}>" placeholder="" class="tuan_topser tuan_topserw3"></span>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary btn-sm fl ml5" value="查 询">
+                </div>
+            </div>
+        </form>
+        <!--头部筛选操作-结束-->
+        <!--table-开始-->
+        <div class="dispatch_table_top">            
+            <div class="fl" style="border-right: 1px solid #eee; margin-right: 12px; padding-right: 6px;">
+                <a href="<{link ctl='shop/adv/create' http='wmbiz'}>" class="btn btn-primary btn-sm tab_btn_repertor">添加广告</a>
+            </div>
+            <div class="fl mr30 all"><input type="checkbox" id="allChk" cka="PRI"><span class="ml10">全选</span></div>
+            <div class="fl mr30 all"><a href="javascript:;" class="btn btn-default btn-outline btn-sm tab_btn_del">删除</a></div>
+            <div class="clear"></div>
+        </div>
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+                <td>ID</td>
+                <td>标题</td>
+                <td>链接</td>
+                <td>图片</td>
+                <td>有效期</td>
+                <td>创建时间</td>
+                <td>操作</td>
+            </tr>
+            <{foreach $items as $k=>$v}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$v.adv_id}>"  class="adv_id" name="adv_id" CK="PRI" /><{$v.adv_id}></label></td>
+                <td><{$v.title}></td>
+                <td><{$v.link}></td>
+                <td><span class="img_box"><img src="<{$pager.img}>/<{$v.photo}>" ></span></td>
+                <td><{$v.stime|format:'Y-m-d'}>~<{$v.ltime|format:'Y-m-d'}></td>
+                <td><{$v.dateline|format:"Y-m-d H:i:s"}></td>
+                <td>
+                    <a href="<{link ctl='shop/adv/delete' arg0=$v.adv_id arg1=true}>" mini-act="del" mini-confirm="确定要删除吗？" class="btn btn-default btn-outline btn-sm">删除</a>
+                </td>
+            </tr>
+            <{/foreach}>
+
+        </table>
+        <div class="paging">
+            <{$pagers.pagebar}>
+        </div>
+        <!--table-结束-->
+    </div>
+</div>
+
+
+<div class="mask_bg"></div>
+<div class="mask_cont prompt_mask">
+    <div class="mask_cont_tit text_c">提示</div>
+    <div class="cont">
+        <div class="ts border_b">删除后将不可返回，确认删除？</div>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">考虑一下</a>
+            <a href="javascript:;" rel="" id="confirm_del" class="btn btn-w-m btn-primary comfirt">确认删除</a>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('input[cka="PRI"]').click(function(){
+            $('input[CK="PRI"]').prop("checked",this.checked);
+        });
+
+        var evlt_h = $('.prompt_mask').height();
+        var evlt_w = $('.prompt_mask').width();
+        $('.prompt_mask').css("margin-top",-evlt_h/2 + 'px');
+        $('.prompt_mask').css("margin-left",-evlt_w/2 + 'px');
+        
+        $(".tab_btn_del").click(function(){
+            var adv_ids = [];
+            $('input:checkbox[name=adv_id]:checked').each(function(){
+                adv_ids.push($(this).val());
+            })
+        
+            if(adv_ids.length == 0){
+                layer.msg('请选择要删除的广告', {icon: 2});
+            }else{
+                $('.prompt_mask').fadeIn(100);
+                $('.mask_bg').fadeIn(100);
+            }
+        });
+        
+        $(".prompt_mask .cancel,.mask_bg").click(function(){
+            $('.prompt_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+
+        $("#confirm_del").click(function(){ //批量删除
+            var adv_ids = [];
+            $('input:checkbox[name=adv_id]:checked').each(function(){
+                adv_ids.push($(this).val());
+            })
+            
+            var link = "<{link ctl='shop/adv/delete'}>";
+            $.post(link,{"adv_id":adv_ids, "force":true},function(data){
+                $('.prompt_mask').fadeOut(100);
+                $('.mask_bg').fadeOut(100);
+                
+                if(data.error == 0){
+                    layer.msg(data.message);
+                    window.location.reload(true);
+                }else{
+                    layer.msg(data.message, {icon: 2});
+                }
+            },'json')
+        })
+    });
+</script>
+
+<{include file="block/footer.html"}>

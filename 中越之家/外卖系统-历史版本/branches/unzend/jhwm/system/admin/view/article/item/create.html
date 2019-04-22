@@ -1,0 +1,62 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">&nbsp;<{link ctl="article/item:index" class="button" priv="hide"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">
+	<form action="?article/item-save.html" mini-form="article-form" method="post">
+	<input type="hidden" value="<{$detail.itemId}>" name="itemId" />
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th class="w-150">标题:</th>
+			<td colspan="3"><input type="text" value="<{$detail.title}>" class="input w-500" name="data[title]" /></td>
+		</tr>
+		<tr>
+			<th class="w-150">分类:</th>
+			<td colspan="3">
+				<select name="data[class_id]" val="<{$detail.class_id}>">
+				<{foreach $class_tree as $v}>
+				<option value="<{$v.class_id}>"<{if $v.class_id==$detail.class_id || $v.class_id==$pager.PID}>selected="selected"<{/if}>><{$v.title}></option>
+				<{foreach $v.children as $vv}>
+				<option value="<{$vv.class_id}>"<{if $vv.class_id==$detail.class_id || $vv.class_id==$pager.PID}>selected="selected"<{/if}>>&nbsp;&nbsp;├─<{$vv.title}></option>
+				<{foreach $vv.children as $vvv}>
+				<option value="<{$vvv.class_id}>"<{if $vvv.class_id==$detail.class_id || $vvv.class_id==$pager.PID}>selected="selected"<{/if}>>&nbsp;&nbsp;&nbsp;&nbsp;├─<{$vvv.title}></option>
+				<{/foreach}>
+				<{/foreach}>
+				<{/foreach}>
+				</select>			
+			</td>
+		</tr>
+		<tr>
+			<th>内容:</th>
+			<td colspan="3">
+				<textarea id="kindeditor" name="data[content]"  class="xheditor {tools:'mfull',skin:'nostyle',width:'700',height:'400',hoverExecDelay:-1,disableContextmenu:true}" style="height:400px;"><{$detail.content}></textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>其它:</th>
+			<td colspan="3">
+				<label><input type="checkbox" name="data[hidden]" value="1"<{if $detail.hidden}>checked="checked"<{/if}>/>隐藏</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<label>排序：<input type="text" name="data[orderby]" value="<{if $detail.orderby}><{$detail.orderby}><{else}>50<{/if}>" class="input w-50"/></label>
+			</td>
+		</tr>
+		<tr>
+			<th class="form-button-th"></th>
+			<td class="left form-button-td" colspan="3"><input class="bt-big" type="submit" name="submit" value="保存编辑"></td>
+		</tr>
+	</table>	
+	</form>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]', {uploadJson : '?magic/upload-editor.html', extraFileUploadParams:{OATOKEN:"<{$OATOKEN}>"}});
+})(window.KT,window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

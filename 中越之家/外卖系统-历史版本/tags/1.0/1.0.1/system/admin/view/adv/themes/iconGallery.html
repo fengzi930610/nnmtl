@@ -1,0 +1,79 @@
+<{include file="admin:common/header.html"}>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+	html,body{height: 100%; width: 100%; overflow: hidden;}
+	.clientIndexSetCate_mask{position: relative; left: auto; top: auto; transform: translate(0,0); -webkit-transform: translate(0,0);}
+	.clientIndexSetCate_mask .cont_box{position: relative; left: auto; top: auto; transform: translate(0,0); -webkit-transform: translate(0,0); width: 780px; overflow: hidden;}
+	.clientIndexSetCate_mask .title{position: relative;}
+	.clientIndexSetCate_mask .cont_box .cate_box{max-height:unset; /*overflow: hidden;*/ box-sizing:border-box;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l{ width: 140px;}
+	.clientIndexSetCate_mask .cont_box .photo_box_r{ margin-left: 140px;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l ul li.on { color: #35b8eb;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l ul li .num{ width: 30px;}
+	.clientIndexSetCate_mask .cont_box .photo_box_l ul li .bt{ width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+	.clientIndexSetCate_mask .cont_box .photo_box_r ul li p{ width: 100px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+</style>
+
+<!--//系统图库-开始//-->
+<div class="clientIndexSetCate_mask" style="display: ;">
+	<div class="cont_box">
+		<div class="title">
+			<div class="tab fl">
+				<{link ctl="adv/themes:photoGallery" title="图片库" class="list"}>
+				<{link ctl="adv/themes:iconGallery" title="图标库" class="list on"}>
+				<!-- <a class="list on">图标库</a>
+				<a class="list">我的图片</a> -->
+			</div> 
+			<!-- <span class="close"></span> -->
+		</div>
+		<div class="cont">
+			<div class="change_list" style="display: ;">
+				<div class="cate_box">
+					<ul>
+						<{foreach $icons as $k=>$v}>
+						<li>
+							<label>
+								<img src="<{$v.icon}>">
+								<input type="radio" name="icon">
+							</label>
+						</li>
+						<{/foreach}>
+					</ul>
+					<div class="page-bar">
+						<table width="100%" height="50" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="w-100 left"></td>
+								<td class="left">
+								</td>
+								<td class="page-list"><{$pager.pagebar}></td>
+							</tr>
+						</table>
+					</div>		
+				</div>
+				<div class="text_c" style="padding: 12px 0;">
+					<button class="btn-default-big ml10 cancel">取消</button>
+					<button class="btn-primary-big mr10 confirm">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.text_c .cancel').click(function(){
+			window.parent.closeLayer();
+		});
+
+		$('.text_c .confirm').click(function(){
+			var src = $('input[name="icon"]:checked').siblings('img').attr('src');
+			if(!src){
+				Widget.MsgBox.error('请选择图标');
+			}else{
+				window.parent.fillImage(src, src);
+				window.parent.closeLayer();
+			}
+		});
+	});
+</script>
+<{include file="admin:common/footer.html"}>

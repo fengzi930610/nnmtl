@@ -1,0 +1,96 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/baoxiu/index'}>" class="on">报修管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;margin-bottom:30px;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td width="20%">编号：</td>
+        <td width="80%"><{$detail.baoxiu_id}></td>
+    </tr>
+    <tr>
+        <td width="20%">用户：</td>
+        <td width="80%"><{$detail.member.nickname}> (业主ID：<{$detail.yezhu_id}>)</td>
+    </tr>
+    <tr>
+        <td width="20%">姓名：</td>
+        <td width="80%"><{$detail.contact}></td>
+    </tr>
+    <tr>
+        <td width="20%">电话：</td>
+        <td width="80%"><{$detail.mobile}></td>
+    </tr>
+    <tr>
+        <td width="20%">预约时间：</td>
+        <td width="80%"><{$detail.yuyue_time|format}></td>
+    </tr>
+    <tr>
+        <td width="20%">内容：</td>
+        <td width="80%"><{$detail.content}></td>
+    </tr>
+    
+    <tr>
+        <td width="20%">回复：</td>
+        <td width="80%"><{if $detail.reply}><{$detail.reply}>(回复时间：<{$detail.reply_time|format}>)<{else}>--<{/if}></td>
+    </tr>
+    
+    <tr>
+        <td width="20%">提醒时间：</td>
+        <td width="80%"><{if $detail.tx_time}><{$detail.tx_time|format}><{else}>--<{/if}></td>
+    </tr>
+    <tr>
+        <td width="20%">状态：</td>
+        <td width="80%">
+            <{if $detail.status == -1}>撤销<{/if}>
+            <{if $detail.status == 0}>待处理<{/if}>
+            <{if $detail.status == 1}>已处理<{/if}>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%">报修时间：</td>
+        <td width="80%">
+            <{$detail.dateline|format}>
+        </td>
+    </tr>
+    
+</table>
+    
+    <form action="<{link ctl='wuye/baoxiu/index:reply' args=$detail.baoxiu_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <td><textarea name="data[reply]" class="textarea w-350"><{$detail.reply}></textarea></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="回复" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<{if $detail['photo']}>
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/bianmin/index'}>" class="on">相关照片</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;">
+    <table cellspacing="0" cellpadding="0" class="table">
+
+    <{foreach $detail['photo'] as $item}>
+    <tr>
+        <td><img src="<{$pager.img}>/<{$item.photo}>" width="200" /></td>
+    </tr>
+    <{/foreach}>
+    </table>
+</div>
+<{/if}>
+
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

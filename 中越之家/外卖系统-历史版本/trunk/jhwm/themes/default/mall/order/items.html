@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='mall/order/index'}>" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                商城订单
+            </div>
+            <i class="right"><a href="#" class=""></a></i>
+        </header>
+        <div class="changeTab_box">
+            <div class="changeTab">
+                <a href="<{link ctl='mall/order/index' arg2='1'}>" class="link <{if $type <= 1}>on<{/if}>">待处理</a>
+                <a href="<{link ctl='mall/order/index' arg2='2'}>" class="link <{if $type == 2}>on<{/if}>">已完成</a>
+            </div>
+        </div>
+        <section class="page_center_box">
+            <ul class="jifenaSc_box mb10">
+                <{foreach $items as $item}>
+                <li class="list mt10">
+                    <p class="tit black3"><{$item.order_status_label}><small class="black9">-<{$item.dateline|format}></small></p>
+                    <a href="<{link ctl='ucenter/order/detail' args=$item.order_id}>">
+                        <div class="card_middle">
+                            <{foreach $item.product_list as $v}>
+                            <div class="mb10">
+                                <div class="fl img"><img src="<{$pager.img}>/<{$v.product.photo|default:'default/product.png'}>"/></div>
+                                <div class="wz">
+                                    <div class="line2"><{$v.product.title}></div>
+                                    <div class="txt black3">
+                                        <div><span class="fontcl1 mr10">￥<{$v.product.price}></span><{$v.product.jifen}><span class="black9">积分</span></div>
+                                        <div>x<{$v.product_number}></div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <{/foreach}>
+                        </div>
+                    </a>
+                    <div class="btn txt_right">
+                        <{if $item.order_status == 0}><a href="javascript:void(0);" val="<{$item.order_id}>" class="btn1 cancel_order">取消订单</a><{/if}>
+                        <{if $item.order_status == 3}><a href="javascript:void(0);" val="<{$item.order_id}>" class="btn1 ok_order">确认收货</a><{/if}>
+                        <{if $item.order_status == 0 && $item.pay_status == 0}><a href="<{link ctl='ucenter/order/pay' args=$item.order_id}>" class="btn2">支付订单</a><{/if}>
+                    </div>
+                </li>
+                <{/foreach}>
+            </ul>
+        </section>
+        <script>
+
+            $('.ok_order').click(function () {
+                var order_id = $(this).attr('val');
+                var link = "<{link ctl='ucenter/order:mall_ok' args='__order_id'}>";
+
+                layer.open({
+                    content: '确定要收货吗？'
+                    , btn: ['确定', '算了']
+                    , yes: function (index) {
+                        $.post(link.replace("__order_id", order_id), {}, function (ret) {
+                            if (ret.error == 0) {
+                                layer.open({
+                                    content: ret.message,
+                                    time: 2
+                                });
+                                setTimeout(function(){
+                                   location.reload(true); 
+                                },2000);
+                            }else if(ret.error == 214){
+                                location.reload(true); 
+                            } else {
+                                layer.open({
+                                    content: ret.message,
+                                    time: 2
+                                });
+                            }
+                        }, 'json');
+                    }
+                });
+
+
+            })
+
+            $('.cancel_order').click(function () {
+                var order_id = $(this).attr('val');
+                var link = "<{link ctl='ucenter/order:chargeback' args='__order_id'}>";
+
+                layer.open({
+                    content: '确定要取消吗？'
+                    , btn: ['取消', '算了']
+                    , yes: function (index) {
+                        $.post(link.replace("__order_id", order_id), {}, function (ret) {
+                            if (ret.error == 0) {
+                                layer.open({
+                                    content: ret.message,
+                                    time: 2
+                                });
+                                setTimeout(function(){
+                                   location.reload(true); 
+                                },2000);
+                            }else if(ret.error == 214){
+                                location.reload(true); 
+                            } else {
+                                layer.open({
+                                    content: ret.message,
+                                    time: 2
+                                });
+                            }
+                        }, 'json');
+                    }
+                });
+
+            })
+        </script>    
+        <{include file="block/sfooter.html"}>
+    </body>
+</html>

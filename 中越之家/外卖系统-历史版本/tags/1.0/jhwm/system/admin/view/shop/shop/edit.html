@@ -1,0 +1,168 @@
+<{include file="admin:common/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="shop/shop:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?shop/shop-edit.html" mini-form="shop-form" method="post" ENCTYPE="multipart/form-data">
+    <input type="hidden" name="shop_id" value="<{$detail.shop_id}>"/>
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th>商家名称：</th>
+            <td><{$detail.title|default:''}></td>
+        </tr>
+        <tr>
+            <th>城市：</th>
+            <td>
+                 <select id="city" name="data[city_id]" class="w-200">
+                    <{foreach $citys as $v}>
+                    <option value="<{$v.city_id}>" <{if $detail.city_id==$v.city_id}>selected="selected"<{/if}>><{$v.city_name}></option>
+                    <{/foreach}>
+                </select>
+            </td>
+        </tr>
+       <tr>
+            <th>区县：</th>
+            <td>
+                <select name="data[area_id]" id="area" class="w-200">
+                <{foreach $areas as $v}>
+                <option value="<{$v.area_id}>" <{if $detail.area_id==$v.area_id}>selected="selected"<{/if}>><{$v.area_name}></option>
+                <{/foreach}></select>
+            </td>
+        </tr>
+        <tr>
+            <th>商圈：</th>
+            <td>
+                <select name="data[business_id]" id="business" class="w-200">
+                <{foreach $busis as $v}>
+                <option value="<{$v.business_id}>" <{if $detail.business_id==$v.business_id}>selected="selected"<{/if}>><{$v.business_name}></option>
+                <{/foreach}></select>
+            </td>
+        </tr>
+        <tr>
+            <th>分类：</th>
+            <td><select name="data[cate_id]" class="w-200"><{widget id="shop/cate" value=$detail.cate_id type="option"}></select></td>
+        </tr>
+        <tr><th>手机号：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-200"/><span class="tip-comment">手机号，登录用</span></td></tr>
+        <tr><th>密码：</th><td><input type="text" name="data[passwd]" value="******" class="input w-200"/></td></tr>
+        <tr>
+            <th>客服电话：</th>
+            <td>
+                <input type="text" name="data[phone]" value="<{$detail.phone|default:''}>" class="input w-200"/>
+                <span class="tip-comment">客服电话</span>
+            </td>
+        </tr>
+        
+       <tr><th>logo：</th><td><input type="text" name="data[logo]" value="<{$detail.logo}>" <{if $detail.logo}>photo="<{$pager.img}>/<{$detail.logo}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[logo]" class="input w-100" /></td></tr>
+        
+        <tr><th>banner：</th><td><input type="text" name="data[banner]" value="<{$detail.banner}>" <{if $detail.banner}>photo1="<{$pager.img}>/<{$detail.banner}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[banner]" class="input w-100" /></td></tr>
+        <tr><th>坐标：</th>
+            <td>
+                <label>经度:<input type="text" name="data[lng]" value="<{$detail.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+                <label>纬度:<input type="text" name="data[lat]" value="<{$detail.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>    
+                <span class="tip-comment">使用百度地图经纬度<a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="button"><b>拾取工具</b></a></span>
+            </td>
+        </tr>
+        <tr><th>地址：</th><td><input type="text" name="data[addr]" value="<{$detail.addr|default:''}>" class="input w-500"/></td></tr>
+        
+        <!-- <tr><th>起送价：</th><td><input type="text" name="data[min_amount]" value="<{$detail.min_amount|default:'0.00'}>" class="input w-100"/><span class="tip-comment">起送</span></td></tr> -->
+        <tr><th>提现比例：</th>
+            <td>
+                <input type="text" name="data[tixian_percent]" value="<{if $detail.tixian_percent==0}>100<{else}><{$detail.tixian_percent}><{/if}>" class="input w-50"/>%
+                <span class="tip-comment">填写0~100之间的数字(例如:填写95则表示提现100元实际得到100X95%=95元)</span>
+            </td>
+        </tr>
+        <tr><th>人均消费：</th>
+            <td>
+                <input type="text" name="data[avg_amount]" value="<{$detail.avg_amount|default:'0.00'}>" class="input w-50"/>
+                <span class="tip-comment">元</span>
+            </td>
+        </tr>
+        <!-- <tr>
+            <th>在线支付：</th>
+            <td>
+                <label><input type="radio" name="data[online_pay]" value="1" <{if $detail['online_pay'] == 1}>checked="checked"<{/if}> class="input"/>支持</label><label><input type="radio" name="data[online_pay]" value="0" <{if $detail['online_pay'] == 0}>checked="checked"<{/if}> class="input"/>不支持</label>
+            </td>
+        </tr>   -->      
+        <tr>
+            <th>审核：</th>
+            <td>
+                <label><input type="radio" name="data[audit]" value="1" <{if $detail['audit'] == 1}>checked="checked"<{/if}> class="input"/>通过</label><label><input type="radio" name="data[audit]" value="0" <{if $detail['audit'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+            </td>
+        </tr>
+        <tr>
+            <th>开通外卖：</th>
+            <td>
+                <label><input type="radio" name="data[have_waimai]" value="1" <{if $detail['have_waimai'] == 1}>checked="checked"<{/if}> class="input"/>通过</label><label><input type="radio" name="data[have_waimai]" value="0" <{if $detail['have_waimai'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+            </td>
+        </tr>
+        <tr>
+            <th>开通团购：</th>
+            <td>
+                <label><input type="radio" name="data[have_tuan]" value="1" <{if $detail['have_tuan'] == 1}>checked="checked"<{/if}> class="input"/>通过</label><label><input type="radio" name="data[have_tuan]" value="0" <{if $detail['have_tuan'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+            </td>
+        </tr>
+        <tr>
+            <th>开通代金券：</th>
+            <td>
+                <label><input type="radio" name="data[have_quan]" value="1" <{if $detail['have_quan'] == 1}>checked="checked"<{/if}> class="input"/>通过</label><label><input type="radio" name="data[have_quan]" value="0" <{if $detail['have_quan'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+            </td>
+        </tr>
+        <tr>
+            <th>开通优惠买单：</th>
+            <td>
+                <label><input type="radio" name="data[have_maidan]" value="1" <{if $detail['have_maidan'] == 1}>checked="checked"<{/if}> class="input"/>通过</label><label><input type="radio" name="data[have_maidan]" value="0" <{if $detail['have_maidan'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+            </td>
+        </tr>
+        <tr>
+            <th>开通微店：</th>
+            <td>
+                <label><input type="radio" name="data[have_weidian]" value="1" <{if $detail['have_weidian'] == 1}>checked="checked"<{/if}> class="input"/>通过</label><label><input type="radio" name="data[have_weidian]" value="0" <{if $detail['have_weidian'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+            </td>
+        </tr>
+        <tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+        <!-- <tr><th>优惠公告：</th><td><textarea name="data[info]" class="textarea"><{$detail.info}></textarea><br /></td></tr> -->
+        <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<script type="text/javascript">
+(function(K, $){
+    $(document).on("change", "#city", function(){
+        var city_id = $(this).val();
+        $.getJSON("?data/area-options-"+city_id+".html", function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                var html = '';
+                for(var i in ret.options){
+                    html += "<option value="+i+">"+ret.options[i]+"</option>";
+                }
+                $("#area").html(html);
+            }
+        });
+    });
+    $(document).on("change", "#area", function(){
+        var area_id = $(this).val();
+        $.getJSON("?data/business-options-"+area_id+".html", function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                var html = '';
+                for(var i in ret.options){
+                    html += "<option value="+i+">"+ret.options[i]+"</option>";
+                }
+                $("#business").html(html);
+            }
+        });        
+    });
+       
+})(window.KT, window.jQuery)
+</script>
+<{include file="admin:common/footer.html"}>

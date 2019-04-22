@@ -1,0 +1,219 @@
+<{assign var='tpl_title' value=L("home")}>
+<{include file="block/header.html"}>
+<body>
+<div class="wrapper wrapper-content">
+    <div class="mrkt_tit mb10"><span class="bt">账户余额</span></div>
+    <div class="dispatch_table_tab_change">
+        <div class="finance_info row mb20">
+        	<!--<div class="col-md-4 col-lg-4">
+                <div class="list">
+                    <div class="img fl"><img src="%THEME%/static/images/finance_ico3.png"></div>
+                    <div class="wz_box">
+                        <big><small>￥</small><{$shop.money}></big>
+                        <P>总余额？</P>
+                    </div>
+                </div>
+            </div>-->
+            <div class="col-md-4 col-lg-4">
+                <div class="list">
+                    <div class="img fl"><img src="%THEME%/static/images/finance_ico1.png"></div>
+                    <div class="wz_box">
+                        <big><small>￥</small><{$shop.money}></big>
+                        <P>可提现余额  <a href="<{link ctl='finance/account:cash'}>" class="btn btn-primary btn-xs tixian_btn ml10">提现</a>
+                           <!-- <a href="javascript:;" class="btn btn-warning btn-xs ml10 chongzhi">充值</a>-->
+                        </P>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4">
+                <div class="list">
+                    <div class="img fl"><img src="%THEME%/static/images/finance_ico4.png"></div>
+                    <div class="wz_box">
+                        <big><small>￥</small><{$waimai_detail.deliver}></big>
+
+                        <P>配送费余额 <a href="javascript:;" id="chon"  class="btn btn-warning btn-xs ml10 chongzhi">充值</a></P>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mrkt_tit mb10"><span class="bt">余额交易记录</span></div>
+        <div class="dispatch_serch">
+            <form action="<{link ctl='finance/account:index' http='wmbiz'}>" method="post">
+        	<div class="clearfix list_box">
+                资金流向：
+                <label class="ml10"><input type="radio" name="SO[type]" value='1' <{if $type == 1 || !$type}>checked<{/if}>>全部</label>
+                <label class="ml20"><input type="radio" name="SO[type]" value='2' <{if $type == 2}>checked<{/if}>>收入</label>
+                <label class="ml20"><input type="radio" name="SO[type]" value='3' <{if $type == 3}>checked<{/if}>>支出</label>
+            </div>
+            <div class="clearfix list_box" id="data_5">
+            	<span class="fl">查询日期：</span>
+                <span class="fl ml10 input-daterange" id="datepicker">
+                <input type="text" name="SO[begin_time]" placeholder="" class="tuan_topser tuan_topserw3" value="<{$begin_time}>"> 至
+                <input type="text" name='SO[end_time]' placeholder="" class="tuan_topser tuan_topserw3" value="<{$end_time}>"></span>
+                <input type="submit" class="btn btn-primary btn-sm ml20" value="确 定">
+            </div>
+            </form>
+        </div>
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+
+                <td>交易号</td>
+                <td>收入/支出(元)</td>
+                <td>备注</td>
+                <td>交易日期</td>
+            </tr>  
+            <{foreach $items as $k => $v}>
+            <tr>
+
+                <td>
+                    <p><{$v.log_id}></p>
+                </td>
+                <td>
+                    <p class="pointcl"><{$v.money}></p>
+                </td>
+                <td>
+                    <p class=""><{$v.intro}></p>
+                </td>
+                <td><{$v.dateline|format:'Y-m-d H:i:s'}></td>
+            </tr>
+            <{/foreach}>
+            <tr>
+
+                <td colspan="4"><div class="paging">
+                    <{$pager.pagebar}>
+                </div></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    $(function(){
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        /*$('.chongzhi').on('click',function(){
+            layer.prompt({title: '请填写充值配送费金额', formType: 0, value: '0'}, function(pass, index){
+                if(parseFloat(pass)<0){
+                    Widget.MsgBox.error('非法的配送费金额');
+                    return false;
+                }
+                var shop_id ="<{$shop.shop_id}>";
+                var pay_url  = "<{link ctl='trade/payment:deliver' http='home' arg0='__SHOPID__'}>";
+                var reback_uel = "<{link ctl='finance/account:index' http='wmbiz'}>";
+                var tiao_url = pay_url.replace('__SHOPID__',shop_id)
+
+                window.location.href = tiao_url+"?rebackurl="+reback_uel+"&code=alipay&amount="+pass;
+
+            });
+        })*/
+    })
+
+
+</script>
+
+
+<!--充值弹层-开始-->
+<style type="text/css">
+.chon_mask .cont{width:600px; padding: 30px;}
+</style>
+<div class="mask_cont chon_mask">
+    <div class="mask_cont_tit text_c">余额充值</div>
+    <div class="cont">
+        <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td><p class="form_table_t">充值金额：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+
+                            <div class="clearfix">
+                                <span class=""><input type="text" id="money" class="form_table_int form_table_intw2" placeholder="请输入金额" value="0"></span>
+                            </div>                            
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class="form_table_t">充值类型：</p></td>
+                    <td>
+                        <div class="form_table_nr">
+                            <label class="mr30"><input type="radio" name="cz" class="check_box" value="alipay">支付宝</label>
+                            <label class="mr30"><input type="radio" name="cz" class="check_box" value="wxpay">微信</label>
+                            <label class="mr30"><input type="radio" name="cz" class="check_box" value="money" checked>余额</label>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt">立即充值</a>
+        </div>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var evlt_h = $('.chon_mask').height();
+        var evlt_w = $('.chon_mask').width();
+        $('.chon_mask').css("margin-top",-evlt_h/2 + 'px');
+        $('.chon_mask').css("margin-left",-evlt_w/2 + 'px');
+        
+        $("#chon").click(function(){
+            $('.chon_mask').fadeIn(100);
+            $('.mask_bg').fadeIn(100);
+        });
+        
+        $(".chon_mask .cancel,.mask_bg").click(function(){
+            $('.chon_mask').fadeOut(100);
+            $('.mask_bg').fadeOut(100);
+        });
+        $('.comfirt').on('click',function(){
+
+            var pass = $('#money').val();
+            if(parseFloat(pass)<0){
+                layer.msg('非法的金额');
+                return false;
+            }
+            var type = $('input:radio[name="cz"]:checked').val();
+            if(type=='money'){
+                var money_pay_url = "<{link ctl='finance/account:chongzhi' http='wmbiz'}>";
+                var data = {
+                    deliver:pass
+                }
+                $.post(money_pay_url,{data:data},function(e){
+                    if(e.error==0){
+                        layer.msg(e.message)
+                        $('.chon_mask').fadeOut(100);
+                        $('.mask_bg').fadeOut(100);
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1500);
+
+                    }else{
+                        layer.msg(e.message)
+                        $('.chon_mask').fadeOut(100);
+                        $('.mask_bg').fadeOut(100);
+                    }
+                },'json');
+
+            }else{
+                var shop_id ="<{$shop.shop_id}>";
+                var pay_url  = "<{link ctl='trade/payment:deliver' http='home' arg0='__SHOPID__'}>";
+                var reback_uel = "<{link ctl='finance/account:index' http='wmbiz'}>";
+                var tiao_url = pay_url.replace('__SHOPID__',shop_id)
+                window.location.href = tiao_url+"?rebackurl="+reback_uel+"&code="+type+"&amount="+pass;
+            }
+        })
+
+    });
+</script>
+<!--充值弹层-结束-->
+
+<{include file="block/footer.html"}>

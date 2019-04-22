@@ -1,0 +1,35 @@
+<div class="helpPage_menu fl">
+    <div class="tit">帮助中心</div>
+    <div class="list_box">
+        <{calldata mdl="article/cate" parent_id="11" limit=10}>
+            <{assign var="plast" value=$last}>
+        	<div class="list">
+                <div class="bt"><{$item.title}></div>
+                <ul>
+                    <{calldata mdl='article/article' from="pchelp" hidden="0" cat_id=$item.cat_id}>
+                        <{if $item.page}> 
+                        <li><a href="<{link ctl='help/page' args=$item.page}>"><{$item.title}></a></li>
+                        <{else}>
+                        <li><a href="<{link ctl='help:detail' arg0=$item.article_id}>"><{$item.title}></a></li>
+                        <{/if}>
+                    <{/calldata}>
+                    <{if $plast == 1}>
+                    <li><a href="<{link ctl='help/index'}>">联系我们</a></li>
+                    <{/if}>
+                </ul>
+            </div>
+        <{/calldata}>
+    </div>
+</div>
+<script>
+    var urlstr = location.href;
+    var urlstatus = false;
+    $('.helpPage_menu ul li').each(function () {
+        if ((urlstr + '/').indexOf($(this).find('a').attr('href')) > 0 && $(this).find('a').attr('href') != '/index' && $(this).find('a').attr('href') != '/index/index'){
+            $(this).find('a').addClass('on');
+            urlstatus = true;
+        } else {
+            $(this).find('a').removeClass('on');
+        }
+    });
+</script>

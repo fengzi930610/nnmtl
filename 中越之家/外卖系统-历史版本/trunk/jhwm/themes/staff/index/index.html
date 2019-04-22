@@ -1,0 +1,110 @@
+<{assign var='tpl_title' value=L("配送员对账-首页")}>
+<{include file="block/header.html"}>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="duizhang-balance mb10">
+                    <div class="list-one border_b">
+                        <p>可提现余额</p>
+                        <div class="pub_list">
+                            <p class="pub_list_bd">￥<{$staff.money|default:0}></p>
+                            <a href="<{link ctl='tixian/index' http='staff'}>" class="btn">提现</a>
+                        </div>
+                    </div>
+                    <div class="pub_list list-two border_b" id="click2">
+                        <div class="whitecl pub_list_bd"><i class="mr5 ico"></i>查看余额流水</div>
+                        <p class="ml10"></p>
+                    </div>
+                    <div class="pub_list list-two" id="myclick">
+                        <div class="whitecl pub_list_bd"><i class="mr5 ico"></i>查看打赏记录</div>
+                        <p class="ml10"></p>
+                    </div>
+
+                </div>
+                <div class="duizhang-income mb10">
+                    <div class="border_b pub_list tit" onclick="tiao('<{$data.bills.bills_id}>');">
+                        <div class="pub_list_bd"><big>今日预计收入</big>(<{$data.day}>)</div>
+                        <p class="ml10">￥<{$data.bills.amount|default:0}></p>
+                    </div>
+                    <ul class="box">
+                        <li>
+                            <div class="pub_list">
+                                <p class="black6 ml20 name">完成订单</p>
+                                <p class="pub_list_bd">共<{$format.yes_order}>笔</p>
+                                <p class="pub_list_bd text_r">￥<{$format.yes_amount}></p>
+                            </div>
+                            <div class="progressBar"><span class="barLength" style="width:<{$format.yes_bl}>%;"></span></div>
+                        </li>
+                        <li>
+                            <div class="pub_list">
+                                <p class="black6 ml20 name">退款订单</p>
+                                <p class="pub_list_bd">共<{$format.no_order}>笔</p>
+                                <p class="pub_list_bd text_r">￥<{$format.no_amount}></p>
+                            </div>
+                            <div class="progressBar"><span class="barLength" style="width:<{$format.no_bl}>%;"></span></div>
+                        </li>
+
+                        <li>
+                            <div class="pub_list" id="click3">
+                                <p class="black6 ml20 name">代收款订单</p>
+                                <p class="pub_list_bd">共<{$format.cash_count}>笔</p>
+                                <p class="pub_list_bd text_r ml10">￥<{$format.cash_sum}></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="duizhang-bill mb10">
+                    <div class="pub_list tit">
+                        <h3 class="pub_list_bd">历史账单</h3>
+                    </div>
+                    <ul class="list-box" id="index_goods_items">
+
+                    </ul>
+                </div>
+                <div class="loadding"></div>
+                <div class="clear"></div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var url = '<{link ctl="index/day" arg0="#page#" http="staff"}>';
+    var list_id = 'index_goods_items';
+    loadpage(url,{},1,list_id);
+    scroll(url,{},1,"","#index_goods_items",list_id);
+
+    $('#click1').on('click',function(){
+        var url = "<{link ctl='bills/index' http='staff'}>";
+        window.location.href = url;
+    })
+    $('#click2').on('click',function(){
+        var link = "<{link ctl= 'log/index' http='staff'}>";
+        window.location.href = link;
+    })
+
+    function tiao(bills_id){
+        if(!bills_id){
+            return  false;
+        }else{
+            var link = "<{link ctl='bills/detail' arg0='__bills_id__'}>";
+            window.location.href = link.replace('__bills_id__',bills_id);
+        }
+    }
+
+    $('#click3').on('click',function(){
+        window.location.href = "<{link ctl='cash/index' http='staff'}>";
+
+    })
+    $('#myclick').on('click',function(){
+         window.location.href = "<{link ctl='dashang/index' http='staff'}>"
+    })
+
+</script>
+
+
+<{include file="block/footer.html"}>

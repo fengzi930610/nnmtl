@@ -1,0 +1,32 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<ul>
+		<a href="<{link ctl='ditui/member:index'}>"><{L('地推用户')}> </a>
+		<a href="<{link ctl='ditui/shop:index'}>"  class="on"><{L('地推商家')}> </a>
+	</ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50"><{L('商家')}> ID</th>
+        <th class="w-150"><{L('商家名称')}> </th>
+        <th class="w-100"><{L('商家手机号')}> </th>
+        <th class="w-300"><{L('获得奖励')}> </th>
+        <th><{L('创建时间')}> </th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.shop_id}></td>       
+        <td><{$shops[$item['shop_id']]['title']}></td>
+        <td><{$shops[$item['shop_id']]['mobile']}></td>
+        <td><{$item['signup_amount']}></td>
+        <td><{$item['dateline']|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info"><{L('没有数据')}> </div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="ditui/block/footer.html"}>

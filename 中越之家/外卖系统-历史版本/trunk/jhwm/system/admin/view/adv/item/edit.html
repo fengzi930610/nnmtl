@@ -1,0 +1,64 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="adv/adv:detail" args=$adv.adv_id priv="hidden" class="button" title="返回广告管理"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">广告位：<{$adv.title}></h4>
+<form action="?adv/item-edit.html" mini-form="item-form" method="post" ENCTYPE="multipart/form-data">
+<input type="hidden" name="item_id" value="<{$detail.item_id}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+	<tr><th class="w-100">标题：</th><td><input type="text" name="data[title]" value="<{$detail.title}>" class="input w-300"/></td></tr>
+	<!-- <tr><th class="w-100">城市：</th><td><{$detail.city_name}>(ID:<{$detail.city_id}>)</td></tr> -->
+	<{if $adv.from == 'photo' || $adv.from == 'product' || $adv.from == 'lunzhuan'}>
+	<tr><th class="w-100">连接：</th><td><input type="text" name="data[link]" value="<{$detail.link}>" class="input w-300"/></td></tr>
+	<tr><th class="w-100">小程序连接：</th><td><input type="text" name="data[wxapp_link]" value="<{$detail.wxapp_link}>" class="input w-300"/></td></tr>
+	<tr><th>图片：</th>
+        <td>
+            <input type="file" name="data[thumb]" class="input w-300" />
+            <span class="tip-comment">建议图片 宽:<b class="red"><{$adv.config.width|default:"--"}>px</b>, 高:<b class="red"><{$adv.config.height|default:"--"}>px</b></span>
+        </td>
+    </tr>
+	<{if $detail.thumb}>
+	<tr><th>原图片：</th><td ><img src="<{$pager.img}>/<{$detail.thumb}>" class="wh-100" photo="<{$pager.img}>/<{$detail.thumb}>"/></td></tr>
+	<{/if}>
+    <{if $adv.from == 'product'}>
+    <tr><th>产品价格：</th><td><input type="text" name="data[price]" class="input w-300" id="item_price" value="<{$item.price}>" /></td></tr>
+    <{/if}>
+	<{elseif $adv.from == 'script'}>
+	<tr><th>代码：</th><td><textarea name="data[script]" class="textarea"><{$detail.script}></textarea></td></tr>
+	<{else}>
+	<tr><th>链接：</th><td><input type="text" name="data[link]" class="input w-400" id="item_link" value="<{$item.link}>"/></td></tr>
+	<{/if}>
+	<tr><th>有效时间：</th><td>
+		<input type="text" name="data[stime]" value="<{$detail.stime_format}>" date="stime" class="input w-100" readonly/>~
+		<input type="text" name="data[ltime]" value="<{$detail.ltime_format}>" date="ltime" class="input w-100" readonly/>
+		<span class="tip-comment">0:表示不限制</span>
+	</td></tr>
+	<tr><th>描述：</th><td><textarea name="data[desc]" class="textarea"><{$detail.desc}></textarea><br /></td></tr>
+	<tr><th>目标窗口：</th><td>
+		<select name="data[target]">
+			<option value="_blank" <{if $detail.target == '_blank'}>selected="selected"<{/if}>>新窗口</option>
+			<option value="_self" <{if $detail.target == '_self'}>selected="selected"<{/if}>>本窗口</option>
+			<option value="_parent" <{if $detail.target == '_parent'}>selected="selected"<{/if}>>父窗口</option>
+			<option value="_top" <{if $detail.target == '_top'}>selected="selected"<{/if}>>Top窗口</option>
+		</select>
+	</td></tr>
+	<tr><th>点击数：</th><td><input type="text" name="data[clicks]" value="<{$detail.clicks}>" class="input w-50"/></td></tr>
+	<tr><th class="w-100">排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-50"/></td></tr>
+	<tr>
+		<th>状态：</th><td>
+		<label><input type="radio" name="data[audit]" <{if !$detail.audit}>checked="checked"<{/if}> value="0"/>下架</label>&nbsp;&nbsp;
+		<label><input type="radio" name="data[audit]" <{if $detail.audit}>checked="checked"<{/if}> value="1"/>上架</label>
+		</td>
+	</tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

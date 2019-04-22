@@ -1,0 +1,109 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}>(未绑定配送员等级的配送员，结算时会直接结算用户支付的配送费)</th>
+            <td align="right">
+                <form class="search_inp mr10" action="?group/stafflevel-items.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="等级名称" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="group/stafflevel:create" class="button" title="添加" }>
+                <{* link ctl="group/stafflevel:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索" *}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">骑手等级ID</th>
+                <th class="w-100">等级名称</th>
+                <th class="w-100">外卖订单</th>
+                <th class="w-100">跑腿订单</th>
+                <th class="w-100">创建时间</th>
+                <th class="w-50">操作</th>
+
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.level_id}>" name="level_id[]" CK="PRI"/><{$item.level_id}><label></td>
+                <td><{$item.title}></td>
+                <td>
+                    <{if $item.config_waimai.type==1}>
+                    每单固定￥<{$item.config_waimai.fixed}>
+                    <{elseif $item.config_waimai.type==2}>
+                    每单按照订单配送费提成<{$item.config_waimai.bl}>%
+                    <{elseif $item.config_waimai.type==3}>
+                    每单基础配送费￥<{$item.config_waimai.base}>,超过<{$item.config_waimai.step}>公里，超过部分每公里增加￥<{$item.config_waimai.amplitude}>，最高￥<{$item.config_waimai.max}>
+                    <{else}>
+                     ----
+                    <{/if}>
+                    <{if $item.stime&&$item.ltime}>
+                    (<{$item.stime}>~<{$item.ltime}>
+                    <{if $item.config_waimai_time.type==1}>
+                    每单固定￥<{$item.config_waimai_time.fixed}>
+                    <{elseif $item.config_waimai_time.type==2}>
+                    每单按照订单配送费提成<{$item.config_waimai_time.bl}>%
+                    <{elseif $item.config_waimai_time.type==3}>
+                    每单基础配送费￥<{$item.config_waimai_time.base}>,超过<{$item.config_waimai_time.step}>公里，超过部分每公里增加￥<{$item.config_waimai_time.amplitude}>，最高￥<{$item.config_waimai_time.max}>
+                    <{else}>
+                    ----
+                    <{/if}>
+
+                    )
+                    <{/if}>
+                </td>
+                <td>
+                    <{if $item.config_paotui.type==1}>
+                    每单固定￥<{$item.config_paotui.fixed}>
+                    <{elseif $item.config_paotui.type==2}>
+                    每单按照订单配送费提成<{$item.config_paotui.bl}>%
+                    <{elseif $item.config_paotui.type==3}>
+                    每单基础配送费￥<{$item.config_paotui.base}>,超过<{$item.config_paotui.step}>公里，超过部分每公里增加￥<{$item.config_paotui.amplitude}>，最高￥<{$item.config_paotui.max}>
+                    <{else}>
+                    ----
+                    <{/if}>
+                    <{if $item.stime&&$item.ltime}>
+                    (<{$item.stime}>~<{$item.ltime}>
+                    <{if $item.config_paotui_time.type==1}>
+                    每单固定￥<{$item.config_paotui_time.fixed}>
+                    <{elseif $item.config_paotui_time.type==2}>
+                    每单按照订单配送费提成<{$item.config_paotui_time.bl}>%
+                    <{elseif $item.config_paotui_time.type==3}>
+                    每单基础配送费￥<{$item.config_paotui_time.base}>,超过<{$item.config_paotui_time.step}>公里，超过部分每公里增加￥<{$item.config_paotui_time.amplitude}>，最高￥<{$item.config_paotui_time.max}>
+                    <{else}>
+                    ----
+                    <{/if}>
+
+                    )
+                    <{/if}>
+                </td>
+                <td>
+                    <{$item.dateline|format:"Y-m-d H:i:s"}>
+                </td>
+
+                <td>
+                    <{link ctl="group/stafflevel:edit" args=$item.level_id class="button" title="编辑"}>
+                    <{link ctl="group/stafflevel:delete" args=$item.level_id act="mini:删除" confirm="mini:确认删除骑手等级吗？" title="删除" class="button"}>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="group/stafflevel:delete" type="button" submit="mini:#items-form" confirm="mini:确定要关闭冻结选中的配送站吗?" priv="hide" value="批量删除"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<{include file="admin:common/footer.html"}>

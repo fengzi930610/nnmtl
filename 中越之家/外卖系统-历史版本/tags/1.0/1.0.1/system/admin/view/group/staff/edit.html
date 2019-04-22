@@ -1,0 +1,167 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="group/staff:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?group/staff-edit.html" mini-form="staff-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="staff_id" value="<{$detail.staff_id}>"/>
+<tr><th>配送站:</th><td><select name="data[city_id]" class="w-200"><{widget id="data/city" value=$detail.city_id}></select>&nbsp;&nbsp; <select name="data[group_id]" id="sel_ids">
+    <option value="">请选择配送站</option>
+
+</select></td></tr>
+<tr><th>服务类型：</th><td><{if $detail.from=='weixiu'}>维修<{/if}><{if $detail.from=='house'}>家政<{/if}><{if $detail.from=='paotui'}>跑腿/外卖<{/if}></td></tr>
+    <tr>
+        <th>骑手等级</th>
+        <td>
+            <select class="w-200" name="data[level_id]">
+                <{foreach $level as $k=>$v}>
+                <option value="<{$v.level_id}>" <{if $detail.level_id==$v.level_id}>selected='selected'<{/if}>><{$v.title}></option>
+                <{/foreach}>
+
+            </select>
+        </td>
+    </tr>
+
+<tr><th>姓名：</th><td><input type="text" name="data[name]" value="<{$detail.name|default:''}>" class="input w-300"/></td></tr>
+<tr><th>手机号：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-300"/></td></tr>
+<!-- <tr><th>登录密码：</th><td><input type="text" name="data[passwd]" value="******" class="input w-200"/></td></tr> -->
+<tr><th>登录密码：</th><td><input type="password" name="data[passwd]" value="******" class="input w-200"/></td></tr>
+<!-- <tr><th>头像：</th><td><input type="text" name="data[face]" value="<{$detail.face|default:''}>" class="input w-300"/></td></tr> -->
+
+<tr><th>配送员抽成：</th><td><input type="text" name="data[tixian_percent]" value="<{$detail.tixian_percent|default:'0'}>" class="input w-50"/>%
+                <span class="tip-comment">填写0~100之间的数字(例如:填写10则表示提现100元平台抽成100*10% = 10元，配送员应得90元)</span></td></tr>
+<!-- <tr><th>提现总额：</th><td><{$detail.tixian_money|default:''}></td></tr> -->
+<!-- <tr><th>订单数：</th><td><{$detail.orders|default:''}></td></tr>
+<tr><th>总评分：</th><td><{$detail.score|default:''}></td></tr>
+<tr><th>评论数：</th><td><{$detail.comments|default:''}></td></tr> -->
+<!-- <tr><th>身份认证状态：</th><td>
+<label><input type="radio" name="data[verify_name]" value="0" <{if $detail.verify_name==0}>checked="checked"<{/if}>/>待审</label>
+<label><input type="radio" name="data[verify_name]" value="1" <{if $detail.verify_name==1}>checked="checked"<{/if}>/>通过</label>
+<label><input type="radio" name="data[verify_name]" value="2" <{if $detail.verify_name==2}>checked="checked"<{/if}>/>拒绝</label>
+</td></tr> -->
+<tr><th>简介：</th><td><textarea name="data[intro]" class="textarea"><{$detail.intro}></textarea><br /></td></tr>
+<tr><th>工作状态：</th><td>
+<label><input type="radio" name="data[status]" value="1" <{if $detail.status==1}>checked="checked"<{/if}>/>工作</label>
+<label><input type="radio" name="data[status]" value="0" <{if $detail.status==0}>checked="checked"<{/if}>/>休息</label>
+</td></tr>
+
+<tr><th>审核状态：</th><td>
+<label><input type="radio" name="data[audit]" value="0" <{if $detail.audit==0}>checked="checked"<{/if}>/>待审</label>
+<label><input type="radio" name="data[audit]" value="1" <{if $detail.audit==1}>checked="checked"<{/if}>/>通过</label>
+<label><input type="radio" name="data[audit]" value="2" <{if $detail.audit==2}>checked="checked"<{/if}>/>拒绝</label></td></tr>
+    <tr>
+        <th>是否锁定：</th>
+        <td>
+            <label><input type="radio" name="data[locked]" value="1" <{if $detail.locked==1}>checked='checked'<{/if}> class="input"/>锁定</label>
+            <label><input type="radio" name="data[locked]" value="0"  <{if $detail.locked==0}>checked='checked'<{/if}> class="input"/>未锁定</label>
+            <label class="hidden_me">&nbsp;&nbsp;备注：开启该功能后，会限制骑手接单，其他功能不收影响</label>
+        </td>
+    </tr>
+
+<!-- <tr><th>closed：</th><td><input type="text" name="data[closed]" value="<{$detail.closed|default:''}>" class="input w-300"/></td></tr> -->
+    <tr>
+        <th>是否单独限制配送员接单数量：</th>
+        <td>
+            <label><input type="radio" name="data[is_used]" class="ckicl_used" <{if $detail.is_used==1}>checked<{/if}> value="1"/>是</label>&nbsp;&nbsp;
+            <label><input type="radio" name="data[is_used]" class="ckicl_used" <{if $detail.is_used==0}>checked<{/if}> value="0"/>否</label>
+            <label style="<{if $detail.is_used==1}>display:block;<{else}>display:none;<{/if}>" class="hidden_me">&nbsp;&nbsp;&nbsp;限制接单数量<input type="text" name="data[limit_order]" value="<{$detail.limit_order}>" class="input w-300" placeholder="请输入限制接单数量"/>备注：请填写大于0的数字</label>
+        </td>
+    </tr>
+    <tr>
+        <th>
+            开户行信息
+        </th>
+        <td>
+            <input type="hidden" name="account[account_id]" value="<{$account.account_id|default:0}>" class="input w-300"/>
+        </td>
+
+    </tr>
+    <tr>
+         <th>
+             开户行
+         </th>
+         <td>
+            <input type="text" name="account[title]" value="<{$account.title|default:''}>" class="input w-300"/>
+        </td>
+
+    </tr>
+    <tr>
+        <th>
+            开户人
+        </th>
+        <td>
+            <input type="text" name="account[name]" value="<{$account.name|default:''}>" class="input w-300"/>
+        </td>
+
+    </tr>
+    <tr>
+        <th>
+            卡号
+        </th>
+        <td>
+            <input type="text" name="account[account]" value="<{$account.account|default:''}>" class="input w-300"/>
+        </td>
+
+    </tr>
+
+
+
+
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+
+    <script>
+    $(function(){
+        var group_list = '<{$items}>';
+        var json = JSON.parse(group_list);
+        var city_id_detail = "<{$detail.city_id}>";
+        var group_id = "<{$detail.group_id}>";
+        var html1 = '<option value="">请选择配送站</option>';
+        $.each(json,function(k,v){
+            if(v.city_id==city_id_detail){
+                var sel = '';
+                if(v.group_id==group_id){
+                    sel = "selected='selected'";
+                }
+                html1+='<option value="'+ v.group_id+'" '+sel+'>'+ v.group_name+'</option>'
+            }
+        });
+        if(!html1){
+            html1 = '<option value="">当前城市无配送站，请先添加配送站</option>';
+        }
+        $('#sel_ids').html(html1);
+        $("[name='data[city_id]']").on('change',function(){
+            var city_id = $(this).val();
+            var html = '';
+            $.each(json,function(k,v){
+                if(v.city_id==city_id){
+                    html+='<option value="'+ v.group_id+'">'+ v.group_name+'</option>'
+                }
+            });
+            if(!html){
+                html = '<option value="">当前城市无配送站，请先添加配送站</option>';
+            }
+            $('#sel_ids').html(html);
+
+        })
+        $('.ckicl_used').on('change',function(){
+            var  values = $(this).val();
+            if(values==1){
+                $('.hidden_me').show();
+            }else{
+                $('.hidden_me').hide();
+            }
+        })
+    })
+
+</script>
+
+<{include file="admin:common/footer.html"}>

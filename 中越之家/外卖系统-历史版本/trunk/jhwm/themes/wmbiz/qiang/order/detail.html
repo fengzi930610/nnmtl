@@ -1,0 +1,377 @@
+<{include file="block/header.html"}>
+<link rel="stylesheet" type="text/css" href="https://sandbox.runjs.cn/uploads/rs/499/ixc5vbvz/sweetalert.css"/>
+<script src="https://sandbox.runjs.cn/uploads/rs/499/ixc5vbvz/sweetalert.min.js"></script>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='qiang/order:index'}>">抢购管理</a></li>
+        <li class="active">订单详情</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+        <div class="dispatch_tab">
+            <ul>
+                <li><a href="<{link ctl='qiang/order:index' http='wmbiz'}>">订单列表</a></li>
+                <li class="on"><a href="<{link ctl='qiang/order:detail' arg0=$detail.order_id http='wmbiz'}>">订单详情</a></li>
+            </ul>
+        </div>
+        <!--订单列表-->
+        <div class="ord_list_box">
+            <!--催单-->
+            <div class="ord_list">
+                <div class="top_box">
+                    <div class="num pull-left">
+                        <{if $detail.first_youhui > 0}><span class="style">首单用户</span><{/if}>
+                        <span class="style"><{$detail.ziti_label}></span>
+                        订单编号：<span class="fontcl1"><{$detail.dateline|format:"Ymd"}>#<{$detail.day_num}></span></div>
+                    <div class="state pull-right">
+                        <span class="black9"><{$detail.status_label}></span>
+                    </div>
+                </div>
+                <div class="mid_box">
+                    <h3><{$detail.contact}></h3>
+                    <p><span class="black3">订单ID：</span><{$detail.order_id}></p>
+                    <p><span class="black3">联系方式：</span><{$detail.mobile}></p>
+                    <p>
+                        <span class="black3">备注：</span>
+                        <{foreach $detail['note_label'] as $k=>$v}>
+                            <label><input type="checkbox" checked="checked" disabled="disabled"/><{$v['title']}></label>&nbsp;&nbsp;
+                        <{/foreach}>
+                    </p>
+                    <p><span class="black3">地址：</span><{$detail.addr}> <{if $detail.house != ''}>(<{$detail.house}>)<{else}>到店消费<{/if}></p>
+                    <{if $detail['ticket_status'] == 1 && $detail['pei_type'] == 3}>
+                        <p>
+                            <span class="black3">核销券码：</span><span><{$detail.number}></span>
+                            <span class="ml30 maincl"><span class="black3">过期时间：</span><{$detail.use_ltime|format:'Y-m-d'}></span>
+                        </p>
+                        <p>
+                            <span class="black3">券状态：</span><span><{$detail.status_label}></span>
+                            <span class="ml30 maincl"><span class="black3">使用时间：</span><{if $detail.use_time}><{$detail.use_time|format:'Y-m-d H:i'}><{else}>未使用<{/if}></span>
+                        </p>
+                    <{/if}>
+                    <{if $detail['express'] && $detail['express_name']}>
+                        <p>
+                            <span class="black3">物流公司：</span><span><{$detail['express_name']}></span>
+                            <span class="ml30 maincl"><span class="black3">物流单号：</span><{$detail['express']}></span>
+                        </p>
+                    <{/if}>
+                    <p>
+                        <span class="black3">下单时间：</span><span class="fontcl2"><{$detail.dateline|format:'Y-m-d H:i'}>下单</span>
+                        <span class="ml30 maincl"><span class="black3">支付方式：</span><{if $detail.online_pay == 1}>在线支付<{elseif $detail.online_pay == 0}>货到付款<{/if}></span>
+                    </p>
+                    <div class="delt_box">
+                        <div class="bt_box on">
+                            <div class="bt"><b>订单信息</b> </div>
+                        </div>
+                        <div class="open_box ">
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td><{$detail.qiang_title}></td>
+                                    <td>¥<{$detail.qiang_discount_price}></td>
+                                    <td>x<{$detail.qiang_number}></td>
+                                    <td class="text_r">¥<{$detail.qiang_number * $detail.qiang_discount_price}></td>
+                                </tr>
+                            </table>
+                            <div class="border_b border_t">
+                                <div class="cost_box black6">运费 <span class="pull-right">¥<{$detail.qiang_freight}></span></div>
+                                <div class="cost_box black6">平台服务费<span class="pull-right">-¥<{$detail.fee_arr.fee}></span></div>
+                            </div>
+                            <div class="cost_box"><b>小计：</b> <span class="pull-right fontcl1">¥<{$detail.total_price}></span></div>
+                            <{if $detail.first_youhui > 0}>
+                            <div class="cost_box black6">首单优惠： <span class="pull-right">-¥<{$detail.first_youhui}></span></div>
+                            <{/if}>
+                            <{if $detail.order_youhui > 0}>
+                            <div class="cost_box black6">满减优惠： <span class="pull-right">-¥<{$detail.order_youhui}></span></div>
+                            <{/if}>
+                            <{if $detail.hongbao > 0}>
+                            <div class="cost_box black6">红包抵扣： <span class="pull-right">-¥<{$detail.hongbao}></span></div>
+                            <{/if}>
+                            <{if $detail.money > 0}>
+                            <div class="cost_box black6">余额抵扣： <span class="pull-right">-¥<{$detail.money}></span></div>
+                            <{/if}>
+                            <{if $detail.coupon > 0}>
+                            <div class="cost_box black6">优惠劵： <span class="pull-right">-¥<{$detail.coupon}></span></div>
+                            <{/if}>
+                            <div class="cost_box maincl"><b>预计收入：</b> <b class="pull-right">¥<{$detail.fee_arr.shop_amount-$detail.fee_arr.fee}></b></div>
+                        </div>
+                        <div style="height: 1px;border: 0.5px solid #d6c9c3"></div>
+                        <div class="bt_box on">
+                            <div class="bt"><b>订单日志</b> </div>
+                            <div class="cost_box black6">日志 <span class="pull-right">时间</span></div>
+                            <{foreach $detail.logs as $kk1=>$detailv1}>
+                            <div class="cost_box black6"><{$detailv1.log}>： <span class="pull-right"><{$detailv1.dateline|format:"Y-m-d H:i:s"}></span></div>
+                            <{/foreach}>
+                        </div>
+                        <div style="height: 1px;border: 0.5px solid #d6c9c3"></div>
+                        <{if $detail.order_status==8 && $detail.comment_status==1}>
+                        <div class="row">
+                            <div class="bt" style="margin-left: 20px;"><b>订单评论</b> </div>
+                            <div class="col-sm-2 left">
+                                <h4><{substr_replace($users['mobile'], '****', 3, 4)}>(<{$users['nickname']}>)</h4>
+                                <P>商品 <span class="starBg"><span class="star" style="width:<{$detail.comment.score_wight}>%;"></span></span></P>
+                            </div>
+                            <P class="nr"><{if $detail.comment.content != ''}><{$detail.comment.content}><{else}>该用户没有填写评价内容<{/if}></P>
+                           <{if $detail.comment.reply_time == 0}>
+                            <a href="javascript:;" class="reply_btn"><i class="ico mr5"></i>回复</a>
+                            <div class="replay_form">
+                                <textarea placeholder="限300字符，请勿恶意回复，一经查实将严肃处理，回复后不可修改" style="height: 150px;width: 50%;" id="my_huifu"></textarea>
+                                <a href="javascript:;" class="btn btn-primary btn-sm reply" rel="<{$detail.comment.comment_id}>" style="position: relative;top:-10px;">回复</a>
+                            </div>
+                         <{elseif $detail.comment.reply_time > 0}>
+                            <div class="replay_box">
+                                <div><span class="black9">商家回复：</span><{$detail.comment.reply}></div>
+                                <small class="black9"><{$detail.comment.reply_time|format:'Y-m-d H:i'}></small>
+                            </div>
+                           <{/if}>
+                        </div>
+                        <{if $detail.comment.photos}>
+                        <div class="row mt10">
+                            <div class="col-sm-2 left"></div>
+                            <div class="col-sm-10 right">
+                                <{foreach $detail.comment.photos as $pic}>
+                                <img src="<{$pager.img}>/<{$pic.photo}>" class="kannimabi" rel="<{$pager.img}>/<{$pic.photo}>" width="100" height="100"/>
+                                <{/foreach}>
+                            </div>
+                        </div>
+                        <{/if}>
+                        <{/if}>
+                    </div>
+                </div>
+                <div class="bottom_box">
+                    <a href="javascript:;" class="btn btn-sm btn-default"><{$detail.status_label}></a>
+                    <{if $detail.show_btn.ticket == 1}>
+                        <button type="button" class="btn btn-primary btn-sm btn-outline" data-dismiss="modal" id="go_check" number="<{$detail.number}>">去核销</button>
+                    <{/if}>
+                    <{if $detail.show_btn.delivery == 1}>
+                        <button type="button" class="btn btn-primary btn-sm btn-outline" data-dismiss="modal" id="go_fahuo" rel="<{$detail.order_id}>">发货</button>
+                    <{/if}>
+                    <{if $detail.show_btn.wuliu == 1}>
+                        <button type="button" class="btn btn-primary btn-sm btn-outline" data-dismiss="modal" id="go_wuliu">查看物流</button>
+                    <{/if}>
+                    <{if $detail.show_btn.payback == 1}>
+                        <a mini-act="confirm:您确定要取消订单吗" href="<{link ctl='qiang/order:payback' arg0=$detail.order_id http='wmbiz'}>" class="btn btn-sm btn-primary">取消订单并退款</a>
+                    <{/if}>
+                    <{if $detail.show_btn.canel == 1}>
+                        <a mini-act="confirm:您确定要取消订单吗" href="<{link ctl='qiang/order:cancel' arg0=$detail.order_id http='wmbiz'}>" class="btn btn-sm btn-primary">取消订单</a>
+                    <{/if}>
+                </div>
+            </div>
+        </div>
+        <!--订单列表end-->
+        <div id="preview" class="none"><img class="jq_preview" src="" width="800" height="800"/></div>
+    </div>
+</div>
+<style type="text/css">
+    .reminder_mask .cont{ width:460px;}
+    .refuse_mask .cont{ width:460px;}
+    .refuse_mask .cont input{ width:100%; border:1px solid #ccc; background:#fff; outline:0; height:40px; padding:5px 10px;}
+    .refuse_mask .cont select{ width:100%; border:1px solid #ccc; background:#fff; outline:0; height:40px; padding:5px 10px;}
+</style>
+
+<!--物流信息-->
+<div class="mask_cont seeOrd_mask">
+    <div class="mask_cont_tit" id="guke"><a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody class="append_html">
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mask_bg" style="display: none;"></div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.seeOrd_mask').height();
+    var evlt_w = $('.seeOrd_mask').width();
+    $('.seeOrd_mask').css("margin-top",-(evlt_h/2 + 300) + 'px');
+    $('.seeOrd_mask').css("margin-left",-evlt_w/2 + 'px');
+
+    $("#go_wuliu").click(function(){
+        var json_wuliu = <{$json_wuliu}> || '';
+        var html = '';
+        $('#guke').text('物流信息');
+
+        if(typeof(json_wuliu) == 'object' && json_wuliu.length > 0){
+            $.each(json_wuliu,function(k,v){
+                html+='<tr> <td>'+v.ftime+'</td>';
+                html+='<td>'+v.context+'</td></tr>';
+            });
+        }else{
+            html = '暂无相关物流信息';
+        }
+        
+        $('.append_html').html(html);
+        $('.seeOrd_mask').fadeIn(100);
+        $('.mask_bg').fadeIn(100);
+    });
+    $(".seeOrd_mask .cancel,.seeOrd_mask .close,.mask_bg").click(function(){
+        $('.seeOrd_mask').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+    });
+});
+</script>
+<!--物流信息结束-->
+
+<!--发货-->
+<div class="mask_cont spec_mask refuse_mask">
+    <div class="mask_cont_tit">发货 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <select id="express_name">
+            <{foreach $express_config as $v}>
+            <option value="<{$v}>"><{$v}></option>
+            <{/foreach}>
+        </select>
+        <br/><br/>
+        <input placeholder="请输入物流单号" id="express"></input>
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt" id="go_delivery">确定</a>
+        </div>
+    </div>
+</div>
+<div class="mask_bg"></div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.refuse_mask').height();
+    var evlt_w = $('.refuse_mask').width();
+    $('.refuse_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+    $('.refuse_mask').css("margin-left",-evlt_w/2 + 'px');
+    
+    $("#go_fahuo").click(function(){
+        $('.refuse_mask').fadeIn(100);
+        $('.mask_bg').fadeIn(100);
+        $('#go_delivery').attr('rel', $(this).attr('rel'));
+    });
+    
+    $(".refuse_mask .cancel,.refuse_mask .close,.mask_bg").click(function(){
+        $('.refuse_mask').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+    });
+    
+});
+
+$("#go_delivery").click(function () {
+    var order_id = $("#go_delivery").attr('rel');
+    var express = $('#express').val();
+    var express_name = $('#express_name').val();
+    $.post("<{link ctl='qiang/order:delivery'}>", {order_id: order_id,express:express,express_name:express_name}, function (ret) {
+        layer.msg(ret.message);
+        if (ret.error == 0) {
+            setTimeout(function(){window.location.reload();},1000);
+        }
+    },'json');
+})
+</script>
+<!--发货end-->
+<script>
+    $("#go_check").click(function(){
+        var number = $(this).attr('number');
+        if(!number) {
+            parent.layer.msg('无效的核销券码');return;
+        }else {
+            jQuery.ajax({        
+                url: "<{link ctl='qiang/order/check' http='wmbiz'}>",
+                async: true,  
+                dataType: 'json',
+                type: 'POST',   
+                data: {"number":number},
+                success: function (ret) { 
+                    if(ret.error > 0){
+                        parent.layer.msg(ret.message);return;
+                    }else{
+                        var html = '';
+                        html += '<!DOCTYPE html>';
+                        html += '<html>';
+                        html += '<head>';
+                        html += '<title></title>';
+                        html += '</head>';
+                        html += '<body>';
+                        html += '<tr>'+ret.data.ticket.qiang_title+'</tr></br>';
+                        html += '<tr>&yen;'+ret.data.ticket.qiang_discount_price+' X '+ret.data.ticket.qiang_number+'</tr></br>';
+                        html += '<tr>订单ID：'+ret.data.ticket.order_id+'</tr></br>';
+                        html += '<tr>密码：'+ret.data.ticket.number+'</tr></br>';
+                        html += '<tr>有效期至：'+ret.data.ticket.youxiao_time+'</tr></br>';
+                        html += '</body>';
+                        html += '</html>';
+                        swal({
+                            title: "密码正确,是否消费此券?",
+                            text: html,
+                            type: "success",
+                            html: true,
+                            showCancelButton: true,
+                            confirmButtonColor: "#AEDEF4",
+                            confirmButtonText: "确定",
+                            cancelButtonText: "取消",
+                            closeOnConfirm: true, //点击了确认按钮后模态窗口自动关闭
+                        }, function (isConfirm) {
+                            if (isConfirm) {
+                                var url = "<{link ctl='qiang/order/setspend' http='wmbiz'}>";
+                                jQuery.ajax({        
+                                    url: url, 
+                                    async: true,  
+                                    dataType: 'json',
+                                    type: 'POST',   
+                                    data: {"order_id":ret.data.ticket.order_id,"number":ret.data.ticket.number},
+                                    success: function (ret) { 
+                                        if(ret.error > 0){
+                                            parent.layer.msg(ret.message);return;
+                                        }else{
+                                            parent.layer.msg(ret.message);
+                                            setTimeout(function(){window.location.reload();},1000);
+                                        }
+                                    }, 
+                                    error: function (XMLHttpRequest, textStatus, errorThrown) { 
+                                        alert(errorThrown); 
+                                    },  
+
+                                });
+                            }
+                        });
+                    }
+                }, 
+                error: function (XMLHttpRequest, textStatus, errorThrown) { 
+                    alert(errorThrown); 
+                },  
+
+            });
+        }
+    })
+
+    $('.reply').on('click',function(){
+        var comment_id = $(this).attr('rel');
+        var reply = $('#my_huifu').val();
+        if(!reply){
+            layer.msg('请输入回复内容');
+            return false;
+        }
+        $.post("<{link ctl='qiang/comment:reply' http='wmbiz'}>", {comment_id:comment_id, reply:reply}, function (ret) {
+            if (ret.error == 0) {
+                setTimeout(function () {
+                   window.location.reload();
+                }, 2000);
+            }
+            layer.msg(ret.message);
+        },'json');
+
+    })
+    $(document).on("click",".kannimabi",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("rel") == ""||$(this).attr("rel")==0||$(this).attr("rel")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("rel"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '800px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+</script>
+<!--评价详情弹层-结束-->
+<{include file="block/footer.html"}>

@@ -1,0 +1,25 @@
+<{foreach $items as $item}>
+<li class="goods_list">
+    <div class="img fl"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$item['goods']['photo']}>"></a></div>
+    <div class="wz_box">
+        <h3 class=""><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>" class="black3">（第<{$item.cloud_num}>期）<{$item['goods']['title']}></a></h3>
+        <div class="progressBar_box">
+            <div class="box">
+                <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                <div class="num_box">
+                    <div class="fl txt_left">
+                        <p><{$item.price}></p>
+                        <p>总需</p>
+                    </div>
+                    <div class="fr txt_right">
+                        <p><{$item.price - $item.join}></p>
+                        <p>剩余</p>
+                    </div>
+                </div>
+            </div>
+            <div class="btn_box"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>" class="btn open-about">夺宝</a></div>
+        </div>
+    </div>
+    <div class="cl"></div>
+</li>
+<{/foreach}>

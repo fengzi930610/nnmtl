@@ -1,0 +1,24 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+    <div class="mineIntegralPage_top txt_center mb10">
+    	<div class="fl border_r">
+        	<p class="black9">当前余额</p>
+            <p class="num pointcl1"><{$MEMBER['money']}><small class="black9">元</small></p>
+        </div>
+        <div class="fr"><a href="<{link ctl='weidian/ucenter/money/recharge'}>" class="pub_btn" style="background:#fc5151;">充值</a></div>
+        <div class="clear"></div>
+    </div>
+    <h3 class="black9 pad_l10 pad_r10 font_size14 font_line24">最近30天积分记录</h3>
+    <ul class="mineIntegralPage_list">
+		<{foreach $items as $v}>
+        <li class="pub_list clear_both border_t">
+        	<div class="fl">
+            	<p><{$v['intro']}></p>
+				<small class="black9"><{$v['dateline']|format}></small>
+            </div>
+            <div class="fr maincl mt10"><{$v['number']}></div>
+        </li>
+		<{/foreach}>
+    </ul>
+</section>
+<{include file="fenxiao/block/footer.html"}>

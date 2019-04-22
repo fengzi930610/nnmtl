@@ -1,0 +1,120 @@
+<{include file="admin:common/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/waimai-edit.html" mini-form="Waimai-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="shop_id" value="<{$detail.shop_id}>"/>
+<tr><th>商户名称：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/></td></tr>
+<tr><th>手机号：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-200"/><span class="tip-comment">手机号，登录用</span></td></tr>
+<tr><th>密码：</th><td><input type="text" name="data[passwd]" value="******" class="input w-200"/></td></tr>
+<tr>
+    <th>分类：</th>
+    <td><!-- <select name="data[cate_id]" class="w-200"><{widget id="waimai/cate" value=$detail.cate_id type="option"}></select> -->
+        <select name="data[cate_id]" class="w-200" id="cate">
+            <{foreach $cats as $cat}>
+                <option value="<{$cat.cate_id}>" <{if $detail.cate_id==$cat.cate_id}>selected<{/if}>><{$cat.title}></option>
+            <{/foreach}>
+        </select>
+        <div id="cates">
+            <{foreach $cates as $cate}>
+                <{if $cate.parent_id==$detail.cate_id}>
+                <label><input type="checkbox" name="data[cate_ids][]" value="<{$cate.cate_id}>" <{if in_array($cate.cate_id,$detail.cate_ids)}>checked="checked"<{/if}> class="input"/><{$cate.title}></label>
+                <{/if}>
+            <{/foreach}>
+        </div>
+    </td>
+</tr>
+<tr><th>Banner：</th><td><input type="text" name="data[banner]" value="<{$detail.banner}>" <{if $detail.banner}>photo1="<{$pager.img}>/<{$detail.banner}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[banner]" class="input w-100" /></td></tr>
+<tr><th>商户LOGO：</th><td><input type="text" name="data[logo]" value="<{$detail.logo}>" <{if $detail.logo}>photo="<{$pager.img}>/<{$detail.logo}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[logo]" class="input w-100" /></td></tr>
+<tr>
+    <th>营业状态：</th>
+    <td>
+        <label><input type="radio" name="data[yy_status]" value="1" <{if $detail['yy_status'] == 1}>checked="checked"<{/if}> class="input"/>营业中</label><label><input type="radio" name="data[yy_status]" value="0" <{if $detail['yy_status'] == 0}>checked="checked"<{/if}> class="input"/>打烊</label>
+    </td>
+</tr>
+<tr>
+    <th>是否新店铺：</th>
+    <td>
+        <label><input type="radio" name="data[is_new]" value="1" <{if $detail['is_new'] == 1}>checked="checked"<{/if}> class="input"/>是</label>
+        <label><input type="radio" name="data[is_new]" value="0" <{if $detail['is_new'] == 0}>checked="checked"<{/if}> class="input"/>否</label>
+    </td>
+</tr>
+<tr>
+<th width="130">付款方式：</th>
+    <td>
+        <select id="pay_type_select" class="select select_td input w-200">
+            <{if $detail.pei_type=='1'&&$site_open=='0'}>
+            <option value="online_pay" <{if $detail.is_daofu==0 && $detail.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option>
+            <{elseif $detail.pei_type=='1'&&$site_open=='1'}>
+            <option value="all" <{if $detail.is_daofu==1 && $detail.online_pay==1}>selected="selected"<{/if}> >全部支持</option>
+            <option value="is_daofu" <{if $detail.is_daofu==1 && $detail.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option>
+            <option value="online_pay" <{if $detail.is_daofu==0 && $detail.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option>
+
+            <{else}>
+            <option value="all" <{if $detail.is_daofu==1 && $detail.online_pay==1}>selected="selected"<{/if}> >全部支持</option>
+            <option value="is_daofu" <{if $detail.is_daofu==1 && $detail.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option>
+            <option value="online_pay" <{if $detail.is_daofu==0 && $detail.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option>
+            <{/if}>
+
+        </select>
+        <input type="hidden" name="data[online_pay]" value="1">
+        <input type="hidden" name="data[is_daofu]" value="0">
+    </td>
+</tr>
+<tr><th>商家简介：</th><td><textarea name="data[info]" class="textarea"><{$detail.info}></textarea><br /></td></tr>
+<tr><th>商家公告：</th><td><textarea name="data[delcare]" class="textarea"><{$detail.delcare}></textarea><br /></td></tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>
+<script type="text/javascript">
+$("#pay_type_select").change(function(){
+    if($(this).val() == 'is_daofu') {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(0);
+    }else if($(this).val() == 'online_pay') {
+        $("input[name='data[is_daofu]']").val(0);
+        $("input[name='data[online_pay]']").val(1);
+    }else {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(1);
+    }
+});
+</script>
+
+<script type="text/javascript">
+    var json_cates = <{json_encode($cates)}>;
+    
+    $('#cate').on('change',function(){
+        var cate_id = $(this).val();
+        cates_edit(cate_id);        
+    })
+
+    function cates_edit(cate_id){
+        var cates_edit_html = '';
+        var inner_lis = '';
+        var i = 0;
+        $.each(json_cates,function(k,v){
+            if(cate_id == v.parent_id){
+                cates_edit_html+='<label><input type="checkbox" name="data[cate_ids][]" value="'+v.cate_id+'" class="input"/>'+v.title+'</label>';
+            }
+        });
+
+        if(!cates_edit_html){
+            //cates_edit_html = "<option value=''>暂无二级分类</option>";
+        }
+
+        $('#cates').html(cates_edit_html);
+    }
+
+</script> 

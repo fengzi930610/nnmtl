@@ -1,0 +1,268 @@
+<{include file="admin:common/header.html"}>
+
+<!--<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=824a595f958e444b737a5bc6325ad44f"></script>-->
+<script src="//webapi.amap.com/maps?v=1.4.2&key=<{$jh_map_key}>"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="group/group:items" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?group/group-create.html" mini-form="member-form" method="post" ENCTYPE="multipart/form-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th><span class="red">*</span>手机号：</th>
+            <td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-300"/></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>密码：</th>
+            <td><input type="text" name="data[passwd]" value="<{$detail.passwd|default:''}>" class="input w-300"/></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>联系人头像：</th>
+            <td><input type="text" name="data[face]" value="<{$detail.face}>" <{if $detail.face}>photo="<{$pager.img}>/<{$detail.face}>"<{/if}> class="input w-200" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[face]" class="input w-100" /><img src="<{$pager.img}>/<{$detail.face|default:'default/face.png'}>" photo="<{$pager.img}>/<{$detail.face|default:'default/face.png'}>" class="wh-30" style="vertical-align:middle;display:inline;margin:auto 5px;"/></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>配送站名称：</th>
+            <td><input type="text" name="data[group_name]" value="<{$detail.group_name|default:''}>" class="input w-300"/></td>
+        </tr>
+        <tr>
+            <th>地区：</th>
+            <td>
+
+                <select id="city" name="data[province_id]" class="w-200">
+                    <{foreach $pro as $v}>
+                    <option value="<{$v.province_id}>"><{$v.province_name}></option>
+                    <{/foreach}>
+                </select>
+                <select id="area" name="data[city_id]" class="w-200">
+
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>配送站地址：(请点图地图或拖动地图上的标记点选择地址)</th>
+            <td><input type="text" name="data[addr]" value="<{$detail.addr|default:''}>" placeholder="请在地图拖动选择地址" readonly id="Bmap_marker_addr" class="input w-300"/>
+            <label><input type="hidden" name="data[lng]" id="Bmap_marker_lng" value="<{$detail.lng}>"/></label>
+            <label> <input type="hidden" name="data[lat]" id="Bmap_marker_lat" value="<{$detail.lat}>"/></label>
+                <div class="map" id="Baidu_Map_Marker" style="width: 616px;height: 308px;"></div>
+                <!--<label>经度:<input type="text" name="data[lng]" value="<{$waimai.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+                <label>纬度:<input type="text" name="data[lat]" value="<{$waimai.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>
+                <span class="tip-comment">使用百度地图经纬度<a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="button"><b>拾取工具</b></a></span>-->
+            </td>
+        </tr>
+
+        <tr>
+            <th><span class="red">*</span>配送站联系人：</th>
+            <td><input type="text" name="data[contact]" value="<{$detail.contact|default:''}>" class="input w-300"/></td>
+        </tr>
+        <!-- <tr>
+            <th>头像：</th>
+            <td><input type="text" name="data[face]" value="<{$detail.face}>" <{if $detail.face}>photo="<{$pager.img}>/<{$detail.face}>"<{/if}> class="input w-300" />&nbsp;&nbsp;&nbsp;<input type="file" name="file" class="input w-100" /></td>
+        </tr> -->
+        <tr>
+            <th><span class="red">*</span>指定订单过期有效期（分钟）：</th>
+            <td>
+                <input type="text" name="data[overtime]" value="<{$detail.overtime|default:'5'}>" class="input w-300"/>
+                <span class="tip-comment">备注：该设置为指派订单的过期时间，如设置5分钟，则指派订单以后五分钟内该订单为指定配送员的专享单，其他配送员无法接单，超过时间，则其他配送员可正常抢单</span>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>起送价：</th>
+            <td><input type="text" name="data[min_amount]" value="<{$detail.min_amount|default:0}>" class="input w-300"/></td>
+        </tr>
+
+        <tr>
+            <th><span class="red">*</span>基础配送费：</th>
+            <td>
+                <input type="text" name="data[min_pei]" value="<{$detail.min_pei|default:0}>" class="input w-300"/>
+                <span class="tip-comment">三方单的基础运费（商户可自行添加小费，提高骑手的接单速度）</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th><span class="red">*</span>配送站抢单模式：</th>
+            <td>
+
+                <select name="data[assign]">
+                    <option value="0" <{if $detail.assign==0}>selected='selected'<{/if}>>默认模式</option>
+                    <option value="1" <{if $detail.assign==1}>selected='selected'<{/if}>>指派模式</option>
+                </select>
+                <span class="tip-comment">备注 ：该设置为配送站的抢单模式，选择默认模式 骑手可自主接单配送站也可派单。选择指派模式，骑手不可自主抢单，只能由配送站派单。</span>
+            </td>
+        </tr>
+
+        <tr>
+            <th>是否开启限制配送员接单数量：</th>
+            <td>
+                <label><input type="radio" name="data[is_used]" class="ckicl_used"  value="1"/>是</label>&nbsp;&nbsp;
+                <label><input type="radio" name="data[is_used]" class="ckicl_used" checked value="0"/>否</label>
+                <label style="display: none" class="hidden_me">&nbsp;&nbsp;&nbsp;限制接单数量<input type="text" name="data[limit_order]" value="10" class="input w-300" placeholder="请输入限制接单数量"/><span class="tip-comment">备注：请填写大于0的数字</span></label>
+            </td>
+        </tr>
+
+        <tr>
+            <th class="clear-th-bottom"></th>
+            <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+        </tr>
+    </table>
+</form>
+</div>
+<script>
+    var map;
+    var markat;
+    $(function(){
+        map    = new AMap.Map('Baidu_Map_Marker');
+        var point = map.getCenter();
+        /*markat = new AMap.Marker({
+             icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+             position: [point.lng,point.lat],
+             draggable: true,
+             cursor: 'move',
+             raiseOnDrag: true
+        });
+        markat.setMap(map);*/
+        map.on('click', function(e) {
+            markat = new AMap.Marker({
+                icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [e.lnglat.getLng(), e.lnglat.getLat()],
+                draggable: true,
+                cursor: 'move',
+                raiseOnDrag: true
+            });
+            $('#Bmap_marker_lng').val(e.lnglat.getLng());
+            $('#Bmap_marker_lat').val(e.lnglat.getLat());
+
+            map.clearMap();
+            markat.setMap(map);
+
+            geocoder(e.lnglat.getLng(), e.lnglat.getLat(), function (e) {
+                if (e.infocode == "10000" && e.regeocode.formatted_address != "" && e.regeocode.formatted_address != undefined) {
+
+                    $('#Bmap_marker_addr').val(e.regeocode.formatted_address)
+                }
+            });
+            enable_droggy();
+        });
+
+        /*map = new BMap.Map('Baidu_Map_Marker',{enableMapClick:false});
+        var point = new BMap.Point( 117.227239,31.820586);
+        map.centerAndZoom(point, 13);
+
+        map.addControl(new BMap.NavigationControl());
+        map.enableScrollWheelZoom();
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+        marker.enableDragging();
+        var gc = new BMap.Geocoder();
+        gc.getLocation(point, function(rs){
+            var addComp = rs.addressComponents;
+            var address = [addComp.city].join('');
+        });
+        marker.addEventListener("dragend", function(e){
+            setmappoint(e);
+        });
+        map.disableDoubleClickZoom();
+        map.addEventListener("dblclick", function(e){
+            setmappoint(e);
+        });
+
+        function setmappoint(e) {
+            marker.setPosition(e.point);
+            var center = map.getCenter();
+            var mPoint = new BMap.Point(e.point.lng, e.point.lat);
+            map.enableScrollWheelZoom();  //启用滚轮缩放
+            //map.centerAndZoom(mPoint,17); // 设置地图显示级别
+            var mOption = {poiRadius : 500,numPois : 1}; //获取全部POI（该点半径为100米内有6个POI点）
+            var myGeo = new BMap.Geocoder(); //创建地址解析实例
+            //使用反地址解析  获取地址信息
+            myGeo.getLocation(mPoint, function mCallback(result) {
+                var allPois = result.surroundingPois;
+                var addr = allPois[0].title+allPois[0].address;
+                var lng = allPois[0].point.lng;
+                var lat = allPois[0].point.lat;
+                $('#Bmap_marker_addr').val(addr);
+                $('#Bmap_marker_lng').val(lng);
+                $('#Bmap_marker_lat').val(lat);
+            },mOption);
+        }*/
+
+        var city = '<{$city}>';
+        var format_city = JSON.parse(city);
+        var first = $('#city').children('option').eq(0).val();
+        var html = '';
+
+        function  set_map_point(city_id){
+            map.setCity(format_city[city_id].city_name);
+            map.clearMap();
+            $('#Bmap_marker_lng').val('');
+            $('#Bmap_marker_lat').val("");
+            $('#Bmap_marker_addr').val('')
+        }
+        setTimeout(function(){
+            set_map_point($('#area').val())
+        },500);
+
+        //set_map_point();
+
+        function enable_droggy(){
+            markat.on('dragend',function(r){
+                //  $('#notice').text(addr)
+                var lng =  r.lnglat.lng;
+                var lat =   r.lnglat.lat;
+                $('#Bmap_marker_lng').val(lng);
+                $('#Bmap_marker_lat').val(lat);
+                geocoder(lng, lat, function (e) {
+                    if (e.infocode == "10000" && e.regeocode.formatted_address != "" && e.regeocode.formatted_address != undefined) {
+                        $('#Bmap_marker_addr').val(e.regeocode.formatted_address)
+                    }
+                });
+            })
+        }
+
+        $.each(format_city,function(k,v){
+            if(v.province_id==first){
+                html+='<option value="'+ v.city_id+'">'+ v.city_name+'</option>';
+            }
+        });
+        $('#area').html(html);
+        $('#city').on('change',function(){
+            var pro_id = $(this).val();
+            var city_name = $(this).text();
+            var html1 = '';
+            $.each(format_city,function(k,v){
+                if(v.province_id==pro_id){
+                    html1+='<option value="'+ v.city_id+'">'+ v.city_name+'</option>';
+                }
+            });
+            $('#area').html(html1);
+            var city_id = $('#area').val();
+            set_map_point(city_id);
+        })
+
+        $('#area').on('change',function(){
+            var city_id = $(this).val();
+            set_map_point(city_id);
+            $.each(format_city,function(k,v){
+                if(v.city_id==city_id){
+
+                }
+            });
+        })
+
+        $('.ckicl_used').on('change',function(){
+            var  values = $(this).val();
+            if(values==1){
+                $('.hidden_me').show();
+            }else{
+                $('.hidden_me').hide();
+            }
+        })
+    })
+</script>
+
+<{include file="admin:common/footer.html"}>

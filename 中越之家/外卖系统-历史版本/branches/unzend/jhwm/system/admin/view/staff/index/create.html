@@ -1,0 +1,65 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="staff/staff:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?staff/staff-create.html" mini-form="staff-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<!-- <tr><th>配送员ID：</th><td><input type="text" name="data[staff_id]" value="<{$detail.staff_id|default:''}>" class="input w-100"/><span class="tip-comment">配送员ID</span></td></tr> -->
+<tr><th>城市ID：</th><td><select name="data[city_id]" class="w-200"><{widget id="data/city" value=$detail.city_id}></select></td></tr>
+<tr>
+    <th>服务类型：</th>
+    <td>
+        <select class="w-200" name="data[from]" >
+			<option value="house">家政</option>
+			<option value="weixiu">维修</option>
+			<option value="paotui">跑腿/外卖</option>
+		</select>
+    </td>
+</tr>
+<tr><th>姓名：</th><td><input type="text" name="data[name]" value="<{$detail.name|default:''}>" class="input w-200"/></td></tr>
+<tr><th>手机号：</th><td><input type="text" name="data[mobile]" value="<{$detail.mobile|default:''}>" class="input w-200"/></td></tr>
+<tr><th>登录密码：</th><td><input type="text" name="data[passwd]" value="<{$detail.passwd|default:''}>" class="input w-200"/></td></tr>
+<tr><th>头像：</th><td><input type="text" name="data[face]" value="<{$detail.face}>" <{if $detail.face}>photo="<{$pager.img}>/<{$detail.face}>"<{/if}> class="input w-200" />&nbsp;&nbsp;&nbsp;<input type="file" name="data[face]" class="input w-100" /></td></tr>
+<!-- <tr><th>余额：</th><td><input type="text" name="data[money]" value="<{$detail.money|default:'0.00'}>" class="input w-200"/></td></tr>
+<tr><th>总收益：</th><td><input type="text" name="data[total_money]" value="<{$detail.total_money|default:'0.00'}>" class="input w-100"/></td></tr> -->
+<tr><th>配送员提现比例：</th><td><input type="text" name="data[tixian_percent]" value="<{$detail.tixian_percent|default:'100'}>" class="input w-100"/><span class="tip-comment">提现比例 0~100</span></td></tr>
+<!-- <tr><th>体现总额：</th><td><input type="text" name="data[tixian_money]" value="<{$detail.tixian_money|default:'0.00'}>" class="input w-300"/><span class="tip-comment">体现总额</span></td></tr> -->
+<!-- <tr><th>订单数：</th><td><input type="text" name="data[orders]" value="<{$detail.orders|default:''}>" class="input w-100"/></td></tr>
+<tr><th>总评分：</th><td><input type="text" name="data[score]" value="<{$detail.score|default:''}>" class="input w-100"/></td></tr>
+<tr><th>评论数：</th><td><input type="text" name="data[comments]" value="<{$detail.comments|default:''}>" class="input w-100"/></td></tr>
+<tr><th>经度：</th><td><input type="text" name="data[lat]" value="<{$detail.lat|default:''}>" class="input w-100"/></td></tr>
+<tr><th>纬度：</th><td><input type="text" name="data[lng]" value="<{$detail.lng|default:''}>" class="input w-100"/></td></tr>
+<tr><th>最近登录：</th><td><input type="text" name="data[lastlogin]" value="<{$detail.lastlogin|default:''}>" class="input w-300"/></td></tr>
+<tr><th>登录IP：</th><td><input type="text" name="data[loginip]" value="<{$detail.loginip|default:''}>" class="input w-300"/></td></tr> -->
+<!-- <tr><th>身份认证状态：</th><td><input type="text" name="data[verify_name]" value="<{$detail.verify_name|default:''}>" class="input w-300"/><span class="tip-comment">身份认证状态 0:待审核，1:通过认证, 2:认证被拒绝</span></td></tr>
+<tr><th>工作状态：</th><td><input type="text" name="data[status]" value="<{$detail.status|default:''}>" class="input w-100"/><span class="tip-comment">工作状态 0在线 1离线</span></td></tr>
+<tr><th>审核状态：</th><td><input type="text" name="data[audit]" value="<{$detail.audit|default:''}>" class="input w-100"/><span class="tip-comment">审核状态   0:待审核，1:审核通过, 2:审核失败</span></td></tr>
+ -->
+<tr>
+    <th>工作状态：</th>
+    <td>
+        <label><input type="radio" name="data[status]" value="1" class="input"/>工作</label>
+        <label><input type="radio" name="data[status]" value="0" checked="checked" class="input"/>休息</label>
+    </td>
+</tr>
+<tr>
+    <th>审核状态：</th>
+    <td>
+        <label><input type="radio" name="data[audit]" value="1" class="input"/>通过</label>
+        <label><input type="radio" name="data[audit]" value="0" checked="checked" class="input"/>待审</label>
+    </td>
+</tr>
+<!-- <tr><th>closed：</th><td><input type="text" name="data[closed]" value="<{$detail.closed|default:''}>" class="input w-300"/></td></tr>
+<tr><th>创建ip：</th><td><input type="text" name="data[clientip]" value="<{$detail.clientip|default:''}>" class="input w-300"/></td></tr>
+<tr><th>创建时间：</th><td><input type="text" name="data[dateline]" value="<{$detail.dateline|default:''}>" class="input w-300"/></td></tr> -->
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

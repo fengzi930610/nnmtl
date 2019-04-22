@@ -1,0 +1,26 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/product:shop" arg0=$detail.shop_id priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>商品ID：</th><td><{$detail.product_id}></td><th>商家：</th><td><{$shop.title}>(ID:<{$detail.shop_id}>)</td></tr>
+        <tr><th>分类：</th><td><{$cates[$detail['cate_id']]['title']}></td><th>标题：</th><td><{$detail.title}></td></tr>
+        <tr><th>图片：</th><td><img src="<{$pager.img}>/<{$detail.photo}>" width="80" height="80"/></td><th>是否有规格：</th><td><{if $detail.is_spec ==1}><b class="red">有</b><{else}>无<{/if}></td></tr>
+        <tr><th>价格：</th><td><{$detail.price}></td><th>打包价：</th><td><{$detail.package_price}></td></tr>
+        <tr><th>销量：</th><td><{$detail.sales}></td><th>类型：</th><td><{if $detail['sale_type']==1}>限量<{else}>普通<{/if}></td></tr>
+        <{if $detail['sale_type']==1}>
+        <tr><th>限购数：</th><td><{$detail.sale_sku}></td></tr>
+        <tr><th>已购数：</th><td><{$detail.sale_count}></td></tr>
+        <{/if}>
+        <tr><th>简介：</th><td><{$detail.intro}></td><th>排序：</th><td><{$detail.orderby}></td></tr>
+        <tr><th>是否删除：</th><td><{if $detail['closed'] ==0}><b class="green">正常</b><{else}>已删除<{/if}></td><th>是否上架：</th><td><{if $detail['is_onsale']==0}><b class="green">上架</b><{elseif $detail['is_onsale']==1}>下架中<{/if}></td></tr>
+        <tr><th>创建时间：</th><td><{$detail.dateline|format}></td><th>创建IP：</th><td><{$detail.clientip}></td></tr>
+    </table></div>
+<{include file="admin:common/footer.html"}>

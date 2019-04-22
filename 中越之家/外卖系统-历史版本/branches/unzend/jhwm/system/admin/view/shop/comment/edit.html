@@ -1,0 +1,34 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?shop/comment-edit.html" mini-form="comment-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<input type="hidden" name="comment_id" value="<{$detail.comment_id}>"/>
+<tr><th><span class="red">*</span>评价ID：</th><td><input type="text" name="data[comment_id]" value="<{$detail.comment_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>商户ID：</th><td><input type="text" name="data[shop_id]" value="<{$detail.shop_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>会员UID：</th><td><input type="text" name="data[uid]" value="<{$detail.uid|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>订单ID：</th><td><input type="text" name="data[order_id]" value="<{$detail.order_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>综合总评分：</th><td><input type="text" name="data[score]" value="<{$detail.score|default:''}>" class="input w-100"/><span class="tip-comment">，星星可以除以 评论数</span></td></tr>
+<tr><th><span class="red">*</span>服务评分：</th><td><input type="text" name="data[score_fuwu]" value="<{$detail.score_fuwu|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>口味评分：</th><td><input type="text" name="data[score_kouwei]" value="<{$detail.score_kouwei|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>评价内容：</th><td><textarea name="data[content]" class="textarea"><{$detail.content}></textarea><br /></td></tr>
+<tr><th><span class="red">*</span>要求配送时间：</th><td><input type="text" name="data[pei_time]" value="<{$detail.pei_time|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>是否有图片：</th><td><input type="text" name="data[have_photo]" value="<{$detail.have_photo|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>回复内容：</th><td><textarea name="data[reply]" class="textarea"><{$detail.reply}></textarea><br /></td></tr>
+<tr><th><span class="red">*</span>回复人IP：</th><td><input type="text" name="data[reply_ip]" value="<{$detail.reply_ip|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>回复时间：</th><td><input type="text" name="data[reply_time]" value="<{$detail.reply_time|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>删除标识：</th><td><input type="text" name="data[closed]" value="<{$detail.closed|default:''}>" class="input w-100"/></td></tr>
+<tr><th><span class="red">*</span>客户IP：</th><td><input type="text" name="data[clientip]" value="<{$detail.clientip|default:''}>" class="input w-300"/></td></tr>
+<tr><th><span class="red">*</span>创建时间：</th><td><input type="text" name="data[dateline]" value="<{$detail.dateline|default:''}>" class="input w-300"/></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

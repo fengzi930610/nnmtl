@@ -1,0 +1,121 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="paotui/order:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="tip-notice mgb10">订单状态：<b class="red"><{$detail.msg}></b>
+        <div class="order_btns" style="float:right;margin-right: 280px;width:300px;margin-top:-10px;">
+            <{if $detail.order_status != -1 && $detail.order_status != 8}>
+            <{link ctl="paotui/order:cancel" args=$detail.order_id act="mini:取消订单" confirm="mini:确定要取消订单吗" title="取消订单" class="button"}>
+            <{/if}>
+            <{if $detail.order_status > 1 && $detail.order_status != 8}>
+            <{link ctl="paotui/order:confirm" args=$detail.order_id act="mini:完成订单" confirm="mini:确定要完成订单吗" title="完成订单" class="button"}>
+            <{/if}>
+        </div>
+    </div>
+    <div class="order_details" style="margin-top:10px;">
+        <h3>订单详情 <span class="fr" style="margin-right: 10px;">订单编号：<{$detail.order_id}></span></h3>
+        <p>
+            <span class="tit" style="font-weight:bold">订单类型:</span>
+            <span class="mr10" style="font-weight:bold"><{$p_order.from_label}></span>&nbsp;&nbsp;&nbsp;            
+            <small class="mr10 black6" style="font-weight:bold"><{$detail.type_label}></small>
+        </p>
+        <p><span class="tit">下单时间:</span><span class="mr10"><{$detail.dateline|format:'Y-m-d H:i'}></span></p>
+        <p><span class="tit">送达时间:</span><span class="mr10"><{$detail.pei_time_label}></span></p>
+        <p><span class="tit">支付方式:</span><span class="online_pay" style="margin-left:0"><{if $detail.online_pay == 1}>在线支付<{/if}></span><{if $pay_method}><span class="mr10"><{$pay_method}></span><{/if}></p>
+        <p><span class="tit">订单来源:</span><span class="mr10"><{$froms}></span></p>
+        <p><span class="tit">取货地址:</span><span class="mr10"><{$p_order.o_contact}>(<{$p_order.o_mobile}>)</span><span class="mr10"><{$p_order.o_addr}></span></p>
+        <p><span class="tit">收货地址:</span><span class="mr10"><{$p_order.contact}>(<{$p_order.mobile}>)</span><span class="mr10"><{$p_order.addr}></span></p>
+        <p><span class="tit">骑手信息:</span><{if $detail.staff_id}><span class="mr10"><{$detail.staff.name}></span><span><{$detail.staff.mobile}></span><{else}>无<{/if}></p>
+        <p><span class="tit">用户信息:</span><span class="mr10"><{$detail.user.nickname}>(<{$detail.user.mobile}>)</span></p>
+        <p class="info"><span class="tit ">订单信息:</span><span>备注:<{$detail.note|default:'无'}></span><i class="clear-both"></i></p>
+        </div>
+        <table width="100%">
+        <tr><td width="50%" valign="top">
+        <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">商品信息</th>
+                <th style="width:100%">&nbsp;&nbsp;&nbsp;</th>
+            </tr>
+
+            <tr>
+                <td>商品:</td>
+                <td><{foreach $p_order.product as $v}><{$v}>&nbsp;&nbsp;&nbsp;<{/foreach}></td>
+            </tr>
+
+            <{if $p_order.from=='song'}>
+            <tr>
+                <td align="left">商品价值：</td>
+                <td align="right">￥<{$p_order.price}></td>
+            </tr>
+            <tr>
+                <td align="left">商品重量：</td>
+                <td align="right"><{$p_order.weight}>kg</td>
+            </tr>
+            <{/if}>
+
+            <{if $p_order.from=='mai' && $p_order.yuji_price>0}>
+            <tr>
+                <td align="left">商品预计价值：</td>
+                <td align="right">￥<{$p_order.yuji_price}></td>
+            </tr>
+            <{/if}>
+                             
+            <tr><td colspan="10" style="height: 2px;"></td></tr>
+            <tr>
+                <td align="left">配送费</td>
+                <td align="right">￥<{$detail.pei_amount}></td>
+            </tr>
+            <tr>
+                <td align="left">小费</td>
+                <td align="right">￥<{$p_orderl.tip|default:'0.00'}></td>
+            </tr>
+            <{if $detail.hongbao >0}>     
+            <tr>
+                <td align="left" colspan="4">红包抵扣:</td>
+                <td align="right">-￥<{$detail.hongbao}></td>
+            </tr>
+            <{/if}>
+            
+            <tr>
+                <td align="left" class="redcolor">总计:</td>
+                <td align="right" class="redcolor">￥<{$detail.amount}></td>
+            </tr>
+    </table>
+    </td><td width="10px;"></td><td valign="top">
+    <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+    <tr class="">
+        <th>订单日志</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $detail.logs as $log}>
+    <tr>
+        <td><{$log.log}></td>
+        <td><{$log.dateline|format:'Y-m-d H:i'}></td>
+    </tr>
+    <{/foreach}>
+    </table>
+    </td></tr></table>
+    <br /><br /><br />
+</div>
+<script>
+$(document).ready(function(e) {
+    $('.fr.mr10').click(function(){
+        if($('.orderinfo').height()==0){
+            var gettr=$('.orderinfo tr').length
+            $('.orderinfo').css('height',gettr*37+'px')
+        }else{
+            $('.orderinfo').css('height',0)
+        }
+    });
+});
+</script>
+</body>
+</html>

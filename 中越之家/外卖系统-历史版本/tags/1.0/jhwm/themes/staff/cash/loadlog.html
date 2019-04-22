@@ -1,0 +1,19 @@
+<{foreach $items as $v}>
+<li>
+    <div class="fl">
+        <h3>代收金额￥：<{$v.amount}></h3>
+        <P class="black9"><{if $v.status==1}>
+            <big style="color:#06c1ae;">已上交</i></big>
+            <{else}>
+            <big style="color:#ff5a5a;">未上交</i></big>
+            <{/if}></P>
+
+    </div>
+    <div class="fr">
+        <P class="black9">配送费￥：<{$v.pei_amount}></P>
+
+        <P class="black9">日期&nbsp; <{$v.bills_sn}></P>
+    </div>
+    <div class="clear"></div>
+  </li>
+<{/foreach}>

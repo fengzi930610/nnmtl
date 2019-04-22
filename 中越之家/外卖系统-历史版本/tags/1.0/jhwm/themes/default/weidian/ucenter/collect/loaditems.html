@@ -1,0 +1,14 @@
+<{foreach $items as $k => $v}>
+        <div class="collect-one mb10">
+            <{if $v.product.type == 'pintuan'}><a href="<{link ctl='pintuan/detail' arg1=$v.product_id}>"><{/if}>
+            <{if $v.product.type == 'default'}><a href="<{link ctl='product/detail' arg1=$v.product_id}>"><{/if}>
+            <div class="dan-tu fl"><img src="<{$pager.img}>/<{$v.product.photo}>"></div>
+            <div class="dan-detail">
+                <h3 class=""><{$v.product.title}></h3>
+                <div class="how-much">￥<{$v.product.wei_price}></div>
+            </div>
+            <div class="clear"></div>
+            <div class="collect-aixin-ico"></div>
+            </a>
+        </div> 
+<{/foreach}>

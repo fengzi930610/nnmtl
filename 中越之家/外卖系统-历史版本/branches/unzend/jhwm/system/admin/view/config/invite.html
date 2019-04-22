@@ -1,0 +1,618 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-invite.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="invite" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+    <th>是否奖励 邀请人 红包：</th>
+    <td>
+        <label><input type="radio" name="config[is_inviter_hongbao]" <{if $config.is_inviter_hongbao == 1}>checked="checked"<{/if}> value="1" >是</label>
+        <label style="margin-left:30px;"><input type="radio" name="config[is_inviter_hongbao]" <{if $config.is_inviter_hongbao == 0}>checked="checked"<{/if}> value="0" >否</label>
+        <span class="tip-comment">被邀请人完成平台首单之后邀请人将获得红包</span>
+    </td>
+</tr>
+<tr class="groupTypeBox groupTypeMulti" <{if !$config.is_inviter_hongbao}>style="display:none;"<{/if}> id="tr_closed_reason_inviter">
+    <th>邀请人红包设置：</th>
+    <td>
+        <div  class="form-group list-table" style="">
+            <div>
+                <table border="0" cellpadding="6" cellspacing="1" class="table table-bordered " style="width:450px;float:left;">
+                    <thead class="list-thead">
+                    <tr>
+                        <td style="text-align:center;white-space:nowrap;" width="80">
+                            <span>使用条件(满)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="80">
+                            <span>红包金额(减)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="80">
+                            <span>过期时间(天)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>红包类型</span>
+                        </td>
+                        <!--<td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>红包使用分类</span>
+                        </td>-->
+                        <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>红包使用时间(开始时间~结束时间)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>操作</span>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="list-tbody" id="multi_G_price_inviter">
+
+                    <{foreach $config['inviter_hongbao_cfg'] as $k=>$item}>
+                        <tr class="jq_tr inviter_tr" rel="<{$k}>">
+                            <td><input type="text" class="input w-100 M_num" name="config[inviter_hongbao_cfg][<{$k}>][hongbao_min_amount]" value="<{$item.hongbao_min_amount}>"></td>
+                            <td><input type="text" class="input w-100 M_num" name="config[inviter_hongbao_cfg][<{$k}>][hongbao_amount]" value="<{$item.hongbao_amount}>"></td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[inviter_hongbao_cfg][<{$k}>][hongbao_amount_ltime]" class="input w-100">
+                                            <option <{if $item.hongbao_amount_ltime == 1}>selected="selected"<{/if}> value="1">1天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 2}>selected="selected"<{/if}> value="2">2天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 3}>selected="selected"<{/if}> value="3">3天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 4}>selected="selected"<{/if}> value="4">4天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 5}>selected="selected"<{/if}> value="5">5天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 6}>selected="selected"<{/if}> value="6">6天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 7}>selected="selected"<{/if}> value="7">7天</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[inviter_hongbao_cfg][<{$k}>][type]" class="input w-100">
+                                            <{foreach $module_config as $kkk=>$vvv}>
+                                            <{if $vvv.used}>
+                                            <option value="<{$kkk}>" <{if $item.type==$kkk}>selected="selected"<{/if}>><{$vvv.title}></option>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <!--<td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[inviter_hongbao_cfg][<{$k}>][cate_id]" class="input w-100">
+                                                <option value="0">不限制</option>
+                                                <{foreach $cates as $v}>
+                                                <option value="<{$v.cate_id}>" <{if $item.cate_id==$v.cate_id}>selected="selected"<{/if}>>|&#45;&#45;<{$v.title}></option>
+                                                <{if $v.son}>
+                                                <{foreach $v.son as $vvvs}>
+                                                <option value="<{$vvvs.cate_id}>" <{if $item.cate_id==$vvvs.cate_id}>selected="selected"<{/if}>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvvs.title}></option>
+                                                <{/foreach}>
+                                                <{/if}>
+                                                <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>-->
+                            <td>
+                                <!-- <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][<{$k}>][stime]" value="<{if $item.stime}><{$item.stime}><{/if}>"  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/>~
+                                <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][<{$k}>][ltime]" value="<{if $item.ltime}><{$item.ltime}><{/if}>"  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/> -->
+                                <div class="stime_box">
+                                    <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][<{$k}>][stime]" value="<{if $item.stime}><{$item.stime}><{/if}>" class="input w-100 stime" time="<{$item.stime_time}>" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                                ~
+                                <div class="ltime_box">
+                                    <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][<{$k}>][ltime]" value="<{if $item.ltime}><{$item.ltime}><{/if}>" class="input w-100 ltime" time="<{$item.ltime_time}>" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                            </td>
+                            <td class="center"><a href="javascript:;" class="text-danger remove-price-inviter">删除</a></td>
+                        </tr>
+                    <{foreachelse}>
+                        <tr class="jq_tr inviter_tr" rel="0">
+                            <td><input type="text" class="input w-100 M_num" name="config[inviter_hongbao_cfg][0][hongbao_min_amount]" value=""></td>
+                            <td><input type="text" class="input w-100 M_num" name="config[inviter_hongbao_cfg][0][hongbao_amount]" value=""></td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[inviter_hongbao_cfg][0][hongbao_amount_ltime]" class="input w-100">
+                                            <option value="1">1天</option>
+                                            <option value="2">2天</option>
+                                            <option value="3">3天</option>
+                                            <option value="4">4天</option>
+                                            <option value="5">5天</option>
+                                            <option value="6">6天</option>
+                                            <option value="7">7天</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[inviter_hongbao_cfg][0][type]" class="input w-100">
+                                            <{foreach $module_config as $k=>$v}>
+                                            <{if $v.used}>
+                                            <option value="<{$k}>"><{$v.title}></option>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <!--<td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[inviter_hongbao_cfg][0][cate_id]" class="input w-100">
+                                            <option value="0">不限制</option>
+                                            <{foreach $cates as $v}>
+                                            <option value="<{$v.cate_id}>">|&#45;&#45;<{$v.title}></option>
+                                            <{if $v.son}>
+                                            <{foreach $v.son as $vvvs}>
+                                            <option value="<{$vvvs.cate_id}>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvvs.title}></option>
+                                            <{/foreach}>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>-->
+                            <td>
+                                <!-- <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][0][stime]" value=""  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/>~
+                                <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][0][ltime]" value=""  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/> -->
+                                <div class="stime_box">
+                                    <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][0][stime]" value="" class="input w-100 stime" time="0" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                                    ~
+                                <div class="ltime_box">
+                                    <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][0][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                            </td>
+                            <td class="center"><a href="javascript:;" class="text-danger remove-price-inviter">删除</a></td>
+                        </tr>
+                    <{/foreach}>
+                    </tbody>
+                    <tfoot class="list-tfoot">
+                        <tr>
+                            <td colspan="4" style="text-align:left;">
+                                <a class="btn btn-primary btn-sm" href="javascript:;" id="addGroupPriceInviter">添加红包</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th>是否奖励 被邀请人 红包：</th>
+    <td>
+        <label><input type="radio" name="config[is_invitee_hongbao]" <{if $config.is_invitee_hongbao == 1}>checked="checked"<{/if}> value="1" >是</label>
+        <label style="margin-left:30px;"><input type="radio" name="config[is_invitee_hongbao]" <{if $config.is_invitee_hongbao == 0}>checked="checked"<{/if}> value="0" >否</label>
+        <span class="tip-comment">被邀请人注册平台新用户即送红包</span>
+    </td>
+</tr>
+<tr class="groupTypeBox groupTypeMulti" <{if !$config.is_invitee_hongbao}>style="display:none;"<{/if}> id="tr_closed_reason_invitee">
+    <th>被邀请人红包设置：</th>
+    <td>
+        <div  class="form-group list-table" style="">
+            <div>
+                <table border="0" cellpadding="6" cellspacing="1" class="table table-bordered " style="width:450px;float:left;">
+                    <thead class="list-thead">
+                    <tr>
+                        <td style="text-align:center;white-space:nowrap;" width="80">
+                            <span>使用条件(满)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="80">
+                            <span>红包金额(减)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="80">
+                            <span>过期时间(天)</span>
+                        </td>
+                        <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>红包类型</span>
+                        </td>
+                       <!-- <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>红包使用分类</span>
+                        </td>-->
+                        <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>红包使用时间(开始时间~结束时间)</span>
+                        </td>
+
+                        <td style="text-align:center;white-space:nowrap;" width="50">
+                            <span>操作</span>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody class="list-tbody" id="multi_G_price_invitee">
+
+                    <{foreach $config['invitee_hongbao_cfg'] as $k=>$item}>
+                        <tr class="jq_tr invitee_tr" rel="<{$k}>">
+                            <td><input type="text" class="input w-100 M_num" name="config[invitee_hongbao_cfg][<{$k}>][hongbao_min_amount]" value="<{$item.hongbao_min_amount}>"></td>
+                            <td><input type="text" class="input w-100 M_num" name="config[invitee_hongbao_cfg][<{$k}>][hongbao_amount]" value="<{$item.hongbao_amount}>"></td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[invitee_hongbao_cfg][<{$k}>][hongbao_amount_ltime]" class="input w-100">
+                                            <option <{if $item.hongbao_amount_ltime == 1}>selected="selected"<{/if}> value="1">1天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 2}>selected="selected"<{/if}> value="2">2天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 3}>selected="selected"<{/if}> value="3">3天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 4}>selected="selected"<{/if}> value="4">4天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 5}>selected="selected"<{/if}> value="5">5天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 6}>selected="selected"<{/if}> value="6">6天</option>
+                                            <option <{if $item.hongbao_amount_ltime == 7}>selected="selected"<{/if}> value="7">7天</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[invitee_hongbao_cfg][<{$k}>][type]" class="input w-100">
+                                            <{foreach $module_config as $kkk=>$vvv}>
+                                            <{if $vvv.used}>
+                                            <option value="<{$kkk}>" <{if $item.type==$kkk}>selected="selected"<{/if}>><{$vvv.title}></option>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </td>
+                            <!--<td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[invitee_hongbao_cfg][<{$k}>][cate_id]" class="input w-100">
+                                            <option value="0">不限制</option>
+                                            <{foreach $cates as $v}>
+                                            <option value="<{$v.cate_id}>" <{if $item.cate_id==$v.cate_id}>selected="selected"<{/if}>>|&#45;&#45;<{$v.title}></option>
+                                            <{if $v.son}>
+                                            <{foreach $v.son as $vvvs}>
+                                            <option value="<{$vvvs.cate_id}>" <{if $item.cate_id== $vvvs.cate_id}>selected="selected"<{/if}>>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvvs.title}></option>
+                                            <{/foreach}>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>-->
+                            <td>
+                                <!-- <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][<{$k}>][stime]" value="<{if $item.stime}><{$item.stime}><{/if}> "  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/>~
+                                <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][<{$k}>][ltime]" value=" <{if $item.ltime}><{$item.ltime}><{/if}>"  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/> -->
+                                <div class="stime_box">
+                                    <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][<{$k}>][stime]" value="<{if $item.stime}><{$item.stime}><{/if}>" class="input w-100 stime" time="<{$item.stime_time}>" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                                    ~
+                                <div class="ltime_box">
+                                    <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][<{$k}>][ltime]" value="<{if $item.ltime}><{$item.ltime}><{/if}>" class="input w-100 ltime" time="<{$item.ltime_time}>" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                            </td>
+                            <td class="center"><a href="javascript:;" class="text-danger remove-price-invitee">删除</a></td>
+                        </tr>
+                    <{foreachelse}>
+                        <tr class="jq_tr invitee_tr" rel="0">
+                            <td><input type="text" class="input w-100 M_num" name="config[invitee_hongbao_cfg][0][hongbao_min_amount]" value=""></td>
+                            <td><input type="text" class="input w-100 M_num" name="config[invitee_hongbao_cfg][0][hongbao_amount]" value=""></td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[invitee_hongbao_cfg][0][hongbao_amount_ltime]" class="input w-100">
+                                            <option value="1">1天</option>
+                                            <option value="2">2天</option>
+                                            <option value="3">3天</option>
+                                            <option value="4">4天</option>
+                                            <option value="5">5天</option>
+                                            <option value="6">6天</option>
+                                            <option value="7">7天</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[invitee_hongbao_cfg][0][type]" class="input w-100">
+                                            <{foreach $module_config as $kkk=>$vvv}>
+                                            <{if $vvv.used}>
+                                            <option value="<{$kkk}>"><{$vvv.title}></option>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                            <!--<td>
+                                <div>
+                                    <div class="list">
+                                        <select name="config[invitee_hongbao_cfg][0][cate_id]" class="input w-100">
+
+                                            <option value="0">不限制</option>
+                                            <{foreach $cates as $v}>
+                                            <option value="<{$v.cate_id}>">|&#45;&#45;<{$v.title}></option>
+                                            <{if $v.son}>
+                                            <{foreach $v.son as $vvvs}>
+                                            <option value="<{$vvvs.cate_id}>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvvs.title}></option>
+                                            <{/foreach}>
+                                            <{/if}>
+                                            <{/foreach}>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>-->
+                            <td>
+                                <!-- <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][0][stime]" value=""  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/>~
+                                <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][0][ltime]" value=""  onclick="WdatePicker({dateFmt:'H:mm:ss',minDate:'00:00:00',maxDate:'23:59:59'})" class="input w-100 " readonly/> -->
+                                <div class="stime_box">
+                                    <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][0][stime]" value="" class="input w-100 stime" time="0" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                                    ~
+                                <div class="ltime_box">
+                                    <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][0][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                                    <ul class="time-ul"></ul>
+                                </div>
+                            </td>
+                            <td class="center"><a href="javascript:;" class="text-danger remove-price-invitee">删除</a></td>
+                        </tr>
+                    <{/foreach}>
+                    </tbody>
+                    <tfoot class="list-tfoot">
+                        <tr>
+                            <td colspan="4" style="text-align:left;">
+                                <a class="btn btn-primary btn-sm" href="javascript:;" id="addGroupPriceInvitee">添加红包</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </td>
+</tr>
+
+<tr><th>分享图片：</th>
+    <td>
+        <input type="hidden" name="config[share_photo]" value="<{$config.share_photo}>" />
+        <input type="file" name="config[share_photo]" class="input w-300" style="vertical-align:middle;display:inline;"/>
+        <{if $config.share_photo}><img src="<{$pager.img}>/<{$config.share_photo}>" photo="<{$pager.img}>/<{$config.share_photo}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+    </td>
+</tr>
+<tr><th>分享说明：</th><td><input type="text" name="config[share_title]" value="<{$config.share_title}>" class="input w-500"/></td></tr>
+<tr><th>活动说明：</th><td><textarea name="config[intro]" class="textarea"><{$config.intro}></textarea><br /></td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+
+<script type="text/tmpl" id="tmpl_tr_hongbao">
+    <td>
+        <div>
+            <div class="list">
+                <select name="config[inviter_hongbao_cfg][__kk__][type]" class="input w-100">
+                    <{foreach $module_config as $kkk=>$vvv}>
+                    <{if $vvv.used}>
+                    <option value="<{$kkk}>"><{$vvv.title}></option>
+                    <{/if}>
+                    <{/foreach}>
+                </select>
+            </div>
+        </div>
+    </td>
+    <!--<td>
+        <div>
+            <div class="list">
+                <select name="config[inviter_hongbao_cfg][__kk__][cate_id]" class="input w-100">
+                    <option value="0">不限制</option>
+                    <{foreach $cates as $v}>
+                    <option value="<{$v.cate_id}>">|&#45;&#45;<{$v.title}></option>
+                    <{if $v.son}>
+                    <{foreach $v.son as $vvvs}>
+                    <option value="<{$vvvs.cate_id}>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvvs.title}></option>
+                    <{/foreach}>
+                    <{/if}>
+                    <{/foreach}>
+                </select>
+            </div>
+        </div>
+    </td>-->
+    <td>
+        <div class="stime_box">
+            <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][__kk__][stime]" value="" class="input w-100 stime" time="0" readonly/>
+            <ul class="time-ul"></ul>
+        </div>
+            ~
+        <div class="ltime_box">
+            <input type="text" style="display: inline" name="config[inviter_hongbao_cfg][__kk__][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+            <ul class="time-ul"></ul>
+        </div>
+    </td>
+</script>
+
+<script type="text/tmpl" id="tmpl_tr_hongbaos">
+    <td>
+        <div>
+            <div class="list">
+                <select name="config[invitee_hongbao_cfg][__kk__][type]" class="input w-100">
+                    <{foreach $module_config as $kkk=>$vvv}>
+                    <{if $vvv.used}>
+                    <option value="<{$kkk}>"><{$vvv.title}></option>
+                    <{/if}>
+                    <{/foreach}>
+                </select>
+            </div>
+        </div>
+    </td>
+    <!-- <td>
+        <div>
+            <div class="list">
+                <select name="config[invitee_hongbao_cfg][__kk__][cate_id]" class="input w-100">
+                    <option value="0">不限制</option>
+                    <{foreach $cates as $v}>
+                    <option value="<{$v.cate_id}>">|&#45;&#45;<{$v.title}></option>
+                    <{if $v.son}>
+                    <{foreach $v.son as $vvv}>
+                    <option value="<{$vvv.cate_id}>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&#45;&#45;<{$vvv.title}></option>
+                    <{/foreach}>
+                    <{/if}>
+                    <{/foreach}>
+                </select>
+            </div>
+        </div>
+    </td>-->
+    <td>
+        <div class="stime_box">
+            <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][__kk__][stime]" value="" class="input w-100 stime" time="0" readonly/>
+            <ul class="time-ul"></ul>
+        </div>
+            ~
+        <div class="ltime_box">
+            <input type="text" style="display: inline" name="config[invitee_hongbao_cfg][__kk__][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+            <ul class="time-ul"></ul>
+        </div>
+    </td>
+</script>
+
+<script type="text/javascript">
+(function(K, $){
+    $("input[name='config[is_invitee_hongbao]']").on('click', function(){
+        if($(this).val() == 1){
+            $("#tr_closed_reason_invitee").show();
+        }else{
+            $("#tr_closed_reason_invitee").hide();
+        }
+    });
+    $("input[name='config[is_inviter_hongbao]']").on('click', function(){
+        if($(this).val() == 1){
+            $("#tr_closed_reason_inviter").show();
+        }else{
+            $("#tr_closed_reason_inviter").hide();
+        }
+    });
+
+    $("#addGroupPriceInviter").click(function () {
+        if ($("#multi_G_price_inviter tr").length >= 5) {
+            alert('最多只能配置5条数据');
+            return;
+        };
+        var j = $(".inviter_tr:last").attr("rel");
+        var k = parseInt(j)+1;
+
+
+        var html = $('#tmpl_tr_hongbao').html();
+        html = html.replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k);
+        $("#multi_G_price_inviter").append('<tr class="jq_tr inviter_tr" rel="'+k+'">' +
+                '<td><input type="text" class="input w-100 M_num" name="config[inviter_hongbao_cfg]['+k+'][hongbao_min_amount]" value=""></td>' +
+                '<td><input type="text" class="input w-100 M_num" name="config[inviter_hongbao_cfg]['+k+'][hongbao_amount]" value=""></td>' +
+                '<td><div><div class="list"><select name="config[inviter_hongbao_cfg]['+k+'][hongbao_amount_ltime]" class="input w-100"><option value="1">1天</option><option value="2">2天</option><option value="3">3天</option><option value="4">4天</option><option value="5">5天</option><option value="6">6天</option><option value="7">7天</option></select></div></div></td>' +
+                 ''+html+''+
+                '<td><a href="javascript:;" class="text-danger remove-price-inviter">删除</a></td>' +
+                '</tr>');
+    });
+    $("#addGroupPriceInvitee").click(function () {
+        if ($("#multi_G_price_invitee tr").length >= 5) {
+            alert('最多只能配置5条数据');
+            return;
+        };
+        var j = $(".invitee_tr:last").attr("rel");
+        var k = parseInt(j)+1;
+        var html = $('#tmpl_tr_hongbaos').html();
+        html = html.replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k).replace('__kk__',k);
+
+        $("#multi_G_price_invitee").append('<tr class="jq_tr invitee_tr" rel="'+k+'"><td>' +
+                '<input type="text" class="input w-100 M_num" name="config[invitee_hongbao_cfg]['+k+'][hongbao_min_amount]" value=""></td>' +
+                '<td><input type="text" class="input w-100 M_num" name="config[invitee_hongbao_cfg]['+k+'][hongbao_amount]" value=""></td>' +
+                '<td><div><div class="list"><select name="config[invitee_hongbao_cfg]['+k+'][hongbao_amount_ltime]" class="input w-100"><option value="1">1天</option><option value="2">2天</option><option value="3">3天</option><option value="4">4天</option><option value="5">5天</option><option value="6">6天</option><option value="7">7天</option></select></div></div></td>' +
+                ''+html+''+
+                '<td><a href="javascript:;" class="text-danger remove-price-invitee">删除</a></td>' +
+                '</tr>');
+    });
+    $(document).on('click', '#multi_G_price_inviter .remove-price-inviter', function () {
+        $(this).parent().parent().remove();
+    })
+    $(document).on('click', '#multi_G_price_invitee .remove-price-invitee', function () {
+        $(this).parent().parent().remove();
+    })
+})(window.KT, window.jQuery);
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+
+        $(document).on('click', '.stime', function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parent('.stime_box').siblings('.ltime_box').find('.ltime').attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"ltime": ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.ltime', function(){
+            var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+            var ltime = $(this).attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"stime": stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })                        
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();
+        });
+    });
+</script>
+<{include file="admin:common/footer.html"}>

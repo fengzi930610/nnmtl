@@ -1,0 +1,102 @@
+<{assign var='tpl_title' value=L("我的配送会员卡")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .cardbg{ width: 100%; height: 118px; background-repeat: no-repeat; background-position: center; background-size: cover; position: relative; overflow: hidden;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="mycardtop">
+                	<div class="mycardtop2">
+                		<div class="mycardtop3">已为您节省<span style="color: #000016;">￥<{$moneys}></span></div>
+                		<a href="<{link ctl='ucenter/peicard/index' http='waimai'}>" class="mycardtop4">购买新卡</a>
+                	</div>
+                    <{foreach $items as $k=>$item}>
+                	<div class="mycardtop_all">
+                        <div class="cardbg card_ju" style="background-image: url('<{$pager.img}>/<{$item.photo|default:'default/peicard/theme1@2x.png'}>')"></div>
+                		<div class="mycardtop6">
+                			<div class="mycardtop7">
+                				<div class="mycardtop9"><{$item.title}></div>
+                				<div class="mycardtop10">生效中</div>
+                			</div>
+                			<div class="mycardtop11">单日可使用次数: <{$item.limits|default:0}>单</div>
+                			<div class="mycardtop7">
+                				<div class="mycardtop12">每单最多减免配送费: ￥<{$item.reduce|default:'0.00'}> </div>
+                				<div class="mycardtop13"><{$item.ltime|format:'Y-m-d'}>  到期</div>
+                			</div>
+                		</div>
+                	</div>
+                    <{/foreach}>
+                	<!-- <div class="mycardtop_all">
+                                            <div class="class2 card_ju"></div>
+                        <div class="mycardtop6">
+                            <div class="mycardtop7">
+                                <div class="mycardtop9">30天卡</div>
+                                <div class="mycardtop10">生效中</div>
+                            </div>
+                            <div class="mycardtop11">单日可免费配送单数: 1单</div>
+                            <div class="mycardtop7">
+                                <div class="mycardtop12">每单最多减免配送费: ￥3.00 </div>
+                                <div class="mycardtop13">有效期: 30天</div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="mycardcon">
+                	<div class="mycardcon2">
+                		<div class="mycardcon3"></div>
+                		<div class="mycardcon4">减免明细</div>
+                		<div class="mycardcon3"></div>
+                	</div>
+
+                    <div id="index_goods_items">
+                    	<!-- <div class="mycardcon5">
+                            <div class="mycardcon6">
+                                <div class="mycardcon7">配送费减免</div>
+                                <div class="mycardcon8">2018-07-17  15:06:32</div>
+                            </div>
+                            <div class="mycardcon9">￥3</div>
+                        </div>
+                        <div class="mycardcon5">
+                            <div class="mycardcon6">
+                                <div class="mycardcon7">配送费减免</div>
+                                <div class="mycardcon8">2018-07-17  15:06:32</div>
+                            </div>
+                            <div class="mycardcon9">￥3</div>
+                        </div>
+                        <div class="mycardcon10">6月</div>
+                        <div class="mycardcon5">
+                            <div class="mycardcon6">
+                                <div class="mycardcon7">配送费减免</div>
+                                <div class="mycardcon8">2018-07-17  15:06:32</div>
+                            </div>
+                            <div class="mycardcon9">￥3</div>
+                        </div>
+                        <div class="mycardcon5">
+                            <div class="mycardcon6">
+                                <div class="mycardcon7">配送费减免</div>
+                                <div class="mycardcon8">2018-07-17  15:06:32</div>
+                            </div>
+                            <div class="mycardcon9">￥3</div>
+                        </div> -->
+                    </div>
+                    <div class="loadding">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/peicard/loadlogs' arg0='#page#' http='waimai'}>";
+        var page = 1;
+        var params = {};
+        loaddata(link, page, params);
+        scroll(link,{},page,'.container_mid',"#index_goods_items","index_goods_items");
+    })
+</script>
+</body>
+</html>

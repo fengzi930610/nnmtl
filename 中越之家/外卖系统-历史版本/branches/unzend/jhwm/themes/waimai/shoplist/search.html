@@ -1,0 +1,214 @@
+<{assign var='tpl_title' value=L("商品/商家")}>
+<{include file="waimai/block/header.html"}>
+<style type="text/css">
+    #idx_serch_container .page { display: block; transition: all 0.3s; height: 100%; width: 100%; left: -100%; }
+    #idx_serch_container.on .page{ left: 0;}
+    /* .searchShopGoods .productList ul{ max-height: 164px; height: auto;} */
+    .searchShopGoods .shopList.close { opacity: 0.5;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <!--头部搜索-->
+            <div class="topSerch_box pub_list">
+                 <div class="pub_list_bd">
+                     <input type="search" class="int" id="idx_serch_container_show" value="<{$title}>" placeholder="搜索商家、商品"/>
+                </div>
+                <!-- <input type="button" value="" class="btn"> -->
+            </div>
+            <!--头部搜索end-->
+
+            <div class="container_mid">
+                <div class="list_change_cont list_cont_product">
+                    <!--产品列表-->
+                    <div class="searchShopGoods">
+                        <ul id="index_goods_items">
+                            
+                        </ul>
+                    </div>
+                    <script type="text/javascript">
+                        
+                        $(document).on("click", ".searchShopGoods .productList .more", function () {
+                            if($(this).parent().find("ul").hasClass("on")){
+                                $(this).parent().find("ul").removeClass("on");
+                            }else{
+                                $(this).parent().find("ul").addClass("on");
+                            };
+                        });
+                    </script>
+                    <!--产品列表end-->
+                </div>               
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="goto_top"></a>
+<!--搜索弹出-->
+<div class="container <{if $search=='1'}>on<{/if}>" id="idx_serch_container">
+    <div class="page js_show">
+    	<div class="page_cont coupons_sousuo-cont">
+            <div class="topSerch_box pub_list">
+                 <div class="pub_list_bd">
+                     <input type="search" class="int" value="<{$title}>" id="souInput" placeholder="搜索商家、商品"/>
+                </div>
+                <input type="button" value="" class="btn">
+            </div>
+            
+            <div class="container_mid">  
+                <div class="hot_sou">
+                    <div class="the-tit pub_list mb10">
+                        <div><i class="ico mr5 ico-history"></i>历史搜索</div>
+                        <a href="javascript:void(0);" class="clear-btn"><i class="ico mr5 clear-ico"></i>清除</a>
+                    </div> 
+                    <div class="sou-list2">
+                        <ul id="search_history">
+                            
+                        </ul>
+                    </div>   
+                </div>           	
+                <div class="hot_sou">
+                    <div class="the-tit pub_list mb10">
+                        <div><i class="ico mr5"></i>热门搜索</div>
+                    </div> 
+                    <div class="sou-list1">
+                        <ul>
+                            <{foreach $hotwaimai as $item}>
+                            <li class="fl"><a href="javascript:;" class="sou-a"><{$item}></a></li>
+                            <{/foreach}>
+                            <div class="clear"></div>
+                        </ul>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--搜索弹出end-->
+
+<script>
+    $(function(){
+        $("#souInput").on("input",function(){
+            if($(this).val().length!=0){
+               $("#clearCha").css("display","block"); 
+            }else{
+               $("#clearCha").css("display","none");
+            }
+        });
+         $("#clearCha").on("click",function(){
+            $(this).hide();
+            $("#souInput").val('');
+            $("#souInput").focus();
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    var page = 1;
+    var params = {'title': ''};
+    var title = "<{$title}>";
+    var search = "<{$search}>";
+    if(title){
+        params['title'] = title;
+    }
+    var link = "<{link ctl='shoplist/loadsearchs' arg0='#page#' http='waimai'}>";
+
+    if(!search){
+        loadseachs();
+    }  
+    
+    function loadseachs(){
+        var title = params['title'];
+        $("#idx_serch_container_show").val(title);
+        $("#idx_serch_container").removeClass("on");                          
+        loadpage(link, params, page, 'index_goods_items');
+        scroll(link,window.params,page,'.container_mid', '.list_cont_product', 'index_goods_items');
+    }
+
+    function init_history(){
+        var html = "";
+        if(localStorage['search_history']) {
+            var str = localStorage['search_history'];
+            var strs = new Array();
+            var strs = str.split(",");  
+            strs = Unique(strs); //去重复元素
+            for (var i = strs.length - 1; i >= strs.length - 5; i--) {
+                if(strs[i] != undefined) {
+                    html += '<li><a class="sou-b" href="javascript:;">'+strs[i]+'</a></li>';
+                }
+            }
+            $('#search_history').html(html);
+        }
+    }
+
+    $(document).ready(function(){
+        // 读取历史搜索记录
+        init_history();
+        
+        // 搜索事件
+        $(".sou-btn").click(function(){
+            souClick();            
+        });
+
+        $('#idx_serch_container .topSerch_box .btn').click(function(){
+            souClick();
+        });
+
+        document.onkeydown=function(event){  //enter键搜索
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode == 13){
+                souClick();
+            }
+        }
+
+        // 清空输入
+        $("#clearCha").click(function(){
+            $('#souInput').val("");
+        });
+
+        // 清空搜索记录
+        $(".clear-btn").click(function(){
+            $('#souInput').val("");
+            localStorage.removeItem('search_history');
+            if(localStorage['search_history'] == undefined) {
+                $('#search_history').empty().html("");
+            }
+        });
+
+        //历史记录，热搜点击事件
+        $(document).on('click', '.sou-a,.sou-b', function(){
+            var title = $(this).text();
+            params['title'] = title;
+            $('#idx_serch_container .topSerch_box .pub_list_bd input').val(title);
+            //loadseachs();
+            souClick();
+        });
+    });
+
+    function souClick(){
+        var search_title = $('#souInput').val();
+        if(localStorage['search_history']) {
+            localStorage['search_history'] = localStorage['search_history'] + ',' +search_title;
+        }else {
+            localStorage['search_history'] = search_title;
+        }
+        /*params['title'] = search_title;
+        page = 1;
+        loadseachs();*/
+        var link = "<{link ctl='shoplist/search' arg0=0 title='__TITLE__' http='waimai'}>";
+        //console.log(link.replace('__TITLE__', search_title));
+        window.location.href = link.replace('__TITLE__', search_title);     
+    }
+        
+    $(function(){
+        $("#idx_serch_container_show").click(function(){
+            $("#idx_serch_container").addClass("on");
+            $(".pubnodata_box").remove();//删除无数据样式
+            init_history();
+    	});
+    	$("#idx_serch_container .close_btn").click(function(){
+            $("#idx_serch_container").removeClass("on");
+    	});
+    });
+</script>
+
+<{include file="waimai/block/footer.html"}>

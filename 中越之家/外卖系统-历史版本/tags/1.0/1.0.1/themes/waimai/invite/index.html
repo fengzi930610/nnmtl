@@ -1,0 +1,56 @@
+<{assign var='tpl_title' value=L("邀请页面")}>
+<{include file="waimai/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid inviteFriends_bg2">
+                <!-- 内容 -->
+                <img src="/themes/waimai/static/images/inviteFriends_adv2.png" width="100%" />
+                <form method="post">
+                    <div class="mb10 receiveRed_box">
+                        <div class="img"><img src="<{$pager.img}>/<{$member.face}>" /></div>
+                        <div class="mt5 mb5 name"><{$member.nickname|default:''}></div>
+                        <div class="wz">hi,送给您<big>¥<{$total_money|default:'0'}></big>的大红包，赶紧<br/>去领取吧！</div>
+                        <input type="text" placeholder="请输入手机号" class="mt15" name="data[mobile]" value="" />
+                        <input type="hidden" name="data[pmid]" value="<{$member.uid}>">
+                        <a href="javascript:;" class="mt10 btn">立即领取</a>
+                    </div>
+                </form>
+                <div class="receiveRed_tit"><span>活动规则</span></div>
+                <div class="receiveRed_guize">
+                    <!-- <p>1.邀请好友奖励现金红包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p>
+                    <p>2.邀请新用户注册，TA立刻获得最高30元优惠券礼包。</p> -->
+                    <{$inviteCfg.intro}>
+                </div>
+                <!-- 内容end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.receiveRed_box .btn').click(function(){
+            var formData = $('form').serialize();
+            var link = "<{link ctl='invite/invite_handle' http='waimai'}>";
+            $.post(link, formData, function (ret){
+                if(ret.error > 0){
+                    Widget.MsgBox.error(ret.message);
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='index' http='waimai'}>";
+                    }, 2000);
+                }else{
+                    Widget.MsgBox.success(ret.message);
+                    setTimeout(function () {
+                        window.location.href = ("<{link ctl='invite/detail' arg0=__uid__}>").replace('__uid__', ret.invite_uid);
+                    }, 1000);
+                }
+            },'json');
+        });
+    });
+</script>
+<{include file="waimai/block/footer.html"}>

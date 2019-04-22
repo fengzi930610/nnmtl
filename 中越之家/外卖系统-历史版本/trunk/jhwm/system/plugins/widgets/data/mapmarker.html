@@ -1,0 +1,14 @@
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=824a595f958e444b737a5bc6325ad44f"></script>
+<div id="<{$widget.GUID}>" style="width:100%;height:100%;overflow: hidden;margin:0;"></div>
+<script type="text/javascript">
+var map = new BMap.Map("<{$widget.GUID}>");
+<{if $data.lng && $data.lat}>
+var poi = new BMap.Point(<{$data.lng}>, <{$data.lat}>);
+map.centerAndZoom(poi, 14);
+map.addOverlay(new BMap.Marker(poi));
+<{else}>
+map.centerAndZoom(new BMap.Point(117.332856,31.898782), 12);
+map.setCurrentCity("<{$request.city.city_name}>");
+<{/if}>
+map.addControl(new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_SMALL})); 
+</script>

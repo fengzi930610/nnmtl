@@ -1,0 +1,14 @@
+<{foreach $items as $item}>
+<div class="record-one border_b border_t pad10 mb10">
+    <div class="pic fl border"><a href="<{link ctl='cloud/index/lottery' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']|default:'default.png'}>"></a></div>
+    <div class="txt">
+        <h3 class="overflow_clear"><a href="<{link ctl='cloud/index/lottery' args=$item.attr_id}>" class="black3">（第<{$item.cloud_num}>期）<{$goods[$item['goods_id']]['title']}></a></h3>
+        <p>总需：<{$item.price}>人次</p>
+        <p>中奖幸运码：<span class="fontcl1"><{$item.win_number}></span></p>
+        <p>本期参与：<{$item.buy_num}>人次</p>
+        <p>开奖时间：<{$item.lottery_time|format:'Y-m-d H:i:s'}></p>
+        <p class="overflow_clear">奖品状态：<{if $item.share_status == 0}><a href="<{link ctl='cloud/ucenter/share/add' args=$item.attr_id}>" class="fontcl1">立即晒单<i class="linkIco"></i></a><{else}>已晒单<{/if}></p>
+    </div>
+    <div class="cl"></div>
+</div>
+<{/foreach}>

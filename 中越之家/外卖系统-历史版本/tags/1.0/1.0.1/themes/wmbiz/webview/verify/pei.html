@@ -1,0 +1,116 @@
+<{assign var='tpl_title' value=L("商家入驻-配送设置")}>
+<{include file="webview/block/header.html"}>
+
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容-->
+                <div class="enterSeller_process">
+                    <ul>
+                        <li class="list on">
+                            <span>1</span>
+                            <P>店铺信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list on">
+                            <span>2</span>
+                            <P>资质信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list on">
+                            <span>3</span>
+                            <P>配送信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list">
+                            <span>4</span>
+                            <P>结算信息</P>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+               <form action="<{link ctl='webview/verify:edit_pei'}>" method="post" mini-form="webform">
+
+
+                <div class="peiSong_radio">
+                    <div class="weui-cells weui-cells_radio">
+                        <label class="weui-cell weui-check__label" for="x11">
+                            <div class="weui-cell__ft">
+                                <input type="radio" name="data[pei_type]" class="weui-check" id="x11" value="1" <{if $waimai.pei_type==1}>checked="checked"<{/if}>>
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p>申请配送团队（会有业务专员与您联系)</p>
+                            </div>
+                        </label>
+                        <label class="weui-cell weui-check__label" for="x12">
+                            <div class="weui-cell__ft">
+                                <input type="radio" name="data[pei_type]" class="weui-check" id="x12" value="0" <{if $waimai.pei_type==0}>checked="checked"<{/if}>>
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p>商家配送（审核通过后进行配送设置）</p>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="footer_long_btn">
+                        <input type="submit" class="weui-btn weui-btn_primary" value="下一步"/>
+                    </div>
+                </div>
+                  </form>
+                <!--内容结束-->
+            </div>
+            <!--底部-->
+            <div class="footer_long_btn">
+
+            </div>
+            <!--底部结束-->
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#nextsteps').on('click',function(){
+
+
+            if($('#x11').is(':checked')){
+              var  data=  $('#x11').val();
+            }else if($('#x12').is(':checked')){
+              var   data=  $('#x12').val();
+            }
+            var url= '<{link ctl="webview/verify:edit_pei"}>';
+            $.post(url,{data:data},function(e){
+                if(e.error>0){
+                    Widget.MsgBox.error(e.message)
+                }else{
+                    Widget.MsgBox.success(e.message);
+                    setTimeout(function(){
+                    window.location.href = "<{link ctl='webview/account:index'}>";
+
+                    },2000)
+                }
+
+            },'json')
+        })
+
+
+    })
+</script>
+
+
+
+
+
+
+
+
+<{include file="webview/block/footer.html"}>

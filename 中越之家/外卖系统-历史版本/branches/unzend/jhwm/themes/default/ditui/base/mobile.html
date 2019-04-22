@@ -1,0 +1,87 @@
+<{include file="ditui/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='ditui/base:index'}>"><{L('基本资料')}> </a>
+	<a href="<{link ctl='ditui/base:passwd'}>"><{L('安全设置')}> </a>
+	<a href="<{link ctl='ditui/base:mobile'}>" class="on"><{L('更换手机')}> </a>
+        <a href="<{link ctl='ditui/base:license'}>"><{L('身份认证')}> </a>
+	<a href="<{link ctl='ditui/base:account'}>"><{L('提现帐号')}> </a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form id="form_post"  method="post">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th><span class="red">*</span><{L('新手机')}> ：</th>
+                <td><input type="text" name="data[mobile]" value="" id="mobile" class="input w-200"/><div class="btn btn-primary get_yzm" login="sendsms"><{L('获取验证码')}> </div></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span><{L('验证码')}> ：</th>
+                <td><input type="text" name="data[code]" value="" class="input w-200"/></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="button" value="<{L('保存数据')}> " id="btn_mobile" class="btn btn-primary" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#pass-verify').click(function () {
+            var time = new Date();
+            $('#pass-verify').attr('src', '<{link ctl="magic:verify" http="ajax"}>' + '?' + time);
+        })
+        var minute = 60;
+        var mobile_timeout;
+        var mobile_count = minute;
+        var mobile_lock = 0;
+        BtnCount = function () {
+            if (mobile_count == 0) {
+                $(".get_yzm").addClass("on");
+                $('.get_yzm').removeAttr("disabled");
+                $('.get_yzm').text("<{L('重新获取')}> ");
+                mobile_lock = 0;
+                clearTimeout(mobile_timeout);
+                $('.get_yzm').removeClass("on");
+            } else {
+                mobile_count--;
+                $('.get_yzm').text(+mobile_count.toString() + "<{L('秒')}> ...");
+                mobile_timeout = setTimeout(BtnCount, 1000);
+            }
+        };
+        $("[login]").click(function () {
+            if (mobile_lock == 0) {
+                var mobile = $('#mobile').val();
+                var link = "<{link ctl='passport/sendsms'}>";
+                $.post(link, {mobile: mobile}, function (ret) {
+                    if (ret.error == 0) {
+                        BtnCount();
+                        mobile_lock = 1;
+                        $(".get_yzm").addClass("on");
+                        $('.get_yzm').attr("disabled", "disabled");
+                    } else {
+                        layer.msg(ret.message);
+                        mobile_lock = 0;
+                    }
+                }, 'json');
+                mobile_count = minute;
+            }
+        });
+        $('#btn_mobile').click(function () {
+            var link = "<{link ctl='ditui/base:mobile'}>";
+            $.post(link,$("#form_post").serialize(), function (ret) {
+                if (ret.error == 0) {
+                    layer.msg(ret.message);
+                    setTimeout(function () {
+                        window.location.reload(true);
+                    }, 1000)
+                    BtnCount();
+                } else {
+                    layer.msg(ret.message);
+                }
+            }, 'json');
+        })
+    })
+
+</script>
+<{include file="ditui/block/footer.html"}>

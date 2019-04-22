@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<title>外卖商户中心-<{$CONFIG.site.title}></title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="<{$pager.res}>/cdn/bootstrap/css/bootstrap.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="<{$pager.res}>/cdn/font-awesome/css/font-awesome.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="<{$pager.res}>/cdn/css/animate.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="%THEME%/static/css/style.min.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="%THEME%/static/css/mine.css?<{$TMPLVER}>" rel="stylesheet">
+<link href="%THEME%/static/css/append.css?<{$TMPLVER}>" rel="stylesheet">
+<script src="<{$pager.res}>/cdn/js/jquery.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/bootstrap/js/bootstrap.min.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/cdn/layer/layer.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/script/kt.js?<{$TMPLVER}>"></script>
+<script src="<{$pager.res}>/script/widget.msgbox.js?<{$TMPLVER}>"></script>
+<script src="%THEME%/static/js/print.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/My97DatePicker/WdatePicker.js?<{$TMPLVER}>"></script>
+
+</head>
+<body>
+<script>
+    var link = '<{link ctl="index/get_yunprint"}>';
+    var in_window = "<{$in_window}>";
+    var shop_id = "<{$waimai_shop.shop_id}>";
+    init_print(link,in_window,shop_id);
+</script>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>

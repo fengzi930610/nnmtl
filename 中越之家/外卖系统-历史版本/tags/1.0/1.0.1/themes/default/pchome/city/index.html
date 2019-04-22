@@ -1,0 +1,133 @@
+<{assign var="page_title" value="城市选择"}>
+<{assign var='tpl_title' value=L("城市选择")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top.html"}>
+<!--导航-->
+<div class="topNav">
+    <div class="line"><!--勿删--></div>
+    <div class="pagewd">
+        <div class="topNav_menu_all fl">
+            <div class="bt">所有店铺分类</div>
+        </div>
+        <div class="topNav_nav fl">
+            <ul id="cate_nav">
+                <{adv id="10" name="PC首页分类" city_id=$city_id}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!--导航end--> 
+<!-- 内容部分 -->
+<div class="cityPos_nr">
+    <div class="pagewd">
+        <div class="nr">
+            <div class="form">
+                <p class="fl mr10">按省份选择</p>
+                <select class="fl mr20" id='province'>
+                    <{foreach $province as $k => $v}>
+                    <option value="<{$v.province_id}>" <{if $city.province_id == $v.province_id}>selected=selected<{/if}>><{$v.province_name}></option>
+                    <{/foreach}>
+                </select>
+                <select class="fl mr20" id='city'>
+                    <option value="0">请选择城市</option>
+                </select>
+                <input type="button" value="确 定" class="fl city_sub button" style="cursor:pointer;" />
+                <p class="fl">直接搜索</p>
+                <input type="text" placeholder="输入城市中文或拼音" class="fl search_city text"/>
+                <div class="clear"></div>
+            </div>
+            <!-- 热门城市 -->
+            <div class="city_list">
+                <div class="fl maincl">热门城市</div>
+                <div class="city">
+                    <a href="#">北京</a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <!-- 按拼音字母选择 -->
+            <div class="city_box">
+                <h3>按拼音字母选择</h3>
+                <{foreach $city_list as $k => $v}>
+                <div class="box">
+                    <div class="fl letter"><{$k}></div>
+                    <div class="city">
+                        <{foreach $v as $val}>
+                        <a href="javascript:void(0);" id="<{$val.city_name}>" city_id="<{$val.city_id}>" city_name="<{$val.city_name}>"><{$val.city_name}></a>
+                        <{/foreach}>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <{/foreach}>
+            </div>
+            <!-- 按拼音字母选择结束 -->
+        </div>
+    </div>
+</div>
+<!-- 内容部分结束 -->
+<script>
+    $(document).ready(function () {
+        init_html = $.trim($('#city').html());
+        function get_city_list(province_id) {
+            var url = "<{link ctl='city/get_city'}>";
+            $.post(url, {province_id: province_id}, function (ret) {
+                if (ret) {
+                    ret = $.parseJSON(ret);
+                    var html = '';
+                    var city_id = "<{$city.city_id}>";
+                    $.each(ret.city,function(index,value){
+                        if(city_id == value.city_id){
+                            html+="<option value='"+value.city_id+"' selected=selected>"+value.city_name+"</option>";
+                        }else{
+                            html+="<option value='"+value.city_id+"'>"+value.city_name+"</option>"; 
+                        }
+                    });
+                    $('#city').html(init_html+html);
+                }
+            });
+        }
+        var init_province_id = $('#province').eq(0).val();
+        //默认加载
+        get_city_list(init_province_id);
+        
+        $('#province').change(function(){
+            var province_id = $(this).val();
+            get_city_list(province_id);
+        })
+        
+        //点击保存城市CITY_ID
+        $('.city_sub').click(function(){
+            var city_id = $('#city').val();
+            if(!city_id || city_id == 0){
+                layer.msg('没有选择城市!');
+            }else{
+                var city_name = $("#city").find("option:selected").text();
+                Cookie.set("city_id",city_id,86400*30);
+                Cookie.set("city_name",city_name,86400*30);
+                setTimeout(function(){
+                    window.location.href="<{link ctl='index'}>";
+                },1000);
+            }
+        })
+        
+        //点击列表保存CITY_ID
+        $('.city a').click(function(){
+            var city_id = $(this).attr('city_id');
+            var city_name = $(this).attr('city_name');
+            Cookie.set("city_id",city_id,86400*30);
+            Cookie.set("city_name",city_name,86400*30);
+            setTimeout(function(){
+                window.location.href="<{link ctl='index'}>";
+            },1000);
+        })
+        url = "<{$url}>";
+        $('.search_city').keyup(function(){
+            var city_name = $(this).val();
+            window.location.href=url+'#'+city_name;
+        })
+    })
+    //通过身份id获取城市列表
+
+</script>
+<{include file="pchome/block/footer.html"}>

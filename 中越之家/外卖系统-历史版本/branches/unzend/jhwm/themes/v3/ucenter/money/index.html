@@ -1,0 +1,49 @@
+<{assign var='tpl_title' value='我的余额'}>
+<{include file="v3block/header.html"}>
+<!--<header>
+    <i class="left"><a href="<{link ctl='ucenter:index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        我的余额
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>-->
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+			
+				<div class="mineIntegralPage_top text_c mb10">
+					<div class="fl border_r">
+						<p class="black9">当前余额</p>
+						<p class="num pointcl1"><{$MEMBER['money']}><small class="black9">元</small></p>
+					</div>
+					<div class="fr"><a href="<{link ctl='ucenter/money/recharge'}>" class="pub_btn" style="background:#fc5151;">充值</a></div>
+					<div class="clear"></div>
+				</div>
+				<h3 class="mineIntegralPage_bt">我的余额记录</h3>
+				<ul class="mineIntegralPage_list">
+					<ul id="index_goods_items">
+			
+					</ul>
+					<div class="loadding">
+			
+					</div>
+					<div class="clear"></div>
+				</ul>
+			
+			</div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/money/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+
+		loadpage(link,params,page,'index_goods_items');
+		scroll(link,params,page,'.container_mid','.index_goods_items');
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<ul>
+		<a href="<{link ctl='biz/shop/coupon:index'}>" class="on">优惠券列表</a>
+	</ul>
+    <span class="r"><a href="<{link ctl='biz/shop/coupon:create'}>" class="btn btn-success">创建优惠券</a></span>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50">ID</th>
+        <th class="w-70">订单金额</th>
+        <th class="w-70">优惠金额</th>
+        <th class="w-70">使用次数</th>
+        <th class="w-70">库存</th>
+        <th class="w-70">领取人数</th>
+        <th class="w-300">有效期</th>
+        <th class="w-110">创建时间</th>
+        <th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.coupon_id}></td>       
+        <td><{$item.order_amount}></td>
+        <td><{$item.coupon_amount}></td>
+        <td><{$item.use_count}></td>
+        <td><{$item.sku}></td>
+        <td><{$item.picked}></td>
+        <td><{$item.stime|format:'Y-m-d H:i:s'}> - <{$item.ltime|format:'Y-m-d H:i:s'}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+            <a href="<{link ctl='biz/shop/coupon:edit' arg0=$item.coupon_id}>" class="btn btn-success" title="编辑">编辑</a>
+						<{if $item.picked<1}>
+						<a href="<{link ctl='biz/shop/coupon:delete' arg0=$item.coupon_id}>" class="btn btn-success" mini-act="del" mini-confirm="确定要删除吗？" title="删除">删除</a>
+						<{/if}>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

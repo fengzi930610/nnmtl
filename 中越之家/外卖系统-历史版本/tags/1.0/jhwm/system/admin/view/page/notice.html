@@ -1,0 +1,19 @@
+<{include file="admin:common/header.html"}>
+<div class="page-clew">
+	<table width="709" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+			<td rowspan="3" valign="top" style="padding-top:30px;text-align:center;" class="clew-img w-100">
+				<{if $pager.error && $pager.error != 200}>
+				<img src="<{$pager.url}>/images/clew-error.gif" alt="" />
+				<{else}>
+				<img src="<{$pager.url}>/images/clew-success.gif" alt="" />
+				<{/if}>
+			</td>
+			<td class="b"><p class="s-15"></p><p style="color:#FF3300;"><{$pager.message}></p><span><{$pager.timer}>秒之后页面自动跳转</span></td>
+		</tr>
+		<tr><td colspan="2"><a href="<{$pager.link}>" class="red">如没有跳转,点击这里立即跳转</a></td></tr>
+		<tr><td>&nbsp;</td></tr>
+	</table>            
+</div>
+<script type="text/javascript">setTimeout(function(){window.location.href="<{$pager.link}>";},<{$pager.timer}>*1000);</script>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,303 @@
+<{assign var="page_title" value="首页"}>
+<{assign var='tpl_title' value=L("首页")}>
+<{include file="pchome/block/header.html"}>
+<!-- 顶部导航 -->
+<div class="w_topNav">
+	<div class="pagewd">
+        <a href="<{link ctl='index'}>" class="fl link home"><i class="ico"></i>返回商圈主站</a>
+		<div class="fl fontcl4 phone"><i class="ico"></i>手机版</div>
+        <{if !$MEMBER}>
+            <a href="<{link ctl='passport/login'}>" class="fl fontcl4 link">请登录</a>
+            <a href="<{link ctl='passport/register'}>" class="fl black6 link">免费注册</a>
+        <{else}>
+            你好，<a href="<{link ctl='ucenter'}>"><{$MEMBER.nickname}></a>
+        <{/if}>
+		<div class="fr link_box">
+			<a href="<{link ctl='ucenter/tuan'}>">我的订单</a> 
+			<span>|</span> 
+			<a href="<{link ctl='ucenter/collectshop'}>">我的收藏</a> 
+			<span>|</span> 
+			<a href="<{link ctl='apply'}>">申请入驻</a>
+			<span>|</span> 
+			<a href="<{link ctl='help'}>">帮助中心</a>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- 顶部导航结束 -->
+<!-- baner -->
+<div class="pt_banner">
+	<div class="pagewd">
+		<div class="nav_bar">
+			<i class="fl ico1"></i>
+			<div class="fl city"><i class="ico2"></i><{if $city.city_name}><{$city.city_name}><{/if}><a href="<{link ctl='city'}>">[ <{if $city.city_name}>切换城市<{else}>选择城市<{/if}> ]</a></div>
+			<div class="fr r_tab">
+				<ul>
+					<li><a href="#">微店</a></li>
+					<li class="on"><a href="#">拼团</a></li>
+					<li><a href="#">微分销</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="nr_box">
+			<img src="/themes/default/pchome/static/images/ztcode/pt_pic1.png" class="fl"/>
+			<div class="fl box">
+				<h3 class="wz1">江湖拼团</h3>
+				<p class="wz2">电商系统新玩法，微信平台新势力</p>
+				<a href="#" class="button">
+					<div class="fl l_ico"><i class="ico"></i></div>
+					<div class="r_wz">免费试用</div>
+					<div class="clear"></div>
+				</a>
+				<div class="code">
+					<img src="<{$pager.img}>/<{$site.weixinqr}>"/>
+					<p>扫二维码关注即可体验</p>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>	
+<!-- baner结束 -->
+<!-- 内容部分 -->
+<!-- 拼团玩法 -->
+<div class="pt_cont1">
+	<div class="pagewd">
+		<div class="text_c pt_wzBox">
+			<h2>最全面的拼团玩法</h2>
+			<p>裂变积分全民参与的分享团，团长拿外快的佣金团，人越多越便宜的阶梯团，江湖拼团让你订单过万不是梦</p>
+		</div>
+		<div class="box">
+			<ul>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont1_pic1.png"/>
+					<h3>分享团</h3>
+					<p>让用户为你发展用户，老客带新客<br/>参团购买，开团分享</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont1_pic2.png"/>
+					<h3>佣金团</h3>
+					<p>团长发起开团，号召群众来拼团，<br/>团长赚取外快，建立直销平台</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont1_pic3.png"/>
+					<h3>阶梯团</h3>
+					<p>人越多越便宜，优惠差异化设置的方<br/>式鼓励用户进行传播组团</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<!-- 拼团功能 -->
+<div class="pt_cont2">
+	<div class="pagewd">
+		<div class="text_c pt_wzBox">
+			<h2>拼团功能</h2>
+			<p>轻松解决引流难题及销量痛点</p>
+		</div>
+		<div class="box">
+			<ul>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic1.png"/>
+					<p>门店核销</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic2.png"/>
+					<p>电商发货</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic3.png"/>
+					<p>到店自提</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic4.png"/>
+					<p>24小时自动退款</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic5.png"/>
+					<p>红包支付</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic6.png"/>
+					<p>微信支付</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic7.png"/>
+					<p>支付宝支付</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic8.png"/>
+					<p>邀请朋友参团</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic9.png"/>
+					<p>分享优惠券</p>
+				</li>
+				<li>
+					<img src="/themes/default/pchome/static/images/ztcode/pt_cont2_pic10.png"/>
+					<p>分享朋友圈</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<!-- 界面展示 -->
+<div class="pt_cont3">
+	<div class="pagewd">
+		<div class="text_c pt_wzBox">
+			<h2>拼团UI界面展示</h2>
+			<p>快速搭建PC+APP+wap端，包括普通拼团及阶梯式拼团。轻松实现多端多种模式的拼团系统</p>
+		</div>
+		<div class="box">
+			<div class="flexslider">
+				<ul class="slides">
+					<li><a href="javascript:;"><img src="/themes/default/pchome/static/images/ztcode/pt_cont3_pic1.png"/></a></li>
+					<li><a href="javascript:;"><img src="/themes/default/pchome/static/images/ztcode/pt_cont3_pic2.png"/></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 微信扫一扫 -->
+<div class="pt_cont4">
+	<div class="pagewd">
+		<div class="text_c pt_wzBox">
+			<h2>微信扫一扫，立即体验</h2>
+		</div>
+		<div class="text_c code"><img src="<{$pager.img}>/<{$site.weixinqr}>"/></div>
+	</div>
+</div>
+<!-- 商业合作 -->
+<div class="pt_cont5">
+	<div class="pagewd">
+		<div class="text_c pt_wzBox">
+			<h2>商业合作</h2>
+		</div>
+		<div class="box">
+			<ul>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic1.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic2.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic3.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic4.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic5.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic6.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic7.jpg"/></li>
+				<li><img src="/themes/default/pchome/static/images/ztcode/pt_cont5_pic8.jpg"/></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+<!-- 内容部分结束 -->
+<!-- 底部 -->
+<div class="pt_footer">
+	<div class="box1">
+		<div class="pagewd">
+			<ul>
+				<li>
+					<i class="ico1"></i>
+					<p>专业</p>
+				</li>
+				<li>
+					<i class="ico2"></i>
+					<p>保障</p>
+				</li>
+				<li>
+					<i class="ico3"></i>
+					<p>便捷</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="box2">
+		<div class="pagewd">
+			<ul>
+				<li>
+					<h3>新手上路</h3>
+					<a href="#">购物流程</a>
+					<a href="#">会员政策</a>
+					<a href="#">常见问题</a>
+					<a href="#">积分政策</a>
+				</li>
+				<li>
+					<h3>配送支付</h3>
+					<a href="#">支付方式</a>
+					<a href="#">配送方式</a>
+					<a href="#">配送说明</a>
+					<a href="#">代金券使用</a>
+				</li>
+				<li>
+					<h3>售后服务</h3>
+					<a href="#">退款说明</a>
+					<a href="#">物流服务</a>
+					<a href="#">取消订单</a>
+				</li>
+				<li>
+					<h3>联系我们</h3>
+					<a href="#">申请入驻</a>
+					<a href="#">投诉建议</a>
+					<a href="#">联系客服</a>
+				</li>
+				<li>
+					<h3>服务支持</h3>
+					<p>售前咨询 0551-64278115</p>
+					<p>售后咨询 0551-68156253</p>
+					<p>客服 QQ  800026911</p>
+					<p>工作时间 9:00-18:00(周一至周六)</p>
+				</li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="box3">
+		<div class="pagewd">
+			<div class="link"><a href="#">网站首页</a> / <a href="#">加入我们</a> / <a href="#">关于我们</a> / <a href="#">下载APP</a> / <a href="#">帮助中心</a> / <a href="#">申请入驻</a></div>
+			<div class="website"><a href="#">O2O解决方案</a><a href="#">O2O网站系统</a><a href="#">一团网</a><a href="#">软件商城</a><a href="#">江湖网站</a><a href="#">baocms系统</a><a href="#">江湖家居系统</a></div>
+			<p>All Rights Reserved ICP备案：皖ICP备13010842号</p>
+			<p>合肥江湖信息科技有限公司</p>
+		</div>
+	</div>
+</div>
+<!-- 底部结束 -->
+
+<script type="text/javascript">
+	$(document).ready(function () {
+        $('.pt_cont3 .flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false,
+			slideshow:  false, //是否自动播放
+			controlNav: false,//去掉小圆点
+        });
+    });//轮播js
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

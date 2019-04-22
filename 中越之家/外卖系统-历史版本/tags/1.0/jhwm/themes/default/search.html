@@ -1,0 +1,106 @@
+<{assign var='tpl_title' value=L("搜索商家")}>
+<{include file="block/header.html"}>
+        <header>
+        <i class="left"><a href="" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+        <div class="title">
+            搜索
+        </div>
+        <i class="right"><a class="" href="#"></a></i>
+    </header>
+
+    <div class="lctSer">
+        <div class="box">
+            <form name="search_shop" action="<{link ctl='search/index'}>" method="post" onkeydown="if(event.keyCode==13){return false;}">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>
+                            <input type='hidden' name='lat' id="lat">
+                            <input type='hidden' name='lng' id="lng">
+                            <input type="text"  name='title' placeholder="搜索商家" class="text">
+                            <input type="hidden" name="from" id="from">
+                        </td>
+                        <td width="70"><input type="submit" class="pub_btn" value="搜索" ></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+        <section class="page_center_box">
+	<div class="recSeller_list_box mb10">
+        <{if $tips}>
+            <div class="youhui_no">
+                <div class="iconBg"><i class="ico7"></i> </div>
+                <h2><{$tips}></h2>
+            </div>
+        <{else}>
+        <ul>
+            <{foreach $shops as $k => $v}>
+            <li class="recSeller_list">
+                <div class="pub_img fl"><a href="<{if $from == 'tuan'}><{link ctl='tuan/product:goodsitems' args=$v.shop_id}><{else if $from == 'waimai'}><{link ctl='waimai/product:index' args=$v.shop_id}><{else}><{link ctl='shop/detail' args=$v.shop_id}><{/if}>"><img src="<{$pager.img}>/<{$v.logo}>" width="100" height="100" /></a></div>
+                <div class="pub_wz">
+                    <p class="bt"><a href="<{if $from == 'tuan'}><{link ctl='tuan/product:goodsitems' args=$v.shop_id}><{else if $from == 'waimai'}><{link ctl='waimai/product:index' args=$v.shop_id}><{else}><{link ctl='shop/detail' args=$v.shop_id}><{/if}>" class="overflow_clear"><{$v.title}></a>
+                        <{if $v.have_paidui == 1}><em style="background:#00cdda;">排</em><{/if}>
+                        <{if $v.have_dingzuo == 1}><em style="background:#7ed321;">订</em><{/if}>
+                        <{if $v.have_waimai==1}><em style="background:#f5a623;">外</em><{/if}>
+                        <{if $v.have_weidian==1}><em style="background:#ff6600;">店</em><{/if}>
+                    </p>
+                    <div class="nr">
+                        <div class="fl">
+                            <div><span class="starBg"><span class="star" style="width:<{$v.score*20}>%;"></span></span></div>
+                            <p class="black9"><{$v.cate_title}></p>
+                        </div>
+                        <div class="fr">
+                            <p class="black9 price">人均：<span class="pointcl1">￥<{$v.avg_amount}></span></p>
+                            <p class="black9 range"><{$v.d}></p>
+                        </div>
+                    </div>
+                    <div class="tag_box">
+                        <{if $v.have_tuan==1}>
+                            <{if $v.tuan_title}>
+                            <p class="overflow_clear black6"><em class="tag" style="background:#f46007;">团</em><{$v.tuan_title}></p>
+                            <{/if}>
+                        <{/if}>
+                        <{if $v.have_maidan==1}>
+                            <{if $v.coupon_title}>
+                            <p class="overflow_clear black6"><em class="tag" style="background:#ff2b79;">惠</em><{$v.coupon_title}></p>
+                            <{/if}>
+                        <{/if}>
+                        <{if $v.have_quan==1}>
+                            <{if $v.quan_title}>
+                            <p class="overflow_clear black6"><em class="tag" style="background:#0598ec;">券</em><{$v.quan_title}></p>
+                            <{/if}>
+                        <{/if}>
+                    </div>
+                </div>
+            </li>
+            <{/foreach}>
+        </ul>
+        <{/if}>
+        </div>
+        </section>
+        <script>
+            getUxLocation(function(ret){
+                if(ret.error){
+                    alert(ret.message);
+                    window.location.href = "<{link ctl='position'}>";
+                }else{
+                    var lat = ret.lat;
+                    var lng = ret.lng;
+                    $('#lat').val(lat);
+                    $('#lng').val(lng);
+                }
+            });
+
+            if(localStorage['search_from']) {
+                $('#from').val(localStorage['search_from']);
+            }
+            if(localStorage['search_index']) {
+                $('.ico.headerIco.headerIco_3').attr('href',localStorage['search_index']);
+            }
+            $('.ico.headerIco.headerIco_3').click(function(){
+                localStorage.removeItem('search_index');
+                localStorage.removeItem('search_from');
+            })
+        </script>
+    <{include file="block/footer.html"}>

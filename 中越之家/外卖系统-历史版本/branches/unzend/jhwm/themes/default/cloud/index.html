@@ -1,0 +1,364 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left  headerIco headerIco2" href="<{link ctl='index'}>"></a>
+            <a class="pull-right headerIco headerIco1" href="<{link ctl='cloud/search'}>"></a>
+            <h1 class="title">江湖一元购</h1>
+        </header>
+		<!--头部结束-->
+        <!-- 工具栏 -->
+        <{include file="cloud/block/nav.html"}>
+        <!-- 工具栏结束 -->
+        <div class="content"> 
+        	<!--幻灯banner-->
+            <!-- Slider -->
+            <div class="swiper-container" data-space-between='10'>
+                <div class="swiper-wrapper">
+                    <{adv id="7" name="首页轮播" city_id=$city_id}>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!--幻灯banner结束-->
+            <div class="idx_nav_box">
+                <div class="list"><a href="<{link ctl='cloud/cates'}>">
+                	<img src="/themes/default/cloud/static/images/idxNav1.png">
+                    <p>分类</p>
+                </a></div>
+                <div class="list"><a href="<{link ctl='cloud/share'}>">
+                	<img src="/themes/default/cloud/static/images/idxNav2.png">
+                    <p>晒单</p>
+                </a></div>
+                <div class="list"><a href="<{link ctl='cloud/about'}>">
+                	<img src="/themes/default/cloud/static/images/idxNav3.png">
+                    <p>常见问题</p>
+                </a></div>
+            </div>
+            <div class="idx_notic overflow_clear mb10">
+                
+                <a href="<{link ctl='cloud/index/lottery' args=$last_lottery.attr_id}>" class="black3"><i class="ico"></i>恭喜<span class="maincl"><{$last_lottery['user']['nickname']|default:'匿名'}></span>获得<span class="fontcl2"><{$last_lottery.goods.title}></span></a>
+                
+            
+            </div>
+            <!--即将揭晓-->
+            <div class="idx_result mb10">
+                <div class="tit"><a href="<{link ctl='cloud/index/items' order='jjjx'}>" class="black3">即将揭晓<i class="linkIco"></i></a></div>
+                <div class="idx_result_box">
+                    <ul>
+                        <{foreach $items['rest'] as $item}>
+                            <li class="idx_result_list">
+                                <a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>">
+                                    <div class="img fr"><img width="80" height="68" src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>"></div>
+                                    <div class="wz_box">
+                                        <h3 class="black3 mb10">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></h3>
+                                       <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                                    </div>
+                                    <div class="cl"></div>
+                                </a>
+                            </li>
+                        <{/foreach}>
+            	    </ul>
+                    <div class="cl"></div>
+                </div>
+            </div>
+            <!--即将揭晓结束-->
+            <!--商品列表-->
+            <div class="buttons-tab">
+                <a href="#tab1" class="tab-link active button">人气</a>
+                <a href="#tab2" class="tab-link button">新品</a>
+                <a href="#tab3" class="tab-link button">精品</a>
+                <a href="#tab4" class="tab-link button">价值<i class="ico"></i></a>
+            </div>
+            <div class="idx_goods_box mb10">
+                <div class="tabs">
+                  <div id="tab1" class="tab active">
+                      <ul>
+                        <{foreach $items['renqi'] as $item}>
+                            <li class="idx_goods_list list_<{$item.attr_id}>">
+                                <div class="img"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>"></a></div>
+                              <div class="wz_box">
+                                  <h3 class="overflow_clear"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>" class="black3">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></a></h3>
+                                  <div class="progressBar_box">
+                                          <div class="box">
+                                          <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                                          <div class="num_box">
+                                                  <div class="fl txt_left">
+                                                  <p><{$item.price}></p>
+                                                  <p>总需</p>
+                                              </div>
+                                              <div class="fr txt_right">
+                                                  <p class="rest_num" rel="<{$item.price - $item.join}>"><{$item.price - $item.join}></p>
+                                                  <p>剩余</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="btn_box"><a href="javascript:void(0);" rel="<{$item.attr_id}>" class="btn open-about">夺宝</a></div>
+                                  </div>
+                              </div>
+                            </li>
+                          <{/foreach}>
+                      </ul>
+                      <div class="cl"></div>
+                  </div>
+                  <div id="tab2" class="tab">
+                  	<ul>
+                          <{foreach $items['new'] as $item}>
+                            <li class="idx_goods_list list_<{$item.attr_id}>">
+                                <div class="img"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>"></a></div>
+                              <div class="wz_box">
+                                  <h3 class="overflow_clear"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>" class="black3">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></a></h3>
+                                  <div class="progressBar_box">
+                                          <div class="box">
+                                          <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                                          <div class="num_box">
+                                                  <div class="fl txt_left">
+                                                  <p><{$item.price}></p>
+                                                  <p>总需</p>
+                                              </div>
+                                              <div class="fr txt_right">
+                                                  <p class="rest_num" rel="<{$item.price - $item.join}>"><{$item.price - $item.join}></p>
+                                                  <p>剩余</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="btn_box"><a href="javascript:void(0);" rel="<{$item.attr_id}>" class="btn open-about">夺宝</a></div>
+                                  </div>
+                              </div>
+                            </li>
+                          <{/foreach}>
+                      </ul>
+                      <div class="cl"></div>
+                  </div>
+                  <div id="tab3" class="tab">
+                      <ul>
+                          <{foreach $items['jingpin'] as $item}>
+                            <li class="idx_goods_list list_<{$item.attr_id}>">
+                                <div class="img"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>"></a></div>
+                              <div class="wz_box">
+                                  <h3 class="overflow_clear"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>" class="black3">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></a></h3>
+                                  <div class="progressBar_box">
+                                          <div class="box">
+                                          <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                                          <div class="num_box">
+                                                  <div class="fl txt_left">
+                                                  <p><{$item.price}></p>
+                                                  <p>总需</p>
+                                              </div>
+                                              <div class="fr txt_right">
+                                                  <p class="rest_num" rel="<{$item.price - $item.join}>"><{$item.price - $item.join}></p>
+                                                  <p>剩余</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="btn_box"><a href="javascript:void(0);" rel="<{$item.attr_id}>" class="btn open-about">夺宝</a></div>
+                                  </div>
+                              </div>
+                            </li>
+                          <{/foreach}>
+                      </ul>
+                      <div class="cl"></div>
+                  </div>
+                  <div id="tab4" class="tab">
+                      <ul>
+                          <{foreach $items['price'] as $item}>
+                            <li class="idx_goods_list list_<{$item.attr_id}>">
+                                <div class="img"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>"><img src="<{$pager.img}>/<{$goods[$item['goods_id']]['photo']}>"></a></div>
+                              <div class="wz_box">
+                                  <h3 class="overflow_clear"><a href="<{link ctl='cloud/index/detail' args=$item.attr_id}>" class="black3">(第<{$item.cloud_num}>期)<{$goods[$item['goods_id']]['title']}></a></h3>
+                                  <div class="progressBar_box">
+                                          <div class="box">
+                                          <div class="progressBar"><span class="barLength" style="width:<{round(($item['join']/$item['price'])*100,2)}>%;"></span></div>
+                                          <div class="num_box">
+                                                  <div class="fl txt_left">
+                                                  <p><{$item.price}></p>
+                                                  <p>总需</p>
+                                              </div>
+                                              <div class="fr txt_right">
+                                                  <p class="rest_num" rel="<{$item.price - $item.join}>"><{$item.price - $item.join}></p>
+                                                  <p>剩余</p>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="btn_box"><a href="javascript:void(0);" rel="<{$item.attr_id}>" class="btn open-about">夺宝</a></div>
+                                  </div>
+                              </div>
+                            </li>
+                          <{/foreach}>
+                      </ul>
+                      <div class="cl"></div>
+                  </div>
+                </div>
+            </div>
+            <!--商品列表结束-->
+        </div>
+    </div>
+<!--立即夺宝选择人次弹出-->
+<div class="popup popup-about">
+  <div class="person-time_mask">
+      <div class="tit"><div class="img"><img id="cloud_photo" width="60" height="60" src=""/></div>请选择参与人次<a class="close-popup fr"></a></div>
+    <div class="person-time_cont">
+    	<div class="num_operate">
+            <input type="hidden" id="this_attr_id" value="">
+            <span class="reduce"></span>
+            <input type="text" class="number" value="1">
+            <span class="add"></span>
+        </div>
+        <div class="selct_box">
+            <label class="list list-5">5<input type="radio" name="num" value="5"></label>
+            <label class="list list-10">10<input type="radio" name="num" value="10"></label>
+            <label class="list list-20">20<input type="radio" name="num" value="20"></label>
+            <label class="list list-other">包尾<input type="radio" name="num"></label>
+        </div>
+        <p class="txt_center maincl font_size14">剩余<span id="rest">0</span>人次</p>
+        <div><a href="javascript:void(0);" class="button button-fill">确定</a></div>
+    </div>
+  </div>
+</div>
+<!--立即夺宝选择人次弹出-->
+<script type="text/javascript">
+    $(document).ready(function(e) {
+        function yiyuan_time(id) {
+                var t = Math.floor($("#" + id).attr('rel'));
+                t--;
+                var d = Math.floor(t / 60 / 60 / 24);
+                var h = Math.floor(t / 60 / 60 % 24);
+                var m = Math.floor(t / 60 % 60);
+                var s = Math.floor(t % 60);
+                $("#" + id).attr('rel', t);
+                $("#" + id).html(h + ':' + m + ':' + s);
+        }
+        setInterval(function () {
+                for(i=1;i<100;i++){
+                        yiyuan_time("daojishi" + i);
+                }
+        }, 1000);//倒计时js部分结束
+    });
+
+    $(document).on('click','.open-about', function () {
+        var uid = "<{$MEMBER.uid}>";
+        if(uid == 0){
+            window.location.href = "<{link ctl='passport/login'}>";
+            return false;
+        }
+        var photo = $(".list_"+$(this).attr('rel')).find("img").attr("src");
+        $("#cloud_photo").attr("src",photo);
+        $("#this_attr_id").val($(this).attr('rel'));
+        $(".number").val(1);
+        var rest_num = parseInt($(".list_"+$(this).attr('rel')).find(".rest_num").attr('rel'));
+        $("#rest").html(rest_num);
+        $(".list-other").find('input[name="num"]').val(rest_num);
+        if(rest_num < 20 && rest_num>=10){
+            $(".list-20").hide();
+        }else if(rest_num < 10&&rest_num>=5){
+            $(".list-20").hide();
+            $(".list-10").hide();
+        }else if(rest_num < 5){
+            $(".list-20").hide();
+            $(".list-10").hide();
+            $(".list-5").hide();
+        }
+        $.popup('.popup-about');
+    });
+
+    $(document).on('click','.selct_box .list',function(){
+        var num = parseInt($(this).find('input[name="num"]').val());
+        $(".num_operate .number").val(num);
+    })
+
+    $(function(){ 
+        $(".num_operate .add").click(function(){ 
+            var rest = parseInt($("#rest").html());
+            var num = parseInt($(this).parent().find(".number").val());  
+            if (num < rest) {
+                num++;
+                $(".number").val(num);
+            } else {
+                $.alert('您最多能购买' + rest + '人次');
+            }
+        });
+        $(".num_operate .reduce").click(function(){ 
+            var num = parseInt($(this).parent().find(".number").val());
+            if (num>1) {
+                num--;
+                $(".number").val(num);
+            } else {
+                $.alert('不能再少了');
+            }
+        }); 
+        $(".num_operate .number").keyup(function () {
+            var rest = parseInt($("#rest").html());
+            var num = parseInt($(this).val());
+            if(isNaN(num)){
+                $(this).val(1);
+            }else{
+                if (num < 1) {
+                    $(this).val(1);
+                    $.alert('最少为1人次');
+                }else if (num > rest) {
+                    $(this).val(rest);
+                    $.alert('您最多能购买' + rest + '人次');
+                }else{
+                    $(this).val(num);
+                }
+            }
+        });
+    }); 
+    $(document).off('click', '.button-fill').on('click', '.button-fill',function () { //提交请求
+        var attr_id = $("#this_attr_id").val();
+        var num = parseInt($(".number").val());
+        if("<{$MEMBER.coin}>" >= num){
+            var can_pay = num;
+            var need_pay = 0;
+        }else{
+            var can_pay = "<{$MEMBER.coin}>";
+            var need_pay = parseInt(num - "<{$MEMBER.coin}>");
+        }
+        
+        $.confirm('您确定要花'+num+'元云购该商品？',function () {
+            $.showPreloader();
+            setTimeout(function () {$.hidePreloader();}, 2000);
+            $.post("<{link ctl='cloud/order/order'}>", {attr_id:attr_id, num:num,OTOKEN:"<{$OTOKEN}>"}, function (ret) {
+                if(ret.error == 101){
+                    window.location.href="<{link ctl='passport/login'}>";
+                }else if(ret.error){
+                    $.alert(ret.message);
+                }else{
+                    <{if $request.IN_APP_CLIENT}>
+                        var back_url = "<{link ctl='cloud/ucenter/order/detail' args=oooo}>".replace("oooo", ret.order_id);
+                        var this_url = "<{link ctl='cloud/index/detail' args=oooo}>".replace("oooo", attr_id);
+                        if(need_pay>0){
+                            if(can_pay>0){
+                                $.alert(ret.message+",使用了"+can_pay+"夺宝币");
+                                var str = "已抵扣"+can_pay;
+                            }else{
+                                var str = "";
+                            }
+                            IJH.app_go_pay({"num":num+"","notice":str,"need_pay":need_pay+"","back_url":back_url,"order_id":ret.order_id+"","this_url":this_url});
+                        }else{
+                            if(can_pay>0){
+                                $.alert(ret.message+",使用了"+can_pay+"夺宝币");
+                            }else{
+                                $.alert(ret.message);
+                            }
+                            $.alert(ret.message);
+                            window.location.href = back_url;
+                        }
+                    <{else}>
+                        if(ret.use_coin>0){
+                            $.alert(ret.message+",使用了"+ret.use_coin+"夺宝币");
+                        }else{
+                            $.alert(ret.message);
+                        }
+                        if(ret.status == 1){
+                            var link = "<{link ctl='cloud/ucenter/order/detail' args=oooo}>".replace("oooo", ret.order_id);
+                        }else{
+                            var link = "<{link ctl='cloud/order/pay' args=oooo}>".replace("oooo", ret.order_id);
+                        }
+                        setTimeout(function(){window.location.href = link;},1000)
+                    <{/if}>
+                }
+            }, 'json');
+        });
+    });
+</script>
+<{include file="cloud/block/footer.html"}>

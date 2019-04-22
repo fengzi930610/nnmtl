@@ -1,0 +1,99 @@
+<{include file="admin:common/header.html"}>
+
+<div class="page-title">
+
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+
+        <tr>
+
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+
+            <th><{$MOD.title}></th>
+
+            <td align="right">
+
+
+
+            <td width="15"></td>
+
+        </tr>
+
+    </table>
+
+</div>
+
+<div class="page-data">
+
+    <h2 class="tip-notice">对账单详情</h2>
+
+    <form id="items-form">
+
+
+
+        <table class="table-data table" align="center" cellpadding="0" cellspacing="0" width="100%">
+
+            <tr>
+
+
+                <th>日志ID</th>
+                <th>订单ID</th>
+                <th>账单日期</th>
+                <th>代收配送员</th>
+                <th>平台应得(元)<span class="table_help">?<span>平台应得=平台佣金(在线支付*佣金比例) - 活动款</span></span></th>
+                <th>用户支付(元)<span style="color: #fd0202">需要配送员上缴</span></th>
+                <th>配送费（元）</th>
+                <th>操作</th>
+            </tr>
+
+            <{foreach $items as $k => $v}>
+            <tr>
+                <td>
+                    <{$v.bills_id}>
+                </td>
+                <td>
+                    <{link ctl='waimai/order:detail' arg0=$v.order_id title=$v.order_id}>
+                </td>
+                <td>
+                    <{$v.bills_sn}>
+                </td>
+                <td>
+                    <{$v.staff.name}>(<{$v.staff.mobile}>)
+                </td>
+                <td>
+                    <{$v.fee}>
+                </td>
+                <td>
+                    <{$v.amount}>
+                </td>
+                <td>
+                    <{$v.pei_amount}>
+                </td>
+                <td>
+                    <{link ctl='waimai/order:detail' arg0=$v.order_id title="查看订单" class='button' }>
+                </td>
+
+
+            </tr>
+
+            <{foreachelse}>
+
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+
+            <{/foreach}>
+
+        </table>
+
+    </form>
+
+    <div class="page-bar">
+        <table>
+            <tbody>
+            <tr>
+                <td class="page-list" colspan="10"><{$pagers.pagebar}></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<{include file="admin:common/footer.html"}>

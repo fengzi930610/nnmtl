@@ -1,0 +1,92 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/yezhu/index'}>" class="on">业主管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;margin-bottom:30px;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td width="20%">编号：</td>
+        <td width="80%"><{$detail.yezhu_id}> </td>
+    </tr>
+    <tr>
+        <td width="20%">名字：</td>
+        <td width="80%"><{$detail.contact}></td>
+    </tr>
+    <tr>
+        <td width="20%">手机：</td>
+        <td width="80%"><{$detail.mobile}></td>
+    </tr>
+    <tr>
+        <td width="20%">住宅信息：</td>
+        <td width="80%"><{$detail.house_louhao}>楼，<{$detail.house_danyuan}>单元，<{$detail.house_huhao}>户(<{$detail.house_mianji}>)</td>
+    </tr>
+    <tr>
+        <td width="20%">车辆信息：</td>
+        <td width="80%">车牌号：<{$detail.chepai_hao}>(<{if $detail.chewei_hao}>车位号：<{$detail.chewei_hao}><{/if}>)</td>
+    </tr>
+    <tr>
+        <td width="20%">审核状态：</td>
+        <td width="80%">
+            <{if $detail.audit == 0}><a href="<{link ctl='wuye/yezhu/index:set_audit' arg1=$detail.yezhu_id arg2=1 }>" mini-act="set_status" class="btn btn-success" style="margin-right:2px;">审核</a><{/if}>
+            <{if $detail.audit == 1}><b style="color:#5cb85c;">已通过</b><{/if}>
+            <{if $detail.audit == 2}><b style="color:#ff0000;">已拒绝</b><{/if}>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%">时间：</td>
+        <td width="80%"><{$detail.dateline|format}></td>
+    </tr>
+    <tr>
+        <td width="20%">操作：</td>
+        <td width="80%">
+            <{if $detail.audit == 1}>
+            <a href="<{link ctl='wuye/bill/index:create' args=$detail.yezhu_id}>" class="btn btn-success" style="margin-right:2px;background:#ff8a00;border:1px solid #ff5700;">创新TA的新缴费单</a>
+            <a href="<{link ctl='wuye/bill/index:index' arg1=1 arg2=$detail.yezhu_id}>" class="btn btn-success" style="margin-right:2px;">TA的缴费单</a>
+            <{/if}>
+            <a href="<{link ctl='wuye/yezhu/index:edit' args=$detail.yezhu_id}>" class="btn btn-success" style="margin-right:2px;">编辑</a>
+            <a href="<{link ctl='wuye/yezhu/index:delete' args=$detail.yezhu_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-success">删除</a>
+        </td>
+    </tr>
+    
+</table>
+</div>
+
+<{if $items}>
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/bianmin/index'}>" class="on">被举报信息</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-60">用户</th>
+        <th class="w-120">标题</th>
+        <th class="w-250">内容</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.uid}></td>
+        <td><{$item.title}></td>        
+        <td><{$item.content}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{/if}>
+
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

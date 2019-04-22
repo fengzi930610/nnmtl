@@ -1,0 +1,49 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"><{link ctl="member/verify:so" load="mini:搜索实名认证" width="mini:450" class="button" title="搜索"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">用户</th><th>姓名/企业名</th><th>证件号</th>
+        <th>证件图片</th><th>手机号</th><th>审核状态</th><th>通过时间</th><th>申请时间</th><th>申请时IP</th><th class="w-150">操作</th></tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><label><input type="checkbox" value="<{$item.uid}>" name="uid[]" CK="PRI"/><a ucard="@<{$item.uid}>"><{$member_list[$item.uid].uname}>(UID:<{$item.uid}>)</a><label></td>
+        <td><{$item.name}></td><td><{$item.id_number}></td><td><img src="<{$pager.img}>/<{$item.id_photo}>" photo="<{$pager.img}>/<{$item.id_photo}>" class="wh-50" /></td>
+        <td><{$item.mobile}></td>
+        <td><{if $item.verify == 2}><a><b class="red" tips="<{$item.refuse}>">拒绝</b></a><{elseif $item.verify == 1}><b class="blue">通过</b><{else}><b>待审</b><{/if}></td>
+        <td><{$item.verify_time|format}></td><td><{$item.request_time|format}></td><td><{$item.request_ip}>(<{$item.request_ip|iplocal}>)</td>
+        <td>
+            <{link ctl="member/verify:edit" args=$item.uid title="修改"  class="button"}>
+            <{link ctl="member/verify:dopass" args=$item.uid act="mini:通过" confirm="mini:确定要审核通过吗?" class="button" title="通过"}>
+            <{link ctl="member/verify:dorefuse" args=$item.uid width="mini:500" load="mini:拒绝会员实名认真申请？"  class="button" title="拒绝"}>
+        </td>
+     </tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left">
+                <{link ctl="member/verify:dopass" type="button" submit="mini:#items-form" confirm="mini:确定要批量通过选中的内容吗?" priv="hide" value="批量通过"}>
+                <{link ctl="member/verify:dorefuse" type="button" load="mini:批量拒绝选中的认证信息？" width="mini:500" batch="mini:PRI" priv="hide" value="批量拒绝"}>
+            </td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

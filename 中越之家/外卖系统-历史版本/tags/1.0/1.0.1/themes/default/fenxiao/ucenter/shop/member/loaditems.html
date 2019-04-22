@@ -1,0 +1,10 @@
+<{foreach $items as $item}>
+<li class="fx_team_list" rel="<{$count}>">
+    <div class="img fl"><img src="<{$pager.img}>/<{$fx_shops[$item['sid']]['photo']}>" width="40" height="40"></div>
+    <div class="wz_box">
+        <p class="name black6"><{$fx_shops[$item['sid']]['title']}><small class="fr fontcl1"><{$item.level}></small></p>
+        <p class="black9"><{$fx_shops[$item['sid']]['dateline']|format:'Y-m-d'}></p>
+    </div>
+    <div class="clear"></div>
+</li>
+<{/foreach}>

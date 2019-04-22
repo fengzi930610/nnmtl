@@ -1,0 +1,174 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <{if $fenxiao == 'fenxiao'}>
+            <a href="<{link ctl='biz/weidian/fenxiao:orders' arg0=1 arg1='fenxiao'}>">待确认</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:f_fahuo' arg0=1 arg1='fenxiao'}>">待发货</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:f_shouhuo' arg0=1 arg1='fenxiao'}>">待收货</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:f_confirm' arg0=1 arg1='fenxiao'}>">已收货</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:f_complete' arg0=1 arg1='fenxiao'}>">已完成</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:f_cancellist' arg0=1 arg1='fenxiao'}>">已取消</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:f_ziti' arg0=1 arg1='fenxiao'}>" class="on">自提单</a>
+        <{else}>
+            <a href="<{link ctl='biz/weidian/order:index'}>">待确认</a>
+            <a href="<{link ctl='biz/weidian/order:fahuo'}>">待发货</a>
+            <a href="<{link ctl='biz/weidian/order:shouhuo'}>">待收货</a>
+            <a href="<{link ctl='biz/weidian/order:confirm'}>">已收货</a>
+            <a href="<{link ctl='biz/weidian/order:complete'}>">已完成</a>
+            <a href="<{link ctl='biz/weidian/order:cancellist'}>">已取消</a>
+            <a href="<{link ctl='biz/weidian/order:ziti'}>" class="on">自提单</a>
+        <{/if}>
+    </ul>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr class="alt">
+            <th class="w-60">订单编号</th>
+            <th class="w-60">联系人</th>
+            <th class="w-60">手机</th>
+            <th class="w-100">下单时间</th>
+            <th class="w-100">状态</th>
+            <th class="w-150">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><{$item.order_id}></td>     
+            <td><{$item.contact}></td>    
+            <td><{$item.mobile}></td>     
+            <td><{$item.dateline|format:'Y-m-d H:i'}></td>
+            <td><{if $item.spend_status==0}><b class="red">待核销</b><{/if}><{if $item.spend_status==1}><b class="green">已核销<b><{/if}></td>
+            <td>
+                <{if $item.spend_status==0}>
+               <a href="<{link ctl='biz/weidian/order:dialog' arg0=$item.order_id}>" mini-width="400" mini-height="200" mini-load="核销订单" class="btn btn-warning" title="去核销">去核销</a>
+                <{else}>
+                <a href="javascript:;" class="btn btn-success" title="已核销">已核销</a>
+                <{/if}>
+                <{if $item.spend_status == 0}><a href="<{link ctl='biz/weidian/order:cancel' arg0=$item.order_id}>" mini-act="confirm:您确定要取消订单吗" class="btn btn-success" title="取消订单">取消订单</a><{/if}>
+                <a href="javascript:void(0);" rel="<{$item.order_id}>"  class="btn btn-success view_btn" title="查看">查看</a>
+            </td>
+        </tr>
+        <tr class="table_child tr_<{$item.order_id}>">
+            <td class="border_none" colspan="7">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_detail">
+                <tr>
+                    <th colspan="3">
+                    <div>
+                        <ul>
+                            <li class="list">订单号：<{$item.order_id}></li>
+                            <li class="list">联系人：<{$item.contact}></li>
+                            <li class="list">手机号：<{$item.mobile}></li>
+                            <li class="list">下单时间：<{$item.dateline|format:'Y-m-d H:i'}></li>
+                            <li class="list">状态：待确认</li>
+                            <li class="list">在线支付：<{if $item.online_pay==1}>是<{else}>否<{/if}></li>
+                            <li class="list">支付状态：<{if $item.pay_status==1}>已支付<{else}>未支付<{/if}></li>
+                            <{if $item.pei_type == 2}>
+                            <li class="list">自提时间：<{if $item.pei_time ==0}>立即自提<{else}><{$item.pei_time|format:'Y-m-d H:i'}><{/if}></li>
+                            <{/if}>
+                        </ul>
+                    </div>
+                    </th>
+                </tr>
+                <{foreach $item.products as $var}>
+                <{if $item.order_id == $var.order_id}>
+                <tr>
+                    <td width="200"><{$var.product_name}></td>
+                    <td width="200"><{$var.stock_real_name}><span class="num">数量×<{$var.product_number}></span></td>
+                    <td class="txt_r">单价：<span class="price">￥<{$var.product_price}></span></td>
+                </tr>
+                <{/if}>
+                <{/foreach}>
+                <tr>
+                    <td colspan="3">运费：￥<{$item.freight}></td>
+                </tr>
+                <tr>
+                    <td colspan="3">合计：<span class="price_zong">￥<{$item.total_price}></span>结算价：<span class="price">￥<{$item.amount}></span>  <{if $item.coupon>0}>优惠抵扣：-￥<{$item.coupon}><{/if}></td>
+                </tr>
+                <{if $item.shop_amount>0}>
+                <tr><td colspan="3">实际获得：￥<{$item.shop_amount + $item.feight}></td></tr>
+                <{/if}>
+                <tr>
+                    <td colspan="3">备注：<{$item.intro|default:'无'}></td>
+                </tr>
+                <!--<tr class="bottom">
+                    <td colspan="3"><a href="javascript:printorder(<{$item.order_id}>);" target="_self">打印小票</a></td> 
+                </tr>-->
+            </table>
+        </td>
+        </tr>
+        <div class="stamp stamp_list_<{$item.order_id}>" id="stamp_list_<{$item.order_id}>">
+            <div class="stamp_list_box">
+                <div class="stamp_list">
+                    <div class="print_btn"><a href="javascript:void(0);" class="print_<{$item.order_id}>">立即打印</a></div>
+                    <div class="stamp_list_cont">
+                         <ul>
+                            <li class="list_cont">
+                                <p>店铺：<{$shop.title}></p>
+                            </li>
+                            <li class="list_cont">
+                                <p>订单时间：<{$item.dateline|format:'m-d H:i'}></p>
+                                <p>支付方式：<{if $item.online_pay == 1}><{$payments[$item['pay_code']]}><{else}>餐到付款<{/if}>（<{if $item.pay_status == 1}>已付<{else}>未付<{/if}>）</p>
+                            </li>
+                            <li class="list_cont">
+                                <p>顾客留言：<{$item.note}></p>
+                            </li>
+                            <li class="list_cont">
+                                <p>商品详情：</p>
+                                <ul class="list_cd">
+                                    <{foreach $item.products as $val}>
+                                        <li><span class="bt"><{$val.product_name}></span><span class="num">×<{$val.product_number}></span><span class="price">￥<{$val.product_price}></span></li>
+                                    <{/foreach}>
+                                    <li><span class="bt">打包费</span><span class="num"></span><span class="price"><{$val.package_price}></span></li>
+                                    <li><span class="bt">运费</span><span class="num"></span><span class="price"><{$val.freight}></span></li>
+                                </ul>
+                            </li>
+                            <li class="list_cont">
+                                <p>商品合计：￥<{$item.product_price}></p>
+                                <{if $item.first_youhui>0}><p>首单立减：-￥<{$item.first_youhui}></p><{/if}>
+                                <{if $item.order_youhui>0}><p>下单立减：-￥<{$item.order_youhui}></p><{/if}>
+                                <{if $item.hongbao>0}><p>红包抵扣：-￥<{$item.hongbao}></p><{/if}>
+                                <p>结算价：<big>￥<{$item.js_price}></big></p>
+                            </li>
+                        </ul>
+                        <div class="stamp_list_infor">
+                            <p>顾客信息：</p>
+                            <P class="big_font"><{$item.contact}></P>
+                            <P class="big_font"><{$item.mobile}></P>
+                            <P class="big_font"><{$item.house}></P>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mask_bg"></div>
+        </div>
+        <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">暂无客户订单</div></td></tr>
+        <{/foreach}>
+        <tr>
+    </table>
+    </form>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".view_btn").click(function () {
+            $('.tr_' + $(this).attr('rel')).slideToggle();
+        })
+        
+        $(".stamp .mask_bg").click(function(){
+            $(".stamp").hide();
+        })
+    });
+    function printorder(order_id){                
+        $(".stamp_list_"+order_id).show();
+        $(".print_"+order_id).click(function(){
+            var link = "<{link ctl='biz/weidian/order:porder' args='__order_id'}>";
+             $.get(link.replace('__order_id',order_id),function (ret) {
+               $('#abc').html(ret);
+               $('#abc').printArea();
+            },'html')
+        });
+    }
+</script>
+<span  id='abc'></span>        
+<{include file="biz/block/footer.html"}>

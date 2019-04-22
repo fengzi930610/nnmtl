@@ -1,0 +1,44 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+        <form id="form_post" method="post">
+	<div class="fx_changeCard">
+    	<p class="black6">请填写银行卡信息，用于收取货款</p>
+        <div class="form">
+            <div class="list border_b">
+                <div class="selct_box">
+                <select name="data[account_type]">
+                    <{foreach $bank_list as $k => $item}>
+                    <option value="<{$item.title}>" <{if $account.account_type == $item.title}>selected=selected<{/if}>><{$item.title}></option>
+                    <{/foreach}>
+                </select>
+                </div>
+            </div>
+            <div class="list border_b"><input type="text" name="data[account_number]" placeholder="输入储蓄卡号"></div>
+            <div class="list"><input type="text" name="data[account_number2]" placeholder="再输入一次储蓄卡号"></div>
+        </div>
+        <p class="black6">*注意：</p>
+        <p class="black6">·银行卡开户人信息必须同之前填写的姓名、身份证号一致，才能提现。当前姓名为：<b style="color:red;"><{$account.real_name}></b></p>
+        <p class="black6">·开户银行、卡号必须准确无误，否则无法提现</p>
+        </div>
+    </form>
+</section>
+<footer class="long_btn_box">
+	<a href="javascript:void(0);" class="long_btn">完成</a>
+</footer>
+<script>
+var link = "<{link ctl='ucenter/shop/bank:change_bank'}>";
+$('.long_btn').click(function(){
+    $.post(link, $('#form_post').serialize(), function (ret) {
+        layer.open({
+            content: ret.message,
+            time: 2 //2秒后自动关闭
+        });
+        if(ret.error == 0) {
+            setTimeout(function(){
+                window.location.href="<{link ctl='ucenter/shop/bank:my_bank'}>";
+            },2000);
+        };
+    },'json');
+})
+</script>
+<{include file="fenxiao/block/footer.html"}>

@@ -1,0 +1,134 @@
+<{assign var='tpl_title' value=L("<{$tuan.title}>")}>
+<{include file="pchome/block/header.html"}>
+    <{include file="pchome/block/top_nav.html"}>
+    <div class="headerTop_one ">
+        <div class="pagewd shangcheng-headerTop">
+            <div class="logo fl">
+                <a href="<{link ctl='index/index'}>"><img src="<{$pager.img}>/<{$site.logo2}>" width="220" height="60"/></a>
+            </div>
+            <div class="shangcheng-submit fr">
+                <ul>
+                    <li class="active">1.提交订单</li>
+                    <li>2.选择支付方式</li>
+                    <li>3.购买成功</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!---->
+    <div class="shangcheng-submit-content tuangou-submit-content">
+       
+        <div class="xinxi">
+            <div class="tit">
+                确认订单信息
+            </div>
+            <div class="detail">
+                <div class="nav">
+                   <span class="dt-name">商品</span> 
+                   <span class="dt-price">单价</span> 
+                   <span class="dt-num">数量</span> 
+                   <span class="dt-zongjia">总价</span> 
+                </div>
+                <div class="xiangxi">
+                    <p class="xiangqing"><a href="<{link ctl='tuan/detail' args=$detail.tuan_id}>" class="black6"><{$detail.title}></a></p>
+                    <p class="danjia black3">￥<span class="danjia_num"><{$detail.price}></span></p>
+                    <div class="number black6"><i class="jian fl jq_jian">-</i><input type="text" class="jq_num" value="<{$num}>"><i class="jia fr jq_jia">+</i></div>
+                    <p class="zongjia black6">￥<span class="zongjia_num"><{$num*$detail['price']}></span></p>
+                </div>
+            </div>
+            <div class="shangcheng-btn tuangou-btn">
+                <p class="phone">您绑定的手机号码：<{$MEMBER.mobile}></p>
+                <p class="num">已选<span id="jq_num"><{$num}></span>件</p>
+                <p class="price">合计：<span>￥<span id="jq_total"><{$num*$detail['price']}></span></span></p>
+                <a href="javascript:void(0);" id="sub_btn" class="btn">提交订单</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function changetotal(num) {
+            var price = "<{$detail.price}>";
+            var totalprice = (price * num).toFixed(2);
+            $(".zongjia_num").text(totalprice);
+            $("#jq_total").text(totalprice);
+            $("#jq_num").text(num);
+        }
+        
+        var num  = 0;
+        var sale_sku = parseInt("<{$detail.stock_num}>");
+        var sale_type= parseInt("<{$detail.stock_type}>");
+        var min_buy = parseInt("<{$detail.min_buy}>"); 
+        var max_buy = parseInt("<{$detail.max_buy}>");
+        $(document).ready(function() {
+            $(".jq_jia").click(function() {
+            num = parseInt($(".jq_num").val());
+            if(sale_type == 1 && (num >= sale_sku)) {
+                layer.msg('商品库存不足');
+                return false;
+            }
+            if(num >= max_buy) {
+                layer.msg('不能超过最大购买数');
+                return false;
+            }
+            if (num < 99) {
+                    num++;
+            }
+                changetotal(num);
+                $(".jq_num").val(num);
+            });
+            $(".jq_jian").click(function() {
+                    num = parseInt($(".jq_num").val());
+                if(num <= min_buy) {
+                    layer.msg('不能低于最小购买数');
+                    return false;
+                }
+                if (num > 1) {
+                        num--;
+                }
+                $(".jq_num").val(num);
+                changetotal(num);
+            });
+            $(".jq_num").keyup(function() {
+                num = parseInt($(".jq_num").val());
+                //alert(num);
+                if(num == "" || isNaN(num)){
+                       num = 1; 
+                }
+                if(num > max_buy) {
+                    layer.msg('不能超过最大购买数');
+                    $(".jq_num").val(max_buy);
+                    changetotal(max_buy);
+                    return false;
+                }else if(num < min_buy) {
+                    layer.msg('不能低于最小购买数');
+                    $(".jq_num").val(min_buy);
+                    changetotal(min_buy);
+                    return false;
+                }else{
+                    $(".jq_num").val(num);
+                    changetotal(num);
+                }
+            });
+        });
+        
+        $("#sub_btn").click(function(){
+            var tuan_id = "<{$detail.tuan_id}>";
+            var numbers = $(".jq_num").val();
+            var link = "<{link ctl='tuan/create'}>";
+            $.post(link,{"tuan_id":tuan_id,"numbers":numbers},function(ret){
+                layer.msg(ret.message);
+                var link = "<{link ctl='payment/pay' args='oooo'}>";
+                if(ret.error == 0){
+                    setTimeout(function () {
+                        if(ret.pay_status == 0) {
+                            window.location.href = link.replace('oooo', ret.order_id);
+                        }
+                }, 1000);
+                }
+            },'json')
+            
+            
+        })
+        
+    </script>
+<{include file="pchome/block/footer.html"}>

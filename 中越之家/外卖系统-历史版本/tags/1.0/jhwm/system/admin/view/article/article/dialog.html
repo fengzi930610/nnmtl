@@ -1,0 +1,34 @@
+<{include file="admin:common/header.html"}>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+		<th>标题(ID)</th><th class="w-150">分类</th><th class="w-50">状态</th>
+        <th class="w-100"><{link ctl="article/article:so" arg0="dialog" arg1=$pager.multi class="button" load="mini:搜索文章" width="mini:400" title="搜索"}> </th>
+	</tr>
+    <{foreach $items as $item}>
+    <tr>
+		<td class="left">
+		<{if $pager.multi == 'Y'}>
+		<label><input type="checkbox" name="itemId[]" value="<{$item.article_id}>" data="{'itemId':'<{$item.article_id}>','title':'<{$item.title}>'}" CK="PRI"/><{$item.title}>(ID:<{$item.article_id}>)</label>
+		<{else}>
+		<label><input type="radio" name="itemId" value="<{$item.article_id}>" data="{'itemId':'<{$item.article_id}>','title':'<{$item.title}>'}" CK="PRI"/><{$item.title}>(ID:<{$item.article_id}>)</label>
+		<{/if}>
+		</td>
+		<td><{$item.cat_title}></td><td><{if $item.audit}>已发布<{else}><span class="red">待审箱</span><{/if}></td><td><{$item.dateline|format:"Y-m-d"}></td>
+	</tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+</div>
+<div class="page-bar">
+	<table>
+		<tr>
+		<td class="w-100" class="left"><{if $pager.multi}><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label><{/if}></td>
+		<td class="page-list"><{$pager.pagebar}></td>
+	</tr>
+	</table>
+</div>
+<{include file="admin:common/footer.html"}>

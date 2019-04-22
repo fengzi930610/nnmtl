@@ -1,0 +1,60 @@
+<{assign var='tpl_title' value=L("邀请记录")}>
+<{include file="waimai/block/header.html"}>
+
+<style type="text/css">
+    .chengjiuDetail_nav li a>div{ font-size: 14px; line-height: 22px; color: #000; font-weight:bold;}
+    .chengjiuDetail_nav li.on a>div,.chengjiuDetail_nav li.on p{ color: #ff7700; }
+</style>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="chengjiuDetail_nav">
+                <ul>
+                    <li>
+                        <a href="<{link ctl='ucenter/share/logone' http='waimai'}>">
+                            <div>已获红包</div>
+                            <p><{$invite_data.invite_money|default:'0'}>元</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<{link ctl='ucenter/share/logtwo' http='waimai'}>">
+                            <div>红包在路上</div>
+                            <p><{$invite_data.invite_ing|default:'0'}>份</p>
+                        </a>
+                    </li>
+                    <li class="on">
+                        <a href="javascript:;">
+                            <div>已成功邀请</div>
+                            <p><{$invite_data.invite_count|default:'0'}>人</p>
+                        </a>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="container_mid">
+                <!-- 内容 -->
+                <div class="chengjiuDetail_list">
+                    <ul id="index_goods_items">
+                        
+                    </ul>
+                </div>
+                <!-- 内容end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(function(){
+            var link = "<{link ctl='ucenter/share/loadthree' arg0='#page#'}>";
+            var page = 1;
+            var params = {};
+            loaddata(link, page, params);
+            scroll(link,{},page,'.container_mid',"#index_goods_items","index_goods_items");
+        },200);
+    })
+</script>
+
+<{include file="waimai/block/footer.html"}>

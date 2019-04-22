@@ -1,0 +1,31 @@
+<{assign var='tpl_title' value=L("<{$cate.title}>")}>
+<{include file="block/header.html"}>
+
+<header>
+    <i class="left"><a href="<{link ctl='index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        <{$cate.title}>
+    </div>
+    <i class="right"><a href="javascript:;" class=""></a></i>
+</header>
+
+<section class="page_center_box">
+    <div class="shangpin_infor">
+        <img src="<{$pager.img}>/<{$cate.photo}>" width="100%">
+    </div>
+    <div class="shangpin_price clear_both border_b mb10">
+        <div class="fl">
+            <p class="bt pointcl1">￥<{$cate.price}>
+                <small class="black9">/<{$unit[$cate.unit]}></small>
+            </p>
+        </div>
+        <div class="fr"><a href="<{link ctl='house/order:index' args=$cate.cate_id}>" class="pub_btn">立即下单</a></div>
+    </div>
+    <h3 class="bgcolor_white pad10 border_t border_b">服务介绍</h3>
+    <div class="border_b bgcolor_white pad10 mb10">
+        <p class="black6"><{$cate.info}></p>
+    </div>
+
+</section>
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,54 @@
+<{assign var="page_title" value="申请入驻"}>
+<{assign var='tpl_title' value=L("申请入驻")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<div class="headerTop_one green">
+    <div class="pagewd">
+        <div class="logo fl">
+            <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo}>"></a>
+        </div>
+        <div class="tit fl">申请入驻</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="applyEnter pagewd">
+    <div class="applyEnter_tit">请选择您的服务项目</div>
+    <div class="applyEnter_item">
+        <div class="list">
+            <div class="img" id="1"><span class="ico1"></span>
+                <p>申请跑腿哥</p>
+            </div>
+            <p>按照个人情况，自由选择工作时间、工作地段，多劳多得，按单结算，<a href="javascript:void(0);" class="paotui_btn">点击合作</a></p>
+        </div>
+        <div class="list">
+            <div class="img" id="2"><span class="ico2"></span>
+                <p>申请商家</p>
+            </div>
+            <p>高品质的网络订餐平台、帮您解决问题的好伙伴、更懂餐饮的行业专家，<a href="javascript:void(0);" class="paotui_btn">点击合作</a></p>
+        </div>
+    </div>
+    <div class="text_c applyEnter_btn_box none"><a href="javascript:void(0);" class="applyEnter_btn">确&nbsp;&nbsp;定</a></div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".applyEnter_item .list .img").click(function () {
+            var type = $(this).attr('id');
+            $(".applyEnter_item .list .img").removeClass("on");
+            $(this).addClass("on");
+            if ($(".applyEnter_item .list .img").hasClass("on")) {
+                $(".applyEnter_btn_box").removeClass("none");
+                $('.applyEnter_btn').attr('type',type);
+            }
+        });
+        $('.paotui_btn').click(function(){
+            $(this).parent().parent().find('.img').click();
+        })
+        $('.applyEnter_btn').click(function(){
+            var type = $(this).attr('type');
+            var link = "<{link ctl='apply/index' arg0='__type'}>";
+            link = link.replace('__type',type);
+            location.href=link;
+        })
+    });
+</script>
+<{include file="pchome/block/footer.html"}>

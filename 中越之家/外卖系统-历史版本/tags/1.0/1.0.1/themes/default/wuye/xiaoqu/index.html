@@ -1,0 +1,40 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/xiaoqu/index'}>" class="on">我管理的小区</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-200">小区</th>
+        <th class="w-200">地址</th>
+        <th class="w-250">电话</th>
+        <th class="w-150">时间</th>
+        <th class="w-250">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.title}></td>
+        <td><{$item.addr}></td>        
+        <td><{$item.phone}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+        <a href="<{link ctl='wuye/xiaoqu/index:detail' args=$item.xiaoqu_id}>" class="btn btn-success" style="margin-right:2px;">详情</a>
+        <a href="<{link ctl='wuye/xiaoqu/index:edit' args=$item.xiaoqu_id}>" class="btn btn-success" style="margin-right:2px;">编辑</a>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

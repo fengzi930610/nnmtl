@@ -1,0 +1,844 @@
+<{include file="pchome/block/header.html"}>
+<style>body{background: #f5f5f5;}</style>
+<{include file="pchome/cloud/top.html"}>
+<!-- 面包屑 -->
+<div class="pagewd yungou_bread-part">
+    <p><a href="<{link ctl='cloud/index'}>">首页</a>&gt;<a href="<{link ctl='cloud/items'}>">全部商品</a>&gt;<a href="#">手机数码</a>&gt;<a href="javascript:void(0);"  class="yungou_maincl">商品详情 [期号：3010756]</a></p>	
+</div>
+<!-- 面包屑 end-->
+<div class="pagewd yungou_duobao-detail">
+	<div class="yungou_xinxi-part">
+            <div class="xinxi-img fl"><img src="<{$pager.img}>/<{$goods.photo}>"></div>
+		<div class="xinxi-wz">
+			<h3>【一元夺宝】<{$goods.title}></h3>
+			<p class="black6 qihao">期号：<{$detail.cloud_num}</p>
+			<div class="progress-box">
+                <div class="progressBar"><span class="barLength" style="width:<{round(($detail['join']/$detail['price'])*100,2)}>%;"></span></div>
+       			<div class="num_box">
+                	<div class="fl text_l">
+                    	<p><{$detail.price}></p>
+                        <p class="black6">总需</p>
+                    </div>
+                    <div class="fr text_r">
+                    	<p class="yungou_maincl"><{$detail.price - $detail.join}></p>
+                        <p class="black6">剩余</p>
+                    </div>
+                    <div class="clear"></div>
+        		</div>                
+            </div>	
+			<p class="renci"><span class="lan-zi"><{$detail.join}></span>人次已参与，赶快去参加吧！剩余<span class="yungou_maincl"><{$detail.price - $detail.join}></span>人次</p>
+			<div class="canyu">
+                            <span class="fl">参与：</span>
+                            <div class="num-caozuo fl">
+                            <span class="jia-jian jia fl">-</span><input type="text" class="shuru fl" value="1"><span class="jia-jian jian fl">+</span>
+                            </div>
+                            <a href="javascript:;" class="shuzi on">10</a>
+                            <a href="javascript:;" class="shuzi">20</a>
+                            <a href="javascript:;" class="shuzi">50</a>
+                            <a href="javascript:;" class="shuzi">100</a>
+                            <a href="javascript:;" class="shuzi">包尾</a><span class="ci-txt">人次</span>
+                            <span class="red-zi">参与人次越多，获得概率越大!</span>
+			</div>
+			<a href="#" class="grab-btn">立即1元夺宝</a>
+		</div>
+		<div class="clear"></div>
+		<div class="fenxiang-to mt20"><img src="/themes/default/pchome/static/pic/yg_fenxiang.png"></div>
+	</div>
+	<script type="text/javascript">
+		$(".yungou_xinxi-part .xinxi-wz .shuzi").click(function(){
+			$(this).addClass("on").siblings(".yungou_xinxi-part .xinxi-wz .shuzi").removeClass("on");
+		});
+	</script>
+	<div class="yungou_duobao-part">
+		<div class="cont-tab">
+			<ul>
+				<li class="fl  on">图文详情</li>
+				<li class="fl">所有参与记录</li>
+				<li class="fl">往期揭晓</li>
+				<li class="fl">晒单分享</li>
+				<div class="clear"></div>
+			</ul>	
+		</div>	
+		<div class="cont-box">
+			<div class="cont-nei" style="display:block">
+				<div class="tuwen-detail">
+					<img src="/themes/default/pchome/static/pic/yg_deta-pic.png">
+					<img src="/themes/default/pchome/static/pic/yg_deta-pic.png">	
+					<p>晒单分享</p>
+					<p>晒单分享</p>
+				</div>
+			</div>
+			<div class="cont-nei">
+				<table class="canyu_table" border="0" width="100%" cellpadding="0" cellspacing="0"> 
+					<tbody>
+						<tr class="tit">
+							<td>时间</td>
+							<td>会员</td>
+							<td>参与人次</td>
+							<td>IP</td>
+							<td>来源</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						<tr class="black6">
+							<td>2016-11-29  06:42:01</td>
+							<td>
+								<i class="img-ico fl"><img src="/themes/default/pchome/static/pic/yg_duobao-ico.png"></i>
+								<span class="img-wz fl">听说改名就能中啊</span>
+								<div class="clear"></div>
+							</td>
+							<td>45</td>
+							<td>(安徽省合肥市IP：36.57.73.60)</td>
+							<td>电脑PC端</td>
+						</tr>
+						
+					</tbody>
+				</table>
+				<!-- 翻页 -->
+				<div class="yungou_fanye_part fanye-mar1">
+					<div class="fanye-list">
+						<ul>
+							<li class="fl mr10"><a href="javascript:;" class="page  page-none"><i class=" ico pre_ico"></i>上一页</a></li>
+							<li class="fl mr10"><a href="javascript:;" class="page-num  active">1</a></li>
+							<li class="fl mr10"><a href="javascript:;" class="page-num">2</a></li>
+							<li class="fl mr10"><a href="javascript:;" class="page-num">3</a></li>
+							<li class="fl"><a href="javascript:;" class="page">下一页<i class=" ico next_ico"></i></a></li>
+							<div class="clear"></div>
+						</ul>	
+					</div>
+				</div>
+				<!-- 翻页end-->	
+			</div>
+			<div class="cont-nei">
+				<table class="past_table" border="0" width="100%" cellpadding="0" cellspacing="0"> 
+					<tbody>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+						<tr>
+							<td class="black3">期号 3009961</td>
+							<td>
+								<div class="past-pic fl"><img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png"></div>
+								<div class="past-txt">
+									<p>恭喜 <span class="blue-zi">郭先生你中了</span> （北京市） 获得了本期商品</p>
+									<p>幸运号码：<span class="cheng-zi">10010010</span></p>
+									<p>本期参与：<span class="cheng-zi">45</span></p>
+								</div>
+								<div class="clear"></div>
+							</td>
+							<td class="lineH">
+								<p>揭晓时间：2016-11-29  12:56:01</p><p>夺宝时间：2016-11-20  12:56:01</p>
+							</td>							
+							<td><a href="#" class="see-btn">查看详情</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- 翻页 -->
+				<div class="yungou_fanye_part fanye-mar2">
+					<div class="fanye-list">
+						<ul>
+							<li class="fl mr10"><a href="javascript:;" class="page  page-none"><i class=" ico pre_ico"></i>上一页</a></li>
+							<li class="fl mr10"><a href="javascript:;" class="page-num  active">1</a></li>
+							<li class="fl mr10"><a href="javascript:;" class="page-num">2</a></li>
+							<li class="fl mr10"><a href="javascript:;" class="page-num">3</a></li>
+							<li class="fl"><a href="javascript:;" class="page">下一页<i class=" ico next_ico"></i></a></li>
+							<div class="clear"></div>
+						</ul>	
+					</div>
+				</div>
+				<!-- 翻页end-->	
+			</div>
+			<div class="cont-nei">
+				<div class="shaidan-share">
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>	
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<div class="shai-one">
+						<div class="fl one-zuo">
+							<div class="zuo-pic">
+								<img src="/themes/default/pchome/static/pic/yg_duobao-pic2.png">	
+							</div>
+							<p class="blue">郭先生你中了</p>
+						</div>
+						<div class="one-you">
+							<div class="tit">
+								获得商品：<span class="black3">苹果（Apple）iPhone 6s 64G版 4G手机</span>
+								<div class="fr">2016-11-29  12:56:01</div>
+								<div class="clear"></div>
+							</div>
+							<div class="say-words">	
+								<p>身边有人中了，自己抱着试一试的态度，前后也经历了10多天，结果真中了！感谢云购给的惊喜好久没有这种感觉！祝云够越办越好，给大家
+	带来更多精彩。经过朋友的提醒，上网验证……
+								</p>
+							</div>	
+							<div class="shai-pic-box">
+								<ul>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>
+									<li class="fl pic-li"><img src="/themes/default/pchome/static/pic/yg_part5_pic.png"></li>									
+									<div class="clear"></div>
+								</ul>	
+							</div>
+						</div>
+						<div class="clear"></div>	
+					</div>
+					<!-- 翻页 -->
+					<div class="yungou_fanye_part fanye-mar3">
+						<div class="fanye-list">
+							<ul>
+								<li class="fl mr10"><a href="javascript:;" class="page  page-none"><i class=" ico pre_ico"></i>上一页</a></li>
+								<li class="fl mr10"><a href="javascript:;" class="page-num  active">1</a></li>
+								<li class="fl mr10"><a href="javascript:;" class="page-num">2</a></li>
+								<li class="fl mr10"><a href="javascript:;" class="page-num">3</a></li>
+								<li class="fl"><a href="javascript:;" class="page">下一页<i class=" ico next_ico"></i></a></li>
+								<div class="clear"></div>
+							</ul>	
+						</div>
+					</div>
+					<!-- 翻页end-->	
+				</div>	
+			</div>
+		</div>	
+	</div>
+</div>
+<script>
+$(function(){
+	$(".yungou_duobao-part .cont-tab ul li").click(function(){
+		$(this).addClass("on").siblings().removeClass("on");
+		var $index = $(this).index();
+		$(".yungou_duobao-part .cont-nei").eq($index).show().siblings().hide();
+	});
+});
+</script>
+<!-- 底部-->
+<div class="yungou_index-foot">
+	<div class="pagewd">
+		<div class="foot-top">
+			<ul>
+				<li class="text_l fl link-li">
+					<h4>新手上路</h4>
+					<p><a href="#" class="black6">购物流程</a></p>
+					<p><a href="#" class="black6">会员政策</a></p>
+					<p><a href="#" class="black6">常见问题</a></p>
+					<p><a href="#" class="black6">积分政策</a></p>
+				</li>
+				<li class="text_l fl link-li">
+					<h4>配送支付</h4>
+					<p><a href="#" class="black6">支付方式</a></p>
+					<p><a href="#" class="black6">配送方式</a></p>
+					<p><a href="#" class="black6">配送说明</a></p>
+					<p><a href="#" class="black6">代金券使用</a></p>
+				</li>
+				<li class="text_l fl link-li">
+					<h4>售后服务</h4>
+					<p><a href="#" class="black6">退款说明</a></p>
+					<p><a href="#" class="black6">物流服务</a></p>
+					<p><a href="#" class="black6">取消订单</a></p>
+				</li>
+				<li class="text_l fl link-li">
+					<h4>联系我们</h4>
+					<p><a href="#" class="black6">申请入驻</a></p>
+					<p><a href="#" class="black6">投诉建议</a></p>
+					<p><a href="#" class="black6">联系客服</a></p>
+				</li>
+				<li class="text_l fl link-li">
+					<h4>服务支持</h4>
+					<p class="black6">售前咨询 0551-64278115</p>
+					<p class="black6">售后咨询 0551-68156253</p>
+					<p class="black6">客服 QQ  800026911</p>
+					<p class="black6">工作时间 9:00-18:00(周一至周六)</p>
+				</li>
+				<div class="clear"></div>
+			</ul>	
+		</div>
+		<div class="foot-center">
+			<ul>
+				<li class="center-li fl">
+					<div class="li-cont">
+						<img src="/themes/default/pchome/static/images/yungou/yg_foot-ico1.png" class="foot-ico fl">
+						<div class="txt">
+							<h4 class="mb10">100%公平公正</h4>
+							<p class="black9">参与过程公开透明，用户可随时查看</p>
+						</div>
+					</div>
+				</li>
+				<li class="center-li fl">
+					<div class="li-cont">
+						<img src="/themes/default/pchome/static/images/yungou/yg_foot-ico2.png" class="foot-ico fl">
+						<div class="txt">
+							<h4 class="mb10">100%正品保证</h4>
+							<p class="black9">精心挑选优质商家，100%品牌正品</p>
+						</div>
+					</div>
+				</li>
+				<li class="center-li fl the-last">
+					<div class="li-cont">
+						<img src="/themes/default/pchome/static/images/yungou/yg_foot-ico3.png" class="foot-ico fl">
+						<div class="txt">
+							<h4 class="mb10">全国免运费</h4>
+							<p class="black9">全国包邮（港澳台及特殊商品除外）</p>
+						</div>
+					</div>
+				</li>
+				<div class="clear"></div>
+			</ul>
+		</div>	
+		<div class="foot-bottom">
+			<div class="smallpage">
+        		<div class="footer_nav"><a href="#">网站首页</a> / <a href="#">加入我们</a> / <a href="#">关于我们</a> / <a href="#">下载APP</a> / <a href="#">帮助中心</a> / <a href="#">申请入驻</a></div>
+            	<div class="footer_link"><a href="#">O2O解决方案</a> <a href="#">O2O网站系统</a> <a href="#">一团网</a> <a href="#">软件商城</a> <a href="#">江湖网站</a> <a href="#">baocms系统</a> <a href="#">江湖家居系统</a>
+            	</div>
+           		<div class="footer_copy">
+	            	<p>All Rights Reserved ICP备案：皖ICP备13010842号</p>
+	            	<p>合肥江湖信息科技有限公司</p>
+           		</div>
+            </div>
+		</div>	
+	</div>
+</div>
+<!-- 底部end -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.yungou_banner-inner .top-flexslider').flexslider({
+            directionNav: false,
+            pauseOnAction: false
+        });
+    });
+</script>  
+<script type="text/javascript">
+	$(document).ready(function(e) {
+	
+		function yiyuan_time(id) {
+			var t = Math.floor($("#" + id).attr('rel'));
+			t--;
+			var d = Math.floor(t / 60 / 60 / 24);
+			var h = Math.floor(t / 60 / 60 % 24);
+			var m = Math.floor(t / 60 % 60);
+			var s = Math.floor(t % 60);
+			$("#" + id).attr('rel', t);
+			if(h<=9){h='0'+h}
+			if(m<=9){m='0'+m}
+			if(s<=9){s='0'+s}
+			$("#" + id).html('<span class="shijian">'+ h +'</span>' + '<span class="maohao">:</span>' + '<span class="shijian">'+ m +'</span>' +'<span class="maohao">:</span>' + '<span class="shijian">'+ s +'</span>');
+		}
+		setInterval(function () {
+			for(i=1;i<100;i++){
+				yiyuan_time("daojishi" + i);
+			}
+		}, 1000);//倒计时js部分结束
+
+	});
+		
+</script>     
+</body> 
+</html>

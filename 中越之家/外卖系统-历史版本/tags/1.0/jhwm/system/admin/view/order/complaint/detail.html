@@ -1,0 +1,25 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="order/complaint:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>投诉ID：</th><td><{$detail.complaint_id}></td></tr>
+<tr><th>订单ID：</th><td><{$detail.order_id}></td></tr>
+<tr><th>用户UID：</th><td><{$detail.uid}></td></tr>
+<tr><th>用户UID：</th><td><{$detail.shop_id}></td></tr>
+<tr><th>服务人员ID：</th><td><{$detail.staff_id}></td></tr>
+<tr><th>投诉类型：</th><td><{$detail.title}></td></tr>
+<tr><th>投诉内容：</th><td><{$detail.content}></td></tr>
+<tr><th>商户回复内容：</th><td><{$detail.reply}></td></tr>
+<tr><th>商户回复时间：</th><td><{$detail.reply_time}></td></tr>
+<tr><th>客户IP：</th><td><{$detail.clientip}></td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

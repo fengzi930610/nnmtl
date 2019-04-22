@@ -1,0 +1,131 @@
+.activity .first{max-height: 40px; overflow: hidden; height: auto !important;}
+.activity .first p{width: 75%;}
+.activity .first.on{max-height: none !important; height: auto !important; overflow: none !important;}
+//.take-out_tuijian .store_lists li .activity .first{margin-right: 0px}
+
+.take-out_tuijian .store_lists li .activity .pull_down {
+    color: #333;
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 20px;
+}
+.take-out_tuijian .store_lists li .activity .first {
+    margin-right: 0px;
+    position: relative;
+}
+
+.activity2 .first{max-height: 20px; overflow: hidden; height: auto !important;}
+.activity2 .first.on{max-height: none !important; height: auto !important; overflow: none !important;}
+
+.activity,.activity2{width: 100%;}
+
+.takeout-list-mask ul li a {display: inline-block;}
+.mask-list .list .display{display: block};
+//#position{height: 20px; line-height: 20px; overflow: hidden; display:initial;}
+#cart_product_list .empty_button{height: 36px; line-height: 36px; text-align: center; font-size: 14px;}
+.goods_cart_mask .tit .ts{display: none;}
+
+
+.shopCart_list .top .selct_box input,.shopCart_list .shopCart_cont .selct_box input,.shangcheng-goodscar-foot .all-select-box .selct_all{border:1px solid #aeaeae;}
+
+
+.shopCart_cont .del{ width:12px;margin-left:5px;display:inline-block;height:20px; float:right; background:url(../img/btn-delete@2x.png) no-repeat center; background-size:auto 14px;}
+.order-pop .content_200{max-height: 200px; overflow-y: scroll;}
+.sysubmit-order .order_xiangqing .manjian .ico_first{display:inline-block;width: 14px;height: 14px;background: url(../img/label_icon_first@3x.png);background-size: contain;vertical-align: middle;}
+
+.shangjia_tag_box p{height: 18px; overflow: hidden;}
+.myself-shuru-cont .inp-box input[type="tel"], .myself-shuru-cont .inp-box input[type="number"]{color:#333;width:100%;padding-left: 15px;box-sizing:border-box;-moz-box-sizing:border-box; -webkit-box-sizing:border-box;border: none;background: none;font-size: 15px;padding-right: 30px;}
+.my-own-queding-btn{width: 100%;}
+
+
+.warning{background:#ffffbf;color:#ff0000;height:28px;line-height:28px;color:#ff0000;padding:0px 10px;border-top:1px dashed #f57d7d;border-bottom:1px dashed #f57d7d;}
+.pei_around{color:#2161c2;text-decoration:underline;float:right;}
+
+.goods_list .wz_box .btn{bottom: 5px;}
+.sc_shopping-list_no{ background: #fafafa;}
+.sc_shopping-list_no *{ color: #999!important;}
+.sc_shopping-list_no .price{ color:#999!important;}
+.sc_shopping-list_no img.m{-webkit-filter: grayscale(100%) brightness(1) contrast(0.5);
+                        -moz-filter: grayscale(100%) brightness(1) contrast(0.5);
+                        -ms-filter: grayscale(100%) brightness(1) contrast(0.5);
+                        -o-filter: grayscale(100%) brightness(1) contrast(0.5);
+                        filter: grayscale(100%) brightness(1) contrast(0.5);
+                        filter: #000000 opacity(0.5);}
+
+
+
+.mall-mydingdan-list-cont .dan-mid .wz-txt .tui-btn{width:auto;padding:0 6px;}
+.shangcheng-detail-box .pingjia_list{overflow:auto;}
+
+.font-bold{font-weight: bold;}
+.goodsCate ul li.on a{color: #20AD20;}
+
+/*页面跳转错误页面*/
+.czts { width:70%; border:2px solid #20AD20; border-radius:8px; margin:30px auto; padding:30px 0; text-align:center;}
+.czts .weui-icon_msg{ font-size: 60px;}
+.czts_p {
+	font-family: "微软雅黑";
+	font-size: 13px;
+	line-height: 30px;
+	color: #1a1a1a;
+}
+.czts .big{ font-size:18px; margin-top:10px;}
+.czts_time {
+	color: #F00;
+}
+/*页面跳转错误页面结束*/
+.place_list_no { position: relative;}
+.place_list_no *{ color:#999; position: relative;}
+.place_list_no .tag{ position: absolute; top: 5px; right: 10px; width: 90px; height: 90px;}
+
+.jq_class.on{background: #eef2f5;}
+
+.shangcheng-detail-box .detail-pingjias .the-replay{font-size: 14px;line-height:22px;margin-bottom: 5px; background:#eee; border-radius:4px; padding:10px; margin-top:10px; color:#666; position:relative;}
+.shangcheng-detail-box .detail-pingjias .the-replay::before{ position:absolute; left:15px; top:-8px; content:''; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 8px solid #eee;}
+
+.orderTakeOut .orderDetail .payDetail .firstOrder .ico_jian{display: inline-block;width: 14px;height: 14px;background: url(../img/label_icon_jian@3x.png)no-repeat;background-size: contain;vertical-align: middle;  }
+.orderTakeOut .orderDetail .payDetail .firstOrder .ico_juan {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url(../img/yhj.png)no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+}
+.orderTakeOut .orderDetail .payDetail .firstOrder .ico_hongbao {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url(../img/hb.png)no-repeat;
+    background-size: contain;
+    vertical-align: middle;
+}
+
+.jq_score{width:40px; display: inline-block;text-align: left;}
+
+.mdzzcps .state{ position:absolute;
+    left:0; right:0; bottom:0; line-height:20px;
+    text-align:center;
+    background: rgba(0, 0, 0, 0.8);
+    color:#fff;
+    display: block;
+}
+.mask_bg2{ position:fixed; width:100%; height:100%; display:none; z-index:100; background: rgba(0, 0, 0, 0.3); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);}
+.maskOne{ display:none; width:80%; position:fixed; z-index:101; left:50%; margin-left:-40%; top:35%; margin-top:-100px; background:#fff; overflow:hidden; border-radius:5px;}
+.maskOne .title{ background:#eeeeee; padding:0 10px; line-height:40px; font-size:16px; color:#333;}
+.maskOne .cont{ padding:10px;}
+.zitiCode_mask .title,.zitiCode_mask .cont{ text-align:center;}
+.zitiCode_mask .cont p{ font-size:18px; line-height:30px;}
+.zitiCode_mask .cont img{ width:150px; height:150px; border:1px solid #333; padding:5px; background:#fff; margin:10px;}
+
+
+.orderTakeOut .fix_phone i.code{background: url(../img/btn_fr_order@2x.png) no-repeat;background-size: contain;}
+.more_info{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url(../img/icon-arrowR-gray@2x.png) no-repeat center;
+    background-size: 100%;
+    margin-left: 10px;
+}

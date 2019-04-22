@@ -1,0 +1,209 @@
+<{include file="admin:common/header.html"}>
+<link rel="stylesheet" href="http://cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<style type="text/css">
+    a:hover{text-decoration:none;}
+    /*启动图*/
+    /*.startUp{padding-bottom: 51px;}*/
+    .startUp .take-out_banner{height: 667px; position:relative;}
+    .startUp .take-out_banner .line_box{position: absolute; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; border: 2px dashed #f30; box-sizing: border-box; cursor: pointer;background: rgba(0,0,0,.6);}
+    .startUp .line_box div{color: #fff;width:180px;height:40px;line-height:40px;text-align:center;border-radius: 40px;border:2px solid #fff;font-weight: bold;position: absolute;top: 50%;left: 50%;margin-left: -90px;margin-top: -20px;}
+    .startUp .take-out_banner .swiper-container {width: 100%;height:100%;margin-left: auto;margin-right: auto;}
+    .startUp .take-out_banner .swiper-slide {text-align: center;font-size: 0;line-height:0;background: #fff;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;
+        -ms-flex-align: center;-webkit-align-items: center;align-items: center;}
+    .startUp .take-out_banner .swiper-slide a{display: block; width: 100%; height: 667px; background-repeat: no-repeat; background-position:center; background-size: cover;}
+    .startUp .swiper-container-horizontal>.swiper-pagination-bullets{bottom: 0px;}
+    .startUp .take-out_banner .swiper-pagination-bullet {opacity: 0.4;background: #000000;border-radius: 8px;width:18px;height:4px;}
+    .startUp .take-out_banner .swiper-pagination-bullet-active {opacity: 1;background: #FF9900;box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.20);}
+    .line_box{opacity: 0;}
+    .line_box.on,.line_box:hover{opacity: 1;}
+    .banner_list .img p{ color: #f30 !important; font-weight: bold}
+    .banner_list .del { font-size: 28px; color: #ccc; position: absolute; top: 4px; right: 4px;}
+    .banner_list .btn_box{ margin-right:350px}
+    .banner_list .wx_box{ margin-right:400px !important;}
+    .change_list_banner .banner_list,.change_list_cate .banner_list{ cursor:move}
+    .banner_list{box-shadow: -1px -1px 5px #eee, 1px 1px 5px #eee;}
+    .banner_list:hover{background: rgba(0,0,0,0.05)}
+</style>
+<div class="page-data">
+    <div class="guide_list_box">
+        <ul>
+            <!-- <li><a href="?adv/waimai-index.html">外卖</a></li> -->
+            <li><a href="javascript:;" class="on">APP启动页</a></li>
+            <{if $have_jifen}><li><a href="?adv/jifen-index.html">积分</a></li><{/if}>
+            <{if $have_paotui}><li><a href="?adv/paotui-index.html">跑腿</a></li><{/if}> 
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <div class="appAdvSet_box">
+        <div class="appAdvSet_iphone6 float-l">
+            <div class="iphone6_box">
+                <!--启动图-开始-->
+                <div class="startUp">
+                    <div class="take-out_banner">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <{foreach $dav as $k=>$v}>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(<{$pager.img}>/<{$v.thumb}>);"></a></div>
+                                <{foreachelse}>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201709/20170920_30C65C079E2EAFF1093CC8F7D0C9C73C.png);"></a></div>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201709/20170920_30C65C079E2EAFF1093CC8F7D0C9C73C.png);"></a></div>
+                                <div class="swiper-slide"><a href="#" style="background-image: url(http://img01.jhcms.com/wmdemo/photo/201709/20170920_30C65C079E2EAFF1093CC8F7D0C9C73C.png);"></a></div>
+                                <{/foreach}>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                        <div class="line_box on"><!-- <div>尺寸：375×667</div> --></div>
+                    </div>
+                </div>
+                <!--启动图-开始-->
+            </div>
+        </div>
+        <div class="appAdvSet_box_r">
+            <h5 class="tip-notice">拖动选项可进行排序</h5>
+            <form action="?adv/start-save.html" method="post" mini-form="admin-form" id="my_form">
+                <input type="hidden" name="data[adv_id]" value="<{$adv_id}>"/>
+                <input type="hidden" name="data[city_id]" value="0"/>
+                <!--banner轮播-开始-->
+                <div class="change_list change_list_banner">
+                    <{foreach $dav as $k=>$v}>
+                    <div class="banner_list">
+                        <div class="img float-l">
+                            <label >
+                                <img src="<{$pager.img}>/<{$v.thumb}>" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="data[thumb][]" class="file_img" value="<{$v.thumb}>"/>
+                            </label>
+                            <P>尺寸：750×1334</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="data[title][]" value="<{$v.title}>" class="input w-200"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <{foreachelse}>
+                    <div class="banner_list">
+                        <div class="img float-l">
+                            <label>
+                                <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/>
+                                <input type="file" hidden="hidden" name="" class="uploadimg">
+                                <input type="hidden" name="data[thumb][]" class="file_img" value=""/>
+                            </label>
+                            <P>尺寸：750×1334</P>
+                        </div>
+                        <div class="btn_box float-r">
+                            <!-- <a href="javascript:;" class="btn btn2 del">删除</a> -->
+                            <a href="javascript:;" class="del fa fa-times-circle"></a>
+                        </div>
+                        <div class="wx_box">
+                            <table width="100%" border="0" cellspacing="0">
+                                <tr>
+                                    <td class="bt">标题：</td>
+                                    <td><input type="text" name="data[title][]" class="input w-200"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <{/foreach}>
+                    <a href="javascript:;" class="appAdvSet_add" id="banner_add">+</a>
+                    <a href="javascript:;" class="appAdvSet_submit">提交修改</a>
+                </div>
+                <!--banner轮播-结束-->
+            </form>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        function upload_img_format(){
+            $('.uploadimg').on('change',function(){
+                var h = $(this);
+                var files = $(this)[0]['files'];
+                var params = {"paotui" : files[0]};
+                var pre = "<{$pager.img}>";
+                Widget.UploadFile("?adv/adv-uploadimg.html", params, function(ret){
+                    if(ret.error==0){
+                        h.parent().children().eq(0).attr('src',pre+'/'+ret.data.photo)
+                        h.parent().children().eq(2).val(ret.data.photo)
+                    }else{
+                        layer.msg(ret.message);
+                    }
+                });
+            })
+        }
+        upload_img_format();
+        //添加banner轮播图js；
+        function banner_add(){
+            $("#banner_add").click(function(){
+                $("#banner_add").before('  <div class="banner_list"> <div class="img float-l"> <label> <img src="/attachs/default/product.png" class="img_src" width="100" height="100"/><input type="file" hidden="hidden" name="" class="uploadimg"> <input type="hidden" name="data[thumb][]" class="file_img" value=""/> </label> <P>尺寸：750×1334</P> </div> <div class="btn_box float-r"> <a href="javascript:;" class="del fa fa-times-circle"></a> </div> <div class="wx_box"> <table width="100%" border="0" cellspacing="0"> <tr> <td class="bt">标题：</td> <td><input type="text" name="data[title][]" class="input w-200"></td>  </tr> </table> </div> </div>');
+                adv_del();
+                upload_img_format();
+            });
+        };
+        //删除banner轮播图js；
+        function adv_del(){
+            $(".banner_list .del").click(function(){
+                var h =  $(this);
+                layer.confirm('确认删除？', {
+                    btn: ['是','否'] //按钮
+                }, function(){
+                    h.parents(".banner_list").remove();
+                    layer.closeAll()
+                }, function(){
+                });
+            });
+        };
+        //删除广告；
+        adv_del();
+        //添加banner轮播图；
+        banner_add();
+        //点击出现线框；
+        /* $(".line_box").each(function(index){
+         $(this).click(function(){
+         $(".line_box").removeClass("on");
+         $(this).addClass("on");
+         $(".appAdvSet_box_r .change_list").eq(index).show().siblings().hide();
+         });
+         });*/
+        $('.appAdvSet_submit').on('click',function(){
+            $('#my_form').submit();
+        })
+    });
+</script>
+<script src="http://cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
+<script>
+    var swiper = new Swiper('.startUp .take-out_banner .swiper-container', {
+        pagination: '.startUp .take-out_banner .swiper-pagination',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 0,
+        loop: true,
+        autoplay: 2000
+    });
+</script>
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.change_list').sortable();
+    });
+</script>
+<{include file="admin:common/footer.html"}>

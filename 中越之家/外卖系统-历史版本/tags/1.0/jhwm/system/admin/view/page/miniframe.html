@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+ <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>MiniFrame</title>
+</head>
+ <body></body>
+<script type="text/javascript">
+window.Widget = parent.window.Widget;
+(function(K, $){
+	<{if $pager.error && $pager.error != 200}>
+	Widget.MsgBox.error("<{$pager.message}>");
+	parent.window.__MINI_LOAD = false;
+	<{elseif $pager.noreload}>
+	parent.window.__MINI_LOAD = false;
+	Widget.MsgBox.success("<{$pager.message}>");
+	<{else}>
+	Widget.MsgBox.success("<{$pager.message}>",function(){});
+	setTimeout(function(){<{if $pager.link}>parent.window.location = "<{$pager.link}>";<{else}>parent.window.location.reload(true);<{/if}>},800);
+	<{/if}>
+})(parent.window.KT, parent.window.jQuery);
+</script>
+</html>

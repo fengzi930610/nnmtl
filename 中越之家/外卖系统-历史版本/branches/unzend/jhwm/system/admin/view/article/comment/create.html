@@ -1,0 +1,20 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="article/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?article/comment-create.html" mini-form="comment-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form"><tr><th>文章ID：</th><td><input type="text" name="data[article_id]" value="<{$detail.article_id|default:''}>" class="input w-100"/></td></tr>
+<tr><th>用户ID：</th><td><input type="text" name="data[uid]" value="<{$detail.uid|default:''}>" class="input w-100"/></td></tr>
+<tr><th>评论内容：</th><td><textarea name="data[content]" class="textarea"><{$detail.content}></textarea><br /></td></tr>
+<tr><th>状态：</th><td><label><input type="radio" name="data[closed]" <{if $detail.closed}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;<label><input type="radio" name="data[closed]" <{if isset($detail.closed) && empty($detail.closed)}>checked="checked"<{/if}> value="0"/>否</label></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

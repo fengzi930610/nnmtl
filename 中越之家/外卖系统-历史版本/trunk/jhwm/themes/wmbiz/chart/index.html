@@ -1,0 +1,42 @@
+<div class="ibox-tools">
+    <a class="collapse-link">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+    <a class="dropdown-toggle" data-toggle="dropdown"></a>
+    <a class="close-link">
+        <i class="fa fa-times"></i>
+    </a>
+</div>
+<style type="text/css">.highcharts-credits{display: none;}</style>
+<script type="text/javascript" language="javascript">
+var amount_data = <{$amount_data}>;
+var jiesuan_data = <{$jiesuan_data}>;
+var day_data = [];
+for(var i=1; i<=jiesuan_data.length; i++){
+    day_data.push(i);
+}
+$(function(){
+ Highcharts.chart('morris-one-line-chart', {
+    title: {
+        text: '<{$pager.dateline|format:"Y年m月"}>营收'
+    },
+    xAxis: {categories : day_data},
+    yAxis: {
+        title: {
+            text: '金额'
+        },
+        labels: {
+            formatter: function () {
+                return "￥" + this.value;
+            }
+        }
+    },
+    legend: {align: 'center'},
+    tooltip: {crosshairs: true,shared: true},
+    series: [
+        {name: '营业额',data: <{$amount_data}>},
+        {name: '预计收入',data: <{$jiesuan_data}>},
+    ]
+});
+})
+</script>

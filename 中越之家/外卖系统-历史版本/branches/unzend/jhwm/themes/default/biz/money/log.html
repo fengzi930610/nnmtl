@@ -1,0 +1,26 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+	<ul>
+		<li class="on"><a href="<{link ctl='biz/money:log'}>" class="on">资金管理</a></li>
+		<li><a href="<{link ctl='biz/money:txlog'}>">提现日志</a></li>
+	</ul>
+	<span class="r"><a href="<{link ctl='biz/money:tixian'}>" class="btn btn-success">申请提现</a></span>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr><th class="w-200">类型</th><th class="w-200">收支</th><th class="w-200">日志</th><th class="w-200">时间</th></tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{if $item.money<0}>支出<{else}>收入<{/if}></td>
+        <td><b<{if $item.money<0}> class="red"<{/if}>><{$item.money}></b></td>        
+        <td><{$item.intro}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

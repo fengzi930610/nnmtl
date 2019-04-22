@@ -1,0 +1,45 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-wx_config.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="wx_config" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>订单状态通知：</th>
+    <td>
+    <ul class="group-list">
+        <li style="width:200px;">模板库编号：
+            <input type="text" name="config[order_number]" value="<{$config.order_number|default:''}>" class="input w-100" readonly="true" />
+        </li>
+        <li style="width:400px;">模板ID号：
+            <input type="text" name="config[order_id]" value="<{$config.order_id|default:''}>" class="input w-300"/>
+        </li>
+        <div class="clear-both"></div>
+    </ul>
+    </td>
+</tr>
+<tr><th>资金变动通知：</th>
+    <td>
+    <ul class="group-list">
+        <li style="width:200px;">模板库编号：
+            <input type="text" name="config[money_number]" value="<{$config.money_number|default:''}>" class="input w-100" readonly="true" />
+        </li>
+        <li style="width:400px;">模板ID号：
+            <input type="text" name="config[money_id]" value="<{$config.money_id|default:''}>" class="input w-300"/>
+        </li>
+        <div class="clear-both"></div>
+    </ul>
+    </td>
+</tr>
+
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

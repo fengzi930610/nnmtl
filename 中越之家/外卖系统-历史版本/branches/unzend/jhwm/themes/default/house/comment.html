@@ -1,0 +1,127 @@
+<{assign var='tpl_title' value=L("评价")}>
+<{include file="block/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/jquery.form.js"></script>
+
+<header>
+    <i class="left"><a href="<{link ctl='index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        评价
+    </div>
+    <i class="right"></i>
+</header>
+<form action="<{link ctl='house/order/comment_handle' }>" mini-form="car-form" id="comment_form" method="post">
+    <script>
+        function fileSelected(obj, type) {
+            var files = obj.files;
+            for (var i = 0; i < files.length; i++) {
+                var tag = '';
+                var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                if (!rFilter.test(files[i].type)) {
+                    alert("只允许上传JPG、PNG、GIF格式图片");
+                    return false;
+                }
+                var reader = new FileReader();
+                reader.onloadstart = function (e) {
+                    $(".loading").show();
+                }
+                reader.onload = function (e) {
+                    $('#photo' + type).hide();
+                    $("#img" + type).attr("src", e.target.result).show();  //图片编码字符串
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        }
+    </script>
+    <section class="page_center_box">
+        <div class="jiazheng">
+            <div class="evaluate_star border_b pad10 bgcolor_white mb10">
+                <em class="ico"></em>
+                总体评价 <span class="starBg ml10">
+                <span class="star" style="width:60%;" id='star_click'>
+                    <a href="#" class="star_clink" val='20'></a>
+                    <a href="#" class="star_clink" val='40' style='left:20%;'></a>
+                    <a href="#" class="star_clink" val='60' style='left:40%;'></a>
+                    <a href="#" class="star_clink" val='80' style='left:60%;'></a>
+                    <a href="#" class="star_clink" val='100' style='left:80%;'></a>
+                </span>
+                <input type="hidden" name='star' id='star' value='3'/>
+            </span>
+            </div>
+            <input type='hidden' name='order_id' id='order_id' value='<{$order.order_id}>'/>
+            <div class="pad10 border_t bgcolor_white">
+                <div class="pub_textarea_box">
+                    <textarea class="pub_textarea" name='content' id='content' placeholder="您对Ta的的印象"></textarea>
+                </div>
+            </div>
+            <div class="appointForm_imgdup border_t border_b mb10 clear_both">
+                <ul>
+                    <li class="appointForm_img">
+                        <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo1"
+                                                                  id="photo1" onchange="fileSelected(this,1)"
+                                                                  value="上传">
+                            <img src="" width="70" height="70" style="display:none;" id="img1">
+                        </div>
+                    </li>
+                    <li class="appointForm_img">
+                        <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo2"
+                                                                  id="photo2" onchange="fileSelected(this,2)"
+                                                                  value="上传">
+                            <img src="" width="70" height="70" style="display:none;" id="img2">
+                        </div>
+                    </li>
+                    <li class="appointForm_img">
+                        <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo3"
+                                                                  id="photo3" onchange="fileSelected(this,3)"
+                                                                  value="上传">
+                            <img src="" width="70" height="70" style="display:none;" id="img3">
+                        </div>
+                    </li>
+                    <li class="appointForm_img">
+                        <div class="uploader_input_img fl"><input class="weui_uploader_input" type="file" name="photo4"
+                                                                  id="photo4" onchange="fileSelected(this,4)"
+                                                                  value="上传">
+                            <img src="" width="70" height="70" style="display:none;" id="img4">
+                        </div>
+                    </li>
+                </ul>
+                <!--<div class="uploader_input_img fl">
+                    <input class="weui_uploader_input" type="button" accept="image/jpg,image/jpeg,image/png,image/gif" multiple>
+                </div>-->
+            </div>
+            <div class="btn_box"><input type="submit" class="long_btn" id="comment_submit" value='确认评价'/></div>
+            <p class="txt_center black9">评价后可得积分</p>
+        </div>
+    </section>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $(".uploader_input_img").click(function () {
+            $(".accountInfor_headX_mask").show();
+            $(".accountInfor_headX_mask").parent().find(".mask_bg").show();
+        });
+        $(".accountInfor_headX_mask").parent(".mask_box").find(".cancel").click(function () {
+            $(".accountInfor_headX_mask").hide();
+            $(".accountInfor_headX_mask").parent().find(".mask_bg").hide();
+        });//头像弹出层结束
+
+        $('#star_click a').click(function () {
+            var val = $(this).attr('val');
+            $('.star').css('width', val + '%');
+            $('#star').val(val / 20);
+        })
+
+        $("#comment_form").ajaxForm({
+            "target": "#comment_submit", "type": "post", "dataType": "json", "success": function (ret) {
+                alert(ret.message);
+            }
+        });
+    });
+</script>
+<style type='text/css'>
+    .star_clink {
+        width: 20%;
+    }
+</style>
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,65 @@
+<{include file="admin:common/header.html"}>
+
+<style>
+
+    .page-data .form td img{margin: 0px;}
+
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+            <th>红包活动</th>
+            <td align="right"><{link ctl="hongbao/huodong:history" priv="hidden" class="button" title="历史活动"}></td>
+            <td width="15"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="page-data">
+    <div class="form_title">天降红包 
+        <div class="float-r btn_box">
+            <{if $detail}>
+                <{link ctl="hongbao/huodong:delete" args=$detail.huodong_id act="mini:撤销" confirm="mini:确定要撤销吗？" title="撤销" class="button"}>
+            <{else}>
+                <{link ctl="hongbao/huodong:create" class="button" title="创建"}>
+            <{/if}>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tbody>
+            <tr class="alt">
+                <th class="w-200">标题</th>
+                <th class="w-300">时间</th>
+                <th class="w-200">状态</th>
+                <th class="">内容</th>
+                <th class="w-200">操作</th>
+            </tr>
+            <{if $detail}>
+            <tr class="">
+                <td><{$detail.title}></td>
+                <td><{$detail.stime|format:'Y-m-d'}>&nbsp;至&nbsp;<{$detail.ltime|format:'Y-m-d'}>&nbsp;</td>
+                <td><{if $detail.stime > time()}><span class="red">未开始</span><{elseif $detail.ltime >= time()}><span class="green">已生效</span><{else}><span class="red">已失效</span><{/if}></td>
+                <td>
+                    <{foreach $detail.config as $item}>
+                    <p class="mgb10">满<b class="red"><{$item.min_amount}></b>元，减<b class="red"><{$item.amount}></b>元</p>
+                    <{/foreach}>
+                </td>
+                <td>
+                    <{link ctl="hongbao/huodong:detail" args=$detail.huodong_id priv="hidden" class="button" title="查看详情"}>
+                    <{link ctl="hongbao/huodong:edit" args=$detail.huodong_id class="button" title="设置"}>
+                </td>
+            </tr>
+            <{else}>
+                <tr class="">
+                    <td colspan="5">还没有创建该活动！</td>
+                </tr>
+            <{/if}>
+        </tbody>
+    </table>
+</div>
+
+<{include file="admin:common/footer.html"}>

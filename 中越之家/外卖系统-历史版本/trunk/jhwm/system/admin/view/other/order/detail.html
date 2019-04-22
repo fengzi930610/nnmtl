@@ -1,0 +1,229 @@
+<{include file="admin:common/header.html"}>
+<script src="//cdn.bootcss.com/layer/2.2/layer.min.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="other/order:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="tip-notice mgb10">订单状态：<b class="red"><{$detail.order_status_label}></b>
+        <div class="order_btns" style="float:right;margin-right: 280px;width:300px;margin-top:-10px;">
+            <!-- <{if $detail.order_status != -1&&$detail.order_status != -2&&$detail.order_status != 8}>
+             <a href="javascript:;" rel="<{$detail.order_id}>" class="button canel">取消订单</a>
+            <{/if}>
+            <{if $detail.order_status >1&&$detail.order_status != 8}>
+            <a href="javascript:;" rel="<{$detail.order_id}>" class="button comfirm">完成订单</a>
+            <{/if}>
+            <{if $detail.order_status <=4&&$detail.order_status >=1&&$detail.pei_type ==2}><{link ctl="waimai/order:dopaidan" args=$detail.order_id load="mini:派单" width="mini:500" class="button" title="派单"}><{/if}>
+            <{if $detail.order_status == 0&&($detail.online_pay == 0||($detail.online_pay == 1&&$detail.pay_status == 1))}>
+            <{link ctl="waimai/order:jiedan" args=$detail.order_id act="mini:接单" confirm="mini:确定要接单吗" title="接单" class="button"}>
+            <{/if}>
+            <{if ($detail.order_status >=1 &&$detail.order_status !=8)&&($detail.refund_status == 1||$detail.refund_status == 3)}>
+            <{link ctl="waimai/order:agree" args=$detail.order_id act="mini:同意退款" confirm="mini:确定要同意退款吗" title="同意退款" class="button"}>
+            <{link ctl="waimai/order:refuse" args=$detail.order_id width="mini:450" load="mini:拒绝退款" title="拒绝退款" class="button"}>
+            <{/if}> -->
+            <{if $detail.show_btn.cancel == 1}>
+                <{link ctl="other/order:cancel" args=$detail.order_id act="mini:取消" confirm="mini:确定取消订单吗" title="取消订单" class="button"}>
+            <{/if}>
+            
+            <{if $detail.show_btn.jiedan == 1}>
+                <{link ctl="other/order:jiedan" args=$detail.order_id act="mini:接单" confirm="mini:确定要接单吗" title="接单" class="button"}>
+            <{/if}>
+
+            <{if $detail.show_btn.cancelpei == 1}>
+                <{link ctl="other/order:cancelpei" args=$detail.order_id act="mini:取消配送" confirm="mini:确定取消配送吗" title="取消配送" class="button"}>
+            <{/if}>
+
+            <!-- <{if $detail.show_btn.addtip == 1}>
+                <{link ctl="other/order:addtip" args=$detail.order_id width="mini:450" load="mini:追加小费" title="追加小费" class="button"}>
+            <{/if}> -->
+
+            <{if $detail.show_btn.setpei == 1}>
+                <{link ctl="other/order:setpei" args=$detail.order_id width="mini:450" load="mini:申请配送" title="申请配送" class="button"}>
+            <{/if}>
+
+            <{if $detail.show_btn.setconfirm == 1}>
+                <{link ctl="other/order:setconfirm" args=$detail.order_id act="mini:确认送达" confirm="mini:确定要确认送达吗" title="确认送达" class="button"}>
+            <{/if}>
+
+            <{if $detail.show_btn.agree == 1}>
+                <{link ctl="other/order:agree" args=$detail.order_id act="mini:同意" confirm="mini:确定同意退款吗" title="同意退款" class="button"}>
+            <{/if}>
+            
+            <{if $detail.show_btn.refuse == 1}>
+                <{link ctl="other/order:agree" args=$detail.order_id act="mini:拒绝" confirm="mini:确定拒绝退款吗" title="拒绝退款" class="button"}>
+            <{/if}>
+        </div>
+    </div>
+    <div class="order_details" style="margin-top:10px;">
+        <h3>订单编号：<{$detail.order_id}></h3>
+        <p><span class="tit">商家:</span><span class="mr10"><{$detail.shop.title}></span><span><{$detail.type_label}></span></p>
+        <p><span class="tit">期望送达时间:</span><span class="mr10"><{if $detail.pei_time == 0}>立即送达<{else}><{$detail.pei_time}><{/if}></span><span class="mr10">(<{$detail.dateline|format:'Y-m-d H:i'}>下单)</span><span class="online_pay"><{if $detail.online_pay == 1}>在线支付<{else}>货到付款<{/if}></span></p>
+        <p><span class="tit">地址:</span><span class="mr10"><{$detail.contact}></span><span><{$detail.mobile}></span><span class="ml10"><{$detail.addr}></span></p>
+        <p><span class="tit">骑手信息:</span><{if $detail.staff_id}><span class="mr10"><{$detail.staff.name}></span><span><{$detail.staff.mobile}></span><{else}>无<{/if}></p>
+        <p class="info"><span class="tit ">备注:</span><span class="mr10"><{$detail.intro|default:'----'}></span><i class="clear-both"></i></p>
+        </div>
+        <table width="100%">
+        <tr>
+            <td width="50%" valign="top">
+                <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+                    <tr>
+                        <th class="w-300">商品</th>
+                        <th class="w-50">单价</th>
+                        <th class="w-100">数量</th>
+                    </tr>
+                    <{foreach $detail.product as $p}>
+                        <tr>
+                            <td><{$p['product_name']}></td>
+                            <td>￥<{$p['product_price']}></td>
+                            <td>X<{$p['product_number']}></td>
+                        </tr>
+                    <{/foreach}>
+                    <tr><td colspan="3" style="height: 2px;"></td></tr>
+                    
+                    <tr>
+                        <td align="left" colspan="2">配送费</td>
+                        <td align="right">￥<{$detail.p_order.amount|default:'0'}></td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="2">小费:</td>
+                        <td align="right">￥<{$detail.p_order.tip|default:'0'}></td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="2">小计:</td>
+                        <td align="right">￥<{$detail.pei_amount}></td>
+                    </tr>            
+                </table>
+            </td>
+            <td width="10px;"></td>
+            <td valign="top">
+                <table width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+                    <tr class="">
+                        <th>订单日志</th>
+                        <th class="w-150">时间</th>
+                    </tr>
+                    <{foreach $detail.logs as $log}>
+                    <tr>
+                        <td><{$log.log}></td>
+                        <td><{$log.dateline|format:'Y-m-d H:i'}></td>
+                    </tr>
+                    <{/foreach}>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br/><br/><br/>
+</div>
+<div id="preview" class="none" style="display:none"><img class="jq_preview" src="" width="1200" height="900"/></div>
+<script>
+$(document).ready(function(e) {
+    $('.fr.mr10').click(function(){
+        if($('.orderinfo').height()==0){
+            var gettr=$('.orderinfo tr').length
+            $('.orderinfo').css('height',gettr*37+'px')
+        }else{
+            $('.orderinfo').css('height',0)
+        }
+    });
+    $(document).on("click",".see",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("src") == ""||$(this).attr("src")==0||$(this).attr("src")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("src"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '1200px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+
+});
+</script>
+
+<script>
+    function canel_order(order_id){
+        var url = "?waimai/order-cancel-"+order_id+"-0.html";
+        $.post(url,{},function(e){
+            if(e.error==0){
+                layer.msg('取消成功');
+                setTimeout(function(){
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.msg(e.message);
+            }
+
+        },'json');
+    }
+    $('.canel').on('click',function(){
+        var order_id = $(this).attr('rel');
+        var url = "?waimai/order-cancel-"+order_id+".html";
+        if(confirm('确认取消订单?')){
+            $.post(url,{},function(e){
+               if(e.error==0){
+                   layer.msg(e.message);
+                  setTimeout(function(){
+                      window.location.href = window.location.href;
+                  },1500);
+               }else if(e.error==300){
+                   if(confirm(e.message+",是否确认强制取消?")){
+                       canel_order(order_id);
+                   }
+
+               }else{
+                   layer.msg(e.error);
+               }
+
+            },'json');
+        }
+    })
+    $('.comfirm').on('click',function(){
+        var order_id = $(this).attr('rel')
+        var url = "?waimai/order-complete-"+order_id+".html";
+        if(confirm('确认完成订单?')){
+            $.post(url,{},function(e){
+                if(e.error==0){
+                    layer.msg(e.message);
+                    setTimeout(function(){
+                        window.location.href = window.location.href;
+                    },1500);
+                }else if(e.error==300){
+                    if(confirm(e.message)){
+                        compltete_order(order_id);
+                    }
+
+                }else{
+                    layer.msg(e.error);
+                }
+
+            },'json');
+        }
+    })
+    function compltete_order(order_id){
+        var url = "?waimai/order-complete-"+order_id+"-0.html";
+        $.post(url,{},function(e){
+            if(e.error==0){
+                layer.msg('确认完成');
+                setTimeout(function(){
+                    window.location.href = window.location.href;
+                },1500);
+            }else{
+                layer.msg(e.message);
+            }
+
+        },'json');
+    }
+</script>
+</body>
+</html>

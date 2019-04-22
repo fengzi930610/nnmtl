@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" name="viewport">
+        <title>外卖订单处理</title>
+        <link rel="stylesheet" type="text/css" href="/themes/default/biz/static/css/pub.css?<{$VER}>"/>
+        <link rel="stylesheet" href="http://apps.bdimg.com/libs/fontawesome/4.2.0/css/font-awesome.min.css" type="text/css" />
+        <link rel="stylesheet" href="<{$pager.res}>/script/jBox/jBox.css?<{$VER}>" type="text/css" />
+        <link rel="stylesheet" href="<{$pager.res}>/style/kt.widget.css?<{$VER}>" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="/themes/default/biz/static/css/append.css?<{$VER}>"/>
+        <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/layer/layer.js?<{$VER}>"></script>
+        <script type="text/javascript" src="<{$pager.res}>/script/kt.j.js"></script>
+        <script src="/themes/default/static/js/common.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+        <script type="text/javascript" src="<{$pager.res}>/script/My97DatePicker/WdatePicker.js"></script>
+        <script src="<{$pager.res}>/script/fastclick.js" type="text/javascript" charset="utf-8"></script>
+        <style>
+            .page-bar .left a{color: #fff;  font-size: 16px; background: #6eb430; display: inline-block;  padding:6px 10px;}
+            .page-bar tr td label{color: #fff;  font-size: 16px; margin-right: 10px;} 
+        </style>
+    </head>
+
+    <body>
+        <div class="topCont">
+            <a href="<{link ctl='biz/index'}>" class="topCont_back fl"><em class="homeIco"></em>返回后台管理</a>
+            <div class="topCont_title">订单处理系统</div>
+        </div>
+        <div class="pub_cont">
+            <div class="select_top">
+                <div class="fl">
+                    <div class="select_box fl">快速订单管理</div>
+                    <span class="daojishi fl"><span id="endtime">20</span>秒</span>
+                    <label class="fl refresh_select"><input type="checkbox" id="btn_reload" name="btn_reload"></label>
+                    <a href="javascript:void(0);" class="refresh_btn fl">自动刷新</a>
+                    <label class="voice_select fl"><input type="checkbox">播放铃声</label>
+                    <div class="clear"></div>
+                </div>
+                <div class="fr">
+                    <ul class="order_tab_box">
+                        <li class="list <{if $type==0}>on<{/if}>"><a href="<{link ctl='biz/waimai/ordermanage/index'}>">所有订单</a></li>
+                        <li class="list <{if $type==1}>on<{/if}>"><a href="<{link ctl='biz/waimai/ordermanage/index' type=1}>">待接订单</a></li>
+                        <li class="list <{if $type==2}>on<{/if}>"><a href="<{link ctl='biz/waimai/ordermanage/index' type=2}>">待配送订单</a></li>
+                        <li class="list <{if $type==3}>on<{/if}>"><a href="<{link ctl='biz/waimai/ordermanage/index' type=3}>">待完成订单</a></li>
+                        <li class="list <{if $type==4}>on<{/if}>"><a href="<{link ctl='biz/waimai/ordermanage/index' type=4}>">已完成订单</a></li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="search_top mb10">
+                <div class="fl">
+                    <form <{if $type==0}>action="<{link ctl='biz/waimai/ordermanage/index'}>"<{else}>action="<{link ctl='biz/waimai/ordermanage/index' type=$type}>"<{/if}> method="post" id="post_form">
+                        <div class="search_box"><input type="text" name="order_id" value="<{$order_id}>" placeholder="输入订单号"><button><em class="searchIco"></em>查询</button></div>
+                    </form>
+                </div>
+                <div class="fr">
+                    <label class="hidden_detail"><input type="checkbox" class="hidden_details">隐藏订单详情</label>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div>
+                <form id="items-form">
+                <table class="order_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th class="order_th">订单编号</th>
+                        <th class="order_th">联系人</th>
+                        <th class="order_th">联系电话</th>
+                        <th class="order_th">地址</th>
+                        <th class="order_th">下单时间</th>
+                        <th class="order_th">订单状态</th>
+                        <th class="order_th">订单价格</th>
+                        <th class="order_th">操作</th>
+                    </tr>
+                    <{foreach $items as $item}>
+                    <tr class="order_tr">
+                        <td class="order_td"><label><input type="checkbox" value="<{$item.order_id}>" name="order_id[]" CK="PRI"/><{$item.order_id}><label></td>  
+                        <td class="order_td"><{$item.contact}></td>
+                        <td class="order_td"><{$item.mobile}></td>
+                        <td class="order_td"><{$item.house}></td>
+                        <td class="order_td"><{$item.dateline|format:'Y-m-d H:i'}></td>
+                        <td class="order_td"><{$status[$item['order_status']]}></td>
+                        <td class="order_td">￥<{$item.order_price}></td>
+                        <td class="order_td">
+                            <{if $item.order_status==0}>
+                            <a href="javascript:accept(<{$item.order_id}>,0);" class="pub_btn" title="接单(自主)">接单(自主)</a>
+                            <a href="javascript:accept(<{$item.order_id}>,1);" class="pub_btn" title="接单(第三方)">接单(第三方)</a>
+                             <a href="<{link ctl='biz/order:cancel' arg0=$item.order_id}>" mini-act="confirm:您确定要取消订单吗" class="pub_btn" title="取消订单">取消订单</a>
+                            <{else if $item.order_status == 1}>
+                            <a href="javascript:peisong(<{$item.order_id}>);" class="pub_btn" title="开始配送">配送</a>
+                            <a href="<{link ctl='biz/order:cancel' arg0=$item.order_id}>" mini-act="confirm:您确定要取消订单吗" class="pub_btn" title="取消订单">取消订单</a>
+                            <{else if $item.order_status == 3 ||$item.order_status == 4}>
+                            <a href="javascript:finish(<{$item.order_id}>);" class="pub_btn" title="完成订单">完成订单</a>
+                            <{/if}>
+                            <a href="javascript:void(0);" rel="<{$item.order_id}>"  class="pub_btn view_btn" title="查看">查看</a>
+                        </td>
+                    </tr>
+                    <tr class="order_tr_child tr_<{$item.order_id}>">
+                        <td colspan="8" class="order_td_child">
+                            <table class="order_table_child" width="100%" cellspacing="0" cellpadding="0">
+                                <tr>
+                                    <td colspan="1"><span class="fontcl1">支付方式：</span><{if $item.online_pay == 1}><{$payments[$item['pay_code']]}><{else}>餐到付款<{/if}>（<{if $item.pay_status == 1}>已付<{else}>未付<{/if}>）</td>
+                                    <td colspan="2"><span class="fontcl1">订单状态：</span><{$status[$item['order_status']]}></td>
+                                    <td colspan="2"><span class="fontcl1">配送时间：</span><{$item.dateline|format:'Y-m-d H:i'}></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><span class="fontcl1">店铺：</span><{$shop.title}></td>
+                                    <td colspan="3"><span class="fontcl1">店铺联系电话：</span><{$shop.phone}></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><span class="fontcl1">订单备注：</span><{$item.note|default:'无'}></td>
+                                    <td colspan="3"><span class="fontcl1">配送：</span><{if $item.pei_type==0}>商家自主配送<{else}><{if $item.staff_id >0}>配送员：<{$staffs[$item['staff_id']]['name']}>(<{$staffs[$item['staff_id']]['mobile']}>)<{else}>等待配送员接单<{/if}><{/if}></td>
+                                </tr>
+                                <tr class="mb">
+                                    <td colspan="5">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="fontcl1">商品</td>
+                                    <td class="fontcl1">单价</td>
+                                    <td class="fontcl1">打包费</td>
+                                    <td class="fontcl1">数量</td>
+                                    <td class="fontcl1">总价</td>
+                                </tr>
+                                <{foreach $item.products as $var}>
+                                <tr>
+                                    <td><{$var.product_name}></td>
+                                    <td>￥<{$var.product_price}></td>
+                                    <td>￥<{$var.package_price}></td>
+                                    <td><{$var.product_number}></td>
+                                    <td>￥<{$var.amount}></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td colspan="5"><{if $item.first_youhui>0}><span class="price_z"><span class="fontcl1">首单优惠：</span>-￥<{$item.first_youhui}></span><{/if}><{if  $item.order_youhui>0}><span class="price_z"><span class="fontcl1 price_z">下单立减：</span>-￥<{$item.order_youhui}></span><{/if}><{if  $item.hongbao>0}><span class="price_z"><span class="fontcl1 price_z">红包抵扣：</span>-￥<{$item.hongbao}></span><{/if}></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5"><span class="price_z"><span class="fontcl1">商品总价：</span>￥<{$item.total_price}></span><span class="price_z"><span class="fontcl1">运费：</span>￥<{$var.freight}></span><span class="price_z"><span class="fontcl1">打包费：</span>￥<{$var.package_price}></span><span class="price_z"><span class="fontcl1 price_z">应收金额：</span>￥<{$item.js_price}></span></td>
+                                </tr>
+                                <{/foreach}>
+                            </table>
+                        </td>
+                    </tr>
+                    <{foreachelse}>
+                    <tr><td colspan="20"><div class="alert alert-info">暂无订单</div></td></tr>
+                    <{/foreach}>
+                </table>
+                </form>
+            </div>
+            <div class="page-bar">
+                <table>
+                    <tr>
+                        <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                        <td class="left">
+                             <{if $item.order_status==0}>
+                            <a action="<{link ctl='biz/waimai/order:accept' pei_type=0}>"  mini-submit="#items-form" class="btn btn-success" title="批量接单">批量接单(自主)</a>
+                            <a action="<{link ctl='biz/waimai/order:accept' pei_type=1}>" mini-submit="#items-form" class="btn btn-success" title="批量接单">批量接单(第三方)</a>
+                            <a action="<{link ctl='biz/waimai/order:cancel'}>" mini-submit="#items-form" mini-act="confirm:您确定要批量取消订单吗"  class="btn btn-success" title="批量取消订单">批量取消订单</a>
+                            <{else if $item.order_status ==1}>
+                            <a action="<{link ctl='biz/waimai/order:peisong'}>"  mini-submit="#items-form" class="btn btn-success" title="批量配送">批量配送</a>
+                            <a action="<{link ctl='biz/waimai/order:cancel'}>" mini-submit="#items-form" mini-act="confirm:您确定要批量取消订单吗" class="btn btn-success" title="批量取消订单">批量取消订单</a>
+                             <{else if $item.order_status == 3 ||$item.order_status == 4}>
+                            <a action="<{link ctl='biz/waimai/order:finish'}>"  mini-submit="#items-form" class="btn btn-success" title="批量完成">批量完成</a>
+                            <{/if}>
+                        </td>
+                        <td><div class="page"><{$pager.pagebar}></div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <span id="mp3_box" style="height: 0px;"></span>
+
+        <script type="text/javascript">
+            
+            if(Cookie.get("reload") ==1){
+                
+                var i = 20;
+                function remainTime() {
+                    if (i == 0) {
+                        window.location.reload(true);
+                    }
+                    i--;
+                    if(i<0)i=0;
+                    document.getElementById('endtime').innerHTML = i;
+                    setTimeout("remainTime()", 1000);
+                }
+                remainTime();
+                $('#btn_reload').attr("checked",'true');     
+            }else{
+                $('.daojishi').text('');
+            }
+           
+        </script>  
+
+        <script>
+            $(document).ready(function () {
+                var mp3 = '<object type="application/x-shockwave-flash" data="/themes/default/biz/static/images/mp3_multi.swf?mp3=/themes/default/biz/static/images/a.mp3&autoplay=1&volume=40&randomplay=1" width="240" height="20" id="dewplayer-rect"><param name="wmode" value="transparent" /><param name="movie" value="/themes/default/biz/static/images/mp3_multi.swf?mp3=/themes/default/biz/static/images/a.mp3&autoplay=1&volume=40&randomplay=1"  id="dewplayer-param"/></object>';
+                
+                $(".voice_select").click(function(){
+                    if ($(this).hasClass("on")) {
+                        $(this).removeClass("on");
+                        Cookie.set("play", 0, 86400);
+                    }else {
+                        $(this).addClass("on");
+                        Cookie.set("play", 1, 86400);
+                    }
+                })
+                
+                $('#btn_reload').click(function(){
+                    if($("#btn_reload").attr("checked")=="checked"){
+                        Cookie.set("reload", 1, 86400);
+                    }else{
+                        Cookie.set("reload", 0, 86400);
+                    }
+                    window.location.reload(true);
+                })
+                
+                
+                if(Cookie.get("play") ==1){
+                    $(".voice_select").trigger("click");
+                    var play_mp3 = "<{$play_mp3}>";
+                    if(play_mp3 ==1){
+                        $("#mp3_box").html(mp3);
+                    }
+                }
+                
+                $(".view_btn").click(function () {
+                    $('.tr_' + $(this).attr('rel')).slideToggle();
+                })
+
+                $(".hidden_details").click(function () {
+                    if ($(this).hasClass("on")) {
+                        $(this).removeClass("on");
+                        $(".order_tr_child").show();
+                        Cookie.set("show", 0, 86400);
+                    }else {
+                        $(this).addClass("on");
+                        $(".order_tr_child").hide();
+                        Cookie.set("show", 1, 86400);
+                    }
+                });
+                if(Cookie.get("show") ==1){
+                    $(".hidden_details").trigger("click");
+                }
+            })
+
+            function cancel(id) {
+                var link = "<{link ctl='biz/waimai/order:cancel' arg0='temp'}>";
+                jQuery.ajax({
+                    url: link.replace('temp', id),
+                    async: true,
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (ret) {
+                        if (ret.error > 0) {
+                            layer.msg(ret.message);
+                        } else {
+                            layer.msg(ret.message);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    },
+                });
+            }
+
+
+            function accept(id, type) {
+                var link = "<{link ctl='biz/waimai/order:accept' arg0='temp' arg1='oooo'}>";
+                jQuery.ajax({
+                    url: link.replace('temp', id).replace('oooo', type),
+                    async: true,
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (ret) {
+                        if (ret.error > 0) {
+                            layer.msg(ret.message);
+                        } else {
+                            layer.msg(ret.message);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    },
+                });
+            }
+
+            function peisong(id) {
+                var link = "<{link ctl='biz/waimai/order:peisong' args='temp'}>";
+                jQuery.ajax({
+                    url: link.replace('temp', id),
+                    async: true,
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (ret) {
+                        if (ret.error > 0) {
+                            layer.msg(ret.message);
+                        } else {
+                            layer.msg(ret.message);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    },
+                });
+            }
+
+            function finish(id) {
+                var link = "<{link ctl='biz/waimai/order:finish' args='temp'}>";
+                jQuery.ajax({
+                    url: link.replace('temp', id),
+                    async: true,
+                    dataType: 'json',
+                    type: 'POST',
+                    success: function (ret) {
+                        if (ret.error > 0) {
+                            layer.msg(ret.message);
+                        } else {
+                            layer.msg(ret.message);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    },
+                });
+            }
+
+        </script>
+        
+        <script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+KindEditor.ready(function(KE) {
+    $("[uploadbtn]").each(function(){
+         var upload_url = $(this).attr("uploadbtn")
+         var uploadbutton = KE.uploadbutton({
+            button : $(this)[0],
+            fieldName : 'imgFile',
+            url : '<{link ctl="biz/upload:photo" http="ajax"}>',
+            afterUpload : function(data) {
+                if (data.error === 0) {
+                    var photo = data.photo;
+                    KE(upload_url).val(photo);
+                    KE(upload_url).attr("photo", "<{$pager.img}>/"+photo);
+                    Widget.MsgBox.success('上传图片成功');
+                } else {
+                    alert(data.message);
+                }
+            },
+            afterError : function(str) {
+                alert(str);
+            }
+        });
+        uploadbutton.fileBox.change(function(e) {
+            uploadbutton.submit();
+        });           
+    });
+    $(".ke-upload_lay .ke-button").removeClass().addClass("btn btn-success btn-sm");
+    $(".ke-upload_lay .ke-button-common").removeClass("ke-button-common");
+    $("[preview]").click(function(){
+        var el = $(this).attr("preview");
+        if($(el).attr('photo')){
+            layer.open({
+                type: 1,
+                shade: false,
+                title: false,
+                area: [400, 400],
+                cancel: function(index){layer.close(index);},
+                content: '<img src="'+$(el).attr('photo')+'" width="400" height="400"/>'
+             });
+        }else{
+            alert("还没有添加图片");
+        }
+    });
+});
+})(window.KT, window.jQuery);
+</script>
+<script type="text/javascript">
+(function(K, $){
+$("[date],[datepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});});
+$("[datetime],[timepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+$("[map-marker]").off("click").on("click", function(e){
+    e.stopPropagation();e.preventDefault();
+    var input = $(this).attr("map-marker").split(",");
+    var point = {lng:"", lat:""};
+    if(input.length < 2){
+        var d = $(input[0]).val().split(",");
+        point.lng = d[0];
+        point.lat = d[1];
+    }else{
+        point.lng = $(input[0]).val();
+        point.lat = $(input[1]).val();
+    }
+    Widget.BMap.Marker(point, function(ret){
+        if(input.length < 2){
+            $(input[0]).val(ret.lng+","+ret.lat);
+        }else{
+            $(input[0]).val(ret.lng);
+            $(input[1]).val(ret.lat);
+        }
+    });
+});
+$("[mini-select]").off("click").on("click", function(e){
+    e.stopPropagation(); e.preventDefault();
+    var a = $(this).attr("mini-select").split("/");
+    var elm = a[0].split(",");
+    var multi = a[1] || 'N';
+    var city_id = a[2] || 0;
+    var title = a[3] || ($(this).attr("title") || "请选择");
+    var link = $(this).attr("action") || $(this).attr("href");
+    var width = $(this).attr("mini-width") || 500;
+    if(link.indexOf("?")<0){
+        link += "?city_id="+city_id;
+    }else{
+        link += "&city_id="+city_id;
+    }
+    Widget.Dialog.Select(link, multi, function(ret){
+        if(multi == 'Y'){
+            var itemIds = [], itemNames = [];
+            for(var i=0; i<ret.length; i++){
+                itemIds.push(ret[i][0]);
+                itemNames.push(ret[i][1].title)
+            }
+            $(elm[0]).val(itemIds.join(","));
+            if(elm.length > 1){
+                $(elm[1]).val(itemNames.join(","));
+            }
+        }else{
+            $(elm[0]).val(ret[0]);
+            if(elm.length > 1){
+                $(elm[1]).val(ret[1].title);
+            }
+        }
+    }, {title:title,width:width});
+});
+
+})(window.KT, window.jQuery);
+$(document).ready(function(){
+    var r_height = $("#ucenter_right_lay").height();
+    if($("#ucenter_left_lay").height() < r_height){
+        $("#ucenter_left_lay").height(r_height);
+    }
+});
+</script>
+
+
+<{if $request.MINI=='load'}>
+<script type="text/javascript">(function(){$(".ui-dialog .ui-dialog-content .page-title").hide();$(".ui-dialog .ui-dialog-content .page-data").css({margin:"0px"});
+$("[date],[datepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});});
+$("[datetime],[timepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'});});})(window.KT, window.jQuery);</script>
+<{elseif $request.MINI=='LoadIframe'}>
+<script type="text/javascript">
+(function(T, $){
+$(":checkbox[CKA]").off("click").on("click",function(){
+    var $cks = $(":checkbox[CK='"+$(this).attr("CKA")+"']");;
+    if($(this).attr("checked")){
+        $cks.each(function(){$(this).attr("checked",true);});
+    }else{
+        $cks.each(function(){$(this).attr("checked",false);});
+    }
+});
+$(".page-title").hide();$(".page-data").css({margin:"0px"});
+$("[date],[datepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});});
+$("[datetime],[timepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+window.parent.Widget.MsgBox.hide();
+if(typeof(window.parent.Dialog_Iframe) == 'object'){
+    window.parent.Dialog_Iframe.dialog({height: $("body").height()+50});
+}else{
+
+}
+})(window.KT, window.jQuery);
+</script>
+</body>
+</html>
+<{else}>
+<p class="s-50"></p>
+<script type="text/javascript">
+(function(T, $){
+$("[date],[datepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd'});});
+$("[datetime],[timepicker]").off("click").on("click", function(){$(this).addClass("Wdate ");WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'});});
+	$(":checkbox[CKA]").off("click").on("click",function(){
+		var $cks = $(":checkbox[CK='"+$(this).attr("CKA")+"']");;
+		if($(this).attr("checked")){
+			$cks.each(function(){$(this).attr("checked",true);});
+		}else{
+			$cks.each(function(){$(this).attr("checked",false);});
+		}
+	});
+	if (window.parent == window){
+		$(".page-data").css({margin:"45px 10px 10px 10px"});
+	}
+})(window.KT, window.jQuery);
+</script>
+<{/if}>
+    </body>
+</html>

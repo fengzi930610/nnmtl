@@ -1,0 +1,43 @@
+<{assign var='tpl_title' value=L("抢购-订单列表")}>
+<{include file="webview/qiang/block/header.html"}>
+<div class="container" id="container">
+	<div class="page js_show">
+		<div class="page_cont">
+            <div class="orderlist_top">
+                <a href="javascript:;" class="list <{if $ret==1}>on<{/if}>" onclick="change_btu(1)"><i class="ico ico1"></i><p>待消费</p></a>
+                <a href="javascript:;" class="list <{if $ret==2}>on<{/if}>" onclick="change_btu(2)"><i class="ico ico2"></i><p>待发货</p></a>
+                <a href="javascript:;" class="list <{if $ret==3}>on<{/if}>" onclick="change_btu(3)"><i class="ico ico3"></i><p>待收货</p></a>
+                <a href="javascript:;" class="list <{if $ret==4}>on<{/if}>" onclick="change_btu(4)"><i class="ico ico4"></i><p>无效/退款</p></a>
+                <a href="javascript:;" class="list <{if $ret==5}>on<{/if}>" onclick="change_btu(5)"><i class="ico ico5"></i><p>已完成</p></a>
+            </div>
+		    <div class="container_mid">
+		        <!-- 内容 -->
+				<ul class="orderlist_cont" id="qiang_order">
+                         
+                </ul>
+		        <!-- 内容end -->
+		    </div>
+		</div> 
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        localStorage.removeItem('qiang_list_url');
+    })
+
+    //切换按钮
+    function change_btu(ret){
+        var ret = ret || 1;
+        var link = "<{link ctl='webview/qiang/order/index' arg0='#ret#' http='wmbiz'}>";
+        window.location.href = link.replace('#ret#',ret);
+    }
+
+    window.onload = function(){
+        var ret = parseInt("<{$ret}>" || 1);
+        var url = "<{link ctl='webview/qiang/order/loadorder' arg0='#page#' http='wmbiz'}>";
+        var list_id = 'qiang_order';
+        loadpage(url,{ret:ret},1,list_id);
+        scroll(url,{ret:ret},1,"","#qiang_order",list_id);
+    }
+</script>
+<{include file="webview/qiang/block/footer.html"}>

@@ -1,0 +1,106 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/yezhu/index'}>" class="on">业主管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='wuye/yezhu/index:edit' args=$detail.yezhu_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th>姓名：</th>
+                <td>
+                    <input type="text" name="data[contact]" value="<{$detail.contact}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>手机：</th>
+                <td>
+                    <input type="text" name="data[mobile]" value="<{$detail.mobile}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>楼号：</th>
+                <td>
+                    <input type="text" name="data[house_louhao]" value="<{$detail.house_louhao}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>单元号：</th>
+                <td>
+                    <input type="text" name="data[house_danyuan]" value="<{$detail.house_danyuan}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>户号：</th>
+                <td>
+                    <input type="text" name="data[house_huhao]" value="<{$detail.house_huhao}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>面积：</th>
+                <td>
+                    <input type="text" name="data[house_mianji]" value="<{$detail.house_mianji}>" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>是否有车位：</th>
+                <td>
+                    <ul class="group-list car">
+                        <li><label val='1'><input type="radio" name="data[have_chewei]" value="0" <{if $detail.have_chewei == 0}>checked="checked"<{/if}>>无</label></li>
+                        <li><label val='2'><input type="radio" name="data[have_chewei]" value="1" <{if $detail.have_chewei == 1}>checked="checked"<{/if}>>有</label></li>
+                        <div class="clear-both"></div>
+                    </ul>
+                </td>
+            </tr>
+            
+           
+            <tr class='car_content' <{if $detail.have_chewei == 0}>style="display:none;"<{/if}>>
+                <th>车位号：</th>
+                <td>
+                    <input type="text" name="data[chewei_hao]" value="<{$detail.chewei_hao}>" class="input w-200"/>
+                </td>
+            </tr>
+            
+            <tr class='car_content' <{if $detail.have_chewei == 0}>style="display:none;"<{/if}>>
+                <th>车牌号：</th>
+                <td>
+                    <input type="text" name="data[chepai_hao]" value="<{$detail.chepai_hao}>" class="input w-200"/>
+                </td>
+            </tr>
+            
+            <input type="hidden" name="data['xiaoqu_id']" value='<{$xiaoqu_id}>'  >
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+        $("[name='data[stock_type]']").click(function () {
+            if ($(this).val() == 1) {
+                $("#tr_sale_sku1").show();
+            } else {
+                $("#tr_sale_sku1").hide();
+            }
+        });
+        
+        $('.car label').click(function(){
+            var val = $(this).attr('val');
+            if(val == 1){
+                $('.car_content').hide();
+            }else{
+                $('.car_content').show();
+            }
+        })
+        $("[name='data[stock_type]']:checked").trigger("click");
+</script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

@@ -1,0 +1,45 @@
+<{assign var='tpl_title' value='优惠券-团购券'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        优惠券-团购券
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<div class="changeTab_box">
+    <div class="changeTab"><a href="<{link ctl='ucenter/coupon:index' arg1='tuan'}>" class="link<{if $type == 'tuan'}> on<{/if}>">团购券</a><a href="<{link ctl='ucenter/coupon:index' arg1='quan'}>" class="link<{if $type == 'quan'}> on<{/if}>">代金券</a></div>
+</div>
+<section class="page_center_box">
+    <div class="coupons_list_box">
+        <ul id="index_goods_items">
+
+        </ul>
+        <div class="loadding">
+
+        </div>
+        <div class="clear"></div>
+        
+        
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/coupon/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var type = "<{$type}>";
+        var params = {"type":type};
+        loaddata(link, page, params);
+        $(document).on("click",".next",function(){
+            page++;
+            loaddata(link, page, params);
+        })
+    })
+
+function todetail(ticket_id) {
+    var link = "<{link ctl='ucenter/coupon:detail' args='temp'}>";
+    localStorage['coupon_detail'] = window.location.href;
+    window.location.href = link.replace('temp',ticket_id);
+}
+</script>
+<{include file="block/footer.html"}>

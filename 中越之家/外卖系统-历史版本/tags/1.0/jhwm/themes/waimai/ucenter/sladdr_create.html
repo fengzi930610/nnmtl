@@ -1,0 +1,132 @@
+<{assign var='tpl_title' value=L("外卖地址--新建")}>
+<{include file="waimai/block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="Mine_addressAdd">
+                    <form >
+                    <div class="MinePersonal mt10">
+                        <div class="item-inner">
+                            <div class="item-row">
+                                <div class="item-title">收货人<input id="nickname" name="data[contact]" type="text" placeholder="请输入收货人姓名"></div>
+                            </div>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-row">
+                                <div class="item-title">手机号<input id="mobile" type="text" name="data[mobile]" placeholder="请输入收货人手机号"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="address_detail mt10 mb20">
+                        <div class="item-inner" id="addr_map">
+                            <div class="item-row">
+                                <div class="item-title">地址<input type="text" id="addr" name="data[addr]" value="<{$addr}>" placeholder="小区/写字楼/学校等"></div>
+                                <input type="hidden" name="data[lng]" id="lng" value="<{$lng}>">
+                                <input type="hidden" name="data[lat]" id="lat" value="<{$lat}>">
+                                <div class="item-after"><i class="ico_right"></i></div>
+                            </div>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-row">
+                                <div class="item-title">详细地址<input id="house" type="text" name="data[house]" placeholder="例：5号楼101室"></div>
+                            </div>
+                        </div>
+                        <div class="label">
+                            <div class="item-row">
+                                <div class="item-title">
+                                    <p class="fl">标签</p>
+                                    <div class="box">
+                                        <a href="javascript:;" id="2" value="2">家</a>
+                                        <a href="javascript:;" id="1" value="1">公司</a>
+                                        <a href="javascript:;" id="3" value="3">学校</a>
+                                        <a href="javascript:;" id="4" value="4">其他</a>
+                                        <input type="hidden" id="type" name="data[type]" value="" >
+                                    </div><div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="save_btn  takeoutLongBtn" >
+                        保存
+                    </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $('.Mine_addressAdd  .address_detail .label .item-title .box a').click(function(){
+            $(this).addClass('on').siblings().removeClass('on')
+            var type=$(this).attr('value');
+            localStorage.setItem('type_value',type);
+
+            $('#type').val(type);
+        })
+        $("#addr_map").click(function(){
+            var link = "<{link ctl='ucenter/addr:add_map' http='waimai'}>";
+            var back_url = '<{link ctl="ucenter/sladdr:create" arg0=$shop_id http='waimai'}>';
+            localStorage.setItem('back_addr',JSON.stringify({"backurl":back_url}));
+            window.location.href=link;
+        })
+        //读取信息开始
+        var addr_nickname = localStorage.getItem('addr_nickname');
+        if(addr_nickname){$('#nickname').val(addr_nickname);}
+        var addr_mobile = localStorage.getItem('addr_mobile');
+        if(addr_mobile){$('#mobile').val(addr_mobile);}
+        var addr_house = localStorage.getItem('addr_house');
+        if(addr_mobile){$('#house').val(addr_house);}
+        var type = localStorage.getItem('type_value');
+       if(type){$('#type').val(type);
+           $("#"+type).addClass('on')
+       }
+        //读取信息结束
+
+        //存储信息开始
+        $('#nickname').blur(function(){
+            localStorage.setItem('addr_nickname',$(this).val());
+        })
+        $('#mobile').on('keyup',function(){
+            localStorage.setItem('addr_mobile',$(this).val());
+        })
+        $('#house').on('keyup',function(){
+            localStorage.setItem('addr_house',$(this).val());
+        })
+        //存储信息结束
+    })
+    $(".save_btn").on('click',function () {
+        var parsam= {
+            contact:$('#nickname').val(),
+            mobile:$('#mobile').val(),
+            house:$('#house').val(),
+            addr:$('#addr').val(),
+            type:$('#type').val(),
+            lng:$('#lng').val(),
+            lat:$('#lat').val()
+        }
+        var url = '<{link ctl="ucenter/sladdr:create" http='waimai'}>';
+        $.post(url,parsam,function (e) {
+            if(e.error>0){
+                Widget.MsgBox.error(e.message)
+            } else{
+                //用完删除localStorage的数据
+                localStorage.removeItem('type_value');
+                localStorage.removeItem('back_addr');
+                localStorage.removeItem('addr_nickname');
+                localStorage.removeItem('addr_mobile');
+                localStorage.removeItem('addr_house');
+                Widget.MsgBox.success('添加成功!');
+                setTimeout('go_forward()',2000);
+            }
+        },'json')
+    })
+    function go_forward() {
+        window.location.href = "<{link ctl='ucenter/sladdr:index' arg0=$shop_id http='waimai'}>";
+    }
+</script>
+<{include file="waimai/block/footer.html"}>

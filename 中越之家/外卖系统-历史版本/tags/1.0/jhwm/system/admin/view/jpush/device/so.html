@@ -1,0 +1,87 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="jpush/device:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?jpush/device-index.html" id="SO-form" method="post">
+		<table width="100%" border="0" cellspacing="0" class="table-data form">
+			<tr>
+                <th>类型：</th>
+                <td>
+                    <select name="SO[from]" class="w-100">
+                        <option value="">不限</option>                       
+                        <option value="member">用户端</option>
+                        <option value="staff">服务端</option>
+                        <option value="shop">商户端</option>
+                    </select>
+                </td>
+            </tr>
+            
+		    <tr class="device-from from-member" style="display: none;">
+		        <th>选择用户：</th>
+		        <td>
+		            <input type="hidden" name="SO[uid]" value="0" id="select_member_id" />
+		            <input type="text" value="" id="select_member_uname" class="input w-150"/>
+		            <{link ctl="member/member:dialog" title="选择用户" select="mini:#select_member_id,#select_member_uname/N/选择用户" class="button"}>
+		        </td>
+		    </tr>
+		    <tr class="device-from from-staff" style="display: none;">
+			    <th>配送员：</th>
+			    <td>
+			        <input type="hidden" name="SO[staff_id]" value="0" id="select_staff_id" />
+			        <input type="text" value="" id="select_staff_name" class="input w-150"/>
+			        <{link ctl="group/staff:dialog" title="选择骑手" select="mini:#select_staff_id,#select_staff_name/N/选择骑手" class="button"}>
+			    </td>
+			</tr>
+			<tr class="device-from from-shop" style="display: none;">
+		        <th>商家:</th>
+		        <td>
+		            <input type="hidden" name="SO[shop_id]" value="0" id="select_shop_id" />
+		            <input type="text" value="" id="select_shop_title" class="input w-150" readonly/>
+		            <{link ctl="shop/shop:dialog" title="选择商家" select="mini:#select_shop_id,#select_shop_title/N/选择商户" class="button"}>
+		        </td>
+		    </tr>
+
+            <tr>
+                <th>平台：</th>
+                <td>
+                    <select name="SO[platform]" class="w-100">
+                        <option value="">不限</option>
+                        <option value="android">Android终端</option>
+                        <option value="ios">IOS终端</option>
+                    </select>
+                </td>
+            </tr>
+		    <tr>
+		    	<th>设备号：</th>
+		    	<td><input type="text" name="SO[register_id]" value="" class="input w-300"/></td>
+		    </tr>
+			<tr>
+				<th class="clear-th-bottom"></th>
+				<td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('select[name="SO[from]"]').change(function(){
+			var from = $(this).val();
+			if(from){
+				$('.device-from').hide();
+				$('.from-'+from).show();
+			}else{
+				$('.device-from').hide();
+			}
+		});
+	});
+</script>
+
+<{include file="admin:common/footer.html"}>

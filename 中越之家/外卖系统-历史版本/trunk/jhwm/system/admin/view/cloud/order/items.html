@@ -1,0 +1,55 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <{link ctl="cloud/order:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tr>
+            <th class="w-100">订单ID</th>
+            <th class="w-150">商品</th>
+            <th class="w-150">用户</th>
+            <th class="w-150">订单总额</th>
+            <th class="w-150">使用夺宝币</th>
+            <th class="w-50">订单状态</th>
+            <th class="w-100">创建时间</th>
+            <th class="w-150">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+        <td><label><input type="checkbox" value="<{$item.order_id}>" name="order_id[]" CK="PRI"/><{$item.order_id}><label></td>
+        <td>(第<{$attrs[$item['attr_id']]['cloud_num']}>期)<{$goods[$item['goods_id']]['title']}></td>
+        <td><{$users[$item['uid']]['nickname']|default:'匿名'}></td>
+        <td><{$item.num}></td>
+        <td><{$item.use_coin}></td>
+        <td><{if $item.order_status == 0}><font style="color: red;">未支付</font><{else}><font style="color: green;">已完成</font><{/if}></td>
+        <td><{$item.dateline|format}><br /><{$item.clientip}>(<{$item.clientip|iplocal}>)</td>
+        <td>
+            <{link ctl="cloud/attr:index" args=$item.goods_id class="button" title="查看云购"}>
+            <{link ctl="cloud/order:delete" args=$item.order_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="cloud/order:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

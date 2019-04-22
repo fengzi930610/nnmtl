@@ -1,0 +1,22 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco  headerIco2" href="<{link ctl='cloud/index'}>"></a>
+            <a class="pull-right"></a>
+            <h1 class="title">分类</h1>
+        </header>
+		<!--头部结束-->
+        <div class="content"> 
+        	<!--商品分类-->
+            <div class="goods_fenlei_box mb10">
+            	<ul>
+                    <{foreach $cates as $cate}>
+                    <li class="list"><a href="<{link ctl='cloud/index/items' cate_id=$cate.cate_id}>"><{$cate.title}></a></li>
+                    <{/foreach}>
+        	    </ul>
+            </div>
+        	<!--商品分类结束-->
+        </div>
+    </div>
+<{include file="cloud/block/footer.html"}>

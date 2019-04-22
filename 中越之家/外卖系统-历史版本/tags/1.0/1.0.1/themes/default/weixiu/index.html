@@ -1,0 +1,37 @@
+<{assign var='tpl_title' value=L("维修")}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='index'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        维修
+    </div>
+    <i class="right"></i>
+</header>
+
+    <section class="page_center_box">
+    <div id="service">
+
+        <{foreach $cates as $k => $v}>
+        <div class="service_list">
+            <p class="title"><em class="ico_1"><img src="<{$pager.img}>/<{$v['icon']}>" /></em><{$v['title']}></p>
+
+            <ul>
+                <{foreach $v.products as $kk => $vv}>
+                <li>
+                    <a href="<{link ctl='weixiu/map' args=$vv.cate_id }>">
+                        <div class="img ico_1"><img src="<{$pager.img}>/<{$vv['icon']}>" /></div>
+                        <p><{$vv.title}></p>
+                    </a>
+                </li>
+                <{/foreach}>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <{/foreach}>
+
+    </div>
+</section>
+
+
+<{include file="block/sfooter.html"}>
+<{include file="block/footer.html"}>

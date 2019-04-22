@@ -1,0 +1,191 @@
+<{assign var='tpl_title' value=L("商家入驻-地图")}>
+<{include file="webview/block/header.html"}>
+<style>
+    #kword
+    { display:block; width:80%; margin:10px auto; padding-left:10px; height:40px; border:1px solid #e6e6e6; background:#fff; font-size:14px; color:#333;}
+</style>
+
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容-->
+                <div class="addressDetail">
+                    <div class="topLink">
+                        <form>
+                            <input type="text"  name="serch " class="serch" id="kword" placeholder="搜索小区/写字楼/学校等">
+                        </form>
+                    </div>
+                    <div class="map" id="map">
+
+
+                    </div>
+
+                    <div class="address" id="li">
+
+                    </div>
+                </div>
+                <!--内容结束-->
+            </div>
+            <!--底部-->
+            <!--底部结束-->
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .tangram-suggestion-main {
+        z-index: 999;
+    }
+</style>
+<script type="text/javascript"  src="https://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+<script type="text/javascript">
+
+    var geo = new BMap.Geolocation();
+    var map = new BMap.Map("map",{enableMapClick: false});
+    geo.getCurrentPosition(function(r){
+        k = r.address.province+r.address.city+r.address.district+r.address.street;
+        var location = '<{$location}>';
+        if(location){
+            var josn_location =JSON.parse(location);
+            r.longitude = josn_location.lng;
+            r.latitude  = josn_location.lat;
+            r.point.lat = josn_location.lat;
+            r.point.lng = josn_location.lng;
+        }
+        window.render(r, this);
+        window.keywords(this);
+        get_center_html();
+    }, {enableHighAccuracy: true});
+    var lng ='';
+     var lat = ''
+
+
+     // 初始化地图，设置中心点坐标和地图级别
+     //定位到当前
+
+
+
+    var container = document.getElementById("map");
+    var central = document.createElement("div");
+
+    central.style.top="38%";
+    central.style.margin="-18px auto 0";
+    central.style.position="relative";
+    central.style.width="36px";
+    central.style.height="36px";
+    central.style.zIndex="100000";
+    central.innerHTML ='';
+    central.innerHTML ='<img style="width:24px;height: 36px;!important;" src="%THEME%/webview/static/img/coordinate@2x.png" />';
+    map.addEventListener("tilesloaded",function(){
+        container.appendChild(central);
+    });
+
+    /*地图拖拽事件*/
+    function get_center_html(){
+        var center = map.getCenter();
+        var mPoint = new BMap.Point(center.lng, center.lat);
+        map.enableScrollWheelZoom();  //启用滚轮缩放
+        map.centerAndZoom(mPoint,16); // 设置地图显示级别
+        var mOption = {poiRadius : 500,numPois : 10}; //获取全部POI（该点半径为100米内有6个POI点）
+        var myGeo = new BMap.Geocoder(); //创建地址解析实例
+
+        //使用反地址解析
+        myGeo.getLocation(mPoint, function mCallback(result) {
+            var allPois = result.surroundingPois;
+            var first_dq = '';
+            str_format = '';
+            for( i = 0; i < allPois.length ; i++ ){
+                if(i===0){
+                    var tip = "[当前]";
+                }else{
+                    tip = '';
+                }
+                var s = allPois[i];
+                str_format +='  <div class="box" onclick=\"getData(this)\" title="'+s.title+'" addr="'+s.address+'" city="'+s.city+'" lat="'+s.point.lat+'" lng="'+s.point.lng+'">'+
+                        '<i class="ico-address"></i>'+
+                        ' <a href="#" class="text">'+
+                        '<h3>'+s.title+'</h3>'+
+                        ' <p class="black9">'+tip+s.address+'</p>'+
+                        ' </a>'+
+                        ' </div>';
+
+                /*     str += "<li onclick=\"getData(this)\" title='"+s.title+"'  addr='"+s.address+"' city='"+s.city+"' lat='"+s.point.lat+"' lng='"+s.point.lng+"' class='serveAddr_cell_list pad10 border_b bgcolor_white'><div class='ico fl'></div><div class='pub_wz'><p class='maincl'>"+tip+s.title+"</p><p class='black3'>"+s.address+"</p></div><div class='clear'></div>";*/
+            }
+            document.getElementById("li").innerHTML = str_format;
+        },mOption);
+
+    }
+
+
+    map.addEventListener("dragend", function(){
+        get_center_html();
+    });
+
+
+
+    //渲染地图
+    window.render = function(r, context){
+        if(lat&&lng){
+            map.centerAndZoom(new BMap.Point(lng, lat), 15);
+        }else{
+            map.centerAndZoom(new BMap.Point(r.longitude, r.latitude), 15);
+        }
+
+        if(context.getStatus() == BMAP_STATUS_SUCCESS){
+            var mk = new BMap.Marker(r.point);
+            //map.addOverlay(mk);
+            map.panTo(r.point);
+        }
+    }
+    //关键字输入
+    window.keywords = function(){
+        auto = new BMap.Autocomplete({input: 'kword', location: map});
+        auto.addEventListener('onconfirm', function(e){
+            v = e.item.value;
+            k = v.province + v.city + v.district + v.street + v.business;
+            window.search(k);
+        });
+    }
+    //独立搜索,只需传入要搜的地址
+    window.search = function(k){
+        local = new BMap.LocalSearch(map, {
+            onSearchComplete:function(results){
+                pp = local.getResults().getPoi(0).point;
+                map.clearOverlays();
+                map.centerAndZoom(pp, 15);
+                //map.addOverlay(new BMap.Marker(pp));
+                if(local.getStatus() == BMAP_STATUS_SUCCESS){
+                    str_format = '';
+                    for(i=0;i<results.getCurrentNumPois(); i++){
+                        if(i===0) tip = "[当前]";else tip = '';
+                        s = results.getPoi(i);
+                        str_format +='  <div class="box" onclick=\"getData(this)\" title="'+s.title+'" addr="'+s.address+'" city="'+s.city+'" lat="'+s.point.lat+'" lng="'+s.point.lng+'">'+
+                                '<i class="ico-address"></i>'+
+                                ' <a href="#" class="text">'+
+                                '<h3>'+s.title+'</h3>'+
+                                ' <p class="black9">'+tip+s.address+'</p>'+
+                                ' </a>'+
+                                ' </div>';
+
+                    }
+                    document.getElementById("li").innerHTML = str_format;
+                }
+            }
+        });
+        local.search(k);
+    }
+
+
+    function getData(o)
+    {
+        var back_url = '<{link ctl="webview/waimai/index"}>';
+        args = '?&o_lng='+o.getAttribute('lng')+'&o_lat='+o.getAttribute('lat')+'&o_addr='+encodeURIComponent(o.getAttribute('title'))+'&o_city='+encodeURIComponent(o.getAttribute('city'));
+        window.location.href = back_url + args;
+    }
+
+</script>
+
+<{include file="webview/block/footer.html"}>

@@ -1,0 +1,64 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="admin/admin:create" width="mini:400" load="mini:创建管理员" class="button"}></td>
+		<td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?module/menu-update.html" mini-form="menu-order" method="post"/>
+	<input type="hidden" name="batch" value="orderby" />
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data list">
+		<tr>
+			<th class="w-100">ID</th>
+			<th>用户名</th>
+			<th class="w-150">角色名</th>
+			<th class="w-100">类型</th>
+			<th class="w-100">状态</th>
+			<th class="w-150">最后登录IP</th>
+			<th class="w-150">最后登录时间</th>
+			<th class="w-150">操作</th>
+		</tr>
+		<{foreach $items as $k=>$v}>
+		<tr id="line-admin-<{$v.admin_id}>">
+			<td><label><{$v.admin_id}></label></td>
+			<td class="left"><{$v.admin_name}></td>
+			<td><{$role_list[$v.role_id].role_name}></td>
+			<td><{$role_list[$v.role_id].role}></td>
+			<td><{if $v.closed==3}>已删除<{elseif $v.closed}>禁用<{else}>正常<{/if}></td>		
+			<td><{$v.last_ip}></td>
+			<td><{$v.format_last_login}></td>
+			<td class="left">
+				<{if $role_list[$v.role_id].role=='system' && $ADMIN.role!='system'}>
+				<label class="button disabled" title="编辑" tips="您没有权限编辑系统管理员" disabled="disabled">编辑</label>
+				<{else}>
+				<{link ctl="admin/admin:edit" args="<{$v.admin_id}>" width="mini:400" load="mini:编辑管理员" class="button" title="编辑"}>
+				<{/if}>
+				<{if $v.admin_id==$ADMIN.admin_id}>
+				<label class="button disabled" title="删除" tips="不能删除当前登录帐号" disabled="disabled">删除</label>
+				<{elseif $ADMIN.role == 'editor'}>
+				<label class="button disabled" title="删除" tips="您没有权限删除管理员" disabled="disabled">删除</label>
+				<{elseif $role_list[$v.role_id].role=='system' && $ADMIN.role!='system'}>
+				<label class="button disabled" title="删除" tips="您没有权限删除系统管理员" disabled="disabled">删除</label>
+				<{else}>
+				<{link ctl="admin/admin:delete" args="<{$v.admin_id}>" class="button" act="mini:remove:line-role-<{$v.role_id}>" title="删除"}>			
+				<{/if}>
+			</td>
+		</tr>
+		<{/foreach}>
+	</table>
+	<div class="page-bar">
+		<table>
+			<tr>
+				<td></td>			
+				<td class="page-list"><{$pager.pagebar}></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

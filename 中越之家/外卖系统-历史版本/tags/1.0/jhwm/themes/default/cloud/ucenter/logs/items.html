@@ -1,0 +1,124 @@
+<{include file="cloud/block/header.html"}>
+<div class="page page-current"> 
+    <!--头部-->
+    <header class="bar bar-nav">
+        <a class="pull-left headerIco back headerIco2"></a>
+        <a class="pull-right headerIco headerIco3" href="<{link ctl='cloud/index'}>"></a>
+        <h1 class="title">账户记录</h1>
+    </header>
+    <!--头部结束-->
+    <div class="content infinite-scroll infinite-scroll-bottom"> 
+        <div class="saixuan_pull_box fixed-tab buttons-fixed" data-offset="44">
+            <div class="buttons-tab">
+                <a href="javascript:void(0);" rel='order' class="tab-link button tb1">消费明细</a>
+                <a href="javascript:void(0);" rel='log' class="tab-link button tb2">充值明细</a>
+            </div>
+        </div>
+        <div class="tabs mt55">
+            <div class="tab active">
+                <div class="tab_row row tab_order" >
+                    <div class="col50">交易号</div>
+                    <div class="col35">购买时间</div>
+                    <div class="col15">金额</div>
+                </div>
+                <div class="tab_row row tab_log">
+                    <div class="col50">充值时间</div>
+                    <div class="col20">充值金额</div>
+                    <div class="col30">充值说明</div>
+                </div>
+                <div id="index_goods_items">
+                    
+                </div>
+                <div class="infinite-scroll-preloader txt_center black9 mt10 mb10" style=" font-size:0.75rem;">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+    var _lock = false;
+    var type = localStorage.getItem('type') || 'order';
+    var page = 1;
+    if(type == 'order'){
+        $(".tb1").addClass('active');
+        $(".tab_order").show();
+        var link = "<{link ctl='cloud/ucenter/logs:loaditems' arg0='#page#'}>";
+    }else{
+        $(".tb2").addClass('active');
+        $(".tab_log").show();
+        var link = "<{link ctl='cloud/ucenter/logs:loaddata' arg0='#page#'}>";
+    }
+    loaddata(link);
+
+    function setloadparams(type) {
+        page = 1;
+        if(type == 'order'){
+            var link = "<{link ctl='cloud/ucenter/logs:loaditems' arg0='#page#'}>";
+        }else{
+            var link = "<{link ctl='cloud/ucenter/logs:loaddata' arg0='#page#'}>";
+        }
+        loaddata(link);
+    }
+
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".infinite-scroll-preloader").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".infinite-scroll-preloader").hide();
+    }
+
+    function loaddata(link) {
+         $("#index_goods_items").html();
+        showLoader('正在加载中....', true);
+        //console.log(params.type);
+        $.getJSON(link.replace('#page#', page), {}, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+            
+        });
+    }
+
+    $(document).on('click', '.buttons-tab a', function () {
+        $(".buttons-tab").find("a").removeClass("active");
+        $(this).addClass("active");
+        $(".tab_row").hide();
+        $(".tab_"+$(this).attr('rel')).show();
+        setloadparams($(this).attr('rel'));
+        localStorage.setItem('type', $(this).attr('rel'));
+    })
+
+
+
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        if (_lock) {
+            return false;
+        }
+        _lock = false;
+        page++;
+        loaddata(link);
+        _lock = true;
+    });
+</script>
+<{include file="cloud/block/header.html"}>

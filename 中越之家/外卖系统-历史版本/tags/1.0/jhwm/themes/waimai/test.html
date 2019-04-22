@@ -1,0 +1,101 @@
+<{assign var='tpl_title' value=L("切换城市")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+	.addrMap{height: 100%; width: 100%; position: relative; overflow: hidden;}
+	.addrMap .shangjiaDelt_goods_search_int{position: sticky; left: 0; top: 0; right: 0; height: 50px;}
+	.addrMap .map{width: 100%; height: 260px; background: #fff; border-bottom: 1px solid #e6e6e6; position: sticky; left: 0; top: 50px; right: 0;}
+	.addrMap .cate{ width:100%; padding:10px 0; z-index:1; text-align:center; background:#fff; overflow:hidden; position:sticky; left: 0; top: 310px; right: 0; line-height:20px; height: 20px; border-bottom: 1px solid #e6e6e6;}
+	.addrMap .cate .swiper-wrapper {position: relative;width: 100%;z-index: 1;display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-transition-property: -webkit-transform;-moz-transition-property: -moz-transform;-o-transition-property: -o-transform;-ms-transition-property: -ms-transform;transition-property: transform;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;-webkit-transform: translate3d(0,0,0);-moz-transform: translate3d(0,0,0);-o-transform: translate(0,0);-ms-transform: translate3d(0,0,0);transform: translate3d(0,0,0);}
+	.addrMap .cate .swiper-slide{-webkit-flex-shrink: 0;-ms-flex: 0 0 auto;flex-shrink: 0;height: 100%;position: relative;text-align: center;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center; display:block; font-size:14px; height:20px; line-height:20px; color:#333;}
+	.addrMap .cate .swiper-slide a{ color:#333;}
+	.addrMap .cate .swiper-slide.on a{ color:#20AD20;}
+	.addrMap .list_box{width: 100%; height: calc(100% - 360px); overflow: auto;}
+	.addrMap .list_box ul li{background: #fff; position: relative; border-bottom: 1px solid #e6e6e6; padding: 10px 10px 10px 38px;}
+	.addrMap .list_box ul li .ico{position: absolute; left: 0;  top: 50%; width: 38px; height: 20px; transform: translate(0,-50%); -webkit-transform: translate(0,-50%); background: url(https://m.amap.com/picker/images/poi_icon.png) no-repeat center; background-size: contain;}
+	.addrMap .list_box ul li h3,.addrMap .list_box ul li p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+	.addrMap .list_box ul li h3{font-weight: normal;}
+	.addrMap .list_box ul li p{color: #666;}
+
+</style>
+<div class="addrMap">
+	<!--搜索框-开始-->
+	<div class="shangjiaDelt_goods_search_int">
+	    <form method="post" action="http://waimai.jhcms.cn/waimai/shop/search-534.html">
+	        <input type="submit" class="btn fr">
+	        <div class="int_box"><input type="text" name="title" value="" class="int" placeholder="搜索商品"></div>
+	    </form>
+	    <div class="clear"></div>
+	</div>
+	<!--搜索框-结束-->
+	<div class="map">此处为地图</div>
+	
+	<!--分类-->
+    <div class="cate">
+    	<div class="swiper-container1">
+            <div class="swiper-wrapper">
+                <div class="box swiper-slide on"><a href="#">全部</a></div>
+                <div class="box swiper-slide"><a href="#">写字楼</a></div>
+                <div class="box swiper-slide"><a href="#">小区</a></div>
+                <div class="box swiper-slide"><a href="#">学校</a></div>
+                <div class="box swiper-slide"><a href="#">分类三</a></div>
+            </div>
+        </div>
+    </div>
+    <!--分类end-->
+    <!--列表-开始-->
+    <div class="list_box">
+    	<ul>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    		<li>
+    			<i class="ico"></i>
+    			<h3>彭德楷黄焖鸡米饭(国轩凯旋大厦店)</h3>
+    			<p>金寨路327号国轩凯旋大厦B1层(合家福超市内)</p>
+    		</li>
+    	</ul>
+    </div>
+    <!--列表-结束-->
+</div>
+<script>
+var swiper = new Swiper('.swiper-container1', {
+	pagination: '.swiper-pagination1',
+	slidesPerView: 4,
+	paginationClickable: true,
+	/*spaceBetween: 30,*/
+	freeMode: true
+});
+</script>
+<{include file="block/footer.html"}>

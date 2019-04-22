@@ -1,0 +1,70 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/shop/album:index'}>" >相册管理</a>
+    <a href="javascript:;" class="on">管理相册</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+<div class="tips">相册：<b class="red"><{$album.name}></b><{if $pager.count}>, 共上传了：<{$pager.count}>张<{/if}></div>
+<div class="tips">
+    <div class="SWF_Widget" rel="__SWF_Widget" params='{"submit":"true","case_id":"<{$detail.case_id}>","OTOKEN":"<{$OTOKEN}>"}'>
+        <span rel="__SWF_ctl" class="SWF_Ctl" style="float:left;">控件加载中...</span>
+        <span style="display:none;" class="SWF_Loading" rel="l"><span rel="m"></span><span rel="n"></span></span>
+    </div>
+</div>
+<form action="<{link ctl='scenter/company/case:update'}>" mini-form="ucenter" method="post">
+<input type="hidden" name="case_id" value="<{$detail.case_id}>" />
+<table width="100%" border="0" cellspacing="0" class="table">
+    <tr><th class="w-60">ID</th><th class="w-60">图片</th><th>标题</th><th class="w-150">大小</th><th class="w-150">上传时间</th><th class="w-200">操作</th></tr>
+    <{foreach $items as $item}>
+    <tr id="item-<{$item.photo_id}>">
+        <td><label><{$item.photo_id}></label></td>
+        <td><img src="<{$pager.img}>/<{$item.photo}>_small.jpg" photo="<{$pager.img}>/<{$item.photo}>_thumb.jpg" class="wh-50" /></td>
+        <td><input type="text" class="input" name="data[<{$item.photo_id}>][title]" value="<{$item.title}>" /></td>
+        <td><{$item.size|format:size}></td><td><{$item.dateline|format}></td>
+        <td class="w-50">
+            <a href="<{link ctl='biz/shop/album:setcover' args=$v.photo_id}>" class="btn btn-primary">设为封面</a>&nbsp;&nbsp;
+            <a href="<{link ctl='biz/shop/album:delphoto' args=$v.photo_id}>" mini-act="confirm:确认要删除该图片吗?" class="btn btn-danger">删除</a>
+        </td>
+    </tr>
+    <{foreachelse}>
+     <tr><td colspan="10"><p class="tips">您还没有上传图片</p></td></tr>
+    <{/foreach}>
+    <{if $pager.count}><tr><td colspan="2"></td><td><input type="submit" value="更新数据" class="mpbtn" /></td><td colspan="4"></td></tr><{/if}>
+</table>
+</form>
+<div class="page"><{$pager.pagebar}></div>
+</form>
+<{if $group.priv.allow_case >= 0}>
+<script src="<{$pager.res}>/swfupload/swfupload.js" type="text/javascript"></script>
+<script src="<{$pager.res}>/script/kt.upload.js" type="text/javascript"></script>
+<script type="text/javascript">
+(function(K, $){
+$(document).ready(function(){
+var Events = {
+	upload_all_complete : function(event,files){
+		Widget.MsgBox.success("全部图片上传完成！");
+		window.location.reload(true);
+	}
+};
+$("div[rel='__SWF_Widget']").each(function(){
+	$(this).SWFUpload({
+		file_size_limit	: "10 MB",
+		file_upload_limit : 15,
+		upload_url: "<{link ctl='scenter/company/case:upload'}>",
+		file_types : "*.jpg;*.gif;*.jpeg;*.png;",
+		file_types_description : "添加图片",
+		flash_url : "<{$pager.res}>/swfupload/swfupload.swf",
+		button_image_url : "<{$pager.res}>/swfupload/photo.jpg",
+		button_placeholder :$("[rel='__SWF_ctl']",this)[0],
+		button_width: 84,
+		button_height: 24,
+		events:Events,
+		debug : false
+	});
+});
+});
+})(window.KT, window.jQuery)
+</script>
+<{/if}>
+<{include file="biz/block/footer.html"}>

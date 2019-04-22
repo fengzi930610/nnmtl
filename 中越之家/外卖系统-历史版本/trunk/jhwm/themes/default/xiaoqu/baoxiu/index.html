@@ -1,0 +1,152 @@
+<{assign var='tpl_title' value=L("保修")}>
+<{include file="block/xiaoqu_header.html"}>
+<!--头部-->
+<header class="bar bar-nav">
+    <a href="" class="pull-left headerIco back"></a>
+    <h1 class="title">报修</h1>
+</header>
+<!--头部结束-->
+<div class="content"> 
+    <form action="<{link ctl='xiaoqu/baoxiu/create'}>"  method="post" enctype="multipart/form-data">
+  
+    <div class="pad10 bgcolor_white baoxiu-call">
+        <a href="tel:<{$xiaoqu.wuye.phone}>" class="black3">物业电话<span class="maincl ml10"><{$xiaoqu.wuye.phone}></span><i class="baoxiu-phone fr"></i></a>
+        <div class="cl"></div>
+    </div>
+    <div class="baoxiu-cont mar10 border">
+        <div class="list-block">
+            <ul>
+                <li class="border_b">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon-complain icon-xiaoqu"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <{$xiaoqu.title}>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="border_b">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon-complain icon-user"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <input type="text" name="data[contact]" id="contact" placeholder="联系人">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="border_b">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon-complain icon-call"></i></div>
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <input type="text" name="data[mobile]" id="mobile" placeholder="手机号">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="shijian-pick pad10 bgcolor_white border_b">
+            <input type="text" placeholder="选择期望处理时间" name="data[yuyue_time]" id="yuyue_time" data-toggle='date'><i class="linkIco fr"></i>
+            <div class="cl"></div>
+        </div>
+        <div class="list-block">
+            <ul>
+                <li class="align-top">
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <div class="item-input">
+                                <textarea placeholder="报修内容" name="data[content]" id="content"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mineSet_feedback">
+            <div class="img_upload">
+                <script type="text/javascript">
+                    // HTML5图片上传
+                    function fileSelected(obj,num){
+                        var files = obj.files;
+                        for(var i = 0 ; i < files.length; i++){
+                            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                            if (! rFilter.test(files[i].type)) {                   
+                                alert("只允许上传JPG、PNG、GIF格式图片");
+                                return;
+                            }
+                            var reader = new FileReader();
+                            reader.onload = function(e){
+                                $(".face_img_"+num).attr('src',e.target.result);
+                            }
+                            reader.readAsDataURL(files[i]);
+                        }
+                    }
+                </script>
+                <div class="upload_int fl">
+                    <input type="file" name="data[image_file_1]" id="photo1" onchange="fileSelected(this,1)">
+                    <div class="img"><img class="face_img_1" src=""></div>
+                </div>
+                <div class="upload_int fl">
+                    <input type="file" name="data[image_file_2]" id="photo2" onchange="fileSelected(this,2)">
+                    <div class="img"><img class="face_img_2" src=""></div>
+                </div>
+                <div class="upload_int fl">
+                    <input type="file" name="data[image_file_3]" id="photo3" onchange="fileSelected(this,3)">
+                    <div class="img"><img class="face_img_3" src=""></div>
+                </div>
+                <div class="upload_int fl">
+                    <input type="file" name="data[image_file_4]" id="photo4" onchange="fileSelected(this,4)">
+                    <div class="img" ><img class="face_img_4" src=""></div>
+                </div>
+                <div class="cl"></div>
+            </div>
+            <input type="hidden" name="data[xiaoqu_id]" value="<{$xiaoqu.xiaoqu_id}>" />
+            <input type="hidden" name="data[yezhu_id]" value="<{$yezhu_id}>" />
+        </div>
+    </div>
+        <div class="content-block"> <input type='submit' class="button button-big button-fill" value='提交'></div>
+
+    <div class="write-ask-box pad10 font_size14 txt_center"><a href="<{link ctl='xiaoqu/baoxiu/log'}>" class="write-ask">记录查询</a></div>
+</div>
+</form>
+<style>
+.picker-modal{background:#fff}
+.picker-modal .bar:before,.picker-modal .bar:after{background:none}
+.picker-item{font-size:0.8rem}
+.que-ding{color:#92B9E1;font-size:0.65rem}
+.picker-modal .bar .title.time-tit{display:inline-block;color:#59C181;font-size: 0.75rem;text-align:left;padding-left:0.75rem;border-bottom:0.05rem dashed #ccc;}
+</style>
+<script>
+    //判断是否有localstorage,如果有直接写入表单中
+    if(localStorage['baoxiu_contact']){
+        $('#contact').val(localStorage['baoxiu_contact']);
+    }
+    if(localStorage['baoxiu_mobile']){
+        $('#mobile').val(localStorage['baoxiu_mobile']);
+    }
+    if(localStorage['baoxiu_content']){
+        $('#content').val(localStorage['baoxiu_content']);
+    }
+    if(localStorage['baoxiu_yuyue_time']){
+        $('#yuyue_time').val(localStorage['baoxiu_yuyue_time']);
+    }
+    
+    //保存表单内容到localstorage 
+    $('#contact').keyup(function(){
+        localStorage['baoxiu_contact'] = $(this).val();
+    })
+    $('#mobile').keyup(function(){
+        localStorage['baoxiu_mobile'] = $(this).val();
+    })
+    $('#content').keyup(function(){
+        localStorage['baoxiu_content'] = $(this).val();
+    })
+    setInterval(function(){
+        localStorage['baoxiu_yuyue_time'] = $('#yuyue_time').val();
+    },1000);
+   
+</script>
+<{include file="block/xiaoqu_footer.html"}>

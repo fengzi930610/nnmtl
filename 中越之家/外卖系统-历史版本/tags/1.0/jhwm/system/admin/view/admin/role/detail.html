@@ -1,0 +1,82 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right">&nbsp;<{link ctl="admin/admin:index" class="button" title="返回管理员列表"}><td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?admin/role/save.html" mini-form="role-form" id="role-form" method="post">
+	<input type="hidden" name="role_id" value="<{$detail.role_id}>" />
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th class="w-100 clear-th-bottom">角色名:</th>
+			<td class="w-300 clear-td-bottom"><input type="text" name="data[role_name]" class="input w-200" value="<{$detail.role_name}>"></td>
+			<th class="w-100 clear-th-bottom">角色类型:</th>
+			<td class="w-150 clear-td-bottom">
+				<{if $detail.role=='system'}>
+				系统管理员
+				<{else}>
+				<select name="data[role]">
+				<option value="admin" <{if $detail.role=='admin'}>selected="selected"<{/if}>>admin</option>
+				<option value="editor" <{if $detail.role=='editor'}>selected="selected"<{/if}>>editor</option>
+				</select>
+				<{/if}>
+			</td>
+			<th class="w-150 clear-th-bottom"><label><input type="checkbox" <{if $detail.role=='system'}>disabled="disabled" checked="checked"<{/if}> value="1" CHALL="ALL" />全部选中</label></th>
+			<td class="left clear-td-bottom"><{link ctl="admin/role:save" type="submit" submit="mini:#role-form" title="提交数据"}></td>
+		</tr>
+	</table>
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data list">
+		<{foreach $menu_tree as $k=>$v}>
+		<{foreach $v.menu as $kk=>$vv}>
+		<tr>
+			<td class="title left" style="padding-right:50px;">
+				<{$v.title}> &gt; <{$vv.title}>
+				<{if $vv.menu}>
+				<label class="right"><input type="checkbox" <{if $detail.role=='system'}>disabled="disabled" checked="checked"<{/if}> value="1" CKA="MOD-<{$vv.mod_id}>" />全部子模块</label>
+				<{/if}>
+			</td>
+		</tr>
+		<tr><td>
+		<ul class="group-list">
+		<{foreach $vv.menu as $kkk=>$vvv}>
+			<li><label><input type="checkbox" name="priv[]" value="<{$vvv.mod_id}>" <{if $detail.role=='system'}>disabled="disabled" checked="checked"<{elseif $detail.priv[$vvv.mod_id]}>checked<{/if}> CK="MOD-<{$vv.mod_id}>"/><{$vvv.title}>[<{if $vvv.visible}><b class="red">显示</b><{else}>隐藏<{/if}>]</label></li>
+		<{foreachelse}><li style="color:#FF3300;">未添加模型<li><{/foreach}>
+		<div class="clear-both"></div>
+		</ul>
+		</td></tr>
+		<{/foreach}>
+		<{/foreach}>
+	</table>
+	<div class="page-bar">
+		<table>
+			<tr>
+				<td><label><input type="checkbox" <{if $detail.role=='system'}>disabled="disabled" checked="checked"<{/if}> value="1" CHALL="ALL" />全部选中</label></td>
+				<td class="left"><{link ctl="admin/role:save" type="submit" submit="mini:#role-form" title="提交数据"}>
+				</td>			
+				<td class="page-list"><{$pager.pagebar}></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$(document).ready(function(){
+$(":checkbox[CHALL='ALL']").click(function(){
+	var chk =  false;
+	if($(this).attr("checked")){
+		chk = true;
+	}
+	$(":checkbox").each(function(){
+		$(this).attr("checked",chk);
+	});
+});
+});
+})(window.KT, window.jQuery)
+</script>
+<{include file="admin:common/footer.html"}>

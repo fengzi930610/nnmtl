@@ -1,0 +1,59 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/shop/comment:index'}>">收到的评论</a>
+        <a href="<{link ctl='biz/shop/comment:index' st=1}>" >未回复的评论</a>
+        <a href="javascript:;" class="on">评论详情</a>
+    </ul>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/shop/comment:reply' args=$detail.comment_id}>" mini-form="ucenter" method="post">
+<table cellspacing="0" cellpadding="0" class="table info">
+    <tr>
+        <th>订单号：</th>
+        <td ><{$detail.order_id}></td>
+    </tr>
+    <tr>
+        <th>用户信息：</th>
+        <td><{$user['nickname']}>、<{$user.mobile}></td>    
+    </tr>
+    <tr>
+        <th>得分：</th>
+        <td><{$detail.score}></td>
+        <!-- <td>服务得分：<{$detail.score_fuwu}></td>
+        <td>口味得分：<{$detail.score_kouwei}></td> -->
+    </tr>
+    <tr>
+        <th>评论内容：</th>
+        <td><{$detail.content}> <br />
+        <{foreach $photos as $item}>
+        <img src="<{$pager.img}>/<{$item.photo}>" style="max-width:350px;" photo="<{$pager.img}>/<{$item.photo}>"> &nbsp;&nbsp;
+        <{/foreach}> 
+        </td>
+    </tr>
+    <tr>
+        <th>评论时间：</th>
+        <td ><{$detail.dateline|format}></td>
+    </tr>
+    <{if $detail.reply}>
+     <tr>
+        <th>回复内容：</th>
+        <td><{$detail.reply}></td>
+    </tr>
+    <tr>
+        <th>回复时间：</th>
+        <td><{$detail.reply_time|format}></td>
+    </tr>
+    <{else}>
+    <tr>
+        <th width="100">回复：</th>
+        <td><textarea name="data[reply]" class="textarea w-350"></textarea></td>
+    </tr>    
+    <tr><th></th>
+        <td><input type="submit" value="立即回复" class="btn btn-primary" /></td>
+    </tr>
+    <{/if}>
+</table>
+</form>
+</div>
+<{include file="biz/block/footer.html"}> 

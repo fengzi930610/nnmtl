@@ -1,0 +1,69 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">
+				<form class="search_inp mr10" action="?member/addr-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="联系人、联系电话、地址" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+				<!--<{link ctl="member/addr:create" class="button" title="添加"}>-->
+				<{link ctl="member/addr:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+	    <table width="100%" border="0" cellspacing="0" class="table-data table">
+		    <tr>
+			    <th class="w-100">ID</th>
+				<th class="w-100">昵称</th>
+				<th class="w-100">联系人</th>
+				<th class="w-100">联系电话</th>
+				<th>收货地址</th>
+				<th class="w-100">是否为默认地址</th>
+				<th class="w-100">创建时间</th>
+				<th class="w-100">纬度</th>
+				<th class="w-100">经度</th>
+				<th class="w-150">操作</th>
+			</tr>
+		    <{foreach $items as $item}>
+		    <tr>
+				<td><label><input type="checkbox" value="<{$item.addr_id}>" name="addr_id[]" CK="PRI"/><{$item.addr_id}><label></td>
+				<td><{if $nicknames[$item['uid']]['nickname']}><{$nicknames[$item['uid']]['nickname']}><{else}>--<{/if}></td>
+				<td><{$item.contact}></td>
+				<td><{$item.mobile}></td>
+				<td><{$item.addr}></td>
+				<td>
+				<{if $item.is_default==1}>
+				是
+				<{else}>
+				否
+				<{/if}>
+				</td>
+				<td><{$item.dateline|format}></td>
+				<td><{$item.lat}></td>
+				<td><{$item.lng}></td>
+				<td><{link ctl="member/addr:detail" args=$item.addr_id class="button" title="查看"}><{link ctl="member/addr:edit" args=$item.addr_id title="修改" class="button"}><{link ctl="member/addr:delete" args=$item.addr_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}></td>
+			</tr>
+		    <{foreachelse}>
+		     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+		    <{/foreach}>
+	    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left">
+				<{link ctl="member/addr:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+				<{link ctl="member/addr:doaudit" type="button" submit="mini:#items-form" confirm="mini:确定要批量审核选中的内容吗?" priv="hide" value="批量审核"}></td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

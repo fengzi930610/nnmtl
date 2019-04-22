@@ -1,0 +1,114 @@
+<{assign var='tpl_title' value=L("举报")}>
+<{include file="block/xiaoqu_header.html"}>
+
+        <!--头部-->
+
+        <header class="bar bar-nav"> 
+
+            <a href="" class="pull-left back"><span class="headerIco left_tit mr10"></span>举报</a>
+
+        </header>
+
+        <!--头部结束--> 
+
+        <!--  主要内容部分 -->
+
+        <div class="content">
+
+            <div class="myCommunity_jubao">
+
+                <h3 class="tit pad10">举报理由</h3>
+
+                <div class="liyou">
+
+                    <form action="<{link ctl='xiaoqu/bianmin/report_handel'}>" method="post">
+
+                    <div class="list-block media-list">
+
+                        <ul>
+
+                            <li>
+
+                                <label class="label-checkbox item-content border_b">
+
+                                <input type="radio" name="data[title]" value="资料做假">
+
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                                <div class="item-inner">资料做假</div>
+
+                                </label>
+
+                            </li>
+
+                            <li>
+
+                                <label class="label-checkbox item-content border_b">
+
+                                <input type="radio" name="data[title]" value="恶意骚扰，不文明用语">
+
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                                <div class="item-inner">恶意骚扰，不文明用语</div>
+
+                                </label>
+
+                            </li>
+
+                            <li>
+
+                                <label class="label-checkbox item-content border_b">
+
+                                <input type="radio" name="data[title]" value="服务态度差">
+
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                                <div class="item-inner">服务态度差</div>
+
+                                </label>
+
+                            </li>
+
+                            <li class="pad_b10">
+
+                                <label class="label-checkbox item-content">
+
+                                <input type="radio" name="data[title]" value="其他">
+
+                                <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                                <div class="item-inner">其他</div>
+
+                                </label>
+
+                                <div class="text">
+
+                                  <textarea placeholder="简短描述举报理由" style="border:1px solid #e5e5e5;" name="data[content]"></textarea>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <input type="hidden" name='data[bianmin_id]' value="<{$detail.bianmin_id}>" />
+
+                    <input type="hidden" name='data[yezhu_id]' id="yezhu_id" value="<{$yezhu_id}>" />
+
+                    <div class="content-block"> <input type='submit' class="button button-big button-fill" value='提交'></div>
+
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!--  主要内容部分结束 --> 
+
+
+
+<{include file="block/xiaoqu_footer.html"}>

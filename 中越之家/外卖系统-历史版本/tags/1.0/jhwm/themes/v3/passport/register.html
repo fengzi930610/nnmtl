@@ -1,0 +1,331 @@
+<{assign var='tpl_title' value=L("帐号注册")}>
+
+<{include file="v3block/header.html"}>
+
+<style>
+
+.page, body {background-color: #fff;}
+
+</style>
+
+<div class="container" id="container">
+
+    <div class="page js_show">
+
+    	<div class="page_cont">
+
+            <div class="container_mid">
+
+                <div class="myself-shuru-cont">
+
+                        <div class="inp-box">
+
+                            <input type="tel" id="mobile" placeholder="手机号" value=""  class="have-you">
+
+                            <div class="get_yzm" login="sendsms">获取验证码</div>
+
+                        </div>
+
+                        <div class="inp-box">
+
+                            <input type="number" id="yzm" placeholder="验证码" value="">
+
+                            <div class="cha-cio"></div>
+
+                        </div>
+
+                        <div class="inp-box">
+
+                            <input type="password" name="passwd" id="passwd" placeholder="密码" value="">
+
+                            <div class="cha-cio"></div>    
+
+                        </div>
+
+                        <div class="inp-box">
+
+                            <input type="password" name="repasswd" id="repasswd" placeholder="确认密码" value="">
+
+                            <div class="cha-cio"></div>
+
+                        </div>
+
+                        <p class="tongyi-box mb10 " id="regiest"><input type="checkbox" class="tongyi-input" name="check_ok" id="check_ok"/>同意《<a href="<{link ctl='page:protocol'}>" class="maincl">用户协议</a>》</p>
+
+                        <input class="my-own-queding-btn text_c tijiao-btn" type="submit" btn="passport:register" value="立即注册" id="reg">
+
+                </div>           
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 输入时 -->
+
+<script>
+
+$(function(){
+
+    $(".inp-box input").focus(function () {
+
+        $('.inp-box input').on('input', function() {
+
+                if($(this).val().length == 0 ){
+
+                    $(this).parent(".inp-box").find(".cha-cio").css("display","none");       
+
+                }else{
+
+                    $(this).parent(".inp-box").find(".cha-cio").css("display","block");
+
+                }
+
+        });
+
+    }); 
+
+    $(".inp-box input").blur(function(){
+
+        $(this).parent(".inp-box").find(".cha-cio").css("display","none");            
+
+    }); 
+
+
+
+    $(".cha-cio").on("click",function(){
+
+        $(this).hide();
+
+        $(this).parent(".inp-box").find(".inp-box input").val('');
+
+        $(this).parent(".inp-box").find(".inp-box input").focus();
+
+    });
+
+});
+
+
+
+$(document).ready(function () {
+
+    var minute = 60;
+
+    var mobile_timeout;
+
+    var mobile_count = minute;
+
+    var mobile_lock = 0;
+
+    BtnCount = function () {
+
+        if (mobile_count == 0) {
+
+            $(".get_yzm").addClass("graybg");
+
+            $('.get_yzm').removeAttr("disabled");
+
+            $('.get_yzm').text("重新获取");
+
+            mobile_lock = 0;
+
+            clearTimeout(mobile_timeout);
+
+            $('.get_yzm').removeClass("graybg");
+
+        } else {
+
+            mobile_count--;
+
+            $('.get_yzm').text(+mobile_count.toString() + "秒...");
+
+            mobile_timeout = setTimeout(BtnCount, 1000);
+
+        }
+
+    };
+
+
+
+        $("[login]").click(function () {
+
+            if(mobile_lock == 0){
+
+                var mobile = $('#mobile').val();
+
+                var img_code = '';
+
+                var link = "<{link ctl='passport/sendsms'}>";
+
+                var code_link = "<{link ctl='magic:verify' http='ajax'}>";
+
+                var btn = 'get_yzm';
+
+                var is_register = 1;
+
+                Widget.SendSms(link,{mobile:mobile,is_register:1},function(e){
+
+                    if(e){
+
+                        mobile_lock = 1;
+
+                        mobile_count = minute;
+
+                        BtnCount();
+
+                    }
+
+                });
+
+            }
+
+        });
+
+
+
+        var right = 0;
+
+        $('.tongyi').on('click',function(){
+
+            if(!$("input[type='checkbox']").is(':checked')){
+
+                $(this).parent().removeClass('maincl');
+
+            }else{
+
+                $(this).parent().addClass('maincl');
+
+            }
+
+
+
+        })
+
+
+
+        $('#reg').click(function () {
+
+            var mobile = $('#mobile').val();
+
+            var yzm = $('#yzm').val();
+
+            var yzm_val = $('#verifycode').val();
+
+            var passwd = $('#passwd').val();
+
+            var repasswd = $('#repasswd').val();
+
+            var link = "<{link ctl='passport/register' rebackurl=$rebackurl}>";
+
+            if (!$("#check_ok").is(':checked')) {
+
+                layer.open({
+
+                    content: '请先同意协议再注册',
+
+                    time: 2 //2秒后自动关闭
+
+                });
+
+                return false;
+
+            }
+
+            $.post(link, {
+
+                mobile: mobile,
+
+                yzm: yzm,
+
+                yzm_val: yzm_val,
+
+                passwd: passwd,
+
+                repasswd: repasswd
+
+            }, function (ret) {
+
+                if (ret.error == 0) {
+
+                    layer.open({
+
+                        content: ret.message,
+
+                        time: 2 //2秒后自动关闭
+
+                    });
+
+                    setTimeout(function () {
+
+                        //window.location.href = "<{link ctl='ucenter/info' http=$site.siteurl}>";
+                        window.location.href = ret.forward;
+
+                    }, 2000);
+
+                   localStorage.removeItem('Register_info');
+
+                   BtnCount();
+
+                } else {
+
+
+
+                    layer.open({
+
+                        content: ret.message,
+
+                        time: 2 //2秒后自动关闭
+
+                    });
+
+
+
+                }
+
+
+
+            }, 'json');
+
+        })
+
+        //注册页获取验证码部分结束
+
+    })
+
+
+
+    function protocol() {
+
+        var mobile = $('#mobile').val();
+
+        var yzm = $('#yzm').val();
+
+        var passwd = $('#passwd').val();
+
+        var repasswd = $('#repasswd').val();
+
+        localStorage["Register_info"] = JSON.stringify({
+
+            "mobile": mobile,
+
+            "yzm": yzm,
+
+            "passwd": passwd,
+
+            "repasswd": repasswd
+
+        });
+
+        window.location.href = "<{link ctl='help/page' args='protocol'}>";
+
+    }
+
+</script>
+
+<!-- 输入时end -->
+
+<{include file="v3block/footer.html"}>
+

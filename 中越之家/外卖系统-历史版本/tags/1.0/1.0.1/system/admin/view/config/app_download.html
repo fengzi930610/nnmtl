@@ -1,0 +1,237 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?system/config-app_download.html" mini-form="config-form" method="post" >
+        <input type="hidden" name="K" value="app_download" />
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th>安卓客户端包名：</th>
+                <td><input type="text" name="config[apk_client_packname]" value="<{$config.apk_client_packname|default:''}>" class="input w-300"/><span class="tip-comment">用作唤起APP用</span></td>
+            </tr>
+            <tr>
+                <th>安卓客户端版本：</th>
+                <td><input type="text" name="config[apk_client_version]" value="<{$config.apk_client_version|default:''}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>安卓客户端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[apk_client_force_update]" <{if $config.apk_client_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[apk_client_force_update]" <{if !$config.apk_client_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后APP版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>安卓客户端下载地址：</th>
+                <td><input type="text" name="config[apk_client_download]" value="<{$config.apk_client_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>安卓客户端更新说明：</th>
+                <td><textarea name="config[apk_client_intro]" class="textarea"><{$config.apk_client_intro}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th>IOS客户端包名：</th>
+                <td><input type="text" name="config[ios_client_packname]" value="<{$config.ios_client_packname|default:''}>" class="input w-300"/><span class="tip-comment">用作唤起APP用</span></td>
+            </tr>
+            <tr>
+                <th>IOS客户端版本：</th>
+                <td><input type="text" name="config[ios_client_version]" value="<{$config.ios_client_version|default:''}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>IOS客户端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[ios_client_force_update]" <{if $config.ios_client_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[ios_client_force_update]" <{if !$config.ios_client_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后APP版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>IOS客户端下载地址：</th>
+                <td><input type="text" name="config[ios_client_download]" value="<{$config.ios_client_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>IOS客户端更新说明：</th>
+                <td><textarea name="config[ios_client_intro]" class="textarea"><{$config.ios_client_intro}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th>客户端应用宝地址：</th>
+                <td><input type="text" name="config[yyb_client_url]" value="<{$config.yyb_client_url|default:''}>" class="input w-500"/><span class="tip-comment">需要把APP提交到腾讯应用宝平台，供微信直接可以下载和调起APP</span></td>
+            </tr>
+
+            <!-- 首页下载提示satrt -->
+            <tr>
+                <th>首页下载提示：</th>
+                <td>
+                    <label><input type="radio" name="config[client_download]" <{if $config.client_download}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[client_download]" <{if empty($config.client_download)}>checked="checked"<{/if}> value="0"/>关闭</label>
+                </td>
+            </tr>
+            <tr>
+                <th>客户端名称：</th>
+                <td><input type="text" name="config[client_packname]" value="<{$config.client_packname|default:''}>" class="input w-500"/><span class="tip-comment"></span></td>
+            </tr>
+            <tr>
+                <th>客户端logo：</th>
+                <td>                    
+                    <input type="hidden" name="config[client_logo]" value="<{$config.client_logo}>" />
+                    <input type="file" name="config[client_logo]" value="<{$config.client_logo}>" class="input w-300" />
+                    <{if $config.client_logo}><img src="<{$pager.img}>/<{$config.client_logo}>" photo="<{$pager.img}>/<{$config.client_logo}>" class="wh-30" style="vertical-align:middle;display:inline;"/><{/if}>
+                    <span class="tip-comment">请不要使用jpeg格式的图片，并控制图片大小</span>
+                </td>
+            </tr>
+            <tr>
+                <th>客户端下载提示：</th>
+                <td><input type="text" name="config[client_prompt]" value="<{$config.client_prompt|default:''}>" class="input w-500"/><span class="tip-comment">建议10个字符左右</span></td>
+            </tr>
+
+            <!-- 首页下载提示end -->
+
+            <tr><td colspan="10" class="h-10"></td></tr>
+            
+            <tr>
+                <th>安卓商户端包名：</th>
+                <td><input type="text" name="config[apk_biz_packname]" value="<{$config.apk_biz_packname|default:''}>" class="input w-300"/><span class="tip-comment">用作唤起APP用</span></td>
+            </tr>
+            <tr>
+                <th>安卓商户端版本：</th>
+                <td><input type="text" name="config[apk_biz_version]" value="<{$config.apk_biz_version|default:''}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>安卓商户端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[apk_biz_force_update]" <{if $config.apk_biz_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[apk_biz_force_update]" <{if !$config.apk_biz_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后APP版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>安卓商户端下载：</th>
+                <td><input type="text" name="config[apk_biz_download]" value="<{$config.apk_biz_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>安卓商户端更新说明：</th>
+                <td><textarea name="config[apk_biz_intro]" class="textarea"><{$config.apk_biz_intro}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th>IOS商户端包名：</th>
+                <td><input type="text" name="config[ios_biz_packname]" value="<{$config.ios_biz_packname|default:''}>" class="input w-300"/><span class="tip-comment">用作唤起APP用</span></td>
+            </tr>
+            <tr>
+                <th>IOS商户端版本：</th>
+                <td><input type="text" name="config[ios_biz_version]" value="<{$config.ios_biz_version|default:''}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>IOS商户端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[ios_biz_force_update]" <{if $config.ios_biz_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[ios_biz_force_update]" <{if !$config.ios_biz_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后APP版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>IOS商户端下载：</th>
+                <td><input type="text" name="config[ios_biz_download]" value="<{$config.ios_biz_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>IOS商户端更新说明：</th>
+                <td><textarea name="config[ios_biz_intro]" class="textarea"><{$config.ios_biz_intro}></textarea><br /></td>
+            </tr>
+            <!-- <tr>
+                <th>WIN商户端版本：</th>
+                <td><input type="text" name="config[win_biz_version]" value="<{$config.win_biz_version|default:''}>" class="input w-300"/>
+                    <span class="tip-comment">Windows桌面商户端程序</span></td>
+            </tr>
+            <tr>
+                <th>WIN商户端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[win_biz_force_update]" <{if $config.win_biz_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[win_biz_force_update]" <{if !$config.win_biz_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>WIN商户端下载：</th>
+                <td><input type="text" name="config[win_biz_download]" value="<{$config.win_biz_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>WIN商户端更新说明：</th>
+                <td><textarea name="config[win_biz_intro]" class="textarea"><{$config.win_biz_intro}></textarea><br /></td>
+            </tr> -->
+            <tr>
+                <th>商户端应用宝地址：</th>
+                <td><input type="text" name="config[yyb_biz_url]" value="<{$config.yyb_biz_url|default:''}>" class="input w-500"/><span class="tip-comment">需要把APP提交到腾讯应用宝平台，供微信直接可以下载和调起APP</span></td>
+            </tr>
+
+            <tr><td colspan="10" class="h-10"></td></tr>
+
+            <tr>
+                <th>安卓服务端包名：</th>
+                <td><input type="text" name="config[apk_staff_packname]" value="<{$config.apk_staff_packname|default:''}>" class="input w-300"/><span class="tip-comment">用作唤起APP用</span></td>
+            </tr>
+            <tr>
+                <th>安卓服务端版本：</th>
+                <td><input type="text" name="config[apk_staff_version]" value="<{$config.apk_staff_version|default:''}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>安卓服务端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[apk_staff_force_update]" <{if $config.apk_staff_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[apk_staff_force_update]" <{if !$config.apk_staff_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后APP版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>安卓服务端下载：</th>
+                <td><input type="text" name="config[apk_staff_download]" value="<{$config.apk_staff_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>安卓服务端更新说明：</th>
+                <td><textarea name="config[apk_staff_intro]" class="textarea"><{$config.apk_staff_intro}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th>IOS服务端包名：</th>
+                <td><input type="text" name="config[ios_staff_packname]" value="<{$config.ios_staff_packname|default:''}>" class="input w-300"/><span class="tip-comment">用作唤起APP用</span></td>
+            </tr>
+            <tr>
+                <th>IOS服务端版本：</th>
+                <td><input type="text" name="config[ios_staff_version]" value="<{$config.ios_staff_version|default:''}>" class="input w-300"/></td>
+            </tr>
+            <tr>
+                <th>IOS服务端强制升级：</th>
+                <td>
+                    <label><input type="radio" name="config[ios_staff_force_update]" <{if $config.ios_staff_force_update}>checked="checked"<{/if}> value="1">是</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[ios_staff_force_update]" <{if !$config.ios_staff_force_update}>checked="checked"<{/if}> value="0">否</label>
+                    <span class="tip-comment">选择强制升级后APP版本小于配置版本时必须升级后才能使用</span>
+                </td>
+            </tr>
+            <tr>
+                <th>IOS服务端下载：</th>
+                <td><input type="text" name="config[ios_staff_download]" value="<{$config.ios_staff_download|default:''}>" class="input w-500"/></td>
+            </tr>
+            <tr>
+                <th>IOS服务端更新说明：</th>
+                <td><textarea name="config[ios_staff_intro]" class="textarea"><{$config.ios_staff_intro}></textarea><br /></td>
+            </tr>
+            <tr>
+                <th>服务端应用宝地址：</th>
+                <td><input type="text" name="config[yyb_staff_url]" value="<{$config.yyb_staff_url|default:''}>" class="input w-500"/><span class="tip-comment">需要把APP提交到腾讯应用宝平台，供微信直接可以下载和调起APP</span></td>
+            </tr>
+
+            <tr><td colspan="10" class="h-10"></td></tr>
+
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

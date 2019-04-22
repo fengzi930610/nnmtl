@@ -1,0 +1,80 @@
+<{assign var='tpl_title' value='我的订单'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='ucenter/index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的订单
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+    
+<div class="switchTab_box">
+    <ul>
+        <li class="switchTab_list"><a href="<{link ctl='ucenter/order:items_all'}>">全部</a></li>
+        <li class="switchTab_list on"><a href="<{link ctl='ucenter/order'}>">按分类</a></li>
+    </ul>
+    <div class="cl"></div>
+</div>
+<section class="page_center_box">
+	<ul class="form_list_box mb10 mt10 ele_ord">
+        <li class="mineHome_list border_t">
+            <a href="<{link ctl='ucenter/order/items' arg1='waimai'}>">
+            <p class="fl"><em class="ico_1"></em>外送</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="mineHome_list">
+            <a href="<{link ctl='ucenter/order/items' arg1='paotui'}>">
+            <p class="fl"><em class="ico_2"></em>跑腿</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="mineHome_list mb10">
+            <a href="<{link ctl='ucenter/order/items' arg1='tuan'}>">
+            <p class="fl"><em class="ico_3"></em>团购</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="mineHome_list border_t">
+            <a href="<{link ctl='ucenter/order/items_maidan'}>">
+            <p class="fl"><em class="ico_6"></em>买单</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="mineHome_list">
+            <a href="<{link ctl='ucenter/order/items' arg1='house'}>">
+            <p class="fl"><em class="ico_4"></em>家政</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="mineHome_list">
+            <a href="<{link ctl='ucenter/order/items' arg1='weixiu'}>">
+            <p class="fl"><em class="ico_5"></em>维修</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+        <li class="mineHome_list mb10">
+            <a href="<{link ctl='ucenter/order/items' arg1='mall'}>">
+            <p class="fl"><em class="ico_7"></em>商城</p>
+            <div class="fr"><em class="linkIco"></em></div>
+            <div class="clear"></div>
+            </a>
+        </li>
+     </ul>
+</section>
+    
+    <script>
+        $(document).ready(function(){
+            $('#l3').addClass('on');
+        })
+    </script>
+
+<{include file="block/sfooter.html"}>
+</body>
+</html>

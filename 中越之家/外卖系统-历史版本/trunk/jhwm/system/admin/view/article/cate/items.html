@@ -1,0 +1,78 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right">
+				<{link ctl="article/cate:create" class="button" load="mini:添加分类" width="mini:520" title="添加分类"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data table">
+		<tr>
+			<th class="w-100">ID</th>
+			<th>分类名称</th>
+			<th class="w-100">排序</th>
+			<th class="w-150">是否隐藏</th>
+			<th class="w-200">操作</th>
+		</tr>
+		<{foreach $tree as $v}>
+		<tr id="cat-<{$v.cat_id}>">
+			<td class="left"><label><input type="checkbox" value="cat_id[]" value="<{$v.cat_id}>" CK="PRI"><{$v.cat_id}></label></td>
+			<td class="left"><strong><{$v.title}></strong></td>
+			<td class="left"><input type="text" name="orderby[<{$v.cat_id}>]" value="<{$v.orderby}>" class="input w-50" /></td>
+			<td><{if $v.hidden}><span class="red">隐藏</span><{else}>显示<{/if}></td>
+			<td>
+				<{link ctl="article/cate:create" args="<{$v.cat_id}>" load="mini:添加子分类" width="mini:520" title="添加子分类" class="button"}>
+				<{link ctl="article/cate:edit" args="<{$v.cat_id}>" load="mini:编辑分类" width="mini:520" title="编辑分类" class="button"}>
+				<{if $v.from == 'article' || $v.cat_id > 50}>
+				<{link ctl="article/cate:delete" args="<{$v.cat_id}>" act="mini:remove:cat-<{$v.cat_id}>" title="删除分类" class="button"}>
+				<{else}>
+				<label title="删除分类" class="button disabled" tips="系统分类不能删除" disabled="disabled">删除分类</label>
+				<{/if}>
+			</td>
+		</tr>
+		<{foreach $v.children as $vv}>
+		<tr id="cat-<{$vv.cat_id}>">
+			<td class="left"><label><input type="checkbox" value="cat_id[]" value="<{$vv.cat_id}>" CK="PRI"><{$vv.cat_id}></label></td>
+			<td style="text-align:left;padding-left:30px;">&nbsp;&nbsp;|---<strong><{$vv.title}></strong></td>
+			<td class="left">&nbsp;&nbsp;|---<input type="text" name="orderby[<{$vv.cat_id}>]" value="<{$vv.orderby}>" class="input w-50" /></td>
+			<td><{if $vv.hidden}><span class="red">隐藏</span><{else}>显示<{/if}></td>
+			<td>
+				<{link ctl="article/cate:create" args="<{$vv.cat_id}>" load="mini:添加子分类" width="mini:520" title="添加子分类" class="button"}>
+				<{link ctl="article/cate:edit" args="<{$vv.cat_id}>" load="mini:编辑分类" width="mini:520" title="编辑分类" class="button"}>
+				<{link ctl="article/cate:delete" args="<{$vv.cat_id}>" act="mini:remove:cat-<{$vv.cat_id}>" title="删除分类" class="button"}>
+			</td>
+		</tr>
+		<{foreach $vv.children as $vvv}>
+		<tr id="cat-<{$vvv.cat_id}>">
+			<td class="left"><label><input type="checkbox" value="cat_id[]" value="<{$vvv.cat_id}>" CK="PRI"><{$vvv.cat_id}></label></td>
+			<td style="text-align:left;padding-left:60px;">&nbsp;&nbsp;|---<strong><{$vvv.title}></strong></td>
+			<td class="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|---<input type="text" name="orderby[<{$vvv.cat_id}>]" value="<{$vvv.orderby}>" class="input w-50" /></td>
+			<td><{if $vvv.hidden}><span class="red">隐藏</span><{else}>显示<{/if}></td>
+			<td>
+				<label title="添加子分类" class="button disabled" tips="该分类不能添加子分类" disabled="disabled">添加子分类</label>
+				<{link ctl="article/cate:edit" args="<{$vvv.cat_id}>" load="mini:编辑分类" width="mini:520" title="编辑分类" class="button"}>
+				<{link ctl="article/cate:delete" args="<{$vvv.cat_id}>" act="mini:remove:cat-<{$vvv.cat_id}>" title="删除分类" class="button"}>
+		</tr>
+		<{/foreach}>
+		<{/foreach}>
+		<{/foreach}>
+	</table>
+    </table>
+	</form>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left"><{link ctl="article/cate:delete" type="button" submit="mini:#items-form" title="删除分类"}></td>
+			<td class="w-200"><{link ctl="article/cate:update" type="button" submit="mini:#items-form" title="更新数据"}></td>
+		</tr>
+		</table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

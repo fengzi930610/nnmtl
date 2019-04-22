@@ -1,0 +1,19 @@
+<{foreach $items as $k => $v}>
+<li class="lineBook_ordlist mb10"><a href="<{$v.detail_url}>">
+        <div class="top border_b">
+            <p class="fl"><{$v.shop_detail.title}></p>
+            <p class="fr maincl"><{$v.order_status_label}></p>;
+        </div>
+        <div class="cont">
+            <div class="left">
+                <p><span class="black9">预计等待</span>  <{$v.wait_time}>分钟</p>
+                <p><span class="black9">还需等待</span>  <{$v.zhuo_wait_nums}>桌</p>
+            </div>
+            <div class="right">
+                <p class="big maincl"><{$v.zhuohao_detail.zhuohao_cate_title}></p>
+                <p class="black6"><{$v.zhuohao_detail.title}></p>
+            </div>
+        </div>
+        <div class="bottom border_t black9"><span class="tag" style="background:#ff6600;">排队</span>过号不作废，在现场叫号基础上顺延3桌安排</div>
+    </a></li>
+<{/foreach}>

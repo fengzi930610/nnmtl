@@ -1,0 +1,73 @@
+<div class="ucenter_c" style="width: 400px; height: 300px; min-height:0px;">
+    <form action="" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <td style="text-align:center;">预计等待：</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <input type="text" class="input w-150" autocomplete="off" placeholder="请输入等待时间分钟" name="wait_time" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">选择桌号：</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">
+                    <select name="zhuohao_id" class="select select_td input w-200">
+                        <{foreach $zhuohao_cate_items as $v}>
+                            <{foreach $zhuohao_items as $vv}>
+                                <{if $v.cate_id==$vv.cate_id}>
+                                <option value="<{$vv.zhuohao_id}>"><{$v.title}>━<{$vv.title}>(<{$vv.number}>人)</option>
+                                <{/if}>
+                            <{/foreach}>
+                        <{/foreach}>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:center;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="text-align:center;"><input id="goto_jiedan" type="button" value="确定" class="btn btn-success" style="padding: 3px 45px 5px 45px;
+    height: 40px;
+    font-size: 16px;"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript" charset="utf-8">
+$(document).off('click','#goto_jiedan').on('click','#goto_jiedan',function(){
+    var paidui_id = parseInt(<{$detail.paidui_id}>);
+    var wait_time = $("input[name='wait_time']").val();
+    var zhuohao_id = parseInt($("select[name='zhuohao_id']").val());
+    if(!wait_time) {
+        layer.msg('请填写预计等待时间');return;
+    }
+    if(!zhuohao_id) {
+        layer.msg('请选择桌号');return;
+    }
+    jQuery.ajax({
+        url: "<{link ctl='biz/yuyue/order:paidui_jiedan'}>",
+        async: true,
+        dataType: 'json',
+        data: {"paidui_id":paidui_id,"zhuohao_id":zhuohao_id,"wait_time":wait_time},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error==0) {
+                var return_paidui_id = ret.data.paidui_id;
+                if(return_paidui_id) {
+                    layer.msg(ret.message);
+                    setTimeout(function(){window.location.reload();},1000);
+                }
+            }else {
+                layer.msg(ret.message);return;
+            }
+        },
+        error: function (xhr, status, err) {
+            alert(err);
+        },
+    }) 
+})
+
+</script>

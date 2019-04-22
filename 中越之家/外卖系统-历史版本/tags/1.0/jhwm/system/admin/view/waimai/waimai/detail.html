@@ -1,0 +1,29 @@
+<{include file="admin:common/header.html"}>
+<style>
+    .page-data .form td img{margin: 0px;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>商户：</th><td><{$waimai.title}>(ID:<{$waimai.shop_id}>)</td><th>城市：</th><td><{$waimai.city_name}>(ID:<{$waimai.city_id}>)</td></tr>
+        <tr><th>联系人：</th><td><{$waimai.contact}></td><th>商户分类：</th><td><{$waimai.cate_title}></td></tr>
+        <tr><th>商户LOGO：</th><td><img src="<{$pager.img}>/<{$waimai.logo}>" width="100" height="100"/></td><th>商户banner：</th><td><img src="<{$pager.img}>/<{$waimai.banner}>" width="200" height="120"/></td></tr>
+        <tr><th>坐标：</th><td><label>经度:<input type="text" name="data[lng]" value="<{$waimai.lng}>" id="Bmap_marker_lng" class="input w-100"/></label><label>纬度:<input type="text" name="data[lat]" value="<{$waimai.lat}>" id="Bmap_marker_lat" class="input w-100"/></label><span class="tip-comment">使用百度地图经纬度<a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="button"><b>拾取工具</b></a></span></td><th>地址：</th><td><{$waimai.addr}></td></tr>
+        <tr><th>浏览次数：</th><td><{$waimai.views}></td><th>评论数：</th><td><{$waimai.comments}></td></tr>
+        <tr><th>好评数：</th><td><{$waimai.praise_num}></td><th>订单数：</th><td><{$waimai.orders}></td></tr>
+        <tr><th>支付方式：</th><td><{if $waimai.online_pay &&$waimai.is_daofu}>支持在线支付和餐到付款<{elseif $waimai.online_pay&&!$waimai.is_daofu}>仅支持在线支付<{elseif !$waimai.online_pay &&$waimai.is_daofu}>仅支持餐到付款<{/if}></td><th>配送类型：</th><td><{if $waimai.pei_type==0}>商家自主配送<{else if $waimai.pei_type==1}>第三方配送<{else}>第三方代购<{/if}></td></tr>
+        <tr><th>营业状态：</th><td><{if $waimai.yysj_status}><span class="green">营业中</span><{else}><span class="red">已打烊</span><{/if}></td><th>营业时间：</th><td><{foreach $waimai.yy_peitime as $item}><{if $item@index == 0}><{$item.stime}>-<{$item.ltime}><{else}>、<{$item.stime}>-<{$item.ltime}><{/if}><{/foreach}></td></tr>
+        <tr><th>可预定天数：</th><td><{$waimai.str_yuyue_day}></td><th>起送价：</th><td><{$waimai.freight_price}></td></tr>
+        <tr><th>简介：</th><td colspan="3"><{$waimai.info}></td></tr>
+        <tr><th>创建时间：</th><td><{$waimai.dateline|format}></td><th>创建IP：</th><td><{$waimai.clientip}></td></tr>
+    </table>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,61 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+body{ background: #f5f7f9; }
+</style>
+<!--<div class="loginTop"><img src="%THEME%/static/images/logo1.png"></div>-->
+<div class="loginTop">
+    <img src="<{$pager.img}>/<{$site.logo_shop}>" width="174" height="42">
+    <span class="loginTip">商家后台</span>
+</div>
+<div class="forget_box">
+    <div class="smallpage">
+        <h2>找回密码</h2>
+        <div class="state_box">
+            <ul>
+                <li class="on"><span>1</span><P>验证身份</P></li>
+                <li class="on"><span>2</span><P>设置密码</P></li>
+                <li><span>3</span><P>完成</P></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="login_form_box">
+            <div class="cont">
+                <form id="signupForm">
+                    <div class="int_box form-group">
+                        <div class="box">
+                            <input type="password" id="new_passwd" name="data[new_passwd]" aria-required="true" aria-invalid="true" class="form-control error" placeholder="设置新密码">
+                            <a href="javascript:;" class="clear_ico"></a>
+                        </div>
+                    </div>
+                    <div class="int_box form-group">
+                        <div class="box">
+                            <input type="password" id="new_passwd2" name="data[new_passwd2]" aria-required="true" aria-invalid="true" class="form-control error" placeholder="确认新密码">
+                            <a href="javascript:;" class="clear_ico"></a>
+                        </div>
+                    </div>
+                    <input type="button" value="下一步" class="long_btn">
+                    <!-- <div class="caozuo_box">
+                        <div class="fl">已有帐号 <a href="<{link ctl='login'}>" class="maincl">登录</a></div>
+                    </div> -->
+                    <div class="foot">已有帐号？<a href="<{link ctl='login'}>" class="maincl">登录</a></div>
+                </form>                   
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.long_btn').click(function () {
+            var link = "<{link ctl='login/setpwd'}>";
+            $.post(link, $('#signupForm').serialize(), function (ret) {
+                if (ret.error == 0) {
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='login:setpwd_success'}>";
+                    }, 2000);
+                }
+                layer.msg(ret.message);
+            },'json');
+        });
+    });
+</script>
+<{include file="block/nav_footer.html"}>

@@ -1,0 +1,60 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='biz/waimai/cate:index'}>" class="on">商品分类</a>
+	<span class="r"><a href="<{link ctl='biz/waimai/cate:create'}>" class="btn btn-success">添加分类</a></span>
+</div>
+<{if $shop.have_waimai == 1}>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-100">ID</th>
+        <!--<th class="w-50">图标</th>-->
+        <th class="w-100">分类名称</th>
+        <th class="w-100">排序</th>
+        <th class="w-200">操作</th>
+    </tr>
+    <{foreach $items as $v}>
+            <{if $v.parent_id == 0}>
+            <tr id="cat-<{$v.cate_id}>">
+                <td class="left"><label><input type="checkbox" value="cate_id[]" value="<{$v.cate_id}>" CK="PRI"><{$v.cate_id}></label></td>
+                <!--<td><img src="<{$pager.img}>/<{$v.icon}>" class="wh-50" /></td>-->
+                <td class="left"><strong><{$v.title}></strong></td>
+                <td class="left"><input type="text" name="orderby[<{$v.cate_id}>]" value="<{$v.orderby}>" class="input w-50" /></td>
+                <td>
+                    <a href="<{link ctl='biz/waimai/cate:create' args=$v.cate_id}>" class="btn btn-success">添加子分类</a>
+                    <a href="<{link ctl='biz/waimai/cate:edit' args=$v.cate_id}>" class="btn btn-success">编辑分类</a>
+                    <a href="<{link ctl='biz/waimai/cate:delete' args=$v.cate_id}>" mini-act="del" class="btn btn-success">删除</a>
+                </td>
+            </tr>
+                <{foreach $items as $item}>
+                    <{if $item.parent_id == $v.cate_id}>
+                    <tr id="cat-<{$item.cate_id}>">
+                        <td class="left"><label><input type="checkbox" value="cate_id[]" value="<{$item.cate_id}>" CK="PRI"><{$item.cate_id}></label></td>
+
+                        <td  style="text-align:left;padding-left:30px;">&nbsp;&nbsp;|---<strong><{$item.title}></strong></td>
+                        <td class="left">&nbsp;&nbsp;|---<input type="text" name="orderby[<{$item.cate_id}>]" value="<{$item.orderby}>" class="input w-50" /></td>
+                        <td>
+                            <a href="<{link ctl='biz/waimai/cate:edit' args=$item.cate_id}>" class="btn btn-success">编辑分类</a>
+                            <a href="<{link ctl='biz/waimai/cate:delete' args=$item.cate_id}>" mini-act="del" class="btn btn-success">删除</a>
+                        </td>
+                    </tr>
+                    <{/if}>
+                <{/foreach}>
+            <{/if}>
+    <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{else}>
+<tr>
+    <td colspan="20">
+        <div class="alert alert-info">
+            <h3>您当前还未开通外卖功能，请移步店铺设置查看外卖功能开通状态<a href="<{link ctl='biz/waimai/shop:have'}>" class="btn btn-success" style="float:right;">申请开通</a></h3>
+        </div>
+    </td>
+</tr>
+<{/if}>
+<{include file="biz/block/footer.html"}>

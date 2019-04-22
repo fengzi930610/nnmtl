@@ -1,0 +1,59 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?group/timeout-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="姓名、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="group/timeout:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">ID</th>
+                <th class="w-100">订单ID</th>
+                <th class="w-100">配送员</th>
+                <th class="w-100">完成时间</th>
+                <th class="w-100">预计送达时间</th>
+                <th class="w-100">超时时间</th>
+                <th class="w-100">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.time_id}>" name="time_id[]" CK="PRI"/><{$item.time_id}><label></td>
+                <td><{$item.order_id}></td>
+                <td><{$item.staff.name}>(<{$item.staff.mobile}>)</td>
+                <td><{$item.complete_time|format:"Y-m-d H:i:s"}></td>
+                <td><{$item.timeout|format:"Y-m-d H:i:s"}></td>
+                <td><{$item.time_left}></td>
+                <td>
+                    <{link ctl="group/timeout:delete" arg0=$item.time_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="group/timeout:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除吗?" priv="hide" value="批量删除"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>
+
+
+

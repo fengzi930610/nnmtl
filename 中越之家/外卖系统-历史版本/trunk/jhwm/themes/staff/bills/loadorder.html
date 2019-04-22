@@ -1,0 +1,7 @@
+<{foreach $items as $v}>
+<tr>
+    <td width="33.33%"><{$v.order_id}></td>
+    <td width="33.33%"><{if $v.from == 'paotui'}>跑腿订单<{else}>外卖订单<{/if}></td>
+    <td width="33.33%" style="margin-right: 10px;"> <a href="<{link ctl='order/detail' arg0=$v.order_id}>"><span style="color:#06c1ae;">￥<{$v.true_amount}></span><i class="linkico"></i></a></td>
+</tr>
+<{/foreach}>

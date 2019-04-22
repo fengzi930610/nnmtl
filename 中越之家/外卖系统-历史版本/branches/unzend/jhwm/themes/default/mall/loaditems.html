@@ -1,0 +1,20 @@
+<{foreach $items as $v}>
+<li class="mineIntegral_list">
+    <a href="<{link ctl='mall/product:detail' arg0=$v.product_id}>">
+        <div class="img">	
+            <span class="box"><img src="<{$pager.img}>/<{$v.photo}>" width="280" height="200" /></span>
+            <div class="jifen"><{$v.jifen}>积分</div>
+        </div>
+    </a>
+    <div class="wz">
+        <p class="bt"><{$v.title}></p>
+        <div>
+            <p class="fl black9 font_size14">支付<span class="fontcl1">￥<em class="num"><{$v.price}></em></span></p>
+            <div class="fr num_operate">
+                <span class="add" pid='<{$v.product_id}>' quantity="+">+</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</li>
+<{/foreach}>

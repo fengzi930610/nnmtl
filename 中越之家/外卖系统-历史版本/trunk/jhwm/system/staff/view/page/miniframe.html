@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+ <head><title>MiniFrame</title></head>
+ <body>
+<script type="text/javascript">
+window.Widget = parent.window.Widget;
+(function(K, $){
+    <{if $pager.error == '101'}>
+        Widget.Login();
+    <{elseif $pager.error && $pager.error != 200}>
+       Widget.MsgBox.error("<{$pager.message}>");
+       parent.window.__MINI_LOAD = false;
+    <{elseif $MINICALL}>
+        $MINICALL({"error":"<{$pager.error}>", "message":"<{$pager.message}>"});
+    <{elseif $MINIFUNC}>
+        parent.$MINIFUNC;
+    <{elseif $pager.show_content}>         
+        $("#widget-dialog-load-content").dialog("destroy");
+        Widget.MsgBox.hide();
+        parent.window.__MINI_LOAD = false;
+        $('<div title="<{$pager.show_title}>" id="widget-dialog-miniframe-content">数据加载中....</div>').dialog({width:<{$pager.show_width|default:500}>,autoOpen:true,modal:true,dialogClass:'ui-hack-widget-dialog',position:{my: "center top",at: "center top+120px",of: parent.window},create:function(event,ui){$("#widget-dialog-miniframe-content").html('<{$pager.show_content}>');},close:function(event,ui){$(this).dialog("destroy");}});
+    <{else}>
+       Widget.MsgBox.success("<{$pager.message}>");
+       setTimeout(function(){<{if $pager.link}>parent.window.location = "<{$pager.link}>";<{else}>parent.window.location.reload(true);<{/if}>}, <{$pager.timer|default:0}>*1000);
+    <{/if}>
+})(parent.window.KT, parent.window.jQuery);
+</script>
+<{if $pager.appendjs}><{$pager.appendjs}><{/if}>
+</body>
+</html>

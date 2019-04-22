@@ -1,0 +1,223 @@
+<{assign var='tpl_title' value=L("<{$status_name}>-我的订单")}>
+<{include file="weidian/block/header.html"}>
+<!--头部筛选-->
+<div class="topShaixuan">
+    <ul>
+        <li style="width: 20%;" class="list <{if !$st}>on<{/if}>"><a href="<{link ctl='ucenter/order/index'}>">全部</a></li>
+        <li style="width: 20%;" class="list <{if $st==1}>on<{/if}>"><a href="<{link ctl='ucenter/order/index' st=1}>">待付款</a></li>
+        <li style="width: 20%;" class="list <{if $st==2}>on<{/if}>"><a href="<{link ctl='ucenter/order/index' st=2}>">待发货</a></li>
+        <li style="width: 20%;" class="list <{if $st==3}>on<{/if}>"><a href="<{link ctl='ucenter/order/index' st=3}>">待收货</a></li>
+        <li style="width: 20%;" class="list <{if $st==4}>on<{/if}>"><a href="<{link ctl='ucenter/order/index' st=4}>">待评价</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+<!--头部筛选结束-->
+<section class="page_center_box">
+    <div class="myall-dan-cont mt10" id="index_goods_items">
+        
+    </div>
+    <div class="loadding">
+
+    </div>
+</section>
+<!--弹出-->
+
+<div class="mask_box">
+    <div class="maskOne zitiCode_mask">
+        <div class="title">自提码</div>
+        <div class="cont">
+            <p class="fontcl1 spend_number"></p>
+            <div id="qrcodeTable" ></div>
+            <p class="spend_status"></p>
+        </div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false,
+        });//首页轮播js结束
+    });
+</script>
+<!--取消弹出层-->
+<script>
+       $(document).ready(function(){
+           $(document).on("click",".tips",function(){
+               var order_id = $(this).attr("rel");
+               var link = "<{link ctl='ucenter/order/remind'}>";
+               $.post(link,{"order_id":order_id},function(ret){
+                   if(ret.error>0){
+                       layer.open({content: ret.message});
+                   }else{
+                       layer.open({content: ret.message});
+                       setTimeout(function(){
+                           window.location.reload(true);
+                       },'1000')
+                   }
+               },'json')
+           })
+           
+           $(".quxiao-dan").click(function(){
+               $(".cancel-tanchu-cont").show();
+               $(".cancel-tanchu-cont").parent().find(".mask_bg").show();
+
+           });
+           $(".mask_bg").click(function(){
+               $(this).fadeOut();
+               $(this).parent().find(".cancel-tanchu-cont").hide();
+           });
+           $(".confirm-or-quxiao").click(function(){
+               $(this).parents().find(".cancel-tanchu-cont").hide();
+               $(this).parents().find(".mask_bg").fadeOut();
+           });
+           $(".cancel-tanchu-cont .liyou").click(function(){
+               $(this).addClass("on").siblings().removeClass("on");
+           });
+       })
+</script>
+<script>
+
+    var _lock = false;
+    var params = {"st": "<{$st}>"};
+    var page = 1;
+    var link = "<{link ctl='ucenter/order:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k,v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        msg = '<div class="preloader txt_center"><img src="/themes/default/weidian/static/images/home_logo@2x.png" width="28"><p class="black9 font_size14 font_line30 mt10">'+msg+'</p></div>';
+        $(".loadding").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".loadding").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+            $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });  
+    }
+    
+    $(document).scroll(function () {//监听滚动条改变
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) { //滚动条到顶部的垂直高度 = 页面高度 - 可视高度
+            if (_lock) {
+                return false;
+            }
+            _lock = false; 
+             page++;
+            loaddata();
+            _lock = true;
+        }
+    });
+
+    $(function(){
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+
+                window.location.href="/ucenter";
+
+                var hashLocation = location.hash;
+                var hashSplit = hashLocation.split("#!/");
+                var hashName = hashSplit[1];
+                if (hashName !== '') {
+                    var hash = window.location.hash;
+                    if (hash === '') {
+                        window.location.href="/ucenter";
+                    }
+                }
+            });
+            ///ucenter/order/index/
+            window.history.pushState('forward', null, '/ucenter/order/index/#forward');
+        }
+    });
+</script>
+<script src="/themes/default/static/js/jquery.qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script>$(function(){
+    $(document).on("click",".cancel_order",function(){
+        var order_id = $(this).attr('val');
+        var link = "/ucenter/order/cancel-__order_id.html";
+        layer.open({
+            content: '确定要取消订单吗？',
+            btn: ['确认', '取消'],
+            shadeClose: false,
+            yes: function(){
+                $.post(link.replace("__order_id",order_id), {}, function (ret) {
+                    if(ret.error == 0){
+                        layer.open({
+                            content: ret.message,
+                            time: 2
+                        });
+                        location.reload(true);
+                    }else{
+                        layer.open({
+                            content: ret.message,
+                            time: 2
+                        });
+                    }
+                }, 'json');
+            }
+        });
+    })
+
+})
+$(document).on("click",".zitiCode",function(){
+         $('#qrcodeTable').html("");
+        var spend_number = $(this).attr("spend");
+        var status = $(this).attr("rel");
+        $(".spend_number").html(spend_number);
+        if(status == 1){
+            $(".spend_status").html("商家已核销");
+        }else{
+            $(".spend_status").html("待商家核销");
+        }
+        // 生成二维码
+        $('#qrcodeTable').qrcode({
+            render: "canvas",            //渲染方式 table 和 canvas两种
+            width: 128,                  //设置宽度  
+            height: 128,                 //设置高度  
+            typeNumber: -1,              //计算模式 
+            correctLevel: 2,             //纠错等级  0,1,2,3 默认为2
+            background: "#ffffff",       //背景颜色  
+            foreground: "#000000",       //前景颜色 
+            text    : '2'+spend_number,  //识别微店首位是2
+        }); 
+        $(".zitiCode_mask").show();
+        $(".zitiCode_mask").parent().find(".mask_bg").show();
+    });
+    $(".zitiCode_mask").parent().find(".mask_bg").click(function(){
+        $(".zitiCode_mask").hide();
+        $(".zitiCode_mask").parent().find(".mask_bg").hide();
+    });//自提码弹出层结束
+
+    
+</script>
+
+<{include file="weidian/block/footer.html"}>

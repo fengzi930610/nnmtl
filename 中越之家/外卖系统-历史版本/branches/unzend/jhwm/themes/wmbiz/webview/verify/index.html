@@ -1,0 +1,396 @@
+<{assign var='tpl_title' value=L("商家入驻-资质信息")}>
+<{include file="webview/block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+
+                <div class="container_mid">
+                    <!--内容-->
+                    <div class="enterSeller_process">
+                        <ul>
+                            <li class="list on">
+                                <span>1</span>
+                                <P>店铺信息</P>
+                            </li>
+                            <li class="ico">
+                                <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                            </li>
+                            <li class="list on">
+                                <span>2</span>
+                                <P>资质信息</P>
+                            </li>
+                            <li class="ico">
+                                <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                            </li>
+                            <li class="list">
+                                <span>3</span>
+                                <P>配送信息</P>
+                            </li>
+                            <li class="ico">
+                                <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                            </li>
+                            <li class="list">
+                                <span>4</span>
+                                <P>结算信息</P>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <form id="myform" action="<{link ctl='webview/verify:index'}>" method="post" mini-form="webform" >
+                        <div class="enterSeller_box">
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">法人姓名</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入法人姓名" name="data[id_name]" value="<{$verify.id_name}>">
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label">身份证号</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入法人身份证号" name="data[id_number]" value="<{$verify.id_number}>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="id-pic-cont border_b">
+                            <div class="cont-one">
+                                <div class="tit">法人身份证的正反面照片<span class="black9">(保证身份证内容清晰可见)</span></div>
+                                <div>
+                                    <ul>
+                                        <li class="pic-list">
+                                            <div class="box">
+                                                <div class="pic-box mb10">
+                                                    <span><img src="<{if $verify.id_photo}><{$pager.img}>/<{$verify.id_photo}><{/if}>" id="id_photo1"></span>
+                                                    <input type="hidden" name="data[id_photo]" value="<{$verify.id_photo}>" id="id_photo"/>
+                                                    <p>上传证件照</p>
+                                                </div>
+                                                <div class="wz-box">
+                                                    <p class="black9 overflow_clear">身份证正面照</p>
+                                                    <div class="up-btn">上传照片
+                                                        <input class="weui-uploader__input" type="file"  rel="id_photo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="pic-list">
+                                            <div class="box">
+                                                <div class="pic-box mb10">
+                                                    <span><img src="<{if $verify.id_photo_f}><{$pager.img}>/<{$verify.id_photo_f}><{/if}>" id="id_photo_f1"></span>
+                                                    <input name="data[id_photo_f]" type="hidden" value="<{$verify.id_photo_f}>" id="id_photo_f"/>
+                                                    <p>上传证件照</p>
+                                                </div>
+                                                <div class="wz-box">
+                                                    <p class="black9 overflow_clear">身份证反面照</p>
+                                                    <div class="up-btn">上传照片
+                                                        <input class="weui-uploader__input" type="file"   rel="id_photo_f">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <div class="clear"></div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="cont-one">
+                                <div class="tit">法人手持身份证正面照</div>
+                                <div>
+                                    <ul>
+                                        <li class="pic-list">
+                                            <div class="box">
+                                                <div class="pic-box mb10">
+                                                    <span><img src="<{if $verify.id_photo_s}><{$pager.img}>/<{$verify.id_photo_s}><{/if}>" id="id_photo_s1"></span>
+                                                    <input type="hidden" name="data[id_photo_s]" value="<{$verify.id_photo_s}>" id="id_photo_s"/>
+                                                    <p>上传证件照</p>
+                                                </div>
+                                                <div class="wz-box">
+                                                    <p class="black9 overflow_clear">手持身份证正面照</p>
+                                                    <div class="up-btn">上传照片
+                                                        <input class="weui-uploader__input" type="file"  rel="id_photo_s">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!--<li class="pic-list">
+                                            <div class="box">
+                                                <div class="pic-box mb10">
+                                                    <span><img src="<{if $verify.id_photo_sf}><{$pager.img}>/<{$verify.id_photo_sf}><{/if}>" id="id_photo_sf1"></span>
+                                                    <input type="hidden" name="data[id_photo_sf]" value="<{$verify.id_photo_sf}>" id="id_photo_sf"/>
+                                                </div>
+                                                <div class="wz-box">
+                                                    <p class="black9 overflow_clear">手持身份证反面照</p>
+                                                    <div class="up-btn">上传照片
+                                                        <input class="weui-uploader__input" type="file"   rel="id_photo_sf">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>-->
+                                        <div class="clear"></div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="enterInfo_logo">
+                            <div class="tit">营业执照</div>
+                            <div class="img_box"><img width="80" height="80" src="<{if $verify.yz_photo}><{$pager.img}>/<{$verify.yz_photo}><{/if}>" id="yz_photo1"><input type="file"   rel="yz_photo"><!--<a href="javascript:;" class="del"></a>--></div>
+                            <input type="hidden" name="data[yz_photo]" value="<{$verify.yz_photo}>" id="yz_photo"/>
+                        </div>
+                        
+                        <!--<div class="enterInfo_img">
+                            <div class="tit">手持营业执照正面图</div>
+                            <div class="img_box">
+                                <ul>
+                                    <li>
+                                        <div class="box">
+                                            <span><img width="80" height="80" src="<{if $verify.yz_photo_s}><{$pager.img}>/<{$verify.yz_photo_s}><{/if}>" id="yz_photo_s1"><input type="file"   rel="yz_photo_s"></span>
+                                            <input type="hidden" name="data[yz_photo_s]" value="<{$verify.yz_photo_s}>" id="yz_photo_s"/>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="clear"></div>
+                            </div>
+                        </div>-->
+                        <div class="enterSeller_box">
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label license-label">营业执照名称</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入营业执照名称" value="<{$verify.yz_name}>" name="data[yz_name]">
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label license-label">营业执照注册号</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入营业执照注册号" value="<{$verify.yz_number}>" name="data[yz_number]">
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label license-label">营业执照所在地</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入营业执照所在地" value="<{$verify.yz_addr}>" name="data[yz_addr]">
+                                    </div>
+                                </div>
+                                <div class="weui-cell weui-cell-after">
+                                    <div class="weui-cell__hd"><label for="" class="weui-label license-label">营业执照有效期至</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input text_r zhizhao_time" type="button"   id="showDatePicker" value="<{if $verify.yz_time}><{$verify.yz_time|format:'Y-m-d'}><{/if}>" >
+                                        <input type="hidden" name="data[yz_time]" value="<{$verify.yz_time}>" id="showDatePicker1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="enterInfo_img">
+                            <div class="tit">餐饮许可证</div>
+                            <div class="img_box">
+                                <ul>
+                                    <li>
+                                        <div class="box">
+                                            <span><img src="<{if $verify.cy_photo}><{$pager.img}>/<{$verify.cy_photo}><{/if}>" id="cy_photo1"><input type="file" rel="cy_photo"></span>
+                                            <input type="hidden" name="data[cy_photo]" value="<{$verify.cy_photo}>" id="cy_photo"/>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="enterSeller_box">
+                            <div class="weui-cells weui-cells_form">
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label license-label">许可证件名称</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入证件名称" value="<{$verify.cy_name}>" name="data[cy_name]">
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label license-label">许可证件编号</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入证件编号" value="<{$verify.cy_number}>" name="data[cy_number]">
+                                    </div>
+                                </div>
+                                <div class="weui-cell">
+                                    <div class="weui-cell__hd"><label class="weui-label license-label">许可证件地址</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input" type="text" placeholder="请输入证件所在地" value="<{$verify.cy_addr}>" name="data[cy_addr]">
+                                    </div>
+                                </div>
+                               <div class="weui-cell weui-cell-after">
+                                    <div class="weui-cell__hd"><label for="" class="weui-label license-label">许可证件有效期</label></div>
+                                    <div class="weui-cell__bd">
+                                        <input class="weui-input text_r" type="button" id="clickpicker" value="<{if $verify.cy_time}><{$verify.cy_time|format:'Y-m-d '}><{/if}>"  >
+                                        <input type="hidden" name="data[cy_time]" value="<{$verify.cy_time}>" id="clickpicker1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_long_btn">
+                            <input type="submit" id="delete" class="weui-btn weui-btn_primary" value="下一步"/>
+                        </div>
+                    </form>
+
+
+                    <!--内容结束-->
+                </div>
+                <!--底部-->
+
+
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".id-pic-cont .pic-list .pic-box span img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+    $(".enterInfo_logo .img_box img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+    $(".enterInfo_img .img_box ul li .box span img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+});
+</script>
+<script>
+
+    $('#showDatePicker').on('click', function () {
+        weui.datePicker({
+            start: 1990,
+            end: new Date().getFullYear()+20,
+            onChange: function (result) {
+
+            },
+            onConfirm: function (result) {
+                var a=result[0]+"-"+(parseInt(result[1])+1)+"-"+result[2]+"";
+                $('#showDatePicker1').val(a);
+                $('#showDatePicker').val(a);
+
+            }
+        });
+    });
+    $('#clickpicker').on('click', function () {
+        weui.datePicker({
+            start: 1990,
+            end: new Date().getFullYear()+20,
+            onChange: function (result) {
+
+            },
+            onConfirm: function (result) {
+                var a=result[0]+"-"+(parseInt(result[1])+1)+"-"+result[2]+"";
+                $('#clickpicker1').val(a);
+                $('#clickpicker').val(a);
+
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $('#delete').on('click',function(){
+        $("[type='file']").remove();
+    })
+    $("[type='file']").on('change',function(){
+
+        var files = $(this)[0]['files'];
+        var id = $(this).attr('rel');
+        h = $(this);
+
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(files[0].type)) {
+            Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }
+        uploadfile(files,id);
+
+
+
+    })
+
+    function uploadfile(obj,h) {
+        var form = new FormData();
+        form.append('file',obj[0]);
+        var url ='<{link ctl="webview/file:uploadimg" }>';
+        layer.load();
+        $.ajax({
+            url: url,
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (e) {
+                layer.closeAll();
+                if(e.error>0){
+                    Widget.MsgBox.success(e.message);
+                    return false;
+                }else{
+                  if(e.file!="[]"){
+                      $('#'+h+1).attr('src',"<{$pager.img}>/"+e.file.photo)
+                      $('#'+h+1).css('opacity','1');
+                      $('#'+h).val(e.file.photo);
+
+                  }else{
+                      Widget.MsgBox.error('图片太大，请换一张图片');
+                      return false;
+                  }
+
+                }
+            },
+            error: function (e) {
+                layer.closeAll();
+
+            }
+        },'json');
+
+
+
+    }
+
+
+
+
+</script>
+
+    <script>
+    //禁止浏览器返回上一页  直接返回首页
+    $(document).ready(function(e) {
+        /* var counter = 0;*/
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                window.location.href = '<{link ctl="webview/index:index"}>';
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });
+</script>
+
+
+
+
+
+
+<{include file="webview/block/footer.html"}>

@@ -1,0 +1,43 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+		<th class="left"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></th>
+		<th colspan="3"></th>
+	</tr>
+	<tr>
+	    <{foreach $table_list as $table}>
+		<td class="left"<{if $table@last}>colspan="4"<{/if}>><label><input type="checkbox" name="tables[]" value="<{$table.Name}>"  CK="PRI"/><{$table.Name}></label></td>
+		<{if $table@iteration % 4 === 0}></tr><tr><{/if}>
+		<{foreachelse}>
+		<td colspan="20"><p class="text-align tip-notice">没有需要优化的数据表</p></td>
+		<{/foreach}>
+	</tr>
+    </table>
+	</form>
+	<{if $table_list}>
+	<div class="page-bar">
+		<table>
+			<tr>
+			<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+			<td colspan="10" class="left">
+				<{link ctl="tools/database:optimize" type="button" submit="mini:#items-form" priv="hide" value="优化数据表"}>
+			</td>
+			<td class="page-list"><{$pager.pagebar}></td>
+		</tr>
+		</table>
+	</div>
+	<{/if}>
+</div>
+<{include file="admin:common/footer.html"}>

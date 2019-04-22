@@ -1,0 +1,49 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+	<ul>
+        <li><a href="<{link ctl='biz/shop:wmyouhui'}>">外卖优惠设置</a></li>
+        <li class="on"><a href="<{link ctl='biz/shop:mdyouhui'}>">优惠买单设置</a></li>
+	</ul>
+</div>
+
+<div class="ucenter_c">
+    <form id="post_form" action="<{link ctl='biz/shop/mdyouhui'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="table">
+            <tr>
+                <th>每满多少</th><td><input type="text" class="input w-100" name="data[each_amount]" value="<{$tshop.each_amount|default:'0.00'}>" /></td>
+            </tr>
+            <tr>
+                <th>优惠多少</th><td><input type="text" class="input w-100" name="data[each_youhui]" value="<{$tshop.each_youhui|default:'0.00'}>" /></td>
+            </tr> 
+            <tr> 
+
+            <tr>
+                <th>折扣</th><td><input type="text" class="input w-100" name="data[discount]" value="<{$tshop.discount|default:'0.00'}>" /></td>
+            </tr>   
+            <tr>
+                <th>优惠上限</th><td><input type="text" class="input w-100" name="data[max_youhui]" value="<{$tshop.max_youhui|default:'0.00'}>" /></td>
+            </tr> 
+             <th>优惠类型</th>
+                <td>
+                    <label><input type="radio" name="data[type]" value="1" <{if $tshop.type == 1}>checked="checked"<{/if}>/>折扣</label>
+                    <label><input type="radio" name="data[type]" value="0" <{if $tshop.type == 0}>checked="checked"<{/if}>/>满减</label>
+    
+                </td>
+            </tr>  
+            <th>是否支持优惠买单</th>
+                <td>
+                    <label><input type="radio" name="data[status]" value="1" <{if $tshop.status == 1}>checked="checked"<{/if}>/>支持</label>
+                    <label><input type="radio" name="data[status]" value="0" <{if $tshop.status == 0}>checked="checked"<{/if}>/>不支持</label>
+    
+                </td>
+            </tr>       
+        </table>
+        <div><div class="jq_bottom"><input type="submit" class="btn btn-primary jq_save" value="保存数据"/></div></div>
+    </form>
+</div>
+<script>
+$(document).ready(function(){
+    
+})    
+</script>
+<{include file="biz/block/footer.html"}>

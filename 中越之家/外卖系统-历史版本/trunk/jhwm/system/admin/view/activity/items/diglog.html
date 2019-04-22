@@ -1,0 +1,73 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+
+
+            </td>
+
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">ID</th>
+                <th class="w-100">标题</th>
+                <th class="w-100">图片</th>
+                <th class="w-100">操作</th>
+                <th class="w-100"><{link ctl="activity/items:so" arg0=$active_id arg1=$from load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.active_id}>" name="shop_id[]" CK="PRI"/><{$item.shop_id}><label></td>
+                <td><{$item.title}></td>
+                <td><img src="<{$pager.img}>/<{$item.photo}>" width="50" height="50"/></td>
+                <td>
+                    <{if $from=='1'}>
+                    <{link ctl="activity/items:create" arg0=$active_id arg1=$from arg2=$item.product_id act="mini:添加" confirm="mini:确定要添加吗？" title="添加" class="button"}>
+                    <{/if}>
+                    <{if $from=='2'}>
+                    <{link ctl="activity/items:create" arg0=$active_id arg1=$from arg2=$item.shop_id act="mini:添加" confirm="mini:确定要添加吗？" title="添加" class="button"}>
+                    <{/if}>
+                    <{if $from=='3'}>
+                    <{link ctl="activity/items:create" arg0=$active_id arg1=$from arg2=$item.tuan_id act="mini:添加" confirm="mini:确定要添加吗？" title="添加" class="button"}>
+                    <{/if}>
+                    <{if $from=='4'}>
+                    <{link ctl="activity/items:create" arg0=$active_id arg1=$from arg2=$item.shop_id act="mini:添加" confirm="mini:确定要添加吗？" title="添加" class="button"}>
+                    <{/if}>
+
+                </td>
+                <td></td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <!--<td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="activity/activity:delete_all" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>-->
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    // 管理PC商户端左侧菜单栏默认给一个不缩放的标识  by 夏玉峰 2016-11-22 15:11:52-
+    $("a[title]").click(function() {
+        if(('localStorage' in window) && window['localStorage'] !== null) {
+            localStorage['mini_navbar_status'] = 'off';
+        }
+    })
+</script>
+<{include file="admin:common/footer.html"}>

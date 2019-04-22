@@ -1,0 +1,22 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/log:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>日志ID：</th><td><{$detail.log_id}></td></tr>
+<tr><th>商户ID：</th><td><{$detail.shop_id}></td></tr>
+<tr><th>余额变动：</th><td><{$detail.money}></td></tr>
+<tr><th>变动缘由：</th><td><{$detail.intro}></td></tr>
+<tr><th>操作者：</th><td><{$detail.admin}></td></tr>
+<tr><th>日期：</th><td><{$detail.day}></td></tr>
+<tr><th>日期：</th><td><{$detail.clientip}></td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

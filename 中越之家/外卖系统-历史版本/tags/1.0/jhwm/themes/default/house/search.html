@@ -1,0 +1,18 @@
+<{assign var='tpl_title' value=L("搜索")}>
+<{include file="block/header.html"}>
+
+<header>
+
+    <i class="left"><a href="<{link ctl='server/index:allserver'}>" link-load="" link-type="right"
+                       class="ico headerIco headerIco_6"></a></i>
+    <div class="title" style="width:100%;">
+        <div class="search_box">
+            <em class="ico searchIco"></em>
+            <input class="search_int" type="text" placeholder="请输入师傅类别或姓名">
+        </div>
+    </div>
+    <i class="right"><input class="pub_btn" type="submit" value="搜索"></i>
+
+</header>
+
+<{include file="block/footer.html"}>

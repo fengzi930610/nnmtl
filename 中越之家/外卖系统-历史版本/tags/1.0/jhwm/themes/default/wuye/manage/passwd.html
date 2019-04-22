@@ -1,0 +1,54 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/manage/index:index'}>">账户管理</a>
+    <a href="<{link ctl='wuye/manage/index:update_passwd'}>" class="on">修改密码</a>
+    <a href="<{link ctl='wuye/manage/index:update_mobile'}>">更换手机</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='wuye/manage/index:update_passwd' args=$detail.wuye_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+        
+            <tr>
+                <th>旧密码：</th>
+                <td>
+                    <input type="password" name="data[passwd]" value="" class="input w-200"/>
+                </td>
+            </tr>
+            <tr>
+                <th>新密码：</th>
+                <td>
+                    <input type="password" name="data[new_passwd]" value="" class="input w-200"/>
+                </td>
+            </tr><tr>
+                <th>确认密码：</th>
+                <td>
+                    <input type="password" name="data[new_passwd2]" value="" class="input w-200"/>
+                </td>
+            </tr>
+        
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+        $("[name='data[stock_type]']").click(function () {
+            if ($(this).val() == 1) {
+                $("#tr_sale_sku1").show();
+            } else {
+                $("#tr_sale_sku1").hide();
+            }
+        });
+        $("[name='data[stock_type]']:checked").trigger("click");
+</script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="wuye/block/footer.html"}>

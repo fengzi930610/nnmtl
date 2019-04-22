@@ -1,0 +1,17 @@
+<{foreach $items as $k => $v}>
+    <div class="quan-one <{if $v.ltime <= time()}>over-date<{/if}>" coupon='{"coupon_id":"<{$v.coupon_id}>","order_amount":"<{$v.order_amount}>","coupon_amount":"<{$v.coupon_amount}>"}'>
+        <div class="quan-zuo fl">
+            <p class="yuan">￥<{$v.coupon_amount}></p>
+            <a href="javascript:void(0);" class="get-qu"><{if $v.ltime <= time()}>(已过期)<{/if}></a>
+        </div>
+        <div class="quan-you fr">
+                <h3>优惠券(仅限<b style="color:#ff0000;"><{$v.shop.title}></b>使用)</h3>
+                <p>满<{$v.order_amount}>元使用</p>
+                <p>至<{$v.ltime|format:'Y-m-d H:i:s'}></p>
+        </div>
+        <div class="clear"></div>
+    </div>
+<{/foreach}>
+<{if $items}>
+<a href="<{link ctl='ucenter/coupon/shop_coupon' coupon_num=$smarty.get.coupon_num}>" style="display:block;text-align:center;font-size:0.14rem;height:0.3rem;line-height:0.3rem;color:blue;background:#e5e5e5;">领取优惠券</a>
+<{/if}>

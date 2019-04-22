@@ -1,0 +1,58 @@
+<{assign var='tpl_title' value=L("我的红包")}>
+<{include file="waimai/block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont coupons_shouye-cont">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item weui-bar__item_on" rel="1">未使用</div>
+                <div class="weui-navbar__item" rel="0">已使用</div>
+            </div>
+            <div class="container_mid">
+                <div class="youhuiquan-box use-quan" id="index_goods_items">
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+
+        localStorage.setItem('coupon_type','1');
+        $('.weui-navbar div').click(function(){
+            var i=$(this).index();
+            $(this).addClass('weui-bar__item_on').siblings().removeClass('weui-bar__item_on');
+            var rel = $(this).attr('rel');
+
+            localStorage.setItem('coupon_type',rel);
+            load();
+        })
+        load();
+
+    })
+</script>
+
+<script>
+    function load(){
+        var url = '<{link ctl="ucenter/coupon:loadcoupon" arg0="#page#" http=$site.waimaiurl}>'
+        loadpage(url,{type:localStorage.getItem('coupon_type') },1);
+        scroll(url,{type:localStorage.getItem('coupon_type') },1);
+
+    }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+<{include file="waimai/block/footer.html"}>

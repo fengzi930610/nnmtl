@@ -1,0 +1,25 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="waimai/product:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/product-index.html" id="SO-form" method="post">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th><span class="red">*</span>选择商户：</th>
+                <td>
+                    <input type="hidden" name="SO[shop_id]" value="" id="select_shop_shop_id_id" />
+                    <input type="text" value="<{$shop.title}>" id="select_shop_shop_id_title" class="input w-200" readonly/>
+                    <{link ctl="shop/shop:dialog" select="mini:#select_shop_shop_id_id,#select_shop_shop_id_title/N/选择商户" title="选择商户" class="button"}>
+                </td>
+            </tr>
+            <tr><th>标题：</th><td><input type="text" name="SO[title]" value="" class="input w-300"/>标题</td></tr>    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+        </table>
+    </form></div>
+<{include file="admin:common/footer.html"}>

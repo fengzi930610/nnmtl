@@ -1,0 +1,91 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right">
+        <{if $pager.from == 'about'}>
+        <{link ctl="article/about:index" priv="hidden" class="button"}></td>
+        <{elseif $pager.from == 'help'}>
+        <{link ctl="article/help:index" priv="hidden" class="button"}></td>
+        <{elseif $pager.from == 'page'}>
+        <{link ctl="article/page:index" priv="hidden" class="button"}></td>
+        <{elseif $pager.from == 'pchelp'}>
+        <{link ctl="article/pchelp:index" priv="hidden" class="button"}></td>
+        <{else}>
+        <{link ctl="article/article:index" priv="hidden" class="button"}></td>
+        <{/if}>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data" id="page-data">
+<form action="?article/<{$pager.from}>-edit.html" mini-form="article-form" method="post" ENCTYPE="multipart/form-data">
+<input type="hidden" name="article_id" value="<{$detail.article_id}>" />
+<table width="100%" border="0" cellspacing="0" class="table-data form" id="table-info">
+<tr><th>标题：</th><td><input type="text" name="data[title]" value="<{$detail.title}>" class="input title w-500"/></td></tr>
+<tr><th class="w-100">分类：</th><td><select name="data[cat_id]"><{widget id="article/cate" from=$pager.from value=$detail.cat_id}></select></td></tr>
+<{if $pager.from == 'article'}>
+<tr><th>缩略图：</th><td><input type="file" name="data[thumb]" class="input w-300" /><{if $detail.thumb}><img src="<{$pager.img}>/<{$detail.thumb}>" class="wh-100"/><{/if}></td></tr>
+<{else}>
+<tr><th>页面名：</th><td><input type="text" name="data[page]" value="<{$detail.page}>" class="input w-200"/></td></tr>
+<{/if}>
+<tr><th>描述：</th><td><textarea name="data[desc]" class="textarea h-60"><{$detail.desc}></textarea><br /></td></tr>
+<tr><th>内容：</th><td><textarea name="data[content]" kindeditor="full" style="width:500px;height:250px;"><{$detail.content}></textarea><br /></td></tr>
+<tr><th>跳转：</th>
+    <td>
+        <input type="text" name="data[linkurl]" value="<{$detail.linkurl}>" class="input w-500"/>
+        <span class="tip-comment">填写后访问该文章后将直接跳转到该地址，以http:// 开头</span>
+    </td>
+</tr>
+<!--
+<tr>
+    <th>统计：</th>
+    <td>
+        <label>浏览数:<input type="text" name="data[views]" value="1" class="input w-50"/></label>
+        <label>收藏数:<input type="text" name="data[favorites]" value="0" class="input w-50"/></label>
+        <label>图片数:<input type="text" name="data[photos]" value="0" class="input w-50"/></label>
+        <label>留言数:<input type="text" name="data[comments]" value="0" class="input w-50"/></label>
+    </td>
+</tr>
+<tr><th>评论：</th>
+    <td>
+        <label><input type="radio" name="data[allow_comment]" value="1"  <{if $detail.allow_comment}>checked="checked"<{/if}>/>开启</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="data[allow_comment]" value="0"  <{if !$detail.allow_comment}>checked="checked"<{/if}>/>关闭</label>
+        <span class="tip-comment">是否开启该文间的评论功能</span>
+    </td>
+</tr>
+-->
+<tr><th>发布时间：</th>
+    <td>
+        <input type="text" name="data[ontime]" value="<{if $detail.ontime}><{$detail.ontime|format:"Y-m-d H:i:s"}><{/if}>" datetime="ontime" class="input w-150"/>
+        <span class="tip-comment">为空文章即时发布，设置后时间到自动发布</span>
+    </td>
+</tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby}>" class="input w-100"/></td></tr>
+<tr>
+    <th>隐藏：</th>
+    <td>
+        <label><input type="radio" name="data[hidden]" <{if $detail.hidden}>checked="checked"<{/if}> value="1"/>是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="data[hidden]" <{if !$detail.hidden}>checked="checked"<{/if}> value="0"/>否</label>
+        <span class="tip-comment">设置隐藏后，在列表中将不显示该文件，但输入文章地址仍然可以打开</span>
+    </td>
+</tr>
+<tr>
+    <th>状态：</th>
+    <td>
+        <label><input type="radio" name="data[audit]" <{if $detail.audit}>checked="checked"<{/if}> value="1"/>发布</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        <label><input type="radio" name="data[audit]" <{if !$detail.audit}>checked="checked"<{/if}> value="0"/>待审箱</label>
+    </td>
+</tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]', {uploadJson : '?magic/upload-editor.html', extraFileUploadParams:{OATOKEN:"<{$OATOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="admin:common/footer.html"}>

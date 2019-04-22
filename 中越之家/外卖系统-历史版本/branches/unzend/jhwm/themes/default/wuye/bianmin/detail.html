@@ -1,0 +1,80 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/bianmin/index'}>" class="on">便民管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;margin-bottom:30px;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td width="20%">编号：</td>
+        <td width="80%"><{$detail.bianmin_id}></td>
+    </tr>
+    <tr>
+        <td width="20%">服务名称：</td>
+        <td width="80%"><{$detail.title}></td>
+    </tr>
+    <tr>
+        <td width="20%">服务介绍：</td>
+        <td width="80%"><{$detail.intro}></td>
+    </tr>
+    <tr>
+        <td width="20%">地址：</td>
+        <td width="80%"><{$detail.addr}></td>
+    </tr>
+    <tr>
+        <td width="20%">纬度和经度：</td>
+        <td width="80%"><{$detail.lat}>,<{$detail.lng}></td>
+    </tr>
+    <tr>
+        <td width="20%">联系电话：</td>
+        <td width="80%"><{$detail.phone}></td>
+    </tr>
+    <tr>
+        <td width="20%">查看次数：</td>
+        <td width="80%"><{$detail.views}></td>
+    </tr>
+    <tr>
+        <td width="20%">时间：</td>
+        <td width="80%"><{$detail.dateline|format}></td>
+    </tr>
+</table>
+</div>
+
+<{if $items}>
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/bianmin/index'}>" class="on">被举报信息</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c" style="min-height:auto;">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-60">用户</th>
+        <th class="w-120">标题</th>
+        <th class="w-250">内容</th>
+        <th class="w-150">时间</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.uid}></td>
+        <td><{$item.title}></td>        
+        <td><{$item.content}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{/if}>
+
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

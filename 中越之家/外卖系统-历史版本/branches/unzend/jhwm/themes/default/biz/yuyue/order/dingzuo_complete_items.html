@@ -1,0 +1,49 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/yuyue/order:dingzuo'}>" >待接单</a>
+        <a href="<{link ctl='biz/yuyue/order:dingzuo_wait_items'}>" >预约中</a>
+        <a href="<{link ctl='biz/yuyue/order:dingzuo_complete_items'}>" class="on">已完成</a>
+        <a href="<{link ctl='biz/yuyue/order:dingzuo_cancel_items'}>">已取消</a>
+    </ul>
+    
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr class="alt">
+            <th class="w-100">订单编号</th>
+            <th class="w-150">客户</th>
+            <th class="w-150">手机号</th>
+            <th class="w-150">就餐人数</th>
+            <th class="w-150">桌号名称</th>
+            <th class="w-150">到店时间</th>
+            <th class="w-150">备注</th>
+            <th class="w-240">状态</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><{$item.dingzuo_id}></td>    
+            <td><{$item.contact}></td>
+            <td><{$item.mobile}></td>
+            <td><{$item.yuyue_number}></td>
+            <td><{$item.zhuohao_detail.title}></td>
+            <td><{$item.yuyue_time|format:'Y-m-d H:i'}></td>
+            <td><{$item.notice|default:'--'}></td>
+            <td>
+                <b class="green">已确认到店</b>
+            </td>
+        </tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">暂无客户订单</div></td></tr>
+        <{/foreach}>
+        <tr>
+    </table>
+    </form>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript">
+// 取消订单
+</script>
+<span  id='abc'></span>        
+<{include file="biz/block/footer.html"}>

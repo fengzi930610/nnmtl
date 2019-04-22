@@ -1,0 +1,28 @@
+
+    <!-- 全部订单下拉 -->
+    <script type="text/javascript">
+            $(function(){
+                $(".dingdan-list-top-cont .top-a .color-lan").on("click",function() {
+                    $(this).find(".ico-it").toggleClass("on");
+                    $(".dingdans-mask").find(".dan-xiala").toggle();
+                    $(".dingdans-mask").fadeToggle(300);
+                });
+                $(".dan-xiala .dan-a").on("click",function() {
+                    $(this).addClass("on").parent(".dan-xiala .li-one").siblings().find(".dan-xiala .dan-a").removeClass("on");
+                    $(".dingdans-mask").find(".dan-xiala").hide();
+                    $(".dingdans-mask").fadeOut(300);
+                   window.location.href = $(this).attr('rel')
+                });
+                $(".dingdans-mask").on("click",function() {
+                    $(".dingdans-mask").find(".dan-xiala").hide();
+                    $(".dingdans-mask").fadeOut(300);
+                });
+            });
+            window.onpageshow = function(event) {    if (event.persisted) {
+                window.location.reload()
+            }
+            };
+</script>
+<!-- 全部订单下拉end-->
+</body>
+</html>

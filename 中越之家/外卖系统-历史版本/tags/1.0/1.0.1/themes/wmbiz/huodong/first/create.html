@@ -1,0 +1,63 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="#">管理中心</a></li>
+        <li class="active">商家管理</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+   	<!--表单-->
+    <div class="tabnr_change show">
+        <form action="<{link ctl='huodong/first/create'}>" mini-form="wmbiz" method="post" target="miniframe">
+        <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">        	
+        	<tr>
+                <td width="120"><p class="form_table_t">活动时间：</p></td>
+                <td>
+                    <div class="clearfix list_box">
+                        <div class="fl" id="data_5">
+                            <span class="input-daterange" id="datepicker"><input type="text" name="data[stime]" value=""  class="tuan_topser tuan_topserw3"/>至<input type="text" name="data[ltime]" value="" class="tuan_topser tuan_topserw3"/></span><span class="ml5 black9">（默认为开始日期0:00至结束日期23:59）</span>
+                        </div>
+                    </div>   
+                </td>
+            </tr>
+        	<tr>
+                <td width="120"><p class="form_table_t">活动信息：</p></td>
+                <td>
+                    <div class="form_table_nr">
+                    	<div class="dispchSet_list mt10 ml10 mr10 mb10">
+                            <div class="int_list clearfix">
+                                <span class="mr20">首单立减：<input type="text"  name="data[first_amount]" rel="shop_amount_1" class="text jq_all">元</span>
+                                <span class="mr20">商家承担：<input type="text" name="data[shop_amount]" readonly="readonly" class="text shop_amount_1">元</span>
+                                <span class="mr20">平台承担：<input type="text" name="data[roof_amount]" readonly="readonly" value="0" class="text">元</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="120"><p class="form_table_t">面向人群：</p></td>
+                <td>
+                    <div class="clearfix list_box">
+                       <label class="ml10"><input type="radio" name="data[type]"  value="1">店铺首单</label> <label class="ml30"><input type="radio" name="data[type]" checked  value="0">平台首单</label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="form_table_btn_box text_c">
+            <input class="btn btn-primary btn-w-m" type="submit" value="保存"/>
+            <input class="btn btn-default btn-w-m" type="reset" value="取消"/>
+        </div>
+        </form>
+    </div>
+        <script>
+            $(document).ready(function(){
+                $(".jq_all").keyup(function(){
+                    $("."+$(this).attr("rel")).val($(this).val());
+                })
+            })
+        </script>
+    <!--表单end-->
+   <{include file="block/footer.html"}>

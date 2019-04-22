@@ -1,0 +1,61 @@
+<{assign var="page_title" value="忘记密码-设置新密码"}>
+<{assign var='tpl_title' value=L("忘记密码-设置新密码")}>
+<{include file="pchome/block/header.html"}>
+<div class="headerTop_one">
+    <div class="smallpage">
+        <div class="logo fl">
+            <img src="<{$pager.img}>/<{$site.logo2}>">
+        </div>
+        <div class="tit fl">找回密码</div>
+        <div class="fr">
+            <a href="<{link ctl='passport/login'}>" class="btn maincl">登录</a>
+            <a href="<{link ctl='passport/register'}>" class="btn">注册</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="forget_box bg_grey">
+    <div class="forget_box_small">
+        <div class="tit">
+            <ul>
+                <li>
+                    <span>1</span>验证手机号
+                </li>
+                <li class="img"><img src="/themes/default/pchome/static/images/forget_ico1.png"></li>
+                <li class="on">
+                    <span>2</span>设置新密码
+                </li>
+                <li class="img"><img src="/themes/default/pchome/static/images/forget_ico1.png"></li>
+                <li>
+                    <span>3</span>完成
+                </li>
+            </ul>
+        </div>
+        <div class="cont">
+            <form id='form'>
+                <P class="bt">新密码</P>
+                <div class="int_box mb20"><input type="password" name='data[passwd]' placeholder="新密码"></div>
+                <P class="bt">确认新密码</P>
+                <div class="int_box mb20"><input type="password" name='data[repasswd]' placeholder="确认新密码"></div>
+                <input type="button" value="确 定" class="long_btn">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        //重新设置密码 
+        $('.long_btn').click(function () {
+            var link = "<{link ctl='passport/forget_pwd' }>";
+            $.post(link,$('#form').serialize(), function (ret) {
+                if (ret.error == 0) {
+                    setTimeout(function () {
+                        window.location.href = "<{link ctl='passport/forget_success'}>";
+                    }, 2000);
+                }
+                layer.msg(ret.message);
+            },'json');
+        })
+    });
+</script>
+<{include file="pchome/block/footer.html"}>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>外卖对账--对账单详情</title>
+    <link rel="stylesheet" href="%THEME%/webview/bills/static/example/css/weui.min.css"/>
+    <link rel="stylesheet" href="%THEME%/webview/bills/static/example/css/example.css"/>
+    <link rel="stylesheet" href="%THEME%/webview/bills/static/example/weui-animate/weui-animate.less"/>
+    <link rel="stylesheet" href="%THEME%/webview/bills/static/example/weui-picker/weui-picker.less"/>
+    <link rel="stylesheet" href="%THEME%/webview/bills/static/css/style.css"/>
+</head>
+
+<body ontouchstart>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <!--日期-->
+            <div class="duiz_toptiame">
+                <h3><span id="showDatePicker"><{$detail.dateline|format:'Y-m-d'}></span><i></i></h3>
+            </div>
+            <!--日期end-->
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <div class="duizDelt_state mt10">
+                    <div class="fl">
+                        <h3><{$detail.dateline|format:'Y.m.d'}></h3>
+                        <{if $detail.status==1}> <span class="tag">已结算</span><{else}> <span class="retag">未结算</span><{/if}>
+
+                    </div>
+                    <div class="fr">
+                        <h3>￥<{$detail.amount}></h3>
+                       <!-- <a href="#" class="link"><i></i></a>-->
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div class="duizDelt_state_z duizDelt_state_z_min">
+                    <div class="fl">平台服务费</div>
+                    <div class="fr">-￥<{$detail.fee}></div>
+                </div>
+                <div class="duizDelt_state_z duizDelt_state_z_min">
+                    <div class="fl">活动款商家</div>
+                    <div class="fr">-￥<{$detail.shop_amount}></div>
+                </div>
+                <div class="duizDelt_state_z duizDelt_state_z_min">
+                    <div class="fl">平台补贴活动款</div>
+                    <div class="fr">￥<{$detail.roof_amount}></div>
+                </div>
+                <div class="duizDelt_state_z duizDelt_state_z_min">
+                    <div class="fl">配送费</div>
+                    <div class="fr">￥<{$detail.freight}></div>
+                </div>
+                <div class="duizDelt_state_z mb10 border_t">
+
+                    <div class="fl">外卖订单共 <span class="fontcl1"><{$detail.count_order}></span> 笔</div>
+                    <div class="fr maincl">￥<{$detail.amount}></div>
+                </div>
+
+
+
+               <!--
+
+              -->
+                <div class="duizDelt_state_table" style="margin-left: -30px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th width="33.33%">编号</th>
+                            <th width="33.33%">交易类型</th>
+                            <th width="33.33%" style="text-align: right;"><span class="mr20">金额</span></th>
+                        </tr>
+                    </table>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="index_goods_items" ></table>
+                    <div class="loadding"></div>
+                    <div class="clear"></div>
+                </div>
+
+
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="%THEME%/webview/bills/static/example/js/zepto.min.js"></script>
+<script src="%THEME%/webview/bills/static/example/js/weui.min.js"></script>
+<script src="%THEME%/webview/bills/static/example/js/example.js"></script>
+<script type="text/javascript" src="/themes/v3/static/js/loaddata.js"></script>
+
+<script type="text/javascript">
+    $('#showDatePicker').on('click', function () {
+        weui.datePicker({
+            start: 2017,
+            end: new Date().getFullYear(),
+            onChange: function (result) {
+            },
+            onConfirm: function (result) {
+                var a=result[0]+"-"+(parseInt(result[1])+1)+"-"+result[2];
+                $('#showDatePicker').html(a);
+                var bills_id = "<{$detail.bills_id}>";
+                var url = "<{link ctl='webview/bills/bills/detail' arg0='#page#'}>";
+                var tiao = url.replace('#page#',bills_id);
+                window.location.href = tiao+'?day='+a;
+
+            }
+        });
+    });
+</script>
+
+<script>
+    window.onload =function(){
+
+        var bills_id = "<{$detail.bills_id}>";
+        var parmas = {
+            bills_id:bills_id
+        }
+        var url = "<{link ctl='webview/bills/bills/loadorder' arg0='#page#' http='wmbiz'}>";
+        var list_id = 'index_goods_items';
+        loadpage(url,parmas,1,list_id);
+        scroll(url,parmas,1,"","#index_goods_items",list_id);
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li><a href="<{link ctl='biz/weixin/index:welcome'}>"><{L('单次关注')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/index:auto'}>"><{L('自动回复')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/keyword:index'}>"><{L('关键字回复')}></a></li>
+        <li class="on"><a href="<{link ctl='biz/weixin/menu:index'}>"><{L('自定义菜单')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weixin/menu:index'}>" class="pbtn">菜单管理</a></span>
+</div>
+<div class="ucenter_c">
+<p class="tips"><span class="notice">可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。</span></p>
+<form action="<{link ctl='biz/weixin/menu:create'}>" mini-form="biz" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">   
+    <tr><th>菜单名：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-200"/></td></tr>
+    <tr>
+        <th>父级：</th>
+        <td>
+            <select name="data[parent_id]" class="select select_td input w-200">
+                <option value="0">顶级菜单</option>
+                <{foreach $wx_menu_list as $v}><{if !$v.parent_id}><option value="<{$v.menu_id}>"<{if $v.menu_id==$detail.parent_id}> selected<{/if}>><{$v.title}></option><{/if}><{/foreach}>
+            </select>
+        </td>
+    </tr>
+    <tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'0'}>" class="input w-100"/></td></tr>
+    <tr><th>事件响应:</th>
+        <td>
+            <ul class="group-list">
+                <li><label><input type="radio" name="data[type]" value="link" <{if $detail.type == 'link'}> checked="checked"<{/if}> >打开链接</label></li>
+                    <li><label><input type="radio" name="data[type]" value="text" <{if $detail.type == 'text'}> checked="checked"<{/if}>>回复文本</label></li>
+                    <li><label><input type="radio" name="data[type]" value="reply" <{if $detail.type == 'reply'}> checked="checked"<{/if}> >回复图文</label></li>
+                <div class="clear-both"></div>
+            </ul><br /><br />
+        </td>
+    </tr>
+    <tr wxtype="reply" <{if $detail.type!='reply'}>class="hide"<{/if}>>
+        <th>回复图文：</th>
+        <td>
+            <input type="hidden" name="data[reply_id]" value="<{$welcome.reply_id}>" id="weixin_reply_id"/>
+            <div class="weixin-preview<{if !$reply}> none<{/if}>" style="float:left;">
+                <div class="weixin-box">
+                    <p class="weixin-title" id="weixin_reply_title"><{$reply.title}></p>
+                    <div class="weixin-cover"><img class="weixin-cover-pic" id="weixin_reply_photo" src="<{$pager.img}>/<{$reply.photo}>"></div>
+                </div>
+            </div>
+            <a href="<{link ctl='biz/weixin/reply:dialog'}>" id="weixin_reply_btn" class="pbtn" title="选择微信素材">选择微信素材</a>
+        </td>
+    </tr>
+    <tr wxtype="text" <{if $detail.type!='text'}>class="hide"<{/if}>><th>回复文本：</th>
+        <td><textarea name="data[content]" class="textarea w-300"><{$detail.content|default:''}></textarea></td>
+    </tr>
+    <tr wxtype="link" <{if $detail.type && $detail.type!='link'}>class="hide"<{/if}>><th>链接：</th>
+        <td><input type="text" name="data[link]" value="<{$detail.link|default:''}>" class="input w-500"/></td>
+    </tr>
+    <tr><th></th><td><input type="submit" value="保存" class="green_btn" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$("input[name='data[type]']").click(function(){
+    $("tr[wxtype]").hide();
+    $("tr[wxtype='"+$(this).val()+"']").show();
+});
+$("#weixin_reply_btn").click(function(e){
+    e.stopPropagation(); e.preventDefault();
+    var link = $(this).attr("action") || $(this).attr("href");
+    Widget.Dialog.Select(link, 'N', function(ret){
+        $("#weixin_reply_id").val(ret[0]);
+        $("#weixin_reply_title").html(ret[1].title);
+        $("#weixin_reply_photo").attr("src", "<{$pager.img}>/"+ret[1].photo);
+        $(".weixin-preview").show();
+    }, {title:"选择微信素材",width:720});
+});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

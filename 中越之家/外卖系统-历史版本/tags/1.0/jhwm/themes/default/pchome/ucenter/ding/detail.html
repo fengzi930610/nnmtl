@@ -1,0 +1,203 @@
+<{assign var="page_title" value="预约详情"}>
+<{assign var='tpl_title' value=L("预约详情")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+        <{include file="pchome/ucenter/block/left.html"}>
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="order-orderParticulars errand-orderParticulars errand-orderParticulars-two mq-orderParticulars">
+                <div class="top-title">
+                    预约订单&gt;<span class="maincl">订单详情</span>
+                </div> 
+                <div class="top-lg-box">
+                    <div class="box-left fl">
+                        <p class="haoma">订单号：<{$order.dingzuo_id}></p>
+                        <p class="status"><{$order.order_status_label}></p>
+                        <p class="sm-tip"></p>
+                        <{if $order.order_status==0}>
+                        <a href="javascript:void(0);" class="btn cuidan-btn active" id="goto_cuidan">催单</a>
+                        <a href="javascript:void(0);" class="btn quxiao-btn" id="quxiao-btn">取消订单</a>
+                        <{else}>
+                        <a href="javascript:void(0);" class="long_btn lineBook_quxiao_show jq_delete">删除订单</a>
+                        <{/if}>
+                    </div>
+                    <div class="box-right fl">
+                        <div class="process">
+                            <div class="box box-first">
+                                <div class="cir active">1</div>
+                                <div class="text txt-active">
+                                    <p>提交订单</p>
+                                    <p><{$order.dateline|format:'Y-m-d'}></p>
+                                    <p><{$order.dateline|format:'H:i:s'}></p>
+                                </div>
+                            </div>
+                            <{if $order.order_status == 0}>
+                            <div class="box large-txt">
+                                <div class="cir">2</div>
+                                <div class="text">
+                                    <p>等待商户确认订单</p> 
+                                </div>
+                            </div>
+                            <div class="box box-last">
+                                <div class="cir">3</div>
+                                <div class="text">
+                                    <p>预约成功</p>  
+                                </div>
+                            </div>
+                            <{elseif $order.order_status == 1}>
+                            <div class="box large-txt">
+                                <div class="cir active">2</div>
+                                <div class="text txt-active">
+                                    <p>商户已确认</p> 
+                                    <p><{$order.jd_time|format:'Y-m-d'}></p>
+                                    <p><{$order.jd_time|format:'H:i:s'}></p>
+                                </div>
+                            </div>
+                            <div class="box box-last">
+                                <div class="cir">3</div>
+                                <div class="text">
+                                    <p>预约成功</p>  
+                                </div>
+                            </div>
+                            
+                            <{elseif $order.order_status == 2}>
+                                <div class="box large-txt">
+                                    <div class="cir active">2</div>
+                                    <div class="text txt-active">
+                                        <p>商户已确认</p> 
+                                        <p><{$order.jd_time|format:'Y-m-d'}></p>
+                                        <p><{$order.jd_time|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                                <div class="box box-last">
+                                    <div class="cir active">3</div>
+                                    <div class="text txt-active">
+                                        <p>预约成功</p>
+                                        <p><{$order.lasttime|format:'Y-m-d'}></p>
+                                        <p><{$order.lasttime|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                            <{elseif $order.order_status == -1}>
+                                <{if $order.jd_time >0}>
+                                    <div class="box large-txt">
+                                        <div class="cir active">2</div>
+                                        <div class="text txt-active">
+                                            <p>商户已确认</p> 
+                                            <p><{$order.jd_time|format:'Y-m-d'}></p>
+                                            <p><{$order.jd_time|format:'H:i:s'}></p>
+                                        </div>
+                                    </div>
+                                <{else}>
+                                    <div class="box large-txt">
+                                        <div class="cir active">2</div>
+                                        <div class="text text-active">
+                                            <p>等待商户确认订单</p> 
+                                        </div>
+                                    </div>
+                                <{/if}>
+                                <div class="box box-last">
+                                    <div class="cir active">3</div>
+                                    <div class="text txt-active">
+                                        <p>预约取消</p>
+                                        <p><{$order.lasttime|format:'Y-m-d'}></p>
+                                        <p><{$order.lasttime|format:'H:i:s'}></p>
+                                    </div>
+                                </div>
+                            <{/if}>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div> 
+                <div class="mid-box">
+                    <div class="information">
+                        <p>商家店铺：<span class="maincl"><{$order.shop.title}></span></p>
+                        <p>到店时间：<span class="black6"><{$order.yuyue_time|format:'Y-m-d H:i:s'}></span></p>
+                        <p>就餐人数：<span class="black6 sm"><{$order.yuyue_number}>人</span></p>
+                        <p>就餐地址：<span class="black6"><{$order.shop.addr}></span></p>
+                        <p class="last"><{$order.contact}>   <{$order.mobile}></p>
+                    </div>
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- 弹出层 -->
+<div class="mq_mask_bg" style="display:none;"></div>
+<div class="mq-orderParticulars-pop mq-orderParticulars-pop-two mq-orderParticulars-pop-quxiao">
+    <div class="quxiao-tit">请选择取消理由</div>
+    <div class="reasons">
+        <{foreach $order.cancel_reason_list as $v}>
+            <label><div><input type="radio" name="reason"><{$v}></div></label>
+        <{/foreach}>
+    </div>
+    <div class="btns">
+        <a href="javascript:void(0);" class="btn cancel">放弃取消</a>
+        <a href="javascript:void(0);" class="btn pay active">确定取消</a>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- 弹出层结束 -->
+<script>
+    //弹出层
+    $(function () {
+        $('#quxiao-btn').click(function () {
+            $('.mq_mask_bg').fadeIn(100);
+            $('.mq-orderParticulars-pop').fadeIn(100);
+        });
+        $('.mq-orderParticulars-pop-quxiao .cancel,.mq_mask_bg').click(function () {
+            $('.mq_mask_bg').fadeOut(100);
+            $('.mq-orderParticulars-pop').fadeOut(100);
+        });
+        $(document).ready(function () {
+            $('.mq-orderParticulars-pop .reasons div').click(function () {
+                $(this).addClass('active').parent().siblings().find('div').removeClass('active')
+            })
+        });
+    })
+</script>
+<script>
+$(document).ready(function(){
+     $("#goto_cuidan").click(function(){  //催单
+            var dingzuo_id = "<{$order.dingzuo_id}>";
+            var link = "<{link ctl='ucenter/ding/cuidan'}>";
+            $.post(link,{"dingzuo_id":dingzuo_id},function(ret){
+                layer.msg(ret.message);
+                //if(ret.error == 0){
+                  //  window.location.reload(true);
+                //}
+            },'json')
+        })
+        
+        $(".btns .active").click(function(){  //取消
+            var dingzuo_id = "<{$order.dingzuo_id}>";
+            var reason = $("input[name='reason']:checked").val();
+            var link = "<{link ctl='ucenter/ding/cancel'}>";
+            $.post(link,{"dingzuo_id":dingzuo_id,"reason":reason},function(ret){
+                layer.msg(ret.message);
+                if(ret.error == 0){
+                    window.location.reload(true);
+                }
+            },'json')
+        })
+    
+    
+    
+    
+    $(".jq_delete").click(function(){  //删除
+        var dingzuo_id = "<{$order.dingzuo_id}>";
+        var link = "<{link ctl='ucenter/ding/delete'}>";
+        $.post(link,{"dingzuo_id":dingzuo_id},function(ret){
+            layer.msg(ret.message);
+            if(ret.error == 0){
+                window.location.href = "<{link ctl='ucenter/ding/index'}>";
+            }
+        },'json')
+    })
+})
+</script>
+<{include file="pchome/block/footer.html"}>

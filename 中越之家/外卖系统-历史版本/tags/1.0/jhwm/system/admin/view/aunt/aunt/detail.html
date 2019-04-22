@@ -1,0 +1,26 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="aunt/aunt:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr><th>帐号：</th><td><{$detail.username}>(ID:<{$detail.id}>)
+                &nbsp;<{link ctl="aunt/aunt:logs" args=$detail.id class="button" title="余额日志"}>
+                &nbsp;<{link ctl="aunt/aunt:order" args=$detail.id class="button" title="订单信息"}>
+                &nbsp;<{link ctl="aunt/cash:cash" args=$detail.id class="button" title="提现记录"}>
+            </td></tr>
+        <tr><th>密码：</th><td><{$detail.password}></td></tr>
+        <tr><th>余额：</th><td><{$detail.money}></td></tr>
+        <tr><th>名字：</th><td><{$detail.name}></td></tr>
+        <tr><th>手机：</th><td><{$detail.mobile}></td></tr>
+        <tr><th>时间：</th><td><{$detail.dateline|format}></td></tr>
+</table>
+</div>
+<{include file="admin:common/footer.html"}>

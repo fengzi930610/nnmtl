@@ -1,0 +1,81 @@
+<{assign var='tpl_title' value='收货地址'}>
+<{include file="block/header.html"}>
+        <header>
+            <i class="left"><a href="javascript:void(0);" id="back"  link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                收货地址
+            </div>
+            <i class="right"><a class="" href="#"></a></i>
+        </header>
+    <style type="text/css">
+       .addrPage_list .delIco{ width:0.14rem; height: 0.18rem; background:url(/themes/default/static/images/delIco.png) no-repeat center; background-size:100% auto; margin-left: 0.08rem; }
+    </style>
+        <section class="page_center_box">
+            <div class="addrPage">
+                <ul>
+                    <{foreach $addrs as $addr}>
+                        <li class="addrPage_list border_b" address='{"addr_id":"<{$addr.addr_id}>","lng":"<{$addr.lng}>","lat":"<{$addr.lat}>","address":"<{$addr.addr}><{$addr.house}>", "contact":"<{$addr.contact}>", "mobile":"<{$addr.mobile}>", "addr":"<{$addr.addr}>", "house":"<{$addr.house}>"}'>
+                            <p class="bt">
+                            <em class="ico ico_1 mr10"></em>
+                            <span class="contact" ><{$addr.contact}></span>
+                            <span class="ml10 black9" ><{$addr.mobile}></span>
+                            <span class="fr"><a href="<{link ctl='ucenter/addr:delete' args=<{$addr.addr_id}>}>" onClick="return confirm('你确定要删除吗？')"><em class="ico delIco"></em></a></span>
+                            </p>
+                            <div class="clear_both">
+                                <{if !$check && !$order}>
+                                <a href="<{link ctl='ucenter/addr:edit' args=<{$addr.addr_id}>}>" class="fr ico edit"></a>
+                                <{/if}>
+                                <em class="ico ico_addr <{if $addr.type==1}>ico_3<{elseif $addr.type==2}>ico_2<{elseif $addr.type==3}>ico_5<{else}>ico_4<{/if}> fl"></em>
+                                <p class="pub_wz black9" id="address"><{$addr.addr}><{$addr.house}></p>
+                            </div>
+                        </li>
+                 <{/foreach}>
+                </ul>
+            </div>
+
+        </section>
+        <footer>
+            <div class="txt_center" style="margin-top:0.08rem;"><a href="<{link ctl='ucenter/addr:create'}>" class="goodsAddr_add_link"><em>+</em>新增地址</a></div>
+        </footer>
+
+        <script>
+            $(document).ready(function () {
+                $('#back').click(function(){
+                    history.back(-1);
+                })
+                $('.radioLabel').click(function () {
+                    $('.radioInt').removeClass('on');
+                    $(this).find('.radioInt').addClass('on');
+                });
+                var check = '<{$check}>';
+                var addr_product_id = localStorage.getItem('addr_product_id');
+                if (check) {
+                    $('.fl').click(function () {
+                        var addr_id = $(this).attr('addr_id');
+                        var link = "<{link ctl='mall/exchange' addr_id='__addr_id' product_id='__product_id' }>";
+                        setTimeout(function () {
+                            window.location.href = link.replace('__product_id', addr_product_id).replace('__addr_id', addr_id);
+                        }, 1000);
+                    })
+                }
+                //console.log(localStorage['select_address']);
+                // 所有类型订单下单选择地址统一处理
+                $('.addrPage_list.border_b').click(function () {
+                    if(localStorage['select_address'] != undefined) {
+                        var addrJSON = JSON.parse(localStorage['select_address']);
+                    }
+                    var backurl = addrJSON.backurl;
+                    var is_ziti = addrJSON.is_ziti;
+                    var address = JSON.parse($(this).attr('address'));
+                    address.is_ziti = is_ziti;
+                    address.backurl = backurl;
+                    localStorage['select_address'] = JSON.stringify(address);
+                    setTimeout(function () {
+                        window.location.href = backurl;
+                    }, 500);
+                })
+            });
+        </script>
+    </script>
+
+<{include file="block/footer.html"}>

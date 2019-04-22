@@ -1,0 +1,104 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?group/tixian-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="姓名" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="group/tixian:so" arg0=0 arg1=$st load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"> 
+<h4 class="tip-notice">提示：一键转账只支持转账到支付宝账号</h4>
+    <!--向导-->
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li><a href="?group/tixian-index-1-0.html" <{if !$st}>class="on"<{/if}>>待审核</a></li>
+            <li><a href="?group/tixian-index-1-1.html" <{if $st==1}>class="on"<{/if}>>待转账</a></li>
+            <li><a href="?group/tixian-index-1-2.html" <{if $st==2}>class="on"<{/if}>>已拒绝</a></li>
+            <li><a href="?group/tixian-index-1-3.html" <{if $st==3}>class="on"<{/if}>>已完成</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <{if !$st||$st==2}>
+    <div class="enterInfo_step_tit mb10 mgt10">
+        <h2 class="float-l">待提现金额：<big class="red"><{$total}></big>元</h2>
+    </div>
+    <{/if}>
+
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">提现ID</th>
+                <th>姓名</th>
+                <th>提现金额</th>
+                <th>提现描述/拒绝原因</th>
+                <th>提现帐号信息</th>
+                <th>状态</th>
+                <th>更新时间</th>
+                <th>创建IP</th>
+                <th>申请时间</th>
+                <th class="w-150">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.tixian_id}>" name="tixian_id[]" CK="PRI"/><{$item.tixian_id}><label></td>
+                <td><{$item.name|default:''}></td>
+                <td><{$item.money}></td>
+                <td><{$item.reason|default:'--'}></td>
+                <td><{$item.account_info|default:''}></td>
+                <td><{if $item.status == 1}><span class="green">已通过</span><{/if}>
+                <{if $item.status == 2}><span class="red">已拒绝</span><{/if}>
+                <{if $item.status == 0}><span class="red" style="color:orange">待审核</span><{/if}>
+                <{if $item.status ==4}>
+               <span  class="green"><{if $item.pay_status ==1}>支付宝转账已完成<{else}>已完成<{/if}></span>
+                <{/if}></td>
+                <td>
+                    <{if $item.updatetime==0}>--<{else}> <{$item.updatetime|format:"Y-m-d H:i"}><{/if}>
+                </td>
+                <td><{$item.clientip|default:'--'}></td>
+                <td><{$item.dateline|format:'Y-m-d H:i'}></td>
+                <td>
+                    <{if $item.status==0}>
+                    <{link ctl="group/tixian:doaudit" arg0=$item.tixian_id act="mini:审核通过" confirm="mini:确认审核通过成功？" class="button" title="通过"}>
+                    <{link ctl="group/tixian:reason" arg0=$item.tixian_id title="退回" width="mini:450" load="mini:退回提现" class="button"}>
+                    <{elseif $item.status==1}>
+                    <{link ctl="group/tixian:zhuanzhang" arg0=$item.tixian_id act="mini:审核通过" confirm="mini:确认开始打款？" class="button" title="转账"}>
+                    <{link ctl="group/tixian:transfer" arg0=$item.tixian_id act="mini:转账" confirm="mini:确认无误并转账？" class="button" title="一键转账支付宝"}>
+                    
+                    <{else}>
+                    ----
+                    <{/if}>
+
+                </td>
+            </tr>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left">
+                    <!-- <{link ctl="ditui/tixian:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}> -->
+                    <{if $st==0}><{link ctl="group/tixian:doaudit" type="button" submit="mini:#items-form" confirm="mini:确定要批量审核选中的内容吗?" priv="hide" value="批量同意"}><{/if}>
+                    <{if $st==1}><{link ctl="group/tixian:zhuanzhang" type="button" submit="mini:#items-form" confirm="mini:确定要转账选中的内容吗?" priv="hide" value="批量转账"}><{/if}>
+
+
+                </td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,31 @@
+<{assign var='tpl_title' value=L("外卖客户端下载")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+				<div class="appDown">
+					<h1><{$app_download.client_packname|default:'外卖客户端'}></h1>
+					<p>版本：<span class="version"><{$app_download.apk_client_version}>|<{$app_download.ios_client_version}></span></p>
+					<div class="line"></div>
+					<img src="<{$pager.img}>/<{$app_download.client_logo}>">
+					<div class="btn_box">
+						<a href="<{$app_download.yyb_client_url}>" class="btn">立即下载</a>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var version = '';
+    var android_version = "<{$app_download.apk_client_version}>";
+    var ios_version = "<{$app_download.ios_client_version}>";
+    if(checkIsAndroid()){
+        version = android_version;
+    }else{
+        version = ios_version;
+    }
+    $('.version').text(version);
+</script>
+<{include file="block/footer.html"}>

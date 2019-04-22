@@ -1,0 +1,118 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/order:index'}>">客户订单</a>
+        <a href="<{link ctl='biz/order:pei'}>">配送订单</a>
+        <a href="<{link ctl='biz/order:delivered'}>">配送完成</a>
+        <a href="<{link ctl='biz/order:complete'}>" class="on">完成订单</a>
+        <a href="<{link ctl='biz/order:cancellist'}>">取消订单</a>
+    </ul>
+    <span class="r"><a target="_blank" href="<{link ctl='biz/ordermanage:index'}>" class="btn btn-success">快速管理</a></span>
+</div>
+<div class="ucenter_c">
+    <form id="items-form">
+    <table cellspacing="0" cellpadding="0" class="table">
+        <tr class="alt">
+            <th class="w-60">订单编号</th>
+            <th class="w-60">联系人</th>
+            <th class="w-60">手机号</th>
+            <th class="w-150">下单时间</th>
+            <th class="w-180">配送员</th>
+            <th class="w-200">下单地址</th>
+            <th class="w-100">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.order_id}>" name="order_id[]" CK="PRI"/><{$item.order_id}><label></td>     
+            <td><{$item.contact}></td>    
+            <td><{$item.mobile}></td>     
+            <td><{$item.dateline|format:'Y-m-d H:i'}></td>
+            <td><{if $item.pei_type==0}>自主配送<{else}><{$staffs[$item['staff_id']]['name']}>(<{$staffs[$item['staff_id']]['mobile']}>)<{/if}></td>
+            <td><{$item.house}></td>
+            <td>
+                <a href="javascript:void(0);" rel="<{$item.order_id}>"  class="btn btn-success view_btn" title="查看">查看</a>
+            </td>
+        </tr>
+        <tr class="table_child tr_<{$item.order_id}>">
+            <td class="border_none" colspan="7">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table_detail">
+                <tr>
+                    <th colspan="3">
+                            <div>
+                            <ul>
+                                <li class="list">订单号：<{$item.order_id}>
+                                <li class="list">联系人：<{$item.contact}>
+                                <li class="list">手机号：<{$item.mobile}>
+                                <li class="list">下单时间：<{$item.dateline|format:'Y-m-d H:i'}>
+                                <li class="list">状态：<{$status[$item['order_status']]}>
+                                <li class="list">在线支付：<{if $item.online_pay==1}>是<{else}>否<{/if}>
+                                <li class="list">支付状态：<{if $item.pay_status==1}>已支付<{else}>未支付<{/if}>
+                                <li class="list">送达时间：<{$item.sd_time|format}>
+                                <{if $item.pei_type==0}>
+                                    <li class="list">配送员：商家自主配送
+                                <{else}>
+                                    <li class="list">配送员：<{$staffs[$item['staff_id']]['name']}>
+                                    <li class="list">配送员手机：<{$staffs[$item['staff_id']]['mobile']}>
+                                <{/if}>
+                                </ul>
+                        </div>
+                    </th>
+                </tr>
+                <{foreach $item.products as $var}>
+                <tr>
+                    <td width="200"><{$var.product_name}></td>
+                    <td width="200"><span class="num">×<{$var.product_number}></span></td>
+                    <td class="txt_r">单价：<span class="price">￥<{$var.product_price}></span></td>
+                </tr>
+                <{/foreach}>
+                <tr>
+                    <td colspan="3">打包费：￥<{$var.package_price}> 运费：￥<{$var.freight}></td>
+                </tr>
+                <tr>
+                    <td colspan="3">合计：<span class="price_zong">￥<{$var.product_price}></span>结算价：￥<{$item.js_price}><{if $item.first_youhui>0}>首单优惠：-￥<{$item.first_youhui}><{/if}><{if $item.order_youhui>0}>下单立减：-￥<{$item.order_youhui}><{/if}><{if $item.hongbao>0}>红包抵扣：-￥<{$item.hongbao}><{/if}></td>
+                </tr>
+                <tr>
+                    <td colspan="3">备注：<{$item.note|default:'无'}></td>
+                </tr>
+            </table>
+        </td>
+        </tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><div class="alert alert-info">暂无已完成订单</div></td></tr>
+        <{/foreach}>
+        <tr>
+    </table>
+    </form>
+   <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>
+
+<script>
+    $(document).ready(function(){
+        $(".view_btn").click(function(){
+            $('.tr_'+$(this).attr('rel')).slideToggle();
+        })
+    })
+    function finish(id) {
+        var link = "<{link ctl='biz/order:finish' args='temp'}>";
+        jQuery.ajax({
+            url: link.replace('temp', id),
+            async: true,
+            dataType: 'json',
+            type: 'POST',
+            success: function (ret) {
+                if (ret.error > 0) {
+                    layer.msg(ret.message);
+                } else {
+                    layer.msg(ret.message);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+          },
+        });
+    }
+</script>

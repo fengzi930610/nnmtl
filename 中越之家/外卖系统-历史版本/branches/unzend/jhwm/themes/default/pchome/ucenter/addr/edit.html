@@ -1,0 +1,133 @@
+<{assign var="page_title" value="个人中心-账户中心-修改地址"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-修改地址")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+
+<{include file="pchome/ucenter/block/top.html"}>
+
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+
+        <{include file="pchome/ucenter/block/left.html"}>
+
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="account-append_dizhi">
+                <div class="tit"><span class="ml10">收货地址 &gt; <span class="maincl">编辑收货地址</span></span></div>
+                <div class="append-cont">
+                    <div class="append-cont-form">
+                        <form method="post" action="<{link ctl='ucenter/addr/edit' arg0=$detail.addr_id}>">
+                            <p class="black6 mb5">姓名</p>
+                            <div class="inp-box mb20">
+                                <input type="text" value="<{$detail.contact}>" name='data[contact]'  placeholder="请输入您的姓名" class="inp1">
+                            </div>
+                            <p class="black6 mb5">手机号</p>
+                            <div class="inp-box mb20">
+                                <input type="text" value="<{$detail.mobile}>" name='data[mobile]'  placeholder="请输入您的手机号" class="inp2">
+                            </div>
+                            <p class="black6 mb5">地址</p>
+                            <div class="inp-box mb20">
+                                <input type="hidden" class="pos_lng" name="data[lng]" value="">
+                                <input type="hidden" class="pos_lat" name="data[lat]" value="">
+                                <div id="r-result"><input type="text" id="suggestId" name="data[addr]" value='<{$detail.addr}>' placeholder="请输入小区、大厦或学校" style='border:none;' class="inp2"></div>
+                                <div id="l-map" style="display: none; width: 100px; height: 50px;"></div>
+                                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none; margin-top: 10px;"></div>
+                            </div>
+                            <p class="black6 mb5">详细地址（门牌号）</p>
+                            <div class="inp-box mb20">
+                                <input type="text" value="<{$detail.house}>" name='data[house]' placeholder="请输入您的详细地址" class="inp2">
+                            </div>
+                            <p class="black6 mb5">标签（非必选项）</p>
+                            <div class="tag-box mb20">
+                                <a href="javascript:;" class="mr10 tag-btn text_c <{if $detail.type == 2}>current<{/if}>" val='2'>家
+                                    <i class="ico"></i>
+                                </a> 
+                                <a href="javascript:;" class="mr10 tag-btn text_c <{if $detail.type == 1}>current<{/if}>" val='1'>公司
+                                    <i class="ico"></i>
+                                </a> 
+                                <a href="javascript:;" class="mr10 tag-btn text_c <{if $detail.type == 3}>current<{/if}>" val='3'>学校
+                                    <i class="ico"></i>
+                                </a> 
+                                <a href="javascript:;" class="mr10 tag-btn text_c <{if $detail.type == 4 || $detail.type == 0}>current<{/if}>" val='4'>其他
+                                    <i class="ico"></i>
+                                </a>
+                                <input type="hidden" id='type' name="data[type]" value="<{$detail.type}>">
+                            </div>
+                            <input type="submit" class="btn queding-btn text_c" value="确定修改">
+                        </form>
+                    </div>  
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.tag-box a').click(function(){
+            $('.tag-box a').removeClass('current');
+            $(this).addClass('current');
+            $('#type').val($(this).attr('val'));
+        })
+
+        var map = new BMap.Map("l-map");
+        var city = Cookie.get('UxCity');
+        map.centerAndZoom(city, 15);   // 初始化地图,设置城市和地图级别。
+        map.clearOverlays();
+
+        function G(id) {
+            return document.getElementById(id);
+        }
+ 
+        var ac = new BMap.Autocomplete(//建立一个自动完成的对象
+        {"input": "suggestId", "location": map});
+
+        ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
+            var str = "";
+            var _value = e.fromitem.value;
+            var value = "";
+            if (e.fromitem.index > -1) {
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+            value = "";
+            if (e.toitem.index > -1) {
+                _value = e.toitem.value;
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+            G("searchResultPanel").innerHTML = str;
+        });
+
+        var myValue;
+        ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
+            var _value = e.item.value;
+            myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+            G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+            setPoint();
+        });
+
+        function setPoint() {
+            var myGeo = new BMap.Geocoder();
+
+            myGeo.getPoint(myValue, function (point) {
+                if (point) {
+
+                    $(".pos_lng").val(point.lng);
+                    $(".pos_lat").val(point.lat);
+                }
+            }, city);
+        }
+
+    })
+</script>
+
+
+<{include file="pchome/block/footer.html"}>

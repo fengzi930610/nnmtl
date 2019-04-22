@@ -1,0 +1,52 @@
+<{assign var='tpl_title' value='我的团购订单'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='ucenter/order/index'}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	我的团购订单
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<div class="changeTab_box">
+    <div class="changeTab">
+        <a href="<{link ctl='ucenter/order/items' arg1='tuan' arg2='1'}>" class="link <{if $type <= 1}>on<{/if}>">待处理</a>
+        <a href="<{link ctl='ucenter/order/items' arg1='tuan' arg2='2'}>" class="link <{if $type == 2}>on<{/if}>">已完成</a>
+    </div>
+</div>
+<section class="page_center_box">
+    <ul class="order_list_box mt10" id="index_goods_items">
+        
+    </ul>
+    <div class="loadding">
+            
+    </div>
+</section>
+<{include file="block/sfooter.html"}>
+</body>
+</html>
+
+<script>
+    $(document).ready(function(){
+        var link = "<{link ctl='ucenter/order/loaddata' arg0='#page#'}>";
+        var page = 1;
+        var params = {"from":"<{$from}>","type":"<{$type}>"};
+        loaddata(link,page,params);
+        
+        $(document).on("click",".next",function(){
+            page++;
+            loaddata(link,page,params);
+        })
+    })
+$(document).on("click",".go_pay",function(){
+    var order_id = $(this).attr("rel");
+    var link_storage = "<{link ctl='ucenter/order:detail' arg0='temp0' }>";
+    localStorage['order_pay'] = link_storage.replace('temp0', order_id);
+    var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+    setTimeout(function () {
+        window.location.href = link.replace('temp1', order_id);
+    }, 1000);
+})
+$(document).ready(function(){
+    $('#l3').addClass('on');
+})
+</script>

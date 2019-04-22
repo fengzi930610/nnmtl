@@ -1,0 +1,81 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?waimai/waimai-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="商户名称、联系电话、登录账号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="waimai/waimai:create" class="button" title="添加"}>
+                <{link ctl="waimai/waimai:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <div class="enterInfo_step_tit mb10 mgt10">
+        <h2 class="float-l">待提现金额：<big class="red"><{$total}></big>元</h2>
+    </div>
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tr>
+            <th class="w-100">商户ID</th>
+            <th class="w-50">LOGO</th>
+            <th class="w-50">帐号</th>
+            <th class="w-150">名称</th>
+            <th class="w-50">类型</th>
+            <th class="w-100">联系人</th>
+            <th class="w-50">抽成</th>
+            <th class="w-100">余额</th>
+            <th class="w-50">订单数</th>
+            <th class="w-50">拒单数</th>
+            <th class="w-100">配送</th>
+            <th class="w-100">营业状态</th>
+            <th class="w-100">创建时间</th>
+            <th class="w-150">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.shop_id}>" name="shop_id[]" CK="PRI"/><{$item.shop_id}><label></td>
+            <td><img src="<{$pager.img}>/<{$item.logo}>" width="50" height="50" /></td>
+            <td><{$item.shop_info.mobile}></td>
+            <td><{$item.title}></td>
+            <td><{$item.cate_name|default:'---'}></td>
+            <td><{$item.contact}>(<{$item.phone}>)</td>
+            <td><{$item.waimai_bl}>%</td>
+            <td><b class="red">余额:￥<{$item.shop_info.money}></b><br /><b>总营收:￥<{$item.shop_info.total_money}></b></td>
+            <td><{$item.orders}></td>
+            <td><{$item.refund_order}></td>
+            <td>
+                <{if $item.pei_type==1}><b class="blue">平台专送</b><br /><{if $item.group}><{$item.group.group_name}><{else}>----<{/if}><{elseif $item.pei_type==0}>商家送<{else}>----<{/if}>
+            </td>
+            <td>
+                <{if $item.yy_status==1}>营业中<{else}>休息<{/if}>
+            </td>
+            <td><{$item.dateline|format}></td>
+            <td>
+                <{link ctl="waimai/waimai:manage" args=$item.shop_id class="button" target="_blank waimai" title="管理"}>
+                <{link ctl="waimai/shop:one" arg0=$item.shop_id title="设置" class="button"}>
+                <{link ctl="waimai/waimai:delete" args=$item.shop_id act="mini:关闭" confirm="mini:确定要关闭商户吗？" title="关闭" class="button"}>
+            </td>
+        </tr>
+        <{foreachelse}>
+         <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/waimai:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量冻结选中的商户吗?" priv="hide" value="批量冻结"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,38 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <a  class="on">添加桌号</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='biz/yuyue/zhuohao/zhuohao_create'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+            <tr>
+                <th width="150">桌号分类:</th>
+                <td>
+                    <select name="data[cate_id]" class="select select_td input w-100">
+                        <{foreach $cate_items as $v}>
+                            <option value="<{$v.cate_id}>"><{$v.title}></option>
+                        <{/foreach}>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>标题：</th>
+                <td><input type="text" name="data[title]" value="" class="input w-150"/></td>
+            </tr>
+            <tr>
+                <th><span class="red">*</span>就餐人数：</th>
+                <td><input type="text" name="data[number]" value="" class="input w-150"/></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="submit" value="保存数据" class="btn btn-success" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+</script>  
+<{include file="biz/block/footer.html"}>

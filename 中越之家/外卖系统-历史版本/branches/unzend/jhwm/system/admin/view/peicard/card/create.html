@@ -1,0 +1,109 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .btnvip{width:0;height: 0;opacity: 0;margin: 0;}
+    .vipgou{width: 80px;margin: 0!important;}
+    .on{border-color: #f60;}
+    .labvip{position: relative;margin-right: 5px;}
+    .group-list label.on:before {
+        content: " ";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        top: -8px;
+        border: 10px solid #f60;
+        border-top-color: transparent;
+        border-left-color: transparent;
+    }
+    .group-list label.on:after {
+        content: " ";
+        position: absolute;
+        right: 1px;
+        bottom: 8px;
+        width: 6px;
+        height: 3px;
+        border: 2px solid #fff;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        -webkit-transform: rotate(-59deg);
+        transform: rotate(-59deg);
+    }
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="peicard/card:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?peicard/card-create.html" mini-form="card-form" method="post" ENCTYPE="multipart/form-data">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th><span class="red">*</span>标题：</th>
+                <td><input type="text" name="data[title]" value="" class="input w-200"/><span class="tip-comment"></span></td>
+            </tr>
+
+            <tr>
+                <th><span class="red">*</span>有效期限：</th>
+                <td><input type="text" name="data[days]" value="" class="input w-200"/><span class="tip-comment">(天，大于0的整数)</span></td>
+            </tr>
+
+            <tr>
+                <th><span class="red">*</span>会员卡金额：</th>
+                <td><input type="text" name="data[amount]" value="" class="input w-200"/><span class="tip-comment">(元)</span></td>
+            </tr>
+
+            <tr>
+                <th><span class="red">*</span>单日可用次数：</th>
+                <td><input type="text" name="data[limits]" value="" class="input w-200"/><span class="tip-comment"></span></td>
+            </tr>
+
+            <tr>
+                <th><span class="red">*</span>每单减免金额：</th>
+                <td><input type="text" name="data[reduce]" value="" class="input w-200"/><span class="tip-comment">(元)</span></td>
+            </tr>
+
+            <tr>
+                <th>会员卡模板：</th>
+                <td>
+                    <div class="group-list">
+                        <!-- <img src="/themes/waimai/static/images/effect@2x.png"> -->
+                        <label class="labvip on"><input type="radio" name="data[template]" value="1" checked="checked" class="btnvip" data="default/peicard/theme1@2x.png"><img src="<{$pager.img}>/default/peicard/theme1@2x.png" class="vipgou"></label>
+                        <label class="labvip"><input type="radio" name="data[template]" value="2" class="btnvip" data="default/peicard/theme2@2x.png"><img src="<{$pager.img}>/default/peicard/theme2@2x.png" class="vipgou"></label>
+                        <label class="labvip"><input type="radio" name="data[template]" value="3" class="btnvip" data="default/peicard/theme3@2x.png"><img src="<{$pager.img}>/default/peicard/theme3@2x.png" class="vipgou"></label>
+                        <label class="labvip"><input type="radio" name="data[template]" value="4" class="btnvip" data="default/peicard/theme4@2x.png"><img src="<{$pager.img}>/default/peicard/theme4@2x.png" class="vipgou"></label>
+                        <label class="labvip"><input type="radio" name="data[template]" value="5" class="btnvip" data="default/peicard/theme5@2x.png"><img src="<{$pager.img}>/default/peicard/theme5@2x.png" class="vipgou"></label>
+                        <div class="clear-both"></div>
+                    </div>
+                    <input type="hidden" name="data[photo]" value="default/peicard/theme1@2x.png">
+                </td>
+            </tr>
+
+            <tr>
+                <th><span class="red">*</span>排序：</th>
+                <td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td>
+            </tr>
+
+            <tr>
+                <th class="clear-th-bottom"></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".group-list label input").click(function(){
+            $(this).parent().addClass("on").siblings().removeClass("on");
+            var data = $(this).attr('data');
+            $('input[name="data[photo]"]').val(data);
+        });
+    });
+</script>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,161 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/Waimai-create.html" mini-form="Waimai-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+	<th>商户名称：</th>
+	<td>
+		<input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-200"/>
+	</td>
+</tr>
+<tr>
+<th>城市：</th>
+    <td>
+         <select id="city" name="data[city_id]" class="w-200">
+            <{foreach $citys as $v}>
+            <option value="<{$v.city_id}>"><{$v.city_name}></option>
+            <{/foreach}>
+        </select>
+    </td>
+</tr>
+<tr>
+    <th>区县：</th>
+    <td>
+        <select name="data[area_id]" id="area" class="w-200">
+        <{foreach $areas as $v}>
+        <option value="<{$v.area_id}>"><{$v.area_name}></option>
+        <{/foreach}></select>
+    </td>
+</tr>
+<tr>
+    <th>商圈：</th>
+    <td>
+        <select name="data[business_id]" id="business" class="w-200">
+        <{foreach $busis as $v}>
+        <option value="<{$v.business_id}>"><{$v.business_name}></option>
+        <{/foreach}></select>
+    </td>
+</tr>
+<tr>
+    <th>分类：</th>
+    <td>
+        <select name="data[cate_id]" class="w-200">
+            <{widget id="shop/cate" value=$detail.cate_id type="option"}>
+        </select>
+    </td>
+</tr>
+<tr>
+	<th>banner：</th>
+	<td>
+		<input type="text" name="data[banner]" value="<{$detail.banner|default:''}>" <{if $detail.banner}>photo="<{$pager.img}>/<{$detail.banner}>"<{/if}> class="input w-300"/>&nbsp;&nbsp;&nbsp;<input type="file" name="data[banner]" class="input w-100" />
+	</td>
+</tr>
+<tr>
+	<th>logo：</th>
+	<td>
+		<input type="text" name="data[logo]" value="<{$detail.logo|default:''}>" <{if $detail.logo}>photo="<{$pager.img}>/<{$detail.logo}>"<{/if}> class="input w-300"/>&nbsp;&nbsp;&nbsp;<input type="file" name="data[logo]" class="input w-100" />
+	</td>
+</tr>
+<tr><th>坐标：</th>
+    <td>
+        <label>经度:<input type="text" name="data[lng]" value="<{$detail.lng}>" id="Bmap_marker_lng" class="input w-100"/></label>
+        <label>纬度:<input type="text" name="data[lat]" value="<{$detail.lat}>" id="Bmap_marker_lat" class="input w-100"/></label>    
+        <span class="tip-comment">使用百度地图经纬度<a map-marker="#Bmap_marker_lng,#Bmap_marker_lat" class="button"><b>拾取工具</b></a></span>
+    </td>
+</tr>
+<tr><th>地址：</th><td><input type="text" name="data[addr]" value="<{$detail.addr|default:''}>" class="input w-500"/></td></tr>
+<tr><th>首单优惠：</th><td><input type="text" name="data[first_amount]" value="<{$detail.first_amount|default:'0.00'}>" class="input w-100"/></td></tr>
+<tr><th>起送价：</th><td><input type="text" name="data[min_amount]" value="<{$detail.min_amount|default:'0.00'}>" class="input w-100"/></td></tr>
+<tr><th>开始营业时间：</th><td><input type="text" name="data[yy_stime]" value="<{$detail.yy_stime|default:'00:00:00'}>" class="input w-200"/></td></tr>
+<tr><th>打烊时间：</th><td><input type="text" name="data[yy_ltime]" value="<{$detail.yy_ltime|default:'00:00:00'}>" class="input w-200"/></td></tr>
+<tr><th>营业状态：</th>
+<td>
+	<label><input type="radio" name="data[yy_status]" value="1" class="input"/>营业中</label>
+    <label><input type="radio" name="data[yy_status]" value="0" checked="checked" class="input"/>打烊</label>
+</td>
+</tr>
+<tr><th>是否新店铺：</th>
+<td>
+	<label><input type="radio" name="data[is_new]" value="1" class="input"/>是</label>
+    <label><input type="radio" name="data[is_new]" value="0" checked="checked" class="input"/>否</label>
+</td>
+</tr>
+<th width="130">付款方式：</th>
+    <td>
+        <select id="pay_type_select" class="select select_td input w-200">
+            <option value="all" <{if $detail.is_daofu==1 && $detail.online_pay==1}>selected="selected"<{/if}> >全部支持</option> 
+            <option value="is_daofu" <{if $detail.is_daofu==1 && $detail.online_pay==0}>selected="selected"<{/if}>>仅支持货到付款</option> 
+            <option value="online_pay" <{if $detail.is_daofu==0 && $detail.online_pay==1}>selected="selected"<{/if}>>仅支持在线支付</option> 
+        </select>
+        <input type="hidden" name="data[online_pay]" value="1">
+        <input type="hidden" name="data[is_daofu]" value="1">
+    </td>
+</tr>
+<tr><th>商家简介：</th><td><textarea name="data[info]" class="textarea"></textarea><br /></td></tr>
+<tr>
+    <th>审核：</th>
+    <td>
+        <label><input type="radio" name="data[audit]" value="1"  class="input"/>通过</label><label><input type="radio" name="data[audit]" value="0" checked="checked" class="input"/>待审</label>
+    </td>
+</tr>
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:'50'}>" class="input w-100"/></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>
+<script type="text/javascript">
+(function(K, $){
+    $(document).on("change", "#city", function(){
+        var city_id = $(this).val();
+        $.getJSON("?data/area-options-"+city_id+".html", function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                var html = '';
+                for(var i in ret.options){
+                    html += "<option value="+i+">"+ret.options[i]+"</option>";
+                }
+                $("#area").html(html);
+            }
+        });
+    });
+    $(document).on("change", "#area", function(){
+        var area_id = $(this).val();
+        $.getJSON("?data/business-options-"+area_id+".html", function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                var html = '';
+                for(var i in ret.options){
+                    html += "<option value="+i+">"+ret.options[i]+"</option>";
+                }
+                $("#business").html(html);
+            }
+        });        
+    });
+       
+})(window.KT, window.jQuery)
+</script>
+<script type="text/javascript">
+$("#pay_type_select").change(function(){
+    if($(this).val() == 'is_daofu') {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(0);
+    }else if($(this).val() == 'online_pay') {
+        $("input[name='data[is_daofu]']").val(0);
+        $("input[name='data[online_pay]']").val(1);
+    }else {
+        $("input[name='data[is_daofu]']").val(1);
+        $("input[name='data[online_pay]']").val(1);
+    }
+});
+</script> 

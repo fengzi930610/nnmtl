@@ -1,0 +1,120 @@
+<{assign var='tpl_title' value=L("外卖--地址")}>
+<{include file="waimai/block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="takeout_MinePlace take_outPart">
+                    <{if $addr}>
+                    <{foreach $addr as $add}>
+                    <!--<div class="place_list">
+                        <div class="place_infor border_b" address='{"addr_id":"<{$add.addr_id}>","lng":"<{$add.lng}>","lat":"<{$add.lat}>","address":"<{$add.addr}><{$add.house}>", "contact":"<{$add.contact}>", "mobile":"<{$add.mobile}>", "addr":"<{$add.addr}>", "house":"<{$add.house}>"}'>
+                            <h3 class="overflow_clear mb5"><{$add.contact}><{if $add.mobile}>--<{$add.mobile}><{/if}> </h3>
+                            <p class="black6">收货地址：<{$add.addr}><{$add.house}></p>
+                        </div>
+                        <div class="place_edit">
+                            <div class="fl <{$add.class}> mt10"><{$add.title}></div>
+                            <div class="fr mt10">
+                                <a class="edit" href="<{link ctl='ucenter/addr:edit' arg0=$add.addr_id http='waimai'}>"></a>
+                                <a class="del" data-id="<{$add.addr_id}>"></a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>-->
+                    
+                    	<!-- 类名opacity控制超出范围后整体的透明度-->
+                      <div class="place_list PC_position">
+                        <div class="place_infor border_b" address='{"addr_id":"<{$add.addr_id}>","lng":"<{$add.lng}>","lat":"<{$add.lat}>","address":"<{$add.addr}><{$add.house}>", "contact":"<{$add.contact}>", "mobile":"<{$add.mobile}>", "addr":"<{$add.addr}>", "house":"<{$add.house}>"}'>
+                            
+                            <div class="addressTxt"><div class="addressTxtL"><{$add.addr}><{$add.house}></div><span class="<{$add.class}>"><{$add.title}></span></div>
+                            <div class="clear"></div>
+                            <h3 class="overflow_clear mb5 nameOrtel"><{$add.contact}><{if $add.mobile}><span><{$add.mobile}><{/if}></span> </h3>
+                            
+                        </div>
+                        <div class="place_edit">
+                        	<!--<label class="isDefault" for="defaultAddress">
+                        		<input type="checkbox" id="defaultAddress" hidden=""/>
+                        		<div class="checkbox"></div>默认地址</label>-->
+                        	<!-- <div class="beyond">超出配送范围</div> -->
+                            <div class="fr mt10">
+                                <a class="edit" href="<{link ctl='ucenter/addr:edit' arg0=$add.addr_id http='waimai'}>">编辑</a>
+                                <a class="del" data-id="<{$add.addr_id}>">删除</a>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <!--是否被选-->
+                        <!-- <div class="isCheck">
+                            <img src="/themes/waimai/static/img/icon_choosed.png"/>
+                        </div> -->
+                    </div>
+                    <{/foreach}>
+                    <{else}>
+                    <div class="takeout_MinePlace take_outPart">
+                        <div class="havenoPlace">
+                            <img src="%THEME%/static/img/mall_my_icon_location_no.png" alt="">
+                            <p>您还未添加收货地址</p>
+                        </div>
+                    </div>
+                    <{/if}>
+                </div>
+            </div>
+            <{if count($addr) < 10}>
+            <a class="takeout_addPlace mb10 mt10 takeoutLongBtn" href="<{link ctl='ucenter/addr:create' http='waimai'}>">
+                添加收货地址+
+            </a>
+            <{/if}>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //console.log(localStorage['select_address']);
+    // 所有类型订单下单选择地址统一处理
+    $('.place_infor.border_b').click(function () {
+        if(localStorage['select_address'] != undefined) {
+            //console.log(localStorage['select_address']);
+            var addrJSON = JSON.parse(localStorage['select_address']);
+            var backurl = addrJSON.backurl;
+            var address = JSON.parse($(this).attr('address'));
+            address.backurl = backurl;
+            localStorage['select_address'] = JSON.stringify(address);
+
+            setTimeout(function () {
+                window.location.href = backurl;
+            }, 500);
+        }
+    })
+
+    $('.del').on('click',function(){
+        var addr_id = $(this).attr('data-id');
+        Widget.MsgBox.confirm('确认删除地址吗？',function(a){
+            if(a){
+                var url = '<{link ctl="ucenter/addr:del" arg0="#addr_id#" http="waimai"}>'.replace("#addr_id#",addr_id);
+                $.post( url,{},function (e) {
+                    if(e.error>0){
+                        Widget.MsgBox.error(e.message)
+                    }else {
+                        Widget.MsgBox.success('删除成功！')
+                        setTimeout('window.location.reload()',2000)
+                    }
+                },'json');
+            }
+        })
+    })
+    
+    /*$(".isDefault").click(function(){
+    	if($(this).children(".checkbox").hasClass("checkboxed")){
+    		$(this).children(".checkbox").removeClass("checkboxed")
+    	}else{
+    		$(this).children(".checkbox").addClass("checkboxed")
+    	}
+    })
+    
+    $(".place_infor").click(function(){
+    	$(this).parent().children(".isCheck").show();
+    	$(this).parent().siblings().children(".isCheck").hide();
+    })*/
+    
+</script>
+<{include file="waimai/block/footer.html"}>

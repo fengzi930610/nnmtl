@@ -1,0 +1,94 @@
+<{assign var='tpl_title' value=L("活动商品")}>
+<{include file="waimai/block/header.html"}>
+<style>
+    .disctype {
+        color: #f24544;
+        background: #fff;
+        border: 1px solid #f24544;
+        border-radius: 3px;
+        font-size: 10px;
+    }
+    .disctype label {
+        padding: 0 3px;
+    }
+    .discsku {
+         color: #ff6600;
+         background: #feb;
+         margin-left: 5px;
+         border-radius: 3px;
+         padding: 0 3px;
+         font-size: 10px;
+     }
+    .disctype label:first-child {
+        background: #f24544;
+        color: #fff;
+    }
+
+</style>
+
+
+<style>.container_mid{background: #BD140D !important;}</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">                      
+            <div class="container_mid">
+                <!--产品列表-->
+                <div class="ztGoods_cont">
+                    <div class="adv">
+                        <img width="100%" src="<{$pager.img}>/<{$detail.banner}>"/>
+                    </div>
+                    <h3 class="bt"><{$detail.title}></h3>
+                    <div class="date">活动时间：<{$detail.stime|format:'Y/m/d'}>-<{$detail.ltime|format:'Y/m/d'}></div>
+                    <div class="goods_list_box">
+                        <ul>
+                            <{foreach $items as $k=>$item}>
+                            <li class="goods_list">
+                                <div class="box">
+                                    <div class="img"><a href="<{link ctl='shop/detail' args=$products[$item['can_id']]['shop_id'] pid=$item.can_id http='waimai'}>" style="background:url('<{$pager.img}>/<{$item.photo}>_thumb.jpg') no-repeat center; background-size:cover;"></a></div>
+                                    <div class="wz_box" style="height: 88px;">
+                                        <h4 class="overflow_clear"><a href="<{link ctl='shop/detail' args=$products[$item['can_id']]['shop_id'] pid=$item.can_id http='waimai'}>"><{$item.title}></a></h4>
+                                        <{if $products[$item['can_id']]['huodong']}>
+                                        <p class="fontcl2">
+                                            <span class="disctype">
+                                                <label>
+                                                    <{if $products[$item['can_id']]['huodong']['discount_type']==1}>
+                                                        减价
+                                                    <{else}>
+                                                        <{$products[$item['can_id']]['huodong']['discount_value']*10}>折
+                                                    <{/if}>
+                                                </label>
+                                                <label>
+                                                <{if $products[$item['can_id']]['huodong']['quota']}>
+                                                    限购<{$products[$item['can_id']]['huodong']['quota']}>份
+                                                <{else}>
+                                                    不限购
+                                                <{/if}>
+                                                </label>
+                                            </span>
+                                            <span class="discsku">剩余<{$products[$item['can_id']]['huodong']['sale_sku']}><{$products[$item['can_id']]['unit']}></span>
+                                        </p>
+                                        <p class="fontcl2">
+                                            <small>￥<{$products[$item['can_id']]['price']}></small>
+                                            <small><del class="black9 ml10">￥<{$products[$item['can_id']]['oldprice']}></del></small>
+                                        </P>
+                                        <{else}>
+                                        <p class="fontcl2"><small>￥<{$products[$item['can_id']]['price']}></small></P>
+                                        <{/if}>
+                                        
+                                        <P class="black9"><{$products[$item['can_id']]['shop_title']}></P>
+                                        <a href="<{link ctl='shop/detail' args=$products[$item['can_id']]['shop_id'] pid=$item.can_id http='waimai'}>" class="btn"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <{/foreach}>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <!--产品列表end-->
+            </div>
+        </div>
+    </div>
+</div>
+<a href="javascript:;" class="goto_top"></a>
+<{include file="waimai/block/footer.html"}>

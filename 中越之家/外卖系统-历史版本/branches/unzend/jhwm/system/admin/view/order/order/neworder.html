@@ -1,0 +1,51 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+         <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"> 
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tr>
+            <th class="w-100">订单号</th>
+            <th class="w-100">商家</th>
+            <th class="w-100">订单总价</th>
+            <th class="w-100">结算价格</th>
+            <th class="w-100">实际支付</th>
+            <th class="w-100">订单状态</th>
+            <th class="w-100">下单时间</th>
+        </tr>
+        <{foreach $items as $k=>$item}>
+        <tr>  
+            <td class="w-100"><{$item.order_id|default:''}></td>
+            <td><{$shops[$item['shop_id']]['title']}></td>
+            <td class="w-100"><b class="red">￥
+                <{$item.amount+$item.package_price+$item.freight}></b>
+            (<{if $item.package_price}>打包费:￥<{$item.package_price}><{/if}>
+                 配送费:￥<{$item.pei_amount}> )</td>
+            <td class="w-100"><b class="red">￥<{$item.amount+$item.money+$item.hongbao}></b></td>
+            <td class="w-100"><b class="red">￥<{$item.amount+$item.money}></b> <{if $item.money>0}>(余额:￥<{$item.money}>)<{/if}></td>
+            <td class="w-100"><b class="blue"><{$item.order_status_label}></b></td>
+            <td class="w-100"><{$item.dateline|format:'Y-m-d H:i:s'}></td>
+            </td>
+        </tr>
+        <{foreachelse}>
+        <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+    </table>     
+    <{if $items}>
+    <div class="page-bar">
+        <table>
+            <tr>
+            <td class="page-list"><{$pager.pagebar}></td>
+        </tr>
+        </table>
+    </div>
+    <{else}>
+    <{/if}>
+</div>
+<{include file="admin:common/footer.html"}>

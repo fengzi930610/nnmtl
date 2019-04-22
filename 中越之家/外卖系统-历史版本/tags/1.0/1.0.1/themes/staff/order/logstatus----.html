@@ -1,0 +1,74 @@
+<{assign var='tpl_title' value=L("订单进度")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="orderTakeOut">
+                    <div class="statusProgress">
+                       
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>订单已完成</p>
+                                <p><{if $detail.order_complete_time}><{$detail.order_complete_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                            </div>
+                        </div>
+
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>骑手已送达</p>
+                                <p><{if $detail.staff_compltet_time}><{$detail.staff_compltet_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                            </div>
+                        </div>
+
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>骑手已配送</p>
+                                <p><{if $detail.staff_start_time}><{$detail.staff_start_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                            </div>
+                        </div>
+
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>骑手已接单</p>
+                                <p><{if $detail.staff_jiedan_time}><{$detail.staff_jiedan_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                            </div>
+                        </div>
+                        
+                        <{if $order['from'] == 'waimai'}>
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>商户已接单</p>
+                                <p><{if $detail.shop_jiedan_time}><{$detail.shop_jiedan_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                            </div>
+                        </div>
+                        <{/if}>
+
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>订单已支付</p>
+                                <p><{if $detail.pay_time}><{$detail.pay_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                            </div>
+                        </div>
+
+                        <div class="tip on">
+                            <div class="circle"></div>
+                            <div class="status">
+                                <p>订单已创建</p>
+                                <p><{$detail.create_time|format:'Y-m-d H:i:s'}></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="block/footer.html"}>

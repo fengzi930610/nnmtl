@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<title><{if $request.IN_WEIXIN}><{$CONFIG.site.title}><{else}><{$tpl_title|default:$CONFIG.site.title}><{/if}></title>
+<link href="<{$pager.res}>/cdn/css/jquery-weui.min.css" rel="stylesheet">
+<link href="<{$pager.res}>/cdn/css/weui.min.css" rel="stylesheet">
+<script>
+window.CFG = {"domain":"<{$CONFIG.site.domain}>","url":"<{$CONFIG.site.siteurl}>", "title":"<{$CONFIG.site.title}>", "res":"<{$pager.res}>", "img":"<{$pager.img}>","C_PREFIX":"KT-","C_DOMAIN":"<{$pager.C_DOMAIN}>"};
+</script>
+<script src="<{$pager.res}>/cdn/js/jquery.min.js"></script>
+<script src="<{$pager.res}>/cdn/js/jquery-weui.min.js"></script>
+<script src="<{$pager.res}>/cdn/js/swiper.min.js"></script>
+<script src="<{$pager.res}>/cdn/js/fastclick.min.js"></script>
+<script src="<{$pager.res}>/cdn/layer.m/layer.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="<{$pager.res}>/script/kt.js"></script>
+<link rel="stylesheet" href="%THEME%/static/css/example.css?<{$TMPLVER}>"/>
+<link rel="stylesheet" href="%THEME%/static/css/style.css?<{$TMPLVER}>"/>
+<link rel="stylesheet" href="%THEME%/static/css/append.css?<{$TMPLVER}>"/>
+<link rel="stylesheet" href="%THEME%/static/css/new.css?<{$TMPLVER}>"/>
+<script src="%THEME%/static/js/loaddata.js?<{$TMPLVER}>"></script>
+<script src="%THEME%/static/js/common.js?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+<script src="%THEME%/static/js/ecart.js?<{$TMPLVER}>" type="text/javascript" charset="utf-8"></script>
+</head>
+<body ontouchstart>
+<div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>

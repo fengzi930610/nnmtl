@@ -1,0 +1,37 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+	<ul>
+		<li><a href="<{link ctl='biz/money:log'}>">资金管理</a></li>
+		<li  class="on"><a href="<{link ctl='biz/money:txlog'}>">提现日志</a></li>
+	</ul>
+	<span class="r"><a href="<{link ctl='biz/money:tixian'}>" class="btn btn-success">申请提现</a></span>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-80">提现金额</th>
+        <th class="w-150">提现描述</th>
+        <th class="w-300">账户信息</th>
+        <th class="w-100">状态</th>
+        <th class="w-100">理由</th>
+        <th>处理时间</th>
+        <th>提交时间</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.money}></td>       
+        <td><{$item.intro}></td>
+        <td><{$item.account_info}></td>
+        <td><{if $item.status == 1}><font style="color: green;">通过</font><{elseif $item.status == 2}><font style="color: red;">拒绝</font><{else}>未处理<{/if}></td>
+        <td><{if $item.reason}><{$item.reason}><{else}>无<{/if}></td>
+        <td><{if $item.updatetime}><{$item.updatetime|format}><{/if}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

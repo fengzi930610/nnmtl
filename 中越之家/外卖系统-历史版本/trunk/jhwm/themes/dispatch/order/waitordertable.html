@@ -1,0 +1,281 @@
+<{assign var='tpl_title' value=L("指派订单")}>
+<{include file="newblock/header.html"}>
+
+<style type="text/css">
+    body{ background: #fff};
+    .riderChange .riderFilter .all { color: #999;}
+    .riderChange .level_tab.on{ color: #35b8eb}
+    .riderChange .level_box{ display: none;}
+    .riderChange .list_box ul li .name{ max-width: 90px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .riderChange .riderFilter .list { margin-left: 0px; }
+    .riderChange .textarea textarea{ padding: 10px;}
+    .selct_box{overflow: hidden; margin-top: 10px;}
+    .selct_box span{margin-right: 15px; font-size: 14px; line-height: 22px;}
+    .selct_box span input{vertical-align: middle;margin-right: 4px;}
+
+</style>
+
+
+<div class="wrapperMain">
+    <div class="wrapperMain_bg">
+        <!--内容-开始-->
+
+
+        <div class="tabsChangeBox mb20">
+            <div class="tabsBox">
+                <ul>
+                    <li  class="on"><a href="javascript:;" target="J_iframe">待指派<span class="num"><{$count.pai|default:0}></span></a></li>
+                    <li><a href="<{link ctl='order/waitorder' http='dispatch'}><{$query}>" target="J_iframe">配送中</a><span class="num"><{$count.pei|default:0}></span></li>
+                    <li><a href="<{link ctl='order/complete' http='dispatch'}><{$query}>" target="J_iframe">已完成<span class="num"><{$count.complete|default:0}></span></a></li>
+                    <li><a href="<{link ctl='order/yichang' http='dispatch'}><{$query}>" target="J_iframe">异常<span class="num"><{$count.yichang|default:0}></span></a></li>
+                </ul>
+                <a href="<{link ctl='order/paiorder' http='dispatch'}>" class="fr switch maincl more">切换地图派单</a>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="tableBoxTwo">
+            <div class="tableBox_head">
+                <label class="fl mr30"><input type="checkbox" class="mr10" id='my_all_click'>全选</label>
+                <a href="javascript:;" class="btn-primary fl" id="Assign">指派</a>
+                <div class="clear"></div>
+            </div>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                <tr>
+                    <th>订单编号</th>
+                    <th>取货地址</th>
+                    <th>送货地址</th>
+                    <th>订单来源</th>
+                    <th>以及送达时间</th>
+                    <th>超时状态</th>
+                    <th>操作</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <{foreach $items_order as $item}>
+                <tr>
+                    <td><label><input type="checkbox" value="<{$item.order_id}>" name="order_id" CK="PRI" class="order_ids"/><{$item.order_id}>(#<{$item.day_num}>)<label></td>
+                    <td><{$item.addr}>--<{$item.house}></td>
+                    <td><{$item.shop_addr}></td>
+                    <td>
+                        <{if $item.from=='waimai'}>
+                        外卖
+                        <{elseif $item.from=='paotui'}>
+                        跑腿
+                        <{/if}>
+                    </td>
+                    <td>
+                        <{$item.label_time}>
+                    </td>
+                    <td>
+                        <{$item.time_label}>
+                    </td>
+                    <td>
+                        <a href="<{link ctl='order/ploygion' arg0=$item.order_id http='dispatch' }>" class="btn-primary-line  order_detail" target="centerMask_iframe" >查看路线</a>
+
+                    </td>
+
+                </tr>
+                
+                <{foreachelse}>
+                <tr>
+                    <td colspan="7">
+                        <div class="smallpage">
+                            <div class="noDingdan-cont">
+                                <img src="%THEME%/static/images/order-no.png" class="mb20">
+                                <p class="black6">暂无指定订单</p>
+                                <p class="black9">暂时没有该筛选条件的订单，稍后再来看看吧！</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <{/foreach}>
+                </tbody>
+            </table>
+        </div>
+        <div class="paging"><{$pager.pagebar}></div>
+        <!--内容-结束-->
+    </div>
+</div>
+<div class="mask_bg mask_bg1"></div>
+<div class="mask_cont" id="mask_cont1" style="width:800px; height:600px;overflow: auto;"><div class="mask_cont_tit">选择骑手<a href="javascript:;" class=" fr" onclick="guanbi();">×</a></div>
+    <div class="riderChange" id="href">
+        <h2 class="title">推荐骑手</h2>
+        <div class="list_box">
+            <ul>
+                <{foreach $tj_items as $k=>$item}>
+                <li>
+                    <label>
+                        <div class="name"><{$item.name}></div>
+                        <div class="num">
+                            <span class="maincl"><{$item.dq_order|default:0}></span> / <span class="fontcl3"><{$item.ds_order|default:0}></span>
+                        </div>
+                        <input type="radio" name="datastaff_id" value="<{$item.staff_id}>" hidden="hidden"><span class="radio"></span>
+                    </label>
+                </li>
+                <{/foreach}>
+            </ul>
+        </div>
+        <hr>
+        <h2 class="title">选择骑手</h2>
+        <div class="riderFilter">
+            <!-- <a href="javascript:;" class="all level_tab on">全部</a> -->
+            <div class="list">
+                <a href="javascript:;" class="all level_tab">全部</a>
+                <{foreach $levels as $k=>$level}>
+                <a href="javascript:;" class="level_tab"><{$level.title}></a>
+                <{/foreach}>
+            </div>
+        </div>
+        <div>
+            <div class="list_box level_box" style="display: block">
+                <ul>
+                    <{foreach $items as $k=>$item}>
+                    <li>
+                        <label>
+                            <div class="name"><{$item.name}></div>
+                            <div class="num">
+                                <span class="maincl"><{$item.dq_order|default:0}></span> / <span class="fontcl3"><{$item.ds_order|default:0}></span>
+                            </div>
+                            <input type="radio" name="datastaff_id" value="<{$item.staff_id}>" hidden="hidden">
+                            <span class="radio"></span>
+                        </label>
+                    </li>
+                    <{/foreach}>
+                </ul>
+            </div>
+            <{foreach $levels as $level}>
+            <div class="list_box level_box">
+                <ul>
+                    <{foreach $items as $k=>$item}>
+                    <{if $item.level_id == $level.level_id}>
+                    <li>
+                        <label>
+                            <div class="name"><{$item.name}></div>
+                            <div class="num">
+                                <span class="maincl"><{$item.dq_order|default:0}></span> / <span class="fontcl3"><{$item.ds_order|default:0}></span>
+                            </div>
+                            <input type="radio" name="datastaff_id" value="<{$item.staff_id}>" hidden="hidden">
+                            <span class="radio"></span>
+                        </label>
+                    </li>
+                    <{/if}>
+                    <{/foreach}>
+                </ul>
+            </div>
+            <{/foreach}>
+        </div>
+
+        <div class="textarea">
+            <textarea placeholder="请输入留言" name="data[message]" id="text"></textarea>
+        </div>
+
+        <div class="selct_box">
+            <span>是否替配送员接单：</span>
+            <span><input type="radio"   name="datatype" value="1">是</span>
+            <span><input type="radio" checked  name="datatype" value="0">否</span>
+        </div>
+
+    </div>
+    <div class="formBox_table">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr>
+                <td align="center">
+                    <button type="button" class="btn-primary-big confirm">确定</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#Assign").click(function(){
+               if($('input:checkbox[name="order_id"]:checked').length==0){
+                   layer.msg('请选择需要指派的订单');
+                   return false;
+               }
+                setTimeout(function(){
+                    $("#mask_cont1,.mask_bg1").show();
+                },100);
+        });
+        $('.confirm').on('click',function(){
+            var order_ids = [];
+            if($('input:checkbox[name="order_id"]:checked').length){
+                $.each($('input:checkbox[name="order_id"]:checked'),function(k,v){
+                    order_ids.push(v.value);
+
+                });
+            }else{
+                layer.msg('请选择需要指派的订单');
+                return false;
+            }
+            var staff_id = $('input:radio[name="datastaff_id"]:checked').val();
+            if(!staff_id){
+                layer.msg('请选择配送员');
+                return false;
+            }
+            var is_ckeck = $('input:radio[name="datatype"]:checked').val();
+            var message = $('#text').val();
+            var data = {
+                "check":is_ckeck,
+                "message":message,
+                "order_ids":order_ids,
+                "staff_id":staff_id
+            };
+            var url = "<{link ctl='map/point_order' http='dispatch'}>";
+            $('#mask_cont1,.mask_bg1').hide();
+            $.post(url,{data:data},function(e){
+
+                if(e.error==0){
+                    layer.msg(e.message);
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+
+                }else{
+                    layer.msg(e.message);
+                }
+            },'json');
+
+
+        })
+        $('.level_tab').click(function(){
+            var tk_idx=$(this).index();
+            $(this).addClass('on').siblings().removeClass('on');
+            $('.level_box').eq(tk_idx).show().siblings().hide();
+        })
+    });
+
+    function guanbi(){
+        $("#mask_cont1,.mask_bg1").hide();
+    }
+
+
+
+
+
+</script>
+<!--指派弹层-结束-->
+<script type="text/javascript">
+    centerMaskShow('.order_detail','订单路线','800px','500px');
+</script>
+
+<script>
+    $('#my_all_click').on('change',function(){
+        $('.order_ids').prop('checked',$(this).is(':checked'));
+    })
+</script>
+
+
+
+<{include file="newblock/footer.html"}>

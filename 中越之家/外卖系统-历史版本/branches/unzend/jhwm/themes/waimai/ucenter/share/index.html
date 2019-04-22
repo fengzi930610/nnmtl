@@ -1,0 +1,168 @@
+<{assign var='tpl_title' value=L("邀请好友")}>
+<{include file="waimai/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid inviteFriends_bg1">
+                <!-- 内容部分 -->
+                <div class="inviteFriends_adv">
+                    <img src="/themes/waimai/static/images/inviteFriends_adv1.png">
+                    <div class="text_c text">
+                        <p>邀请好友送实惠，您得<big><{$cfg.inviter_money}></big>元红包</p>
+                        <p>TA得<big><{$cfg.invitee_money}></big>元红包</p>
+                    </div>
+                    <div class="guize">规则<i></i></div>
+                </div>
+                <div class="inviteFriends_btn">
+                    <ul>
+                        <li><a href="javascript:;" id="faceToface"><img src="/themes/waimai/static/images/inviteFriends_btn1.png"></a></li>
+                        <li><a href="javascript:;" id="share"><img src="/themes/waimai/static/images/inviteFriends_btn2.png"></a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="inviteFriends_chengjiu">
+                    <div class="clear_both tit">我的成就<a href="<{link ctl='ucenter/share/logone' http='waimai'}>" class="fr">查看明细<i></i></a></div>
+                    <ul>
+                        <li>
+                            <div><big><{$invite_data.invite_money|default:'0'}></big>元</div>
+                            <p>已获红包</p>
+                        </li>
+                        <li>
+                            <div><big><{$invite_data.invite_ing|default:'0'}></big>份</div>
+                            <p>红包在路上</p>
+                        </li>
+                        <li>
+                            <div><big><{$invite_data.invite_count|default:'0'}></big>人</div>
+                            <p>已成功邀请</p>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="inviteFriends_rankingList">
+                    <div class="tit">邀请排行榜（Top 10）</div>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th>排名</th>
+                            <th>用户</th>
+                            <th>邀请人数(人)</th>
+                            <th>已获红包(元)</th>
+                        </tr>
+                        <{foreach $ranks as $k=>$r}>
+                        <{if $k==0}>
+                        <tr class="bg bg1">
+                            <td><i class="ico2"><{$k+1}></i></td>
+                            <td><!-- <img src="<{$pager.img}>/<{$members[$r.uid].face}>"/> --><{$members[$r.uid].nickname}></td>
+                            <td><{$r.invite_count}></td>
+                            <td><{$r.invite_money}></td>
+                        </tr>
+                        <{else if $k==1}>
+                        <tr class="bg bg2">
+                            <td><i class="ico2"><{$k+1}></i></td>
+                            <td><!-- <img src="<{$pager.img}>/<{$members[$r.uid].face}>"/> --><{$members[$r.uid].nickname}></td>
+                            <td><{$r.invite_count}></td>
+                            <td><{$r.invite_money}></td>
+                        </tr>
+                        <{else if $k==2}>
+                        <tr class="bg bg3">
+                            <td><i class="ico2"><{$k+1}></i></td>
+                            <td><!-- <img src="<{$pager.img}>/<{$members[$r.uid].face}>"/> --><{$members[$r.uid].nickname}></td>
+                            <td><{$r.invite_count}></td>
+                            <td><{$r.invite_money}></td>
+                        </tr>
+                        <{else}>
+                        <tr>
+                            <td><i class="ico1"><{$k+1}></i></td>
+                            <td><!-- <img src="<{$pager.img}>/<{$members[$r.uid].face}>"/> --><{$members[$r.uid].nickname}></td>
+                            <td><{$r.invite_count}></td>
+                            <td><{$r.invite_money}></td>
+                        </tr>
+                        <{/if}>
+                        <{foreachelse}>
+                        <tr>
+                            <div id="pubnodata">
+                                <div class="pubnodata_box">
+                                    <div class="img"></div>
+                                    <div class="text">暂无数据</div>
+                                </div>
+                            </div>
+                        </tr>
+                        <{/foreach}>
+                    </table>
+                </div>
+                <!-- <div class="inviteFriends_start">
+                    <div class="tit">新用户下载江湖外卖APP即可获取</div>
+                    <div class="btn_box">
+                        <a href="javascript:;" id="faceToface" class="long_btn bg1">面对面邀请</a>
+                        <a href="javascript:;" id="share" class="long_btn bg2">分享邀请</a>
+                    </div>
+                </div>
+                <div class="inviteFriends_rules">
+                    <div class="tit"><span>活动规则</span></div>
+                    <div class="cont">
+                        <{$cfg.intro}>
+                    </div>
+                </div> -->
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 规则弹出框 -->
+<div class="guizePopup" style="display: none;">
+    <div class="mask_bg"></div>
+    <div class="cont">
+        <h3 class="tit">活动规则</h3>
+        <div class="guizeText">
+            <!-- <p>1.邀请好友邀请好友邀请好友邀请好友邀请好友请好友邀请。</p>
+            <p>1.邀请好友邀请好友邀请好友邀请好友邀请好友请好友邀请。</p>
+            <p>1.邀请好友邀请好友邀请好友邀请好友邀请好友请好友邀请。</p>
+            <p>1.邀请好友邀请好友邀请好友邀请好友邀请好友请好友邀请。</p>
+            <p>1.邀请好友邀请好友邀请好友邀请好友邀请好友请好友邀请。</p>
+            <p>1.邀请好友邀请好友邀请好友邀请好友邀请好友请好友邀请。</p> -->
+            <div><{$cfg.intro_format}></div>
+        </div>
+        <i class="close"></i>
+    </div>
+</div>
+<script>
+$(function(){
+    $('.inviteFriends_adv .guize').click(function(){
+        $('.guizePopup').fadeIn(200);
+    });
+    $('.guizePopup .close,.mask_bg').click(function(){
+        $('.guizePopup').fadeOut(200);
+    });
+});
+</script>
+<!-- 规则弹出框end -->
+<!--面对面邀请二维码—弹层-->
+<div class="faceToface_mask">
+    <div class="cont">
+        <div class="code"><{$share_img}></div>
+        <h2>扫一扫，下载体验</h2>
+    </div>
+</div>
+<!--面对面邀请二维码—弹层end-->
+<script src="/themes/waimai/static/js/share.js?v=20170713"></script>
+<script>
+    var params = {"link":"<{$mylink}>","title":"<{$cfg.share_title}>","desc":"<{$cfg.intro}>","imgUrl":"<{$CONFIG.site.siteurl}>/attachs/<{$cfg.share_photo}>"};
+    $(document).ready(function () {
+        $("#faceToface").click(function () {
+            $(".mask_bg").remove();
+            $("body").append('<div class="mask_bg" onclick="close_face();" style="opacity:0.7 !important;"></div>');
+            $(".faceToface_mask,.mask_bg").show();
+        });
+        $("#share").click(function () {
+            Widget.Share.onShare();
+        });
+        /*$(".share_phone").click(function () {
+            $('.share_phone').hide();
+        });*/
+    });
+    function close_face(){
+        $(".faceToface_mask").hide();
+        $(".mask_bg").remove();
+    }
+    Widget.Share.init(params);
+</script>
+<{include file="waimai/block/footer.html"}>

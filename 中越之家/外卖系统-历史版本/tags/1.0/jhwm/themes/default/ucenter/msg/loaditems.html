@@ -1,0 +1,41 @@
+<{foreach $items as $item}>
+<li class="message_list">
+    <{if $item.type == 1}>
+        <a href="<{link ctl='ucenter/hongbao/index'}>" onclick="isread(<{$item.message_id}>);">
+            <{if $item.is_read == 0}>
+                <div class="fl"><em class="ico ico_2"></em></div>
+            <{elseif $item.is_read == 1}>
+                <div class="fl"><em class="no ico ico_2"></em></div>
+            <{/if}>
+            <div class="wz">
+               <p class="black3"><span class="bt"><{$item.title}></span><span class="fr black9 date"><{$item.dateline|format}></span></p>
+               <p class="black6"><{$item.content}>。(点击查看详情)</p>
+           </div>
+        </a>
+    <{elseif $item.type == 2}>
+        <!--<a href="<{link ctl='ucenter/order/detail' args=$item.order_id}>" onclick="isread(<{$item.message_id}>);">-->
+        <a href="<{link ctl='ucenter/order/index'}>" onclick="isread(<{$item.message_id}>);">
+            <{if $item.is_read == 0}>
+                <div class="fl"><em class="ico ico_1"></em></div>
+            <{elseif $item.is_read == 1}>
+                <div class="fl"><em class="no ico ico_1"></em></div>
+            <{/if}>
+            <div class="wz">
+               <p class="black3"><span class="bt"><{$item.title}></span><span class="fr black9 date"><{$item.dateline|format}></span></p>
+               <p class="black6"><{$item.content}>。(点击查看详情)</p>
+           </div>
+        </a>
+    <{else}>
+        <{if $item.is_read == 0}>
+                <div class="fl"><em class="ico ico_2"></em></div>
+            <{elseif $item.is_read == 1}>
+                <div class="fl"><em class="no ico ico_2"></em></div>
+            <{/if}>
+            <div class="wz">
+               <p class="black3"><span class="bt"><{$item.title}></span><span class="fr black9 date"><{$item.dateline|format}></span></p>
+               <p class="black6"><{$item.content}></p>
+           </div>
+    <{/if}>
+        <div class="clear"></div>
+    </li>
+<{/foreach}>

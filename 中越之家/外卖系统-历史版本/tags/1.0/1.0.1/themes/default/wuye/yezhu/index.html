@@ -1,0 +1,47 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/tuan/tuan:index'}>" class="on">业主列表</a>
+        <span class="r"><a href="<{link ctl='wuye/yezhu/index:create'}>" class="btn btn-success">添加业主</a></span>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-60">名字</th>
+        <th class="w-60">手机</th>
+        <th class="w-60">审核状态</th>
+        <th class="w-150">时间</th>
+        <th class="w-200">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.contact}>(编号：<{$item.yezhu_id}>)</td>
+        <td><{$item.mobile}></td>
+        <td>
+            <{if $item.audit == 0}><a href="<{link ctl='wuye/yezhu/index:set_audit' arg1=$item.yezhu_id arg2=1 }>" mini-act="set_status" class="btn btn-success" style="margin-right:2px;">审核</a><{/if}>
+            <{if $item.audit == 1}><b style="color:#5cb85c;">已通过</b><{/if}>
+            <{if $item.audit == 2}><b style="color:#ff0000;">已拒绝</b><{/if}>
+        </td>
+        <td><{$item.dateline|format}></td>
+        <td>
+            <a href="<{link ctl='wuye/yezhu/index:detail' args=$item.yezhu_id}>" class="btn btn-success" style="margin-right:2px;">详情</a>
+            <a href="<{link ctl='wuye/yezhu/index:edit' args=$item.yezhu_id}>" class="btn btn-success" style="margin-right:2px;">编辑</a>
+            <a href="<{link ctl='wuye/yezhu/index:delete' args=$item.yezhu_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-success">删除</a>
+        </td>
+        
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

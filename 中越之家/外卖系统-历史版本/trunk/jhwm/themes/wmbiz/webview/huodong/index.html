@@ -1,0 +1,224 @@
+<{assign var='tpl_title' value=L("店铺活动")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--内容开始-->
+            	<div class="actList_box mt10">
+                	<ul>
+                        <{if $first}>    
+                            <li class="actList">
+                        	<div class="cont">
+                                    <h3>首单优惠<span class="maincl state"><{if $first.audit == 0}>待审核<{elseif $first.stime >$nowtime}>待生效<{elseif $first.stime <=$nowtime&&$first.ltime>=$nowtime&&$first.audit==1&&$first.closed==0}>已生效<{/if}></span></h3>
+                                    <p>
+                                        首单优惠<{$first.config.first_amount}>,商家承担<{$first.config.shop_amount}>,平台承担<{$first.config.roof_amount}> 
+                                    </p>
+                                    <a href="<{link ctl='webview/huodong/first/detail' args=$first.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $first.stime == ($first.ltime + 86399)}><{$first.stime|format:'Y-m-d H:i'}>至<{$first.ltime|format:'Y-m-d H:i'}><{else}><{$first.stime|format:'Y-m-d'}>至<{$first.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/first/close' args=$first.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default tab_btn_del">撤销活动</a>
+                                         <a href="<{link ctl='webview/huodong/first/history' huodong_id=$first.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <{else}>
+                            <li class="actList">
+                                <div class="cont">
+                                    <h3>首单优惠</h3>
+                                    <P>您还没有创建[首单优惠]活动</P>
+                                </div>
+                                <div class="bottom pub_list">
+                                   <div class="pub_list_bd btn_box">
+                                            <a href="<{link ctl='webview/huodong/first/history' huodong_id=$first.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        <!--<a href="#" class="weui-btn weui-btn_mini weui-btn_primary">立即创建</a>-->
+                                    </div>
+                                </div>
+                            </li>
+                        <{/if}>    
+                        <{if $manjian}>    
+                            <li class="actList">
+                        	<div class="cont">
+                                    <h3>满减优惠<span class="maincl state"><{if $manjian.audit == 0}>待审核<{elseif $manjian.stime >$nowtime}>待生效<{elseif $manjian.stime <=$nowtime&&$manjian.ltime>=$nowtime&&$manjian.audit==1&&$manjian.closed==0}>已生效<{/if}></span></h3>
+                                    <p>
+                                        <{foreach $manjian.coupons as $item}>
+                                            <{if $item.order_amount>0}>
+                                         <span>满<{$item.order_amount}>减<{$item.coupon_amount}>，商家承担<{$item.shop_amount}>，平台承担<{$item.roof_amount}></span>
+                                            <{/if}>
+
+                                         <{/foreach}>
+                                    </p>
+                                    <a href="<{link ctl='webview/huodong/manjian/detail' args=$manjian.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $manjian.stime == ($manjian.ltime + 86399)}><{$manjian.stime|format:'Y-m-d H:i'}>至<{$manjian.ltime|format:'Y-m-d H:i'}><{else}><{$manjian.stime|format:'Y-m-d'}>至<{$manjian.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/manjian/close' args=$manjian.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default tab_btn_del">撤销活动</a>
+                                         <a href="<{link ctl='webview/huodong/manjian/history' huodong_id=$manjian.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <{else}>
+                            <li class="actList">
+                                <div class="cont">
+                                    <h3>满减优惠</h3>
+                                    <P>您还没有创建[满减]活动</P>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="pub_list_bd btn_box">
+                                            <a href="<{link ctl='webview/huodong/manjian/history' huodong_id=$manjian.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        <!--<a href="#" class="weui-btn weui-btn_mini weui-btn_primary">立即创建</a>-->
+                                    </div>
+                                </div>
+                            </li>
+                        <{/if}>
+                        <{if $manfan}>    
+                            <li class="actList">
+                        	<div class="cont">
+                                    <h3>满返活动<span class="maincl state"><{if $manfan.audit == 0}>待审核<{elseif $manfan.stime >$nowtime}>待生效<{elseif $manfan.stime <=$nowtime&&$manfan.ltime>=$nowtime&&$manfan.audit==1&&$manfan.closed==0}>已生效<{/if}></span></h3>
+                                    <p>
+                                        <{foreach $manfan.coupons as $item}>
+                                            <{if $item.paid_amount>0}>
+                                        订单满<{$item.paid_amount}>元送优惠券：满<{$item.order_amount}>元减<{$item.coupon_amount}>元<br/>
+                                           <{/if}>
+                                        <{/foreach}>
+                                    </p>
+                                    <a href="<{link ctl='webview/huodong/manfan/detail' args=$manfan.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $manfan.stime == ($manfan.ltime + 86399)}><{$manfan.stime|format:'Y-m-d H:i'}>至<{$manfan.ltime|format:'Y-m-d H:i'}><{else}><{$manfan.stime|format:'Y-m-d'}>至<{$manfan.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/manfan/close' args=$manfan.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default tab_btn_del">撤销活动</a>
+                                         <a href="<{link ctl='webview/huodong/manfan/history' huodong_id=$manfan.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        
+                                    </div>
+                                </div>
+                            </li>
+                        <{else}>
+                            <li class="actList">
+                                <div class="cont">
+                                    <h3>满返活动</h3>
+                                    <P>您还没有创建[满返]活动</P>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="pub_list_bd btn_box">
+                                            <a href="<{link ctl='webview/huodong/manfan/history' huodong_id=$manfan.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        <!--<a href="#" class="weui-btn weui-btn_mini weui-btn_primary">立即创建</a>-->
+                                    </div>
+                                </div>
+                            </li>
+                        <{/if}>
+                        <{if $coupon}>    
+                            <li class="actList">
+                        	<div class="cont">
+                                    <h3>领取优惠券<span class="maincl state"><{if $coupon.audit == 0}>待审核<{elseif $coupon.stime >$nowtime}>待生效<{elseif $coupon.stime <=$nowtime&&$coupon.ltime>=$nowtime&&$coupon.audit==1&&$coupon.closed==0}>已生效<{/if}></span></h3>
+                                    <p>
+                                        <{foreach $coupon.coupons as $item}>
+                                            <{if $item.order_amount>0}>
+                                                <{if $item@index == 0}>
+                                                满<{$item.order_amount}>减<{$item.coupon_amount}>
+                                                <{else}>
+                                                ,满<{$item.order_amount}>减<{$item.coupon_amount}>
+                                                <{/if}>
+                                          <{/if}>
+                                        <{/foreach}>
+                                    </p>
+                                    <a href="<{link ctl='webview/huodong/coupon/detail' args=$coupon.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $coupon.stime == ($coupon.ltime + 86399)}><{$coupon.stime|format:'Y-m-d H:i'}>至<{$coupon.ltime|format:'Y-m-d H:i'}><{else}><{$coupon.stime|format:'Y-m-d'}>至<{$coupon.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/coupon/close' args=$coupon.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default tab_btn_del">撤销活动</a>
+                                         <a href="<{link ctl='webview/huodong/coupon/history' huodong_id=$coupon.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <{else}>
+                            <li class="actList">
+                                <div class="cont">
+                                    <h3>领取优惠券</h3>
+                                    <P>您还没有创建[领券]活动</P>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="pub_list_bd btn_box">
+                                            <a href="<{link ctl='webview/huodong/coupon/history' huodong_id=$coupon.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        <!--<a href="#" class="weui-btn weui-btn_mini weui-btn_primary">立即创建</a>-->
+                                    </div>
+                                </div>
+                            </li>
+                        <{/if}>
+
+                        <{if $discount}>    
+                            <li class="actList">
+                            <div class="cont">
+                                    <h3>限时折扣<span class="maincl state"><{if $discount.audit == 0}>待审核<{elseif $discount.stime >$nowtime}>待生效<{elseif $discount.stime <=$nowtime&&$discount.ltime>=$nowtime&&$discount.audit==1&&$dsicount.closed==0}>已生效<{/if}></span></h3>
+                                    <p>
+                                       <{$discount.title}> 
+                                    </p>
+                                    <a href="<{link ctl='webview/huodong/discount/detail' args=$discount.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $discount.stime == ($discount.ltime + 86399)}><{$discount.stime|format:'Y-m-d H:i'}>至<{$discount.ltime|format:'Y-m-d H:i'}><{else}><{$discount.stime|format:'Y-m-d'}>至<{$discount.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/discount/close' args=$discount.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default tab_btn_del">撤销活动</a>
+                                         <a href="<{link ctl='webview/huodong/discount/history' huodong_id=$discount.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <{else}>
+                            <li class="actList">
+                                <div class="cont">
+                                    <h3>限时折扣</h3>
+                                    <P>您还没有创建[折扣]活动</P>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="pub_list_bd btn_box">
+                                            <a href="<{link ctl='webview/huodong/discount/history' huodong_id=$discount.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        <!--<a href="#" class="weui-btn weui-btn_mini weui-btn_primary">立即创建</a>-->
+                                    </div>
+                                </div>
+                            </li>
+                        <{/if}>
+
+                        <{if $huangou}>    
+                            <li class="actList">
+                            <div class="cont">
+                                    <h3>超值换购<span class="maincl state"><{if $huangou.audit == 0}>待审核<{elseif $huangou.stime >$nowtime}>待生效<{elseif $huangou.stime <=$nowtime&&$huangou.ltime>=$nowtime&&$huangou.audit==1&&$huangou.closed==0}>已生效<{/if}></span></h3>
+                                    <p>
+                                       <{$huangou.title}> 
+                                    </p>
+                                    <a href="<{link ctl='webview/huodong/huangou/detail' args=$huangou.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $huangou.stime == ($huangou.ltime + 86399)}><{$huangou.stime|format:'Y-m-d H:i'}>至<{$huangou.ltime|format:'Y-m-d H:i'}><{else}><{$huangou.stime|format:'Y-m-d'}>至<{$huangou.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/huangou/close' args=$huangou.huodong_id}>" mini-act="confirm:您确定要撤销活动吗？" class="weui-btn weui-btn_mini weui-btn_default tab_btn_del">撤销活动</a>
+                                         <a href="<{link ctl='webview/huodong/huangou/history' huodong_id=$huangou.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <{else}>
+                            <li class="actList">
+                                <div class="cont">
+                                    <h3>超值换购</h3>
+                                    <P>您还没有创建[换购]活动</P>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="pub_list_bd btn_box">
+                                            <a href="<{link ctl='webview/huodong/huangou/history' huodong_id=$huangou.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_default">历史记录</a>
+                                        <!--<a href="#" class="weui-btn weui-btn_mini weui-btn_primary">立即创建</a>-->
+                                    </div>
+                                </div>
+                            </li>
+                        <{/if}>
+
+                    </ul>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

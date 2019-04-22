@@ -1,0 +1,63 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?waimai/apply-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="商户名称、联系人、联系电话" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{* link ctl="waimai/waimai:create" class="button" title="添加" *}>
+                <{link ctl="waimai/apply:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tr>
+            <th class="w-100">商户ID</th>        
+            <th class="w-100">商户LOGO</th>
+            <th class="w-100">商户名称</th>
+            <th class="w-50">商铺类型</th> 
+            <th class="w-50">联系人</th>
+            <th class="w-50">联系电话</th>
+            <th class="w-100">申请时间</th>
+            <th class="w-100">状态</th>
+            <th class="w-300">操作</th>
+        </tr>
+        <{foreach $items as $item}>
+        <tr>
+            <td><label><input type="checkbox" value="<{$item.shop_id}>" name="shop_id[]" CK="PRI"/><{$item.shop_id}><label></td>        
+            <td><img src="<{$pager.img}>/<{$item.logo}>" width="50" height="50" /></td>
+            <td><{$item.title}></td>
+            <td><{$item.cate_name}></td>
+            <td><{$item.contact}></td>
+            <td><{$item.shop.mobile}></td>
+            <td><{$item.last_time|format}></td>
+            <td><{if $item.verify_name == 0}><b class="green">待审核</b><{elseif $item.verify_name == 2}><b class="red">已拒绝</b><{/if}></td>
+            <td>
+                <{link ctl="waimai/apply:detail" args=$item.shop_id class="button" title="查看"}>
+                <{link ctl="waimai/apply:delete" args=$item.shop_id act="mini:删除" confirm="mini:确定要删除商户吗？" title="删除" class="button"}>
+            </td>
+        </tr>
+        <{foreachelse}>
+         <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/waimai:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

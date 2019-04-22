@@ -1,0 +1,40 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+.no_link {
+    background: #2B5CB0;
+}
+.has_link {
+    background: #65AD03;
+}
+.admin_info {
+    color: white;
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+    height: 50px;
+    margin-left:20px;
+    margin-right: 20px;
+    margin-top: 60px;
+    text-align: center;
+    width: 205px;
+    vertical-align: middle;
+    padding: 35px 0;
+}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+         <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="admin_info no_link"><p>&yen;<{$money|default:'0'}>.00<br>今日营业额</p></div>
+<div class="admin_info no_link"><p><{$order|default:'0'}><br>今日订单数</p></div>
+<a href="?order/order-neworder.html"><div class="admin_info has_link"><p><{$new_order|default:'0'}><br>今日新订单</p></div></a>
+<div class="admin_info no_link"><p><{$new_mem|default:'0'}><br>今日新会员</p></div>
+<a href="?order/order-newshop.html"><div class="admin_info has_link"><p><{$new_shop|default:'0'}><br>今日新商户</p></div></a>
+<a href="?order/order-shoptx.html"><div class="admin_info has_link"><p><{$shop_txs|default:'0'}><br>商户提现</p></div></a>
+<a href="?order/order-stafftx.html"><div class="admin_info has_link"><p><{$staff_txs|default:'0'}><br>配送员提现</p></div></a>
+<{include file="admin:common/footer.html"}>

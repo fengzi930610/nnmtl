@@ -1,0 +1,33 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>商户ID：</th><td><{$detail.shop.title}> (<{$detail.shop_id}>)</td></tr>
+<tr><th>会员UID：</th><td><{$detail.member.nickname}> (<{$detail.uid}>)</td></tr>
+<tr><th>订单ID：</th><td><{$detail.order_id}></td></tr>
+<tr><th>综合总评分：</th><td><{$detail.score}></td></tr>
+<tr><th>服务评分：</th><td><{$detail.score_fuwu}></td></tr>
+<tr><th>口味评分：</th><td><{$detail.score_kouwei}></td></tr>
+<tr><th>评价内容：</th><td><{$detail.content}></td></tr>
+<tr><th>要求配送时间：</th><td><{$detail.pei_time}></td></tr>
+<tr><th>是否有图片：</th><td>
+        <{if $detail.photo}>
+        <{foreach $detail.photo as $k => $v}>
+        <img width="150" height="120" src="<{$pager.img}>/<{$v.photo}>" />
+        <{/foreach}>
+        <{else}>--<{/if}>
+</td></tr>
+<tr><th>回复内容：</th><td><{$detail.reply}></td></tr>
+<tr><th>回复人IP：</th><td><{$detail.reply_ip}></td></tr>
+<tr><th>回复时间：</th><td><{$detail.reply_time}></td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

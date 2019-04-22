@@ -1,0 +1,26 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?cloud/goods-index.html" id="SO-form" method="post">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+             <tr>
+                <th><span class="red">*</span>分类：</th>
+                <td>
+                    <select name="data[cate_id]" class="w-100">
+                        <option value="0">不限</option>
+                        <{widget id="goods/cate" value=$detail.cate_id type="类型"}>
+                    </select>
+                </td>
+            </tr>
+            <tr><th>标题：</th><td><input type="text" name="SO[title]" value="" class="input w-300"/>标题</td></tr>    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+        </table>
+    </form></div>
+<{include file="admin:common/footer.html"}>

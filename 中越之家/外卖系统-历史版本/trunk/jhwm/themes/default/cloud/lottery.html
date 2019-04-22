@@ -1,0 +1,138 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco headerIco2" <{if $last_attr_id}>href="<{link ctl='cloud/index/detail' args=$last_attr_id}>"<{else}>href="<{link ctl='cloud/index'}>"<{/if}> ></a>
+            <a class="pull-right headerIco headerIco3" href="<{link ctl='cloud/index'}>"></a>
+            <h1 class="title">开奖详情</h1>
+        </header>
+		<!--头部结束-->
+        <!-- 工具栏 -->
+        <div class="new_navStyle">
+        	<div class="foot_spaceBetween foot_center">
+            	<{if $last_attr_id}><p>新的一期火热进行中......</p>
+                <a href="<{link ctl='cloud/index/detail' args=$last_attr_id}>" class="btn">立即夺宝</a>
+                <{else}>
+                <p>暂无新的一期进行,查看其他</p>
+                <a href="<{link ctl='cloud/index/items'}>" class="btn">立即查看</a>
+                <{/if}>
+            </div>
+        </div>
+        <!-- 工具栏结束 -->
+        <!-- 主要内容部分 -->
+        <div class="content infinite-scroll infinite-scroll-bottom">
+            <!-- 幻灯片 -->
+            <div class="swiper-container" data-space-between='10'>
+                <div class="swiper-wrapper">
+                    <{foreach $detail['photo'] as $photo}>
+                    <div class="swiper-slide"><img src="<{$pager.img}>/<{$photo}>" style='width: 100%'></div>
+                    <{/foreach}>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <!-- 幻灯片结束 -->
+            <div class="shangpinDetail_jiexiao">
+            	<div class="tit_box">
+                	<p class="black3 overflow_clear">(第<{$detail.cloud_num}>期)<{$goods.title}></p>
+                    <p class="black6 font_size14">总需<{$detail.price}></p>
+                </div>
+                <div class="luckyNumber_box">
+                    <div class="card">
+                        <div class="card-header border_t">
+                            <div class="black3 number">幸运号码：<em class="maincl"><{$detail.win_number}></em></div>
+                            <a href="<{link ctl='cloud/index/calculate' args=$detail.attr_id}>" class="btn">计算详情</a>
+                        </div>
+                        <div class="card-content border_b">
+                        	<div class="card-content-inner">
+                            	<div class="fl left">
+                                    <div class="img"><img width="70" height="70" src="<{$pager.img}>/<{$detail.lottery_user.face|default:'member_face.png'}>"/></div>
+                                    <i class="huojiangIco"></i>
+                                </div>
+                          		<div class="right">
+                                        <div class="tit maincl"><{$detail.lottery_user.nickname|default:'匿名'}></div>
+                                        <div>参与<{$buy_num}>次<div class="fr" style=" color:#2094f7;"><a href="<{link ctl='cloud/order/code' arg0=$detail.attr_id arg1=$detail.attr_id arg2=$detail.win_uid}>">参与详情<i class="linkIco"></i></a></div></div>
+                                        <div class="overflow_clear">开奖时间：<{$detail.lottery_time|format:'Y-m-d'}><span class="ml10"><{$detail.lottery_time|format:'H:i:s'}></span></div>
+                                        <div class="overflow_clear">夺宝时间：<{$user_lottery_time|format:'Y-m-d'}><span class="ml10"><{$user_lottery_time|format:'H:i:s'}></span></div>
+                                </div>
+                                <div class="cl"></div>
+                        	</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="canyuJilu_box">
+                <div class="tit border_t border_b">所有参与记录</div>
+                    <ul class="canyuJilu_nr" id="index_goods_items">	
+                        
+                    </ul>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader txt_center black9 mt10 mb10" style=" font-size:0.75rem;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 主要内容部分结束 --> 
+    </div>
+
+<script>
+
+    var _lock = false;
+    var params = {attr_id:"<{$detail.attr_id}>"};
+    var page = 1;
+    var link = "<{link ctl='cloud/index:loaddata' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k, v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".infinite-scroll-preloader").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".infinite-scroll-preloader").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('全部加载完毕', false);
+                }
+            }
+        });
+    }
+
+    
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        if (_lock) {
+            return false;
+        }
+        _lock = false; 
+         page++;
+        loaddata();
+        _lock = true;
+    });
+</script>
+
+<{include file="cloud/block/footer.html"}>

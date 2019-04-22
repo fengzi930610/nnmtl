@@ -1,0 +1,56 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/report/index'}>" class="on">投诉记录</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-60">投诉人</th>
+        <th class="w-120">电话</th>
+        <th class="w-100">内容</th>
+        <th class="w-80">是否回复</th>
+        <th class="w-80">状态</th>
+        <th class="w-150">催促时间</th>
+        <th class="w-150">报修时间</th>
+        <th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.contact}></td>
+        <td><{$item.mobile}></td>        
+        <td><{mb_substr($item['content'],0,6)}></td>
+        <td>
+            <{if !$item.reply}>
+            待回复
+            <{else}>
+            已回复
+            <{/if}>
+        </td>
+        <td>
+            <{if $item.status == -1}>已撤销<{/if}>
+            <{if $item.status == 0}><a href="<{link ctl='wuye/report/index:set_status' arg1=$item.report_id arg2=1 }>" mini-act="set_status" class="btn btn-success" style="margin-right:2px;">处理</a><{/if}>
+            <{if $item.status == 1}>已处理<{/if}>
+        </td>
+        <td><{if $item.tx_time}><b style="color:#ff0000;"><{$item.tx_time|format:'Y-m-d H:i:s'}></b><{else}>--<{/if}></td>
+        <td><{$item.dateline|format}></td>
+        <td>
+        <a href="<{link ctl='wuye/report/index:detail' args=$item.report_id}>" class="btn btn-success" style="margin-right:2px;">详情</a>
+        <a href="<{link ctl='wuye/report/index:delete' args=$item.report_id}>" mini-act="del" mini-confirm="确定要删除吗？" title="删除" class="btn btn-success">删除</a>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

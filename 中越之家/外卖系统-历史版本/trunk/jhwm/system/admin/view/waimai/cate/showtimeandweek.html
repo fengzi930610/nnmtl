@@ -1,0 +1,118 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+    .stime_box,.ltime_box{display: inline-block; position: relative;}
+    .stime_box ul,.ltime_box ul{display: none; position: absolute; left: 0; top: 34px; width: 130%; background: #fff; border:1px solid #e6e6e6; max-height: 160px; overflow: auto; z-index: 999}
+    .stime_box ul li,.ltime_box ul li{font-size: 12px; color: #333; line-height: 26px; padding: 0 8px; cursor: pointer;}
+    .stime_box ul li:hover,.ltime_box ul li:hover{background: #bdebee;}
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="waimai/cate:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?waimai/cate-index.html" id="SO-form" method="post">
+
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th>开始时间</th>
+            <td>
+                <div class="stime_box">
+                    <input type="text" style="display: inline" name="config[hongbao][0][stime]" value="" class="input w-100 stime" time="0" readonly/>
+                    <ul class="time-ul"></ul>
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+            <th></th>
+        </tr>
+
+        <tr>
+            <td>
+
+                ~
+                <div class="ltime_box">
+                    <input type="text" style="display: inline" name="config[hongbao][0][ltime]" value="" class="input w-100 ltime" time="0" readonly/>
+                    <ul class="time-ul"></ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th class="clear-th-bottom"></th>
+            <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" />
+            </td>
+        </tr>
+    </table>
+</form></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').click(function(){
+            $('.time-ul').hide();
+        });
+
+        $(document).on('click', '.stime', function(){
+            var stime = $(this).attr('time');
+            var ltime = $(this).parent('.stime_box').siblings('.ltime_box').find('.ltime').attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"ltime": ltime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(stime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click', '.ltime', function(){
+            var stime = $(this).parent('.ltime_box').siblings('.stime_box').find('.stime').attr('time');
+            var ltime = $(this).attr('time');
+            var that = $(this);
+            var link = "?hongbao/hongbao-getTime.html";
+            $.post(link, {"stime": stime}, function (ret) {
+                if (ret.error == 0) {
+                    var html = '';
+                    $.each(ret.data,function(k, v){
+                        if(ltime == v.time){
+                            html += '<li time='+v.time+' style="background-color:#1ab394">'+v.strtime+'</li>';
+                        }else{
+                            html += '<li time='+v.time+'>'+v.strtime+'</li>';
+                        }
+                    })
+                    if(html){
+                        that.siblings('.time-ul').html(html);
+                    }
+                    $('.time-ul').hide();
+                    that.siblings('.time-ul').show();
+                }
+            },'json');
+        });
+
+        $(document).on('click','.time-ul li',function(){
+            var time = $(this).attr('time');
+            var strtime = $(this).text();
+            $(this).parent('.time-ul').siblings('input').attr('time',time);
+            $(this).parent('.time-ul').siblings('input').val(strtime);
+            $(this).parent('.time-ul').hide();
+        });
+    });
+</script>
+
+<{include file="admin:common/footer.html"}>

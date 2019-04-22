@@ -1,0 +1,80 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form id="module-form" method="post">
+	<input type="hidden" name="mdl[type]" value="SIGN" />
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th style="width:60px">CTL：</th>
+			<td class="w-100"><input type="text" name="ctl[ctl]" class="input w-150" value=""/></td>
+			<th style="width:60px">module:</th>
+			<td class="w-100"><input type="text" name="ctl[module]" class="input w-150" value=""/></td>
+			<th style="width:60px">view:</th>
+			<td class="w-100"><input type="text" name="ctl[view]" class="input w-150" value=""/></td>
+			<th style="width:60px">功能：</th>
+			<td colspan="2">
+				<label><input type="checkbox" name="ctl[act][create]" checked value="Y" />添加</label>
+				<label><input type="checkbox" name="ctl[act][edit]" checked value="Y" />修改</label>
+				<label><input type="checkbox" name="ctl[act][detail]" checked value="Y" />查看</label>
+				<label><input type="checkbox" name="ctl[act][delete]" checked value="Y" />删除</label>
+				<label><input type="checkbox" name="ctl[act][items]" checked value="Y" />列表</label>
+				<label><input type="checkbox" name="ctl[act][doaudit]" checked value="Y" />审核</label>
+				<label><input type="checkbox" name="ctl[act][so]" checked value="Y" />搜索</label>
+				<label><input type="checkbox" name="ctl[city]" value="Y" />分城市</label>
+			</td>			
+		</tr>
+		<tr>
+			<th style="width:60px">MDL：</th>
+			<td><input type="text" name="mdl[mdl]" class="input w-150" value="" /></td>
+			<th style="width:60px">module:</th>
+			<td><input type="text" name="mdl[module]" class="input w-150" value=""/></td>
+			<th style="width:60px">关联表：</th>
+			<td><input type="text" name="mdl[table]" class="input w-150" id="module-table" value=""/></td>
+			<th style="width:60px">操作：</th>
+			<td colspan="2"><a class="button" id="load-schema">装载表结构</a></td>
+		</tr>
+	</table>
+	<div id="module-schema"></div>
+	<div class="page-bar">
+		<table>
+			<tr>
+				<td></td>
+				<td colspan="10"></td>
+				<td class="w-100">					
+					<label><input type="checkbox" name="module[schema]" checked value="Y" />创建Schema</label>
+					<label><input type="checkbox" name="module[view]" checked value="Y" />创建View</label>
+					<label><input type="checkbox" name="module[mdl]" checked value="Y" />创建MDL</label>
+					<label><input type="checkbox" name="module[ctl]" checked value="Y" />创建CTL</label>
+				</td>
+				<td class="w-100"><{link ctl="tools/developer:module" type="button" submit="mini:#module-form"  title="创建模块"}></td>
+			</tr>
+		</table>
+	</div>
+	</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$("#load-schema").on('click', function(){
+	var table = $("#module-table").val();
+	if(table.length<1){
+		Widget.MsgBox.error('请先填写关联表名');
+		return false;
+	}
+	$("#module-schema").load("?tools/developer-schema-"+table+".html");
+});
+$("#check-module").on("click", function(){
+	$.post("?tools/developer-checkModule.html", $("#module-form").serialize(), function(ret){
+		
+	},'json');
+});
+})(window.KT, window.jQuery)
+</script>
+<{include file="admin:common/footer.html"}>

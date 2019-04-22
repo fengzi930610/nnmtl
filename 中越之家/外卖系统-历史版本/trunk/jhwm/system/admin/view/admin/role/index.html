@@ -1,0 +1,42 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="admin/role:create" class="button"}></td>
+		<td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<input type="hidden" name="batch" value="orderby" />
+	<table align="center" width="100%" cellpadding="0" cellspacing="0" class="table-data list">
+		<tr>
+			<th class="w-100">ID</th>
+			<th>管理员</th>
+			<th class="w-100">类型</th>
+			<th class="w-150">操作</th>
+		</tr>
+		<{foreach $role_list as $k=>$v}>
+		<tr id="line-role-<{$v.role_id}>">
+		<td><label><{$v.role_id}></label></td>
+		<td class="left"><{$v.role_name}></td>
+		<td><{$v.role}></td>
+		<td class="left">
+			<{if $v.role=='system' && $ADMIN.role!='system'}>
+			<label class="button disabled" title="管理" tips="您没有权限修改系统管理员角色" disabled="disabled">管理</label>
+			<{else}>
+			<{link ctl="admin/role:detail" args="<{$v.role_id}>" class="button" title="管理"}>
+			<{/if}>
+			<{if $v.role!='system'}>
+			<{link ctl="admin/role:delete" args="<{$v.role_id}>" class="button" act="mini:remove:line-role-<{$v.role_id}>" title="删除"}>
+			<{else}>
+			<label class="button disabled" title="删除" tips="系统管理员角色不能删除" disabled="disabled">删除</label>
+			<{/if}>
+		</td>
+		</tr>
+		<{/foreach}>
+	</table>
+</div>
+<{include file="admin:common/footer.html"}>

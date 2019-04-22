@@ -1,0 +1,35 @@
+<{assign var='tpl_title' value='我的消息中心'}>
+<{include file="block/header.html"}>
+<link rel="stylesheet" href="/themes/v3/static/css/style.css"/>
+<section class="page_center_box" style="top:0">
+    <ul class="message_list_box" id="index_goods_items">
+
+    </ul>
+    <div class="loadding">
+            
+    </div>
+</section>
+
+<script>
+$(document).ready(function(){
+    localStorage['linktips'] = 'msg';
+    var link = "<{link ctl='ucenter/msg/loaditems' arg0='#page#'}>";
+    var page = 1;
+    var params = {};
+    loaddata(link,page,params);
+
+    $(document).on("click",".next",function(){
+        page++;
+        loaddata(link,page,params);
+    })
+
+})
+    
+function isread(msg_id) {
+    if(window.localStorage){
+        localStorage['message_id'] = msg_id;
+    }
+}
+</script>
+</body>
+</html>

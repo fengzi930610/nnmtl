@@ -1,0 +1,72 @@
+<{assign var='tpl_title' value=L("邀请好友")}>
+<{include file="block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+      	<div class="page_cont">
+            <div class="container_mid inviteFriends_bg">
+	        	<!-- 内容部分 -->
+                <div class="inviteFriends_adv"><img src="/themes/waimai/static/images/adv2.jpg" width="100%"></div>
+                <div class="inviteFriends_info">
+                	<i class="ico fr"></i>
+                    <div class="cont">
+                    	<P>好友<{$_member.nickname}>给您送福利啦!</P>
+                        <P>最高可领￥<{$total_money}>红包哦！</P>
+                    </div>
+                </div>
+                <div class="inviteFriends_box mb10 inviteFriends_bag_list">
+                    <ul>
+                        <{foreach $hongbaos as $k=>$v}>
+                            <li>
+                                <img src="/themes/waimai/static/images/hongbao_bg.png">
+                                <div class="price"><p><small>¥</small><{$v.amount}></p></div>
+                                <div class="wz_box">
+                                    <h4 class="bt"><{$v.title}></h4>
+                                    <h4>满￥<{$v.min_amount}>可用</h4>
+                                    <{if $hongbao_cfg}>
+                                    <{foreach  $hongbao_cfg  as $key=>$val}>
+                                    <{if $v.from==$key}>
+                                    <p class="black9"><{$val.title}>红包</p>
+                                    <{/if}>
+                                    <{/foreach}>
+                                    <{/if}>
+                                    <{if $v.limit_stime&&$v.limit_ltime}>
+                                    <p class="black9">每日<{$v.limit_stime}>至<{$v.limit_ltime}>可用</p>
+                                    <{/if}>
+                                    <{if $v.limit_stime&&!$v.limit_ltime}>
+                                    <p class="black9">每日<{$v.limit_stime}>至23:59:59可用</p>
+                                    <{/if}>
+                                    <{if !$v.limit_stime&&$v.limit_ltime}>
+                                    <p class="black9">每日00:00:00至<{$v.limit_ltime}>可用</p>
+                                    <{/if}>
+
+                                    <P class="black9">有效期至<{$v.ltime|format:'Y-m-d'}></P>
+                                </div>
+                            </li>
+                        <{/foreach}>
+                    </ul>
+                    <div class="mobile">红包已放入账号：<{$member.mobile}></div>
+                	<div class="inviteFriends_form mb10">
+                        <input type="button" value="立即使用" class="long_btn">
+                    </div>
+                </div>
+                <div class="inviteFriends_box mb10">
+                    <div class="inviteFriends_rules">
+                        <div class="tit"><span>活动规则</span></div>
+                        <div class="cont">
+                            <{$inviteCfg.intro}>
+                        </div>
+                    </div>
+                </div>
+                
+				<!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".long_btn").click(function(){
+        var url = "<{link ctl='index' http='waimai'}>";
+        window.location.href = url;
+    })
+</script>
+<{include file="block/footer.html"}>

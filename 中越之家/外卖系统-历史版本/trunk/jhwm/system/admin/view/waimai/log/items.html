@@ -1,0 +1,65 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?waimai/log-index.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="商户名称、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="waimai/log:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <form id="items-form">
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">日志ID</th>
+                <th class="w-200">商户ID</th>
+                <th class="w-100">余额变动</th>
+                <th class="w-200">变动缘由</th>
+                <th class="w-50">管理员</th>
+                <th class="w-100">日期</th>
+                <th class="w-100">客户IP</th>
+                <th class="w-100">创建时间</th>
+                <th class="w-150">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <{if $item.closed==0}>
+            <tr>
+                <td><label><input type="checkbox" value="<{$item.log_id}>" name="log_id[]" CK="PRI"/><{$item.log_id}><label></td>
+                <!-- <td><{$shops[$item['shop_id']]['title']}>(ID:<{$item.shop_id}>)</td> -->
+                <td><{$item['title']}>(<{$item.shop_id}>:<{$item.mobile}>)</td>
+                <td><{$item.money}></td>
+                <td><{$item.intro}></td>
+                <td><{$item.admin|default:'无'}></td>
+                <td><{$item.day}></td>
+                <td><{$item.clientip}></td>
+                <td><{$item.dateline|format}></td>
+                <td>
+                    <{link ctl="waimai/log:detail" args=$item.log_id class="button" title="查看"}>
+
+                </td>
+            </tr>
+            <{/if}>
+            <{foreachelse}>
+            <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/log:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

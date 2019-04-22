@@ -1,0 +1,143 @@
+<{include file="admin:common/header.html"}>
+<script type="text/javascript" src="<{$pager.res}>/script/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/highcharts/modules/exporting.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/highcharts/modules/no-data-to-display.js"></script>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+         <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+        </tr>
+    </table>
+</div>
+<div class="page-data"> 
+    <form action="?order/order-tongji.html" method="post" >
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+           <tr>
+                <td>
+                    <select name="data[year]" >
+                        <{foreach $years as $v}>
+                            <option value="<{$v}>" <{if $dyear==$v}>selected="selected"<{/if}>><{$v}>年</option>
+                        <{/foreach}>
+                    </select>
+                    <select name="data[month]">
+                        <{foreach $months as $v}>
+                            <option value="<{$v}>" <{if $dmonth==$v}>selected="selected"<{/if}>><{$v}>月</option>  
+                        <{/foreach}>   
+                    </select>
+                    <input type="submit" class="bt-big" value="搜索">
+                </td>  
+            </tr>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">本月营业额</th>
+                <th class="w-100">在线支付金额</th>
+                <th class="w-100">结算</th>
+                <th class="w-100">已完成订单数</th>
+                <th class="w-100">已取消订单数</th>
+            </tr>
+            <tr>
+                <td class="w-100">&yen;<{$month_income|default:'0'}></td>
+                <td class="w-100">&yen;<{$month_onlinepay|default:'0'}></td>
+                <td class="w-100">&yen;<{$order_checkout|default:'0'}></td>
+                <td class="w-100"><{$month_order|default:'0'}></td>
+                <td class="w-100"><{$month_cancel|default:'0'}></td>
+            </tr>
+        </table>
+        <table width="100%" border="1" cellspacing="1" class="table-data table">
+        <div id="month_chart" style="margin-right:20px">
+        </div>
+         </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data table">
+            <tr>
+                <th class="w-100">编号</th>
+                <th class="w-100">日志</th>
+                <th class="w-100">金额</th>
+                <th class="w-100">发生日期</th>
+            </tr>
+            <{foreach $loglist as $k=>$v}>
+                <tr>
+                    <td class="w-100"><{$v.log_id}></td>
+                    <td class="w-100"><{$v.intro}></td>
+                    <td class="w-100"><{$v.money}></td>
+                    <td class="w-100"><{$v.dateline|format:'Y-m-d H:i:s'}></td>
+                </tr>
+            <{foreachelse}>
+                <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+            <{/foreach}>
+        </table>
+    </form>
+    <{if $loglist}>
+    <div class="page-bar">
+        <table>
+            <tr>
+            <td class="page-list"><{$pager.pagebar}></td>
+        </tr>
+        </table>
+    </div>
+    <{else}>
+    <{/if}>
+</div>
+<{include file="admin:common/footer.html"}>
+<script>
+$(function () {
+    $('#month_chart').highcharts({
+   
+        title: {
+            text: '<{$dyear}>年<{$dmonth}>月'+'订单报表',
+            x: 5 //center
+        },
+        subtitle: {
+            text: '',
+            x: 0
+        },
+        xAxis: {
+            type: 'category',
+            labels: {
+                rotation: -0,
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+        },
+        legend: {
+            align: 'center', //程度标的目标地位
+        　　verticalAlign: 'top', //垂直标的目标地位
+        　　x: 0, //间隔x轴的间隔
+        　　y: 20 //间隔Y轴的间隔
+        },
+        series: [
+        {
+            name: '订单数(单)',
+            data: [
+                <{foreach $items as $v}>
+                [<{$v.dates}>+'日',   <{if empty($v.orders)}>0<{else}><{$v.orders}><{/if}>],
+                <{/foreach}>
+            ]
+        },
+        {
+            name: '营业额(元)',
+            data: [
+                <{foreach $items as $v}>
+                [<{$v.dates}>+'日',   <{if empty($v.moneys)}>0<{else}><{$v.moneys}><{/if}>],
+                <{/foreach}>
+            ]
+        }
+        ]
+    });
+});
+</script>

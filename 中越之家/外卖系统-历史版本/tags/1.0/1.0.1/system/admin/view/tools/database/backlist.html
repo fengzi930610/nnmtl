@@ -1,0 +1,36 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><label class="left">数据库管理</label>
+            <div class="item-menu">
+                <a href="?tools/database-index.html">备份</a>
+                <a href="?tools/database-backlist.html" class="on">还原</a>
+                <a href="?tools/database-optimize.html">优化</a>
+            </div>  
+            </td>
+            <td align="left"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+		<th>备份名</th><th class="w-200">备份时间</th><th class="w-200">备份大小</th><th class="w-150">操作</th>
+	</tr>
+    <{foreach $items as $item}>
+    <tr>
+		<td><{$item.name}></td><td><{$item.time|format:"Y-m-d H:i:s"}></td><td><{$item.size|format:"size"}></td>
+		<td>
+			<{link ctl="tools/database:restore" args=$item.name title="还原" confirm="mini:确定要还原该备份吗？" class="button"}>
+			<{link ctl="tools/database:backdel" args=$item.name act="mini:删除" confirm="mini:确定要删除该备份吗？" title="删除" class="button"}>
+		</td>
+	</tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+</div>
+<{include file="admin:common/footer.html"}>

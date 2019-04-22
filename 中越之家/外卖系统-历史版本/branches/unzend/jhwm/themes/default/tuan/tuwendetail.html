@@ -1,0 +1,50 @@
+<{assign var='tpl_title' value=L("团购详情")}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='tuan/product:detail' args=<{$detail.tuan_id}>}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+		图文详情
+    </div>
+</header>
+<style type="text/css">
+.mineIntegral_details{ padding: 0.1rem; text-align: center;}
+.mineIntegral_details img{ width: 100%;}
+</style>
+<section class="page_center_box">
+    <div class="mineIntegral_details">
+        <{$detail.detail}>
+    </div>
+</section>
+<footer>
+    <form id="myFormId" name="myForm" method="post" action="">
+        <div class="shangpin_price clear_both mb10" >
+        	<div class="fl">
+        	<p class="mt5" style="font-size: 0.15rem;">
+        	<span class="price pointcl1 mr10" style="font-size: 0.18rem;"></span>
+        	<span class="marketprice"></span></p>
+        	</div>
+            <input type="hidden" name="data[price]" value="">
+            <input type="hidden" name="data[tuan_id]" value="">
+            <input type="hidden" name="data[title]" value="">
+            <input type="hidden" name="data[desc]" value="">
+            <div class="fr">
+                 <input type="submit" class="pub_btn redbg" value="立即抢购" style="font-size: 0.16rem;"/>
+            </div>
+        </div>
+    </form>
+</footer>
+
+<script>
+$(document).ready(function () {
+    $('.price.pointcl1.mr10').text("￥" + parseFloat(<{$detail.price}>).toFixed(2));
+    $('.marketprice').text("门市价：￥" + parseFloat(<{$detail.market_price}>).toFixed(2));
+    $("input[name='data[price]']").val(parseFloat(<{$detail.price}>).toFixed(2));
+    $("input[name='data[tuan_id]']").val(parseInt(<{$detail.tuan_id}>));
+    $("input[name='data[title]']").val("<{$detail.title}>");
+    $("input[name='data[desc]']").val("<{$detail.desc}>");
+
+    var link = "<{link ctl='tuan/order:sub' args='temp'}>";
+    $("#myFormId").attr("action", link.replace('temp', parseInt(<{$detail.shop_id}>)));
+})
+</script>
+<{include file="block/footer.html"}>

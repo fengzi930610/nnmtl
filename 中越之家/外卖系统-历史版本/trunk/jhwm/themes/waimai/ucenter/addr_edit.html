@@ -1,0 +1,364 @@
+<{assign var='tpl_title' value=L("外卖--地址")}>
+<{include file="waimai/block/header.html"}>
+
+<style type="text/css">
+    .ordEvlt_imgupload{background-color: #FFF;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="Mine_addressAdd">
+                    <form >
+                        <div class="MinePersonal mt10">
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title">收货人<input id="nickname" name="data[contact]" type="text" placeholder="请输入收货人姓名" value="<{$addr.contact}>"></div>
+                                </div>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title">手机号<input id="mobile" type="text" name="data[mobile]" placeholder="请输入收货人手机号" value="<{$addr.mobile}>"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="address_detail mt10 mb20">
+                            <div class="item-inner" id="addr_map">
+                                <div class="item-row">
+                                    <div class="item-title">地址<input type="text" id="addr" name="data[addr]" value="<{$addr.addr}>" placeholder="小区/写字楼/学校等"></div>
+                                    <input type="hidden" name="data[lng]" id="lng" value="<{$addr.lng}>">
+                                    <input type="hidden" name="data[lat]" id="lat" value="<{$addr.lat}>">
+                                    <div class="item-after"><i class="ico_right"></i></div>
+                                </div>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-row">
+                                    <div class="item-title">详细地址<input id="house" type="text" name="data[house]" placeholder="例：5号楼101室" value="<{$addr.house}>"></div>
+                                </div>
+                            </div>
+                            <div class="label">
+                                <div class="item-row">
+                                    <div class="item-title">
+                                        <p class="fl">标签</p>
+                                        <div class="box">
+                                            <a href="javascript:;" id="1" value="1">家</a>
+                                            <a href="javascript:;" id="2" value="2">公司</a>
+                                            <a href="javascript:;" id="3" value="3">学校</a>
+                                            <a href="javascript:;" id="4" value="4">其他</a>
+                                            <input type="hidden" id="type" name="data[type]" value="<{$addr.type}>" >
+                                        </div><div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ordEvlt_imgupload">
+                                <ul class="lists">
+                                    <li class="evlt">
+                                        <div class="box">
+                                            <div class="img"><img src="<{if $addr.photo}><{$pager.img}>/<{$addr.photo}><{else}>%THEME%/static/img/add_pingjia_pic@2x.png<{/if}>"></div>
+                                            <input type="file" name="photo1" class="file22" accept="image/*">
+                                            <a href="javascript:;"   class="clear_ico" style="display:<{if $addr.photo}>block<{else}>none<{/if}>">×</a>
+                                            <{if $addr.photo}>
+                                            <input type="text" name="data[file][]" value="<{$addr.photo}>">
+                                            <{/if}>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="clear"></div>
+                                <p class="black9 mt5 uploadhint">(点击拍照或选择地址图片)</p>
+                            </div>
+                        </div>
+                        <div class="save_btn  takeoutLongBtn mb10" >
+                            保存
+                        </div>
+                        <div class="del_btn takeoutLongBtn mb10" data-id="<{$addr.addr_id}>">
+                            删除
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+.weui-photo-browser-modal{z-index: 10;background: rgba(0,0,0,0.4);}
+.weui-photo-browser-modal .photo-container img{width: 100%;}
+</style>
+<script type="text/javascript">
+    $(function(){
+        $('.Mine_addressAdd  .address_detail .label .item-title .box a').click(function(){
+            $(this).addClass('on').siblings().removeClass('on')
+            var type=$(this).attr('value');
+            localStorage.setItem('type_addr',type);
+            $('#type').val(type);
+        })
+        var type_lo = localStorage.getItem('type_addr');
+        var type_format = '<{$addr.type}>';
+        $("#"+type_format).addClass('on');
+        if(type_lo){
+            $('#type').val(type_lo);
+            $('.Mine_addressAdd  .address_detail .label .item-title .box a').removeClass('on');
+            $("#"+type_lo).addClass('on');
+        }
+        //读取信息开始
+        var addr_nickname = localStorage.getItem('addr_nickname');
+        if(addr_nickname){$('#nickname').val(addr_nickname);}
+        var addr_mobile = localStorage.getItem('addr_mobile');
+        if(addr_mobile){$('#mobile').val(addr_mobile);}
+        var addr_house = localStorage.getItem('addr_house');
+        if(addr_mobile){$('#house').val(addr_house);}
+
+        //读取信息结束
+
+        //存储信息开始
+        $('#nickname').blur(function(){
+            localStorage.setItem('addr_nickname',$(this).val());
+        })
+        $('#mobile').on('keyup',function(){
+            localStorage.setItem('addr_mobile',$(this).val());
+        })
+        $('#house').on('keyup',function(){
+            localStorage.setItem('addr_house',$(this).val());
+        })
+
+        $(document).on('click','.file22',function(ex){
+            var clsBtn = $(this).siblings(".clear_ico");
+            if(clsBtn && clsBtn.css("display") !== "none")
+                ex.preventDefautl();
+        });
+        $('.file22').on('change',function(){
+            var files = $(this)[0]['files'];
+            var h =$(this);
+
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[0].type)) {
+                Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            uploadfile(files[0],h);
+
+            reader.onload = function (e){
+                    h.parent().children().eq(0).children().attr('src',e.target.result);
+                    h.parent().children('a').show();
+            }
+        });
+        $('.clear_ico').on('click',function(){
+            $(this).parent().children('input').remove();
+            $(this).parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+            var new_input ='<input type="file"  class="file22"/>' ;
+            $(this).parent().children().eq(0).after(new_input);
+            $(this).hide();
+
+            $('.file22').on('change',function(){
+                var files = $(this)[0]['files'];
+                var h =$(this);
+
+                var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+                if (!rFilter.test(files[0].type)) {
+                    Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+                    return false;
+                }
+                var reader = new FileReader();
+                reader.readAsDataURL(files[0]);
+                uploadfile(files[0],h);
+
+                reader.onload = function (e){
+                        h.parent().children().eq(0).children().attr('src',e.target.result);
+                        h.parent().children('a').show();
+                }
+            });
+        })
+
+        $(document).on('click','.evlt',function () {
+            var img = $(this).find(".img img");
+            if(img.length > 0)
+            {
+                img = img.eq(0);
+                var clsBtn = img.parent().siblings(".clear_ico");
+                if(clsBtn.length && clsBtn.css("display")!=="none")
+                {
+                    var evlt_attr = [img.attr("src")];
+                    var pb_evlt = $.photoBrowser({
+                        items:evlt_attr,
+                    });
+                    pb_evlt.open();
+                }
+            }
+        });
+
+    })
+
+function uploadfile(Obj,h) {
+        var form = new FormData();
+        var name = h.attr('data-id');
+        var url ='<{link ctl="ucenter/order:uploadimg" http="waimai"}>';
+
+        // layer.load('处理中....');
+        if(Obj.size/1024 > 800) { //大于2M，进行压缩上传
+            photoCompress(Obj, {
+                quality: 0.2
+            }, function(base64Codes){
+                console.log("压缩后：" + base64Codes.length / 1024);
+                var bl = convertBase64UrlToBlob(base64Codes);
+                form.append("file", bl, "file_"+Date.parse(new Date())+".jpg"); // 文件对象
+                $(".uploadhint").text("正在上传中...");
+                $.ajax({
+                    url: url,
+                    type: "post",
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    success: function (e) {
+                        if(e.error>0){
+                            // layer.closeAll();
+                            Widget.MsgBox.error(e.message);
+                            return false;
+                        }else{
+                            // layer.closeAll();
+                            if(e.error>0){
+                                Widget.MsgBox.error(e.message);
+                                return false;
+                            }else{
+                                if(e.file){
+                                    var input = '<input type="text" readonly="readonly" name="data[file][]" value="'+e.file.photo+'"/>';
+                                    h.parent().append(input);
+                                    Widget.MsgBox.success('图片上传成功');
+                                }else{
+                                    h.parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+                                    h.parent().children('a').hide();
+                                    Widget.MsgBox.error('图片过大');
+                                    return false;
+                                }
+                            }
+                        }
+                    },
+                    error: function (e) {
+                    },
+                    complete:function(){
+                        $(".uploadhint").text("(点击拍照或选择地址图片)");
+                    }
+                });
+            });
+        }else{ //小于等于2M 原图上传
+            form.append("file", Obj); // 文件对象
+            $(".uploadhint").text("正在上传中...");
+            $.ajax({
+                url: url,
+                type: "post",
+                data: form,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (e) {
+                    if(e.error>0){
+                        // layer.closeAll();
+                        Widget.MsgBox.success(e.message);
+                        return false;
+                    }else{
+                        // layer.closeAll();
+                        if(e.error>0){
+                           Widget.MsgBox.error(e.message);
+                            return false;
+                        }else{
+                            if(e.error>0){
+                                Widget.MsgBox.error(e.message);
+                                return false;
+                            }else{
+                                if(e.file){
+                                    var input = '<input type="text" name="data[file][]" value="'+e.file.photo+'"/>';
+                                    h.parent().append(input);
+                                    Widget.MsgBox.success('图片上传成功');
+                                }else{
+                                    h.parent().children().eq(0).children().attr('src','/themes/v3/static/img/add_pingjia_pic@2x.png');
+                                    h.parent().children('a').hide();
+                                    Widget.MsgBox.error('图片过大');
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function (e) {
+                },
+                complete:function(){
+                    $(".uploadhint").text("(点击拍照或选择地址图片)");
+                }
+            });
+        }
+    }
+
+</script>
+<script>
+    var addr_id;
+    $('.del_btn').on('click',function(){
+        addr_id = $(this).attr('data-id');
+        Widget.MsgBox.confirm('确认删除地址吗？',function(a){
+            if(a){
+                var url = '<{link ctl="ucenter/addr:del" arg0="#addr_id#" http="waimai"}>'.replace("#addr_id#",addr_id);
+                $.post( url,{},function (e) {
+                    if(e.error>0){
+                        Widget.MsgBox.error(e.message)
+                    }else {
+                        if(e.data){
+                            Widget.MsgBox.success('删除成功！')
+                            setTimeout('go_forward()',2000)
+                        }else {
+                            Widget.MsgBox.error('删除失败！')
+                        }
+                    }
+                },'json');
+            }
+
+        })
+    })
+
+
+    function go_forward() {
+        window.location.href = '<{link ctl="ucenter/addr" http="waimai"}>';
+
+    }
+    $("#addr_map").click(function(){
+        var addr_id = '<{$addr.addr_id}>';
+        var link = "<{link ctl='ucenter/addr:add_map' arg0='#addr_id#' http='waimai'}>".replace('#addr_id#',addr_id);
+        var back_url = '<{link ctl="ucenter/addr:edit" arg0="#addr_id#" http='waimai'}>'.replace('#addr_id#',addr_id);
+        localStorage.setItem('back_addr',JSON.stringify({"backurl":back_url}));
+        window.location.href=link;
+    })
+    $(".save_btn").on('click',function () {
+        var parsam= {
+            contact:$('#nickname').val(),
+            mobile:$('#mobile').val(),
+            house:$('#house').val(),
+            addr:$('#addr').val(),
+            type:$('#type').val(),
+            lng:$('#lng').val(),
+            lat:$('#lat').val(),
+            photo:$("input[name='data[file][]']").val()
+        }
+        if(!parsam.photo)
+            parsam.photo = "";
+        var url = '<{link ctl="ucenter/addr:edit" arg0="#addr_id#" http='waimai'}>'.replace('#addr_id#','<{$addr.addr_id}>');
+        $.post(url,parsam,function (e) {
+            if(e.error>0){
+                Widget.MsgBox.error(e.message)
+            } else{
+                //用完删除localStorage的数据
+                localStorage.removeItem('type_addr');
+                localStorage.removeItem('back_addr');
+                localStorage.removeItem('addr_nickname');
+                localStorage.removeItem('addr_mobile');
+                localStorage.removeItem('addr_house');
+                Widget.MsgBox.success('修改成功');
+                setTimeout('go_forward()',2000);
+
+            }
+
+        },'json')
+    })
+
+    //存储信息结束
+</script>
+<{include file="waimai/block/footer.html"}>

@@ -1,0 +1,134 @@
+<{include file="cloud/block/header.html"}>
+<div class="page page-current"> 
+    <!--头部-->
+    <header class="bar bar-nav">
+        <a class="pull-left headerIco back headerIco2" href="<{link ctl='cloud/ucenter/index'}>"></a>
+        <h1 class="title">夺宝记录</h1>
+    </header>
+    <!--头部结束-->
+    <div class="content duobao-records infinite-scroll infinite-scroll-bottom"> 
+        <div class="saixuan_pull_box fixed-tab" data-offset="44">
+            <div class="buttons-tab">
+                <a href="#" rel="-1" onclick="setloadparams('status',-1);" class="tab-link active button button_-1">全部</a>
+                <a href="#" rel="0" onclick="setloadparams('status',0);" class="tab-link button button_0">进行中</a>
+                <a href="#" rel="1" onclick="setloadparams('status',1);" class="tab-link button button_1">已揭晓</a>
+                <a href="#" rel="2" onclick="setloadparams('status',2);" class="tab-link button button_2">待支付</a>
+            </div>
+        </div>
+        
+        
+        <div class="tabs mt10">
+            <div id="index_goods_items" class="tab active">
+
+            </div>
+            <div class="infinite-scroll-preloader txt_center black9 mt10 mb10" style=" font-size:0.75rem;">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var _lock = false;
+    var status = localStorage.getItem('status') || -1;
+    var params = {status:status};
+    var page = 1;
+    var link = "<{link ctl='cloud/ucenter/order:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k, v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".infinite-scroll-preloader").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".infinite-scroll-preloader").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });
+    }
+
+    $(document).on('click','.buttons-tab a',function(){
+        $(".buttons-tab").find("a").removeClass("active");
+        $(this).addClass("active");
+        localStorage.setItem('status',$(this).attr('rel'));
+    })
+
+    $(document).ready(function(){//
+        var status = localStorage.getItem('status');
+        $(".button").removeClass("active");
+        $(".button_"+status).addClass("active");
+    })
+
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        if (_lock) {
+            return false;
+        }
+        _lock = false;
+        page++;
+        loaddata();
+        _lock = true;
+    });
+</script>
+<script>
+    function app_pay(attr_id,num,use_coin,order_id){
+        var this_url = "<{link ctl='cloud/ucenter/order/detail' args=oooo}>";
+        var back_url = "<{link ctl='cloud/index/detail' args=oooo}>";
+        if(use_coin>0){
+            var str = "已抵扣"+use_coin;
+        }else{
+            var str = "";
+        }
+        var need_pay = num - use_coin;
+        var to_array = {"num":num,"notice":str+"","need_pay":need_pay+"","this_url":this_url.replace("oooo",order_id),"order_id":order_id+"","back_url":back_url.replace("oooo",attr_id)};
+        IJH.app_go_pay(to_array);
+    }
+    
+    $(document).off("click",".cancel_btn").on("click",".cancel_btn",function(){
+        var order_id = $(this).attr('rel');
+        var link = "<{link ctl='cloud/ucenter/order/cancel' args=oooo}>";
+        $.confirm('您确定要取消订单吗？',function () {
+            $.post(link.replace('oooo',order_id),{},function(ret){
+                if(ret.error){
+                    $.alert(ret.message);
+                }else{
+                    $.alert(ret.message);
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    },1000)
+                }
+            },'json')
+        });
+    })
+    
+</script>
+
+<{include file="cloud/block/footer.html"}>

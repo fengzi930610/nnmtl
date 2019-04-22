@@ -1,0 +1,80 @@
+<{assign var='tpl_title' value=L("home")}>
+<{include file="block/header.html"}>
+<body>
+<div class="wrapper wrapper-content">
+   	<!--表单-->
+    <div class="tabnr_change show">
+        <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        	<tr>
+                <td><p class="form_table_t">充值类型：</p></td>
+                <td>
+                	<div class="form_table_nr"><label class="mr30"><input type="radio" name="cz" class="check_box" />保证金余额</label></div>
+                </td>
+            </tr>
+        	<tr>
+                <td><p class="form_table_t">充值金额：</p></td>
+                <td>
+                	<div class="form_table_nr">
+                    	<div class="clearfix mb10"><label class="mr30"><input type="radio" name="je" class="check_box" />500</label><label class="mr30"><input type="radio" name="je" class="check_box" />1000</label> <label class="mr30"><input type="radio" name="je" class="check_box" />3000</label> <label class="mr30"><input type="radio" name="je" class="check_box" />5000</label></div>
+                        <div class="clearfix"><label class="mr30"><input type="radio" name="je" class="check_box" />其他金额</label>  <span class=""><input type="text" class="form_table_int form_table_intw2" placeholder="请输入金额" /></span></div>
+                    	
+                    </div>
+                </td>
+            </tr>            
+        </table>
+        <div class="form_table_btn_box text_c">
+        	<a class="btn btn-primary btn-w-m" href="#">立即充值</a>
+        </div>
+    </div>
+    <!--表单end-->
+</div>
+<!--扫码弹层-开始-->
+<!-- <style type="text/css">
+.sCode{padding: 30px;}
+.sCode .tab{overflow: hidden;}
+.sCode .tab a{display:block; float: left; width: 50%; font-size: 16px; line-height: 20px; padding: 10px 0; text-align: center; color: #666; position: relative;}
+.sCode .tab a.on{color: #1ab394;}
+.sCode .tab a.on:after{content: ''; width: 100%; height: 3px; background: #1ab394; position: absolute; left: 0; bottom: 0;}
+.sCode .code .img{ text-align: center; padding: 20px;}
+.sCode .code .img img{width: 200px; height: 200px;}
+</style>
+<div class="mask_cont sCode_mask" style="display: block;">
+    <div class="mask_cont_tit">扫码关注 <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont sCode">
+        <div class="tab">
+            <a href="javascript:;" class="on">1</a>
+            <a href="javascript:;">2</a>
+        </div>
+        <div class="code">
+            <div class="img"><img src=""></div>
+            <div class="img" style="display: none;"><img src=""></div>
+        </div>
+    </div>
+</div>
+<div class="mask_bg" style="display: block;"></div>
+<script>
+$(document).ready(function() {
+    var evlt_h = $('.sCode_mask').height();
+    var evlt_w = $('.sCode_mask').width();
+    $('.sCode_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+    $('.sCode_mask').css("margin-left",-evlt_w/2 + 'px');
+    
+    $(".tab_btn_refuse").click(function(){
+        $('.sCode_mask').fadeIn(100);
+        $('.mask_bg').fadeIn(100);
+    });
+    
+    $(".sCode_mask .cancel,.sCode_mask .close,.mask_bg").click(function(){
+        $('.sCode_mask').fadeOut(100);
+        $('.mask_bg').fadeOut(100);
+    });
+
+    $(".sCode .tab a").click(function(){
+        $(this).addClass("on").siblings().removeClass("on");
+        var index = $(this).index();
+        $(".sCode .code .img").eq(index).show().siblings().hide();
+    });
+});
+</script> -->
+<!--扫码弹层-结束-->
+<{include file="block/footer.html"}>

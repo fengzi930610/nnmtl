@@ -1,0 +1,73 @@
+<{assign var='tpl_title' value='投诉反馈'}>
+<{include file="block/header.html"}>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter/order/detail' arg1=$order_id }>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	投诉反馈
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<section class="page_center_box">
+<div class="minePay">
+    <ul class="form_list_box mt10">
+        <li class="recharge recharges">
+            <label class="radioLabel">
+                <p class="fl" id='one'>商家已接单，但没送达</p>
+                <span class="fr radioInt on"></span>
+            </label> 
+        </li>
+        <li class="recharge recharges">
+            <label class="radioLabel">
+                <p class="fl">商家参加了活动，但没给优惠</p>
+                <span class="fr radioInt"></span>
+            </label> 
+        </li>
+        <li class="recharge recharges">
+            <label class="radioLabel">
+                <p class="fl">投诉其他</p>
+                <span class="fr radioInt"></span>
+            </label> 
+        </li>
+        <li class="recharge last">
+            <div class="int_box_border" style="border:none 0; padding:0;"><textarea name='content' id="content" placeholder="说说您对本店的看法，长度在5-255字符之间"></textarea></div>
+        </li>
+        <input type='hidden' name='title' id='title' value='' >
+        <input type='hidden' name='order_id' id='order_id' value='<{$order_id}>'>
+    </ul>
+    
+</div>
+<div class="long_btn_box"><input type="button" class="long_btn" value="提交" /></div>
+</section>
+    <script>
+        
+        $(document).ready(function(){
+            $('#title').val($('#one').text());
+            $('.recharges').click(function(){
+                $('.radioInt').removeClass('on');
+                $(this).find('.radioInt').addClass('on');
+                $('#title').val($(this).find('.fl').text());
+            })
+
+            $('.long_btn').click(function(){
+                var order_id = '<{$order_id}>';
+                var title = $('#title').val();
+                var content = $('#content').val();
+                var link="<{link ctl='ucenter/order/complaint_handle' args=oooo}>";
+                var link2 ="<{link ctl='ucenter/order/detail' args=oooo}>";
+                $.post(link.replace('oooo', order_id),{title:title,content:content}, function (ret) {
+                    if (ret.error != 0) {
+                        layer.open({content: ret.message,time: 2});
+                    } else{
+                        layer.open({content: ret.message,time: 2});
+                        setTimeout(function(){
+                          window.location.href=link2.replace('oooo', order_id);  
+                        },2000);
+                    }
+                },'json')
+            })
+
+        })
+        
+    </script>
+</body>
+</html>

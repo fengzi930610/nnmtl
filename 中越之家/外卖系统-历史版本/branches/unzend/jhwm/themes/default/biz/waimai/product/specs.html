@@ -1,0 +1,121 @@
+<{include file="biz/block/header.html"}>
+<style>
+.ke-upload-area {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.ke-inline-block {
+    display: -moz-inline-stack;
+    display: inline-block;
+    zoom: 1;
+    vertical-align:bottom;
+}
+.ucenter_c table input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    z-index: 811212;
+    border: 0 none;
+    width:100%;
+}
+</style>
+<div class="zxTabs">
+	<ul>
+            <a href="<{link ctl='biz/waimai/product:specs' args=<{$product_id}>}>" class="on">外卖商品规格</a>
+	</ul>
+	<span class="r"><a href="javascript:void(0);"  class="btn btn-success jq_add">+新增一行</a></span>
+</div>
+
+<div class="ucenter_c">
+    <form id="post_form" action="<{link ctl='biz/waimai/product:specs' args=<{$product_id}>}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="table">
+            <tr>
+                <th class="w-50">编号</th>
+                <th class="w-50">名称</th>
+                <th class="w-50">价格</th>
+                <th class="w-50">打包费</th>
+                <th class="w-50">库存</th>
+                <th class="w-150">图片</th>
+                <th class="w-50">操作</th>
+            </tr>
+            <{foreach $items as $item}>
+            <tr class="jq_tr">
+                <td><{$item.spec_id}></td>
+                <td><input type="text" class="input w-100" name="data1[<{$item.spec_id}>][spec_name]" value="<{$item.spec_name}>"/></td>
+                <td><input type="text" class="input w-60" name="data1[<{$item.spec_id}>][price]" value="<{$item.price}>" /></td>
+                <td><input type="text" class="input w-60" name="data1[<{$item.spec_id}>][package_price]" value="<{$item.package_price}>" /></td>
+                <td><input type="text" class="input w-60" name="data1[<{$item.spec_id}>][sale_sku]" value="<{$item.sale_sku}>" /></td>
+                <td>
+                    <input type="text" name="data1[<{$item.spec_id}>][spec_photo]" class="input w-100" id="file_photo_<{$item.spec_id}>" value="<{$item.spec_photo}>" <{if $item.spec_photo}>photo="<{$pager.img}>/<{$item.spec_photo}>"<{/if}> />
+                    <input type="button" uploadbtn="#file_photo_<{$item.spec_id}>" class="ke-upload_lay" value=" 选择文件 " />
+                    <a preview="#file_photo_<{$item.spec_id}>" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a>
+                </td>
+                <td><a href="<{link ctl='biz/waimai/product:specs_del' arg0=$item.spec_id arg1=<{$product_id}>}>" mini-act="remove:spec_<{$item.spec_id}>" mini-confirm="确认要删除吗？" class="btn btn-warning">删除</a></td>
+            </tr>  
+            
+            <{foreachelse}>
+            <tr class="nodata"><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+            <{/foreach}>
+        </table>
+        <div><div class="jq_bottom"><input type="submit" class="btn btn-success jq_save" value="保存数据"/></div></div>
+    </form>
+</div>
+<script type="text/javascript">
+function init_uploadbtn(KE){
+    $("[uploadbtn]:visible").each(function(){
+         var upload_url = $(this).attr("uploadbtn");
+         var uploadbutton = KE.uploadbutton({
+            button : $(this)[0],
+            fieldName : 'imgFile',
+            url : '<{link ctl="biz/upload:photo" http="ajax"}>',
+            afterUpload : function(data) {
+                if (data.error === 0) {
+                    var photo = data.photo;
+                    KE(upload_url).val(photo);
+                    KE(upload_url).attr("photo", "<{$pager.img}>/"+photo);
+                    Widget.MsgBox.success('上传图片成功');
+                } else {
+                    alert(data.message);
+                }
+            },
+            afterError : function(str) {
+                alert(str);
+            }
+        });
+        uploadbutton.fileBox.change(function(e) {
+            uploadbutton.submit();
+        });           
+    });
+    $(".ke-upload_lay .ke-button").removeClass().addClass("btn btn-success btn-sm");
+    $(".ke-upload_lay .ke-button-common").removeClass("ke-button-common");
+}
+(function(K, $){
+$(document).ready(function(){
+    $(".jq_add").click(function(){
+        var guid = K.GGUID();
+        var html = '<tr class="jq_tr">';
+        html+='<td>New</td>';
+        html+='<td><input type="text" class="input w-100" name="data2['+guid+'][spec_name]" value="" /></td>';
+        html+='<td><input type="text" class="input w-60" name="data2['+guid+'][price]" value="" /></td>';
+        html+='<td><input type="text" class="input w-60" name="data2['+guid+'][package_price]" value="" /></td>';
+        html+='<td><input type="text" class="input w-60" name="data2['+guid+'][sale_sku]" value="" /></td>';
+        html+='<td><input type="text" name="data2['+guid+'][spec_photo]" class="input w-100" id="file_photo_'+guid+'" value=""/><input type="button" uploadbtn="#file_photo_'+guid+'" class="ke-upload_lay" value=" 选择文件 " /> <a preview="#file_photo_'+guid+'" class="btn btn-default" style="color:#333;"><span class="bs-glyphicons glyphicon glyphicon-th" aria-hidden="true"></span>预览</a></td>';
+        html+='<td><a href="javascript:void(0);" class="btn btn-warning jq_delete">移除</a></td></tr>';
+        $(".table").append(html);
+        $(".nodata").html("");
+        init_uploadbtn(KindEditor)
+    })
+    $(".table").on('click','.jq_delete', function () {
+        $(this).parent().parent().remove();
+    })
+})  
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

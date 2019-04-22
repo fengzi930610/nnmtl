@@ -1,0 +1,106 @@
+<{include file="cloud/block/header.html"}>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco back headerIco2"></a>
+            <a class="pull-right search-submit">搜索</a>
+            <div class="searchbar">
+                <a class="searchbar-cancel ico ico1"></a>
+                <div class="search-input">
+                  <label class="icon ico ico2" for="search"></label>
+                  <input type="search" id='search' placeholder='搜索云购商品'/>
+                </div>
+            </div>
+        </header>
+		<!--头部结束-->
+        <div class="content">
+        	<!--商品搜索-->
+            <div class="serchTab_box mt10">
+            	<div class="buttons-tab">
+                    <a href="#tab1" class="tab-link active button">最近搜索</a>
+                    <a href="#tab2" class="tab-link button">热门搜索</a>
+                </div>
+            </div>
+            
+            <div class="">
+                <div class="tabs">
+                  <div id="tab1" class="tab active">
+                    <div class="serchCont_box">
+                    	<ul class='lishi'>
+                    	    
+                	    </ul>
+                    </div>
+                  </div>
+                  <div id="tab2" class="tab">
+                    <div class="serchCont_box">
+                    	<ul id=''>
+                    	    <{foreach $hotsearch as $v}>
+                            <li class="list"><a href="<{link ctl='cloud/index/items' kw=$v}>"><{$v}></a></li>
+                            <{/foreach}>
+                	    </ul>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <!--商品搜索结束-->
+        </div>
+    </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    // 读取历史搜索记录
+    var li = '';
+    if(localStorage['search_history']) {
+        var str = localStorage['search_history'];
+        var strs = new Array();
+        var strs = str.split(",");  
+        strs = Unique(strs); //去重复元素
+        for (var i = strs.length - 1; i >= strs.length - 5; i--) {
+            if(strs[i] != undefined) {
+                var link = "/cloud/index/items.html?kw="+encodeURIComponent(strs[i]);
+                li += '<li class="list"> <a href="'+link+'">'+strs[i]+'</a> </li>';
+            }
+        }
+        $('.lishi').html(li);
+    }
+    
+    // 搜索事件
+    $(document).off('click', '.search-submit').on('click', '.search-submit', function() {
+        var search_title = $('#search').val();
+        if(search_title == "") {
+            $.alert('请输入商品名称'); return false;
+        }else {
+            if(localStorage['search_history']) {
+                localStorage['search_history'] = localStorage['search_history'] + ',' +search_title;
+            }else {
+                localStorage['search_history'] = search_title;
+            }
+        }
+        var link = "<{link ctl='cloud/index:items' kw='tmp'}>";
+        $.router.load(link.replace('tmp',search_title), true);
+    });
+
+    // 清空输入
+    $(document).off('click', '.searchbar-cancel').on('click', '.searchbar-cancel', function() {
+        $('#search-title1').val('');
+    });
+
+    // 清空搜索记录
+    $(document).off('click', '.clear').on('click', '.clear', function() {
+        $('#search').val('');
+        localStorage.removeItem('search_history');
+        if(localStorage['search_history'] == undefined) {
+            $('.lishi').empty().html('');
+        }
+    });
+});
+
+$(document).off('click', '#goback').on('click', '#goback', function() {
+    if(localStorage['search_back']) {
+        var backurl = localStorage['search_back'];
+        localStorage.removeItem('search_back');
+        $.router.load(backurl, true); 
+    }
+}) 
+
+</script>
+<{include file="cloud/block/footer.html"}>

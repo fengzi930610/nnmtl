@@ -1,0 +1,58 @@
+<{assign var='tpl_title' value='优惠券-团购券'}>
+<!DOCTYPE HTML>
+<html>
+<head>
+<{include file="block/sheader.html"}>
+</head>
+
+<body>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        优惠券-团购券
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<div class="changeTab_box">
+    <div class="changeTab"><a href="<{link ctl='ucenter/coupon:index' arg1='tuan'}>" class="link<{if $type == 'tuan'}> on<{/if}>">团购券</a><a href="<{link ctl='ucenter/coupon:index' arg1='quan'}>" class="link<{if $type == 'quan'}> on<{/if}>">代金券</a></div>
+</div>
+<section class="page_center_box">
+    <div class="coupons_list_box">
+        <ul>
+            <{foreach $items as $k => $v}>
+            <li class="coupons_list" >
+                <a href="javascript:todetail(<{$v.ticket_id}>)">
+                    <div class="tag">
+                        <{if $v.status == 0 && $v.ltime>$v.curr_time}><img src="/themes/default/static/images/cupIco1.png"><{/if}>
+                        <{if $v.status == 1 && $v.use_time}><img src="/themes/default/static/images/cupIco2.png"><{/if}>
+                        <{if $v.status == -1}><img src="/themes/default/static/images/cupIco3.png"><{/if}>
+                        <{if $v.status == 0 && $v.ltime<$v.curr_time}><img src="/themes/default/static/images/cupIco4.png"><{/if}>
+                    </div>
+                    <h3><{$v.shop.title}></h3>
+                    <div class="box">
+                        <img src="<{$v.qrcode}>">
+                        <div class="top">
+                            <p class="price fontcl1 fl"><small>￥</small><{$v.detail.price}><span style="color:#999;">&nbsp;&nbsp;×<{$v.tuan_number}></span></p>
+                            <p class="fr">密码：<{$v.number}></p>
+                        </div>
+                        <div class="bottom"
+                        <{if $v.status == 0 && $v.ltime>$v.curr_time}><{/if}>
+                        <{if $v.status == 1 && $v.use_time}>style="background: #CCCCCC"<{/if}>
+                        <{if $v.status == -1}>style="background:#CCCCCC"<{/if}>
+                        <{if $v.status == 0 && $v.ltime<$v.curr_time}>style="background:#CCCCCC"<{/if}>
+                        >有效期至：&nbsp;&nbsp;<{$v.ltime|format:'Y-m-d'}></div>
+                    </div>
+                 </a>
+            </li>
+            <{/foreach}>
+        </ul>
+    </div>
+</section>
+<script>
+function todetail(ticket_id) {
+    var link = "<{link ctl='ucenter/coupon:detail' args='temp'}>";
+    localStorage['coupon_detail'] = window.location.href;
+    window.location.href = link.replace('temp',ticket_id);
+}
+</script>
+<{include file="block/footer.html"}>

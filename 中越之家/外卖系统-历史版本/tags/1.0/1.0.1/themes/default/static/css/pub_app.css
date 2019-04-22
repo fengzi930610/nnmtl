@@ -1,0 +1,151 @@
+@charset "utf-8";
+/* CSS Document */
+html{height:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-font-smoothing:antialiased;width: 100%;height: 100%;    overflow: hidden;}
+body{margin:0;padding:0;min-height:100%; height:100%; overflow:hidden;font-family:"MICROSOFT YAHEI"; font-size: 0.12rem; color:#333; background: #f7f7f7;}  
+h1,h2,h3,h4,h5,h6,p,figure,form{margin:0;}  
+table{border-collapse:collapse;border-spacing:0;}  
+img{border:0;vertical-align:middle;-ms-interpolation-mode: bicubic;}  
+a{text-decoration:none;color:#333;-webkit-tap-highlight-color:rgba(0,0,0,0);}  
+a:focus{outline:none;-moz-outline:none;}  
+a:visited{outline:none;-moz-outline:none;}  
+ul,li,ol,dl,dt,dd{margin: 0;padding:0;list-style: none outside none;}
+table,tr,th,td,input{margin: 0;padding:0; border-collapse: collapse; border-spacing: 0;}
+h1,h2,h3,h4{ font-weight:normal;}
+table{ width:100%;}
+ol li{list-style:none;}  
+em{font-style:normal;}
+img{ border:0; border:none;}
+ul.inline-style li{float:left;display:inline;}
+button,input,select,textarea{font-size:0.875em;margin: 0;outline: 0 none;vertical-align: baseline;*vertical-align: middle;font-family:"MICROSOFT YAHEI";-webkit-tap-highlight-color:rgba(0,0,0,0); border:0.01rem solid #dedede;height:0.4rem;  line-height:0.4rem;}  
+textarea{overflow: auto;vertical-align: top;resize:none;}  
+button,input{line-height: normal;}  
+button,  
+html input[type="button"],   
+input[type="reset"],  
+input[type="submit"]{-webkit-appearance: none;cursor: pointer;*overflow: visible;}  
+button[disabled],
+input[disabled],
+input[type="checkbox"],
+input[type="radio"]{box-sizing: border-box;padding: 0;*height: 0.13rem;*width: 0.13rem;} 
+button::-moz-focus-inner,  
+input::-moz-focus-inner{border: 0;padding: 0;}
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary{display: block;}  
+audio,canvas,video{display: inline-block;*display: inline;*zoom: 1;}  
+audio:not([controls]){display: none;height: 0;}  
+input[type="search"]{-webkit-appearance: textfield;-moz-box-sizing: content-box;-webkit-box-sizing: content-box;box-sizing: content-box; box-sizing: border-box;}  
+input:-moz-placeholder{color: #999;}  
+input::-webkit-input-placeholder{color:#999;}
+input{ outline:none;}
+.none{ display:none;}
+.overflow_clear{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}/*css溢出省略*/
+.fl{float:left;}
+.fr{float:right;}
+.clear{clear:both; font-size: 0; height: 0; line-height: 0;}
+.clear_both:after{content: "."; display: block; height: 0; clear: both; visibility: hidden; font-size: 0;}
+/*以上为通用样式结束*/
+
+/*最大宽度*/
+.max_w{ max-width:6.4rem; width:100%; margin:0 auto;}
+
+/*margin值*/
+.mar10{margin:0.1rem;}
+.mt10{margin-top:0.10rem;}
+.mb10{margin-bottom:0.10rem;}
+.mr10{margin-right:0.10rem;}
+.ml10{margin-left:0.10rem;}
+.mt5{margin-top:0.05rem;}
+.mb5{margin-bottom:0.05rem;}
+.mr5{margin-right:0.05rem;}
+.ml5{margin-left:0.05rem;}
+
+/*padding值*/
+.pad10{padding:0.1rem;}
+.pad_t10{padding-top:0.1rem;}
+.pad_b10{padding-bottom:0.1rem;}
+.pad_l10{padding-left:0.1rem;}
+.pad_r10{padding-right:0.1rem;}
+
+/*border边框*/
+.border{border:0.01rem solid #e5e5e5;}
+.border_t{border-top:0.01rem solid #e5e5e5;}
+.border_b{border-bottom:0.01rem solid #e5e5e5;}
+.border_l{border-left:0.01rem solid #e5e5e5;}
+.border_r{border-right:0.01rem solid #e5e5e5;}
+
+/*背景色*/
+.bgcolor_white{ background:#fff none;}
+
+/*字体大小*/
+.font_size14{ font-size:0.14rem;}
+
+/*字体行高*/
+.font_line24{ line-height:0.24rem;}
+
+/*字体颜色*/
+.maincl{ color:#59c181;}
+.fontcl1{ color:#ff6600;}
+.fontcl_green{ color:#36be49;}
+.fontcl_blue{ color:#1d89f5;}
+.pointcl1{ color:#ff2121;}
+.black9{ color:#999;}
+.black6{color:#666666;}
+.black3{color:#333333;}
+.black{color:#000000;}
+
+/*内容居中*/
+.txt_center{ text-align:center;}
+.txt_right{ text-align:right;}
+
+/*icon UI图标*/
+.ico{display:inline-block; font-size:0; vertical-align:middle; background-repeat:no-repeat; background-position:center top; background-size:100% auto; background-origin:content-box;}
+
+/*button部分*/
+.btn_box{ padding:0.1rem; position:relative;}
+.pub_btn{ display:inline-block;opacity:1;cursor:pointer; text-align:center; color:#fff; border-radius:0.03rem; outline:none;-webkit-appearance: none; border:none; background-color:#59c181; height:0.3rem;  line-height:0.3rem; font-size:0.14rem;}
+.pub_btn.bgcl1{ background:#ff6600;}
+.pub_btn.graybg{ background-color:#cccccc;}
+.pub_btn.redbg{ background-color:#fc5151;}
+.pub_btn.xk{ background:#fff none; border:0.01rem solid #ff6600; color:#ff6600;}
+.pub_btn:hover{opacity:0.9;filter:alpha(opacity=90); text-decoration:none;}
+.long_btn{border-radius:0.05rem; height:0.4rem; width:100%; display:inline-block; background:#59c181 none; border:none 0; font-size:0.16rem; color:#fff; text-align:center; line-height:0.4rem;}
+.long_btn.xk{background-color:#fff; border:0.01rem solid #59c181; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; color:#59c181;}
+.long_btn.bgcolor1{ background-color:#ff6600;}
+.long_btn.bggray{ background-color:#cccccc;}
+
+/*点评星星样式*/
+.starBg{ display:inline-block; width:0.84rem; height:0.13rem; line-height:0; font-size:0; vertical-align:middle; background:url(../images/starIco.png) no-repeat left bottom; background-size:0.84rem 0.26rem; position:relative;}
+.star{display:inline-block; height:0.13rem; font-size:0; line-height:0; vertical-align:middle; background:url(../images/starIco.png) no-repeat left top; background-size:0.84rem 0.26rem;}
+.star_clink{position: absolute; top: 0; left: 0; z-index: 2; display: inline-block; width: 100%; height: 0.13rem; overflow: hidden;}
+.star_clink a{display: inline-block; width: 20%; height: 0.13rem; vertical-align: top; padding:0;margin:0;}
+
+/*查看更多*/
+.see_more_long{ display:block; line-height:0.4rem; text-align:center; font-size:0.14rem;}
+
+/*共输入框*/
+.pub_textarea_box{ background:#f5f5f5; padding:0.1rem;}
+.pub_textarea{ width:100%; border:none 0; height:0.8rem; background:#f5f5f5; font-size:0.14rem; line-height:0.22rem; padding:0; margin:0;}
+
+/*不同屏幕下内容显示比例*/
+@media (max-width:240px){
+    html { font-size: 75px;}
+}
+@media screen and (min-width: 240px) and (max-width: 319px){
+    html{font-size:75px;}
+}
+@media screen and (min-width: 320px) and (max-width: 479px){
+    html{font-size:100px;}
+}
+@media screen and (min-width: 480px) and (max-width: 639px){
+    html{font-size:150px;}
+}
+@media screen and (min-width: 640px) and (max-width: 719px){
+    html{font-size:200px;}
+}
+@media screen and (min-width: 720px) and (max-width:967px){
+    html{font-size:225px;}
+}
+@media (min-width:721px) {
+    html { font-size: 100px;}
+}
+
+

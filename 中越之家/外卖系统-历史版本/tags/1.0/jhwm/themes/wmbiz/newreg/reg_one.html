@@ -1,0 +1,631 @@
+<{assign var='tpl_title' value=L("店铺信息")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    .loginTop .logo img{ width:60px; height:60px;}
+</style>
+<div class="loginTop">
+    <div class="smallpage">
+        <div class="logo fl"><{if $site.logo_shop}><img src="<{$pager.img}>/<{$site.logo_shop}>"><{else}><img src="%THEME%/static/images/logo.png"><{/if}><span><{$site.title}>外卖商家后台</span></div>
+        <div class="tit fl">客服电话：<{$site.phone}></div>
+        <div class="fr login_user">
+            <span class="img"><img width="36" height="36" src="<{if $shop.logo}><{$pager.img}>/<{$shop.logo}><{/if}>"></span>
+            <a href="<{link ctl='index'}>"><{$shop.mobile}></a>
+            &nbsp;&nbsp;<a class="black3"  href="<{link ctl='login/loginout'}>">退出登录</a>
+        </div>
+    </div>
+</div>
+<!--百度&#45;&#45;begin-->
+<!--<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=824a595f958e444b737a5bc6325ad44f"></script>-->
+<script src="//webapi.amap.com/maps?v=1.4.2&key=<{$jh_map_key}>"></script>
+<!--百度&#45;&#45;end-->
+<div class="bg_grey" style="padding:10px 0;">
+    <div class="smallpage">
+        <div class="enterProcess_state">
+            <ul>
+                <li class="on">
+                    <span class="num">1</span>
+                    <P>店铺信息</P>
+                </li>
+                <li>
+                    <span class="num">2</span>
+                    <P>资质信息</P>
+                </li>
+                <li>
+                    <span class="num">3</span>
+                    <P>配送信息</P>
+                </li>
+                <li>
+                    <span class="num">4</span>
+                    <P>结算信息</P>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="enterPromt">
+            <h2 class="big_tit">店铺基本信息填写</h2>
+            <div class="enterForm">
+                <form method="post" id="bizform">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>店铺名称：</td>
+                            <td>
+                                <input type="text" name="data[title]" id="title" class="form-control form_table_int form_table_intw1 fl" placeholder="请输入店铺名称" value="<{$waimai.title}>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>联系人：</td>
+                            <td>
+                                <input type="text" name="data[contact]" value="<{$waimai.contact}>" id="contact" class="form-control form_table_int form_table_intw1 fl" placeholder="请输入联系人姓名">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>手机号码：</td>
+                            <td>
+                                <input type="text" name="data[phone]" id="phone" value="<{$waimai.phone}>"   class="form-control form_table_int form_table_intw1 fl" placeholder="请输入联系人手机号">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>店铺分类：</td>
+                            <td>
+                                <!-- <select class="form_table_int form_table_intw1 fl" id="cate" name="data[cate_id]">
+                                    <{widget id="waimai/cate" value=$waimai.cate_id type="option"}>
+                                </select> -->
+                                <select class="form_table_int form_table_intw1 fl" id="cate" name="data[cate_id]">
+                                    <{foreach $cate as $k=>$v}>
+                                    <option value="<{$v.cate_id}>"><{$v.title}></option>
+                                    <{/foreach}>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>店铺区域：</td>
+                            <td>
+                                <select class="form_table_int form_table_intw2 fl mr10" id="city" name="data[city_id]">
+                                    <{foreach $all_city as $city}>
+                                    <option value="<{$city.city_id}>"><{$city.city_name}></option>
+                                    <{/foreach}>
+                                </select>
+                                <select class="form_table_int form_table_intw2 fl mr10" id="area" name="data[area_id]">
+
+                                </select>
+                               <!-- <select class="form_table_int form_table_intw2 fl mr10" id="business" name="data[bunsiness_id]">
+
+                                </select>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>详细地址：</td>
+                            <td>
+                                <div class="map_int"><input type="text" name="data[addr]" value="<{$waimai.addr}>"  class="form-control form_table_int form_table_intw1 fl" placeholder="请输入详细地址" id="Baidu_Map_SO_Key"><a id="Baidu_Map_SO_Btn"  href="javascript:;" class="btn"></a></div>
+                                <div class="map" id="Baidu_Map_Marker" style="width: 500px;height: 400px"></div>
+                                <input name="data[lng]" type="hidden" id="da_lng" value="<{$shop.lng}>"/>
+                                <input name="data[lat]" type="hidden" id="da_lat" value="<{$shop.lat}>"/>
+                                <span id="notice"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>店铺logo：</td>
+                            <td>
+                                <div class="img_box fl">
+                                    <div class="img"><img class="jq_img" yulan="logo" src="<{$pager.img}>/<{$shop.logo}>" width="148" height="148">
+                                    <P>信息资料图</p>
+                                    </div>
+                                    <a href="javascript:;" class="del pointcl" logo="del" style="display: none">删除</a>
+                                </div>
+                                <div class="clear"></div>
+                                <div>
+                                    <input type="hidden" name="data[logo]" val="logo" value="<{$shop.logo}>" class="_jq_img"/>
+                                    <a href="javascript:;" class="btn btn-w-m btn-primary fl"><input type="file" upload="logo" name="logo" value="上传图片" class="scimg_int" id="jq_img">上传图片</a>
+                                    <span class="ml10 fl black6">该标志将会被展示给点餐的顾客</span><span class="ml10 fl pointcl">(限JPG、PNG、图片清晰，单张图片小于90 KB。)</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>门头图：</td>
+                            <td>
+                                <div class="img_box fl">
+                                    <div class="img"><img class="jq_img2" yulan="banner" rel="" src="<{$pager.img}>/<{$waimai.banner|default:'default/shop_logo.png'}>" width="148" height="148"><P>信息资料图</p></div>
+                                </div>
+                                <div class="clear"></div>
+                                <div>
+                                    <input type="hidden" name="data[banner]" val="banner" value="<{$waimai.banner}>" class="_jq_img2"/>
+                                    <a href="javascript:;" class="btn btn-w-m btn-primary fl"><input type="file" upload="banner" name="banner" value="上传图片" class="scimg_int" id="jq_img2">上传图片</a><span class="ml10 fl black6">上传所选门店的门头图，尽可能如实</span><span class="ml10 fl pointcl">(限JPG、PNG、图片清晰，单张图片小于90 KB。)</span></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="bt" width="100"><span class="pointcl">*</span>环境图：</td>
+                            <td>
+                                <div id="envlist">
+                                    <{foreach $env as $v}> 
+                                        <div class="img_box fl mr10">
+                                            <div class="img">
+                                                <img src="<{$pager.img}>/<{$v.photo}>" width="148" height="148">
+                                                <input type="hidden" name="data[env][]" value="<{$v.photo}>"/>
+                                                <P>信息资料图</p>
+                                            </div>
+                                            <a href="javascript:;" class="del pointcl del2">删除</a>
+                                        </div>
+                                    <{/foreach}>
+                                    <div class="clear"></div>
+                                </div>
+                                <div><a href="javascript:;" class="btn btn-w-m btn-primary fl"><input class="imgUpload  env2" name="huanjing" type="file" rel="env" upload="huanjing" value="上传图片">上传图片</a><span class="ml10 fl black6">上传所选门店的环境图，尽可能如实</span><span class="ml10 fl pointcl">(限JPG、PNG、图片清晰，单张图片小于90 KB。)</span></div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="form_table_btn_box text_c">
+                <a class="btn btn-default btn-w-m" href="<{link ctl='login/signup'}>">上一步</a>
+                <{if $verify.verify ==5||$verify.verify==1}><a class="btn btn-primary btn-w-m" href="<{link ctl='newreg/two'}>">下一步</a><{else}><a class="btn btn-primary btn-w-m" href="javascript:;" id="nextsubmit">提交并进入下一步</a><{/if}>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".enterForm table tr td .img_box .img img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+});
+</script>
+<script>
+    var map_server_key = "<{$jh_server_key}>"
+    function GGUID(){
+        var guid = '';
+        for (var i = 1; i <= 32; i++) {
+            var n = Math.floor(Math.random() * 16.0).toString(16);
+            guid += n;
+        }
+        return "KT"+guid.toUpperCase();
+    }
+    function geocoder(lng, lat, callback){
+        callback = callback || function(ret){};
+        var callfun = GGUID();
+        window[callfun] = function(ret){callback(ret);}
+
+
+        // 修改百度根据坐标返回为更具高德返回坐标系
+        $.getScript('https://restapi.amap.com/v3/geocode/regeo?key='+map_server_key+"&radius=20"+"&location="+lng+','+lat+"&output=json"+"&callback="+callfun);
+
+        //$.getScript("http://api.map.baidu.com/geocoder/v2/?ak=824a595f958e444b737a5bc6325ad44f&callback="+callfun+"&location="+lat+","+lng+"&output=json&pois=1");
+
+    }
+    function placeapi(key, city, callback){
+        city = city || localStorage['UxCity'] || Cookie.get("UxCity");
+        callback = callback || function(ret){};
+        var callfun = GGUID();
+        window[callfun] = function(ret){callback(ret);}
+        $.getScript("https://restapi.amap.com/v3/place/text?key="+map_server_key+"&keywords="+key+"&city="+city+"&offset=20&page=1&output=json&callback="+callfun);
+
+        //$.getScript("http://api.map.baidu.com/place/v2/search?ak=824a595f958e444b737a5bc6325ad44f&output=json&callback="+callfun+"&query="+key+"&page_size=10&page_num=0&scope=1&region="+city);
+    }
+    var lng = parseFloat("<{$shop.lng}>");
+    var lat = parseFloat("<{$shop.lat}>");
+    var map;
+    var marker;
+
+    $(function(){
+
+
+
+        if(lng>0&&lat>0){
+            map    = new AMap.Map('Baidu_Map_Marker', {
+                resizeEnable: true,
+                zoom:13,
+                center: [lng, lat]
+            });
+            marker = new AMap.Marker({
+                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [lng, lat],
+                draggable: true,
+                cursor: 'move',
+                raiseOnDrag: true
+            });
+        }else{
+            map    = new AMap.Map('Baidu_Map_Marker', {
+                resizeEnable: true,
+                zoom:13,
+                center: [117.227239, 31.820586]
+            });
+            marker = new AMap.Marker({
+                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [117.227239, 31.820586],
+                draggable: true,
+                cursor: 'move',
+                raiseOnDrag: true
+            });
+
+        }
+        map.on('click', function(e) {
+            marker = new AMap.Marker({
+                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [e.lnglat.getLng(), e.lnglat.getLat()],
+                draggable: true,
+                cursor: 'move',
+                raiseOnDrag: true
+            });
+            $('#da_lng').val(e.lnglat.getLng());
+            $('#da_lat').val(e.lnglat.getLat());
+            geocoder(e.lnglat.getLng(),e.lnglat.getLat(),function(e){
+                if(e.infocode=="10000"&&e.regeocode.formatted_address!=""&&e.regeocode.formatted_address!=undefined){
+
+                    $('#Baidu_Map_SO_Key').val(e.regeocode.formatted_address)
+                }
+            });
+
+
+
+            map.clearMap();
+            marker.setMap(map);
+            marker.on('dragend',function(r){
+                //  $('#notice').text(addr)
+                var lng =  r.lnglat.lng;
+                var lat =   r.lnglat.lat;
+                $('#da_lng').val(lng);
+                $('#da_lat').val(lat);
+                geocoder(lng,lat,function(e){
+                    if(e.infocode=="10000"&&e.regeocode.formatted_address!=""&&e.regeocode.formatted_address!=undefined){
+                        $('#Baidu_Map_SO_Key').val(e.regeocode.formatted_address)
+                    }
+                });
+            })
+
+
+        });
+
+
+
+      //  window.map = map;
+         marker.setMap(map);
+         marker.on('dragend',function(r){
+           //  $('#notice').text(addr)
+             var lng =  r.lnglat.lng;
+             var lat =   r.lnglat.lat;
+             $('#da_lng').val(lng);
+             $('#da_lat').val(lat);
+             geocoder(lng,lat,function(e){
+               if(e.infocode=="10000"&&e.regeocode.formatted_address!=""&&e.regeocode.formatted_address!=undefined){
+                   $('#Baidu_Map_SO_Key').val(e.regeocode.formatted_address)
+               }
+             });
+            })
+
+
+        $('#Baidu_Map_SO_Btn').on('click',function(){
+            var key = $('#Baidu_Map_SO_Key').val();
+            if(!key){
+                layer.msg('请输入有效的搜索地址');
+                return false;
+            }
+            placeapi(key,"",function(e){
+                if(e.infocode=='10000'&&e.pois.length>0){
+                    var loaction = e.pois[0].location;
+                    var json_lo = loaction.split(',');
+                    var lng = json_lo[0];
+                    var lat = json_lo[1];
+                    map.setZoomAndCenter(15, [lng,lat]);
+                    $('#da_lng').val(lng);
+                    $('#da_lat').val(lat);
+
+                    // 在新中心点添加 marker
+                    marker = new AMap.Marker({
+                        icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                        position: [lng, lat],
+                        draggable: true,
+                        cursor: 'move',
+                        raiseOnDrag: true
+                    });
+                    map.clearMap();
+                    marker.setMap(map);
+                    marker.off().on('dragend',function(r){
+                        //  $('#notice').text(addr)
+                        var lng =  r.lnglat.lng;
+                        var lat =   r.lnglat.lat;
+                        $('#da_lng').val(lng);
+                        $('#da_lat').val(lat);
+                        geocoder(lng,lat,function(e){
+                            if(e.infocode=="10000"&&e.regeocode.formatted_address!=""&&e.regeocode.formatted_address!=undefined){
+                                $('#Baidu_Map_SO_Key').val(e.regeocode.formatted_address)
+                            }
+                        });
+                    })
+
+
+                }else{
+                    alert('未找到地址');
+                    return false;
+                }
+            });
+        })
+
+
+
+
+
+
+        /*map = new BMap.Map('Baidu_Map_Marker');
+        var point = new BMap.Point( 117.227239,31.820586);
+        map.centerAndZoom(point, 14);
+        map.addControl(new BMap.NavigationControl());
+        map.enableScrollWheelZoom();
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+        marker.enableDragging();
+        var gc = new BMap.Geocoder();
+        gc.getLocation(point, function(rs){
+            var addComp = rs.addressComponents;
+            var address = [addComp.city].join('');
+        });
+        marker.addEventListener("dragging", function(e){
+            setmappoint(e);
+        });
+        map.disableDoubleClickZoom();
+        map.addEventListener("click", function(e){
+            setmappoint(e);
+        });
+
+        function setmappoint(e) {
+            marker.setPosition(e.point);
+            var center = map.getCenter();
+            var mPoint = new BMap.Point(center.lng, center.lat);
+            map.enableScrollWheelZoom();  //启用滚轮缩放
+            map.centerAndZoom(mPoint,17); // 设置地图显示级别
+            var mOption = {poiRadius : 500,numPois : 1}; //获取全部POI（该点半径为100米内有6个POI点）
+            var myGeo = new BMap.Geocoder(); //创建地址解析实例
+            //使用反地址解析  获取地址信息
+            myGeo.getLocation(mPoint, function mCallback(result) {
+                var allPois = result.surroundingPois;
+                var addr ='当前地图地址：'+ allPois[0].title+allPois[0].address;
+                $('#notice').text(addr)
+                var lng = allPois[0].point.lng;
+                var lat = allPois[0].point.lat;
+               $('#da_lng').val(lng);
+                $('#da_lat').val(lat);
+
+            },mOption);
+        }
+        function search(address) {
+            if (!map) return;
+            if(!address){
+               Widget.MsgBox.error('请输入有效的地址再搜索');
+                return ;
+            }
+            var local = new BMap.LocalSearch(map, {
+                renderOptions: {map: map,autoViewport: true,selectFirstResult: false}
+            });
+            local.search(address);
+        }
+       $('#Baidu_Map_SO_Btn').on('click',function(){
+           var t_val = $('#Baidu_Map_SO_Key').val();
+           search(t_val);
+       })*/
+
+    })
+</script>
+<script>
+$(function(){
+    var file = '<{$shop.logo}>';
+    var json_qu = JSON.parse('<{$all_area}>');
+    var json_business = JSON.parse('<{$all_business}>');
+    var city_id = "<{$waimai.city_id}>";
+    if(!city_id){
+        city_id= $('#city>:first').val();
+    }
+    var sel_area_id = "<{$waimai.area_id}>";
+    var sel_business_id =  "<{$waimai.business_id}>";
+    var edit_city_html = '';
+
+    var city_data = '<{$json_city}>';
+    var json_city = JSON.parse(city_data);
+
+
+    $.each(json_qu,function(k3,v3){
+        if(v3.city_id ==city_id){
+            if(v3.area_id==sel_area_id){
+                var sel = "selected='selected'";
+            }else{
+                var sel= '';
+            }
+            edit_city_html+='<option value="'+v3.area_id+'" '+sel+' >'+v3.area_name+'</option>';
+        }
+    });
+    if(edit_city_html){
+        $('#area').html(edit_city_html);
+    }else{
+        $('#area').html("<option value=''>请选择区域</option>");
+    }
+    var area_id=$('#area>:first').val();
+    if(area_id){
+        var area_edit_html1 = '';
+        $.each(json_business,function(k5,v5){
+            if(area_id == v5.area_id){
+                if(v5.business_id==sel_business_id){
+                    var sel1="selected='selected'";
+                }else{
+                    var sel1= "";
+                }
+                area_edit_html1+='<option value="'+v5.business_id+'"'+sel1+'>'+v5.business_name+'</option>'
+            }
+        });
+        if(area_edit_html1){
+            $('#business').html(area_edit_html1);
+        }else{
+            $('#business').html("<option value=''>请选择商圈</option>");
+        }
+    }else{
+        $('#business').html("<option value=''>请选择商圈</option>");
+    }
+
+    function city_edit(){
+        $('#city').on('change',function(){
+            var city_id = $(this).val();
+            var edit_city_html = '';
+            $.each(json_qu,function(k3,v3){
+                if(v3.city_id ==city_id){
+
+                    edit_city_html+='<option value="'+v3.area_id+'">'+v3.area_name+'</option>';
+                }
+            });
+            if(edit_city_html){
+                $('#area').html(edit_city_html);
+            }else{
+                $('#area').html("<option value=''>请选择区域</option>");
+            }
+
+            var area_id=$('#area>:first').val();
+            if(area_id){
+                var area_edit_html1 = '';
+                $.each(json_business,function(k5,v5){
+                    if(area_id == v5.area_id){
+                        area_edit_html1+='<option value="'+v5.business_id+'">'+v5.business_name+'</option>'
+                    }
+                });
+                if(area_edit_html1){
+                    $('#business').html(area_edit_html1);
+                }else{
+                    $('#business').html("<option value=''>请选择商圈</option>");
+                }
+
+            }else{
+                $('#business').html("<option value=''>请选择商圈</option>");
+            }
+        })
+        area_edit();
+    }
+
+    //区联动
+    function area_edit(){
+        $('#area').on('change',function(){
+            var area_id = $(this).val();
+            var area_edit_html = '';
+            $.each(json_business,function(k4,v4){
+                if(area_id == v4.area_id){
+                    area_edit_html+='<option value="'+v4.business_id+'">'+v4.business_name+'</option>'
+                }
+            });
+            if(area_edit_html){
+                $('#business').html(area_edit_html);
+            }else{
+                $('#business').html("<option value=''>请选择商圈</option>");
+            }
+        })
+    }
+    //市
+    city_edit();
+    //区联动
+    area_edit();
+    $("[upload]").on('change',function(){
+        var files = $(this)[0]['files'];
+        var id = $(this).attr('rel');
+        var key = $(this).attr("upload");
+        var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+        if (!rFilter.test(files[0].type)) {
+            Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+            return false;
+        }else if(files[0]['size']>2097152){
+            Widget.MsgBox.error("请选择小于2M的图片");
+            return false;
+        }
+        if(key == 'huanjing'){
+            if($(".bwm").length>4){
+                Widget.MsgBox.error("环境图片只能上传5张");
+                return false;
+            } 
+        }
+        if(key == 'huanjing'){
+            var params = {"huanjing" : files[0]}
+        }else if(key == 'logo'){
+            var params = {"logo": files[0]};
+        }else{
+            var params = {"image" : files[0]};
+        }
+        Widget.UploadFile("<{link ctl='newreg:uploadimg'}>", params, function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else if(key == 'huanjing'){
+                var html = '<div class="img_box fl mr10 bwm"><div class="img"><img src="<{$pager.img}>/'+ret.data.photo+'" width="148" height="148"><input type="hidden" name="data[env][]" value="'+ret.data.photo+'"/><P>信息资料图</p></div><a href="javascript:;" class="del pointcl del2">删除</a></div>';
+                $('#envlist').before(html);
+            }else{
+                $("[yulan='"+key+"']").attr("src", "<{$pager.img}>/"+ret.data.photo);
+                $("[yulan='"+key+"']").css('opacity','1');
+
+                $("[val='"+key+"']").val(ret.data.photo);
+            }
+        });
+    });
+    $(document).on("click", ".del2", function(){
+        $(this).parent().remove();
+    });
+    $("#nextsubmit").on("click", function(){
+        var params = $("#bizform").serialize();
+        Widget.MsgBox.load("正在提交数据");
+        $.post("<{link ctl='newreg/one'}>", params, function(ret){
+            if(ret.error){
+                Widget.MsgBox.error(ret.message);
+            }else{
+                Widget.MsgBox.success("提交数据成功");
+                setTimeout(function(){
+                    window.location.href = "<{link ctl='newreg/two'}>";
+                },2000);
+            }
+        }, 'json');
+    })
+
+    // $('#bmw1200gs').on('click',function(){
+    //     var title = $("#title").val();
+    //     var contact = $('#contact').val();
+    //     var phone = $('#phone').val();
+    //     var cate_id = $('#cate').val();
+    //     var city_id = $('#city').val();
+    //     var area_id = $('#area').val();
+    //     var business_id = $('#business').val();
+    //     var addr = $('#Baidu_Map_SO_Key').val();
+    //     var lng = $('#da_lng').val();
+    //     var lat=$('#da_lat').val();
+    //     var url = '<{link ctl="newreg/one"}>';
+    //     var logo = $("._jq_img").val();
+    //     var banner = $("._jq_img2").val();
+    //     var env = [];
+    //     $("[name='data[env][]']").each(function(k,v){
+    //         env.push(v.value);
+    //     })
+    //     var data = {
+    //         title:title,
+    //         contact:contact,
+    //         phone:phone,
+    //         cate_id:cate_id,
+    //         city_id:city_id,
+    //         area_id:area_id,
+    //         business_id:business_id,
+    //         addr:addr,
+    //         lng:lng,
+    //         lat:lat,
+    //         file:file,
+    //         logo:logo,
+    //         banner:banner,
+    //         env:env,
+    //     }
+    //     if(!lat||!lng){
+    //         Widget.MsgBox.error('请在地图上点击选择具体地址');
+    //         return false;
+    //     }
+    //     $.post(url,{data:data},function(e){
+    //         if(e.error>0){
+    //             Widget.MsgBox.error(e.message)
+    //         }else{
+    //             Widget.MsgBox.success(e.message);
+    //             setTimeout(function(){
+    //              var redit_url = "<{link ctl='newreg/two'}>";
+    //                 window.location.href =redit_url;
+    //             },2000);
+    //         }
+
+    //     },'json')
+    // })
+})
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,12 @@
+<{foreach $coupon_list as $v}>
+<div class="quan-one">
+    <div class="one-img fl"><img src="%THEME%/static/img/coupons/index-icon-mainNav01@2x.png"></div>
+    <div class="one-you">
+        <h3 class="overflow_clear <{if $type=='0'}>gray-zi<{/if}>" >【<{$v.shop_title}>】￥<{$v.coupon_amount|default:0}>特惠优惠券</h3>
+        <p class="mt5"><span class="<{if $type=='1'}>coupons-pricecolor<{else}>black9<{/if}>">￥<big><{$v.coupon_amount|default:0}></big></span><span class="black9 ml10">满￥<{$v.order_amount|default:0}>可用</span></p>
+        <p class="black9">截止：<{$v.time_format}></p>
+    </div>
+    <div class="clear"></div>
+    <a href="<{if $type=='1'}><{link ctl='shop/detail' arg0=$v.shop_id http='waimai'}><{else}>javascript:;<{/if}>" class="get-now-btn <{if $type=='0'}>have-get<{/if}>" ><{$v.msg}></a>
+</div>
+<{/foreach}>

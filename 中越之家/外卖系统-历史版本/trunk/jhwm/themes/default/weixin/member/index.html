@@ -1,0 +1,78 @@
+<{include file="weixin/block/header.html"}>
+<header class="ui-header ui-header-stable ui-border-b ucenterTit">
+	<i class="ui-icon-return ucenterIcon_lt" onClick="history.back()"></i>
+	<h1><{$mywechat.nickname}></h1>
+</header>
+<div class="h45"></div>
+<div class="ucenterTop">
+	<div class="ucenterBg"><img src="/themes/default/weixin/static/images/ucenterBg2.jpg" ></div>
+	<ul class="ui-list ui-border-tb">
+    <li class="ui-border-t">
+       <div class="ui-avatar-lg ucenterPic">
+            <span style="background-image:url(<{$mywechat.wx_face}>)"></span>
+        </div>
+        <div class="ui-list-info ucenterText">
+            <h4 class="ui-nowrap"><{$mywechat.wx_nickname}></h4>
+			<p class="ui-nowrap">余额：<font class="fontcl2"><{$sales.money|default:'0'}></font>元</p>
+			<p class="ui-nowrap">积分：<font class="fontcl2"><{$sales.credits|default:'0'}></font>分</p>
+        </div>
+    </li>
+</ul>
+</div>
+<ul class="ui-list ui-list-link ui-list-function ui-border-tb ucenterCont">
+	<li class="ui-border-t">
+		<div class="ui-list-thumb-s uncenterIco">
+			<span class="icon13"></span>
+		</div>
+		<div class="ui-list-info">
+			<a href="<{link ctl='member/yuyue:index'}>" class="ui-nowrap">我的预约</a>
+		</div>
+	</li>
+	<li class="ui-border-t">
+		<div class="ui-list-thumb-s uncenterIco">
+			<span class="icon5"></span>
+		</div>
+		<div class="ui-list-info">
+			<a href="<{link ctl='member/site:items' arg0=$site_id}>" class="ui-nowrap">装修进度</a>
+		</div>
+	</li>
+	<li class="ui-border-t">
+		<div class="ui-list-thumb-s uncenterIco">
+			<span class="icon6"></span>
+		</div>
+		<div class="ui-list-info">
+			<a href="<{link ctl='member/service:items' arg0=$custom_id }>" class="ui-nowrap">售后报修</a>
+		</div>
+	</li>
+	<li class="ui-border-t">
+		<div class="ui-list-thumb-s uncenterIco">
+			<span class="icon7"></span>
+		</div>
+		<div class="ui-list-info">
+			<a href="<{link ctl='member/complain:items' arg0=$custom_id }>" class="ui-nowrap">投诉维权</a>
+		</div>
+	</li>
+	<li class="ui-border-t">
+		<div class="ui-list-thumb-s uncenterIco">
+			<span class="icon8"></span>
+		</div>
+		<div class="ui-list-info">
+			<a href="<{link ctl='member/task:index' arg0=$custom_id }>" class="ui-nowrap">分销推广</a>
+		</div>
+	</li>
+	<li class="ui-border-t">
+		<div class="ui-list-thumb-s uncenterIco">
+			<span class="icon14"></span>
+		</div>
+		<div class="ui-list-info">
+			<a href="<{link ctl='package:orderlog'}>" class="ui-nowrap">我的订单</a>
+		</div>
+	</li>
+</ul>
+<script>
+$('ul.ucenterCont li').click(function(){
+    $(this).siblings().removeClass("active");
+    $(this).addClass('active');
+});
+</script>
+<{include file="weixin/block/footer.html"}>

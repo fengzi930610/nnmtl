@@ -1,0 +1,82 @@
+<{assign var="page_title" value="个人中心-账户中心-我的红包"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-我的红包")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+
+        <{include file="pchome/ucenter/block/left.html"}>
+
+        <div class="minePage_cont fr">
+            <!--内容start-->
+            <div class="account-hongbao">
+                <div class="tit">
+                    <div class="fl">
+                        <span class="ml10">我的红包</span>
+                        <span class="use-box">
+                            <a href="<{link ctl='ucenter/hongbao:index' arg0=1 arg1=1}>" class="use-btn <{if $type == 1}>current<{/if}>">待使用</a><em class="gang"></em>
+                            <a href="<{link ctl='ucenter/hongbao:index' arg0=1 arg1=2}>" class="use-btn <{if $type == 2}>current<{/if}>">已使用</a><em class="gang"></em>
+                            <a href="<{link ctl='ucenter/hongbao:index' arg0=1 arg1=3}>" class="use-btn <{if $type == 3}>current<{/if}>">已过期</a>
+                        </span>
+                    </div>
+                    <div class="fr tit-you mr20">
+                        <div  class="fl duihuan-inp"><input type="text" name="" id='hongbao_sn' value="" placeholder="输入兑换码"></div>
+                        <input class="btn fl duihuan-btn text_c" value="兑换">
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="hongbao-cont">
+                    <div class="hongbao-lists">
+                        <{foreach $items as $k => $v}>
+                        <div class="hongbao-one mb10 fl">
+                            <div class="fl one-zuo"><span class="fontcl2">￥<big><{$v.amount}></big></span></div>
+                            <div class="one-you">
+                                <h3 class="mb10 overflow_clear biaoti"><{$v.title}></h3>
+                                <p class="miaoshu"><i class="yuandian mr10"></i><span class="black9">使用限制：</span>满<{$v.min_amount}>元可用</p>
+                                <p class="miaoshu"><i class="yuandian mr10"></i><span class="black9">过期时间：</span><{$v.ltime|format:"Y-m-d"}></p>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <{foreachelse}>
+                        没有该类型红包
+                        <{/foreach}>
+                        <div class="clear"></div>                          
+                    </div> 
+                    <!--分页-->
+                    <div class="pageNum_box mt10 mb10">
+                        <{$pager.pagebar}>
+                    </div>
+                    <!--分页end--> 
+                </div>
+            </div>
+            <!--内容end-->
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+</div>
+<script>
+$(document).ready(function(){
+    $('.duihuan-btn').click(function(){
+        var sn = $('#hongbao_sn').val();
+        if(!sn){
+            layer.msg('没有输入兑换码!');
+        }else{
+            var url = "<{link ctl='ucenter/hongbao:exchange'}>";
+            $.post(url,{sn:sn},function(ret){
+                if(ret.error == 0){
+                    setTimeout(function(){
+                        location.reload(true);
+                    },1500);
+                }
+                layer.msg(ret.message);
+            },'json');
+        }
+    })
+})
+</script>
+<{include file="pchome/block/footer.html"}>

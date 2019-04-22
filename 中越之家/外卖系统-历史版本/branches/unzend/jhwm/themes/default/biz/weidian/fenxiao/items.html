@@ -1,0 +1,57 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='biz/weidian/fenxiao:index'}>" class="on">分销店铺列表</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th>店铺图片</th>
+        <th>店铺名</th>
+        <th>店主</th>
+        <th class="w-60">订单数</th>
+        <th class="w-60">总金额</th>
+        <th class="w-60">所属商户</th>
+        <th class="w-60">状态</th>
+        <th class="w-50">时间</th>
+        <th class="w-180">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td class="w-100"><img src="<{$pager.img}>/<{$item.photo}>" width="40" height="40" /></td>
+        <td class="w-100"><{$item.title}></td>
+        <td class="w-100"><{$item.member.nickname}></td>
+        <td class="w-100"><{$item.orders}></td>
+        <td class="w-100"><{$item.orders_amount}></td>
+        <td class="w-100"><{$item.shop.title}></td>
+        <td>
+            <{if $item.status == 0}><span style="color:#ff5700;">未审核</span><{/if}>
+            <{if $item.status == 1}><span style="color:green;">已通过</span><{/if}>
+            <{if $item.status == 2}><span style="color:#ff0000;">已拒绝</span><{/if}>
+        </td>
+        <td class="w-150"><{$item.dateline|format:'Y-m-d H:i:s'}></td>
+        <td>
+            <{if $item.status == 0}>
+            <a href="<{link ctl='biz/weidian/fenxiao:set_status' arg0=$item.sid arg1=1}>" mini-act="set_status" class="btn btn-success" style="margin-right:2px;">通过</a>
+            <a href="<{link ctl='biz/weidian/fenxiao:set_deny' arg0=$item.sid}>" mini-act="set_status" class="btn btn-warning" style="margin-right:2px;">拒绝</a>
+            <{elseif $item.status == 1}>
+            <!--<a href="<{link ctl='biz/weidian/fenxiao:set_status' arg0=$item.sid}>" mini-act="set_status" class="btn btn-<{if $item.status==2}>success<{else}>warning<{/if}>" style="margin-right:2px;"><{if $item.status==2}>通过<{else}>拒绝<{/if}></a>-->
+            <a href="javascript:void(0);" class="btn btn-success">已通过</a>
+            <{/if}>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="biz/block/footer.html"}>

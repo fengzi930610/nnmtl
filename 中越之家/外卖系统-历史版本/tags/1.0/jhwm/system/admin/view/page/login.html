@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="zh-CN" />
+    <title><{$CONFIG.site.title}> </title>
+    <link rel="stylesheet" href="<{$pager.url}>/style/common.css" type="text/css" charset="utf-8" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script type="text/javascript">if (window.parent != window){window.top.location.href = location.href;}</script>
+</head>
+<body style="background:#F3F9FA;">
+    <div class="login_enter">
+        <form action="?index-login" method="post">
+        <table width="53%" border="0" cellspacing="0" cellpadding="0">
+            <tr><th height="60" colspan="3" valign="top">用户登录</th></tr>
+            <tr>
+                <td width="22%" align="right">用户名：</td>
+                <td colspan="2"><input name="admin_name" id="admin_name" type="text" class="login_input" value="" focue style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td align="right">密&nbsp;&nbsp;&nbsp;码：</td>
+                <td colspan="2"><input  name="admin_pwd" type="password" class="login_input" value="" style="width:150px;"/></td>
+            </tr>
+            <{if $admin}>
+            <tr>
+                <td align="right">验证码：</td>
+                <td style="width:60px"><input name="verify_code" type="text" class="login_input" id="textfield3" value="" style="width:40px" maxlength="4" /></td>
+                <td><img src="?index-verify" alt="请输入验证码" width="100" height="30" onClick="this.src='?index-verify&_'+Math.random()" /></td>
+            </tr>
+            <{/if}>
+        </table>
+        <table width="53%" border="0" cellspacing="0" cellpadding="0">
+            <tr><td align="center"><input type="submit" class="login_button" value="点击登录" /></td></tr>
+        </table>
+        </form>
+        <div class="login_foot"></div>
+    </div>
+<script type="text/javascript">document.getElementById('admin_name').focus();</script>
+<script type="text/javascript">
+//屏蔽自动填充表单
+document.querySelector('input[type="password"]').autocomplete = 'new-password';
+</script>
+</body>
+</html>

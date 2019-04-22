@@ -1,0 +1,66 @@
+<{assign var="page_title" value="个人中心-账户中心-账号绑定"}>
+<{assign var='tpl_title' value=L("个人中心-账户中心-账号绑定")}>
+<{include file="pchome/block/header.html"}>
+<{include file="pchome/block/top_nav.html"}>
+<{include file="pchome/ucenter/block/top.html"}>
+
+<div class="minePage_bg bg_grey">
+    <div class="pagewd">
+
+        <{include file="pchome/ucenter/block/left.html"}>
+
+        <div class="minePage_cont fr">
+    <!--内容start-->
+    <div class="account-bound">
+        <div class="tit">
+            <span class="ml10">账号绑定</span>
+        </div>
+        <div class="bound-cont">
+            <div class="bound-lists">
+                <{if $MEMBER.mobile}>
+                    <div class="bound-one mb20 fl mr30">
+                        <div class="bound-img fl lan-bg">
+                            <i class="ico ico-1"></i>
+                        </div>
+                        <div class="bound-txt">
+                            <p class="mt5">手机已绑定<a href="<{link ctl='ucenter/bind:mobile'}>" class="fr maincl">更换</a></p>
+                            <p class="black9 mt20"><{$MEMBER.mobile}> </p>
+                        </div>
+                        <div class="clear"></div>     
+                    </div>
+                <{/if}>
+                
+                <{if !$MEMBER.wx_openid}>
+                    <div class="bound-one mb20 fl mr30">
+                        <div class="bound-img fl">
+                            <i class="ico ico-2"></i>
+                        </div>
+                        <div class="bound-txt">
+                            <p class="mt5">微信未绑定<a href="<{link ctl='passport/wxbind'}>" class="fr maincl">去绑定</a></p>
+                            <p class="black9 mt20">-</p>
+                        </div>
+                        <div class="clear"></div>     
+                    </div>
+                    <{else}>
+                    <div class="bound-one mb20 fl mr30">
+                        <div class="bound-img fl green-bg">
+                            <i class="ico ico-2"></i>
+                        </div>
+                        <div class="bound-txt">
+                            <p class="mt5">微信已绑定</p>
+                            <p class="black9 mt20">-</p>
+                        </div>
+                        <div class="clear"></div>     
+                    </div>
+                <{/if}>
+
+                <div class="clear"></div>                              
+            </div>  
+        </div>
+    </div>
+    <!--内容end-->
+</div>
+<div class="clear"></div>
+</div>
+</div>
+<{include file="pchome/block/footer.html"}>

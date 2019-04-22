@@ -1,0 +1,143 @@
+<{assign var='tpl_title' value='我的分享'}>
+<!DOCTYPE HTML>
+<html>
+<head>
+<{include file="block/sheader.html"}>
+</head>
+<body>
+<header>
+    <i class="left"><a href="<{link ctl='ucenter'}>" class="gobackIco"></a></i>
+    <div class="title">
+        分享
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<section class="page_center_box">
+    <div class="sharePage">
+        <!--<p class="black9">累计邀请赚取</p>
+        <p class="black9">￥<big class="pointcl1"><{if $incnt>0}><{$incnt}><{else}>0<{/if}></big></p>-->
+
+        <div class="share_bag">
+            <div class="fl maincl">邀请<br>红包</div>
+            <p class="maincl fr">￥<big class="pointcl1"><{$invite.hongbao_amount}></big></p>
+        </div>
+        <p class="black3">点击邀请好友，免费送他<span class="pointcl1"><{$invite.hongbao_amount}></span>元红包，</p>
+        <p class="black3">当好友下单成功，你也将获得<span class="pointcl1"><{$invite.invite_order_money}></span>元红包！</p>
+        <div><a href="<{link ctl='ucenter/share:detail'}>" link-load="" class="see_details maincl">查看详情&gt;&gt;</a></div>
+    </div>
+</section>
+<footer>
+    <div class="long_btn_box" style="padding:0.1rem;"><input type="button" class="long_btn sharePage_btn" value="邀请好友" /></div>
+</footer>
+<div class="mask_box">
+    <div class="maskOne pressCode_mask">
+        <div class="cont">
+            <div id="qrcodeTable" ></div>
+            <p>扫一扫上面的二维码图案，分享好友</p>
+            <p>或点击<span class="pointcl1">右上角</span>分享，获得红包</p>
+        </div>
+        <a href="javascript:;" class="cancel">知道了</a>
+    </div>
+    <!--<div class="maskOne sharePage_mask">
+        <div class="cont">
+            <ul>
+                <li><a href="#"><em class="ico_1"></em><p>微信</p></a></li>
+                <li><a href="#"><em class="ico_2"></em><p>微信</p></a></li>
+                <li><a href="#"><em class="ico_3"></em><p>微信</p></a></li>
+                <li><a href="#"><em class="ico_4"></em><p>微信</p></a></li>
+                <li><a href="#"><em class="ico_5"></em><p>微信</p></a></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <a href="javascript:;" class="cancel">取消</a>
+    </div>-->
+    <div class="mask_bg"></div>
+</div>
+<script>
+$(document).ready(function() {
+    $(".sharePage_btn").click(function(){
+        $(".pressCode_mask").show();
+        $(".pressCode_mask").parent().find(".mask_bg").show();
+    });
+    $(".pressCode_mask").find(".cancel").click(function(){
+        $(".pressCode_mask").hide();
+        $(".pressCode_mask").parent().find(".mask_bg").hide();
+    });
+});
+// 生成二维码
+$('#qrcodeTable').qrcode({
+    render: "canvas",            //渲染方式 table 和 canvas两种
+    width: 128,                  //设置宽度  
+    height: 128,                 //设置高度  
+    typeNumber: -1,              //计算模式 
+    correctLevel: 2,             //纠错等级  0,1,2,3 默认为2
+    background: "#ffffff",       //背景颜色  
+    foreground: "#000000",       //前景颜色 
+    text    : '<{$mylink}>'
+}); 
+</script>
+
+<!--微信JS SDK开始-->
+<script>
+
+var link = "<{$mylink}>";
+var title = "<{$CONFIG.site.title}>";
+var imgUrl = "<{$CONFIG.site.siteurl}>/attachs/<{$invite.share_photo}>";
+wx.config({
+    debug: false,
+    appId: '<{$wxjs_config["appId"]}>',
+    timestamp:'<{$wxjs_config["timestamp"]}>',
+    nonceStr:  '<{$wxjs_config["nonceStr"]}>',
+    signature:  '<{$wxjs_config["signature"]}>',
+    jsApiList: [
+        'checkJsApi',
+        'onMenuShareAppMessage',
+        'onMenuShareTimeline',
+        'onMenuShareQQ',
+    ]
+});
+
+wx.ready(function(){
+    // 发送给朋友
+    wx.onMenuShareAppMessage({
+        title: title, 
+        desc: '叫外卖,就找我', 
+        link: link, 
+        imgUrl: imgUrl, 
+        type: '', 
+        dataUrl: '', 
+        success: function () { 
+            layer.open({content: '分享成功！', time: 1});
+        },
+        cancel: function () { 
+        }
+    });
+    // 分享到朋友圈
+    wx.onMenuShareTimeline({
+        title: title, 
+        link: link, 
+        imgUrl: imgUrl, 
+        success: function () { 
+            layer.open({content: '分享成功！', time: 1});
+        },
+        cancel: function () { 
+        }
+    });
+    // 分享到手机QQ
+    wx.onMenuShareQQ({
+        title: title, 
+        desc: '叫外卖,就找我', 
+        link: link, 
+        imgUrl: imgUrl, 
+        success: function () { 
+            layer.open({content: '分享成功！', time: 1});
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+<!--微信JS SDK结束-->
+
+</body>
+</html>

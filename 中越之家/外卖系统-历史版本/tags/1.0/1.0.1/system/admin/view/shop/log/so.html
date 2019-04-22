@@ -1,0 +1,26 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/log:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?shop/log-index.html" id="SO-form" method="post">
+<table width="100%" border="0" cellspacing="0" class="table-data form">    
+    <tr>
+        <th>商家：</th>
+        <td>
+            <input type="hidden" name="SO[shop_id]" value="0" id="export_shop_id" />
+            <input type="text" value="" id="export_shop_title" class="input w-150" readonly/>
+            <{link ctl="shop/shop:dialog" title="选择商家" select="mini:#export_shop_id,#export_shop_title/N/选择商家" class="button"}>
+        </td>
+    </tr>
+    <tr><th>操作时间：</th><td><input type="text" name="SO[dateline][0]" value="" class="input w-100" date="dateline" readonly/>~<input type="text" name="SO[dateline][1]" value="" class="input w-100" date="dateline" readonly/></td></tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

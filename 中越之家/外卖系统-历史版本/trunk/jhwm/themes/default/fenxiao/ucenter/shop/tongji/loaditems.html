@@ -1,0 +1,24 @@
+<div class="table_num mb10">总订单数：<{$count}></div>
+<div class="table_box">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <{foreach $items as $item}>
+        <tr>
+            <td class="bt"><span><{$fx_shops[$item['sid']]['title']}></span></td>
+            <td class="state">
+                <div class="fx_count_bar_box">
+                    <div class="bar_state" style="width:<{round(($item['num']/$count)*100)}>%;"></div>
+                    <span class="bar_num"><{$item.num}>单</span>
+                </div>
+            </td>
+        </tr>
+        <{/foreach}>
+    </table>
+</div>
+<script>
+$(document).ready(function() {
+	var table_wd = $('.fx_count_table table').width();
+    var bt_wd = $('.fx_count_table table tr td.bt span').width();
+	$('.fx_count_table table tr td.bt').width(bt_wd + 10);
+	$('.fx_count_table table tr td.state').width(table_wd - bt_wd - 10);
+});
+</script>

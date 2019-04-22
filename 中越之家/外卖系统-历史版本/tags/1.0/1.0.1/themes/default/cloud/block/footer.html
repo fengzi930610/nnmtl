@@ -1,0 +1,28 @@
+</div>
+
+<{if $request['IN_APP_CLIENT']}>
+<script type="text/javascript">
+    function return_title() {
+        var title = $('header h1').text();
+        if (!title) {
+            title = $('header span.wz1').text();
+        }
+        return title;
+    }
+    return_title();
+
+    function return_link() {
+        //定义次函数用来匹配IOS的方法名。
+    }
+</script>
+<style>.bar-nav ~ .content {top: 0px}</style>
+<{/if}>
+<script type="text/javascript">
+    if("<{$request['IN_APP_CLIENT']}>"){
+        $("a").addClass('external');
+    }else{
+        $.init();
+    }
+</script>
+</body>
+</html>

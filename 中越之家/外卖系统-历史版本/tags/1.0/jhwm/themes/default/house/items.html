@@ -1,0 +1,203 @@
+<{assign var='tpl_title' value=L("附近服务人员")}>
+<{include file="block/header.html"}>
+
+<header>
+    <i class="left"><a href="<{link ctl='server/index:allserver'}>" link-load="" link-type="right"
+                       class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        附近服务人员
+    </div>
+    <i class="right"><a href="<{link ctl='house/map' args=$cate_id }>" class="ico headerIco headerIco_7"
+                        style="background-position-y:-1.56rem;"></a></i>
+</header>
+
+<div class="saixuan_pull_box">
+    <div class="saixuan_pull">
+        <ul>
+            <li class="saixuan_pull_list">
+                <div class="click"><a href="javascript:;" filter="cate"><{$cate.title|default:'分类'}><em></em></a></div>
+                <div class="saixuan_pull_child_box saixuan_fenlei" style="display:none;">
+                    <ul>
+                        <li class="saixuan_pull_child select_all"><a href="<{link ctl='house/items'}>" cate_id="0"
+                                                                     cat="0">全部分类</a></li>
+                        <{foreach $cate_list as $k => $v}>
+                        <{if $v.parent_id == 0}>
+                        <li class="saixuan_pull_child" rel="<{$v.cate_id}>"><a href="javascript:;"><{$v.title}></a></li>
+                        <{/if}>
+                        <{/foreach}>
+                    </ul>
+                    <div class="saixuan_fenlei_list_box" style="display:none;">
+                        <{foreach $cate_list as $item}>
+                        <{if $item.parent_id == 0}>
+                        <ul class="saixuan_fenlei_list_nr" id="a<{$item.cate_id}>">
+                            <{foreach $cate_list as $item2}>
+                            <{if $item2.parent_id == $item.cate_id}>
+                            <li class="saixuan_fenlei_list">
+                                <a href="<{link ctl='house/items' arg1=$item2.cate_id}>" <{if $cate.cate_id
+                                ==$item2.cate_id}>style="color:#1ec0be;"<{/if}>><{$item2.title}></a>
+                            </li>
+                            <{/if}>
+                            <{/foreach}>
+                        </ul>
+                        <{/if}>
+                        <{/foreach}>
+                    </div>
+                </div>
+            </li>
+            <li class="saixuan_pull_list">
+                <div class="click">
+                    <a href="javascript:;" filter="orderby">排序<em></em></a>
+                </div>
+                <div class="saixuan_pull_child_box" style="display:none;">
+                    <ul id='filter_order'>
+                        <li class="saixuan_fenlei_list"><a
+                                href="<{link ctl='house/items' arg1=$cate.cate_id order='score'}>">按评价排</a></li>
+                        <li class="saixuan_fenlei_list"><a
+                                href="<{link ctl='house/items' args=$cate.cate_id order='juli'}>">按距离排</a></li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="mask_bg"></div>
+</div>
+
+<section class="page_center_box">
+    <div class="jiazheng">
+        <div class="masterLsit">
+
+            <{if $staff}>
+            <ul class="pub_list_box">
+                <{foreach $staff as $k => $v }>
+                <li class="pub_list pad10 mb10">
+                    <div class="pub_img fl">
+                        <div><img src="<{$pager.img}>/<{$v.face}>" width="100" height="100"></div>
+                        <{if $cate.cate_id}>
+                        <a href="javascript:void(0);" class="pub_btn mt10 check_staff" sid='<{$v.staff_id}>'
+                           sname='<{$v.name}>'>选Ta</a>
+                        <script>
+                            $('.check_staff').click(function () {
+                                var staff_id = $(this).attr('sid');
+                                var staff_name = $(this).attr('sname');
+                                localStorage.setItem('house_staff_id', staff_id);
+                                localStorage.setItem('house_staff_name', staff_name);
+                                window.location.href = "<{link ctl='house/order:index' args=$cate.cate_id}>";
+                            })
+                        </script>
+                        <{/if}>
+                    </div>
+                    <div class="pub_wz">
+                        <a href="<{link ctl='house/staff_detail' args=$v.staff_id}>">
+                            <p class="name"><{$v.name}><span class="fr range fontcl1">&lt;<{$v.juli_label}></span></p>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+                                <tr>
+                                    <td><p class="black9"><span class="starBg"><span class="star"
+                                                                                     style="width:<{$v.avg_score*20}>%;"></span></span>
+                                    </p></td>
+                                    <td><p class="black9"></p></td>
+                                    <td align="right"><p class="black9">服务<{$v.orders}>次</p></td>
+                                </tr>
+                            </table>
+                            <div class="repairLabel_box mt10">
+                                <div class="fr"><a href="javascript:void(0);" class="more black9">更多</a></div>
+                                <div class="repairLabel_nr">
+                                    <div class="repairLabel_one" style="height:0.26rem;overflow:hidden;">
+                                        <{if $v.attr}>
+                                        <{foreach $v.attr as $kk => $vv}>
+                                        <a href="javascript:void(0);" class="repairLabel"
+                                           style="margin-right: 0; margin-bottom: 0; width: 0.48rem;overflow: hidden; height: 0.24rem; line-height: 0.24rem; "><{$vv.cate_title}></a>
+                                        <{/foreach}>
+                                        <{/if}>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+            <{/foreach}>
+            <{else}>
+            <p style="line-height:0.22rem;height:0.22rem;text-align:center;font-size:0.14rem;margin-top:0.3rem;">
+                暂时没有找到服务人员</p>
+            <{/if}>
+
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        /*头部下拉开始*/
+        if ($('.saixuan_pull').length > 0)/*判断是否存在这个html代码*/
+        {
+            $('.saixuan_pull .saixuan_pull_list').width(100 / $('.saixuan_pull .saixuan_pull_list').length + '%');
+            $('.page_center_box').css('top', '0.91rem');
+        }
+
+        $(".saixuan_pull_list .click").click(function () {
+            if ($(this).hasClass("on")) {
+                $(".saixuan_pull_list .click").removeClass("on");
+                $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+                $(".saixuan_pull_box .mask_bg").hide();
+            }
+            else {
+                $(".saixuan_pull_list .click").removeClass("on");
+                $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+                $(this).addClass("on");
+                $(this).parent().find(".saixuan_pull_child_box").show();
+                $(".saixuan_pull_box .mask_bg").show();
+            }
+        });
+
+        $('.saixuan_fenlei .saixuan_pull_child').click(function () {
+            var rel = $(this).attr('rel');
+            $(this).parent().find(".saixuan_pull_child").removeClass("on");
+            $(this).addClass("on");
+            $('.saixuan_fenlei_list_nr').hide();
+            if ($('#a' + rel).length > 0) {
+                $('.saixuan_fenlei_list_box').show();
+                $('#a' + rel).show();
+                $('.saixuan_pull_child .linkIco').show();
+            } else {
+                $('.saixuan_fenlei_list_box').hide();
+                $('.saixuan_pull_child .linkIco').hide();
+            }
+        });
+
+        /*头部下拉结束*/
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        /*家政服务列表显示更多标签*/
+        $(".repairLabel_box .more").click(function () {
+            if ($(this).hasClass("on")) {
+                $(this).removeClass("on");
+                $(this).parents(".repairLabel_box").find(".repairLabel_two").hide();
+                //$('.repairLabel_one').css('overflow','').css('height','');
+                $(this).parents(".repairLabel_box").find(".repairLabel_one").css('overflow', '').css('height', '');
+            }
+            else {
+                $(this).addClass("on");
+                $(this).parents(".repairLabel_box").find(".repairLabel_two").show();
+                //$('.repairLabel_one').css('overflow','hidden').css('height','0.26rem');
+                $(this).parents(".repairLabel_box").find(".repairLabel_one").css('overflow', 'hidden').css('height', '0.26rem');
+            }
+        });
+
+
+        getUxLocation(function (rret) {
+
+            if (!rret.error) {
+                LoadData.params.lat = rret.lat;
+                LoadData.params.lng = rret.lng;
+            }
+        })
+
+
+    });
+</script>
+<{include file="block/footer.html"}>

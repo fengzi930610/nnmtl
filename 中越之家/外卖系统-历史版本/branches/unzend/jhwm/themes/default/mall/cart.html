@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <{include file="block/sheader.html"}>
+    </head>
+    <body>
+        <header>
+            <i class="left"><a href="<{link ctl='mall/product/items'}>" class="ico headerIco headerIco_3"></a></i>
+            <div class="title">
+                提交订单
+            </div>
+            <i class="right"><a href="#" class=""></a></i>
+        </header>
+        <section class="page_center_box">
+            <div class="order_confirm_infor mb10 jf_order_tijiao">
+                <div class="ico fl"></div>
+                <div class="wz">
+                    <{if !$addr_count}>
+                    <a href="<{link ctl='ucenter/addr/create'}>" >
+                        <p class="bt">您还没有设置地址</p>
+                        <p>点击立即添加地址</p>
+                    </a>
+                    <{else}>
+                    <a href="javascript:void(0);" id="select_addr" class="item-link item-content">
+                        <div class="item-media"><i class="iconfont icon-site-copy jiaodan"></i></div>
+                        <div class="item-inner">
+                            <{if $my_addr}>
+                            <input type="hidden" id="addr_id" value="<{$my_addr.addr_id}>"/>
+                            <div class="item-subtitle">
+                                <span id="contact"><{$my_addr.contact}></span>
+                                <span id="mobile" style="margin-left:0.1rem"><{$my_addr.mobile}></span>
+                            </div>
+                            <div class="item-text">
+                                <span id="address" class="black3"><{$my_addr.addr}><{$my_addr.house}></span>
+                            </div> 
+                            <{else}>
+                            <p class="bt">当前您有<b style="color:#ff0000;"><{$addr_count}></b>个地址</p>
+                            <p>点击立即添加地址</p>
+                            <{/if}>
+                        </div>
+                    </a>
+                    <{/if}>
+                </div>
+            </div>
+            <div class="mineIntegral_record border_t border_b mb10">
+                <ul>
+                    <{if $mallcart}>
+                    <{foreach $mallcart as $k=>$v}>
+                    <li class="list border_b" id="li_<{$k}>"> 
+                        <div class="fl img">
+                            <a href="<{link ctl='mall/product:detail' arg0=$products[$k].product_id}>">
+                                <img src="<{$pager.img}>/<{$products[$k].photo}>" width="280" height="200" />
+                            </a>
+                        </div>
+                        <div class="wz">
+                            <p class="bt"><{$products[$k].title}></p>
+                            <p class="black9 font_size14"><span class="fontcl1 mr10">￥<{$products[$k].price}></span><span class="black3"><{$products[$k].jifen}></span>积分</p>
+                            <div>
+                                <p class="fl black9">剩余数量：<{$products[$k].sku}></p>
+                                <div class="num_operate jf_new_num fr">
+                                    <span class="reduces" pid="<{$k}>" quantity="-">－</span>
+                                    <input type="text" value="<{$v}>" class="text_box_<{$k}>">
+                                    <span class="adds" pid="<{$k}>" quantity="+">＋</span>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <{/foreach}>
+                    <{/if}>
+                </ul>
+            </div>
+            <div class="border_t border_b bgcolor_white pad10 font_size14">
+                <h3 class="fl">总运费</h3>
+                <div class="fr fontcl1">￥<{$freight|default:0}></div>
+                <div class="clear"></div>
+            </div>
+        </section>
+        <footer>
+            <div class="jf_btn2">
+                <div class="wz"><span class="fontcl1 mr10" id="total_price">￥<{$total.price+$freight|default:0}></span><small id="total_jifen"><{$total.jifen|default:0}><span class="black9">积分</span></small></div>
+                <a href="javascript:void(0);" class="btn pub_btn">提交</a>
+            </div>
+        </footer>
+        <script>
+            var total = "<{$total.count}>";
+            if (!total) {
+                layer.open({content: '购物车没有商品!', time: 2});
+                setTimeout(function () {
+                    window.location.href = "<{link ctl='mall'}>";
+                }, 2000);
+            }
+            window.__Mall_Product_Freight = parseInt("<{$freight}>");
+
+            // 加号
+            $('.adds').click(function (e) {
+                var pid = $(this).attr('pid');
+                var link = "<{link ctl='mall/order:addcart'}>";
+                $.post(link, {pid: pid}, function (ret) {
+                    if (ret.error == 0) {
+                        var price = window.__Mall_Product_Freight + parseFloat(ret.data.price);
+                        $('#total_count').html(ret.data.count);
+                        $('#total_price').html('￥' + price);
+                        $('#total_jifen').html(ret.data.jifen + "<span class='black9'>积分</span>");
+                        var val = $('.text_box_' + pid).val();
+                        val = parseInt(val, 10) + 1;
+                        $('.text_box_' + pid).attr('value', val);
+                    } else if(ret.error == 101){
+                        layer.open({content: ret.message, time: 2});
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='passport/login'}>";
+                            }, 2000);
+                    }else {
+                        layer.open({content: ret.message, time: 2});
+                    }
+                }, 'json');
+            });
+
+            // 减号
+            $('.reduces').click(function () {
+                var pid = $(this).attr('pid');
+                var link = "<{link ctl='mall/order:addcart'}>";
+                var val = $('.text_box_' + pid).val();
+                val = parseInt(val, 10) - 1;
+                $.post(link, {pid: pid, reduce: 1}, function (ret) {
+                    if (ret.error == 0) {
+                        var price = window.__Mall_Product_Freight + parseFloat(ret.data.price);
+                        $('#total_count').html(ret.data.count);
+                        $('#total_price').html('￥' + price);
+                        $('#total_jifen').html(ret.data.jifen + "<span class='black9'>积分</span>");
+                        $('.text_box_' + pid).attr('value', val);
+                    } else if (ret.error == 244) {
+                        layer.open({content: ret.message, time: 2});
+                        if (ret.forward) {
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='mall/product'}>";
+                            }, 1500);
+                        }
+                    }  else if(ret.error == 101){
+                        layer.open({content: ret.message, time: 2});
+                            setTimeout(function () {
+                                window.location.href = "<{link ctl='passport/login'}>";
+                            }, 2000);
+                    }else {
+                        layer.open({content: ret.message, time: 2});
+                    }
+                }, 'json');
+                if (val <= 0) {
+                    $('#li_' + pid).remove();
+                }
+            });
+
+            // 提交（下单）
+            $('.pub_btn').click(function () {
+                var addr_id = $('#addr_id').val();
+                var link = "<{link ctl='mall/order:create'}>";
+                $.post(link, {addr_id: addr_id}, function (ret) {
+                    if (ret.error == 0) {
+                        layer.open({content: ret.message, time: 2});
+                        var order_id = parseInt(ret.data.order_id);
+                        var pay_status = parseInt(ret.data.pay_status);
+                        var link = "<{link ctl='ucenter/order:pay-" + order_id + "'}>";
+                        var link2 = "<{link ctl='ucenter/order:detail-" + order_id + "'}>";
+                        localStorage['payment_backurl'] = "<{link ctl='ucenter/order:detail-" + order_id + "'}>";
+                        setTimeout(function () {
+                            $('.modal-overlay').remove();
+                            $('.modal').remove();
+                            if (1 == pay_status) {
+                                window.location.href = link2;
+                            } else
+                            {
+                                window.location.href = link;
+                            }
+                        }, 1500)
+                    } else {
+                        layer.open({content: ret.message, time: 2});
+                        if (ret.forward) {
+                            setTimeout(function () {
+                                window.location.href = ret.forward;
+                            }, 1500);
+                        }
+                        if (ret.error == 101) {
+                            layer.open({content: ret.message, time: 2});
+                            setTimeout(function () {
+                                $('.modal-overlay').remove();
+                                $('.modal').remove();
+                                window.location.href = "<{link ctl='passport/login'}>";
+                            }, 1500);
+                        }
+                    }
+                }, 'json');
+            });
+
+            // 点击立即选择地址
+            $(document).on('click', '#select_addr', function () {
+                localStorage['select_address'] = JSON.stringify({"backurl": window.location.href});
+                window.location.href = "<{link ctl='ucenter/addr:index'}>";
+            })
+
+            // 自动填写选择的地址
+            if (localStorage['select_address']) {
+                var addr = JSON.parse(localStorage['select_address']);
+                if (addr) {
+                    $("#addr_id").val(addr.addr_id);
+                    $("#contact").html(addr.contact);
+                    $("#mobile").html(addr.mobile);
+                    $("#address").html(addr.address);
+                    localStorage.removeItem('select_address');
+                }
+            }
+            $(document).ready(function () {
+                $('#block_footer').hide();
+            })
+        </script>
+        <{include file="block/sfooter.html"}>

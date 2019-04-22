@@ -1,0 +1,67 @@
+<{assign var='tpl_title' value=$detail.title}>
+<{include file="block/header.html"}>
+<script type="text/javascript">
+function openApp(src) {
+     var ifr = document.createElement('iframe');
+     ifr.src = src;
+     ifr.style.display = 'none';
+     document.body.appendChild(ifr);
+     window.setTimeout(function(){document.body.removeChild(ifr);},2000);
+}
+window.onload = function(){
+    var d = new Date();
+    var t0 = d.getTime();
+    if(/(http)/i.test("<{$pager.yyb_client_url}>")){
+        window.location.href = "<{$pager.yyb_client_url}>";
+    }else if(/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)){
+        //IOS
+        window.location.href = "<{$pager.ios_client_scheme}>://index";
+        return ;
+        if(openApp("<{$pager.ios_client_scheme}>://index")){  
+            openApp("<{$pager.ios_client_scheme}>://index");
+        }else if(!/(http)/i.test("<{$pager.ios_client_download}>")){
+            window.location.href = "<{link ctl='index'}>";
+        }else{
+            var delay = setInterval(function(){
+                var d = new Date();
+                var t1 = d.getTime();
+                if( t1-t0<3000 && t1-t0>2000){
+                    window.location.href = "<{$pager.ios_client_download}>";
+                }
+                if(t1-t0>=3000){
+                    clearInterval(delay);
+                }
+            },1000);
+        }
+    }else if(/(Android)/i.test(navigator.userAgent)){
+        //Android
+        if(openApp("<{$pager.apk_client_scheme}>://index")){
+            openApp("<{$pager.apk_client_scheme}>://index");
+        }else if(!/(http)/i.test("<{$pager.apk_client_download}>")){
+            window.location.href = "<{link ctl='index'}>";
+        }else if(/MicroMessenger/gi.test(navigator.userAgent)){
+            alert("请用手机浏览器打开");
+        }else{
+            var delay = setInterval(function(){
+                 var d = new Date();
+                 var t1 = d.getTime();
+                 if( t1-t0<3000 && t1-t0>2000){
+                    window.location.href = "<{$pager.apk_client_download}>";
+                 }
+                 if(t1-t0>=3000){
+                      clearInterval(delay);
+                 }
+            },1000);
+        }
+    }else if(!/(http)/i.test("<{$pager.apk_client_download}>")){
+        window.location.href = "<{link ctl='index'}>";
+    }else{
+         var ifr = document.createElement('iframe');
+         ifr.src = "<{$pager.apk_client_download}>";
+         ifr.style.display = 'none';
+         document.body.appendChild(ifr);
+         window.setTimeout(function(){window.location.href="<{link ctl='index'}>";},2000);
+    } 
+}
+</script>
+<{include file="block/footer.html"}>

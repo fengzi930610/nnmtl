@@ -1,0 +1,718 @@
+<{assign var='tpl_title' value=L("商家入驻-店铺信息")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+
+            <div class="container_mid">
+                <!--内容-->
+                <form id="myform" action="<{link ctl='webview/waimai:index'}>" method="post" mini-form="webform" >
+                <div class="enterSeller_process">
+                    <ul>
+                        <li class="list on">
+                            <span>1</span>
+                            <P>店铺信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list">
+                            <span>2</span>
+                            <P>资质信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list">
+                            <span>3</span>
+                            <P>配送信息</P>
+                        </li>
+                        <li class="ico">
+                            <img src="%THEME%/webview/static/img/arrow_next@3x.png">
+                        </li>
+                        <li class="list">
+                            <span>4</span>
+                            <P>结算信息</P>
+                        </li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="enterSeller_box">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">店铺名称</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input title"  type="text" name="data[title]" placeholder="请输入店铺名称" value="<{$waimai.title}>">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">联系人</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input contact" type="text" name="data[contact]" placeholder="请输入联系人姓名" value="<{$waimai.contact}>">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">服务电话</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input phone" type="text" name="data[phone]" placeholder="请输入联系人手机号" value="<{$waimai.phone}>">
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell-after">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">店铺分类</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input text_r " type="button"  placeholder="请选择分类" id="showIOSActionSheet" value="<{$cate_name.title}>">
+                                <input type="hidden" name="data[cate_id]" id="cate_ids" value="<{$waimai.cate_id}>"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell-after">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">店铺区域</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input text_r" type="button" placeholder="<{$pro_name}>-<{$are_name.area_name}>" id='ssx' value="<{if $pro_name&&$are_name.area_name}><{$pro_name}>-<{$are_name.area_name}><{/if}>">
+                                <input type="hidden" name="data[city_id]" id="city_id" value="<{$waimai.city_id}>"/>
+                                <input type="hidden" name="data[area_id]" id="area_id" value="<{$waimai.area_id}>"/>
+                            </div>
+                        </div>
+                      <!--  <div class="weui-cell weui-cell-after">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">商圈</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input text_r " type="button"  placeholder="请选择商圈" id="showIOSActionSheet2" value="<{$business.business_name}>">
+                                <input type="hidden" name="data[business_id]" id="business_id" value="<{$waimai.business_id}>"/>
+                            </div>
+                        </div>-->
+                        <div class="weui-cell addr_int">
+                            <div class="weui-cell__hd"><label for="" class="weui-label">详细地址</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" id="data_addr" name="data[addr]" style="width: 240px;" value="<{if $o_addr}><{$o_addr}><{else}><{$waimai.addr}><{/if}>" type="text" <{if !$o_addr&&!$waimai.addr}>disabled<{/if}>   placeholder="">
+                            </div>
+                            <input type="hidden" name="data[lng]" id="data_lng" value="<{if $o_lng}><{$o_lng}><{else}><{$waimai.lng}><{/if}>"/>
+                            <input type="hidden" name="data[lat]" id="data_lat" value="<{if $o_lat}><{$o_lat}><{else}><{$waimai.lat}><{/if}>" />
+                            <a href="javascript:;" class="linkico " id="xxxxxxxxx"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="enterInfo_logo" >
+                    <div class="tit">店铺logo</div>
+                    <div class="img_box" >
+                        <input type="hidden" name="data[logo]" value="<{$waimai.logo}>" id="logo1"/>
+                        <img width="100%" height="100%" src="<{if $waimai.logo}><{$pager.img}>/<{$waimai.logo}><{/if}>" id="logo" onerror="javascript:this.src='http://img01.jhcms.com/wmdemo/photo/201708/20170809_5CBC5D36183F960C9C62FC9FC79967C.jpg';" />
+                        <input type="file" class="phone1 env5" name="logo"  rel="logo">
+
+                    </div>
+                </div>
+                <div class="enterInfo_img">
+                    <div class="tit">门头图</div>
+                    <div class="img_box" >
+                        <ul>
+                            <li>
+                                <div class="box">
+                                    <span >
+                                        <input type="hidden" name="data[banner]" value="<{$waimai.banner}>" id="banner1"/>
+                                        <img src="<{if $waimai.banner}><{$pager.img}>/<{$waimai.banner}><{/if}>"  id="banner" onerror="javascript:this.src='http://img01.jhcms.com/wmdemo/photo/201708/20170809_5CBC5D36183F960C9C62FC9FC79967C.jpg';" />
+                                        <input class="imgUpload env4" type="file" name="banner" rel="banner" >
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="enterInfo_img">
+                    <div class="tit">店铺环境相册<small class="black9">(最多上传5张)</small></div>
+                    <div class="img_box">
+                        <ul id="envlist">
+                            <li>
+                                <div class="box">
+                                    <span><input class="imgUpload  env2" name="env[]" type="file" rel="env"></span>
+                                </div>
+                            </li>
+                           <{foreach $env as $v}>
+                            <li>
+                                <div class="box">
+                                    <span><img src="<{$pager.img}>/<{$v.photo}>" onerror="javascript:this.src='http://img01.jhcms.com/wmdemo/photo/201708/20170809_5CBC5D36183F960C9C62FC9FC79967C.jpg';" /><input type="hidden" name="data[env][]" value="<{$v.photo}>"/><a href="javascript:;" class="del del2"></a></span>
+                                </div>
+                            </li>
+                           <{/foreach}>
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                    <div class="footer_long_btn">
+                        <input type="button" class="weui-btn weui-btn_primary" id="tijiao" value="下一步"/>
+                    </div>
+                </form>
+                <!--内容结束-->
+            </div>
+            <!--底部-->
+            <!--底部结束-->
+        </div>
+    </div>
+</div>
+<div>
+    <div class="weui-mask" id="iosMask" style="display: none"></div>
+    <div class="weui-actionsheet enterShop_mask" id="iosActionsheet">
+        <div class="weui-actionsheet__title">
+            <div class="fl close" id="iosActionsheetCancel"></div>
+            <h2 class="title">选择店铺类型</h2>
+        </div>
+        <div class="weui-actionsheet__menu">
+            <div class="weui-actionsheet__menu left" style="top:0px;">
+                <{foreach $waimai_cate as $vo}>
+                    <{if $vo.parent_id == 0}>
+                    <div class="weui-actionsheet__cell <{if $cat_id == $vo.cate_id}>on<{/if}>" rel="<{$vo.cate_id}>"><{$vo.title}></div>
+                    <{/if}>
+                <{/foreach}>
+            </div>
+            <div class="weui-actionsheet__menu right" style="top:0px;">
+                <{if $cat_id}>
+                    <{foreach $waimai_cate as $vo}>
+                        <{if $vo.parent_id == 0}>
+                        <div class="change_list <{if $vo.cate_id != $cat_id}>none<{/if}>">
+                                <{foreach $waimai_cate as $v}>
+                                    <{if $v.parent_id == $vo.cate_id}>
+                                        <div class="weui-actionsheet__cell <{if $v.cate_id == $cate_id}>on<{/if}>" rel="<{$v.cate_id}>"><{$v.title}></div>
+                                    <{/if}>
+                                <{/foreach}>
+                            </div>
+                        <{/if}>
+                    <{/foreach}>
+                <{else}>
+                    <span class="none"><{$i = 1}></span>
+                    <{foreach $waimai_cate as $vo}>
+                        <{if $vo.parent_id == 0}>
+                        <div class="change_list <{if $i != 1}>none<{/if}>">
+                                <{foreach $waimai_cate as $v}>
+                                    <{if $v.parent_id == $vo.cate_id}>
+                                        <div class="weui-actionsheet__cell" rel="<{$v.cate_id}>"><{$v.title}></div>
+                                    <{/if}>
+                                <{/foreach}>
+                            </div>
+                        <span class="none"><{$i++}></span>
+                        <{/if}>
+                    <{/foreach}>
+                <{/if}>
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+<div>
+    <div class="weui-mask" id="iosMask2" style="display: none"></div>
+    <div class="weui-actionsheet enterShop_mask" id="iosActionsheet2">
+        <div class="weui-actionsheet__title">
+            <div class="fl close" id="iosActionsheetCancel2"></div>
+            <h2 class="title">选择商圈</h2>
+        </div>
+        <div class="weui-actionsheet__menu">
+            <{foreach $all_business as $vo}>
+                <div class="none weui-actionsheet__cell jq_bus format_jq_ye jq_bus_<{$vo.area_id}> <{if $waimai.business_id == $vo.business_id}>on<{/if}>" rel="<{$vo.business_id}>"><{$vo.business_name}></div>
+            <{/foreach}>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".enterInfo_logo .img_box img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+    $(".enterInfo_img .img_box ul li .box span img").each(function(){
+        var src = $(this).attr("src");    //获取图片路径
+        if(src == ""){
+            $(this).css("opacity","0")
+        }else{
+            $(this).css("opacity","1")
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+    // 店铺分类
+    $(function(){
+        var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+        }
+
+        $iosMask.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $("#showIOSActionSheet").on("click", function(){
+            $iosActionsheet.addClass('weui-actionsheet_toggle');
+            $iosMask.fadeIn(200);
+        });
+
+     /*   $(".enterShop_mask .weui-actionsheet__cell").click(function(){
+            $(this).addClass("on").siblings(".weui-actionsheet__cell").removeClass("on");
+
+            $("#showIOSActionSheet").val($(this).text());
+            $('#cate_ids').val($(this).attr('rel'));
+            hideActionSheet();
+
+        });*/
+        
+        $(".enterShop_mask .weui-actionsheet__menu.left .weui-actionsheet__cell").click(function(){
+            var index = $(this).index();
+            $(this).addClass("on").siblings().removeClass("on");
+            var children = $(".enterShop_mask .weui-actionsheet__menu.right .change_list").addClass("none").eq(index).children().length;
+            if(children==0){
+                $("#showIOSActionSheet").val($(this).text());
+                $('#cate_ids').val($(this).attr('rel'));
+                localStorage.setItem('cate_ids',$(this).attr('rel'));
+                localStorage.setItem('type_show',$(this).text());
+                hideActionSheet();
+            }
+
+            $(".enterShop_mask .weui-actionsheet__menu.right .change_list").addClass("none").eq(index).removeClass("none");
+        });		
+        $(".enterShop_mask .weui-actionsheet__menu.right .weui-actionsheet__cell").click(function(){
+            $(".enterShop_mask .weui-actionsheet__menu.right .weui-actionsheet__cell").removeClass("on");
+            $(this).addClass("on");
+            $("#showIOSActionSheet").val($(this).text());
+            $('#cate_ids').val($(this).attr('rel'));
+            localStorage.setItem('cate_ids',$(this).attr('rel'));
+            localStorage.setItem('type_show',$(this).text());
+            hideActionSheet();
+        });
+        $("#close-picker").on("change",function(){
+            $("#showIOSActionSheet2").val();
+            $('#business_id').val();
+        })
+    });
+</script>
+<script type="text/javascript">
+    // 店铺分类
+    $(function(){
+        var $iosActionsheet2 = $('#iosActionsheet2');
+        var $iosMask2 = $('#iosMask2');
+
+        function hideActionSheet2() {
+            $iosActionsheet2.removeClass('weui-actionsheet_toggle');
+            $iosMask2.fadeOut(200);
+        }
+
+        $iosMask2.on('click', hideActionSheet2);
+        $('#iosActionsheetCancel2').on('click', hideActionSheet2);
+        $("#showIOSActionSheet2").on("click", function(){
+            var area_id = $("#area_id").val();
+            if(!area_id){
+                layer.msg('请先选择地区');
+            }else{
+                $(".jq_bus").addClass("none");
+                $(".jq_bus_"+area_id).removeClass("none");
+                $iosActionsheet2.addClass('weui-actionsheet_toggle');
+                $iosMask2.fadeIn(200);
+            }
+        });
+
+       /* $(".enterShop_mask .weui-actionsheet__cell").click(function(){
+            $(this).addClass("on").siblings(".weui-actionsheet__cell").removeClass("on");
+            $("#showIOSActionSheet2").val($(this).text());
+            $('#business_id').val($(this).attr('rel'));
+            hideActionSheet2();
+        });*/
+        $('.format_jq_ye').on('click',function(){
+            $(this).addClass("on").siblings(".weui-actionsheet__cell").removeClass("on");
+             $("#showIOSActionSheet2").val($(this).text());
+             $('#business_id').val($(this).attr('rel'));
+            localStorage.setItem('buniness_id',$(this).attr('rel'));
+            localStorage.setItem('buniness_text',$(this).text());
+            hideActionSheet2();
+        })
+    });
+</script>
+
+<script>
+        $("[type='file']").on('change',function(){
+            var files = $(this)[0]['files'];
+            var id = $(this).attr('rel');
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[0].type)) {
+                Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            if(files[0]['size']>2097152){
+                Widget.MsgBox.error("请选择小于2M的图片");
+                return false;
+            }
+            uploadfile(files,id)
+
+
+        });
+
+    function uploadfile(obj,h) {
+        var form = new FormData();
+        form.append('file',obj[0]);
+        layer.load();
+        var lengths= $('#envlist').children('li').length;
+        if(lengths>=6&&h=='env'){
+            Widget.MsgBox.error('环境图片只能上传5张');
+            return false;
+        }
+        var url ='<{link ctl="webview/file:uploadimg" }>';
+        $.ajax({
+            url: url,
+            type: "post",
+            data: form,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (e) {
+                layer.closeAll();
+                if(e.error>0){
+                    Widget.MsgBox.success(e.message);
+                    return false;
+                }else{
+
+
+                    if(e.file!="[]"){
+                        if(h=='env'){
+                     var html = '<li>'+
+                             '<div class="box">'+
+                                   ' <span><img src="<{$pager.img}>/'+e.file.photo+'" ><input type="hidden" name="data[env][]" value="'+e.file.photo+'"/><a href="javascript:;" class="del del2"></a></span>'+
+                                   '</div>' +
+                                   '</li>' ;
+                            $('#envlist').append(html);
+                            var env =$('#envlist').children().find("[name='data[env][]']");
+                            var local_catch  = localStorage.getItem('local');
+                            var format = JSON.parse(local_catch);
+                            var env_format = {};
+                            $.each(env,function(k,v){
+                                env_format[k] = v.value
+                            });
+                            format.env = env_format;
+                            localStorage.setItem('local',JSON.stringify(format));
+                            $('.del2').on('click',function(){
+                                $(this).parent().parent().parent().remove();
+                                var env =$('#envlist').children().find("[name='data[env][]']");
+                                var local_catch  = localStorage.getItem('local');
+                                var format = JSON.parse(local_catch);
+                                var env_format = {};
+                                $.each(env,function(k,v){
+                                    env_format[k] = v.value
+                                });
+                                format.env = env_format;
+                                localStorage.setItem('local',JSON.stringify(format));
+                            })
+                         }else{
+                            var local_catch  = localStorage.getItem('local');
+                            var format = JSON.parse(local_catch);
+                            format[h] = e.file.photo;
+                            localStorage.setItem('local',JSON.stringify(format))
+                        $('#'+h).attr('src',"<{$pager.img}>/"+e.file.photo);
+                            $('#'+h).css('opacity','1');
+
+                            $('#'+h+1).val(e.file.photo);
+                    }
+                    }else{
+                        Widget.MsgBox.error('图片太大，请换一张图片');
+                        return false;
+                    }
+
+                }
+
+            },
+            error: function (e) {
+            }
+        },'json');
+
+    }
+        $('.del2').on('click',function(){
+            $(this).parent().parent().parent().remove();
+            var env =$('#envlist').children().find("[name='data[env][]']");
+            var local_catch  = localStorage.getItem('local');
+            var format = JSON.parse(local_catch);
+            var env_format = {};
+            $.each(env,function(k,v){
+                env_format[k] = v.value
+            });
+            format.env = env_format;
+            localStorage.setItem('local',JSON.stringify(format));
+        })
+</script>
+
+<script src="%THEME%/webview/static/js/picker.js"></script>
+<script>
+    +function (a) {
+        a.rawCitiesData = [
+            <{foreach $format_area as $v}>
+                {
+                    name: "<{$v.province_name}>-",val:"<{$v.province_id}>",
+                    sub: [<{foreach $v.children as $v1}>
+                {
+                    name: "<{$v1.city_name}>-",val:"<{$v1.city_id}>",
+
+                    sub: [ <{foreach $v1.children as $v2}> {name: "<{$v2.area_name}>",val:"<{$v2.area_id}>"},<{/foreach}>
+                ]
+                },
+                    <{/foreach}>
+               ],
+                    type: 0
+                },
+            <{/foreach}>
+        ]
+        }($), +function (a) {
+        "use strict";
+        var b;
+        a.fn.cityPicker = function (c) {
+            return c = a.extend({}, b, c), this.each(function () {
+                var o, p, q, b = function (a) {
+                    var c, d, b = [];
+                    var zx = [];
+                    for (c = 0; c < a.length; c++)(
+                            d = a[c], "请选择" !== d.name && b.push(d.name),zx.push(d.val)
+                    );
+                    return b.length ? b : [""]
+                }, d = function (a) {
+                    return a.sub ? b(a.sub) : [""]
+                }, e = function (a) {
+                    for (var b = 0; b < g.length; b++)if (g[b].name === a)return d(g[b]);
+                    return [""]
+                }, f = function (a, b) {
+                    var c, e;
+                    for (c = 0; c < g.length; c++)if (g[c].name === a)for (e = 0; e < g[c].sub.length; e++)if (g[c].sub[e].name === b)return d(g[c].sub[e]);
+                    return [""]
+                }, g = a.rawCitiesData, h = g.map(function (a) {
+                    return a.name
+                }), i = d(g[0]), j = d(g[0].sub[0]), k = h[0], l = i[0], m = j[0], n = [{
+                    values: h,
+                    cssClass: "col-province"
+                }, {values: i, cssClass: "col-city"}];
+                c.showDistrict && n.push({values: j, cssClass: "col-district"}), o = {
+                    cssClass: "city-picker",
+                    rotateEffect: !1,
+                    onChange: function (a) {
+                        var h, i, j, g = a.cols[0].value;
+
+                        return g !== k ? (i = e(g), h = i[0], j = f(g, h), a.cols[1].replaceValues(i), c.showDistrict && a.cols[2].replaceValues(j), k = g, l = h, a.updateValue(), void 0) : (c.showDistrict && (h = a.cols[1].value, h !== l && (a.cols[2].replaceValues(f(g, h)), l = h, a.updateValue())), void 0)
+                    },
+                    cols: n
+                }, this && (p = a.extend(o, c), q = a(this).val(), q && (p.value = q.split(" "), p.value[0] && (k = p.value[0], p.cols[1].values = e(p.value[0])), p.value[1] ? (l = p.value[1], c.showDistrict && (p.cols[2].values = f(p.value[0], p.value[1]))) : (m = p.value[2], c.showDistrict && (p.cols[2].values = f(p.value[0], p.cols[1].values[0])))), a(this).picker(p))
+            })
+        },b = a.fn.cityPicker.prototype.defaults = {showDistrict: !0}
+    }($);
+</script>
+
+<script>
+    $(function(){
+        var json_format = JSON.parse('<{$json_format}>');
+
+
+        $("#ssx").cityPicker({
+            title: "选择省市县",
+            toolbarCloseText:'确定',
+        });
+        $(".weui-picker-modal .toolbar .picker-button").click(function(){
+            $(".weui-picker-container");
+
+        });
+        $('#ssx').on('change',function () {
+            var text = $(this).val();
+            var arr =text.split('-');
+            var city_name = arr[1];
+            var area_anme = arr[2];
+            var area_ids_format = 0;
+            $.each(json_format,function(k,v){
+                $.each(v.children,function(k1,v1){
+
+                  if(trim(v1.city_name)==trim(city_name)){
+                      $('#city_id').val(v1.city_id);
+                      localStorage.setItem('city_id',v1.city_id);
+                  }
+                    $.each(v1.children,function(k2,v2){
+                   if(trim(v2.area_name)==trim(area_anme)){
+                       area_ids_format =v2.area_id;
+
+
+                   }
+
+                })
+            })
+        });
+
+            $('#area_id').val(area_ids_format);
+            localStorage.setItem('area_id',area_ids_format);
+            $('.format_jq_ye').addClass('none');
+            $('.jq_bus_'+area_ids_format).removeClass('none');
+            $('#showIOSActionSheet2').val('');
+            $('#business_id').val('')
+
+        })
+    });
+    function trim(str){
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+
+
+
+    //存储信息开始
+    $('.title').blur(function(){
+        localStorage.setItem('title',$('.title').val());
+    });
+    $('.contact').blur(function(){
+        localStorage.setItem('contact',$('.contact').val());
+    });
+    $('.phone').keyup(function(){
+        localStorage.setItem('phone',$('.phone').val());
+    });
+
+    $('#ssx').change(function(){
+        localStorage.setItem('city_id',$("#city_id").val());
+        localStorage.setItem('ssx',$('#ssx').val());
+    });
+    if(localStorage.getItem('title')!=undefined){
+        $('.title').val(localStorage.getItem('title'))
+    }
+    if(localStorage.getItem('contact')!=undefined){
+        $('.contact').val(localStorage.getItem('contact'))
+    }
+    if(localStorage.getItem('type_show')!=undefined){
+        $('#showIOSActionSheet').val(localStorage.getItem('type_show'))
+    }
+    if(localStorage.getItem('cate_ids')!=undefined){
+        $('#cate_ids').val(localStorage.getItem('cate_ids'))
+    }
+    if(localStorage.getItem('city_id')!=undefined){
+        $('#city_id').val(localStorage.getItem('city_id'))
+    }
+    if(localStorage.getItem('ssx')!=undefined){
+        $('#ssx').val(localStorage.getItem('ssx'))
+    }
+    if(localStorage.getItem('phone')!=undefined){
+        $('.phone').val(localStorage.getItem('phone'))
+    }
+    if(localStorage.getItem('area_id')!=undefined){
+        $('#area_id').val(localStorage.getItem('area_id'));
+    }
+    if(localStorage.getItem('buniness_id')!=undefined){
+        $('#business_id').val(localStorage.getItem('buniness_id'));
+    }
+    if(localStorage.getItem('buniness_text')!=undefined){
+        $("#showIOSActionSheet2").val(localStorage.getItem('buniness_text'));
+    }
+    //读取信息结束
+    //存储信息结束
+    //初始化界面存储所有的图片路径
+    $(function(){
+        var local = '<{$local_catch}>';
+        if(localStorage.getItem('local')){
+            return false;
+        }
+        localStorage.setItem('local',local);
+
+    });
+    function save_local_img(){
+        if(localStorage.getItem('kkk')!='111'){
+            return false;
+        }
+        var local = localStorage.getItem('local');
+        var local_format =JSON.parse(local);
+        var pre = "<{$pager.img}>";
+        if(local_format.logo!=undefined){
+            $('#logo1').val(local_format.logo);
+            $('#logo').css('opacity','1');
+            $('#logo').attr('src',pre+'/'+local_format.logo);
+        }
+        if(local_format.banner!=undefined){
+            $('#banner1').val(local_format.banner);
+            $('#banner').css('opacity','1');
+            $('#banner').attr('src',pre+'/'+local_format.banner);
+        }
+        var html = ' <li>'+
+                '<div class="box">'+
+                '<span><img src="" ><input class="imgUpload  env2" name="env[]" type="file" rel="env"></span>'+
+                '</div>'+
+                '</li>';
+        if(local_format.env){
+
+            $.each(local_format.env,function(k,v){
+                html += '<li>'+
+                        '<div class="box">'+
+                        ' <span><img src="<{$pager.img}>/'+v+'" ><input type="hidden" name="data[env][]" value="'+v+'"/><a href="javascript:;" class="del del2"></a></span>'+
+                        '</div>' +
+                        '</li>' ;
+            });
+        }
+
+        $('#envlist').html(html);
+
+        $('.del2').on('click',function(){
+            $(this).parent().parent().parent().remove();
+            var env =$('#envlist').children().find("[name='data[env][]']");
+            var local_catch  = localStorage.getItem('local');
+            var format = JSON.parse(local_catch);
+            var env_format = {};
+            $.each(env,function(k,v){
+                env_format[k] = v.value
+            });
+            format.env = env_format;
+            localStorage.setItem('local',JSON.stringify(format));
+        });
+        $("[type='file']").on('change',function(){
+            var files = $(this)[0]['files'];
+            var id = $(this).attr('rel');
+            var rFilter = /^(image\/gif|image\/jpeg|image\/jpg|image\/png)$/i;
+            if (!rFilter.test(files[0].type)) {
+                Widget.MsgBox.error("只允许上传JPG、PNG、GIF格式图片");
+                return false;
+            }
+            if(files[0]['size']>2097152){
+                Widget.MsgBox.error("请选择小于2M的图片");
+                return false;
+            }
+            uploadfile(files,id)
+        });
+    }
+    window.onload = function(){
+        $('#xxxxxxxxx').on('click',function(){
+            JHAPP.getLocation();
+            return false;
+
+            var lng = $('#data_lng').val();
+            var lat = $('#data_lat').val();
+            var url = "<{link ctl='webview/waimai/edit_map'}>";
+            localStorage.setItem('kkk',111);
+            window.location.href = url+"?lng="+lng+'&lat='+lat;
+        })
+        setTimeout(function(){
+            save_local_img();
+        },100);
+    }
+
+
+</script>
+<script>
+    //禁止浏览器返回上一页  直接返回首页
+   
+    $('#tijiao').on('click',function(){
+        localStorage.clear();
+        $('#myform').submit();
+    })
+
+    function setLocation(e){
+
+    //lng  lat  addr
+
+
+      var data = e.split(',');
+      $('#data_lng').val(data[0]);
+       $('#data_lat').val(data[1]);
+        $('#data_addr').val(data[2]);
+
+
+
+
+    }
+
+
+</script>
+<{include file="webview/block/footer.html"}>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>订单支付</title>
+    <link rel="stylesheet" href="%THEME%/static/style/weui.min.css"/>
+    <link rel="stylesheet" href="%THEME%/trade/payment/css/style.css"/>
+    <script src="%THEME%/static/js/zepto.min.js"></script>
+</head>
+<style type="text/css">
+.pubPaypage .pay_way .list .disabled{float: right;width: 20px;height: 20px;border: 1px solid #e6e6e6;border-radius: 100%;background: #eee;margin-top: 5px;overflow: hidden; display: none;}
+</style>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容开始-->
+                <div class="pubPaypage">
+                    <div class="mb10">
+                        <div class="info_list"><span class="black6">订单编号：</span><{$order.order_id}></div>
+                        <div class="info_list"><span class="fl black6">应支付金额</span><big class="fr price">￥<{$order.amount+$order.change_price}></big></div>
+                    </div>
+                    <div class="pay_way">
+                        <{if $order.money>0}>
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay03@3x.png">
+                                <div class="fl text">
+                                    <div class="top">余额支付</div>
+                                    <div class="black9">余额：<span class="fontcl2">￥<{$MEMBER['money']}></span><span id="last_pay_amount" class="ml20">余额已抵扣：<span class="fontcl2">¥<{$order.money}></span></span></div>
+                                </div>
+                            </label>
+                        </div>
+                        <{elseif ($order.from != 'money') && $MEMBER.uid && $MEMBER.money>0}>
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay03@3x.png">
+                                <div class="fl text">
+                                    <div class="top">余额支付</div>
+                                    <div class="black9">余额：<span class="fontcl2">￥<{$MEMBER['money']}></span><span id="last_pay_amount" class="ml20" style="display:none;">还需支付：<span class="fontcl2">¥<{$use_money_last_amount}></span></span></div>
+                                </div>
+                                <input class="fr weui-switch" value="on" id="is_use_money" type="checkbox">
+                            </label>
+                        </div>
+                        <{/if}>
+
+                        <{if ($request.IN_WEIXIN && $wechat['wx_alipay']) || !$request.IN_WEIXIN}>
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay01@3x.png">
+                                <p>支付宝支付</p>
+                                <input type="radio" name="code" value="alipay" <{if !$request.IN_WEIXIN}>checked<{/if}>/>
+                                <span class="disabled"></span>
+                            </label>
+                        </div>
+                        <{/if}>
+
+                        <div class="list">
+                            <label>
+                                <img src="%THEME%/trade/payment/img/payWay02@3x.png">
+                                <p>微信支付</p>
+                                <input type="radio" name="code" value="wxpay" <{if $request.IN_WEIXIN}>checked<{/if}> />
+                                <span class="disabled"></span>
+                            </label>
+                        </div>
+
+
+                    </div>
+                    <div class="btn_box">
+                        <input type="button" onclick="payorder();" value="确认支付" class="long_btn">
+                    </div>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .share_phone{display: none; position:fixed; background:rgba(0,0,0,0.6); z-index:100; left:0; right:0; transition: all 0.3s ease-out; -webkit-transition: all 0.3s ease-out; bottom:0; top:0; text-align:center; padding-top:20%;}
+    .share_phone img{ max-width:80%;}
+    .share_mask .cont li a{color: #333;}
+    .mask_bg_share{ display:none; position:fixed; z-index:99; top:0; left:0; width:100%; height:100%; background:#000; opacity:0.4;}
+</style>
+<div class="mask_bg_share" onclick="close_mask();" style="opacity:0.3 !important;"></div>
+<div class="share_phone" onclick="close_mask();"><img src="%THEME%/trade/payment/img/payPic@2x.png"></div>
+
+<script type="text/javascript">
+    var use_money_last_amount = <{$use_money_last_amount|default:0}>;
+    $(".pay_way .list .weui-switch[type='checkbox']").on('click',function(){
+        if($(this).is(":checked")){
+           /* if($('input[name="code"]:checked').val()=='cash'){
+               return false;
+            }*/
+            if(use_money_last_amount <= 0){
+                $(".pubPaypage .pay_way .list .disabled").show();
+                $("input[name='code']").each(function () {
+                    $(this).hide();
+                });
+            }
+            $("#last_pay_amount").show();
+        }else{
+            if($('input[name="code"]:checked').val()=='cash'){
+
+            }
+            $("input[name='code']").each(function () {
+                $(this).show();
+            });
+            $(".pubPaypage .pay_way .list .disabled").hide();
+            $("#last_pay_amount").hide();
+        }
+    });
+</script>
+<script>
+var code_list = document.querySelectorAll("input[name=code]");
+function payorder(){
+    var is_use_money = 0;
+    var url = "<{link ctl='trade/payment' arg0='#code#' arg1=$order.order_id}>";
+    var code = document.querySelector("input[name='code']:checked").value || 'alipay';
+
+    var in_weixin = "<{$request.IN_WEIXIN}>";
+    var wx_alipay = "<{$wechat.wx_alipay}>";
+    if(code == 'alipay' && wx_alipay){
+        $(".mask_bg_share").show();
+        $(".share_phone").show();
+        return false;
+    }
+
+    if($("#is_use_money").is(":checked")){
+        is_use_money = 1;
+        if(use_money_last_amount <= 0){
+            code = 'money';
+        }
+    }
+    var back_url = "<{$rebackurl}>";
+    var pay_url = "<{link ctl='trade/payment/pay' arg0=__code__ arg1=$order.order_id arg2=__is_use_money__ rebackurl=__back_url__  http='home'}>";
+    var payurl = pay_url.replace('__code__',code).replace('__is_use_money__', is_use_money).replace('__back_url__', encodeURIComponent(back_url));
+    location.href = payurl;
+}
+
+function close_mask(){
+    $(".mask_bg_share").hide();
+    $(".share_phone").hide();
+}
+
+/*
+$('input[name="code"]').on('click',function(){
+    if($(this).val()=='cash'){
+        if(use_money_last_amount>0){
+            if($("#is_use_money").is(":checked")){
+                $("#last_pay_amount").hide();
+                $("#is_use_money").prop('checked',false);
+            }
+        }
+    }
+})*/
+$(document).ready(function(e) {
+    /* var counter = 0;*/
+    if (window.history && window.history.pushState) {
+        $(window).on('popstate', function () {
+            window.history.pushState('forward', null, '#');
+            window.history.forward(1);
+            window.location.href = "<{$rebackurl}>";
+        });
+    }
+   // window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+   // window.history.forward(1);
+});
+
+</script>
+</body>
+</html>

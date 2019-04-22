@@ -1,0 +1,11 @@
+<{foreach $items as $item}>
+    <div class="mb10 hongbao-one pub_list">
+        <div class="img-bian"><img src="%THEME%/static/img/my/red_box@2x_01.png"></div>
+        <div class="the-zuo fontcl1">￥<big><{$item['amount']}></big></div>
+        <div class="pub_list_bd the-you">
+            <p class="biaoti mb5 overflow_clear">普通红包</p>
+            <p class="black9">使用限制：满<{$item.min_amount}>元可用</p>
+            <p class="black9">有效期至：<{$item.ltime|format:'Y-m-d'}></p>
+        </div>  
+    </div>
+<{/foreach}>

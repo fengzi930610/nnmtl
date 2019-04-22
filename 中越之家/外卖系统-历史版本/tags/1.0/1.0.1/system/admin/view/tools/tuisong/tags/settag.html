@@ -1,0 +1,58 @@
+<{include file="admin:common/header.html"}>
+<style type="text/css">
+.cn{width:590px;min-height:300px;overflow:hidden;white-space:normal;word-wrap:break-word;word-break:normal;}
+.cn > p{height:50px;line-height:50px;}
+.cn > .span{display:inline-block;padding:0 10px;height:30px;line-height:30px;;border:solid 1px #999;margin-bottom:5px;cursor:pointer;}
+.cn > .active{border:solid 1px #1CB02A;color:#1CB02A;}
+.cn > .normal{border:solid 1px #999;color:#555555;}
+.cn > p > .count{color:#1CB02A;}
+</style>
+<div class="cn">
+    <p>说明:可以选择多个分组,已选<span class="count">0</span>个分组</p>
+    <{foreach $items as $item}>
+        <span class="span" value="<{$item['name']}>" toggle="false"><{$item['title']}></span>
+    <{/foreach}>
+    <br/><br/>
+    <input type="submit" class="bt-big" value="设置分组" onclick="check()">
+</div>
+<script>
+var options = {};
+$(".cn .span").click(function(){
+    toggle = $(this).attr('toggle');
+    value = $(this).attr('value');
+    if(toggle == 'false'){
+        $(this).attr({toggle:'true'});
+        $(this).removeClass('normal').addClass('active');
+        options[value] = value;
+    }else{
+        $(this).attr({toggle:'false'});
+        $(this).removeClass('active').addClass('normal');
+        delete options[value];
+    }
+    $(".count").text(size(options));
+    console.log(options);
+});
+function size(data)
+{
+    index = 0;
+    for(i in data){
+        index++;
+    }
+    return index;
+}
+function check(){
+    length = size(options);
+    if(length<1){
+        layer.open({content:'分组不能为空'});
+        return false;
+    }
+    $.post("?tools/tuisong-settag-<{$uid}>.html", {data:options}, function(respone){
+        console.log(respone);
+        if(respone.status == 200){
+            layer.open({content:"操作成功"});
+        }else{
+            layer.open({content:"设置失败"});
+        }
+    }, 'json');
+}
+</script>

@@ -1,0 +1,216 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="<{link ctl='index:home'}>"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="<{link ctl='system/index'}>">系统设置</a></li>
+        <li class="active">打印机</li>
+    </ol>
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="dispatch_tab">
+        <ul>
+            <li class="on"><a href="<{link ctl='system/index2'}>">打印机</a></li>
+            <li><a href="<{link ctl='system/index'}>">自动接单设置</a></li>
+        </ul>
+    </div>
+    <!-- 选择门店 -->
+
+    <!-- 模式 -->
+
+    <div class="modelSelect-cont">
+        <div class="mb5 setTit">打印机设置<small class="ml20 black9">*选择多个打印机</small></div>
+        <div class="printer-box mt10">
+            <table class="dispatch_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tbody id="reformat">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modelSelect-link"><a href="javascript:;" class="printer-set" id="shuaxin">【初始化打印机】</a><{if $in_window==1}><a href="javascript:;" id="getprint">【设备和打印机】</a><{/if}><{if $in_window==1}><a href="javascript:;" class="printer-set" id="shebei">【设备管理器】</a><{/if}><{if $in_window==1}><a href="javascript:;" id="control">【控制面板】</a><{/if}>
+    </div>
+</div>
+
+<!--设置打印机-->
+<div class="mask_bg" style="display: none;"></div>
+<div class="mask_cont spec_mask printer_mask">
+    <div class="mask_cont_tit" ><span id="machine_name"></span> <a href="javascript:;" class="close fr">×</a></div>
+    <div class="cont">
+        <div class="border_b table_box">
+            <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class="title">小票设置：</td>
+                    <td class="pr-num" >
+                        打印联数<input type="text" id="JH-nums" class="ml5" />
+                    </td>
+                </tr>
+
+            </table>
+            <div class="print-width mt10">
+                打印纸宽度：<input type="radio" checked name="" class="wid-radio">58mm
+            </div>
+        </div>
+
+        <div class="text_c mt20">
+            <a href="javascript:;" class="btn btn-w-m btn-default cancel">取消</a>
+            <a href="javascript:;" class="btn btn-w-m btn-primary comfirt">保存</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var evlt_h = $('.printer_mask').height();
+        var evlt_w = $('.printer_mask').width();
+        $('.printer_mask').css("margin-top",-(evlt_h/2 + 60) + 'px');
+        $('.printer_mask').css("margin-left",-evlt_w/2 + 'px');
+
+        //刷新打印机
+        $('#shuaxin').on('click',function(){
+            var link = '<{link ctl="index/get_yunprint"}>';
+            var in_window = "<{$in_window}>";
+            print_shua(link,in_window);
+            setTimeout(function(){
+                window.location.reload(true);
+            },2000);
+        })
+        //设备和打印机
+        $('#getprint').on('click',function(){
+            window.ExecLocalCMD('control Printers');
+        })
+        //设备管理器
+        $('#shebei').on('click',function(){
+            window.ExecLocalCMD('devmgmt.msc');
+        })
+        //控制面板
+        $('#control').on('click',function(){
+            window.ExecLocalCMD('control.exe');
+        })
+    });
+    function setconfig(obj){
+        var key = obj.getAttribute('rel');
+        if(print_list[key]){
+            $('#machine_name').text(print_list[key].machine_name);
+            var num = print_list[key].num;
+            var index = parseInt(num);
+            $('#JH-nums').val(index);
+            $('.printer_mask').fadeIn(100);
+            $('.mask_bg').fadeIn(100);
+            $(".printer_mask .cancel,.printer_mask .close,.mask_bg").click(function(){
+                $('.printer_mask').fadeOut(100);
+                $('.mask_bg').fadeOut(100);
+            });
+            $('#JH-nums').on('keyup',function(){
+                var num = $(this).val();
+                var text_num = parseInt(num);
+                if(text_num==0||text_num>5||text_num<0){
+                    Widget.MsgBox.error('打印联数请输入1-5联');
+                    $('#JH-nums').val(1);
+                }
+            });
+
+            $('.comfirt').on('click',function(){
+                var num = $('#JH-nums').val();
+                var link = "<{link ctl='print/print/set_config' http='wmbiz'}>";
+                set_num(key,num,link,function(){
+                    $('.printer_mask').fadeOut(100);
+                    $('.mask_bg').fadeOut(100);
+                    Widget.MsgBox.success('设置成功');
+                    setTimeout(function(){
+                        window.location.reload(true);
+                    },2000);
+                });                
+            })
+        }else{
+            Widget.MsgBox.error('设置失败，请稍后再试')
+        }
+    }
+
+    var print_list = '';
+    setTimeout(function(){
+         print_list = get_print_list();
+    },200);
+
+    function build_html(){
+        var html = '<tr class="tit" ><td>名称</td><td>类型</td><td>启用</td><td width="150px">操作</td></tr>';
+        $.each(print_list,function(k,v){
+            if(v.machine_name!=undefined){
+                var type='';
+                if(v.type=='yun'){
+                    type = '云打印机';
+                }else if(v.type=='local'){
+                    type = '本地打印机';
+                }
+                var ckeck = '';
+                if(v.is_used=='1'){
+                    ckeck ="checked";
+                }
+                var name =v.machine_name;
+                html+='<tr>'+
+                        '<td class="wid1">'+name+'</td>'+
+                        '<td class="wid1">'+type+'</td>' +
+                        '<td class="check_box on wid2"><input name="xx'+k+'" rel="'+k+'" data-use="'+v.is_used+'" onclick="setdata(this);" class="setdata" type="checkbox" '+ckeck+'></td>' +
+                        '<td class="wid3"><a href="javascript:;" rel="'+k+'" class="printer-set mr10" onclick="setconfig(this);">设置</a><a href="javascript:;" class="mr10" rel="'+k+'" onclick="look(this);">详情</a><a rel="'+k+'" href="javascript:;" onclick="test(this);">测试</a>'+
+                        '</td></tr>';
+            }
+        });
+        html+='<tr><td colspan="4"><textarea id="text1" placeholder="测试打印文字，将在点击“测试”按钮时打印出来" class="print-text" style="width: 100%"></textarea></td></tr>';
+        $('#reformat').html(html)
+    }
+
+    setTimeout(function(){
+        build_html();
+    },500);
+
+    function look(obj){
+        var key = obj.getAttribute('rel')
+        var psrmas = print_list[key];
+        if(psrmas['type'] == 'yun'){
+            layer.msg('云打印机');
+        }else if(psrmas['type']=='local'){
+            window.GetPrinterAttri(key);
+        }
+    }
+
+    function test(obj){
+        var key = obj.getAttribute('rel');
+        var parmas = print_list[key];
+        var text = $('#text1').val();
+        if(text.length==0){
+          layer.msg('请输入内容');
+            return false;
+        }
+        if(parmas['type'] == 'yun'){
+            var link = '<{link ctl="order/index:print_test" arg0="#palit_id#" }>'.replace("#palit_id#",parmas['port']);
+            $.post(link,{text:text},function(e){
+                if(e.error==0){
+                    layer.msg(e.message);
+                }else{
+                    layer.msg(e.message);
+                }
+            },'json')
+        }else if(parmas['type']=='local'){
+            var name = parmas['machine_key'];
+            window.GetTestContents(name,text);
+        }
+    }
+
+    function setdata(obj){
+      var key = obj.getAttribute('rel');
+      var used = obj.getAttribute('data-use');
+
+        if(used=='1'){
+            used = 0;
+        }else{
+            used = 1;
+        }
+
+        set_used(key,used);
+        layer.msg('设置成功');
+        setTimeout(function(){
+            window.location.reload(true);
+        },1500);
+    }
+</script>
+
+<{include file="block/footer.html"}>

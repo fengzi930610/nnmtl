@@ -1,0 +1,10 @@
+<{foreach $items as $k=>$v}>
+<li>
+    <img src="<{if $v.member.face}><{$pager.img}>/<{$v.member.face}><{else}>/themes/waimai/static/img/icon8@3x.png<{/if}>" width="40" height="40" class="img fl">
+    <div class="wz_box">
+        <h3><{$v.member.nickname|default:"匿名用户"}> <div class="fr">打赏 <span><{$v.amount}></span>元</div></h3>
+        <p class="black9"><{$v.dateline|format:"Y-m-d  H:i"}></p>
+    </div>
+    <div class="clear"></div>
+</li>
+<{/foreach}>

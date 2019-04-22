@@ -1,0 +1,142 @@
+<{assign var='tpl_title' value=L("附近服务人员")}>
+<!DOCTYPE HTML>
+<html>
+<head>
+<{include file="block/sheader.html"}>
+</head>
+
+<body style="height:100%;">
+<header>
+    <i class="left"><a href="<{link ctl='server/index:allserver'}>" link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	附近服务人员
+    </div>
+    <i class="right"><a href="<{link ctl='weixiu/items' args=$cate_id }>" class="ico headerIco headerIco_7"></a></i>
+</header>
+
+<section class="page_center_box">
+    <div class="jiazheng" style="height:100%;">
+        <div class="map txt_center" id="allmap" style="width: 100%; height:100%;background:url(/themes/default/static/images/map_loading.gif) center center no-repeat;"></div>
+    </div>
+</section>
+<footer>
+	<div class="btn_box"><input type="button" class="long_btn" value="立即下单"></div>
+</footer>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=7b92b3afff29988b6d4dbf9a00698ed8"></script>
+<!--百度地图JavaScript API开始-->
+<script type="text/javascript">
+    // 创建Map实例
+    var map = new BMap.Map("allmap");
+    var lng = null;
+    var lat = null;
+    var SouthWlng = null;
+    var SouthWlat = null;
+    var NorthElng = null;
+    var NorthElat = null;
+    var items = test = null;
+    // 根据浏览器定位
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            lng = r.point.lng; lat = r.point.lat;
+            var point = new BMap.Point(lng, lat);
+            map.centerAndZoom(point, 17);
+
+            //左下角坐标
+            SouthWlng = map.getBounds().getSouthWest().lng;
+            SouthWlat  = map.getBounds().getSouthWest().lat;
+            //右上角坐标
+            NorthElng = map.getBounds().getNorthEast().lng;
+            NorthElat = map.getBounds().getNorthEast().lat;
+            if(SouthWlat && SouthWlng && NorthElat && NorthElng) {
+                getStaffPoi(SouthWlng,SouthWlat,NorthElng,NorthElat);
+            }
+        }else {
+            alert('failed'+this.getStatus());
+        }
+    },{enableHighAccuracy: true});
+
+
+    map.enableScrollWheelZoom(true); //允许滚轮缩放
+    map.enableDragging(); // 允许地图拖拽
+
+    map.addEventListener("dragend", function(){
+        var center = map.getCenter();
+        var mPoint = new BMap.Point(center.lng, center.lat);
+        map.enableScrollWheelZoom();  //启用滚轮缩放
+        map.centerAndZoom(mPoint,17); // 设置地图显示级别
+            //左下角坐标
+            SouthWlng = map.getBounds().getSouthWest().lng;
+            SouthWlat  = map.getBounds().getSouthWest().lat;
+            //右上角坐标
+            NorthElng = map.getBounds().getNorthEast().lng;
+            NorthElat = map.getBounds().getNorthEast().lat;
+            if(SouthWlat && SouthWlng && NorthElat && NorthElng) {
+                getStaffPoi(SouthWlng,SouthWlat,NorthElng,NorthElat);
+            }
+    });
+
+        //设置中心点样式
+        var container = document.getElementById("allmap");
+        var central = document.createElement("div");
+        central.style.left = "50%";
+        central.style.marginLeft="-18px";
+        central.style.top="50%";
+        central.style.marginTop="-48px";
+        central.style.position="relative";
+        central.style.width="36px";
+        central.style.height="36px";
+        central.style.zIndex="100000";
+        central.innerHTML ='';
+        central.innerHTML ='<img src="/themes/default/static/images/position.png" /><div style="width:90px;height:30px;position:absolute;top:-50px;left:-38px;background:url(/themes/default/static/images/pos_addr.png) no-repeat;padding:6px 6px 10px 6px;line-height:15px;overflow:hidden;text-align:left;" id="sf_num"><font style="color:#ff6600">读取<br>中..</font></div>';
+
+
+    map.addEventListener("tilesloaded",function(){
+        container.appendChild(central);
+    });
+
+    function getStaffPoi(SouthWlng,SouthWlat,NorthElng,NorthElat){
+        jQuery.ajax({
+            url: "<{link ctl='weixiu:getstaffpoi'}>",
+            async: true,
+            dataType: 'json',
+            data: {"SouthWlng":SouthWlng,"SouthWlat": SouthWlat,"NorthElng": NorthElng,"NorthElat": NorthElat},
+            type: 'POST',
+            success: function (ret) {
+                if(ret.error > 0){
+
+                }else{
+                    var items = ret.data.items;
+                    var count = ret.data.count;
+                    //console.log(items);
+                    container.appendChild(central);
+                    $("#sf_num").html('<font style="color:#ff6600">'+count+'名<br/>师傅</font>');
+                    $("#sf_num").show();
+                      $.each(items,function(key,val){
+                        var each_point = new BMap.Point(val.lng, val.lat);
+                        addMarker(each_point);
+                    });
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown);
+            },
+        });
+    }
+
+
+     function addMarker(point){
+            var myIcon = new BMap.Icon("/themes/default/static/images/sf.png", new BMap.Size(30,39));
+            var marker = new BMap.Marker(point,{icon:myIcon});  // 创建标注
+            map.addOverlay(marker);
+
+     }
+     $('.long_btn').click(function(){
+         window.location.href="<{link ctl='weixiu/order:index' args=$cate_id}>";
+     })
+
+</script>
+<!--百度地图JavaScript API结束-->
+
+<{include file="block/footer.html"}>

@@ -1,0 +1,50 @@
+<{include file="wuye/block/header.html"}>
+
+<div class="zxTabs">
+    <a href="<{link ctl='wuye/tixian/index'}>" class="on">提现管理</a>
+    <div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <form action="<{link ctl='wuye/tixian/index:edit' args=$detail.account_id}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+        <table cellspacing="0" cellpadding="0" class="form">
+         <tr>
+            <th><span class="red">*</span>所属银行：</th>
+            <td>
+                <select name="data[title]" class="select select_td input w-200">
+                    <{foreach $bank_list as $k => $v}>
+                    <option value="<{$v}>"><{$v}></option>
+                    <{/foreach}>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>开户人：</th>
+            <td><input type="text" name="data[name]"  value="<{$detail.name}>" class="input w-300"/></td>
+        </tr>
+        <tr>
+            <th><span class="red">*</span>开户帐号：</th>
+            <td><input type="text" name="data[account]" value="<{$detail.account}>" class="input w-300"/></td>
+        </tr>
+
+        <tr><th></th><td><input type="submit" value="提交" class="btn btn-success" /></td></tr>
+    </table>
+    </form>
+</div>
+<script type="text/javascript">
+        $("[name='data[stock_type]']").click(function () {
+            if ($(this).val() == 1) {
+                $("#tr_sale_sku1").show();
+            } else {
+                $("#tr_sale_sku1").hide();
+            }
+        });
+        $("[name='data[stock_type]']:checked").trigger("click");
+</script>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>  
+<{include file="wuye/block/footer.html"}>

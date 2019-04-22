@@ -1,0 +1,61 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li><a href="<{link ctl='biz/weixin/index:welcome'}>"><{L('单次关注')}></a></li>
+        <li class="on"><a href="<{link ctl='biz/weixin/index:auto'}>"><{L('自动回复')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/keyword:index'}>"><{L('关键字回复')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/menu:index'}>"><{L('自定义菜单')}></a></li>
+    </ul>
+</div>
+<div class="ucenter_c">
+<p class="tips"><span class="notice">即不管用户给您微信公众号发送什么信息，公众号都会自动按照您设定的“展现类型”回复用户。</span></p>
+<form action="<{link ctl='biz/weixin/index:auto'}>" mini-form="ucenter" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">   
+<tr><th>公众号：</th><td><b class="blue"><{$weixin.wx_appid}>(<{$weixin.nick_name}>)</b></td></tr>
+<tr>
+    <th>回复类型：</th>
+    <td>
+        <label><input type="radio" name="data[type]" <{if empty($auto)||$auto.type == 1}>checked="checked"<{/if}> value="1"/>文本回复</label>
+        <label><input type="radio" name="data[type]" <{if $auto.type == 2}>checked="checked"<{/if}> value="2"/>图文回复</label>&nbsp;&nbsp; <br />
+    </td>
+</tr>
+<tr wxtype="1" <{if $auto&&$auto.type == 2}>class="none"<{/if}> >
+    <th>回复内容：</th>
+    <td><textarea name="data[content]" class="textarea w-300"><{$auto.content}></textarea></td>
+</tr>
+<tr wxtype="2" <{if empty($auto)||$auto.type != 2}>class="none"<{/if}> >
+    <th>回复图文：</th>
+    <td>
+        <input type="hidden" name="data[reply_id]" value="<{$auto.reply_id}>" id="weixin_reply_id"/>
+        <div class="weixin-preview<{if !$reply}> none<{/if}>" style="float:left;">
+            <div class="weixin-box">
+                <p class="weixin-title" id="weixin_reply_title"><{$reply.title}></p>
+                <div class="weixin-cover"><img class="weixin-cover-pic" id="weixin_reply_photo" src="<{$pager.img}>/<{$reply.photo}>"></div>
+            </div>
+        </div>
+        <a href="<{link ctl='biz/weixin/reply:dialog'}>" id="weixin_reply_btn" class="pbtn" title="选择微信素材">选择微信素材</a>
+    </td>
+</tr>
+<tr><th></th><td><input type="submit" value="保存" class="green_btn" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$("input[name='data[type]']").click(function(){
+    $("tr[wxtype]").hide();
+    $("tr[wxtype='"+$(this).val()+"']").show();
+});
+$("#weixin_reply_btn").click(function(e){
+    e.stopPropagation(); e.preventDefault();
+    var link = $(this).attr("action") || $(this).attr("href");
+    Widget.Dialog.Select(link, 'N', function(ret){
+        $("#weixin_reply_id").val(ret[0]);
+        $("#weixin_reply_title").html(ret[1].title);
+        $("#weixin_reply_photo").attr("src", "<{$pager.img}>/"+ret[1].photo);
+        $(".weixin-preview").show();
+    }, {title:"选择微信素材",width:720});
+});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

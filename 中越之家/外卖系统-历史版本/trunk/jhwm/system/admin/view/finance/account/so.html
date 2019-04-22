@@ -1,0 +1,49 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="finance/account:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<{if !$type}>
+<form action="?finance/account-index-1-<{$st}>.html" id="SO-form" method="post">
+<{elseif $type == 1}>
+<form action="?finance/account-wait.html" id="SO-form" method="post">
+<{elseif $type == 2}>
+<form action="?finance/account-logs.html" id="SO-form" method="post">
+<{/if}>
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+    <tr>
+        <th>提现商家：</th>
+        <td>
+            <input type="hidden" name="SO[shop_id]" value="0" id="export_shop_id" />
+            <input type="text" value="" id="export_shop_title" class="input w-150" readonly/>
+            <{link ctl="shop/shop:dialog" title="选择商家" select="mini:#export_shop_id,#export_shop_title/N/选择商家" class="button"}>
+        </td>
+    </tr>
+    <!--<{if !$type}>
+    <tr><th>入账状态：</th>
+        <td>
+            <label><input type="radio" name="SO[status]" checked="checked" value="-1"/>全部</label>&nbsp;&nbsp;
+            <label><input type="radio" name="SO[status]" value="0"/>待审核</label>&nbsp;&nbsp;
+            <label><input type="radio" name="SO[status]" value="1"/>已通过</label>&nbsp;&nbsp;
+            <label><input type="radio" name="SO[status]" value="2">已拒绝</label>
+        </td>
+    </tr>
+    <{/if}>-->
+    <tr>
+        <th>提现时间：</th>
+        <td>
+            <input type="text" name="SO[dateline][0]" value="" class="input w-100" date="dateline" readonly/>~<input type="text" name="SO[dateline][1]" value="" class="input w-100" date="dateline" readonly/>
+        </td>
+    </tr>
+    
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="搜 索" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

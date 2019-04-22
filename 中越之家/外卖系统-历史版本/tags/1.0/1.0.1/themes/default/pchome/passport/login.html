@@ -1,0 +1,104 @@
+<{assign var="page_title" value="登陆"}>
+<{assign var='tpl_title' value=L("登陆")}>
+<{include file="pchome/block/header.html"}>
+<div class="headerTop_one">
+    <div class="smallpage">
+        <div class="logo fl">
+            <a href="<{link ctl='index'}>"><img src="<{$pager.img}>/<{$site.logo2}>"></a>
+        </div>
+        <div class="tit fl">欢迎登录</div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="login_box">
+    <div class="smallpage">
+        <div class="img_code fl"><img src="<{$pager.img}>/<{$site.weixinqr}>" width='160' height='160'></div>
+        <div class="fr login_form_box">
+            <div class="tab_box">
+                <a href="javascript:void(0);" class="on border_r">密码登录</a>
+                <a href="javascript:void(0);">验证码登录</a>
+            </div>
+            <div class="cont">
+                <div class="change_box">
+                    <div class="int_box mb20">
+                        <div class="ico ico1"></div>
+                        <div class="box"><input type="text" id="mobile2" placeholder="手机号"><a href="javascript:void(0);" class="clear_ico"></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="int_box mb20">
+                        <div class="ico ico2"></div>
+                        <div class="box"><input type="password" id="passwd" placeholder="密码"><a href="javascript:void(0);" class="clear_ico"></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <input type="button" value="登 录" id="login2" class="long_btn">
+                </div>
+                <div class="change_box none">
+                    <div class="int_box getyzm_int_box mb20">
+                        <div class="ico ico1"></div>
+                        <div class="box"><input type="text" id="mobile" placeholder="手机号"><a href="javascript:void(0);" class="clear_ico"></a></div>
+                        <div class="getyzm_box"><span class="get_yzm" id="sendsms">获取验证码</span></div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="int_box mb20">
+                        <div class="ico ico3"></div>
+                        <div class="box"><input type="text" id="yzm" placeholder="验证码"><a href="javascript:void(0);" class="clear_ico"></a></div>
+                        <div class="clear"></div>
+                    </div>
+                    <input type="button" value="登 录" id="login1" class="long_btn">
+                </div>
+                <div class="caozuo_box">
+                    <div class="fl"><input type="checkbox" checked>自动登录</div>
+                    <a href="<{link ctl='passport/forget'}>" class="fr black6">忘记密码</a>
+                </div>
+            </div>
+            <div class="foot">
+                <a href="<{link ctl='passport/wxlogin'}>" class="fl"><img src="/themes/default/pchome/static/images/other_ico1.png"></a>
+                <a href="<{link ctl='passport/register'}>" class="fr"><i class="ico animated infinite"></i>立即注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+         //获取验证码
+        get_yzm('#sendsms', '#mobile',"<{link ctl='passport/sendsms'}>");
+        //两种登录方式方法
+        var passport_url = "<{link ctl='passport/login' arg0=1}>";
+        var yzm_url = "<{link ctl='passport/login' arg0=2}>";
+        var out_url = "<{link ctl='passport/loginout'}>";
+        var ucenter_url = "<{link ctl='ucenter'}>";
+        passport_login('#login2','#mobile2','#passwd',passport_url,out_url,ucenter_url,1);
+        yzm_login('#login1','#mobile','#yzm',yzm_url,out_url,ucenter_url,1);
+
+        //JS
+        var input = $(".login_form_box .int_box .box input");
+        $(input).focus(function () {
+            $(".login_form_box .int_box .box .clear_ico").hide();
+            $(this).parent().find(".clear_ico").show();
+        }).blur(function () {
+            if (input.val() != "") {
+                $(this).parent().find(".clear_ico").show();
+            } else {
+                $(this).parent().find(".clear_ico").hide();
+            }
+        });
+        $(".login_form_box .int_box .box .clear_ico").click(function () {
+            $(this).parent().find("input").val("");
+        });
+        
+        $(".login_form_box .tab_box a").each(function (i) {
+            $(this).click(function () {
+                $(this).addClass("on").siblings("a").removeClass("on");
+                $(".login_form_box .cont .change_box").each(function (e) {
+                    if (i == e) {
+                        $(this).removeClass("none").siblings(".change_box").addClass("none");
+                    } else {
+                        $(this).addClass("none")
+                    }
+                });
+            });
+        });
+    });
+</script>
+<{include file="pchome/block/footer.html"}>

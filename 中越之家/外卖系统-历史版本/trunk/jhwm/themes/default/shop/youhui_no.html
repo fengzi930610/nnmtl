@@ -1,0 +1,58 @@
+<{assign var='tpl_title' value='<{$detail.title}>--优惠买单'}>
+<{include file="block/header.html"}>
+<header>
+	<i class="left"><a href="<{link ctl='shop/detail' arg0=$detail.shop_id}>" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	<{$detail.title}>
+    </div>
+</header>
+
+<section class="page_center_box">
+    <div class="bgcolor_white border mar10 pad10 font_size14">
+    	<p class="fl">消费金额：</p>
+        <P class="fr pointcl1 ">
+            <input type="number" id="money" placeholder="输入金额" style="display:inline-block;width:230px;height:20px;line-height:20px;border:none;">
+        </P>
+        <div class="clear"></div>
+    </div>
+
+    <div class="bgcolor_white border_b pad10 mb10">
+    	<p class="font_size14 pointcl1">当前优惠活动已结束，买单将以原价支付。</p>
+    </div>
+
+    <div class="btn_box"><a href="javascript:void(0);" class="long_btn">立即提交</a></div>
+</section>
+
+
+
+<script>
+    $(document).ready(function(){
+
+        $('.long_btn').click(function(){
+            var m1 = $('#money').val();
+            var shop_id = "<{$detail.shop_id}>";
+            var url = "<{link ctl='shop:youhui_create'}>";
+            $.post(url,{shop_id:shop_id,money:m1}, function (ret) {
+                if(ret.error == 0){
+                    layer.open({
+                        content:ret.message,
+                        time: 2
+                    });
+                    var order_id = parseInt(ret.data.order_id);
+                    localStorage['order_pay'] = "<{link ctl='ucenter/order:detail-"+order_id+"'}>";
+                    var link = "<{link ctl='ucenter/order:pay' args='temp1'}>";
+                    setTimeout(function(){
+                        window.location.href = link.replace('temp1', order_id);
+                    },2000)
+                }else{
+                    layer.open({
+                        content:ret.message,
+                        time: 2
+                    });
+                }
+            }, 'json');
+        })
+
+    })
+</script>
+<{include file="block/footer.html"}>

@@ -1,0 +1,125 @@
+<{assign var='tpl_title' value=L("快捷登录")}>
+<{include file="v3block/header.html"}>
+<style>
+    .page, body {background-color: #fff;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="myself-shuru-cont">
+                    <form method="" action="" name=""> 
+                        <div class="inp-box">
+                            <input type="tel" id="mobile" placeholder="手机号" value="" class="have-you">
+                            <div class="get_yzm" id="get_yzm" login="sendsms">获取验证码</div>
+                        </div>
+                        <div class="inp-box">
+                            <input type="number" id="yzm" placeholder="验证码" value="">
+                            <div class="cha-cio"></div>
+                        </div>
+                        <a href="javascript:;" class="my-own-queding-btn text_c tijiao-btn">登录</a>
+                        <p class="text_c mobile-denglu"><a href="javascript:;" class="black3">手机号登录</a></p>
+                        <div class="line-box">
+                            <span class="black9">第三方登录</span>
+                        </div>
+                        <a href="<{link ctl='passport:wxlogin' rebackurl=$rebackurl}>" class="weixin-login-a">
+                            <img src="%THEME%/static/img/my/btn_weixin@3x.png">
+                            <p class="black6 text_c">微信</p>    
+                        </a>
+                    </form>  
+                </div>           
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 输入时 -->
+<script>
+$(function(){
+    $(".inp-box input").focus(function () {
+        $('.inp-box input').on('input', function() {
+            if($(this).val().length == 0 ){
+                $(this).parent(".inp-box").find(".cha-cio").css("display","none");       
+            }else{
+                $(this).parent(".inp-box").find(".cha-cio").css("display","block");
+            }
+        });
+    }); 
+    $(".inp-box input").blur(function(){
+        $(this).parent(".inp-box").find(".cha-cio").css("display","none");            
+    }); 
+
+    $(".cha-cio").on("click",function(){
+        $(this).hide();
+        $(this).parent(".inp-box").find(".inp-box input").val('');
+        $(this).parent(".inp-box").find(".inp-box input").focus();
+    });
+    
+    $(document).ready(function () {
+        var minute = 60;
+        var mobile_timeout;
+        var mobile_count = minute;
+        var mobile_lock = 0;
+
+        BtnCount = function () {
+            if (mobile_count == 0) {
+                $(".get_yzm").addClass("graybg");
+                $('.get_yzm').removeAttr("disabled");
+                $('.get_yzm').text("重新获取");
+                mobile_lock = 0;
+                clearTimeout(mobile_timeout);
+                $('.get_yzm').removeClass("graybg");
+
+            } else {
+                mobile_count--;
+                $('.get_yzm').text(+mobile_count.toString() + "秒...");
+                mobile_timeout = setTimeout(BtnCount, 1000);
+            }
+        };
+        $("[login]").click(function () {
+            if(mobile_lock == 0){
+                var mobile = $('#mobile').val();
+                var img_code = '';
+                var link = "<{link ctl='passport/sendsms'}>";
+                var code_link = "<{link ctl='magic:verify' http='ajax'}>";
+                var btn = 'get_yzm';
+                Widget.SendSms(link,{mobile:mobile},function(e){
+                    if(e){
+                        mobile_lock = 1;
+                        mobile_count = minute;
+                        BtnCount();
+                    }
+                });
+                //sendsms(link,code_link,mobile,img_code,btn);
+            }
+        });
+
+
+        $('.tijiao-btn').click(function () {
+            var mobile = $('#mobile').val();
+            var yzm = $('#yzm').val();
+            var yzm_val = $('#verifycode').val();
+            var reback_url ="<{$rebackurl}>";
+            var link = "<{link ctl='passport/dologin'}>";
+            $.post(link, {mobile: mobile, yzm: yzm, yzm_val: yzm_val,rebackurl:reback_url}, function (ret) {
+                if (ret.error == 0) {
+                    Widget.MsgBox.success(ret.message);
+                    setTimeout(function () {
+                        window.location.href = ret.forward;
+                    }, 1000);
+                    BtnCount();
+                } else {
+                    Widget.MsgBox.error(ret.message);
+                }
+            }, 'json');
+        })
+        //注册页获取验证码部分结束
+    })
+});
+</script>
+<!-- 输入时end -->
+
+<!-- 获取验证码 -->
+
+<!-- 获取验证码end-->
+<{include file="v3block/footer.html"}>

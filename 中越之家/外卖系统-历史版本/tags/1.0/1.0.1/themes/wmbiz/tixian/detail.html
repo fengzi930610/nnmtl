@@ -1,0 +1,123 @@
+<{include file="block/header.html"}>
+<div class="wrapper wrapper-content">
+    <div class="">
+        <div class="mrkt_tit mb10"><span class="bt">余额转出-账单详情</span></div>
+        <table class="dispatch_table mb20" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="tit">
+                <td>交易日期</td>
+                <td>收支类型</td>
+                <td>交易号</td>
+                <td>提现金额(元)</td>
+                <td>备注</td>
+                <{if $tixian.status==2}>
+                <td>拒绝原因</td>
+                <{/if}>
+            </tr>
+            <tr>
+                <td><{$tixian.dateline|format:'Y/m/d'}></td>
+                <td>
+                    余额转出
+                </td>
+                <td>
+                    <p><{$tixian.tixian_id}></p>
+                </td>
+                <td>
+                    <p class="pointcl"><{$tixian.money}></p>
+                </td>
+                <td>
+                    <p class="">余额提现</p>
+                </td>
+                <{if $tixian.status==2}>
+                <td><{$tixian.reason}></td>
+                <{/if}>
+            </tr>
+        </table>
+
+        <div class="mrkt_tit mb10"><span class="bt">余额转出状态</span></div>
+        <div class="account_bill_delt mb20">
+            <ul>
+                <{if $tixian.status==0}>
+                <li class="list on">
+                    <span class="num">1</span>
+                    <p>提交申请</p>
+                    <small class="black9"><{$tixian.dateline|format:'Y/m/d'}></small>
+                </li>
+                <{/if}>
+                <{if $tixian.status==1}>
+                <li class="list on">
+                    <span class="num">1</span>
+                    <p>提交申请</p>
+                    <small class="black9"><{$tixian.dateline|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on">
+                    <span class="num">2</span>
+                    <p>平台已同意</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+                <{/if}>
+                <{if $tixian.status==2}>
+                <li class="list on">
+                    <span class="num">1</span>
+                    <p>提交申请</p>
+                    <small class="black9"><{$tixian.dateline|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on">
+                    <span class="num">2</span>
+                    <p>平台已拒绝</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+                <{/if}>
+                <{if $tixian.status==3}>
+                <li class="list on">
+                    <span class="num">1</span>
+                    <p>提交申请</p>
+                    <small class="black9"><{$tixian.dateline|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on">
+                    <span class="num">2</span>
+                    <p>平台已同意</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on">
+                    <span class="num">2</span>
+                    <p>平台已打款</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+                <{/if}>
+                <{if $tixian.status==4}>
+                <li class="list on">
+                    <span class="num">1</span>
+                    <p>提交申请</p>
+                    <small class="black9"><{$tixian.dateline|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on" >
+                    <span class="num">2</span>
+                    <p>平台已同意</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on">
+                    <span class="num">3</span>
+                    <p>平台已打款</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+                <li class="line">&gt;&gt;</li>
+                <li class="list on">
+                    <span class="num">4</span>
+                    <p>转出成功</p>
+                    <small class="black9"><{$tixian.updatetime|format:'Y/m/d'}></small>
+                </li>
+
+                <{/if}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<{include file="block/footer.html"}>

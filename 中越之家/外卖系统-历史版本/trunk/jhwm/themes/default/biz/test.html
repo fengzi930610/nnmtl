@@ -1,0 +1,78 @@
+<{include file="biz/block/header.html"}>
+<style>
+.spGuigekuc{}
+.panel-single{background:#eee;border:1px solid #ccc;padding:15px}
+.panel-single.panel-single-light{background:#FCFCFC;border:1px solid #E8E8E8}
+.panel-single.panel-single-white{background:#fff;border:1px solid #E8E8E8}
+.panel-single.panel-single-light{background:#FCFCFC;border:1px solid #E8E8E8}
+</style>
+<div class="spGuigekuc">
+	<div class="panel-single panel-single-light mgt20 j-emptyhide newWidth">
+        <h3 class="cst_h3 mgb20">库存/规格(<span class="colorRed">如需ERP对接，商品编号必须填写</span>)</h3>
+            <div class="formitems">
+            <label class="fi-name">商品规格：</label>
+            <div class="form-controls normsPanel">
+                            <a href="javascript:;" class="sku-add" id="j-addNorms" title="添加规格">+</a>            <input type="hidden" id="j-normsVal" name="norms" value=''>
+    
+                <input type="hidden" id="j-propsVal" name="props" value=''>
+    
+                <input type="hidden" id="j-customPropsVal" name="customProps" value=''>
+                
+                <input type="hidden" id="j-propsAlias" name="alias" value=''>
+            </div>
+        </div>
+        <div class="formitems" id="j-skuImgWrapper">
+                </div>
+        <input type="hidden" name="color_img" value=''>
+        <div class="formitems">
+            <label class="fi-name"><span class="colorRed">*</span>商品库存：</label>
+            <div class="form-controls" id="j-skuPanel">
+                <input type="hidden" id="j-skuVal" name="sku_props" value=''>
+            </div>
+            <div class="form-controls pdt10">
+                <a href="javascript:;" class="btn btn-success" id="j-lotSetStock">批量设置库存</a>
+                <a href="javascript:;" class="btn btn-success" id="j-lotSetPrice">批量设置价格</a>
+                <a href="javascript:;" class="btn btn-success" id="j-lotSetVipPrice">批量设置会员价</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/j-template" id="tpl_add_step2_normslist">
+        <% _.each(dataset,function(item,index){%>
+        <dl class="normslist" data-index="<%= index %>" data-id="<%= item.id %>">
+            <dt class="clearfix">
+                <input type="text" class="fl input mini j-normsName" value="<%= item.name %>" maxlength="4" data-Originalname="<%= item.name %>" data-Originalid="<%= item.id %>">
+                <span class="fi-help-text"></span>
+                <a href="javascript:;" class="fr j-delNorms" title="移除"><i class="gicon-trash"></i>移除</a>
+            </dt>
+            <dd class="clearfix skuitemPanel">
+                <% if(item.props.length){ %>
+                <ul class="labelList labelList-sku clearfix fl">
+                    <% _.each(item.props,function(val,index){ %>
+                    <li><span><%= props[val] %></span><i class="gicon-remove white j-delNormsVal" data-index="<%= index %>"></i></li>
+                    <% }) %>
+                </ul>
+                <% } %>
+                <input type="text" class="input mini fl j-addNormsVal-ipt">
+                <a href="javascript:;" class="btn btn-primary btn-small j-addNormsVal">添加</a>
+            </dd>
+        </dl>
+        <% }) %>
+    </script>
+
+<script type="text/javascript">
+(function(K, $){
+
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

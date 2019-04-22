@@ -1,0 +1,84 @@
+<{assign var='tpl_title' value=L("领取优惠券")}>
+<{include file="block/header.html"}>
+<style type="text/css">
+    /*领取优惠券*/
+    .myCoupon_list_box{ margin:0.1rem;}
+    .myCoupon_list{ border:0.01rem solid #e6e6e6; border-radius:0.05rem; background:#fff; margin-bottom:0.1rem; display:-moz-box;display:-webkit-box;display:-o-box;display:box;width:100%; overflow:hidden;}
+    .myCoupon_list .left{-moz-box-flex:1;-webkit-box-flex:1;box-flex:1; padding:0.1rem;}
+    .myCoupon_list .right{ width:1rem; border-left:0.01rem solid #e6e6e6; padding:0 0.05rem; text-align:center;}
+    .myCoupon_list h3{ font-size:0.15rem; line-height:0.3rem; margin:0 0 0.05rem;}
+    .myCoupon_list h3 img{ width:0.24rem; height:0.24rem; margin-right:0.05rem;vertical-align:text-top;}
+    .myCoupon_list ul li{ font-size:0.14rem;line-height:0.2rem;list-style:inside disc; color:#999;}
+    .myCoupon_list .price{ border-bottom:0.01rem dashed #e6e6e6;line-height:0.5rem; font-size:0.22rem;}
+    .myCoupon_list .price small{font-size:0.22rem;}
+    .myCoupon_list .state{ font-size:0.15rem;line-height:0.4rem;}
+</style>
+<!--头部-->
+<header>
+	<i class="left"><a href="<{link ctl='ucenter/coupon' coupon_num=$smarty.get.coupon_num}>"  link-load="" link-type="right" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+    	领取优惠券
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<!--头部结束-->
+<section class="page_center_box" style="bottom:0">
+<div class="page page-current">
+
+    <div class="myCoupon_list_box" >
+
+        <{foreach $items as $k=>$item}>
+            <div class="myCoupon_list">
+                <div class="left">
+                    <h3 class="overflow_clear"><img src="<{$pager.img}>/<{$item.logo}>"><{$item.shop_name}></h3>
+                    <ul>
+                        <li>满<{$item.order_amount}>元可用</li>
+                        <li><{$item.stime}>至<{$item.ltime}></li>
+                    </ul>
+                </div>
+                <div class="right">
+                    <div class="price <{if in_array($item.coupon_id,$arr_user_coupon)}>black9<{else}>fontcl1 <{/if}>"><small>￥</small><{$item.coupon_amount}></div>
+                    <{if in_array($item.coupon_id,$arr_user_coupon)}>
+                    <p class="state black9" >已领取</p>
+                    <{else}>
+                    <p class="state state_lq maincl" cid="<{$item.coupon_id}>" shop_id="<{$item.shop_id}>">立即领取</p>
+                    <{/if}>
+                </div>
+            </div>
+        <{/foreach}>
+</section>
+<script type="text/javascript">
+
+    // 立即领取
+    $('.state_lq').click(function(){
+      $('.state_lq').unbind("click");
+        var shop_id = $(this).attr('shop_id');
+        var cid = $(this).attr('cid');
+        $.ajax({
+            url: "<{link ctl='ucenter/coupon:get_coupon'}>",
+            async: true,
+            dataType: 'json',
+            data: {"shop_id": shop_id, "coupon_id": cid},
+            type: 'POST',
+            success: function (ret) {
+                //提示
+                layer.open({
+                  content: ret.message
+                  ,skin: 'msg'
+                  ,time: 2 //2秒后自动关闭
+                });
+                setTimeout(function(){
+                    window.location.reload();
+                },2000);
+            },
+            error: function (xhr, status, err) {
+                layer.open({
+                  content: err
+                  ,skin: 'msg'
+                  ,time: 2 //2秒后自动关闭
+                });
+            },
+        });
+    })
+</script>
+<{include file="block/footer.html"}>

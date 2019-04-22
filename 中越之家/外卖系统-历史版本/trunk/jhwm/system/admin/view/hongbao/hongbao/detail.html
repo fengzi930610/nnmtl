@@ -1,0 +1,37 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="hongbao/hongbao:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+    <tr><th>ID：</th><td><{$detail.hongbao_id}></td></tr>
+    <tr><th>标题：</th><td><{$detail.title}></td></tr>
+    <tr><th>类型：</th><td><{if $detail.from=='all'}>通用<{elseif $detail.from=='waimai'}>外卖专用<{elseif $detail.from=='paotui'}>跑腿专用<{else}>通用<{/if}></td></tr>
+    <tr><th>来源：</th><td><{$types[$detail['type']]|default:"普通红包"}></td></tr>
+    <tr><th>红包金额：</th><td>订单满<b class="red">￥<{$detail.min_amount}></b>减<b class="red">￥<{$detail.amount}></b></td></tr>    
+    <tr><th>用户：</th><td><{if $detail.uid}><{$member.nickname}>(手机:<{$member.mobile}>，UID:<{$detail.uid}>)<{else}><b class="blue">未领取</b><{/if}></td></tr>
+    <tr><th>红包卡密：</th><td><{$detail.hongbao_sn}></td></tr>
+    <tr><th>失效时间：</th><td><{$detail.ltime|format:'Y-m-d'}></td></tr>
+    <{if $detail.order_id}>
+    <tr><th>状态：</th><td><b class="gray">已使用</b></td></tr>
+    <tr><th>订单ID：</th>
+        <td> 
+            <b><{$detail.order_id}></b>&nbsp;&nbsp;&nbsp;&nbsp; 
+            <{link ctl="order/order:detail" arg0=$order.order_id title="查看订单详情" class="button"}>
+        </td>
+    </tr>
+    <tr><th>使用IP：</th><td><{$detail.used_ip}>(<{$detail.used_ip|iplocal}>)</td></tr>
+    <tr><th>使用时间：</th><td><{if !empty($detail['used_time'])}><{$detail.used_time|format}><{/if}></td></tr>
+    <{else}>
+    <tr><th>状态：</th><td><b class="green">未使用</b></td></tr>
+    <{/if}>
+    <tr><th>创建时间：</th><td><{$detail.dateline|format}>，<{$detail.clientip}>(<{$detail.clientip|iplocal}>)</td></tr>
+</table>
+</div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,35 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li><a href="<{link ctl='biz/weixin/index:welcome'}>"><{L('单次关注')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/index:auto'}>"><{L('自动回复')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/keyword:index'}>"><{L('关键字回复')}></a></li>
+        <li class="on"><a href="<{link ctl='biz/weixin/menu:index'}>"><{L('自定义菜单')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weixin/menu:create'}>" class="pbtn">添加菜单</a></span>
+</div>
+<div class="ucenter_c">
+    <p class="tips"><span class="notice">可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。</span></p>
+    <table width="100%" border="0" cellspacing="0" class="table">
+    <tr>
+        <th class="w-80">ID</th><th>菜单名称</th><th class="w-100">响应类型</th><th class="w-100">排序</th><th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td class="left"><label><{$item.menu_id}><label></td>
+        <td><{if $item.parent_id}>&nbsp;&nbsp;|---&nbsp;&nbsp;<{/if}><{$item.title}></td>
+		<td><{if $item.type == 'link'}>链接<{elseif $item.type=='reply'}>图文<{else}>文本<{/if}></td>
+        <td><{$item.orderby}></td>
+        <td>
+            <a href="<{link ctl='biz/weixin/menu:edit' arg0=$item.menu_id}>"  class="btn btn-success">修改</a>
+            <a href="<{link ctl='biz/weixin/menu:delete' arg0=$item.menu_id}>" mini-act="删除" mini-confirm="确定要删除菜单吗？" class="btn btn-success">删除</a>
+        </td>
+    </tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="tips"><span class="notice">您还没有添加微信菜单</span></p></td></tr>
+    <{/foreach}>
+    <{if $items}><tr><td colspan="5"><a href="<{link ctl='biz/weixin/menu:towechat'}>" mini-act="发布菜单到微信" style="width:200px;" class="mpbtn rt" >发布菜单到微信</a></td></tr><{/if}>
+    </table>
+	<div class="page"><{$pager.pagebar}></div>
+</div>
+<{include file="biz/block/footer.html"}>

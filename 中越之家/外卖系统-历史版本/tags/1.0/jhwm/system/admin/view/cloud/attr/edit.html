@@ -1,0 +1,31 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}>(商品：<{$detail.goods.title}>)</th>
+            <td align="right"><{link ctl="cloud/attr:index" args=$detail.goods_id priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?cloud/attr-edit.html" mini-form="product-form" method="post" ENCTYPE="multipart/form-data">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <input type="hidden" name="attr_id" value="<{$detail.attr_id}>"/>
+            <tr><th><span class="red">*</span>云购期数：</th><td><input type="text" disabled="disabled" name="data[cloud_num]" value="<{$detail.cloud_num|default:''}>" class="input w-200"/></td></tr>
+            <tr><th><span class="red">*</span>价格：</th><td><input type="text" name="data[price]" value="<{$detail.price|default:''}>" class="input w-200"/><span class="tip-comment">价格不得低于已参与人次</span></td></tr>
+            <tr><th><span class="red">*</span>已参与：</th><td><input type="text" disabled="disabled" name="data[join]" value="<{$detail.join|default:''}>" class="input w-200"/><span class="tip-comment">已参与人次</span></td></tr>
+            <!--<tr><th><span class="red">*</span>限制购买数：</th><td><input type="text" name="data[max]" value="<{$detail.max|default:''}>" class="input w-200"/></td></tr>-->
+            <tr><th><span class="red">*</span>是否精品：</th><td><label style="margin-right: 10px;"><input type="radio" <{if $detail.is_fine==1}>checked="checked"<{/if}> name="data[is_fine]" value="1"/>是</label><label><input type="radio" <{if $detail.is_fine==0}>checked="checked"<{/if}>  name="data[is_fine]" value="0"/>否</label></td></tr>
+            <tr>
+                <th>选择用户：</th>
+                <td>
+                    <input type="hidden" name="data[win_uid]" value="<{$detail.win_uid}>" id="cloud_member_id" />
+                    <input type="text" value="<{$detail.nickname}>" readonly="readonly" id="cloud_member_uname" class="input w-150"/>
+                    <!--<{link ctl="member/member:dialog" title="选择用户" select="mini:#cloud_member_id,#cloud_member_uname/N/选择用户" class="button"}>-->
+                </td>
+            </tr>
+    <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form></div>
+<{include file="admin:common/footer.html"}>

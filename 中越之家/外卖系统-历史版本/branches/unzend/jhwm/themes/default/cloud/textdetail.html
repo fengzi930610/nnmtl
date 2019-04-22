@@ -1,0 +1,17 @@
+<{include file="cloud/block/header.html"}>
+<style>img{max-width: 100%;}</style>
+    <div class="page page-current"> 
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a class="pull-left headerIco headerIco2 back" href="<{link ctl='cloud/index/detail' args=$detail.attr_id}>"></a>
+            <a class="pull-right headerIco headerIco3" href="<{link ctl='cloud/index'}>"></a>
+            <h1 class="title">商品详情</h1>
+        </header>
+		<!--头部结束-->
+        <!-- 主要内容部分 -->
+        <div class="content">
+            <{$goods.details}>
+        </div>
+        <!-- 主要内容部分结束 --> 
+    </div>
+<{include file="cloud/block/footer.html"}>

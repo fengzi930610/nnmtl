@@ -1,0 +1,139 @@
+<{assign var='tpl_title' value=L("社区邻里")}>
+<{include file="block/xiaoqu_header.html"}>
+<!--头部-->
+<header class="bar bar-nav">
+    <a href="" class="pull-left headerIco back"></a>
+    <a href="" class="pull-right headerIco headerIco3 mr10 open-vertical-modal"></a>
+    <h1 class="title">社区邻里</h1>
+</header>
+<!--头部结束--> 
+<!-- 工具栏 --> 
+<!-- 工具栏结束 -->
+<div class="content  infinite-scroll  infinite-scroll-bottom">
+    <div class="community_linli"  id="index_goods_items">
+    </div>
+    <!-- 加载提示符 -->
+    <div class="infinite-scroll-preloader">
+        <div class="preloader"></div>
+    </div>
+</div>
+<script>
+    $(document).off('click', '.open-vertical-modal').on('click', '.open-vertical-modal', function () {
+        $.modal({
+            title: '请选择您要发布的方式',
+            text: '',
+            verticalButtons: true,
+            buttons: [
+                {
+                    text: '发布到二手',
+                    onClick: function () {
+                        var link = "<{link ctl='xiaoqu/tieba/create_trade'}>";
+                        window.location.href = link;
+                    }
+                },
+                {
+                    text: '发布到邻里圈',
+                    onClick: function () {
+                        var link = "<{link ctl='xiaoqu/tieba/create_topic'}>";
+                        window.location.href = link;
+                    }
+                },
+                {
+                    text: '取消',
+                },
+            ]
+        })
+    });
+    
+    //点赞开始
+    var cookie_like = Cookie.get("like");//获取cookie存储的赞
+    
+    var like_arr = {};
+    if(cookie_like){
+        cookie_like_arr = JSON.parse(cookie_like);
+        like_arr = cookie_like_arr;
+    }
+    $(document).off('click', '.goods').on('click', '.goods', function () {
+        var id = $(this).attr('id');
+        var span = $(this).find('span');
+        var goods = parseInt(span.text());
+        var link = "<{link ctl='xiaoqu/tieba:ajax_goods'}>";
+            var flag = 0;
+            $.each(like_arr,function(k,v){
+                if(id == v){ //如果重复则点赞失败
+                    flag = 1;
+                    return false;
+                }
+            });
+            if(flag == 0){
+                like_arr[id] = id;
+                $.post(link, {tieba_id: id}, function (ret) {
+                    if(ret.error == 101){
+                        $.alert('您还没有登录', function () {
+                            window.location.href = "<{link ctl='passport/login'}>";
+                        });
+                    }else if (ret.error == 0) {
+                         //存入cookie操作，点赞成功
+                        like_str = JSON.stringify(like_arr);
+                        Cookie.set("like",like_str,86400*30);    
+                        span.text(goods + 1);
+                    }
+                }, 'json');
+            }
+    });
+    //点赞结束
+    
+    
+    var _lock = false;
+    var params = {};
+    var page = 1;
+    var link = "<{link ctl='xiaoqu/tieba:loaddata' arg0='#page#'}>";
+    loaddata();
+    function setloadparams(k, v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".infinite-scroll-preloader").html(msg).show();
+    }
+    function hideLoader()
+    {
+        $(".infinite-scroll-preloader").hide();
+    }
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }else{
+                    $('.preloader').hide();
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });
+    }
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        if (_lock) {
+            return false;
+        }
+        _lock = false;
+        page++;
+        loaddata();
+        _lock = true;
+    });
+    
+</script>
+<{include file="block/xiaoqu_footer.html"}>

@@ -1,0 +1,99 @@
+<{include file="biz/block/header.html"}>
+<div class="zxTabs">
+    <ul>
+        <a href="<{link ctl='biz/tongji:w_orderfrom'}>" class="on">外卖</a>
+        <a href="<{link ctl='biz/tongji:t_orderfrom'}>">团购</a>
+        <a href="<{link ctl='biz/tongji:m_orderfrom'}>">优惠买单</a>
+    </ul>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="form">
+        <tr>
+            <td colspan="2">
+                <div class="tableBox">
+                    <div id="week_orderfrom" >
+                    </div>
+                    <div id="month_orderfrom" style="margin-top:20px">
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<{include file="biz/block/footer.html"}>
+<script>
+$(function () {
+    $('#week_orderfrom').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '近一周订单来源饼状图'
+        },
+        tooltip: {
+    	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '订单来源',
+            data: [
+                <{foreach $week_data as $v1}>
+                ['<{if $v1.order_from=='www'}>PC网页<{/if}><{if $v1.order_from=='wap'}>手机网页<{/if}><{if $v1.order_from=='android'}>安卓APP<{/if}><{if $v1.order_from=='ios'}>苹果APP<{/if}><{if $v1.order_from=='weixin'}>微信<{/if}>',   <{$v1.nums}>],
+                <{foreachelse}>
+                <{/foreach}>
+            ]
+        }]
+    });
+
+    $('#month_orderfrom').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: '近一月订单来源饼状图'
+        },
+        tooltip: {
+    	    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: '订单来源',
+            data: [
+                <{foreach $month_data as $v2}>
+                ['<{if $v2.order_from=='www'}>PC网页<{/if}><{if $v2.order_from=='wap'}>手机网页<{/if}><{if $v2.order_from=='android'}>安卓APP<{/if}><{if $v2.order_from=='ios'}>苹果APP<{/if}><{if $v2.order_from=='weixin'}>微信<{/if}>',   <{$v2.nums}>],
+                <{foreachelse}>
+                <{/foreach}>     
+            ]
+        }]
+    });
+});
+</script>

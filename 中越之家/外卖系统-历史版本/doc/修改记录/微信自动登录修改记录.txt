@@ -1,0 +1,169 @@
+历史修改文件记录：
+控制器=========================
+system/
+        home/
+                controllers/
+                        ucenter/
+                                info.ctl.php
+                        passport.ctl.php
+			
+
+模型========================
+system/
+        models/
+                member/
+                        account.mdl.php
+                        member.mdl.php
+
+system/
+        models/
+                verify/
+                        check.mdl.php
+
+模板==========================
+themes/
+        v3/
+                ucenter/
+                        info/
+                                index.html
+                                bind_mobile.html
+
+themes/
+        waimai/
+                ucenter/
+                        temp.html
+
+=================================================
+============微信自动登录所做的修改=======================
+=================================================
+
+20181126
+
+1、修改微信自动登录逻辑
+接口位置：system/home/controllers/passport.ctl.php
+
+接口函数名：getwxopenid()
+增加功能：增加对unionid及openid的预检测，如果不存在的对应的用户，则
+	1、为unionid或openid创建新的用户。
+	2、为新用户有绑定unionid或openid。
+
+================================================
+
+20181127
+
+1、修改微信端登录过程，配合自动注册，使用全自动登录方式。
+接口位置：system/home/controllers/passport.ctl.php
+接口函数名：login()
+增加功能：函数开始判断是否为微信浏览器，如果是，则跳转到wxlogin()进行处理。
+--------
+接口函数名：wxlogin()
+增加功能：未修改前，默认情况下会尝试使用cookie中保存的openid或unionid进行自动登录，但如果
+	原来保存的cookie是失败的，则会登录失败。
+	增加功能为如果自动登录失败，则跳转到getwxopenid()以再次获取openid并进行自动注册、
+	登录的工作。
+
+2、配合微信自动注册、登录，去除登出功能、微信解绑功能
+位置：system/home/controllers/passport.ctl.php
+接口函数名：loginout()
+修改功能：直接跳转回之前的页面，不再执行登出操作。
+
+
+接口位置：system/home/controllers/ucenter/info.ctl.php
+接口函数名：wx_bind()
+修改功能：解绑时直接提示“已绑定”，不做解绑工作。
+
+
+位置：/themes/v3/ucenter/info/index.html
+修改功能：使用模板if false，去掉“退出登录按钮”
+
+===================================================
+
+20181128
+
+1、因为原系统逻辑是用户的手机号是互斥的，手机号不能重复，
+     所以必须将system/home/controllers/passport.ctl.php::getwxopenid()中微信自动
+     注册的用户的手机号修改为用户的ID，使之不再冲突！
+     同时，对昵称进行保存时，进行rawurlencode编码后保存，否则遇到特殊字符时将无法入库。
+
+
+
+2、为了配合昵称rawurlencode编码，所以在取出数据时，要对数据进行解码：
+
+位置：system/models/member/member.mdl.php::Mdl_Member_Member::_format_row()
+修改内容：对数据行的nickname进行判断，尝试进行rawurlencode解码，如果解码失败则使用原值。
+
+
+
+3、因为昵称使用了rawurlencode编码，所以数据库原始长度30可能不够用，故改为255长度
+位置：install/data/jh_table.php
+修改内容：714行，varchar(30)改为varchar(255)
+
+
+
+4、补遗，进入商家设置页，其中有一个标签页“余额日志”无法显示，从而导致模板解释中止，整个页面空白。
+位置：install/data/jh_data.php
+增加：740行后面增加一行
+	INSERT INTO `jh_system_module` VALUES ('2762', 'module', '3', 'waimai/shop', 'tixian', '余额日志', '0', '1966', '50', '1536470879');
+        2762为ID值，可根据实际情况修改。
+如果是已安装好的项目，则要手动给system_module添加这个数据行，ID随情况而变。
+
+
+=================================================
+=================================================
+=================================================
+
+
+20181129 针对未绑定手机号时跳转的修改
+
+位置 themes/waimai/ucenter/temp.html
+添加判断：如果用户未绑定手机号，则不显示手机号
+添加跳转：如果用户未绑定手机号，则先弹出提示，如果用户要进行绑定，跳转到手机号绑定页面。
+
+位置：system/home/controllers/ucenter/info.ctl.php
+增加函数：bind_mobile()
+功能：检测是否已经绑定手机，如果没有绑定，则显示绑定操作而，如果绑定了，则跳转回个人中心或返回页。
+
+增加函数：upt_mobile()
+
+
+位置 themes/v3/ucenter/info/
+增加文件：themes/v3/ucenter/info/bind_mobile.html
+为绑定手机的操作页面。
+
+
+==================================================
+
+20181129 手机号设置不再使用验证码，而是直接设置，增加越南手机号验证的接口
+
+位置：system/home/controllers/ucenter/info.ctl.php
+修改函数：upt_mobile()
+修改：使用vietnamMobile()检测手机号
+         注释对验证码的检验，不再使用验证码
+         去除已绑定手机号自动跳转回个人中心的功能
+-----
+修改函数：bind_mobile()
+修改：去除绑定手机号后的自动跳转，让用户可以修改手机号
+
+位置：system/models/verify/check.mdl.php
+增加函数：vietnamMobile()
+函数功能：检测10或11位数字为越南手机号
+
+位置：system/models/member/account.mdl.php
+修改函数：check_mobile()
+修改：检测手机号时使用的是vietnamMobile()而不是mobile()
+
+位置：system/models/member/member.mdl.php
+修改函数：check_mobile()
+修改：检测手机号时使用的是vietnamMobile()而不是mobile()
+
+位置：themes/v3/ucenter/info/index.html
+修改：点击手机号设置时，统一使用ucenter/info/bind_mobile即可，不需要再使用ucenter/info/update_mobile
+
+位置：themes/v3/ucenter/info/bind_mobile.html
+修改：去掉（隐藏）获取动态验证码按钮及验证码输入框
+
+位置：themes/waimai/ucenter/temp.html
+修改：去掉“暂不开通此功能提示”，跳转到ucenter/info/bind_mobile进行设置
+
+
+

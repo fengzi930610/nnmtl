@@ -1,0 +1,49 @@
+<{include file="wuye/block/header.html"}>
+<div class="zxTabs">
+	<a href="<{link ctl='wuye/tixian/index'}>" class="on">提现记录</a>
+	<div class="tishi pointcl"></div>
+</div>
+<div class="ucenter_c">
+    <table cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <th class="w-50">编号</th>
+        <th class="w-80">提现金额</th>
+        <th class="w-80">实际结算金额</th>
+        <th class="w-60">描述</th>
+        <th class="w-120">帐号信息</th>
+        <th class="w-250">状态</th>
+        <th class="w-80">备注</th>
+        <th class="w-120">处理时间</th>
+        <th class="w-120">申请时间</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><{$item.tixian_id}></td> 
+        <td><{$item.money}></td>
+        <td><{$item.end_money}></td>
+        <td><{$item.intro}></td>        
+        <td><{$item.account_info}></td>
+        <td>
+            <{if $item.status == 0}>待处理<{/if}>
+            <{if $item.status == 1}><b style="color:#5cb85c;">已通过</b><{/if}>
+            <{if $item.status == 2}><b style="color:#ff0000;">已拒绝</b><{/if}>
+        </td>
+        <td><{if $item.reason}><{$item.reason}><{else}>--<{/if}></td>
+        <td><{$item.updatetime|format}></td>
+        <td><{$item.dateline|format}></td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><div class="alert alert-info">没有数据</div></td></tr>
+    <{/foreach}>
+    <tr>
+    </table>
+    <div class="page"><{$pager.pagebar}></div>
+</div>
+<script type="text/javascript" src="<{$pager.res}>/script/widget.bmap.js"></script>
+<script type="text/javascript" src="<{$pager.res}>/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+(function(K, $){
+var editor = KindEditor.create('textarea[kindeditor]',{uploadJson : '<{link ctl="biz/upload:editor" http="base"}>', extraFileUploadParams:{OTOKEN:"<{$OTOKEN}>"}});
+})(window.KT, window.jQuery);
+</script>
+<{include file="wuye/block/footer.html"}>

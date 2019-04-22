@@ -1,0 +1,78 @@
+<{assign var='tpl_title' value=L("订单进度")}>
+<{include file="webview/block/header.html"}>
+<style type="text/css">
+.statusProgress{color: #999;line-height: 18px;padding-left: 40px;}
+.statusProgress .tip{border-bottom: 1px solid #e6e6e6;height: 50px;padding-top: 15px;}
+.statusProgress .tip .circle{width: 10px;height: 10px;background:#ccc;border-radius: 100%;float: left;margin-left: -24px;position: relative;}
+.statusProgress .tip .circle:after{content: '';display: block;width: 0;height: 64px; border-right:2px dotted #eee;position: absolute;top: 100%;left: 50%;margin-left: -1px;}
+.statusProgress .tip:last-child .circle:after{display: none;}
+.statusProgress .on{color: #57D2DB;}
+.statusProgress .on .circle{background: #3acad4;border:2px solid #c3eff2;margin-left: -26px;}
+.statusProgress .on .circle:after{top: 12px;}
+.statusProgress .status-label{font-size: 16px;}
+.statusProgress .status-time{font-size: 12px; margin-top: 5px;}
+</style>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <div class="statusProgress">
+                    <div class="tip <{if $detail.order_compltet_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">订单已完成</p>
+                            <p class="status-time"><{if $detail.order_compltet_time}><{$detail.order_compltet_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                        </div>
+                    </div>
+                    <div class="tip <{if $detail.staff_compltet_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">订单已送达</p>
+                            <p class="status-time"><{if $detail.staff_compltet_time}><{$detail.staff_compltet_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                        </div>
+                    </div>
+                    <div class="tip <{if $detail.staff_start_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">骑手已配送</p>
+                            <p class="status-time"><{if $detail.staff_start_time}><{$detail.staff_start_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                        </div>
+                    </div>
+                    <div class="tip <{if $detail.staff_jiedan_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">骑手已接单</p>
+                            <p class="status-time"><{if $detail.staff_jiedan_time}><{$detail.staff_jiedan_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                        </div>
+                    </div>
+                    <{if $order['from'] == 'waimai'}>
+                    <div class="tip <{if $detail.shop_jiedan_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">商家已接单</p>
+                            <p class="status-time"><{if $detail.shop_jiedan_time}><{$detail.shop_jiedan_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                        </div>
+                    </div>
+                    <{/if}>
+                    <{if $order['from'] == 'waimai'}>
+                    <div class="tip <{if $detail.pay_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">订单已支付</p>
+                            <p class="status-time"><{if $detail.pay_time}><{$detail.pay_time|format:'Y-m-d H:i:s'}><{/if}></p>
+                        </div>
+                    </div>
+                    <{/if}>
+                    <div class="tip <{if $detail.create_time>0}>on<{/if}>">
+                        <div class="circle"></div>
+                        <div class="status">
+                            <p class="status-label">订单已提交</p>
+                            <p class="status-time"><{$detail.create_time|format:'Y-m-d H:i:s'}></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

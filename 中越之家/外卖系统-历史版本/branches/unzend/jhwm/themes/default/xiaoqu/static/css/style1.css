@@ -1,0 +1,102 @@
+﻿/* 我的社区-便民服务 */
+.myCommunity .list{ position:relative;}
+.myCommunity .list .wz{ font-size:0.8rem; color:#686868; margin-bottom:0.15rem;}
+.myCommunity .list .wz .name{ display:inline-block; border:0.05rem solid #EEEEEE; border-radius:0.1rem; -webkit-border-radius:0.1rem; font-size:0.6rem; color:#ccc; padding:0 0.2rem;}
+.myCommunity .list .address{ display:inline-block; margin-right:2.05rem;}
+.myCommunity .list .ico{ display:inline-block; width:1rem; height:1rem; background:url(../images/neighbourhood_dial@2x.png) no-repeat; background-size:contain; vertical-align:middle; position:absolute; top:1.35rem; right:1rem;}
+
+/* 我的社区-便民服务详情 */
+.headerIco.left_tit{margin-top:0;}
+.myCommunity .box1 .list{ margin:0 0.5rem; padding:0.5rem 0;}
+.myCommunity .box1 .list .wz{ color:#191A19;}
+.myCommunity .box1 .jieshao .tit{ font-size:0.7rem; color:#ccc;}
+.myCommunity .box1 .jieshao .wz{ font-size:0.8rem; color:#999;}
+.myCommunity .box2 .nr{ margin:0 0.5rem; padding:0.5rem 0; display:flex; display:-webkit-flex; -webkit-box-pack: justify;
+ -webkit-justify-content:space-between; justify-content:space-between; -webkit-box-align: center; -webkit-align-items: center; align-items: center;}
+.myCommunity .box2 .nr i{ display:inline-block; width:1rem; height:1rem; background-repeat:no-repeat; background-size:contain; vertical-align:middle;}
+.myCommunity .box2 .nr .phoneIco{ background-image:url(../images/complain_phone@2x.png);}
+.myCommunity .box2 .nr .addressIco{ background-image:url(../images/serve_position@2x.png);}
+
+/* 我的社区-便民服务-举报 */
+.myCommunity_jubao .tit{ font-size:0.8rem; color:#686868;}
+.myCommunity_jubao .list-block{ margin:0; color:#686868; font-size:0.7rem;}
+.myCommunity_jubao .list-block .item-content{ margin:0 0.75rem; padding-left:0;}
+.myCommunity_jubao .list-block .item-inner:after,.myCommunity_jubao .list-block ul:after,.myCommunity_jubao .list-block ul:before{ background:none;}
+.myCommunity_jubao .text{ margin:0 0.5rem 0 2.5rem;}
+.myCommunity_jubao .list-block textarea{ background:#fafafa; border:1px solid #EEEEEE; border-radius:2px; height:6rem; font-size:0.65rem;}
+.myCommunity_jubao label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-checkbox{ background:none;}
+.myCommunity_jubao label.label-checkbox input[type="checkbox"]:checked + .item-media i.icon-form-checkbox:after,.myCommunity_jubao label.label-checkbox input[type="radio"]:checked + .item-media i.icon-form-checkbox:after{ background-image:url(../images/neighbourhood_select@2x.png); background-size:1.1rem 1.1rem;}
+.myCommunity_jubao label.label-checkbox i.icon-form-checkbox:after{ width:1.1rem; height:1.1rem; margin-left:0; margin-top:0; left:0; top:0;}
+
+/* 我的社区-社区邻里 */
+.community_linli .card{ margin:0 0 0.5rem; box-shadow:none;}
+.community_linli .card-header{ padding:0.5rem 0; margin:0 0.5rem; font-size:0.75rem;}
+.community_linli .card-header .img{ display:block; width:2rem; height:2rem; overflow:hidden;}
+.community_linli .card-header .img img{ width:100%;}
+.community_linli .card-header .wz{ margin-left:2.5rem;}
+.community_linli .card-header .wz .name{ color:#191A19;}
+.community_linli .card-header .wz .time{ font-size:0.65rem;}
+.community_linli .card-header .price{ color:#FF3300;}
+.community_linli .card-content-inner{ padding:0.5rem 0 0;}
+.community_linli .card-content-inner .tit{ color:#191A19; padding:0 0.5rem;}
+.community_linli .card-content-inner .tit span{ background:#FF6600; border-radius:0.2rem; -webkit-border-radius:0.2rem; font-size:0.65rem; color:#fff; padding:0.1rem 0.2rem;}
+.community_linli .card-content-inner .tit span.bgColor{ background:#ffb54c;}
+.community_linli .linliQuan_pic{ padding-left:0.5rem;}
+.community_linli .linliQuan_pic .pic_list{ width:33.3333%; display:block; float:left;}
+.community_linli .linliQuan_pic .pic_list .box{ margin-right:0.5rem; margin-top:0.5rem; line-height:0;}
+.community_linli .linliQuan_pic .pic_list .box img{ width:100%; height:auto;}
+.community_linli .card-footer:before{ background:none;}
+.community_linli .card-footer .left{ color: #92B9E1;}
+.community_linli .card-footer .ico{display:inline-block; vertical-align:text-top; height:1rem; width:1rem; background:url(../images/neighbourhood_address@2x.png) no-repeat center; background-size:contain; margin-right:0.3rem;}
+.community_linli .card-footer .ico1{ background-image:url(../images/neighbourhood_see@2x.png);}
+.community_linli .card-footer .ico2{ background-image:url(../images/neighbourhood_support@2x.png);}
+.community_linli .card-footer .ico3{ background-image:url(../images/neighbourhood_comment@2x.png);}
+.community_linli .card-footer .right a{ display:inline-block; margin-left:0.7rem; color:#999;}
+
+/* 我的社区-邻里圈-详情 */
+.pinglun_huifu_box .box{ padding:0.5rem 0 0 0.5rem;}
+.pinglun_huifu_box .box .img{ display:block; width:2rem; height:2rem; overflow:hidden;}
+.pinglun_huifu_box .box .img img{ width:100%;}
+.pinglun_huifu_box .box .nr{ margin-left:2.5rem;}
+.font_size13{ font-size:0.65rem;}
+.font_size15{ font-size:0.75rem;}
+.font_size16{ font-size:0.8rem;}
+.foot_nav{display:-webkit-box; display:box; line-height:2.5rem; font-size:0.8rem;}
+
+.foot_nav .left{-webkit-box-flex:1; -box-flex:1;}
+.foot_nav .left input{ border:none; width:100%; line-height:2.5rem;}
+.foot_nav .btn{ display:block; width:4rem; background:#59C181; color:#fff;}
+
+/* 我的社区-二手-详情 */
+.community_linli .jianjie{ padding:0.5rem 0; margin:0 0.5rem; font-size:0.7rem; color:#999;}
+.community_linli .card-header .phone{ display:block; width:1rem; height:1rem; background:url(../images/complain_phone@2x.png) no-repeat; background-size:contain; vertical-align:middle;}
+
+/* 我的社区-发布二手 */
+.community_fabu .fabu_form{ margin:0.5rem; border:0.05rem #eee solid; border-radius:0.2rem; -webkit-border-radius:0.2rem;}
+.community_fabu .list-block{ margin:0;}
+.community_fabu .fabu_form .list-block ul:before,.community_fabu .fabu_form .list-block ul:after{ background:none;}
+.community_fabu .fabu_form .list-block .item-content{ padding-left:0;}
+.community_fabu .fabu_form .list-block input[type="text"],.community_fabu .fabu_form .list-block textarea{ font-size:0.75rem;}
+.community_fabu .fabu_form .list-block .item-inner{ padding-left:0.5rem;}
+
+.community_fabu .fabu_form .img_upload{ background:#ffffff; padding:0.5rem 0 0.5rem 0.75rem;}
+.community_fabu .fabu_form .img_upload ul li{float: left;margin-right:0.4rem; display:block;width: 3.5rem;height: 3.5rem;background: no-repeat center center;background-size: cover;}
+.community_fabu .fabu_form .img_upload ul li:nth-child(4n){ margin-right:0;}
+.community_fabu .fabu_form .img_upload ul li img{ width:100%; height:100%;}
+.community_fabu .fabu_form .upload_int {position: relative;width: 3.5rem;height: 3.5rem; border:0.05rem dashed #e5e5e5;}
+.community_fabu .fabu_form .upload_int input {position: absolute;z-index: 1;top: 0;left: 0;width: 100%;height: 100%;opacity: 0;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding:0;}
+.community_fabu .fabu_form .upload_int img{ position:relative; z-index:2;}
+.community_fabu .fabu_form .upload_int:before,.upload_int:after {content: " ";position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);
+-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);background-color: #cccccc;}
+.community_fabu .fabu_form .upload_int:before {width: 0.1rem;height: 2rem;}
+.community_fabu .fabu_form .upload_int:after {width: 2rem;height: 0.1rem;}
+.community_fabu .fabu_form .upload_int .num{ position:absolute; bottom:0; right:-1.5rem; line-height:0.8rem; font-size:0.6rem; color:#999;}
+
+.community_fabu .fabu_list .list-block .item-title.label{ width:25%;}
+.community_fabu .fabu_list .list-block .item-title{ font-size:0.75rem; color:#191a19;}
+.community_fabu .fabu_list .list-block input[type="text"]{ font-size:0.75rem;}
+.community_fabu .fabu_list .ico{ display:inline-block; width:0.8rem; height:0.8rem; background:url(../images/address_next@2x.png) no-repeat center; background-size:contain; position:absolute; right:0.5rem; top:0.75rem;}
+.community_fabu .fabu_list .list-block ul:before,.community_fabu .fabu_list .list-block ul:after{ background:#ccc;}
+.suozai_xiaoQu .list-block.media-list .item-inner{ color:#59C181;}
+
+

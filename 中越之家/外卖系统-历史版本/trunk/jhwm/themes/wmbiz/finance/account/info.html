@@ -1,0 +1,32 @@
+<{assign var='tpl_title' value=L("home")}>
+<{include file="block/header.html"}>
+<body>
+<div class="wrapper wrapper-content">
+    <div class="accountInfo">
+        <{if $account}>
+    	<table class="table_nobd_box mb20" width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="bt">卡号：</td>
+                <td><{$account.account_number}></td>
+            </tr>
+            <tr>
+                <td class="bt">开户行：</td>
+                <td><{$account.account_type}></td>
+            </tr>
+            <tr>
+                <td class="bt">户名：</td>
+                <td><{$account.account_name}></td>
+            </tr>
+            <tr>
+                <td class="bt">支行名称：</td>
+                <td><{$account.account_branch|default:'--'}></td>
+            </tr>
+        </table>
+        <{else}>
+        您还没有绑定银行卡
+        <{/if}>
+    </div>
+</div>
+
+
+<{include file="block/footer.html"}>

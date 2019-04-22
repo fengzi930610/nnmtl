@@ -1,0 +1,47 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<h4 class="tip-notice">图片大小设置 800X1000 表示生成图片有宽高双重限制，设置为800 表示只有宽限制，高度等比例</h4>
+<form action="?system/config-attach.html" mini-form="config-form" method="post" >
+<input type="hidden" name="K" value="attach" />
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr>
+	<th>附件URL地址：</th>
+	<td>
+		<input type="text" name="config[url]" value="<{$config.url|default:'./attachs'}>" class="input w-300"/>
+		<span class="tip-comment">"./" 表示站点根目录,也可填写"http://"开头的绝对地址</span>
+	</td>
+</tr>
+<tr><th>附件大小限制：</th>
+    <td>
+        <input type="text" name="config[allow_size]" value="<{$config.allow_size|default:'2048'}>" class="input w-200"/>
+        <span class="tip-comment">单位KB, 1M = 1024KB</span>
+    </td>
+</tr>
+
+<tr ><th>图片质量：</th>
+    <td>
+        <input type="text" name="config[thumbquality]" value="<{$config.thumbquality|default:'90'}>" class="input w-100"/>
+        <span class="tip-comment">设置 JPEG 类型的图片修改尺寸后的质量参数，范围为 0～100 的整数，数值越大结果图片效果越好，但尺寸也越大。</span>
+    </td>
+</tr>
+<tr ><th>全局缩略图：</th>
+	<td>
+		<input type="text" name="config[thumb]" value="<{$config.thumb|default:'200'}>" class="input w-100"/>
+	</td>
+</tr>
+
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form>
+</div>
+<{include file="admin:common/footer.html"}>

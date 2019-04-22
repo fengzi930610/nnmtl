@@ -1,0 +1,46 @@
+<!--<div class="footer_one">
+    <div class="smallpage">
+        <div class="footer_nav">
+        <{calldata mdl="article/article" from='about'}>
+        <a href="<{link ctl='about:'|cat:$item.page  http='www'}>" target="_blank"><{$item.title}></a><{if !$last}>/<{/if}>
+        <{/calldata}>
+        </div>
+        <div class="footer_link">
+        <{calldata mdl="links/links" limit="10"}>
+        <a href="<{$item.link}>" target="_blank"><{$item.title}></a>
+        <{/calldata}> <a href="http://www.jhcms.com"  target="_blank">外卖系统</a></div>
+        <div class="footer_copy">
+            <P>All Rights Reserved ICP备案：<{$CONFIG.site.icp}></P>
+            <P><{$CONFIG.site.title}></P>
+        </div>
+    </div>
+</div>-->
+</div>
+<script type="text/javascript">
+    //屏蔽自动填充表单
+    if(document.querySelector('input[type="password"]')){
+        document.querySelector('input[type="password"]').autocomplete = 'new-password';
+    }
+</script>
+</body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var input = $(".login_form_box .int_box .box input");
+        $(input).focus(function() {
+            $(".login_form_box .int_box .box .clear_ico").hide();
+            $(this).parent().find(".clear_ico").show();
+            $(this).parents(".int_box").css("border-color","#00bd9e");
+        }).blur(function() {
+            if (input.val() != "") {
+                $(this).parent().find(".clear_ico").show();
+            }else{
+                $(this).parent().find(".clear_ico").hide();
+            }
+            $(this).parents(".int_box").css("border-color","");
+        });
+        $(".login_form_box .int_box .box .clear_ico").click(function(){
+            $(this).parent().find("input").val("");
+        });
+    });
+</script>
+</html>

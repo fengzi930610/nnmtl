@@ -1,0 +1,38 @@
+<{foreach $product as $k => $v}>
+<li class="pintuan_list">
+    <div class="img"><a href="<{link ctl='pintuan/detail' arg1=$v.product_id}>"><img src="<{$pager.img}>/<{$v.photo}>"></a></div>
+    <div class="shangpinInfor">
+        <div class="wz">
+            <p class="left">
+                <span class="tag"><{if $v.detail.tuan_type == 1}>阶梯团<{else}><{if $v.detail.money_master > 0}>佣金团<{else}>普通团<{/if}><{/if}></span>
+                <span style="font-size:0.18rem;"><{$v.title}></span>
+            </p>
+            <{if $MEMBER.uid > 0}>
+            <{if $v.is_collect == 1}>
+            <a href="javascript:void(0);" class="shoucang_box on" pid="<{$v.product_id}>">
+                <i class="ico"></i>
+                <p style='color:#59c181;'>已收藏</p>
+            </a>
+            <{else}>
+            <a  href="javascript:void(0);" class="shoucang_box" pid="<{$v.product_id}>">
+                <i class="ico"></i>
+                <p>收藏</p>
+            </a>
+            <{/if}>
+            <{/if}>
+        </div>
+        <div class="price">
+            <p class="black9">拼团价：<span class="fontcl1">￥<{$v.wei_price}></span><small>
+                <{if $v.detail.tuan_type == 1}>（人数越多价格越低）<{/if}></small></p>
+            <p class="black9">原&nbsp;&nbsp;&nbsp;价：￥<{$v.price}></p>
+        </div>
+    </div>
+
+    <div class="pintuan_list_state" onclick="location.href='<{link ctl='pintuan/detail' arg1=$v.product_id}>'">
+        <div class="box"><a href="<{link ctl='pintuan/detail' arg1=$v.product_id}>"><big style="color:#ffffff;"><{$v.detail.user_num}></a></big>人成团
+        <a href="<{link ctl='pintuan/detail' arg1=$v.product_id}>" class="btn fr">去开团<i class="ico"></i></a></div>
+        <img src="/themes/default/weidian/static/images/pintuanIco.png">
+    </div>
+
+</li>
+<{/foreach}>

@@ -1,0 +1,173 @@
+<?php
+/**
+ * Copy Right IJH.CC
+ * Each engineer has a duty to keep the code elegant
+ * $Id$
+ */
+
+if(!defined('__CORE_DIR')){
+    exit("Access Denied");
+}
+
+return array (
+  'addr_id' => 
+  array (
+    'field' => 'addr_id',
+    'label' => 'ID',
+    'pk' => true,
+    'add' => false,
+    'edit' => false,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'int',
+    'comment' => 'ID',
+    'default' => '',
+    'SO' => false,
+  ),
+  'uid' => 
+  array (
+    'field' => 'uid',
+    'label' => '用户ID',
+    'pk' => false,
+    'add' => true,
+    'edit' => false,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'int',
+    'comment' => '用户ID',
+    'default' => '',
+    'SO' => false,
+  ),
+  'contact' => 
+  array (
+    'field' => 'contact',
+    'label' => '联系人',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'text',
+    'comment' => '联系人',
+    'default' => '',
+    'SO' => 'like',
+  ),
+  'mobile' => 
+  array (
+    'field' => 'mobile',
+    'label' => '联系电话',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'mobile',
+    'comment' => '联系电话',
+    'default' => '',
+    'SO' => 'in',
+  ),
+  'addr' => 
+  array (
+    'field' => 'addr',
+    'label' => '收货地址',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'text',
+    'comment' => '收货地址',
+    'default' => '',
+    'SO' => 'in',
+  ),
+  'house' => 
+  array (
+    'field' => 'addr',
+    'label' => '收货地址',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'text',
+    'comment' => '收货地址',
+    'default' => '',
+    'SO' => 'in',
+  ),
+  'is_default' => 
+  array (
+    'field' => 'is_default',
+    'label' => '是否为默认地址',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => true,
+    'show' => true,
+    'list' => true,
+    'type' => 'int',
+    'comment' => '是否为默认地址',
+    'default' => '',
+    'SO' => '=',
+  ),
+  'dateline' => 
+  array (
+    'field' => 'dateline',
+    'label' => '创建时间',
+    'pk' => false,
+    'add' => false,
+    'edit' => false,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'dateline',
+    'comment' => '创建时间',
+    'default' => '',
+    'SO' => 'betweendate',
+  ),
+  'lat' => 
+  array (
+    'field' => 'lat',
+    'label' => '纬度',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'text',
+    'comment' => '纬度',
+    'default' => '',
+    'SO' => false,
+  ),
+  'lng' => 
+  array (
+    'field' => 'lng',
+    'label' => '经度',
+    'pk' => false,
+    'add' => true,
+    'edit' => true,
+    'html' => false,
+    'empty' => false,
+    'show' => true,
+    'list' => true,
+    'type' => 'text',
+    'comment' => '经度',
+    'default' => '',
+    'SO' => false,
+  ),
+);

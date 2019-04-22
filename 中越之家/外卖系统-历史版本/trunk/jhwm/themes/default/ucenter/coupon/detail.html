@@ -1,0 +1,41 @@
+<{assign var='tpl_title' value='券'}>
+<{include file="block/header.html"}>
+<style>
+.coupons_delt .infor .price {
+width: 1.3rem;
+border-right: 0.01rem solid #e6e6e6;
+font-size: 0.18rem;
+line-height: 0.48rem;
+height: 0.6rem;
+}
+</style>
+<header>
+    <i class="left"><a href="javascript:backto();" class="ico headerIco headerIco_3"></a></i>
+    <div class="title">
+        券
+    </div>
+    <i class="right"><a href="#" class=""></a></i>
+</header>
+<section class="page_center_box">
+    <div class="coupons_delt">
+        <h2><{$data.title}></h2>
+        <div class="wx"><img src="<{$data.qrcode}>" ></div>
+        <div class="infor">
+            <div class="fl price fontcl1"><sup>￥</sup><{$data.price}><small class="black9">×<{$data.nums}></small></div>
+            <div class="pub_wz">
+                <p style="margin-left:0.4rem;">密码：<{$data.number}></p>
+                <p style="margin-left:0.4rem;">有效期至：<{$data.ltime|format:'Y-m-d'}></p>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+function backto() {
+    if(localStorage['coupon_detail']) {
+        var link = localStorage['coupon_detail'];
+        localStorage.removeItem("coupon_detail");
+        window.location.href = link;
+    }
+}
+</script>
+<{include file="block/footer.html"}>

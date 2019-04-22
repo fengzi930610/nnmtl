@@ -1,0 +1,55 @@
+<{assign var='tpl_title' value=L("配送员对账-提现信息")}>
+<{include file="block/header.html"}>
+
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+               <!-- <div class="jiesuan-box mb10">
+                    <div class="tit">结算信息</div>
+                    <ul>
+                        <li class="pub_list list">
+                            <div class="black9 pub_list_bd">结算周期</div>
+                            <div><{if $cfg.day>0}><{$cfg.day}>天周期结款<{else}>&#45;&#45;&#45;&#45;<{/if}></div>
+                        </li>
+
+                        <li class="pub_list list">
+                            <div class="black9 pub_list_bd">最低转出余额(满足最低转出金额后方可转出)</div>
+                            <div><{$cfg.limit}>元</div>
+                        </li>
+                    </ul>
+                </div>-->
+                <div class="jiesuan-box mb10">
+                    <div class="tit">账户</div>
+                    <ul>
+                        <li class="pub_list list">
+                            <div class="black9 pub_list_bd">开户行</div>
+                            <div><{$account.title}></div>
+                        </li>
+                        <li class="pub_list list">
+                            <div class="black9 pub_list_bd">账户</div>
+                            <div><{$account.number}></div>
+                        </li>
+                        <li class="pub_list list">
+                            <div class="black9 pub_list_bd">户名</div>
+                            <div><{$account.name}></div>
+                        </li>
+                    </ul>
+                </div>
+                </br>
+                </br>
+                <div class="jiesuan-link text_c"><a href="tel:<{$site.phone}>" class="black6">变更银行账户信息,请联系<{$site.phone}><!--<i class="ico ml5"></i>--></a></div>
+                <!-- 内容部分end -->
+            </div>
+        </div>000
+    </div>
+</div>
+
+
+
+
+
+<{include file="block/footer.html"}>

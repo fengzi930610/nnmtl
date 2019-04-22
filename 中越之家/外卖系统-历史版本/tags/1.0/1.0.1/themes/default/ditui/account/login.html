@@ -1,0 +1,35 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><{L('地推管理中心登录')}> </title>
+    <script type="text/javascript"  src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/kt.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/jBox/jBox.min.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/layer/layer.js?<{$VER}>"></script>
+    <script type="text/javascript"  src="<{$pager.res}>/script/widget.msgbox.js?<{$VER}>"></script>
+    <link type="text/css" rel="stylesheet" href="/themes/default/ditui/static/css/login.css">
+</head>
+<body>
+<iframe id="miniframe" name="miniframe" style="display:none;"></iframe>
+	<div class="login_cont">
+		<div class="login">
+			<h2><{L('登录')}> </h2>
+			<form action="<{link ctl='ditui/account:login'}>" mini-form="ditui-form" method="post">
+			<input type="text" name="data[mobile]" class="text" placeholder="<{L('请输入手机号')}> ">
+			<input type="password" name="data[passwd]" class="text" placeholder="<{L('请输入密码')}> ">
+			<div class="login_link">
+				<div class="lt ruzhu">
+					<a href="<{link ctl='ditui/account:signup'}>"><{L('申请资格')}> </a>
+				</div>
+				<div class="rt password">
+					<a href="<{link ctl='ditui/account:forgot'}>"><{L('忘记密码')}> ?</a>
+				</div>
+				<div class="cl"></div>
+			</div>
+			<input type="submit" class="btn" value="<{L('登录')}> ">
+			</form>
+		</div>
+	</div>
+</body>
+</html>

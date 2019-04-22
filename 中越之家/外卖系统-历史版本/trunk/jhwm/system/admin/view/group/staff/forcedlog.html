@@ -1,0 +1,53 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right">
+                <form class="search_inp mr10" action="?group/staff-forcedlog.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="骑手姓名、手机号" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="group/staff:forcedlog_so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}></td>                
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+        <tr>
+            <th>日志ID</th>
+            <th>配送员</th>
+            <th>所属配送站</th>
+            <th>订单ID</th>
+            <th>强制距离(m)</th>
+            <th>创建时间</th>
+        </tr>
+        <{foreach $items as $item}>        
+        <tr>
+            <td><{$item['log_id']}></td>
+            <!-- <td><{$staffs[$item.staff_id]['name']}>(ID:<{$item.staff_id}>)</td> -->
+            <td><{$item['staff_name']}>(<{$item.staff_mobile}>)</td>
+            <td><{$groups[$item.group_id]['group_name']|default:'----'}></td>
+            <td><{$item['order_id']}></td>
+            <td><{$item['distance']}></td>
+            <td><{$item['dateline']|format:"Y-m-d H:i:s"}></td>
+        </tr>
+        <{foreachelse}>
+         <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+        <{/foreach}>
+    </table>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+            <td class="w-100"></td>
+            <td colspan="10" class="left"></td>
+            <td class="page-list"><{$pager.pagebar}></td>
+        </tr>
+        </table>
+    </div>
+</div>
+<{include file="admin:common/footer.html"}>

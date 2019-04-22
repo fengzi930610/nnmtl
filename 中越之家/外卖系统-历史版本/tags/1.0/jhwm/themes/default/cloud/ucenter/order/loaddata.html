@@ -1,0 +1,13 @@
+<{foreach $items as $item}>
+<{if $item@index%4 == 0}>
+<div class="content-padded grid-demo">
+    <div class="row no-gutter">
+        <div class="col-25 <{if $item.number == $detail.win_number}>fontcl1<{/if}> "><{$item.number}></div>
+        <{elseif $item@index%4 == 3}>
+        <div class="col-25 <{if $item.number == $detail.win_number}>fontcl1<{/if}>"><{$item.number}></div>
+    </div>
+</div>
+    <{else}>
+    <div class="col-25 <{if $item.number == $detail.win_number}>fontcl1<{/if}>"><{$item.number}></div>
+    <{/if}>
+<{/foreach}>

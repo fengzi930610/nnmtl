@@ -1,0 +1,99 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?waimai/huodong-create-<{$shop_id}>-manfan.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+                <tr>
+                    <th>活动时间：</th>
+                    <td>
+                        <input type="text" name="data[stime]" value="" class="input w-100" date="dateline" readonly="">~
+                        <input type="text" name="data[ltime]" value="" class="input w-100" date="dateline" readonly="">
+                        <span class="ml5 gray">（开始日期0:00至结束日期23:59）</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>审核状态：</th>
+                    <td>
+                        <label><input type="radio" name="data[audit]" value="1" <{if $huodong['audit'] == 1}>checked="checked"<{/if}> class="input"/>通过</label>
+                        <label><input type="radio" name="data[audit]" value="0" <{if $huodong['audit'] == 0}>checked="checked"<{/if}> class="input"/>待审</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>活动信息：</th>
+                    <td>
+<table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-500">
+    <tr>
+        <th>实付金额(满)</th>
+        <th>优惠券金额(券)</th>
+        <th>使用条件(满)</th>
+        <th>有效期(天)</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="config[0][paid_amount]" value="<{$huodong['config'][0]['paid_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[0][coupon_amount]" value="<{$huodong['config'][0]['coupon_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[0][order_amount]" value="<{$huodong['config'][0]['order_amount']}>" class="input w-100"></td>
+        <td>
+            <select name="config[0][day]" class="input w-100">
+                <option <{if $huodong['config'][0].day == 1}>selected="selected"<{/if}> value="1">1天</option>
+                <option <{if $huodong['config'][0].day == 2}>selected="selected"<{/if}> value="2">2天</option>
+                <option <{if $huodong['config'][0].day == 3}>selected="selected"<{/if}> value="3">3天</option>
+                <option <{if $huodong['config'][0].day == 4}>selected="selected"<{/if}> value="4">4天</option>
+                <option <{if $huodong['config'][0].day == 5}>selected="selected"<{/if}> value="5">5天</option>
+                <option <{if $huodong['config'][0].day == 6}>selected="selected"<{/if}> value="6">6天</option>
+                <option <{if $huodong['config'][0].day == 7}>selected="selected"<{/if}> value="7">7天</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td><input type="text" name="config[1][paid_amount]" value="<{$huodong['config'][1]['paid_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[1][coupon_amount]" value="<{$huodong['config'][1]['coupon_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[1][order_amount]" value="<{$huodong['config'][1]['order_amount']}>" class="input w-100"></td>
+        <td>
+            <select name="config[1][day]" class="input w-100">
+                <option <{if $huodong['config'][1].day == 1}>selected="selected"<{/if}> value="1">1天</option>
+                <option <{if $huodong['config'][1].day == 2}>selected="selected"<{/if}> value="2">2天</option>
+                <option <{if $huodong['config'][1].day == 3}>selected="selected"<{/if}> value="3">3天</option>
+                <option <{if $huodong['config'][1].day == 4}>selected="selected"<{/if}> value="4">4天</option>
+                <option <{if $huodong['config'][1].day == 5}>selected="selected"<{/if}> value="5">5天</option>
+                <option <{if $huodong['config'][1].day == 6}>selected="selected"<{/if}> value="6">6天</option>
+                <option <{if $huodong['config'][1].day == 7}>selected="selected"<{/if}> value="7">7天</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td><input type="text" name="config[2][paid_amount]" value="<{$huodong['config'][2]['paid_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[2][coupon_amount]" value="<{$huodong['config'][2]['coupon_amount']}>" class="input w-100"></td>
+        <td><input type="text" name="config[2][order_amount]" value="<{$huodong['config'][2]['order_amount']}>" class="input w-100"></td>
+        <td>
+            <select name="config[2][day]" class="input w-100">
+                <option <{if $huodong['config'][2].day == 1}>selected="selected"<{/if}> value="1">1天</option>
+                <option <{if $huodong['config'][2].day == 2}>selected="selected"<{/if}> value="2">2天</option>
+                <option <{if $huodong['config'][2].day == 3}>selected="selected"<{/if}> value="3">3天</option>
+                <option <{if $huodong['config'][2].day == 4}>selected="selected"<{/if}> value="4">4天</option>
+                <option <{if $huodong['config'][2].day == 5}>selected="selected"<{/if}> value="5">5天</option>
+                <option <{if $huodong['config'][2].day == 6}>selected="selected"<{/if}> value="6">6天</option>
+                <option <{if $huodong['config'][2].day == 7}>selected="selected"<{/if}> value="7">7天</option>
+            </select>
+        </td>
+    </tr>
+</table>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clear-th-bottom"></th>
+                    <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="保存"> <input type="reset" class="bt-big" value="取消"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

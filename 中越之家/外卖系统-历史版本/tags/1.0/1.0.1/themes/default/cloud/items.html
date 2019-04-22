@@ -1,0 +1,168 @@
+<{include file="cloud/block/header.html"}>
+<div class="page page-current"> 
+    <!--头部-->
+    <header class="bar bar-nav">
+        <a class="pull-left headerIco headerIco2" href="<{link ctl='cloud/cates'}>"></a>
+        <a class="pull-right headerIco headerIco1" href="<{link ctl='cloud/search'}>"></a>
+        <h1 class="title"><{if $pager.cate_id>0}><{$cates[$pager['cate_id']]['title']}><{else}>全部商品<{/if}></h1>
+    </header>
+    <!--头部结束-->
+    <div class="content infinite-scroll infinite-scroll-bottom"> 
+        <!--下拉分类-->
+        <div class="saixuan_pull_box fixed-tab" data-offset="44">
+            <div class="saixuan_pull">
+                <ul>
+                    <li class="saixuan_pull_list"><div class="click"><span class="cate_title"><{if $pager.cate_id>0}><{$cates[$pager['cate_id']]['title']}><{else}>全部商品<{/if}></span><i class="ico"></i></div>
+                        <div class="saixuan_pull_child_box" style="display:none;">
+                            <ul class="cate_list">
+                                <li><a href="javascript:void(0);" onclick="setloadparams('cate_id',0,'全部商品');">全部商品<i class="ico"></i></a></li>
+                                <{foreach $cates as $cate}>
+                                <li><a href="javascript:void(0);" onclick="setloadparams('cate_id','<{$cate.cate_id}>','<{$cate.title}>');"><{$cate.title}><i class="ico"></i></a></li>
+                                <{/foreach}>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="saixuan_pull_list" id="order"><div class="click">即将揭晓<i class="ico"></i></div>
+                        <div class="saixuan_pull_child_box" style="display:none;">
+                            <ul class="order_list">
+                                <li><a href="javascript:void(0);" onclick="setloadparams('order','jjjx');">即将揭晓<i class="ico"></i></a></li>
+                                <li><a href="javascript:void(0);" onclick="setloadparams('order','renqi');">人气<i class="ico"></i></a></li>
+                                <li><a href="javascript:void(0);" onclick="setloadparams('order','new');">最新<i class="ico"></i></a></li>
+                                <li><a href="javascript:void(0);" onclick="setloadparams('order','price');">价格<i class="ico"></i></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="mask_bg"></div>
+        </div>
+        <!--下拉分类-->
+        <!--商品列表-->
+        <div class="goods_list_box mb10 infinite-scroll">
+            <ul id="index_goods_items">
+                
+            </ul>
+            <!-- 加载提示符 -->
+            <div class="infinite-scroll-preloader">
+            </div>
+        </div>
+        <!--商品列表结束-->
+
+    </div>
+</div>
+<script>
+
+    var _lock = false;
+    var params = {"cate_id": "<{$pager.cate_id}>","order":"<{$pager.order}>"};
+    var kw = "<{$pager.kw}>";
+    if(kw){
+        params['kw'] = kw;
+    }
+    var page = 1;
+    var link = "<{link ctl='cloud/index:loaditems' arg0='#page#'}>";
+    loaddata();
+
+    function setloadparams(k, v,title) {
+        page = 1;
+        params[k] = v;
+        if(title){
+            $(".cate_title").html(title);
+            if("<{$request['IN_APP_CLIENT']}>"){
+                IJH.return_items_title({"title":title});
+            }else{
+                $(".title").html(title);
+            }
+                        
+        }
+        loaddata();
+    }
+
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".infinite-scroll-preloader").html(msg).show();
+    }
+
+    function hideLoader()
+    {
+        $(".infinite-scroll-preloader").hide();
+    }
+
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            //console.log(ret);
+            if(ret.loadst == 0){
+                hideLoader();
+            }
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });
+    }
+    
+    
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        if (_lock) {
+            return false;
+        }
+        _lock = false; 
+         page++;
+        loaddata();
+        _lock = true;
+    });
+
+
+    $(document).ready(function () {
+        /*头部下拉开始*/
+        if ($('.saixuan_pull').length > 0)/*判断是否存在这个html代码*/
+        {
+            $('.saixuan_pull .saixuan_pull_list').width(100 / $('.saixuan_pull .saixuan_pull_list').length + '%');
+        }
+
+        $(".saixuan_pull_list .click").click(function () {
+            if ($(this).hasClass("on")) {
+                $(".saixuan_pull_list .click").removeClass("on");
+                $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+                $(".saixuan_pull_box .mask_bg").hide();
+            }
+            else {
+                $(this).addClass("on");
+                $(this).parent().find(".saixuan_pull_child_box").show();
+                $(".saixuan_pull_box .mask_bg").show();
+            }
+        });
+        $(".saixuan_pull_child_box ul li").click(function () {
+
+            $(this).parent().find("li").removeClass("on");
+            $(this).addClass("on");
+            
+            setTimeout(function(){
+                $(".saixuan_pull_list .click").removeClass("on");
+                $(".saixuan_pull_list .saixuan_pull_child_box").hide();
+                $(".saixuan_pull_box .mask_bg").hide();
+            },200)
+        });
+        
+    });
+    
+    $(document).off('click','.mask_bg').on('click','.mask_bg',function(){
+        $(this).hide();
+        $('.saixuan_pull_child_box').hide();
+        $('.saixuan_pull_list .click').removeClass('on');
+    })
+</script>
+<{include file="cloud/block/footer.html"}>

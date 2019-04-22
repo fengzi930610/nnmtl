@@ -1,0 +1,124 @@
+<{assign var='tpl_title' value=L("<{$weidian.title}>")}>
+<{include file="weidian/block/header.html"}>
+<section class="page_center_box">
+    <div class="idx_banner">
+        <div class="flexslider">
+            <ul class="slides">
+                <{foreach $banner as $k => $v}>
+                <li><a href="<{$v.link}>"><img src="<{$pager.img}>/<{$v.photo}>" /></a></li>
+                <{/foreach}>
+            </ul>
+        </div>
+    </div>
+    <!--内容-->
+    <!--优惠券-->
+    <div class="idx_youhui">
+
+          <{if $huodong}>
+         <div class="wz_box">
+        	<div class="box">
+            	<a href="<{$huodong.link}>"><h3><{$huodong.title}></h3></a>
+                <p>活动时间<{$huodong.stime|format:'Y-m-d'}> - <{$huodong.ltime|format:'Y-m-d'}></p>
+            </div>
+        </div>
+        <{/if}>
+        <{if $coupon}>
+        <div class="coupon_box">
+            <ul>
+                <{foreach $coupon as $k => $v}>
+                <li class="list m10" cid="<{$v.coupon_id}>">
+                    <div class="box">
+                        <img src="/themes/default/weidian/static/images/home_coupon@2x.png" />
+                        <div class="wz">
+                            <div class="left"><small>￥</small><{$v.coupon_amount}></div>
+                            <div class="right"><{if $v.have == 1}>已领<{else}>优惠券<{/if}>
+                                <p>满<{$v.order_amount}>元</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <{/foreach}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <{/if}>
+    </div>
+    <!--优惠券结束-->
+    <!--搜索-->
+    <div class="idx_sousuo">
+        <form action="<{link ctl='index'}>" method="post">
+            <input type="text" name="title" placeholder="商品搜索"><input type="submit" class="btn" value="搜索">
+        </form>
+    </div>
+    <!--搜索结束-->
+    <!--商品列表-->
+    <div class="idx_shangpin">
+        <div class="tit">推荐单品<a href="<{link ctl='product/index'}>" class="more fr">更多<i class="ico"></i></a></div>
+        <div class="shangpin_list_box">
+            <ul>
+                <{foreach $product as $k => $v}>
+                <li class="shangpin_list">
+                    <div class="box">
+                        <div class="img_box"><a href="<{link ctl='product/detail' arg1=$v.product_id}>"><img src="<{$pager.img}>/<{$v.photo}>"></a></div>
+                        <div class="wz_box">
+                            <P><{$v.title}></P>
+                            <div class="price_box">
+                                <div class="price maincl">￥<{$v.wei_price}></div>
+                                <a href="<{link ctl='product/detail' arg1=$v.product_id}>" class="cart_btn"></a>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </li>
+                <{/foreach}>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--商品列表结束-->
+    <!--内容结束-->
+</section>
+<{include file="weidian/block/nav.html"}>
+<style>
+  .m10{margin-top: 10px;}
+</style>
+<script>
+    $(document).ready(function(){
+
+        $('.flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false,
+			slideshowSpeed: 1000,
+			animationSpeed:400,
+        });//首页轮播js结束
+
+    })
+
+    // 立即领取
+	$('.coupon_box .list').click(function(){
+	    var cid = $(this).attr('cid');
+	    $.ajax({
+	        url: "<{link ctl='ucenter/coupon:get_coupon'}>",
+	        async: true,
+	        dataType: 'json',
+	        data: {"coupon_id":cid},
+	        type: 'POST',
+	        success: function (ret) {
+                    layer.open({
+                        content: ret.message
+                        , skin: 'msg'
+                        , time: 2 //2秒后自动关闭
+                    });
+                    setTimeout(function(){
+                        window.location.reload();
+                    },2000);
+	        },
+	        error: function (xhr, status, err) {
+	            $.alert(err);
+	        },
+	    });
+	})
+
+</script>
+
+<{include file="weidian/block/footer.html"}>

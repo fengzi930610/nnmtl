@@ -1,0 +1,55 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="adv/adv:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+<form action="?adv/adv-create.html" mini-form="adv-form" method="post" >
+<table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>广告位：</th><td><input type="text" name="data[title]" value="<{$detail.title}>" class="input w-300"/></td></tr>
+<tr><th>隶属模板：</th>
+    <td><select name="data[theme_id]" class="w-300"><{html_options options=$themes selected=$detail.theme_id}></select></td>
+</tr>
+<tr>
+    <th>广告类型：</th>
+    <td>
+        <label><select name="data[from]" id="adv_from" class="w-100"><{html_options options=$from_list selected=$detail.from}></select></label>
+        <span id="photo-config"  style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>宽:<input name="data[config][width]" type="text" class="input w-50"/></label>&nbsp;&nbsp;
+            <label>高:<input name="data[config][height]" type="text" class="input w-50"/></label>
+        </span>
+    </td>
+</tr>
+<tr><th class="w-100">限制条数：</th>
+    <td><input name="data[limit]" type="text" class="input w-50" value="<{$detail.limit|default:10}>"/><span class="tip-comment">最多显示广告条数</span></td>
+</tr>
+<!--
+<tr><th>描述：</th><td><textarea name="data[desc]" class="textarea w-300"><{$detail.desc}></textarea><br /></td></tr>
+-->
+<tr><th>排序：</th><td><input type="text" name="data[orderby]" value="<{$detail.orderby|default:50}>" class="input w-100"/></td></tr>
+<tr><th>状态：</th><td>
+	<label><input type="radio" name="data[audit]" value="0"/>待审</label>&nbsp;&nbsp;
+	<label><input type="radio" name="data[audit]" checked value="1"/>发布</label>
+</td></tr>
+<tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$("#adv_from").change(function(){
+    if($(this).val()=='photo' || $(this).val()=='product' || $(this).val()=='lunzhuan'){
+        $("#photo-config").show();
+    }else{
+        $("#photo-config").hide();
+    }
+});
+})(window.KT, window.jQuery);
+</script>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,107 @@
+<{include file="block/header.html"}>
+<style type="text/css">
+body{ background: #f5f7f9; }
+</style>
+<div class="loginTop">
+    <img src="<{$pager.img}>/<{$site.logo_shop}>" width="174" height="42">
+    <span class="loginTip">商家后台</span>
+</div>
+<div class="forget_box">
+	<div class="smallpage">
+    	<h2>找回密码</h2>
+    	<div class="state_box">
+        	<ul>
+            	<li class="on"><span>1</span><P>验证身份</P></li>
+                <li><span>2</span><P>设置密码</P></li>
+                <li><span>3</span><P>完成</P></li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    	<div class="login_form_box">
+            <div class="cont">
+                <form id="signupForm" action="<{link ctl='login:forgot'}>" mini-form="wmbiz" method="post" target="miniframe">
+                    <div class="int_box form-group">
+                        <div class="box">
+                            <input type="text" id="mobile" name="data[mobile]" aria-required="true" aria-invalid="true" class="form-control error" placeholder="请输入手机号">
+                            <a href="javascript:;" class="clear_ico"></a>
+                        </div>
+                    </div>
+                    <div class="int_box form-group getyzm_int_box">
+                        <div class="box">
+                            <input type="text" id="img_code" name="data[img_code]" required aria-required="true" class="form-control" placeholder="图形验证码">
+                            <a href="javascript:;" class="clear_ico"></a>
+                        </div>
+                        <div class="getyzm_box hqyzm" >
+                            <img id="shuaxingyanzm" src="<{link ctl='login/verify' http='wmbiz'}>"/>
+                        </div>
+                    </div>
+                    <div class="int_box form-group" style="margin-right: 132px;">
+                        <div class="box">
+                            <input type="text" name="data[code]" required aria-required="true" class="form-control" placeholder="请输入验证码">
+                            <a href="javascript:;" class="clear_ico"></a>
+                        </div>
+                        <div class="getyzm_box hqyzm getyzm" login="sendsms"><span>获取验证码</span></div>
+                    </div>
+                    <input type="submit" value="下一步" class="long_btn" id="btn_mobile">
+                    <div class="foot">已有帐号？<a href="<{link ctl='login'}>" class="maincl">登录</a></div>
+                </form>                   
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var minute = 60;
+        var mobile_timeout;
+        var mobile_count = minute;
+        var mobile_lock = 0;
+
+        BtnCount = function () {
+            if (mobile_count == 0) {
+                $(".hqyzm span").addClass("on");
+                $('.hqyzm span').removeAttr("disabled");
+                $('.hqyzm span').text("重新获取");
+                mobile_lock = 0;
+                clearTimeout(mobile_timeout);
+                $('.hqyzm span').removeClass("on");
+            } else {
+                mobile_count--;
+                $('.hqyzm span').text(+mobile_count.toString() + "秒...");
+                mobile_timeout = setTimeout(BtnCount, 1000);
+            }
+        };
+        $('#shuaxingyanzm').on('click',function(){
+            var url = "<{link ctl='login/verify' http='wmbiz'}>";
+            var link =url+Math.random();
+            $(this).attr('src',link);
+        });
+
+        $("[login]").click(function () {
+            if (mobile_lock == 0) {
+                var mobile = $('#mobile').val();
+                var img_code = $('#img_code').val();
+                if(!parseInt(img_code)){
+                    layer.msg('请输入图形验证码');
+                    return false;
+                }
+                var link = "<{link ctl='login/sendsms' http='wmbiz'}>";
+                $.post(link, {mobile: mobile,img_code:img_code}, function (ret) {
+                    if (ret.error == 0) {
+                        BtnCount();
+                        mobile_lock = 1;
+                        $(".hqyzm span").addClass("on");
+                        $('.hqyzm span').attr("disabled", "disabled");
+                    } else {
+                        layer.msg('验证失败，验证码已刷新，请重新填写');
+                        mobile_lock = 0;
+                        var url = "<{link ctl='login/verify' http='wmbiz'}>";
+                        var link =url+Math.random();
+                        $('#shuaxingyanzm').attr('src',link);
+                    }
+                }, 'json');
+                mobile_count = minute;
+            }
+        });
+    });
+</script>
+<{include file="block/nav_footer.html"}>

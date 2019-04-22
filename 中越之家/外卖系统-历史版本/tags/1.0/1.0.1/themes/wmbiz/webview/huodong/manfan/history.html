@@ -1,0 +1,59 @@
+<{assign var='tpl_title' value=L("满返活动-历史记录")}>
+<{include file="webview/block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+            	<!--内容开始-->
+            	<div class="actList_box mt10">
+                    <ul>
+                        <{foreach $items as $item}>
+                            <li class="actList">
+                                    <div class="cont">
+                                    <h3>满返活动</h3>
+                                    <P>
+                                       <{foreach $item.config as $v}>
+                                            <{if $v.paid_amount>0}>
+                                        订单满<{$v.paid_amount}>元送优惠券：满<{$v.order_amount}>元减<{$v.coupon_amount}>元<br/>
+                                           <{/if}>
+
+                                        <{/foreach}>
+                                    </P>
+                                    <p class="maincl state">
+                                        <{if $item.closed==1}>
+                                        已撤销
+                                        <{/if}>
+                                        <{if $item.closed==0&&$item.stime >$nowtime}>
+                                        待生效
+                                        <{/if}>
+                                        <{if $item.closed==0&&$item.ltime <$nowtime}>
+                                        已过期
+                                        <{/if}>
+                                        <{if $item.audit == 0&&$item.closed==0}>
+                                        未审核
+                                        <{/if}>
+                                    </p>
+                                </div>
+                                <div class="bottom pub_list">
+                                    <div class="time black9"><{if $item.stime == ($item.ltime + 86399)}><{$item.stime|format:'Y-m-d H:i'}>至<{$item.ltime|format:'Y-m-d H:i'}><{else}><{$item.stime|format:'Y-m-d'}>至<{$item.ltime|format:'Y-m-d'}><{/if}></div>
+                                    <div class="pub_list_bd btn_box">
+                                        <a href="<{link ctl='webview/huodong/manfan/detail' args=$item.huodong_id}>" class="weui-btn weui-btn_mini weui-btn_primary">查看详情</a>
+                                    </div>
+                                </div>
+                            </li>
+                        <{foreachelse}>
+                        <li class="actList">
+                            <div class="cont">
+                                <P>暂无数据</P>
+                            </div>
+                        </li>
+                        <{/foreach}>
+                        
+                    </ul>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+    </div>
+</div>
+<{include file="webview/block/footer.html"}>

@@ -1,0 +1,85 @@
+<{assign var='tpl_title' value=L("配送员对账-资金流水")}>
+<{include file="block/header.html"}>
+
+
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- 内容部分 -->
+                <p class="black9 mr10 ml10 mt5 mb5"><big>最近流水</big></p>
+                <div class="duizZdan_list duizYuE_list">
+                    <ul id="index_goods_items">
+                        <!-- <li><a href="#">
+                             <div class="fl">
+                                 <h3>余额提现</h3>
+                                 <P class="black9">2017-06-10<span class="ml5">已转出</span></P>
+                             </div>
+                             <div class="fr">
+                                 <big style="color:#ff5a5a;">-751.02<i class="linkico"></i></big>
+                                 <P class="black9">余额0</P>
+                             </div>
+                             <div class="clear"></div>
+                         </a></li>
+                         <li><a href="#">
+                             <div class="fl">
+                                 <h3>06.07~06.09日账单</h3>
+                                 <P class="black9">2017-06-10<span class="ml5">已入账</span></P>
+                             </div>
+                             <div class="fr">
+                                 <big style="color:#06c1ae;">+751.02<i class="linkico"></i></big>
+                                 <P class="black9">余额751.02</P>
+                             </div>
+                             <div class="clear"></div>
+                         </a></li>
+                         <li><a href="#">
+                             <div class="fl">
+                                 <h3>余额提现</h3>
+                                 <P class="black9">2017-06-10<span class="ml5">已转出</span></P>
+                             </div>
+                             <div class="fr">
+                                 <big style="color:#ff5a5a;">-751.02<i class="linkico"></i></big>
+                                 <P class="black9">余额0</P>
+                             </div>
+                             <div class="clear"></div>
+                         </a></li>
+                         <li><a href="#">
+                             <div class="fl">
+                                 <h3>06.07~06.09日账单</h3>
+                                 <P class="black9">2017-06-10<span class="ml5">已入账</span></P>
+                             </div>
+                             <div class="fr">
+                                 <big style="color:#06c1ae;">+751.02<i class="linkico"></i></big>
+                                 <P class="black9">余额751.02</P>
+                             </div>
+                             <div class="clear"></div>
+                         </a></li>-->
+                    </ul>
+                </div>
+                <div class="loadding"></div>
+                <div class="clear"></div>
+                <!-- 内容部分end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function(){
+        var url = '<{link ctl="log/load" arg0="#page#" http="staff"}>';
+        var list_id = 'index_goods_items';
+        loadpage(url,{},1,list_id);
+        scroll(url,{},1,"","#index_goods_items",list_id);
+    }
+</script>
+
+
+
+
+
+
+
+
+
+<{include file="block/footer.html"}>

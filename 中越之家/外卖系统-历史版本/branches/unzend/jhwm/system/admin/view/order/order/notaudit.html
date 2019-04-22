@@ -1,0 +1,70 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+	<table width="100%" align="center" cellpadding="0" cellspacing="0" >
+		<tr>
+			<td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+			<th><{$MOD.title}></th>
+			<td align="right"><{link ctl="order/order:so" load="mini:搜索内容" width="mini:500" class="button" title="搜索"}></td>
+			<td width="15"></td>
+		</tr>
+	</table>
+</div>
+<div class="page-data">	
+	<form id="items-form">
+    <table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-100">ID</th><th class="w-50">用户</th><th>联系电话</th><th class="w-50">总价</th>
+        <th>服务的时间</th><th>状态</th><th>支付</th>
+        <th>IP</th><th class="w-100">时间</th><th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><label><input type="checkbox" value="<{$item.order_id}>" name="order_id[]" CK="PRI"/><{$item.order_id}><label></td>
+        <td ucard="@<{$item.uid}>"><{$member_list[$item['uid']].nickname|default:'--'}>(UID:<{$item.uid}>)</td>
+        <td><{$item.service_mobile}></td><td>￥<{$item.all_price}></td>
+        <td><{$item.service_time|format:"Y-m-d H:i"}></td>        
+        <td><{if $item.order_status == '0'}>
+                <b class="red">未审核</b>
+            <{elseif $item.order_status == '1'}>
+                <b class="blue">已审核</b>
+            <{elseif $item.order_status == '2'}>
+                <b>已接单</b>
+            <{elseif $item.order_status == '3'}>
+                <b class="green">已完成</b>
+            <{elseif $item.order_status == '9'}>
+                <b class="red">已拒绝</b>
+            <{/if}>          
+        </td>
+        <td>
+            <{if $detail.pay_status eq 0}>
+                <b  class="red">未支付</b>
+            <{elseif $detail.pay_status eq 1}>
+                <b class="green">已支付</b><br />
+                <{$item.pay_time|format}>
+            <{/if}>
+        </td>        
+        <td><{$item.clientip}>(<{$item.clientip|iplocal}>)</td>
+        <td><{$item.dateline|format}></td>
+        <td>
+            <{link ctl="order/order:doaudit" args=$item.order_id class="button" title="审核"}>
+            <{link ctl="order/order:detail" args=$item.order_id class="button" title="查看"}>
+            <{link ctl="order/order:edit" args=$item.order_id title="修改" class="button"}>
+            <{link ctl="order/order:delete" args=$item.order_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+        </td>
+    </tr>
+    <{foreachelse}>
+     <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+    </table>
+	</form>
+	<div class="page-bar">
+            <table>
+                <tr>
+                    <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                    <td colspan="10" class="left"><{link ctl="order/order:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>&nbsp;&nbsp;&nbsp;<{link ctl="order/order:doaudit" type="button" submit="mini:#items-form" confirm="mini:确定要批量审核选中的内容吗?" priv="hide" value="批量审核"}></td>
+                    <td class="page-list"><{$pager.pagebar}></td>
+                </tr>
+            </table>
+	</div>
+</div>
+<{include file="admin:common/footer.html"}>

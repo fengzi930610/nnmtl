@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="application/xhtml+xml;charset=UTF-8" http-equiv="Content-Type">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <meta content="telephone=no, address=no" name="format-detection">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<title><{$weixin.nick_name}>(<{$shop.title}>)</title>
+	<meta name="author" content="IJH.CC" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="<{$detail.intro}>" />
+	<link href="/themes/default/weixin/static/style/wechat.css" rel="stylesheet" type="text/css">
+</head>
+<body id="weisite">
+<div class="container">
+    <div class="news_detail">
+    	<h6 class="title"><{$detail.title}></h6>
+        <div class="min_tit"><span class="bq">推荐</span> <span class="time"><{$detail.dateline|format:"Y-m-d"}></span> <span class="from"><{$weixin.nick_name}></span> <a href="#" class="link"><{$shop.title}></a></div>
+        <section class="content">
+			<{if $detail.photo}><p><img src="<{$pager.img}>/<{$detail.photo}>"/></p><{/if}>
+			<{$detail.content}>
+        </section>
+    </div>
+    <!--扫二维码-->
+    <div id="js_pc_qr_code" class="qr_code_pc_outer" style="display: block;">
+        <div class="qr_code_pc_inner">
+            <div class="qr_code_pc">
+                <img id="js_pc_qr_code_img" class="qr_code_pc_img" src="/qrcode?data=<{link ctl='weixin/news/detail' arg0=$detail.reply_id http='www'}>">
+                <p>微信扫一扫<br>关注该公众号</p>
+            </div>
+        </div>
+    </div>
+    <!--扫二维码结束-->
+</div>
+<div class="bottom_nav_blank"></div>
+<{include file="weixin/block/footer.html"}>

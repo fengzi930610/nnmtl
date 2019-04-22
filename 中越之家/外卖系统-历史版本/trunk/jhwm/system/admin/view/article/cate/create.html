@@ -1,0 +1,50 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td style="width:30px;" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th align="left"><{$MOD.title}></th>
+        <td></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?article/cate-create.html" mini-form="article-form" method="post">
+	<table width="100%" border="0" cellspacing="0" class="table-data form">
+		<tr>
+			<th width="150">上级菜单:</th>
+			<td>
+				<select name="data[parent_id]">
+				<option value="0">顶级菜单</option>
+				<{foreach $tree as $v}>
+				<option value="<{$v.cat_id}>"<{if $v.cat_id==$pager.parent_id}>selected="selected"<{/if}>>|--<{$v.title}></option>
+				<{foreach $v.children as $vv}>
+				<option value="<{$vv.cat_id}>"<{if $vv.cat_id==$pager.parent_id}>selected="selected"<{/if}>>&nbsp;&nbsp;&nbsp;&nbsp;|--<{$vv.title}></option>
+				<{/foreach}>
+				<{/foreach}>
+				</select>
+			</td>
+		</tr>		
+		<tr><th>分类标题：</th><td><input type="text" name="data[title]" value="" class="input w-300"/></td></tr>
+		<tr><th>SEO标题：</th><td><input type="text" name="data[seo_title]" value="" class="input w-300"/></td></tr>
+		<tr><th>SEO关键字：</th><td><input type="text" name="data[seo_keywords]" value="" class="input w-300"/></td></tr>
+		<tr><th>SEO描述：</th><td><textarea name="data[seo_description]" style="width:300px;height:80px;"></textarea>
+		<tr>
+			<th width="150">隐藏：</th>
+			<td>
+				<label><input type="radio" name="data[hidden]" value="1" />是</label>
+				<label><input type="radio" name="data[hidden]" value="0" checked="checked" />否</label>
+			</td>
+		</tr>
+		<tr>
+			<th width="150">排序：</th>
+			<td><input type="text" name="data[orderby]" class="input w-50" value="<{if $class.orderby}><{$class.orderby}><{else}>50<{/if}>"></td>
+		</tr>
+		<tr>
+			<th class="form-button-th"></th>
+			<td class="form-button-td"><input type="submit" class="bt-big"  value="提  交  数  据" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<{include file="admin:common/footer.html"}>

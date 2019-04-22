@@ -1,0 +1,20 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="member/message:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>ID：</th><td><{$detail.message_id}></td></tr>
+<tr><th>用户：</th><td><{$detail.user.nickname}>(ID:<{$detail.uid}>)</td></tr>
+<tr><th>标题：</th><td><{$detail.title}></td></tr>
+<tr><th>内容：</th><td><{$detail.content}></td></tr>
+<tr><th>是否已读：</th><td><{if $detail.is_read ==1}>已读<{elseif $detail.is_read ==0}>未读<{else}>所有<{/if}></td></tr>
+<tr><th>创建时间：</th><td><{$detail.dateline|format}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

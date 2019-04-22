@@ -1,0 +1,37 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="shop/msg:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?shop/msg-create.html" mini-form="msg-form" method="post" >
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr><th><span class="red">*</span>选择商家：</th>
+                <td>
+                    <input type="hidden" name="data[shop_id]" value="0" id="export_shop_id" />
+                    <input type="text" value="" id="export_shop_title" class="input w-150" readonly/>
+                    <{link ctl="shop/shop:dialog" title="选择商家" select="mini:#export_shop_id,#export_shop_title/N/选择商家" class="button"}>
+                </td>
+            
+            </tr>
+            <tr><th><span class="red">*</span>消息标题：</th><td><input type="text" name="data[title]" value="<{$detail.title|default:''}>" class="input w-300"/><span class="tip-comment">消息标题</span></td></tr>
+            <tr><th><span class="red">*</span>消息内容：</th><td><input type="text" name="data[content]" value="<{$detail.content|default:''}>" class="input w-300"/><span class="tip-comment">消息内容</span></td></tr>
+            <tr>
+                <th><span class="red">*</span>消息类型：</th>
+                <td>
+                    <select name="data[type]" class="w-100">
+                        <option selected="selected" value="4">系统消息</option>
+                    </select>
+                </td>
+            </tr> 
+            <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+        </table>
+    </form>
+</div>
+<{include file="admin:common/footer.html"}>

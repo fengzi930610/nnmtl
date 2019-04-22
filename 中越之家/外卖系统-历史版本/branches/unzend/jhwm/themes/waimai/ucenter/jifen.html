@@ -1,0 +1,34 @@
+<{assign var='tpl_title' value="我的积分"}>
+<{include file="block/header.html"}>
+
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!-- <div class="orderTakeOut shopNotice" id="index_goods_items">
+
+                </div> -->
+                <div class="mineIntegralPage_list" id="index_goods_items">
+
+                </div>
+                <div class="loadding">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function(){
+        var url = '<{link ctl="ucenter/jifen:loadjifen" arg0="#page#" http="waimai"}>';
+      /*  loadpage(url,{},1);
+        scroll(url,{},1);*/
+        loaddata(url, 1, {});
+        scroll(url,{},1,'.container_mid',"#index_goods_items","index_goods_items");
+    })
+
+</script>
+<{include file="block/footer.html"}>
+

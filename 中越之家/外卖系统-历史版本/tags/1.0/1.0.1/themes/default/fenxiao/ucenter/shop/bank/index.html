@@ -1,0 +1,57 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<!--头部提示-->
+    <div class="cantuan_topts" style="position:relative;">请确保姓名、证件持有人、银行卡开户人为同一人</div>
+    <!--头部提示-->
+	<div class="fx_identify">
+        <form id="form_post" method="post">
+    	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="bt">真实姓名</td>
+                <td><input type="text" name="data[real_name]" placeholder="姓名"></td>
+            </tr>
+            <tr>
+                <td class="bt">身份证号</td>
+                <td><input type="text" name="data[card_no]" placeholder="请正确的填写证件号码"></td>
+            </tr>
+            <tr>
+                <td class="bt">开户银行</td>
+                <td class="bt">
+                    <div class="selct_box">
+                    <select name="data[account_type]" id="select">
+                        <{foreach $bank_list as $k => $item}>
+                        <option value="<{$item.title}>"><{$item.title}></option>
+                        <{/foreach}>
+                    </select>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="bt">银行卡号</td>
+                <td><input type="text" name="data[account_number]" placeholder="请输入储蓄卡卡号"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</section>
+<footer class="long_btn_box">
+	<a href="javascript:void(0);" class="long_btn">提交认证</a>
+</footer>
+<script>
+var link = "<{link ctl='ucenter/shop/bank:index'}>";
+$('.long_btn').click(function(){
+    $.post(link, $('#form_post').serialize(), function (ret) {
+        if (ret.error == 0) {
+            setTimeout(function(){
+                location.href="<{link ctl='ucenter/shop/profit/index/'}>";
+            },2000);
+            
+        };
+        layer.open({
+            content: ret.message,
+            time: 2 //2秒后自动关闭
+        });
+    },'json');
+})
+</script>
+<{include file="fenxiao/block/footer.html"}>

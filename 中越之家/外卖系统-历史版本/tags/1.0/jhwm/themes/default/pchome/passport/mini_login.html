@@ -1,0 +1,94 @@
+<!-- 弹出迷你登录框 -->
+<div id="mini_log_html">
+    <div class="mask_zhezhao"></div>
+    <div class="login_form_box tanchu-login">
+        <div class="guanbi"><i class="guanbi_ico" style="cursor:pointer;"></i></div>
+        <div class="tab_box">
+            <a href="javascript:;" class="on border_r">密码登录</a>
+            <a href="javascript:;">验证码登录</a>
+        </div>
+        <div class="cont">
+            <div class="change_box">
+                <div class="int_box mb20">
+                    <div class="ico ico1"></div>
+                    <div class="box"><input type="text" placeholder="手机号" id="mobile"><a href="javascript:;" class="clear_ico"></a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="int_box mb20">
+                    <div class="ico ico2"></div>
+                    <div class="box"><input type="password" placeholder="密码" id="password"><a href="javascript:;" class="clear_ico"></a></div>
+                    <div class="clear"></div>
+                </div>
+                <input type="button" value="登 录" id="pwd_btn" class="long_btn">
+            </div>
+            <div class="change_box none">
+                <div class="int_box getyzm_int_box mb20">
+                    <div class="ico ico1"></div>
+                    <div class="box"><input type="text" placeholder="手机号" id="mobile_yzm"><a href="javascript:;" class="clear_ico"></a></div>
+                    <div class="getyzm_box"><span id="getyzm">获取验证码</span></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="int_box mb20">
+                    <div class="ico ico3"></div>
+                    <div class="box"><input type="text" id="code" placeholder="验证码"><a href="javascript:;" class="clear_ico"></a></div>
+                    <div class="clear"></div>
+                </div>
+                <input type="button" value="登 录" id="code_btn" class="long_btn">
+            </div>
+            <div class="caozuo_box">
+                <div class="fl"><input type="checkbox" checked>自动登录</div>
+                <a href="<{link ctl='passport/forget'}>" class="fr black6">忘记密码</a>
+            </div>
+        </div>
+        <div class="foot">
+            <a href="#" class="fl"><img src="/themes/default/pchome/static/images/other_ico1.png"></a>
+            <a href="<{link ctl='passport/login'}>" class="fr"><i class="ico animated infinite"></i>立即注册</a>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        //获取验证码
+        get_yzm('#getyzm', '#mobile_yzm',"<{link ctl='passport/sendsms'}>");
+        //两种登录方式方法
+        var passport_url = "<{link ctl='passport/login' arg0=1}>";
+        var yzm_url = "<{link ctl='passport/login' arg0=2}>";
+        var out_url = "<{link ctl='passport/loginout'}>";
+        var ucenter_url = "<{link ctl='ucenter'}>";
+        passport_login('#pwd_btn','#mobile','#password',passport_url,out_url,ucenter_url);
+        yzm_login('#code_btn','#mobile_yzm','#code',yzm_url,out_url,ucenter_url);
+
+        //JS
+        var input = $(".login_form_box .int_box .box input");
+        $(input).focus(function () {
+            $(".login_form_box .int_box .box .clear_ico").hide();
+            $(this).parent().find(".clear_ico").show();
+        }).blur(function () {
+            if (input.val() != "") {
+                $(this).parent().find(".clear_ico").show();
+            } else {
+                $(this).parent().find(".clear_ico").hide();
+            }
+        });
+        $(".login_form_box .int_box .box .clear_ico").click(function () {
+            $(this).parent().find("input").val("");
+        });
+        $(".login_form_box .tab_box a").each(function (i) {
+            $(this).click(function () {
+                $(this).addClass("on").siblings("a").removeClass("on");
+                $(".login_form_box .cont .change_box").each(function (e) {
+                    if (i == e) {
+                        $(this).removeClass("none").siblings(".change_box").addClass("none");
+                    } else {
+                        $(this).addClass("none")
+                    }
+                });
+            });
+        });
+        $('.tanchu-login .guanbi i').click(function () {
+            $('.tanchu-login').fadeOut();
+            $('.mask_zhezhao').fadeOut();
+        });
+    });
+</script>
+<!--迷你登录结束-->

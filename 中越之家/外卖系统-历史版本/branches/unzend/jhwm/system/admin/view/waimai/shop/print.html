@@ -1,0 +1,105 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0">
+        <tbody>
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt=""></td>
+            <th>配送信息</th>
+            <td align="right"><{link ctl="waimai/waimai:index" priv="hidden" class="button" title="商家列表"}></td>
+            <td width="15"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="page-data">
+    <!--向导-->
+    <div class="guide_list_box mgb10">
+        <ul>
+            <li> <{link ctl="waimai/shop:one" arg0=$shop_id title="店铺信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:setbusiness" arg0=$shop_id title="营业信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:two" arg0=$shop_id title="资质信息" target="admin_main" priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:three" arg0=$shop_id title="配送设置" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:four" arg0=$shop_id title="结算信息" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:set_print" arg0=$shop_id title="打印机设置" target="admin_main"  priv="hide" class="on" }></li>
+            <{if $waimai.pei_type=='1'}>
+            <li> <{link ctl="waimai/shop:separate" arg0=$shop_id title="单独配置" target="admin_main"  priv="hide" }></li>
+            <{/if}>
+            <li> <{link ctl="waimai/shop:import" arg0=$shop_id title="导入数据" target="admin_main"  priv="hide" }></li>
+            <li> <{link ctl="waimai/huodong:shop" arg0=$shop_id title="活动"  priv="hide"}></li>
+            <li> <{link ctl="waimai/shop:comment" arg0=$shop_id title="评论" priv="hide" }></li>
+            <li> <{link ctl="waimai/shop:tixian" arg0=$shop_id title="余额日志" priv="hide" }></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <!--向导end-->
+    <div class="songSet_dian mgb10">
+        <{link ctl="waimai/waimai:manage" args=$shop_id class="button float-r" priv="hide" target="_blank" title="进入门店"}>
+        <div class="wz_box">
+            <h3><{$waimai.title}></h3>
+            <p>地址：<{$waimai.addr}></p>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+    <form action="?waimai/shop-set_print-<{$shop_id}>.html" mini-form="shop-form" method="post" enctype="multipart/form-data">
+        <p class="form_title">打印机设置</p>
+        <table id="table_hongbao_list" style="border:none;float:left;" class="table-data list w-500">
+            <tr>
+                <th>打印机名称</th>
+                <th>终端号</th>
+                <th>终端密钥</th>
+                <th class="w-100"><a class="jq_add" href="javascript:;"><b>+添加</b></a></th>
+            </tr>
+            <{foreach $print as $k=>$item}>
+            <tr class="jq_tr" rel="<{$item.i}>">
+                <td>
+                    <input type="text" class="input w-100" name="data[<{$item.i}>][title]" value="<{$item.title}>" />
+                </td>
+                <td>
+                    <input type="text" class="input w-100" name="data[<{$item.i}>][machine_code]" value="<{$item.machine_code}>" />
+                </td>
+                <td>
+                    <input type="text" class="input w-100" name="data[<{$item.i}>][mkey]" value="<{$item.mkey}>" />
+                </td>
+
+                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+            </tr>
+            <{foreachelse}>
+            <tr class="jq_tr" rel="0">
+                <td>
+                    <input type="text" class="input w-100" name="data[0][title]" value="" placeholder="打印机名称" />
+                </td>
+                <td><input type="text" class="input w-100" name="data[0][machine_code]" value="" placeholder="终端号"></td>
+                <td><input type="text" class="input w-100" name="data[0][mkey]" value="" placeholder="终端秘钥"></td>
+                <td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>
+            </tr>
+            <{/foreach}>
+        </table>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tbody>
+            <tr>
+                <th></th>
+                <td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据"></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".jq_add").click(function () {
+            var j = $(".jq_tr:last").attr("rel");
+            var k = parseInt(j)+1;
+            var html = '<tr class="jq_tr" rel="'+k+'">'+
+                    '<td><input type="text" class="input w-100" name="data['+k+'][title]" value="" placeholder="打印机名称"></td>'+
+                    '<td><input type="text" class="input w-100" name="data['+k+'][machine_code]" value="" placeholder="终端号"></td>'+
+                    '<td><input type="text" class="input w-100" name="data['+k+'][mkey]" value="" placeholder="终端秘钥"></td>'+
+                    '<td class="center"><a href="javascript:;" class="jq_delete">删除</a></td>'+
+                    '</tr>';
+            $("#table_hongbao_list").append(html);
+        })
+        $("#table_hongbao_list").on('click', '.jq_delete', function () {
+            $(this).parent().parent().remove();
+        })
+    })
+</script>
+<{include file="admin:common/footer.html"}>

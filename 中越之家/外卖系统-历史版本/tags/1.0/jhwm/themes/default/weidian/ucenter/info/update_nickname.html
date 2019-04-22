@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<{include file="block/sheader.html"}>
+</head>
+
+<body>
+
+
+<header>
+	<i class="left"><a class="ico headerIco headerIco_3" href="<{link ctl='ucenter/info:index'}>"></a></i>
+    <div class="title">
+    	修改用户名
+    </div>
+    <i class="right"><a class="" href="#"></a></i>
+</header>
+<section class="page_center_box">
+    <div class="loginPage" style="padding:0;">
+        <div class="">
+        	<form action="<{link ctl='ucenter/info:set_nickname'}>" mini-form="car-form"  id="sbtfrm" method="post">
+            <div class="loginPage_int_box border_b border_t">
+                <div class="pub_box" style="margin-left:0.05rem;">
+                    <input class="long_int" type="text" placeholder="请输入姓名" name="nickname">
+                </div>
+            </div>
+            <p class="pad_l10 pad_r10 mt10 mb10 black9">请输入您的用户名</p>
+            <div class="btn_box">
+                <input class="long_btn" type="submit" value="确定">
+            </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+    <script>
+        $('#l5').addClass('on');
+    </script>
+<{include file="block/sfooter.html"}>
+</body>
+</html>

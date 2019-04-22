@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>微信支付</title>
+    <link rel="stylesheet" href="%THEME%/static/weui/weui.min.css"/>
+    <link rel="stylesheet" href="%THEME%/trade/payment/css/style.css"/>
+</head>
+<body ontouchstart>
+<div class="container" id="container">
+    <div class="page js_show">
+        <div class="page_cont">
+            <div class="container_mid">
+                <!--内容开始-->
+                <div class="pubPaypage">
+                    <div class="mb10">
+                        <div class="info_list">
+                            <span class="fl bt">支付流水：</span>
+                            <span class="fr"><{$log.trade_no}></span>
+                        </div>
+                        <div class="info_list"><span class="fl bt">支付金额：</span><big class="fr price"><small>￥</small><{$log.amount}></big></div>
+                    </div>
+                    <div class="code_box codeWeChat_box">
+                        <!-- <div class="code_img">
+                            <div class="img"><img src='<{link ctl="qrcode" data=$trade.qrcode size="8"}>'></div>
+                            <div class="wz"><img src="%THEME%/trade/payment/img/payWay02@3x.png">请使用微信扫描上方二维码完成支付</div>
+                        </div> -->
+                        <!-- <div class="firstline border_b">请确认微信支付是否已完成</div> -->
+                        <div class="wechatBtns">
+                            <a class="btnone" href="<{$rebackurl}>">我已支付完成</a><a class="btnone bg2" href="<{$rebackurl}>">遇到问题重新支付</a>
+                        </div>
+                    </div>
+                </div>
+                <!--内容结束-->
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/layer/3.0.1/mobile/layer.js"></script>
+<script type="text/javascript">
+
+
+(function($){
+    function query_order_pay_status(){
+        $.getJSON("<{link ctl='trade/payment:queryorder' arg0=<{$log.trade_no}>}>", function(ret){
+            if(ret.error){
+                layer.open({
+                    content: ret.message
+                    ,btn: '查看订单'
+                    ,yes: function(index){
+                      window.location.href = "<{$rebackurl}>";
+                      layer.close(index)
+                    }
+                });
+                setTimeout(function(){window.location.href="<{$rebackurl}>";}, 1500);
+            }else if(ret.trade_status == 'SUCCESS'){
+                layer.open({
+                    content: "恭喜您支付成功"
+                    ,btn: '查看订单'
+                    ,yes: function(index){
+                      window.location.href = "<{$rebackurl}>";
+                      layer.close(index)
+                    }
+                });
+                setTimeout(function(){window.location.href="<{$rebackurl}>";}, 1500);
+            }else{
+                setTimeout(function(){query_order_pay_status();}, 2000);
+            }
+        })
+    }
+    //3秒后查询
+    setTimeout(function(){query_order_pay_status();}, 5000);
+})(window.jQuery);
+</script>
+</body>
+</html>
+

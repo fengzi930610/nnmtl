@@ -1,0 +1,154 @@
+<{assign var='tpl_title' value=L("我的小区")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav">
+
+    <a href="<{link ctl='xiaoqu'}>" class="pull-left headerIco"></a>
+
+    <{if $list}>
+
+    <a class="pull-right" id='manage_btn'>管理</a>
+
+    <{/if}>
+
+    <h1 class="title">我的小区</h1>
+
+</header>
+
+<!--头部结束-->
+
+<div class="content"> 
+
+    <div class="mt10 my-xiaoqu">
+
+        <div class="list-block media-list">
+
+            <ul>
+
+                <{foreach $list as $k => $v}>
+
+                <li class="mb10">
+
+                    <label class="label-checkbox item-content  addr_list"  val="<{$v.xiaoqu_id}>" yezhu="<{$v.yezhu_id}>">
+
+                        <input type="radio" name="my-radio">
+
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                        <div class="item-inner">
+
+                            <div class="item-title-row">
+
+                                <div class="item-title mb5 xiaoqu-name"><{$v.title}></div>
+
+                            </div>
+
+                            <div class="item-subtitle"><span class="maincl"><{$v.house_louhao}></span>栋 <span class="maincl"><{$v.house_danyuan}></span>单元 <span class="maincl"><{$v.house_huhao}></span>室</div>
+
+                        </div>
+
+                    </label>
+
+                    <div class="my-caozuo pad10" style='display:none;'>
+
+                        <div class="caozuo-one"><a href="<{link ctl='xiaoqu/yezhu/delete' arg1=$v.yezhu_id}>" class="black9 external"><i class="icon-caozuo mr10"></i>删除</a></div>
+
+                        <div class="caozuo-one"><a href="<{link ctl='xiaoqu/yezhu/edit' arg1=$v.yezhu_id}>" class="black9"><i class="icon-caozuo correct mr10"></i>修改</a></div>
+
+                        <div class="cl"></div>
+
+                    </div>
+
+                </li>
+
+                <{/foreach}>
+
+            </ul>
+
+        </div>
+
+        <div class="add-xiaoqu pad10  bgcolor_white">
+
+            <a href="<{link ctl='xiaoqu/yezhu/create'}>" class="maincl"><i class="add-icon"></i>入驻小区</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    .picker-modal .bar .title{color:#fff}
+
+</style>
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#manage_btn').click(function () {
+
+            if ($(this).text() == '管理') {
+
+                $(this).text('取消');
+
+                $('.my-caozuo').show();
+
+            } else {
+
+                $(this).text('管理');
+
+                $('.my-caozuo').hide();
+
+            }
+
+        })
+
+    })
+
+
+
+    //针对小区列表的点击事件处理begin
+
+    $('.addr_list').click(function () {
+
+        var xiaoquname = $(this).find('.xiaoqu-name').text();
+
+        var yezhuid = $(this).attr('yezhu');
+
+        var xiaoquid = $(this).attr('val');
+
+        localStorage['UxXiaoqu'] = xiaoquname;
+
+        localStorage['UxXiaoquId'] = xiaoquid;
+
+        localStorage['UxYezhuId'] = yezhuid;
+
+        Cookie.set("UxXiaoqu", xiaoquname, 86400 * 30);
+
+        Cookie.set("UxXiaoquId", xiaoquid, 86400 * 30);
+
+        Cookie.set("UxYezhuId", yezhuid, 86400 * 30);
+
+        location.href = "<{link ctl='xiaoqu'}>";
+
+    })
+
+    $('.city_name').click(function () {
+
+        var link = "<{link ctl='xiaoqu/city'}>";
+
+        window.location.href = link;
+
+    })
+
+    //end
+
+
+
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

@@ -1,0 +1,66 @@
+<{assign var='tpl_title' value=L("我的红包")}>
+<{include file="v3block/header.html"}>
+<div class="container" id="container">
+    <div class="page js_show">
+    	<div class="page_cont">
+            <div class="container_mid">
+                <div class="myHongbao-list-cont mt10">
+                    <div class="pub_list the-top mb10">
+                        <div class="black9 pub_list_bd"><{if $count>0}>有<span class="fontcl1"><{$count}></span>个红包即将到期<{else}><{/if}></div>
+                        <a href="<{link ctl='page/hongbao'}>" class="shuoming"><i class="ico mr5"></i>红包说明</a>                
+                    </div>
+                    <div id="index_goods_items">
+                        
+                    </div>
+                    <div class="loadding">
+                        
+                    </div>
+                    <div class="text_c mt15 mb10">
+                        <a href="<{link ctl='ucenter/hongbao/history'}>" class="see-history-btn black9">查看历史红包</a>
+                    </div>
+                </div>        
+            </div>
+            <!--底部导航-->
+            <div class="myHongbao-footer">
+            	<a href="<{link ctl='ucenter/hongbao/exchange'}>" class="duihuan-btn">兑换红包</a>
+            </div>
+            <!--底部导航end-->
+        </div>
+    </div>
+</div>
+<script>
+setmsgisread();
+function setmsgisread() {
+    var message_id = localStorage['message_id'];
+    $.ajax({
+        url: "<{link ctl='ucenter/msg:setread'}>",
+        async: true,
+        dataType: 'json',
+        data: {"message_id": message_id},
+        type: 'POST',
+        success: function (ret) {
+            if(ret.error > 0){
+                //layer.open({content: ret.message,time: 2});
+            }else{
+                //提交成功
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        },
+
+    });
+}
+
+    $(document).ready(function () {
+        var link = "<{link ctl='ucenter/hongbao/loaditems' arg0='#page#'}>";
+        var page = 1;
+        var params = {};
+        loaddata(link, page, params);
+        scroll(link,{},page,'.container_mid',".myHongbao-list-cont","");
+    })
+
+
+</script>
+</body>
+</html>

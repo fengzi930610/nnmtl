@@ -1,0 +1,96 @@
+<{include file="admin:common/header.html"}>
+
+<style>
+    .goodsCate {
+        padding: 10px;
+    }
+    .cate_one {
+        background-color: #eee;
+        padding: 5px;
+        overflow: hidden;
+    }.cate_two .labelList li {
+         float: left;
+         margin: 0 10px 10px 0;
+     }
+    .cate_two .labelList li .box {
+        display: inline-block;
+        padding: 2px 6px;
+        height: 26px;
+        border-radius: 2px;
+        background-color: #019f85;
+        color: #fff;
+        line-height: 20px;
+    }
+    .cate_two .labelList li span i {
+        font-style: normal;
+    }
+    .fa-remove:before, .fa-close:before, .fa-times:before {
+        content: "\f00d";
+    }
+    :after, :before {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }.cate_two .skuitemPanel .btn {
+         height: 26px;
+         line-height: 16px;
+         vertical-align: top;
+     }
+</style>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data"><form action="?system/config-unit.html" mini-form="config-form" method="post" >
+    <input type="hidden" name="K" value="unit" />
+    <table width="100%" border="0" cellspacing="0" class="table-data form">
+        <tr>
+            <th class="w-10">商品属性:</th>
+        </tr>
+        <{foreach $config.unit as $k=>$v}>
+        <tr>
+            <th class="clear-th-bottom"></th>
+            <td>
+                <input type="text" class="input" name="config[unit][]" value="<{$v}>"/><a class="btn jq_pack_delete my_remove" href="javascript:;">删除</a>
+            </td>
+        </tr>
+        <{/foreach}>
+        <tr id="my_add_unit">
+            <th class="clear-th-bottom"></th>
+            <td class="clear-td-bottom" colspan="10">
+              <a href="javascript:;" id="my_jq_add" class="btn jq_pack_delete">添加数据</a>
+            </td>
+        </tr>
+        <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+    </table>
+</form></div>
+
+<script>
+    $(function(){
+        $('#my_jq_add').on('click',function(){
+           $('#my_add_unit').before(" <tr>\n" +
+               "            <th class=\"clear-th-bottom\"></th>\n" +
+               "            <td>\n" +
+               "                <input type=\"text\" class=\"input\" name=\"config[unit][]\" value=\"\"/><a class=\"btn jq_pack_delete my_remove\" href=\"javascript:;\">删除</a>\n" +
+               "            </td>\n" +
+               "        </tr>");
+            $('.my_remove').on('click',function(){
+                $(this).parent().parent().remove();
+            })
+        })
+        $('.my_remove').on('click',function(){
+            $(this).parent().parent().remove();
+        })
+
+    })
+
+
+
+</script>
+<{include file="admin:common/footer.html"}>

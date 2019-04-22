@@ -1,0 +1,79 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td align="right"><{link ctl="waimai/comment:index" priv="hidden" class="button"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <form action="?waimai/complaint-detail.html" mini-form="comment-form" method="post" >
+        <input type="hidden" name="data[complaint_id]" value="<{$complaint.complaint_id}>"/>
+        <table width="100%" border="0" cellspacing="0" class="table-data form">
+            <tr>
+                <th>投诉ID：</th><td class="w-300"><{$complaint.complaint_id}></td>
+                <th>订单ID：</th><td><{$complaint.order_id}>&nbsp;&nbsp;<{link ctl="waimai/order:detail" arg0=$complaint.order_id title="查看订单详情" class="button"}></td>
+            </tr>
+            <tr>
+                <th>商家：</th><td><span class="red"><{$waimai.title}>(ID:<{$waimai.shop_id}>)</span></td>
+                <th>会员：</th><td><{$member.nickname}>(UID:<{$member.uid}>)</td>
+            </tr>
+            <tr><th>评论图片：</th></tr>
+            <tr>
+                <th>&nbsp;</th>
+                <td colspan="3">
+                    <{foreach $photo as $v}>
+                    <img src="<{$pager.img}>/<{$v.photo}>" width="100" height="100" class="see"/>
+                    <{/foreach}>
+                </td>
+            </tr>
+            <tr><th>投诉情况：</th><td colspan="3"><p class="tip-notice"><{$complaint.title|default:"-----"}></p></td></tr>
+            <tr><th>投诉内容：</th><td colspan="3"><p class="tip-notice"><{$complaint.content|default:"----"}></p></td></tr>
+            <tr>
+                <th>评论时间：</th><td><{$complaint.dateline|format}></td>
+                <th>评论IP：</th><td><{$complaint.clientip}></td>
+            </tr>
+            <{if $complaint.reply}>
+            <tr>
+                <th>回复时间：</th><td><{$complaint.reply_time|format}></td>
+            </tr>
+            <tr><th>回复：</th><td colspan="3"><{$complaint.reply}><br /></td></tr>
+            <{else}>
+            <tr><th>回复：</th><td colspan="3"><textarea name="data[reply]" class="textarea w-400"><{$detail.reply}></textarea><br /></td></tr>
+            <tr><th class="clear-th-bottom"></th><td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td></tr>
+            <{/if}>
+
+
+        </table>
+    </form>
+</div>
+
+<div id="preview" class="none" style="display:none"><img class="jq_preview" src="" width="800" height="800"/></div>
+
+<script>
+    $(document).on("click",".see",function(){
+        var pre = '<{$pager.img}>';
+        if($(this).attr("src") == ""||$(this).attr("src")==0||$(this).attr("src")==pre){
+            layer.msg("没有图片");
+        }else{
+            $(".jq_preview").attr("src",$(this).attr("src"));
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 1,
+                area: '800px',
+                skin: 'layui-layer-nobg', //没有背景色
+                shadeClose: true,
+                content: $('#preview')
+            });
+        }
+    })
+</script>
+
+
+
+
+<{include file="admin:common/footer.html"}>

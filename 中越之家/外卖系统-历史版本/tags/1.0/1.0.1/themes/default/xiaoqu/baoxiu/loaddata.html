@@ -1,0 +1,35 @@
+<{foreach $list as $k => $v}>
+
+    <div class="mt10">
+
+        <div class="mb10 julu-one border_b border_t">
+
+            <div class="one-tit pad10"><span class="black6"><{$v.contact}></span> <em class="black9 ml10 riqi"><{$v.dateline|format}></em>
+
+                <span class="fr fontcl1">
+
+                    <{if $v.status == 1}>已提交<{/if}>
+
+                    <{if $v.status == 2}>处理中<{/if}>
+
+                    <{if $v.status == 3}>已解决<{/if}>
+
+                </span>
+
+            </div>
+
+            <div class="cl"></div>
+
+            <div class="pad10 cont black3"><{$v.content}></div>
+
+            <div class="pad10 txt_right">
+
+                <a href="<{link ctl='xiaoqu/baoxiu/notice' arg1=$v.baoxiu_id}>" class="remind-btn external">提醒</a>
+
+                <a href="<{link ctl='xiaoqu/baoxiu/delete' arg1=$v.baoxiu_id}>" class="remind-btn external">撤销</a></div>
+
+        </div>
+
+    </div>
+
+<{/foreach}>

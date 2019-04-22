@@ -1,0 +1,61 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}>&nbsp;&nbsp;(商铺:<b class="red"><{$shop.title}></b>)</th>
+            <td align="right"><{link ctl="product/product:create" arg0=$shop.shop_id class="button" title="添加"}></td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">	
+<form id="items-form">
+<table width="100%" border="0" cellspacing="0" class="table-data table">
+    <tr>
+        <th class="w-50">商品ID</th>
+        <th class="w-150">分类</th>
+        <th>标题</th>
+        <th class="w-50">价格</th>
+        <th class="w-50">打包费</th>
+        <th class="w-50">销量</th>
+        <th class="w-50">类型</th>
+        <th class="w-50">排序</th>
+        <th class="w-150">创建时间</th>
+        <th class="w-150">操作</th>
+    </tr>
+    <{foreach $items as $item}>
+    <tr>
+        <td><label><input type="checkbox" value="<{$item.product_id}>" name="product_id[]" CK="PRI"/><{$item.product_id}><label></td>
+        <td><{$cates[$item['cate_id']].title}></td>
+        <td><{$item.title}></td>
+        <td><b class="red">￥<{$item.price}></b></td>
+        <td><b class="red">￥<{$item.package_price}></b></td>
+        <td><{$item.sales}></td>
+        <td><{if $item['sale_type'] == 1}>限量<{else}>普通<{/if}></td>
+        <td><{$item.orderby}></td>
+        <td><{$item.dateline|format}><br /><{$item.clientip}>(<{$item.clientip|iplocal}>)</td>
+        <td>
+            <{link ctl="product/product:detail" args=$item.product_id class="button" title="查看"}>
+            <{link ctl="product/product:edit" args=$item.product_id title="修改" class="button"}>
+            <{link ctl="product/product:delete" args=$item.product_id act="mini:删除" confirm="mini:确定要删除吗？" title="删除" class="button"}>
+        </td>
+    </tr>
+    <{foreachelse}>
+    <tr><td colspan="20"><p class="text-align tip-notice">没有数据</p></td></tr>
+    <{/foreach}>
+</table>
+</form>
+<div class="page-bar">
+    <table>
+        <tr>
+            <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+            <td colspan="10" class="left">
+                <{link ctl="product/product:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}>
+            </td>
+            <td class="page-list"><{$pager.pagebar}></td>
+        </tr>
+    </table>
+</div>
+</div>
+<{include file="admin:common/footer.html"}>

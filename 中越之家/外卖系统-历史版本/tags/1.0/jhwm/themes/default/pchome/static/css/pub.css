@@ -1,0 +1,87 @@
+@charset "utf-8";
+html { background: #FFFFFF; }
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, dl, dd, fieldset, form, input, select, textarea, figure ,div,form,img,ul,ol,li,i,b,table,tr,td,th,fieldset,label,legend{ margin:0;padding:0; font-weight:normal;}
+body { font-size: 12px; font-family: "Microsoft YaHei", "Helvetica Neue", "Hiragino Sans GB", "Segoe UI", Tahoma, Arial, STHeiti, sans-serif; _font-family: Tahoma, Arial, Helvetica, STHeiti, sans-serif; color: #333333; font-weight:normal; font-style:normal;}
+ul, ol, menu { list-style: none; margin: 0; padding: 0; }
+table { border-collapse: collapse; border-spacing: 0; }
+fieldset, a img, iframe { border: 0 none; }
+address, em, i { font-style: normal; }
+input, select, button { vertical-align: middle; outline:0;}
+input, textarea, select { *font-size: 100%; }
+button { overflow: visible; }
+a,img,a img{border:0px;}
+a{text-decoration:none;cursor:pointer;transition:all 0.2s ease-in-out;-o-transition:all 0.2s ease-in-out;-webkit-transition:all 0.2s ease-in-out;-moztransition:all 0.2s ease-in-out; color:#333;}
+a:hover{text-decoration:none; color:#fe7902;}
+input.text,select.text,textarea.text{outline:none; border:1px solid #e3e3e3; height:26px; line-height:26px; padding:3px 0px 3px 5px;font-size:12px; color:#555;} 
+textarea{ outline:none; resize:none; border:1px solid #e3e3e3; font-size:12px;}
+input.check{ vertical-align:middle; margin-right:2px;}
+img{ vertical-align:top; -ms-interpolation-mode: bicubic; -moz-interpolation-mode: bicubic; -webkit-interpolation-mode: bicubic;/*图片缩放失真问题*/ transition: all 0.6s ease; -webkit-transition: all 0.6s ease; -moz-transition: all 0.6s ease; -ms-transition: all 0.6s ease;}
+.fl{float:left;}
+.fr{float:right;}
+.clear{ height: 0; line-height: 0; font-size: 0; clear: both;}
+.clearfix { display: block; *zoom: 1; }
+.none{ display:none;}
+
+.maincl{ color:#59c181;}
+.fontcl1{ color:#ff3300;}
+.fontcl2{ color:#ff6600;}
+.fontcl3{ color:#ff9900;}
+.fontcl4{ color:#00cfda;}
+.black9{ color:#999999;}
+.black6{ color:#666666;}
+.black3{ color:#333333;}
+
+.border_t{ border-top:1px solid #e6e6e6;}
+.border_b{ border-bottom:1px solid #e6e6e6;}
+.border_l{ border-left:1px solid #e6e6e6;}
+.border_r{ border-right:1px solid #e6e6e6;}
+
+.pagewd{ width:1200px; margin:0px auto;min-width:1200px;}
+.smallpage{ width:1000px;margin:0px auto; min-width:1000px;}
+
+.mt5{ margin-top:5px;}
+.mt10{ margin-top:10px;}
+.mt20{ margin-top:20px;}
+.mt30{ margin-top:30px;}
+
+.mb5{ margin-bottom:5px;}
+.mb10{ margin-bottom:10px;}
+.mb20{ margin-bottom:20px;}
+.mb30{ margin-bottom:30px;}
+
+.ml5{ margin-left:5px;}
+.ml10{ margin-left:10px;}
+.ml20{ margin-left:20px;}
+.ml30{ margin-left:30px;}
+
+.mr5{ margin-right:5px;}
+.mr10{ margin-right:10px;}
+.mr20{ margin-right:20px;}
+.mr30{ margin-right:30px;}
+
+.pad_b30{ padding-bottom:30px;}
+
+.text_c{ text-align:center;}
+.text_r{ text-align:right;}
+.text_l{ text-align:left;}
+
+.bg_grey{ background:#f5f5f5;}
+
+.mask_bg{ display:none; position:fixed; z-index:99; top:0; left:0; width:100%; height:100%; background:#000; opacity:0.4;}
+
+.btn{ display:inline-block;text-decoration:none; cursor:pointer;transition:all 0.2s ease-in-out;-o-transition:all 0.2s ease-in-out;-webkit-transition:all 0.2s ease-in-out;-moztransition:all 0.2s ease-in-out;  height:35px; line-height:35px; opacity:1; filter:alpha(opacity=100);}
+.btn:hover{ opacity:0.8;filter:alpha(opacity=80);}
+.overflow_clear{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/*点评星星样式*/
+.starBg{ display:inline-block; width:100px; height:20px; line-height:0; font-size:0; vertical-align:middle; background:url(../images/evaluate_star.png) repeat-x left -20px; position:relative; text-align:left;}
+.star{display:inline-block; height:20px; font-size:0; line-height:0; vertical-align:middle; background:url(../images/evaluate_star.png) repeat-x left top;}
+.star_clink{position: absolute; top: 0; left: 0; z-index: 2; display: inline-block; width: 100%; height:20px; overflow: hidden;}
+.star_clink a{display: inline-block; width: 20%; height:20px; vertical-align: top; padding:0;margin:0;}
+
+/*文章详情*/
+.articleBox p a{color:#59c181;}
+.articleBox p{margin:10px 0; font-size:14px; line-height:24px;}
+.articleBox h2{line-height:40px;}
+.articleBox img{ max-width:100%;}
+/*以上为通用样式部分*/

@@ -1,0 +1,416 @@
+<{assign var='tpl_title' value=L("<{if $detail.type == 1}>二手<{else}>圈子<{/if}>详情")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav"> 
+
+    <a href="" class="pull-left headerIco back"></a> 
+
+    <a class="pull-right headerIco headerIco3 mr10  open-vertical-modal"></a>
+
+    <h1 class="title"><{if $detail.type == 1}>二手<{else}>圈子<{/if}>详情</h1>
+
+</header>
+
+<!--头部结束--> 
+
+<!-- 工具栏 --> 
+
+<nav class="bar bar-tab comment_box" style="display:none;">
+
+    <div class="foot_nav">
+
+        <div class="left pad_l10"><input type="text" placeholder="" class="reply_input" name="content" /></div>
+
+        <input type="hidden" name="at_uid" id="at_uid" value="0">
+
+        <input type="hidden" name="at_reply_id" id="at_reply_id" value="0">
+
+        <a href="javascript:void(0);" class="btn txt_center reply_handel">留言</a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- 工具栏结束 -->
+
+<!-- 主要内容部分 --> 
+
+<div class="content">
+
+    <div class="community_linli mb10">
+
+        <div class="card border_b">
+
+            <div class="card-header">
+
+                <div>
+
+                    <a href="#" class="fl img"><img src="<{$pager.img}>/<{$detail.face}>"/></a>
+
+                    <div class="wz">
+
+                        <div class="name"><{$detail.nickname}></div>
+
+                        <p class="time black9"><{$detail.dateline|format}></p>
+
+                    </div>
+
+                    <div class="cl"></div>
+
+                </div>
+
+                <a href="tel:<{$detail.mobile}>" class="phone"></a>
+
+            </div>
+
+            <div class="card-content">
+
+                <div class="card-content-inner">
+
+                    <div class="tit"><{$detail.title}>
+
+                        <{if $detail.from == 'trade'}><em class="fr" style="color:#ff3300;">￥<{$detail.price}></em><{/if}>
+
+                        <div class="cl"></div>
+
+                    </div>
+
+                    <div class="linliQuan_pic">
+
+                        <ul>
+
+                            <{foreach $detail.photos as $k => $v}>
+
+                            <li class="pic_list">
+
+                                <div class="box"><img src="<{$pager.img}>/<{$v}>"/></div>
+
+                            </li>
+
+                            <{/foreach}>
+
+                        </ul>
+
+                        <div class="cl"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+
+                <div class="left"><i class="ico"></i><{$detail.xiaoqu.title}></div>
+
+                <div class="right">
+
+                    <a><i class="ico ico1"></i><{$detail.views}></a>
+
+                    <a id="<{$detail.tieba_id}>" class="goods"><i class="ico ico2"></i><span><{$detail.likes}></span></a>
+
+                    <a class="comment"><i class="ico ico3"></i><{$detail.replys}></a>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="jianjie border_t">
+
+                <span class="font_size15 black6 mr5">简介</span><{$detail.content}>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="pinglun_huifu_box border_t bgcolor_white">
+
+            <{foreach $reply_list as $k => $v}>
+
+            <div class="box reply_user" reply_id="<{$v.reply_id}>" uid="<{$v.uid}>" nickname="<{$v.nickname}>">
+
+                <a href="#" class="fl img"><img src="<{$pager.img}>/<{$v.face}>"/></a>
+
+                <div class="nr border_b pad_r10 pad_b10">
+
+                    <div class="font_size15 black9 mb5" style="overflow:hidden;"><{$v.nickname}><{if $v.at_uid}>&nbsp;(回复<{$v.at_nickname}>)<{/if}><span class="fr font_size13"><{$v.dateline|format}></span>
+
+                    </div>
+
+                    <div class="font_size15" style=" color:#191a19;"><{$v.content}></div>
+
+                </div>
+
+                <div class="cl"></div>
+
+            </div>
+
+            <{/foreach}>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- 主要内容部分结束 --> 
+
+<script>
+
+    $(document).off('click', '.open-vertical-modal').on('click', '.open-vertical-modal', function () {
+
+        $.modal({
+
+            title: '请选择您要发布的方式',
+
+            text: '',
+
+            verticalButtons: true,
+
+            buttons: [
+
+                {
+
+                    text: '发布到二手',
+
+                    onClick: function () {
+
+                        var link = "<{link ctl='xiaoqu/tieba/create_trade'}>";
+
+                        window.location.href = link;
+
+                    }
+
+                },
+
+                {
+
+                    text: '发布到邻里圈',
+
+                    onClick: function () {
+
+                        var link = "<{link ctl='xiaoqu/tieba/create_topic'}>";
+
+                        window.location.href = link;
+
+                    }
+
+                },
+
+                {
+
+                    text: '取消',
+
+                },
+
+            ]
+
+        })
+
+    });
+
+
+
+    //评论按钮
+
+    $(document).off('click', '.comment').on('click', '.comment', function () {
+
+        $('.reply_handel').text('留言');
+
+        $('.comment_box').show();
+
+        $('.reply_input').attr('placeholder', '发布评论');
+
+        //点击留言按钮发布评论
+
+        $(document).off('click', '.reply_handel').on('click', '.reply_handel', function () {
+
+            var link = "<{link ctl='xiaoqu/tieba/ajax_reply_handel'}>";
+
+            var id = "<{$detail.tieba_id}>";
+
+            var content = $('.reply_input').val();
+
+            $.post(link, {tieba_id: id, content: content}, function (ret) {
+
+                if (ret.error == 101) {
+
+                    $.alert('您还没有登录', function () {
+
+                        window.location.href = "<{link ctl='passport/login'}>";
+
+                    });
+
+                } else if (ret.error == 0) {
+
+                    $.alert(ret.message, function () {
+
+                        location.reload(true);
+
+                    });
+
+                } else {
+
+                    $.alert(ret.message);
+
+                }
+
+            }, 'json');
+
+        });
+
+    });
+
+
+
+    //回复评论按钮
+
+    $(document).off('click', '.reply_user').on('click', '.reply_user', function () {
+
+        $('.reply_handel').text('回复');
+
+        $('.comment_box').show();
+
+        var at_reply_id = $(this).attr('reply_id');
+
+        var nickname = $(this).attr('nickname');
+
+        var at_uid = $(this).attr('uid');
+
+        $('#at_uid').val(at_uid);
+
+        $('#at_reply_id').val(at_reply_id);
+
+        $('.reply_input').attr('placeholder', '回复' + nickname + '的评论');
+
+        //点击留言按钮发布评论
+
+        $(document).off('click', '.reply_handel').on('click', '.reply_handel', function () {
+
+            var link = "<{link ctl='xiaoqu/tieba/ajax_reply_handel'}>";
+
+            var id = "<{$detail.tieba_id}>";
+
+            var content = $('.reply_input').val();
+
+            $.post(link, {tieba_id: id,content:content,at_uid:at_uid,at_reply_id:at_reply_id}, function (ret) {
+
+                if (ret.error == 101) {
+
+                    $.alert('您还没有登录', function () {
+
+                        window.location.href = "<{link ctl='passport/login'}>";
+
+                    });
+
+                } else if (ret.error == 0) {
+
+                    $.alert(ret.message, function () {
+
+                        location.reload(true);
+
+                    });
+
+                } else {
+
+                    $.alert(ret.message);
+
+                }
+
+            }, 'json');
+
+        });
+
+    });
+
+    
+
+    //点赞开始
+
+    var cookie_like = Cookie.get("like");//获取cookie存储的赞
+
+    
+
+    var like_arr = {};
+
+    if(cookie_like){
+
+        cookie_like_arr = JSON.parse(cookie_like);
+
+        like_arr = cookie_like_arr;
+
+    }
+
+
+
+    $(document).off('click', '.goods').on('click', '.goods', function () {
+
+        var id = $(this).attr('id');
+
+        var span = $(this).find('span');
+
+        var goods = parseInt(span.text());
+
+        var link = "<{link ctl='xiaoqu/tieba:ajax_goods'}>";
+
+            var flag = 0;
+
+            $.each(like_arr,function(k,v){
+
+                if(id == v){ //如果重复则点赞失败
+
+                    flag = 1;
+
+                    return false;
+
+                }
+
+            });
+
+            if(flag == 0){
+
+                like_arr[id] = id;
+
+                $.post(link, {tieba_id: id}, function (ret) {
+
+                    if(ret.error == 101){
+
+                        $.alert('您还没有登录', function () {
+
+                            window.location.href = "<{link ctl='passport/login'}>";
+
+                        });
+
+                    }else if (ret.error == 0) {
+
+                         //存入cookie操作，点赞成功
+
+                        like_str = JSON.stringify(like_arr);
+
+                        Cookie.set("like",like_str,86400*30);    
+
+                        span.text(goods + 1);
+
+                    }
+
+                }, 'json');
+
+            }
+
+    });
+
+    //点赞结束
+
+
+
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

@@ -1,0 +1,51 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data">
+	<form action="?system/config-tixian.html" mini-form="config-form" method="post" >
+		<input type="hidden" name="K" value="tixian" />
+		<table width="100%" border="0" cellspacing="0" class="table-data form">
+			<tr>
+				<th>间隔天数：</th>
+				<td><input type="text" name="config[day]" value="<{$config.day|default:'3'}>" class="input w-100"/><span class="tip-comment">提现间隔天数</span></td>
+			</tr>
+			<tr>
+				<th>最低提现金额：</th>
+				<td><input type="text" name="config[limit]" value="<{$config.limit|default:'100'}>" class="input w-100"/><span class="tip-comment">最低提现金额</span></td>
+			</tr>
+
+
+            <tr>
+                <th>开启商户提现：</th>
+                <td>
+                    <label><input type="radio" name="config[shop]" <{if $config.shop}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[shop]" <{if empty($config.shop)}>checked="checked"<{/if}> value="0"/>关闭</label>
+                </td>
+            </tr>
+
+
+            <!-- <tr>
+                <th>开启骑手提现：</th>
+                <td>
+                    <label><input type="radio" name="config[staff]" <{if $config.staff}>checked="checked"<{/if}> value="1"/>开启</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="config[staff]" <{if empty($config.staff)}>checked="checked"<{/if}> value="0"/>关闭</label>
+                </td>
+            </tr> -->
+
+		    <tr>
+		    	<th class="clear-th-bottom"></th>
+		    	<td class="clear-td-bottom" colspan="10"><input type="submit" class="bt-big" value="提交数据" /></td>
+		    </tr>
+		</table>
+	</form>
+</div>
+
+<{include file="admin:common/footer.html"}>

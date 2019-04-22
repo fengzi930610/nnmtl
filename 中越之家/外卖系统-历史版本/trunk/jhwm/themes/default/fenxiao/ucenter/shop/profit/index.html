@@ -1,0 +1,19 @@
+<{include file="fenxiao/block/header.html"}>
+<section class="page_center_box">
+	<div class="fx_tweeterApply_top linkIco">
+            <a href="<{link ctl='ucenter/shop/profit/order'}>">
+            <p class="big">可提现</p>
+            <p>已完成的交易</p>
+            <p class="price">&yen;<{$FENXIAO.money}></p>
+        </a>
+    </div>
+    <div class="fx_centerMenu_list mt10">
+        <ul>
+            <li><a href="<{link ctl='ucenter/shop/order' st=1}>" class="border_b linkIco">待结算<span class="fr fontcl1">&yen;<{$dwc_total}></span></a></li>
+            <li><a href="<{link ctl='ucenter/shop/bank/reg_log'}>" class="linkIco mb10">已提现 <span class="fr fontcl1">&yen;<{$tixian_money}></span></a></li>
+            <li><a href="<{link ctl='ucenter/shop/bank/index'}>" class="border_b linkIco">身份认证</a></li>
+            <li><a href="<{link ctl='ucenter/shop/bank/my_bank'}>" class="linkIco">我的银行卡</a></li>
+        </ul>
+    </div>
+</section>
+<{include file="fenxiao/block/footer.html"}>

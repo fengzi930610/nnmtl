@@ -1,0 +1,138 @@
+<{assign var='tpl_title' value=L("缴费")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav">
+
+    <a href="<{link ctl='xiaoqu/bill'}>" class="pull-left headerIco"></a>
+
+    <a class="pull-right"></a>
+
+    <h1 class="title">缴费</h1>
+
+</header>
+
+<!--头部结束-->
+
+<div class="content"> 
+
+    <!--缴费-->
+
+    <div class="payPage">
+
+        <div class="list-block media-list">
+
+            <ul>
+
+                <li>
+
+                    <div class="item-content">
+
+                        <div class="item-inner">需支付</div>
+
+                        <div class="item-after"><span class="fontcl1">￥<{$bill.total_price}></span></div>
+
+                    </div>
+
+                </li>
+
+                <li class="pay_li" val="alipay">
+
+                    <label class="label-checkbox item-content">
+
+                        <div class="item-inner black9"><img src="/themes/default/xiaoqu/static/images/pay_2@2x.png">支付宝</div>
+
+                        <input value="alipay" type="radio" name="way">
+
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                    </label>
+
+                </li>
+
+                <{if $weixin == 1}>
+
+                <li class="pay_li" val="wxpay">
+
+                    <label class="label-checkbox item-content">
+
+                        <div class="item-inner black9"><img src="/themes/default/xiaoqu/static/images/pay_3@2x.png">微信支付</div>
+
+                        <input value="wxpay" type="radio" name="way">
+
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                    </label>
+
+                </li>
+
+                <{/if}>
+
+                <li class="pay_li" val="money">
+
+                    <label class="label-checkbox item-content">
+
+                        <div class="item-inner black9"><img src="/themes/default/xiaoqu/static/images/pay_4@2x.png">余额支付</div>
+
+                        <input value="money" type="radio" name="way">
+
+                        <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+
+                    </label>
+
+                </li>     
+
+                <input type="hidden" value="" id="pay_code" name="pay_code" />
+
+            </ul>
+
+        </div>
+
+        <div class="content-block"> <a href="javascript:void(0);" class="button button-big button-fill">立即支付</a> </div>
+
+    </div>
+
+    <!--缴费结束-->
+
+</div>
+
+<script>
+
+    
+
+    $(document).ready(function () {
+
+        $(document).off('click', '.pay_li').on('click', '.pay_li', function () {
+
+            var val = $(this).attr('val');
+
+            $('#pay_code').val(val);
+
+        })
+
+
+
+        $(document).off('click', '.button-fill').on('click', '.button-fill', function () {
+
+            var pay_code = $('#pay_code').val();
+
+            var bill_id = "<{$bill.bill_id}>";
+
+            var link = "<{link ctl='trade/payment/yzbill' pay_code=paycode bill_id=billid}>";
+
+            var url = link.replace('paycode',pay_code).replace('billid',bill_id);
+
+            window.location.href = url;
+
+        });
+
+    })
+
+
+
+
+
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

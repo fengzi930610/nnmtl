@@ -1,0 +1,71 @@
+<{include file="block/header.html"}>
+<div class="breadcrumb_box">
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="glyphicon glyphicon-home mr10"></i>首页</a></li>
+        <li><a href="#">管理中心</a></li>
+        <li class="active">商家管理</li>
+    </ol>
+</div>
+<div class="wrapper-content_box">
+    <div class="wrapper wrapper-content">
+   	<!--表单-->
+    <div class="tabnr_change show">
+        <form action="<{link ctl='huodong/manjian/create'}>" mini-form="wmbiz" method="post" target="miniframe">
+        <table class="form_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+        	
+        	
+        	<tr>
+                <td width="120"><p class="form_table_t">活动时间：</p></td>
+                <td>
+                    <div class="clearfix list_box">
+                        <div class="fl" id="data_5">
+                            <span class="input-daterange" id="datepicker"><input type="text" name="data[stime]" value=""  class="tuan_topser tuan_topserw3"/>至<input type="text" name="data[ltime]" value="" class="tuan_topser tuan_topserw3"/></span><span class="ml5 black9">（默认为开始日期0:00至结束日期23:59）</span>
+                        </div>
+                    </div>   
+                </td>
+            </tr>
+        	<tr>
+                <td width="120"><p class="form_table_t">活动信息：</p></td>
+                <td>
+                    <div class="form_table_nr">
+                    	<div class="dispchSet_list mt10 ml10 mr10 mb10">
+                            <div class="int_list clearfix">
+                                <span class="mr20">订单满：<input type="text" name="config[0][order_amount]" class="text">元<small class="black9">（不包含运费）</small></span>
+                                <span class="mr20">立减：<input type="text"  name="config[0][coupon_amount]" rel="shop_amount_1" class="text jq_all">元</span>
+                                <span class="mr20">商家承担：<input type="text" name="config[0][shop_amount]" readonly="readonly" class="text shop_amount_1">元</span>
+                                <span class="mr20">平台承担：<input type="text" name="config[0][roof_amount]" readonly="readonly" value="0" class="text">元</span>
+                            </div>
+                            <div class="int_list clearfix">
+                                <span class="mr20">订单满：<input type="text" name="config[1][order_amount]" class="text">元<small class="black9">（不包含运费）</small></span>
+                                <span class="mr20">立减：<input type="text" name="config[1][coupon_amount]" rel="shop_amount_2" class="text jq_all">元</span>
+                                <span class="mr20">商家承担：<input type="text" name="config[1][shop_amount]" readonly="readonly" class="text shop_amount_2">元</span>
+                                <span class="mr20">平台承担：<input type="text" name="config[1][roof_amount]" readonly="readonly" value="0" class="text">元</span>
+                            </div>
+                            <div class="int_list clearfix">
+                                <span class="mr20">订单满：<input type="text" name="config[2][order_amount]" class="text">元<small class="black9">（不包含运费）</small></span>
+                                <span class="mr20">立减：<input type="text" name="config[2][coupon_amount]" rel="shop_amount_3" class="text jq_all">元</span>
+                                <span class="mr20">商家承担：<input type="text" name="config[2][shop_amount]" readonly="readonly" class="text shop_amount_3">元</span>
+                                <span class="mr20">平台承担：<input type="text" name="config[2][roof_amount]" readonly="readonly" value="0" class="text">元</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        	
+            
+        </table>
+        <div class="form_table_btn_box text_c">
+            <input class="btn btn-primary btn-w-m" type="submit" value="保存"/>
+            <input class="btn btn-default btn-w-m" type="reset" value="取消"/>
+        </div>
+        </form>
+    </div>
+        <script>
+            $(document).ready(function(){
+                $(".jq_all").keyup(function(){
+                    $("."+$(this).attr("rel")).val($(this).val());
+                })
+            })
+        </script>
+    <!--表单end-->
+   <{include file="block/footer.html"}>

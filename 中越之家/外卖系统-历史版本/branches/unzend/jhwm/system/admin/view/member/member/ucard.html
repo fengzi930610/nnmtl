@@ -1,0 +1,10 @@
+用户名：<{$detail.uname_v}>&nbsp;&nbsp;<span style="color:#0033CC">(uid:<{$detail.uid}>)</span><br/>
+类型：<b <{if $detail.from != 'member'}>class="blue"<{/if}>><{$detail.from_title}></b><br />
+手机：<{$detail.mobile|default:'---'}><br/>
+邮箱：<{$detail.mail}><span style="color:#FF9900"><{if $detail.verify_mail}>[已验证]<{else}>[未验证]<{/if}></span><br/>
+状态：<{if $detail.closed==3}>已删除<{elseif $detail.closed==2}>锁定<{elseif $detail.closed==1}>禁言<{else}>正常<{/if}><br/>
+注册时间：<{$detail.dateline|format:"Y/m/d H:i"}><br/>
+注册IP：<{$detail.ip}><br/>
+最后登录：<{$detail.lastlogin|default:'Y/m/d H:i'}><br/>
+积分：<{$detail.credits}>点<br/>
+<{if $detail.from == 'company'}>公司名称：<{$company.title|default:'--'}><br/><{/if}>

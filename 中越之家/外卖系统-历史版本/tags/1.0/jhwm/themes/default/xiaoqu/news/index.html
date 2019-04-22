@@ -1,0 +1,73 @@
+<{assign var='tpl_title' value=L("物业通知")}>
+<{include file="block/xiaoqu_header.html"}>
+    	<!--头部-->
+        <header class="bar bar-nav">
+            <a href="" class="pull-left headerIco back"></a>
+            <a class="pull-right"></a>
+            <h1 class="title">物业通知</h1>
+        </header>
+		<!--头部结束-->
+        <div class="content infinite-scroll  infinite-scroll-bottom">
+            <!--物业通知-->
+            <div class="wuyeInform" id="index_goods_items">
+               
+            </div>
+            <!--物业通知结束-->
+            <!-- 加载提示符 -->
+          <div class="infinite-scroll-preloader">
+              <div class="preloader"></div>
+          </div>
+        </div>
+<script>
+    var _lock = false;
+    var params = {};
+    var page = 1;
+    var link = "<{link ctl='xiaoqu/news:loaddata' arg0='#page#'}>";
+    loaddata();
+    function setloadparams(k, v) {
+        page = 1;
+        params[k] = v;
+        loaddata();
+    }
+    function showLoader(msg, st) {
+        if (st) {
+            msg = '<div class="preloader"></div>';
+        }
+        $(".infinite-scroll-preloader").html(msg).show();
+    }
+    function hideLoader()
+    {
+        $(".infinite-scroll-preloader").hide();
+    }
+    function loaddata() {
+        showLoader('正在加载中....', true);
+        $.getJSON(link.replace('#page#', page), params, function (ret) {
+            if (page == 1) {
+                $("#index_goods_items").html(ret.html);
+                _lock = false;
+                if (ret.html == "") {
+                    showLoader('没有找到数据', false);
+                }else{
+                    $('.preloader').hide();
+                }
+            } else {
+                if (ret.html) {
+                    $("#index_goods_items").append(ret.html);
+                    _lock = false;
+                } else {
+                    showLoader('没有更多了', false);
+                }
+            }
+        });
+    }
+    $(document).on('infinite', '.infinite-scroll-bottom', function () {
+        if (_lock) {
+            return false;
+        }
+        _lock = false;
+        page++;
+        loaddata();
+        _lock = true;
+    });
+</script>
+<{include file="block/xiaoqu_footer.html"}>

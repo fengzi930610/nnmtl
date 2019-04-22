@@ -1,0 +1,186 @@
+<{assign var='tpl_title' value=L("提交小区")}>
+<{include file="block/xiaoqu_header.html"}>
+
+<!--头部-->
+
+<header class="bar bar-nav">
+
+    <a href="<{link ctl='xiaoqu/index/search'}>" class="pull-left"><span class="headerIco cha-xun mr10"></span>提交小区</a>
+
+</header>
+
+<!--头部结束-->
+
+<div class="content"> 
+
+    <form action="<{link ctl='xiaoqu/index/xiaoqu_create_handel'}>" method="post">
+
+        <div class="list-block choose-where">
+
+            <ul>                       		
+
+                <a href="<{link ctl='xiaoqu/city/index' arg1='xiaoqu_create'}>" class="black3">
+
+                    <li class="item-content item-link">
+
+                        <div class="item-inner border_b">
+
+                            <div class="item-title label">城市</div>
+
+                            <div class="item-input" id='this_city_name'>
+
+                                请选择小区所在城市
+
+                            </div>
+
+                        </div>
+
+                        <input type='hidden' name='data[city_id]' id='this_city_id' value='0' />
+
+                    </li>
+
+                </a>
+
+            </ul>
+
+        </div>
+
+        <div class="list-block write-down">
+
+            <ul>
+
+                <li>
+
+                    <div class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title label">小区名</div>
+
+                            <div class="item-input">
+
+                                <input type="text" name='data[title]' placeholder="请填写小区完整名字">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="pad10 font_size14 black3">请您留下联系方式，我们会及时通知处理沟通</div>
+
+        <div class="list-block write-down">
+
+            <ul>
+
+                <li>
+
+                    <div class="item-content">
+
+                        <div class="item-inner border_b">
+
+                            <div class="item-title label">联系人</div>
+
+                            <div class="item-input">
+
+                                <input type="text" name='data[contact]' placeholder="请填写物业名称">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="list-block write-down">
+
+            <ul>
+
+                <li>
+
+                    <div class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title label">联系方式</div>
+
+                            <div class="item-input">
+
+                                <input type="text" name='data[mobile]' placeholder="请填写您的联系方式">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="content-block"> <input type='submit' class="button button-big button-fill" value='提交'></div>
+
+    </form>
+
+</div>
+
+<script>
+
+//检测当前所选城市并赋值
+
+    $(document).ready(function () {
+
+        var city_name = '';
+
+        if (localStorage['UxCity']) {
+
+            city_name = localStorage['UxCity'];
+
+        }else{
+
+            city_name = Cookie.get("UxCity");
+
+        }
+
+        
+
+        var city_id = '';
+
+        if (localStorage['UxCityId']) {
+
+            city_id = localStorage['UxCityId'];
+
+        }else{
+
+            city_id = Cookie.get("UxCityId");
+
+        }
+
+
+
+        if (city_name && city_id) {
+
+            $('#this_city_name').text(city_name);
+
+            $('#this_city_id').val(city_id);
+
+        }
+
+    })
+
+</script>
+
+<{include file="block/xiaoqu_footer.html"}>

@@ -1,0 +1,310 @@
+<{include file="admin:common/header.html"}>
+
+<style type="text/css">
+    .ordList_box_r .delt table tr td.bt { width: 100% !important;}
+    .page-title .search_inp{width: 460px;}
+</style>
+
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+            <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+            <th><{$MOD.title}></th>
+            <td><label id="OnlyCustomShop"><input type="checkbox" value="1" <{if $smarty.session.admin_order_only_custom_shop}>checked="checked"<{/if}>>仅显示虚拟商家订单</label></td>
+            <td align="right">
+                <form class="search_inp mr10" action="?waimai/order-index-1-<{$st}>.html" id="SO-form" method="post">
+                    <input type="text" name="SO[keywords]" class="inp" placeholder="订单ID、订单号、商户名称、用户联系电话" value="<{$pager.SO.keywords|default:''}>">
+                    <input type="submit" class="submit" value="">
+                </form>
+                <{link ctl="waimai/order:so" load="mini:搜索内容" width="mini:500" class="button" title="高级搜索"}>
+                <{link ctl="waimai/order:export"  load="mini:导出订单"  width="mini:500"     class="button"  title="导出订单" }>
+            </td>
+            <td width="15"></td>
+        </tr>
+    </table>
+</div>
+<div class="page-data">
+    <!--浮动开始-->
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > 98) {
+                    $(".table_fixed").show();
+                } else {
+                    $(".table_fixed").hide();
+                }
+            });
+        });
+    </script>
+    <!--浮动结束-->
+
+    <!--向导-->
+    <{if !$sigle_type_page}>
+    <div class="guide_list_box mb25">
+        <ul>
+            <li><a href="?waimai/order-index-1-0.html" <{if $st==0}>class="on"<{/if}>>全部</a></li>
+            <li><a href="?waimai/order-index-1-1.html" <{if $st==1}>class="on"<{/if}>>待接单</a></li>
+            <li><a href="?waimai/order-index-1-2.html" <{if $st==2}>class="on"<{/if}>>待配送</a></li>
+            <li><a href="?waimai/order-index-1-3.html" <{if $st==3}>class="on"<{/if}>>配送中</a></li>
+            <li><a href="?waimai/order-index-1-4.html" <{if $st==4}>class="on"<{/if}>>退单</a></li>
+            <li><a href="?waimai/order-index-1-5.html" <{if $st==5}>class="on"<{/if}>>催单</a></li>
+            <li><a href="?waimai/order-index-1-6.html" <{if $st==6}>class="on"<{/if}>>自提单</a></li>
+            <li><a href="?waimai/order-index-1-7.html" <{if $st==7}>class="on"<{/if}>>预订单</a></li>
+            <li><a href="?waimai/order-index-1-8.html" <{if $st==8}>class="on"<{/if}>>待支付</a></li>
+            <li><a href="?waimai/order-index-1-9.html" <{if $st==9}>class="on"<{/if}>>已完成</a></li>
+            <li><a href="?waimai/order-index-1-10.html" <{if $st==10}>class="on"<{/if}>>已取消</a></li>
+        </ul>
+        <div class="clear-both"></div>
+    </div>
+    <{/if}>
+    <!--向导end-->
+    <form id="items-form">
+        <div class="ordList_box">
+            <div class="ordList_box_l">
+                
+                <div class="ordList_list_box">
+                    <ul>
+                    <{foreach $items as $item}>
+                        <li class="ordList_list" sf='<{$item.detail_json}>'>
+                            <div class="right right_box">
+                                <P class="price">￥
+                                    <{if $item.online_pay==0}>
+                                    <{$item.total_price-$item.first_youhui-$item.coupon-$item.order_youhui-$item.hongbao-$item.discount_youhui-$item.huangou_youhui-$item.peicard_youhui+$item.card_amount}>
+                                    <{else}>
+                                    <{$item.amount+$item.money+$item.card_amount}>
+                                    <{/if}>
+                                </P>
+                                <div>
+                                    <a href="?waimai/order-detail-<{$item.order_id}>.html" class="button" title="查看">查看详情</a><br>
+                                    <a href="?waimai/waimai-manage-<{$item.shop_id}>.html&_sr=order/index:detail&_args=<{$item.order_id}>" class="button" style="background-color: #080;" title="跳转商家后台进行管理" target="_blank">跳转商家</a>
+                                    <{if $item.srv_arrival}>
+                                    <{if $item.srv_arrival_admin_id > 0}>
+                                    <div class="SrvArrvialInfo<{$item.order_id}>"><{$item.srv_arrival_admin_name}> 已关注</div>
+                                    <{else}>
+                                    <div class="SrvArrvialInfo<{$item.order_id}>"><a href="javascript:void(0)" class="button" style="background-color: #09F;" title="关注中文到货通知">关注</a><br></div>
+                                    <{/if}>
+                                    <{/if}>
+                                </div>
+                            </div>
+                            <div class="wz">
+                                <h2><{$shops[$item['shop_id']]['title']}>&nbsp;&nbsp;&nbsp;<small class="black6"><{$item.order_id}>(#<{$item.day_num}>)</small><{if $item.srv_arrival && $item.srv_arrival_close_time==0}><span style="color: #09F; font-size: 12px; font-weight: 400;">&nbsp;&nbsp;&nbsp;需要到货通知服务</span><{/if}></h2>
+                                <P><span class="black6">订单号：</span><{$item.dateline|format:'YmdHis'}><{$item.order_id}></P>
+                                <P><span class="black6">联系方式：</span><{$item.contact}>&nbsp;&nbsp;<{$item.mobile}> <span class="ml15 orange">#下单<{$item.user_order_count}>次</span></P>
+                                <P><span class="black6">配送地址：</span><{$item.addr}><{$item.house}></P>
+                                <P><span class="black6">配送方式：</span><{$item.pei_type_label}></P>
+                                <P><span class="black6">送达时间：</span><span class="red"><{$item.pei_time_label}></span></P>
+                                <P><span class="black6">订单状态：</span><span class="red"><{$item.order_status_label}></span></P>
+                                <p><span class="black6">前台备注（用户备注）：</span><span style="color: #000;"><{$item.intro}></span></p>
+                                <p><span class="black6">后台备注（用户可见）：</span><span style="color: #000;" rel="remark" relid="<{$item.order_id}>"><{$item.remark}></span> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Edit">编辑</a> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Cancle" style="display: none;">取消</a></p>
+                                <p><span class="black6">管理备注（用户不可见）：</span><span style="color: #000;" rel="remark_mgr" relid="<{$item.order_id}>"><{$item.remark_mgr}></span> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Edit">编辑</a> &nbsp;&nbsp; <a href="javascript:void(0);" class="RemarkBtn_Cancle" style="display: none;">取消</a></p>
+                            </div>
+                            <div class="clear-both"></div>
+                        </li>
+                    <{/foreach}>
+                    </ul>
+                </div>
+            </div>
+            <div class="ordList_box_r">
+                <div class="list_box">
+                    <div class="bt">
+                        <div>菜品</div>
+                        <div>单价</div>
+                        <div class="num">数量</div>
+                    </div>
+                    <div class="list">
+                        <div class="clear-both"></div>
+                    </div>
+                </div>
+                <div class="delt">
+                    <div class="tit">订单详情</div>
+                    <div class="box">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td class="bt" id="order_id">订单编号：</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="dateline">创建时间：</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="pay_type">支付方式：</td>
+                                <td><P class="green"></P></td>
+                            </tr>
+                            <tr>
+                                <td class="bt" id="intro">订单备注：</td>
+                                <td><P class=""></P></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="price">
+                        <ul id="detail_2"></ul>
+                        <div class="clear-both"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="page-bar">
+        <table>
+            <tr>
+                <td class="w-100"><label><input type="checkbox" CKA="PRI"/>&nbsp;&nbsp;全选</label></td>
+                <td colspan="10" class="left"><{link ctl="waimai/order:delete" type="button" submit="mini:#items-form" confirm="mini:确定要批量删除选中的内容吗?" priv="hide" value="批量删除"}></td>
+                <td class="page-list"><{$pager.pagebar}></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+$(document).ready(function(e) {
+    $('.fr.mr10').click(function(){
+        if($(this).parents(".order_details").find('.orderinfo').height()==0){
+            var gettr=$(this).parents(".order_details").find('.orderinfo tr').length
+            $(this).parents(".order_details").find('.orderinfo').css('height',gettr*30+'px')
+        }else{
+            $(this).parents(".order_details").find('.orderinfo').css('height',0)
+        }
+    });
+    var parmas = "<{$parmas}>";
+    var href = $('#export').attr('href');
+    $('#export').attr('href',href+'?'+parmas)
+    $("#OnlyCustomShop :checkbox").click(function(){
+        var url = document.location.href.replace(/(\&|\?)_ocs=\d*/ig,"");
+        if(url.indexOf("?") >= 0)
+            url += "&";
+        else
+            url += "?";
+        url = url+"_ocs="+($(this).prop("checked")?"1":"0");
+        document.location.href = url;
+    });
+    $("div[class^='SrvArrvialInfo'] a").on("click",function(){
+        var id = parseInt($(this).parent().attr("class").substr(14));
+        if(isNaN(id) || id <= 0)
+            return;
+        $.ajax({
+            url: "?waimai/order-srv_arrival_bind.html",
+            cache: false,
+            data: {order_id:id},
+            dataType: "json",
+            type: "POST",
+            success:function(data){
+                if(data.error === 0)
+                    $(".SrvArrvialInfo"+data.data.order_id).text(data.data.admin_name+" 已关注");
+                else
+                    Widget.MsgBox.error(data.message);
+            },
+            error: function(){
+                Widget.MsgBox.error("网络或数据错误");
+            }
+        });
+    });
+
+    //<{if false}>2019-03-02 添加 对编辑备注按钮的处理<{/if}>
+
+    $(".RemarkBtn_Edit").on("click",function(ex){
+        ex.preventDefault();
+        var showEle = $(this).siblings("span[rel]");
+        if(showEle && showEle.length===1)
+        {
+            var editEle = showEle.children("textarea");
+            if(editEle.length)
+            {
+                var data = {
+                    order_id:showEle.attr("relid"),
+                    data:{}
+                };
+                data.data[showEle.attr("rel")] = $.trim(editEle.val());
+                $.ajax({
+                    url: "?waimai/order-edit.html",
+                    cache: false,
+                    data: data,
+                    dataType: "json",
+                    type: "POST",
+                    showEle:showEle,
+                    _this:this,
+                    success:function(data){
+                        if(data.error === 0)
+                        {
+                            $(this._this).text("编辑");
+                            $(this._this).siblings(".RemarkBtn_Cancle").css("display","none");
+                            var txt = this.showEle.children("textarea").val();
+                            this.showEle.children("textarea").remove();
+                            this.showEle.get(0).orgText = txt;
+                            this.showEle.text(txt);
+                        }
+                        else
+                            Widget.MsgBox.error(data.message);
+                    },
+                    error: function(e){
+                        Widget.MsgBox.error("网络或数据错误");
+                    }
+                });
+            }
+            else
+            {
+                showEle.get(0).orgText = showEle.text();   
+                showEle.text("");
+                editEle = $("<textarea></textarea>");
+                editEle.width(260);
+                editEle.height(50);
+                editEle.css("display","inline-block");
+                editEle.css("vertical-align","top");
+                editEle.appendTo(showEle);
+                editEle.val(showEle.get(0).orgText);
+                $(this).text("保存");
+                $(this).siblings(".RemarkBtn_Cancle").css("display","inline");
+                editEle.focus();
+            }
+        }
+    });
+    $(".RemarkBtn_Cancle").on("click",function(ex){
+        ex.preventDefault();
+        var showEle = $(this).siblings("span[rel]");
+        if(showEle && showEle.length===1)
+        {
+            var textEle = showEle.children("textarea");
+            if(textEle.length)
+                textEle.remove();
+            if(typeof showEle.get(0).orgText === "string")
+                showEle.text(showEle.get(0).orgText);
+        }
+        $(this).siblings(".RemarkBtn_Edit").text("编辑");
+        $(this).hide();
+    });
+
+    //<{if false}>==========================================<{/if}>
+
+
+});
+
+$(".ordList_list").click(function(){
+    $(".ordList_list").removeClass("on");
+    $('.list').html("");
+    $('#detail_2').html("");
+    $(this).addClass("on");
+    var data = JSON.parse($(this).attr('sf'));
+    if (data) {
+        $.each(data.products, function(k,v){
+            var products_html = "";
+            products_html += '<ul><li>'+v.product_name+'</li><li>￥'+v.product_price+'</li><li class="num">'+v.product_number+'</li></ul>';
+            $('.list').append(products_html);
+        });
+        $("#order_id").html('订单编号：'+data.detail.order_id);
+        $("#dateline").html('创建时间：'+data.detail.dateline);
+        $("#pay_type").html('支付方式：'+data.detail.pay_type);
+        $("#intro").html('订单备注：'+data.detail.intro);
+
+        $.each(data.detail_2, function(kk,vv){
+            var detail_html = "";
+            detail_html += '<li><span>'+vv.title+'：</span><a>'+vv.val+'</a></li>';
+            $('#detail_2').append(detail_html);
+        });
+    };
+});
+</script>
+<style>
+.page-data .table tr.order_delt.over{ background:#f8f8f8;}
+.page-data .table tr td .order_details{ border:0; margin:0;}
+.page-data .table tr td .order_details tr{background:#fafafa;}
+</style>
+<{include file="admin:common/footer.html"}>

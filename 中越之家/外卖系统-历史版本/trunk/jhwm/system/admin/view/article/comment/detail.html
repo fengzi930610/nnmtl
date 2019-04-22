@@ -1,0 +1,21 @@
+<{include file="admin:common/header.html"}>
+<div class="page-title">
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" >
+      <tr>
+        <td width="30" align="right"><img src="<{$pager.url}>/images/main-h5-ico.gif" alt="" /></td>
+        <th><{$MOD.title}></th>
+        <td align="right"><{link ctl="article/comment:index" priv="hidden" class="button"}></td>
+        <td width="15"></td>
+      </tr>
+    </table>
+</div>
+<div class="page-data"><table width="100%" border="0" cellspacing="0" class="table-data form">
+<tr><th>ID：</th><td><{$detail.comment_id}></td></tr>
+<tr><th>文章ID：</th><td><{$detail.article_id}></td></tr>
+<tr><th>用户ID：</th><td><{$detail.uid}></td></tr>
+<tr><th>评论内容：</th><td><{$detail.content}></td></tr>
+<tr><th>状态：</th><td><{$detail.closed}></td></tr>
+<tr><th>发表IP：</th><td><{$detail.clientip}></td></tr>
+<tr><th>发表时间：</th><td><{$detail.dateline|format}></td></tr>
+</table></div>
+<{include file="admin:common/footer.html"}>

@@ -1,0 +1,31 @@
+<{include file="weixin/coupon/block/header.html"}>
+<link rel="stylesheet" type="text/css" href="/themes/default/weixin/coupon/static/css/Coupon.css?201150408">
+<body style="background:#fff;">
+<div class="voucherPage">
+	<img src="/themes/default/weixin/coupon/static/img/coupon_img4.png" width="100%" height="" />
+    <div class="couponpage_intro">
+    	<h2><span class="bg_1"><big>•</big>活动介绍</span></h2>
+        <div class="nr">
+        	<p><{$detail.intro}></p>
+        </div>
+        <h2><span class="bg_2"><big>•</big>活动时间</span></h2>
+        <div class="nr">
+        	<p><{$detail.stime|format:'Y-m-d'}> 至 <{$detail.ltime|format:'Y-m-d'}></p>
+        </div>
+        <div class="couponpage_butn_box"><a href="<{link ctl='weixin/coupon:sign' arg0=$detail.coupon_id}>" class="butn">立即领取</a>
+
+        </div>
+        <div>
+            <h3>【注意事项】</h3>
+            <p>
+            	<{foreach $condition as $key => $vo}>
+                        <span class="num"></span><{$vo}> <br/>
+                        <{/foreach}>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="footer_copy" style="font-size: 14px; line-height: 40px; color: #fff; text-align: center; margin: 20px 0 0; background-color: #6c6c6c;">&copy;<{$CONFIG.site.title}></div>
+
+
+<{include file="weixin/block/footer.html"}>

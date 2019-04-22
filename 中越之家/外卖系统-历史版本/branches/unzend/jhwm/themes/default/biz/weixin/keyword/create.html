@@ -1,0 +1,47 @@
+<{include file="biz/block/header.html"}>
+<div class="ucenter_t">
+    <ul>
+        <li><a href="<{link ctl='biz/weixin/index:welcome'}>"><{L('单次关注')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/index:auto'}>"><{L('自动回复')}></a></li>
+        <li class="on"><a href="<{link ctl='biz/weixin/keyword:index'}>"><{L('关键字回复')}></a></li>
+        <li><a href="<{link ctl='biz/weixin/menu:index'}>"><{L('自定义菜单')}></a></li>
+    </ul>
+    <span class="r"><a href="<{link ctl='biz/weixin/keyword:index'}>" class="pbtn">关键字管理</a></span>
+</div>
+<div class="ucenter_c">
+<form action="<{link ctl='biz/weixin/keyword:create'}>" mini-form="biz" method="post" ENCTYPE="multipart/form-data">
+<table cellspacing="0" cellpadding="0" class="form">   
+    <tr><th><span class="red">*</span>关键字：</th><td><input type="text" name="data[keyword]" value="<{$detail.keyword|default:''}>" class="input w-200"/></td></tr>
+    <tr>
+        <th>回复图文：</th>
+        <td>
+            <input type="hidden" name="data[reply_id]" value="<{$detail.reply_id}>" id="weixin_reply_id"/>
+            <div class="weixin-preview<{if !$reply}> none<{/if}>" style="float:left;">
+                <div class="weixin-box">
+                    <p class="weixin-title" id="weixin_reply_title"><{$reply.title}></p>
+                    <div class="weixin-cover"><img class="weixin-cover-pic" id="weixin_reply_photo" src="<{$pager.img}>/<{$reply.photo}>"></div>
+                </div>
+            </div>
+            <a href="<{link ctl='biz/weixin/reply:dialog'}>" id="weixin_reply_btn" class="pbtn" title="选择微信素材">选择微信素材</a>
+        </td>
+    </tr>
+    <tr><th>回复文本：</th><td><textarea name="data[content]" class="textarea w-300"><{$detail.content}></textarea></td></tr>
+    <tr><th></th><td><input type="submit" value="保存" class="green_btn" /></td></tr>
+</table>
+</form>
+</div>
+<script type="text/javascript">
+(function(K, $){
+$("#weixin_reply_btn").click(function(e){
+    e.stopPropagation(); e.preventDefault();
+    var link = $(this).attr("action") || $(this).attr("href");
+    Widget.Dialog.Select(link, 'N', function(ret){
+        $("#weixin_reply_id").val(ret[0]);
+        $("#weixin_reply_title").html(ret[1].title);
+        $("#weixin_reply_photo").attr("src", "<{$pager.img}>/"+ret[1].photo);
+        $(".weixin-preview").show();
+    }, {title:"选择微信素材",width:720});
+});
+})(window.KT, window.jQuery);
+</script>
+<{include file="biz/block/footer.html"}>

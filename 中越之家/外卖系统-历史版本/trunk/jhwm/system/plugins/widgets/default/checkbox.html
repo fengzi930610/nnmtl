@@ -1,0 +1,4 @@
+<ul class="group-list">
+    <li<{if $data.style}> style="<{$data.style}>"<{/if}>><b class="red"><label><input type="checkbox" CKA="<{$widget.GUID}>"/>全选</label></b></li>
+	<{foreach $data.options as $k=>$v}><li<{if $data.style}> style="<{$data.style}>"<{/if}>><label><input type="checkbox" name="<{$data.name}>[<{$k}>]"  <{if in_array($k, (array)$data.value) || $data.all}> checked="checked"<{/if}>value="<{$k}>" CK="<{$widget.GUID}>"/><{$v}></label></li><{/foreach}>
+</ul>
