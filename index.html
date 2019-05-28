@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Language" content="zh-CN" />
+<meta name="copyright" content="ijh.cc" />
+<meta name="url" content="http://www.ijh.cc" />
+<meta name="Description" content="江湖外卖O2O系统管理平台" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" rev="stylesheet" href="<{$smarty.const._GATE_URL_}>/style/top.css?<{$TMPLVER}>" type="text/css" charset="utf-8" />
+<link rel="stylesheet" rev="stylesheet" href="<{$smarty.const._GATE_URL_}>/style/menu.css?<{$TMPLVER}>" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" src="<{$pager.res}>/script/kt.j.js?<{$TMPLVER}>"></script>
+<script type="text/javascript" src="<{$pager.res}>/script/kt.js?<{$TMPLVER}>"></script>
+<!-- 报错 layer 引入文件 亮 2019-4-15 -->
+<script type="text/javascript" src="/static/layer/layer.js" ></script>
+<title><{$CONFIG.site.title}>系统管理平台 - Powered by IJH.CC</title>
+</head>
+<body>
+<!--<br /><br /><br /><br />您的浏览器不支持框架！-->
+    <div id="wrapbox">
+        <!-- nav op -->
+        <div id="top-nav">
+            <div class="nav_top">
+                <a class="logo" href="?index-welcome" target="admin_main"><img src="<{$pager.url}>/images/fc/logo.png" alt="" /></a>
+                <div class="menu">
+                    <ul id="menu_list">
+                        <li class="on"><a href="?index-welcome" target="admin_main"><img src="<{$pager.url}>/images/fc/topNav_home.png">首页</a></li>
+                        <{foreach $top_menu as $v}>
+                        <li rel="3" mod="mod_<{$v.mod_id}>"><a href="javascript:;" target="admin_main">
+                            <{if $v.mod_id == 601}><img src="<{$pager.url}>/images/fc/topNav_system.png"><{/if}>
+                            <{if $v.mod_id == 1}><img src="<{$pager.url}>/images/fc/topNav_set.png"><{/if}>
+                            <{if $v.mod_id == 1962}><img src="<{$pager.url}>/images/fc/topNav_waimai.png"><{/if}>
+                            <{if $v.mod_id == 71}><img src="<{$pager.url}>/images/fc/topNav_user.png"><{/if}>
+                            <{if $v.mod_id == 1523}><img src="<{$pager.url}>/images/fc/topNav_money.png"><{/if}>
+                            <{if $v.mod_id == 5}><img src="<{$pager.url}>/images/fc/topNav_operate.png"><{/if}>
+                            <{if $v.mod_id == 127}><img src="<{$pager.url}>/images/fc/topNav_toll.png"><{/if}>
+                            <{$v.title}> </a></li>
+                        <{/foreach}>
+                    </ul>
+                </div>
+                <div class="info">
+                    <div class="content">
+                        <img class="l_pic" src="<{$pager.url}>/images/fc/logo_solid.png" alt="">
+                        <strong class="red"><{$ADMIN.admin_name}>！</strong>
+                        <i class="icon_arrow"></i>
+                    </div>
+                    <div class="pull_box">
+                        <a href="../index.php" target="_blank">网站首页</a>
+                        <a class="pull_link" href="?index-welcome.html" target="admin_main">后台首页</a>
+                        <a class="pull_link" href="?tools/cache-clean.html" target="admin_main">更新缓存</a>
+                        <a class="pull_link" href="?index-modifypasswd.html" target="admin_main">修改密码</a>
+                        <a href="https://www.jhcms.com/article/" target="_blank">帮助手册</a>
+                        <a href="?index-loginout.html" target="_top">注销</a>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+        <!-- nav ed -->
+
+
+        <div class="wrapMainBox">
+            <!--左侧的menu-->
+            <div class="frame_l_box">
+                <{foreach $top_menu as $item}>
+                <ul class="page-menu mod_<{$item.mod_id}>">
+                    <{foreach from=$item.menu item=menu}>
+                    <li class="menu close" rel="menu_tree"><strong title="<{$menu.title}>"><{$menu.title}></strong>
+                        <ul class="menu-item">
+                            <{foreach $menu.menu as $v}>
+                            <li title="<{$v.title}>"><a href="?<{$v.ctl}>-<{$v.act}>.html" target="admin_main" title="<{$v.title}>"><{$v.title}></a></li>
+                            
+                            <{if false}><!-- 2019-03-04 添加 增加参数型菜单--><{/if}>
+                            <{if $param_menu[$v.mod_id]}>
+                            <{foreach $param_menu[$v.mod_id] as $vv}>
+                            <{if $vv['visible']}>
+                            <li title="<{$vv.title}>"><a href="?<{$v.ctl}>-<{$v.act}><{$vv.arg_str}>.html&<{$vv.query_str}>" target="admin_main" title="<{$vv.title}>"><{$vv.title}></a></li>
+                            <{/if}>
+                            <{/foreach}>
+                            <{/if}>
+                            <{if false}><!-- 2019-03-04 添加 增加参数型菜单 结束 --><{/if}>
+
+                            <{/foreach}>
+                        </ul>
+                    </li>
+                    <{/foreach}>
+                </ul>
+                <{/foreach}>
+            </div>
+            <!--左侧的menu end-->
+
+            <!--右侧的frame-->
+            <div class="frame_r_box">
+                <iframe src="?index-welcome" name="admin_main" frameborder="no" scrolling="auto" id="admin_main"></iframe>
+            </div>
+            <!--右侧的frame end-->
+        </div>
+    </div>
+    <div id="notice" style="display: none;"></div>
+<{if false}><!-- 2019-04-15 添加 浮动式消息通知面板--><{/if}>
+<style type="text/css">
+#NoticeMsgShowBoard{
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    z-index: 10000;
+}
+#NoticeMsgShowBoard > div{
+    display: block;
+    margin: 4px 12px;
+    background-color: #888;
+    float: left;
+    clear: both;
+    padding: 8px 33px 8px 12px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    min-width: 310px;
+    border-radius: 5px;
+    color: #FFF;
+}
+#NoticeMsgShowBoard > div >.close_btn{
+    display: block;
+    font-size: 21px;
+    float: right;
+    margin-right: -21px;
+    margin-top: -3px;
+    width: 21px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    text-shadow: none;
+    cursor: pointer;
+    text-decoration: none;
+    color: #FFF;
+}
+#NoticeMsgShowBoard > div > .close_btn:hover{
+    color: #000;
+}
+#NoticeMsgShowBoard > div > div > a{
+    color: #000;
+}
+#NoticeMsgShowBoard > div > div > .text_button{
+    color: #000;
+    display: inline-block;
+}
+#NoticeMsgShowBoard > .success{
+    background-color: #060;
+    color: #FFF;
+}
+#NoticeMsgShowBoard > .warning{
+    background-color: #D60;
+    color: #000;
+    font-weight: bolder;
+}
+#NoticeMsgShowBoard > .error{
+    background-color: #D00;
+    color: #FF3;
+    /*font-weight: bolder;*/
+}
+#NoticeMsgShowBoard > .info{
+    background-color: #06D;
+}
+#NoticeMsgShowBoard > .success .text_button{
+    color: #FF0;
+}
+#NoticeMsgShowBoard > .warning .text_button{
+    color: #FFF;
+}
+#NoticeMsgShowBoard > .error .text_button{
+    color: #FFF;
+}
+#NoticeMsgShowBoard > .info .text_button{
+    color: #FF0;
+}
+</style>
+    <div id="NoticeMsgShowBoard"></div>
+<script type="text/javascript">
+$(function(){
+    function S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+    function guid() {
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+    }
+    var msgs = {};
+    var addMsg = function(name,msg){
+        if(typeof name !== "string" || $.trim(name)==="" || typeof msg !== "object")
+            return false;
+        name = $.trim(name);
+        if(typeof msgs[name] !== "object")
+            msgs[name] = msg;
+        else if(msgs[name] !== msg)
+            return false;
+        return msgs[name];
+    };
+    var delMsg = function(name){
+        if(typeof name !== "string" || $.trim(name)==="")
+            return false;
+        if(typeof msgs[name] === "object")
+            delete msgs[name];
+        return true;
+    };
+    var audioQueue = [];
+    var _audioNode = null;
+    var _isPayConfirmShow = false;
+    var _queuePlay = function(){
+        if(audioQueue.length === 0 || _audioNode)
+            return;
+        var audio = audioQueue.shift();
+        _audioNode = $("<audio src=\""+audio+"\" autoplay=\"autoplay\" style=\"display:none;\"></audio>");
+        _audioNode.appendTo("body");
+        var checkNext = function(){
+            if(this.count>10 || this.node.ended || this.node.error)
+            {
+                if(_audioNode)
+                {
+                    _audioNode.remove();
+                    _audioNode = null;
+                }
+                _queuePlay();
+            }
+            else
+            {
+                if(this.node.paused)
+                {
+                    var promise = this.node.play();
+                    if(promise)
+                    {
+                        promise.catch(function(error){
+                            if(!_isPayConfirmShow)
+                            {
+                                _isPayConfirmShow = true;
+                                Widget.MsgBox.alert("页面将要播放声音，请确认开始播放",function(){
+                                    _isPayConfirmShow = false;
+                                });
+                            }
+                        });
+                    }
+                }
+                else
+                    this.count++;
+                window.setTimeout(checkNext,1000);
+            }
+        }.bind({node:_audioNode.get(0),count:0});
+        window.setTimeout(checkNext,100);
+
+        // if(audio && $(audio).length === 1)
+        // {
+        //     audio.loop = false;
+        //     try{
+        //         audio.play();
+        //     }catch(e){ console.log(e); }
+        //     var checkNext = function(){
+        //         if(this.audio.ended || this.audio.error)
+        //         {
+        //             this.audio = null;
+        //             this.count = null;
+        //             _playing = false;
+        //             _queuePlay();
+        //         }
+        //         else
+        //         {
+        //             ++this.count;
+        //             window.setTimeout(checkNext,1000);
+        //         }
+        //     }.bind({
+        //         audio:audio,
+        //         count:0
+        //     });
+        //     checkNext();
+        // }
+        // else
+        //     _playing = false;
+    };
+    var playAudio = function(audio){
+        if(typeof audio === "string" && $.trim(audio) !== "")
+        {
+            audioQueue.push($.trim(audio));
+            _queuePlay();
+        }
+        
+    };
+    window.MsgNotify = Object.create(null);
+    //
+    //<{if false}>
+    /*
+    option参数
+        name    可选，消息名称，多次调用时传入同一个同名消息，如果上一个消息块没有被关闭，则不会添加新的消息块，只会替换其中的内容和监听事件等，但会重置关闭延迟时间
+        msg     必须，显示的消息内容，可以文本，也可以是HTML
+        delay   可选，延迟关闭，单位为 秒，可以是整数或小数，默认值为3，如果值是Infinity，则这个消息会一直显示，直到人为点击关闭
+        type    可选，有success、error、warning、info，默认值是info，决定着消息背景色
+        audio   可选，提示时要播放的声音文件的路径
+        notification    可选，如果指定，则使用h5的Notification接口进行消息通知（这个会根据环境支持情况而是否生效，不一定就会得到执行！），参数是一个对象，各子参数如下（均可选）
+            title   显示标题，如果不指定，则默认为：消息提示
+            text    显示的文字信息，如果不指定，则使用msg执行去HMTL后的值作为显示文字
+            icon    使用的图标图片地址
+            click   一个回函数，当通知被点击时会执行这个回调，回调函数会收到一个参数，参数是消息对象本身。
+            renotify 是否覆盖原来的通知，true或false，默认为true，如果覆盖，则会再次系统推送一个新的通知。
+        contentListener     可选，内容监听器，特别用于msg是HTML的情况，可以对消息框中的HTML子元素进行事件监听绑定，格式是一个数组，每个监听又是一个三元素数组，格式如下:
+                            contentListener:[
+                                ['.view_detail',"click",function(msg){ ... }],
+                                ['.close_text',"click",function(msg){ msg.close(); }],
+                                .
+                                .
+                                .
+                            ]
+                            回调函数的this和JQ一样指向事件元素本身，接收一个参数是消息对象本身
+    
+    消息对象API
+        setMsg(msg)
+        setContentListener(contentListener)
+        resetDelay(delay)
+        close()
+    */
+    //<{/if}>
+    //
+    var _close = function(){
+        this.isClose = true;
+        if(this.timer)
+        {
+            window.clearTimeout(this.timer);
+            this.timer = null;
+        }
+        if(this.notification)
+        {
+            this.notification.onclick = null;
+            this.notification.close();
+            this.notification = null;
+        }
+        var ele = this.element;
+        delMsg(this.name);
+        ele.fadeOut(180,function(){
+            $(this).remove();
+        });
+    };
+    var _setMsg = function(msg){
+        if(this.isClose)
+            return false;
+        if(typeof msg !== "string" || $.trim(msg) === "")
+            return false;
+        this.msg = msg;
+        this.contentElement.html($.trim(msg));
+        return true;
+    };
+    var _setContentListener = function(contentListener){
+        if(contentListener && typeof contentListener === "object")
+        {
+            var setBind = function(ele,ev,cbk){
+                var eleObj = {
+                    _this: ele,
+                    msgObj: this.msgObj,
+                    cbk: cbk
+                };
+                $(ele).on(ev,function(){
+                    this.cbk.apply(this._this,[this.msgObj]);
+                }.bind(eleObj));
+            }.bind(this);
+            for(var k in contentListener)
+            {
+                var pCfg = contentListener[k];
+                try
+                {
+                    if(typeof pCfg === "object" && pCfg.length === 3 && typeof pCfg[0] === "string" && typeof pCfg[1] === "string" && typeof pCfg[2] === "function")
+                    {
+                        pCfg[0] = $.trim(pCfg[0]);
+                        pCfg[1] = $.trim(pCfg[1]);
+                        if(pCfg[0] !== "" && pCfg[1] !== "")
+                        {
+                            var eles = this.contentElement.find(pCfg[0]);
+                            if(eles.length)
+                            {
+                                eles.each(function(){
+                                    setBind(this,pCfg[1],pCfg[2]);
+                                });
+                            }
+                        }
+                    }
+                }catch(e){}
+            }
+        }
+    };
+    var _resetDelay = function(delay){
+        if(typeof delay !== "number")
+            return false;
+        if(delay !== Infinity)
+            delay = parseInt(delay*1000);
+        if(delay < 0)
+            delay = Infinity;
+        this.delay = delay;
+        if(this.timer)
+        {
+            window.clearTimeout(this.timer);
+            this.timer = null;
+        }
+        if(this.isShow && this.delay !== Infinity)
+            this.timer = window.setTimeout(this.msgObj.close,this.delay);
+    };
+    var _notification_click = function(){
+        this._this.notification.onclick = null;
+        this._this.notification.close();
+        this._this.notification = null;
+        var curWin = window;
+        while(curWin !== window.parent)
+            curWin = window.parent;
+        curWin.focus();
+        this.cbk(this._this.msgObj);
+    };
+    var _notification = function(notify){
+        if(window.Notification)
+        {
+            var _handle = function(notify){
+                if(this.notification && !notify.renotify)
+                    return;
+                if(this.notification)
+                {
+                    this.notification.onclick = null;
+                    this.notification.close();
+                    this.notification = null;
+                }
+                var title = typeof notify.title === "string"?$.trim(notify.title):"";
+                if(title === "")
+                    title = "消息通知";
+                var option = Object.create(null);
+                option.body = typeof notify.text === "string"?$.trim(notify.text):"";
+                if(option.body === "")
+                    option.body = this.msg.replace(/<\/?.+?>/g,"");
+                if(typeof notify.icon === "string" && $.trim(notify.icon) !== "")
+                    option.icon = $.trim(notify.icon);
+                option.tag = "WmbizOrderMsg" + this.name;
+                option.requireInteraction  = true;
+                this.notification = new Notification(title,option);
+                var cbkObj = {
+                    cbk: function(){},
+                    _this:this
+                };
+                if(typeof notify.click === "function")
+                    cbkObj.cbk = notify.click;
+                this.notification.onclick = _notification_click.bind(cbkObj);
+                //10秒后关闭消息通知
+                window.setTimeout(function(){
+                    if(this.notification)
+                    {
+                        this.notification.onclick = null;
+                        this.notification.close();
+                        this.notification = null;
+                    }
+                }.bind(this),10000);
+            }.bind(this);
+            if(Notification.permission === 'granted')
+                _handle(notify);
+            else if(Notification.permission === 'denied')
+                ;
+            else
+            {
+                Notification.requestPermission().then(function(permission){
+                    if(permission === "granted")
+                        _handle(this);
+                }.bind(notify));
+            }
+        }
+    };
+    var _show = function(){
+        if(this.audio)
+            playAudio(this.audio);
+        if(this.isShow)
+            return;
+        this.isShow = true;
+        this.element.fadeIn(180,function(){
+            if(this.delay !== Infinity)
+                this.timer = window.setTimeout(this.msgObj.close,this.delay);
+        }.bind(this));
+    };
+    MsgNotify.show = function(option){
+        option = option && typeof option === "object" ? option : {};
+        var msg = option.msg && typeof option.msg === "string" ? $.trim(option.msg) : "";
+        if(msg === "")
+            return;
+        var name = option.name && typeof option.name === "string" ? $.trim(option.name) : "";
+        if(name === "")
+            name = guid();
+        var delay = option.delay && typeof option.delay === "number" ? option.delay : 3;
+        var type = option.type && typeof option.type === "string" ? $.trim(option.type) : "info";
+        if(type !== "success" && type !== "error" && type !== "warning")
+            type = "info";
+        var audio = option.audio && typeof option.audio === "string" ? $.trim(option.audio) : "";
+        var sysNotify = {
+            bUse: false,
+            title: "",
+            text: msg.replace(/<\/?.+?>/g,""),
+            icon: null,
+            click: null,
+            renotify: true
+        };
+        if(option.notification && typeof option.notification === "object")
+        {
+            sysNotify.bUse = true;
+            var pOption = option.notification;
+            if(pOption.title && typeof pOption.title === "string" && $.trim(pOption.title)!=="")
+                sysNotify.title = $.trim(pOption.title);
+            if(pOption.text && typeof pOption.text === "string" && $.trim(pOption.text)!=="")
+                sysNotify.text = $.trim(pOption.text);
+            if(pOption.icon && typeof pOption.icon === "string" && $.trim(pOption.icon)!=="")
+                sysNotify.icon = $.trim(pOption.icon);
+            if(pOption.click && typeof pOption.click === "function")
+                sysNotify.click = pOption.click;
+            if(typeof pOption.renotify === "boolean")
+                sysNotify.renotify = pOption.renotify;
+        }
+        if(typeof msgs[name] !== "object")
+        {
+            var element = $("<div class=\""+type+"\"></div>");
+            element.css("display","none");
+            element.prependTo("#NoticeMsgShowBoard");
+            var closeBtn = $("<a class=\"close_btn\">×</a>");
+            closeBtn.appendTo(element);
+            closeBtn.on("click",function(ex){
+                ex.preventDefault();
+                this.msgObj.close();
+            });
+            var contentEle = $("<div></div>");
+            contentEle.appendTo(element);
+            var orgOpt = {
+                msg: "undefined",
+                name: name,
+                delay: 3,
+                type: type,
+                audio: audio,
+                notification: null,
+                element: element,
+                contentElement: contentEle,
+                msgObj: null,
+                timer: null,
+                isClose: false,
+                isShow: false
+            };
+            var msgObj = Object.create(null);
+            msgObj.close = _close.bind(orgOpt);
+            msgObj.setMsg = _setMsg.bind(orgOpt);
+            msgObj.setContentListener = _setContentListener.bind(orgOpt);
+            msgObj.resetDelay = _resetDelay.bind(orgOpt);
+            // msgObj.notification = _notification.bind(orgOpt);
+            // msgObj.show = _show.bind(orgOpt);
+            closeBtn.get(0).msgObj = element.get(0).msgObj = msgObj;
+            orgOpt.msgObj = msgObj;
+            addMsg(name,orgOpt);
+        }
+        
+        msgs[name].msgObj.setMsg(msg);
+        msgs[name].msgObj.resetDelay(delay);
+        if(option.contentListener && typeof option.contentListener === "object")
+            msgs[name].msgObj.setContentListener(option.contentListener);
+        _show.apply(msgs[name]);
+        if(sysNotify.bUse)
+            _notification.apply(msgs[name],[sysNotify]);
+    };
+});
+</script>
+<{if false}><!-- 2019-04-15 浮动式消息通知面板 结束 --><{/if}>
+
+<{if false}><!-- 2019-04-18 lixunhua 添加 浮动式mini弹层 --><{/if}>
+<style type="text/css">
+#MiniPreviewPage{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 11000;
+}
+#MiniPreviewPage > .show_board{
+    width: 90%;
+    height: 90%;
+    background-color: #FFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+#MiniPreviewPage > .show_board > .close_btn{
+    display: block;
+    width: 42px;
+    height: 42px;
+    position: absolute;
+    right: -21px;
+    top: -21px;
+    background-color: rgba(0,0,0,0.8);
+    color: #FFF;
+    font-weight: bolder;
+    border-radius: 21px;
+    font-size: 28px;
+    line-height: 36px;
+    text-align: center;
+    text-decoration: none;
+}
+#MiniPreviewPage > .show_board > .close_btn:hover{
+    color: #F00;
+}
+#MiniPreviewPage iframe{
+    width: 100%;
+    height: 100%;
+}
+</style>
+<div id="MiniPreviewPage">
+    <div class="show_board">
+        <a href="javascript:void(0);" class="close_btn">×</a>
+    </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $("#MiniPreviewPage > .show_board > .close_btn").on("click",function(){
+        $('#MiniPreviewPage').fadeOut(200,function(){
+            $("#MiniPreviewPage iframe").remove();
+        });
+    });
+    var miniPage = Object.create(null);
+    miniPage.show = function(url){
+        if(typeof url !== "string" || $.trim(url) === "")
+            return;
+        $("<iframe frameborder=\"no\" scrolling=\"auto\"></iframe>").appendTo("#MiniPreviewPage > .show_board");
+        $("#MiniPreviewPage").fadeIn(200,function(){
+            $("#MiniPreviewPage iframe").attr("src",this);
+        }.bind(url));
+    };
+    window.MiniPage = miniPage;
+});
+</script>
+<{if false}><!-- 2019-04-18 浮动式mini弹层 结束 --><{/if}>
+
+</body>
+<!--</noframes>-->
+<script src="<{$pager.res}>/script/notice.js?<{$TMPLVER}>"></script>
+
+<script>
+    var isWinFocus = true;
+    window.onfocus = function(){isWinFocus = true;};
+    window.onblur = function(){isWinFocus = false;};
+
+    //<{if false}>2019-04-19 lixunhua 修改 前端自动管理通知的ID列表<{/if}>
+    //
+    var infoCache = {
+        new: {},
+        refund: {},
+        urge: {},
+        changed_phone: {},
+        no_dispatch_timeout: {},
+        dispatch_done_timeout: {}
+    };
+    //=========================================================
+
+    function notice_admin()
+    {
+        $.ajax({
+            url: "?waimai/order-get_nctorder.html",
+            cache: false,
+            dataType: "json",
+            type: "GET",
+            success:function(data){
+                if(data.error === 0)
+                {
+                    data = data.data;
+
+                    //<{if false}>2019-04-19 lixunhua 前端自行管理缓存并决定是否显示<{/if}>
+                    //
+                    var option = null, dataName = null, k = null;
+                    var nowTime = parseInt((new Date()).getTime()/1000);
+                    for(dataName in infoCache)
+                    {
+                        var resIdKeys = {};
+                        var pCache = infoCache[dataName];
+                        if(data[dataName] && typeof data[dataName] === "object" && data[dataName].length > 0)
+                        {
+                            var showMsgItems = [];
+                            for(k in data[dataName])
+                            {
+                                var pData = data[dataName][k];
+                                var id = pData.order_id?parseInt(pData.order_id):0;
+                                var no = pData.order_no?$.trim(pData.order_no):"";
+                                if(!isNaN(id) && id > 0 && no!=="")
+                                {
+                                    var cacheKey = "order_" + id;
+                                    resIdKeys[cacheKey] = true;
+                                    if(typeof pCache[cacheKey] === "undefined" || 
+                                        (dataName === "changed_phone" && pData.mobile && pCache[cacheKey].lastPhone !== pData.mobile) ||
+                                        (dataName === "urge" && pData.cui_time && pCache[cacheKey].lastTime !== pData.cui_time)
+                                    ) {
+                                        showMsgItems.push(pData);
+                                        if(typeof pCache[cacheKey] === "undefined")
+                                        {
+                                            pCache[cacheKey] = {
+                                                cacheTime: nowTime
+                                            };
+                                        }
+
+                                        //催单及修改手机号的特别处理
+                                        if(pData.cui_time && dataName === "urge")
+                                            pCache[cacheKey].lastTime = pData.cui_time;
+                                        else if(pData.mobile && dataName === "changed_phone")
+                                            pCache[cacheKey].lastPhone = pData.mobile;
+                                    }
+                                }
+                            }
+                            if(showMsgItems.length > 0)
+                            {
+                                var msgHtml = "您有新的订单消息，请及时处理：";
+                                var msgType = "info";
+                                var audio = "";
+                                switch(dataName)
+                                {
+                                    case 'new':
+                                        msgHtml = "您有新的订单，请及时处理： ";
+                                        msgType = "success";
+                                        audio = "/static/voice/new.mp3";
+                                        break;
+                                    case 'refund':
+                                        msgHtml = "您有新的退款单，请及时处理： ";
+                                        msgType = "warning";
+                                        audio = "/static/voice/tui.mp3";
+                                        break;
+                                    case 'urge':
+                                        msgHtml = "您有新的催单，请及时处理： ";
+                                        msgType = "error";
+                                        audio = "/static/voice/cui.mp3";
+                                        break;
+                                    case 'changed_phone':
+                                        msgHtml = "您有已修改手机号的订单，请注意查看： ";
+                                        msgType = "warning";
+                                        audio = "/static/voice/phones.mp3";
+                                        break;
+                                    case 'no_dispatch_timeout':
+                                        msgHtml = "有订单超时未配送，请注意查看： ";
+                                        msgType = "info";
+                                        audio = "";
+                                        break;
+                                    case 'dispatch_done_timeout':
+                                        msgHtml = "有订单已配送超时，请注意查看： ";
+                                        msgType = "info";
+                                        audio = "";
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                for(k in showMsgItems)
+                                    msgHtml += "&nbsp;<a href=\"javascript:void(0);\" class=\"text_button MsgOrderDetial\" data-id=\""+showMsgItems[k].order_id+"\">"+showMsgItems[k].order_no+"</a>&nbsp;";
+                                option = {
+                                    msg: msgHtml,
+                                    delay:Infinity,
+                                    audio: audio,
+                                    type: msgType,
+                                    contentListener: [
+                                        [".MsgOrderDetial","click",function(msg){
+                                            var id = parseInt($(this).attr("data-id"));
+                                            if(!isNaN(id) && id>0)
+                                                MiniPage.show("?waimai/order-detail-"+id+".html");
+                                            if($(this).siblings(".MsgOrderDetial").length === 0)
+                                                msg.close();
+                                            else
+                                                $(this).remove();
+                                            
+                                            // Widget.MsgBox.confirm("是否移除此订单的通知元素？",{},function(index){
+                                            //     if(index)
+                                            //     {
+                                            //         if($(this.ele).siblings(".MsgOrderDetial").length === 0)
+                                            //             this.msg.close();
+                                            //         else
+                                            //             $(this.ele).remove();
+                                            //     }
+                                            // }.bind({ele:this,msg:msg}));
+                                        }]
+                                    ]
+                                };
+                                MsgNotify.show(option);
+                            }
+                        }
+                        //-----清理缓存中存在，但返回的数据中不存在的数据
+                        var delKeys = [];
+                        for(k in pCache)
+                        {
+                            if(typeof resIdKeys[k] === "undefined")
+                                delKeys.push(k);
+                        }
+                        resIdKeys = null;
+                        if(delKeys.length > 0)
+                        {
+                            for(k in delKeys)
+                                delete pCache[k];
+                        }
+                        delKeys = null;
+                        //------
+                    }
+                    //<{if false}>==================================================<{/if}>
+                    //
+                    
+
+                    //<{if false}>2019-04-19 lixunhua 前端自行管理缓存并决定是否显示，所以这里不再使用
+                    if(data.new.length > 0)
+                    {
+                        option = {
+                            name:"NewOrderMsg",
+                            msg:"您有待处理的新订单。<a class=\"ClsBtn\" href=\"javascript:void(0);\">查看详情</a>",
+                            delay:Infinity,
+                            audio: "/static/voice/new.mp3",
+                            type: "success",
+                            contentListener: [
+                                [".ClsBtn","click",function(msg){
+                                    $("#admin_main").attr("src","?waimai/order-index-1-1.html&stp=1");
+                                    msg.close();
+                                }]
+                            ]
+                        };
+                        if(false && !isWinFocus)
+                        {
+                            option.notification = {
+                                title: "新订单通知",
+                                text: "系统有待处理订单，请注意查看",
+                                icon: "/static/images/notice.png"
+                            };
+                        }
+                        MsgNotify.show(option);
+                    }
+                    if(data.refund > 0)
+                    {
+                        option = {
+                            name:"RefundOrderMsg",
+                            msg:"您有未处理退款订单。<a class=\"ClsBtn\" href=\"javascript:void(0);\">查看详情</a>",
+                            delay:Infinity,
+                            type: "warning",
+                            audio: "/static/voice/tui.mp3",
+                            contentListener: [
+                                [".ClsBtn","click",function(msg){
+                                    $("#admin_main").attr("src","?waimai/order-index-1-4.html&stp=1");
+                                    msg.close();
+                                }]
+                            ]
+                        };
+                        if(false && !isWinFocus)
+                        {
+                            option.notification = {
+                                title: "退款通知",
+                                text: "系统有未处理的退款单，请注意查看",
+                                icon: "/static/images/notice.png"
+                            };
+                        }
+                        MsgNotify.show(option);
+                    }
+                    if(data.urge > 0)
+                    {
+                        option = {
+                            name:"UrgeOrderMsg",
+                            msg:"系统有催单，请及时处理。<a class=\"ClsBtn\" href=\"javascript:void(0);\">查看详情</a>",
+                            delay:Infinity,
+                            type: "error",
+                            audio: "/static/voice/cui.mp3",
+                            contentListener: [
+                                [".ClsBtn","click",function(msg){
+                                    $("#admin_main").attr("src","?waimai/order-index-1-5.html&stp=1");
+                                    msg.close();
+                                }]
+                            ]
+                        };
+                        if(!isWinFocus)
+                        {
+                            option.notification = {
+                                title: "催单通知",
+                                text: "系统有催单，请注意查看",
+                                icon: "/static/images/notice.png"
+                            };
+                        }
+                        MsgNotify.show(option);
+                    }
+                    if(data.changed_phone > 0)
+                    {
+                        option = {
+                            name:"ChgPhoneOrderMsg",
+                            msg:"系统有未配送完成的订单已修改手机号。<a class=\"ClsBtn\" href=\"javascript:void(0);\">查看详情</a>",
+                            delay:Infinity,
+                            audio: "/static/voice/phones.mp3",
+                            contentListener: [
+                                [".ClsBtn","click",function(msg){
+                                    $("#admin_main").attr("src","?waimai/order-index-1-11.html&stp=1");
+                                    msg.close();
+                                }]
+                            ]
+                        };
+                        if(false && !isWinFocus)
+                        {
+                            option.notification = {
+                                title: "修改手机号通知",
+                                text: "有订单修改了手机号，请注意查看",
+                                icon: "/static/images/notice.png"
+                            };
+                        }
+                        MsgNotify.show(option);
+                    }
+                    if(data.no_dispatch_timeout > 0)
+                    {
+                        option = {
+                            name:"NoDispatchOrderMsg",
+                            msg:"系统有订单已超时未配送的订单，请及时检查。<a class=\"ClsBtn\" href=\"javascript:void(0);\">查看详情</a>",
+                            delay:Infinity,
+                            contentListener: [
+                                [".ClsBtn","click",function(msg){
+                                    $("#admin_main").attr("src","?waimai/order-index-1-12.html&stp=1");
+                                    msg.close();
+                                }]
+                            ]
+                        };
+                        if(false && !isWinFocus)
+                        {
+                            option.notification = {
+                                title: "超时未配送订单通知",
+                                text: "有超时未配送订单，请注意查看",
+                                icon: "/static/images/notice.png"
+                            };
+                        }
+                        MsgNotify.show(option);
+                    }
+                    if(data.dispatch_done_timeout > 0)
+                    {
+                        option = {
+                            name:"DispatchTimeoutOrderMsg",
+                            msg:"系统有订单已配送超时，请及时检查。<a class=\"ClsBtn\" href=\"javascript:void(0);\">查看详情</a>",
+                            delay:Infinity,
+                            contentListener: [
+                                [".ClsBtn","click",function(msg){
+                                    $("#admin_main").attr("src","?waimai/order-index-1-12.html&stp=1");
+                                    msg.close();
+                                }]
+                            ]
+                        };
+                        if(false && !isWinFocus)
+                        {
+                            option.notification = {
+                                title: "配送超时订单通知",
+                                text: "有配送超时订单，请注意查看",
+                                icon: "/static/images/notice.png"
+                            };
+                        }
+                        MsgNotify.show(option);
+                    }
+                    //===================================================<{/if}>
+                    //
+                }
+            },
+            complete: function(){
+                // window.setTimeout(notice_admin,5000);
+            }
+        });
+        return;
+
+     //    var neworder = parseInt("<{$order_voice.neworder}>");
+     //    var cuiorder = parseInt("<{$order_voice.cuiorder}>");
+     //    var tuiorder = parseInt("<{$order_voice.tuiorder}>");
+     //    if(neworder==0&&cuiorder==0&&tuiorder==0){
+     //        return false;
+     //    }else{
+     //    var url ="?waimai/order-get_nctorder.html";
+
+     //        $.post(url,{},function(e){
+     //            if(e.error==0){
+     //                if(neworder>0){
+     //                    if(e.data.new>0){
+     //                        var url = "";
+     //                        var  emod = '<audio src="/static/voice/new.mp3" autoplay="autoplay"></audio>';
+     //                        $('#notice').html(emod);
+     //                        notify('订单','您有新的订单，请及时处理',url);
+     //                    }
+
+     //                }
+     //                if(cuiorder>0){
+     //                    if(e.data.cui>0){
+     //                        var url = "";
+     //                        var  emod = '<audio src="/static/voice/cui.mp3" autoplay="autoplay"></audio>';
+     //                        setTimeout(function(){
+     //                            $('#notice').html(emod);
+     //                            notify('订单','您有新的催单，请及时处理',url);
+     //                        },2000);
+     //                    }
+
+     //                }
+     //                if(tuiorder>0){
+     //                    if(e.data.tui>0){    
+     //                        var url = "";
+     //                        var  emod = '<audio src="/static/voice/tui.mp3" autoplay="autoplay"></audio>';
+     //                        setTimeout(function(){
+     //                            $('#notice').html(emod);
+     //                            notify('订单','您有新的退单，请及时处理',url);
+     //                        },4000);
+
+     //                    }
+
+     //                }
+     //                  if(tuiorder>0){
+     //                    if(e.data.tui>0){    
+     //                        var url = "";
+     //                        var  emod = '<audio src="/static/voice/phones.mp3" autoplay="autoplay"></audio>';
+     //                        setTimeout(function(){
+     //                            $('#notice').html(emod);
+     //                            notify('订单','有用户修改订单手机号，请及时查看',url);
+     //                        },4000);
+
+     //                    }
+
+     //                }
+					
+					// if(e.data.aftertwenty>0){
+					// 	var url = "";
+					// 	var  emod = '<audio src="/static/voice/new.mp3" autoplay="autoplay"></audio>';
+					// 	setTimeout(function(){
+					// 		$('#notice').html(emod);
+					// 		notify('订单','您有超时未配送订单，请及时处理',url);
+					// 	},6000);
+				
+					// }
+					// if(e.data.afterforty>0){
+					// 	var url = "";
+					// 	var  emod = '<audio src="/static/voice/new.mp3" autoplay="autoplay"></audio>';
+					// 	setTimeout(function(){
+					// 		$('#notice').html(emod);
+					// 		notify('订单','您有配送超时订单，请及时处理',url);
+					// 	},8000);
+									
+					// }
+					
+     //            }else{
+     //                return false;
+     //            }
+
+     //        },'json');
+
+     //    }
+     //    setTimeout(function(){
+     //        $('#notice').html('');
+     //    },30000);
+
+    }
+    //测试
+    //setInterval(notice_admin,3000);
+    (function($){
+        $("#menu_list li").on("click", function(){
+            $("#menu_list li").removeClass('on');
+            $(this).addClass("on");
+
+            if ($(this).attr("rel") && $(this).attr("rel") == 3) {
+                $(".frame_l_box").find('.'+$(this).attr('mod')).show().siblings('.page-menu').hide();             
+                $(".frame_l_box").addClass("frame_l_box_max");
+                $(".frame_r_box").addClass("frame_r_box_min");
+                $(".frame_l_box .menu:first-child").addClass("open").siblings(".menu").removeClass("open");
+                $(".frame_l_box .menu:first-child .menu-item").show().siblings(".menu-item").hide();
+                $(".frame_l_box").find('.'+$(this).attr('mod')).find(".menu:first-child .menu-item li:first-child a")[0].click();
+            }else{
+                $(".frame_l_box").removeClass("frame_l_box_max");
+                $(".frame_r_box").removeClass("frame_r_box_min");
+                $(".frame_l_box .menu").removeClass("open");
+                $(".frame_l_box .menu-item").hide();
+            };
+        });
+
+        $(".pull_link").click(function () {
+            $(".frame_l_box").removeClass("frame_l_box_max");
+            $(".frame_r_box").removeClass("frame_r_box_min");
+            $(".frame_l_box .menu").removeClass("open");
+            $(".frame_l_box .menu-item").hide();
+        });
+
+        /*
+         * 点击logo
+         * */
+        $(".nav_top .logo").click(function () {
+            $(".frame_l_box").removeClass("frame_l_box_max");
+            $(".frame_r_box").removeClass("frame_r_box_min");
+            $(".frame_l_box .menu").removeClass("open");
+            $(".frame_l_box .menu-item").hide();
+        });
+
+
+        var pull_show = false;
+        $(".nav_top .content").click(function (e) {
+            e.stopPropagation();
+            if (pull_show) {
+                $(".nav_top .pull_box").hide();
+            } else {
+                $(".nav_top .pull_box").show();
+            }
+            pull_show = !pull_show;
+        });
+
+        $('.pull_box a').click(function(){
+            pull_show = false;
+            $(".nav_top .pull_box").hide();
+        });
+
+        $(document).click(function(){
+            pull_show = false;
+            $(".nav_top .pull_box").hide();
+        });
+
+        $('#admin_main').load(function(){
+            $("#admin_main").contents().find('body').click(function(){
+                pull_show = false;
+                $(".nav_top .pull_box").hide();
+            });
+        });
+        
+    })(window.jQuery);
+
+    //左侧菜单
+    $(document).ready(function(){
+        // 点击左侧menu和子menu
+        $(".page-menu li").click(function () {
+            $(this).addClass("open");
+            $(this).siblings().removeClass("open");
+
+            if ($(this).find(".menu-item")) {
+                $(this).find(".menu-item").show();
+                $(this).siblings().find(".menu-item").hide();
+                $(window.parent.document.getElementsByClassName("frame_l_box")[0]).addClass("frame_l_box_max");
+                $(window.parent.document.getElementsByClassName("frame_r_box")[0]).addClass("frame_r_box_min");
+            };
+
+        });
+
+        $(".page-menu strong").click(function () {
+             $(this).parent().find(".menu-item li:first-child a")[0].click();
+        });
+
+        $(".menu-item li").click(function () {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        });
+        notice_admin();
+    });
+</script>
+
+</html>
