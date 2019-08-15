@@ -97,26 +97,6 @@
 					$('#code').attr('src',"{:captcha_src()}"+'?'+Math.random())
 				}
 			},'json');
-//			$.ajax({
-//				type:"post",
-//				url:"{:url('Admin/login')}",
-//				async:true,
-//				data:{
-//					code:code,
-//					username:username,
-//					password:password,
-//				},
-//				success:function(data){
-////					alert(data)
-//					if(data.error){
-//						alert(data.error)
-//						
-//					}else{
-//						alert(data.error)
-//					}
-//				}
-//				
-//			});
 			return false;
 		})
 		
